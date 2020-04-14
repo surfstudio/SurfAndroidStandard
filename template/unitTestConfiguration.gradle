@@ -16,7 +16,6 @@ dependencies {
     testImplementation test.junit
     testImplementation test.robolectric
     testImplementation test.shadowsMultidex
-    testImplementation leakCanary.coreNoOp
     testImplementation di.dagger
     kaptTest di.daggerKapt
 }

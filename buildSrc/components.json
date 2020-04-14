@@ -752,7 +752,7 @@
   {
     "id": "custom-view",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "custom-view",
     "libs": [
@@ -789,6 +789,10 @@
           },
           {
             "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "imageloader",
             "type": "implementation"
           }
         ]
@@ -912,6 +916,10 @@
           },
           {
             "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.asynclayoutinflater:asynclayoutinflater",
             "type": "implementation"
           }
         ],

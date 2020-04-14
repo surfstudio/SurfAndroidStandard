@@ -10,7 +10,10 @@ import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
-import ru.surfstudio.android.build.utils.*
+import ru.surfstudio.android.build.utils.EMPTY_STRING
+import ru.surfstudio.android.build.utils.extractBranchNames
+import ru.surfstudio.android.build.utils.standardHash
+import ru.surfstudio.android.build.utils.type
 
 private const val GET_MAIN_BRANCH_COMMAND = "git symbolic-ref refs/remotes/origin/HEAD"
 
@@ -72,6 +75,7 @@ class MirrorManager(
                     .toSet()
 
             latestMirrorCommit = mirrorCommits.maxBy { it.commitTime }
+
             latestMirrorCommit?.also { safeLatestMirrorCommit ->
                 if (safeLatestMirrorCommit.commitTime > rootCommit.commitTime) {
                     throw GradleException("Invalid mirror commit $rootCommitHash: " +
@@ -84,6 +88,8 @@ class MirrorManager(
                 mirrorRepository.push()
                 return
             }
+            throw GradleException("Can't get latest commit in branch $mainBranchFullName " +
+                    "for repo ${mirrorRepository.repositoryName}")
         } else {
             throw GradleException("Can't get main branch " +
                     "for repo ${mirrorRepository.repositoryName}")
@@ -128,6 +134,11 @@ class MirrorManager(
      * @param commit commit to apply
      */
     private fun commit(commit: CommitWithBranch): RevCommit? {
+        // for old branches a line could contain an old [version] commit
+        if (gitTree.shouldSkipCommit(commit.commit)) {
+            return null
+        }
+
         standardRepository.reset(commit.commit)
 
         val changes = standardRepository.getChanges(commit.commit).filter(::shouldMirror)
@@ -152,7 +163,9 @@ class MirrorManager(
             if (parent.mirrorCommitHash.isNotEmpty()) {
                 checkoutCommit(parent.mirrorCommitHash)
             }
-            checkoutBranch(commit.branch)
+            if (commit.branch.isNotEmpty()) {
+                checkoutBranch(commit.branch)
+            }
         }
     }
 
@@ -160,6 +173,8 @@ class MirrorManager(
      * creates merge commit by getting merge parents for commit
      * and merging them.
      * In case of conflicts just copies file from standard repository to mirror repository
+     *
+     * todo in case if mirror repo contains unique commits, its content must not be overridden
      *
      * @param commit commit to apply
      */
