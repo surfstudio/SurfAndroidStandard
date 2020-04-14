@@ -1,24 +1,30 @@
-package ru.surfstudio.android.navigation.di
+package ru.surfstudio.android.navigation.di.supplier.callbacks
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import ru.surfstudio.android.navigation.di.FragmentContainer
+import ru.surfstudio.android.navigation.di.IdentifiableScreen
+import ru.surfstudio.android.navigation.di.supplier.holder.FragmentNavigationHolder
+import ru.surfstudio.android.navigation.di.supplier.FragmentNavigationSupplier
 import ru.surfstudio.android.navigation.navigator.fragment.tab.view.ViewTabFragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.view.ViewFragmentNavigator
 
 //@PerAct
-class FragmentNavigationSupplier : FragmentManager.FragmentLifecycleCallbacks() {
+class FragmentNavigationSupplierCallbacks : FragmentManager.FragmentLifecycleCallbacks(), FragmentNavigationSupplier {
 
     /**
      * Текущий уровень вложенности навигации фрагментов
      * 0-й уровень соответствует supportFragmentManager'у родительской Activity,
      * 1-й уровень соответствует отображению внутри навигаторов
      */
-    var currentLevel = 0
-    private val navigatorHolders = hashMapOf<Int, MutableList<FragmentNavigatorHolder>>()
+    override var currentLevel = 0
+    private val navigatorHolders = hashMapOf<Int, MutableList<FragmentNavigationHolder>>()
     private var currentId: String? = null
 
+    override val currentHolder: FragmentNavigationHolder?
+        get() = navigatorHolders[currentLevel]?.find { it.id == currentId }
 
     override fun onFragmentActivityCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
         if (navigatorHolders.isEmpty()) {
@@ -99,7 +105,7 @@ class FragmentNavigationSupplier : FragmentManager.FragmentLifecycleCallbacks() 
     ) {
         val fragmentNavigator = ViewFragmentNavigator(fm, containerId, savedInstanceState)
         val tabFragmentNavigator = ViewTabFragmentNavigator(fm, containerId, savedInstanceState)
-        val newHolder = FragmentNavigatorHolder(id, fragmentNavigator, tabFragmentNavigator)
+        val newHolder = FragmentNavigationHolder(id, fragmentNavigator, tabFragmentNavigator)
         val levelHolders = navigatorHolders[level] ?: mutableListOf()
         levelHolders.add(newHolder)
         navigatorHolders[level] = levelHolders

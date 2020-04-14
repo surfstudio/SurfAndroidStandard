@@ -1,10 +1,9 @@
-package ru.surfstudio.android.navigation.di
+package ru.surfstudio.android.navigation.di.supplier.holder
 
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
 
-class FragmentNavigatorHolder(
+class FragmentNavigationHolder(
         val id: String,
         val fragmentNavigator: FragmentNavigatorInterface,
         val tabFragmentNavigator: FragmentNavigatorInterface
-) {
-}
+)

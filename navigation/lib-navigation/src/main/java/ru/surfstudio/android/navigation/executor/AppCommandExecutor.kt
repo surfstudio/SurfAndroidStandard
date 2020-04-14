@@ -14,7 +14,7 @@ open class AppCommandExecutor(
         private val dialogCommandExecutor: DialogCommandExecutor
 ) : CommandExecutor<NavigationCommand> {
 
-    open override fun execute(command: NavigationCommand) {
+    override fun execute(command: NavigationCommand) {
         when (command) {
             is ActivityNavigationCommand -> activityCommandExecutor.execute(command)
             is FragmentNavigationCommand -> fragmentCommandExecutor.execute(command)

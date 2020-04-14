@@ -2,21 +2,32 @@ package ru.surfstudio.android.navigation.executor.fragment
 
 import ru.surfstudio.android.navigation.command.fragment.*
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
+import ru.surfstudio.android.navigation.di.supplier.FragmentNavigationSupplier
+import ru.surfstudio.android.navigation.di.supplier.error.SupplierNotInitializedError
 import ru.surfstudio.android.navigation.executor.CommandExecutor
-import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
-import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
+import ru.surfstudio.android.navigation.route.tab.TabRoute
 
 open class FragmentCommandExecutor(
-        private val fragmentNavigator: FragmentNavigator,
-        private val tabFragmentNavigator: TabFragmentNavigator
-): CommandExecutor<FragmentNavigationCommand> {
+        private val fragmentNavigationSupplier: FragmentNavigationSupplier
+) : CommandExecutor<FragmentNavigationCommand> {
 
-    open override fun execute(command: FragmentNavigationCommand) {
-        when (command.route) { }
+    private val fragmentNavigator: FragmentNavigatorInterface
+        get() = fragmentNavigationSupplier.currentHolder?.fragmentNavigator
+                ?: throw SupplierNotInitializedError()
+
+    private val tabFragmentNavigator: FragmentNavigatorInterface
+        get() = fragmentNavigationSupplier.currentHolder?.fragmentNavigator
+                ?: throw SupplierNotInitializedError()
+
+    override fun execute(command: FragmentNavigationCommand) {
+        when (command.route) {
+            is TabRoute -> execute(command, tabFragmentNavigator)
+            else -> execute(command, fragmentNavigator)
+        }
     }
 
-    fun execute(command: FragmentNavigationCommand, navigator: FragmentNavigatorInterface) {
+    protected open fun execute(command: FragmentNavigationCommand, navigator: FragmentNavigatorInterface) {
         when (command) {
             is Add -> navigator.add(command.route, command.animations)
             is Replace -> navigator.replace(command.route, command.animations)

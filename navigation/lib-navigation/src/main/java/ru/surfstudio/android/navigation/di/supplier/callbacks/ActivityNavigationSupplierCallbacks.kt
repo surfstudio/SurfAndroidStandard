@@ -1,26 +1,30 @@
-package ru.surfstudio.android.navigation.di
+package ru.surfstudio.android.navigation.di.supplier.callbacks
 
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import ru.surfstudio.android.navigation.di.IdentifiableScreen
+import ru.surfstudio.android.navigation.di.supplier.holder.ActivityNavigationHolder
+import ru.surfstudio.android.navigation.di.supplier.FragmentNavigationSupplier
 import ru.surfstudio.android.navigation.navigator.activity.view.ViewActivityNavigator
+import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
 import java.lang.IllegalStateException
 
 //@PerApp
-class ActivityNavigationSupplier(
-        private val nestedCallbacksCreator: () -> FragmentNavigationSupplier
+class ActivityNavigationSupplierCallbacks(
+        private val nestedCallbacksCreator: () -> FragmentNavigationSupplierCallbacks
 ) : Application.ActivityLifecycleCallbacks {
 
-    private val navigatorHolders = hashMapOf<String, ActivityNavigatorHolder?>()
+    private val navigatorHolders = hashMapOf<String, ActivityNavigationHolder?>()
 
-    var currentHolder: ActivityNavigatorHolder? = null
+    var currentHolder: ActivityNavigationHolder? = null
         private set
 
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        val newHolder = createHolder(activity as AppCompatActivity)
+        val newHolder = createHolder(activity)
         navigatorHolders[getActivityId(activity)] = newHolder
         if (savedInstanceState != null) {
             currentHolder = newHolder
@@ -65,7 +69,7 @@ class ActivityNavigationSupplier(
             activity: Activity,
             nestedNavigationSupplier: FragmentNavigationSupplier?
     ) {
-        nestedNavigationSupplier ?: return
+        nestedNavigationSupplier as? FragmentNavigationSupplierCallbacks ?: return
         if (activity !is FragmentActivity) return
         val fragmentManager = activity.supportFragmentManager
         fragmentManager.unregisterFragmentLifecycleCallbacks(nestedNavigationSupplier)
@@ -73,7 +77,7 @@ class ActivityNavigationSupplier(
 
     private fun registerNestedNavigationSupplier(
             activity: Activity,
-            nestedNavigationSupplier: FragmentNavigationSupplier
+            nestedNavigationSupplier: FragmentNavigationSupplierCallbacks
     ) {
         if (activity !is FragmentActivity) return
         val fragmentManager = activity.supportFragmentManager
@@ -84,14 +88,14 @@ class ActivityNavigationSupplier(
             (activity as? IdentifiableScreen)?.screenId
                     ?: throw IllegalStateException("Activity must implement from HasId.id method ")
 
-    private fun createHolder(activity: Activity): ActivityNavigatorHolder? {
+    private fun createHolder(activity: Activity): ActivityNavigationHolder? {
         if (activity !is AppCompatActivity) return null
 
         val nestedNavigationSupplier = nestedCallbacksCreator()
         registerNestedNavigationSupplier(activity, nestedNavigationSupplier)
 
         val activityNavigator = ViewActivityNavigator(activity)
-//        val dialogNavigator = ...
-        return ActivityNavigatorHolder(activityNavigator, nestedNavigationSupplier)
+        val dialogNavigator = DialogNavigator(activity)
+        return ActivityNavigationHolder(activityNavigator, dialogNavigator, nestedNavigationSupplier)
     }
 }

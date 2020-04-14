@@ -1,7 +1,6 @@
 package ru.surfstudio.android.navigation.navigator.fragment.tab
 
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -14,7 +13,7 @@ import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntri
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntry
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostFragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.listener.ActiveTabReopenedListener
-import ru.surfstudio.android.navigation.navigator.fragment.tab.route.TabRootRoute
+import ru.surfstudio.android.navigation.route.tab.TabRootRoute
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**
