@@ -494,9 +494,42 @@
           {
             "name": "rx-extension",
             "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "mvi-mapper",
+        "dir": "lib-mvi-mapper",
+        "artifact_name": "mvi-mapper",
+        "third_party_dependencies": [
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
           },
           {
-            "name": "easyadapter",
+            "name": "org.mockito:mockito-core",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "mvi-core",
+            "type": "api"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp-binding",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
             "type": "implementation"
           }
         ]
