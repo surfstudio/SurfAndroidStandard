@@ -21,6 +21,12 @@ tasks.whenTaskAdded {
  * Task performs `CrossFeatureRoute's` validation. Check's following conditions:
  * 1. `CrossFeatureRoute` have valid `targetClassPath`?;
  * 2. Target view (`Fragment` or `Dialog`) of `CrossFeatureRoute` implements `CrossFeatureFragment` interface?;
+ *
+ * ## You can setup this task by modifying these fields:
+ * * [shouldSkipValidation];
+ * * [ignoredDirectories];
+ * * [routeFilterCondition];
+ * * [viewFilterCondition].
  * */
 open class ValidateCrossFeatureRoutesTask : DefaultTask() {
 
@@ -110,13 +116,16 @@ private class ProjectFileTreeScanner {
 private open class KClassParser(protected val logger: Logger? = null) {
 
     open fun parse(file: File): KClassWrapper? {
-        logger?.debug("------------------------------")
-        logger?.debug("Parsing file: ${file.absolutePath}")
+        logger?.info("------------------------------")
+        logger?.info("Parsing file: ${file.absolutePath}")
         val fileContent = file.readText()
         val packageName = parsePackageName(fileContent)
         val className = parseClassName(fileContent)
         val baseClassName = parseBaseClassName(fileContent)
-        val baseClassPackageName = parseBaseClassPackageName(fileContent)
+        val baseClassPackageName = parseBaseClassPackageName(fileContent).let {
+            // if we can't find packageName of baseClass - fallback to current packageName
+            if (it.isBlank()) packageName else it
+        }
         val implementations = parseImplementations(fileContent)
         val classBody = parseClassBody(fileContent)
 
@@ -136,15 +145,15 @@ private open class KClassParser(protected val logger: Logger? = null) {
 
         when (result) {
             null -> {
-                logger?.debug("Parsing failed.")
+                logger?.info("Parsing failed.")
             }
             else -> {
-                logger?.debug("Parsing succeed. Additional info:")
-                logger?.debug("className: $className")
-                logger?.debug("baseClassName: $baseClassName")
-                logger?.debug("implements: ${implementations.joinToString(", ")}")
-                logger?.debug("classPackageName: $packageName")
-                logger?.debug("baseClassPackageName: $baseClassPackageName")
+                logger?.info("Parsing succeed. Additional info:")
+                logger?.info("className: $className")
+                logger?.info("baseClassName: $baseClassName")
+                logger?.info("implements: ${implementations.joinToString(", ")}")
+                logger?.info("classPackageName: $packageName")
+                logger?.info("baseClassPackageName: $baseClassPackageName")
             }
         }
 
@@ -380,21 +389,21 @@ private class CrossFeatureRouteValidator(
             error("$routeTargetView is not implements CrossFeatureFragment for $route")
         }
 
-        logger?.info("Verified: $route")
+        logger?.info("Validated: $route")
     }
 
     private fun checkIsImplementsCrossFeature(view: CrossFeatureViewFile): Boolean {
         return when {
             view.isImplementsCrossFeature -> true
             else -> {
-                val routeTargetParent = findViewClass(view.baseClassName, view.baseClassPackageName)
-                routeTargetParent?.let(::checkIsImplementsCrossFeature) ?: false
+                val baseClass = findViewClass(view.baseClassPackageName, view.baseClassName)
+                baseClass?.let(::checkIsImplementsCrossFeature) ?: false
             }
         }
     }
 
     private fun findViewClass(packageName: String, className: String): CrossFeatureViewFile? {
-        return views.find { it.className == className && it.packageName == packageName }
+        return views.find { it.packageName == packageName && it.className == className }
     }
 }
 
@@ -402,9 +411,6 @@ private class CrossFeatureRouteValidator(
 
 //region data
 
-/**
- * Wrapper that contains parsed information of kotlin class file.
- * */
 private open class KClassWrapper(
         val packageName: String,
         val className: String,
@@ -457,7 +463,10 @@ private class CrossFeatureRouteFile(
     val targetClassPackageName: String = targetClassPath.substringBeforeLast('.')
 
     override fun toString(): String {
-        return "${super.toString()} (target = $targetClassPath)"
+        return when {
+            targetClassPath.isBlank() -> super.toString()
+            else -> "${super.toString()} (target = $targetClassPath)"
+        }
     }
 }
 
