@@ -16,6 +16,7 @@ private const val GRADLE_PROPERTIES_FILE_PATH = "mirror.properties"
 private const val ANDROID_STANDARD_PROPERTIES_FILE_PATH = "android-standard/androidStandard.properties"
 
 private const val MIRROR_COMPONENT_NAME = "surf.mirrorComponentName"
+private const val COMMON_COMPONENT_NAME = "surf.commonComponentName"
 private const val SKIP_SAMPLES_BUILD_PROPERTY_NAME = "skipSamplesBuild"
 
 /**
@@ -28,20 +29,32 @@ object GradlePropertiesManager {
     var componentMirrorName: String = EMPTY_STRING
         private set
 
+    var commonComponentNameForMirror: String = EMPTY_STRING
+        private set
+
     var skipSamplesBuilding: Boolean = false
         private set
 
     fun init() {
         loadMirrorComponentName()
+        loadCommonComponentNameForMirror()
         loadSkipSamplesBuildProperty()
     }
 
     /**
-     * check if current component is mirror
+     * check if the current component is mirror
      *
      * @return true if mirror
      */
-    fun isCurrentComponentAMirror() = componentMirrorName != EMPTY_STRING
+    fun isCurrentComponentAMirror(): Boolean = componentMirrorName != EMPTY_STRING
+
+    /**
+     * check if the current component has common component as module.
+     * The function is used only for mirror components.
+     *
+     * @return true if mirror
+     */
+    fun hasCommonComponent(): Boolean = commonComponentNameForMirror != EMPTY_STRING
 
     /**
      * gets component mirror name as property from file [GRADLE_PROPERTIES_FILE_PATH]
@@ -56,11 +69,20 @@ object GradlePropertiesManager {
         }
     }
 
+    private fun loadCommonComponentNameForMirror() {
+        loadProperty(
+                propertiesFileName = GRADLE_PROPERTIES_FILE_PATH,
+                propertyName = COMMON_COMPONENT_NAME
+        )?.also { propertyValue ->
+            commonComponentNameForMirror = propertyValue
+        }
+    }
+
     private fun loadSkipSamplesBuildProperty() {
         loadProperty(
                 propertiesFileName = ANDROID_STANDARD_PROPERTIES_FILE_PATH,
                 propertyName = SKIP_SAMPLES_BUILD_PROPERTY_NAME
-        )?.also {propertyValue ->
+        )?.also { propertyValue ->
             skipSamplesBuilding = propertyValue.toBoolean()
         }
     }

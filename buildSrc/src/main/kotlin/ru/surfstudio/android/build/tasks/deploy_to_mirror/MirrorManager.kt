@@ -146,6 +146,7 @@ class MirrorManager(
 
         checkoutMirrorBranchForCommit(commit)
         applyChanges(changes)
+        mirrorRepository.add()
         val newCommit = mirrorRepository.commit(commit.commit)
         commit.mirrorCommitHash = newCommit?.name ?: EMPTY_STRING
         commit.type = CommitType.COMMITED
@@ -153,18 +154,19 @@ class MirrorManager(
     }
 
     /**
-     * handles checkout right branch for new commit
+     * handles checkout right branch for a new commit
      *
      * @param commit commit
      */
     private fun checkoutMirrorBranchForCommit(commit: CommitWithBranch) {
         with(mirrorRepository) {
-            val parent = gitTree.getParent(commit)
-            if (parent.mirrorCommitHash.isNotEmpty()) {
-                checkoutCommit(parent.mirrorCommitHash)
-            }
-            if (commit.branch.isNotEmpty()) {
-                checkoutBranch(commit.branch)
+            gitTree.getParent(commit)?.also { safeParent ->
+                if (safeParent.mirrorCommitHash.isNotEmpty()) {
+                    checkoutCommit(safeParent.mirrorCommitHash)
+                }
+                if (commit.branch.isNotEmpty()) {
+                    checkoutBranch(commit.branch)
+                }
             }
         }
     }
@@ -174,28 +176,38 @@ class MirrorManager(
      * and merging them.
      * In case of conflicts just copies file from standard repository to mirror repository
      *
-     * todo in case if mirror repo contains unique commits, its content must not be overridden
-     *
      * @param commit commit to apply
      */
     private fun merge(commit: CommitWithBranch): RevCommit? {
+        val changes = standardRepository.getChanges(commit.commit).filter(::shouldMirror)
+        if (changes.isEmpty()) return null
+        
         standardRepository.reset(commit.commit)
 
         val mainBranch = commit.branch
         val secondBranch = gitTree.getMergeParents(commit)
                 .map(CommitWithBranch::branch)
                 .firstOrNull { it != mainBranch }
-                ?: return null
 
-        if (!mirrorRepository.isBranchExists(mainBranch) || !mirrorRepository.isBranchExists(secondBranch)) return null
-
-        mirrorRepository.checkoutBranch(mainBranch)
-        val conflicts = mirrorRepository.merge(secondBranch)
-        conflicts.forEach {
-            val filePath = it.replaceFirst("${mirrorRepository.repositoryPath.path}/", EMPTY_STRING)
-            diffManager.modify(filePath)
+        if (secondBranch != null &&
+                mirrorRepository.isBranchExists(mainBranch) &&
+                mirrorRepository.isBranchExists(secondBranch)
+        ) {
+            // perform a merge commit if two branches exist
+            mirrorRepository.checkoutBranch(mainBranch)
+            val conflicts = mirrorRepository.merge(secondBranch)
+            // todo in case if mirror repo contains unique commits, its content must not be overridden
+            conflicts.forEach {
+                val filePath = it.replaceFirst("${mirrorRepository.repositoryPath.path}/", EMPTY_STRING)
+                diffManager.modify(filePath)
+            }
+        } else {
+            // perform a single commit with its changes otherwise
+            checkoutMirrorBranchForCommit(commit)
+            applyChanges(changes)
         }
 
+        mirrorRepository.add()
         val newCommit = mirrorRepository.commit(commit.commit)
         commit.mirrorCommitHash = newCommit?.name ?: EMPTY_STRING
         commit.type = CommitType.COMMITED

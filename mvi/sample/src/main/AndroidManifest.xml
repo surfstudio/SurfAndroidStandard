@@ -18,6 +18,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.surfstudio.android.core.mvi.sample">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name="ru.surfstudio.android.sample.dagger.app.DefaultApp"
         android:allowBackup="true"
@@ -48,6 +50,16 @@
         <activity
             android:name=".ui.screen.simple_list.SimpleListActivityView"
             android:label="Input form screen" />
+
+        <activity
+            android:name=".ui.screen.kitties.KittiesActivityView"
+            android:label="MVI-Reducer showcase activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".ui.screen.kitties.all.KittiesAllActivityView"
+            android:label="MVI-Reducer showcase activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

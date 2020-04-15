@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition.open
 import ru.surfstudio.android.core.mvi.sample.R
 import ru.surfstudio.android.core.mvi.sample.ui.screen.input.InputFormActivityRoute
+import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.KittiesActivityRoute
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ComplexListActivityRoute
 import ru.surfstudio.android.core.mvi.sample.ui.screen.main.MainEvent.Navigation
 import ru.surfstudio.android.core.mvi.sample.ui.screen.simple_list.SimpleListActivityRoute
@@ -39,5 +40,6 @@ class MainActivityView : BaseReactActivityView(), SingleHubOwner<MainEvent> {
 
         //еще более простая запись при помощи экстеншна в SingleHubOwner
         main_open_complex_list_btn.clicks().emit(Navigation().open(ComplexListActivityRoute()))
+        main_open_mvi_reducer_screen_btn.clicks().emit(Navigation().open(KittiesActivityRoute()))
     }
 }
