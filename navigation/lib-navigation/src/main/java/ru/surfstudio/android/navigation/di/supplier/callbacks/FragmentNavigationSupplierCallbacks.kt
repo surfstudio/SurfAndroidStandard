@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.di.FragmentContainer
-import ru.surfstudio.android.navigation.di.IdentifiableScreen
 import ru.surfstudio.android.navigation.di.supplier.holder.FragmentNavigationHolder
 import ru.surfstudio.android.navigation.di.supplier.FragmentNavigationSupplier
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
@@ -15,76 +15,64 @@ import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNaviga
 class FragmentNavigationSupplierCallbacks : FragmentManager.FragmentLifecycleCallbacks(), FragmentNavigationSupplier {
 
     /**
-     * Текущий уровень вложенности навигации фрагментов
-     * 0-й уровень соответствует supportFragmentManager'у родительской Activity,
-     * 1-й уровень соответствует отображению внутри навигаторов
+     * Holders with fragment navigators for each [FragmentContainer]
      */
-    override var currentLevel = 0
-    private val navigatorHolders = hashMapOf<Int, MutableList<FragmentNavigationHolder>>()
-    private var currentId: String? = null
+    private val navigationHolders = hashMapOf<String, FragmentNavigationHolder>()
 
-    override val currentHolder: FragmentNavigationHolder?
-        get() = navigatorHolders[currentLevel]?.find { it.id == currentId }
+    /**
+     * List of active (created and not yet destroyed) fragments
+     */
+    private val activeFragments = mutableListOf<Fragment>()
+
+    override fun obtain(command: FragmentNavigationCommand): FragmentNavigationHolder {
+        val id = command.sourceTag
+        val sourceFragment = activeFragments.find { getFragmentId(it) == id }
+        return obtainFragmentHolderRecursive(sourceFragment) ?: navigationHolders.values.first()
+    }
+
+    override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
+        val id = getFragmentId(f)
+        require(activeFragments.any { getFragmentId(it) == id }) { "You must specify unique tag for each fragment!" }
+        activeFragments.add(f)
+    }
 
     override fun onFragmentActivityCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
-        if (navigatorHolders.isEmpty()) {
+        if (navigationHolders.isEmpty()) {
             addZeroLevelHolder(f.requireActivity(), savedInstanceState)
         }
-        val level = getLevel(f)
         val id = getFragmentId(f)
         val containerId = getContainerId(f) ?: return
-        addHolder(level, containerId, id, fm, savedInstanceState)
+        addHolder(containerId, id, fm, savedInstanceState)
     }
-
-    override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
-        val id = getFragmentId(f)
-        val currentLevelHolders = navigatorHolders[currentLevel]
-        val existsOnCurrentLevel = currentLevelHolders?.find { it.id == id } != null
-        if (existsOnCurrentLevel) {
-            currentId = id
-        }
-    }
-
-    override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
-        val id = getFragmentId(f)
-        if (id == currentId) {
-            currentId = null
-        }
-    }
-
 
     override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) {
         val id = getFragmentId(f)
 
-        navigatorHolders.forEach { entry ->
-            val currentHolder = entry.value.find { it.id == id }
-            currentHolder?.run {
-                fragmentNavigator.onSaveState(outState)
-                tabFragmentNavigator.onSaveState(outState)
-            }
+        navigationHolders[id]?.run {
+            fragmentNavigator.onSaveState(outState)
+            tabFragmentNavigator.onSaveState(outState)
         }
     }
 
     override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
-        removeHolder(f)
+        navigationHolders.remove(getFragmentId(f))
     }
 
-    private fun removeHolder(fragment: Fragment) {
-        val id = getFragmentId(fragment)
-        navigatorHolders.forEach { entry ->
-            val holder = entry.value.find { it.id == id }
-            entry.value.remove(holder)
-        }
+    override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
+        activeFragments.remove(f)
     }
 
-    private fun getLevel(fragment: Fragment): Int {
-        var level = 1
-        var currentFragment: Fragment? = fragment
-        while (currentFragment?.parentFragment != null) {
-            level++
-            currentFragment = currentFragment.parentFragment
-        }
-        return level
+    /**
+     * Добавление холдера на 0-ой уровень, т.е. на уровень Activity, которая управляет фрагментами.
+     */
+    private fun addZeroLevelHolder(activity: FragmentActivity, savedInstanceState: Bundle?) {
+        if (activity !is FragmentContainer) return
+
+        val fragmentManager = activity.supportFragmentManager
+        val containerId = activity.containerId
+        val id = FragmentNavigationCommand.ACTIVITY_NAVIGATION_TAG
+
+        addHolder(containerId, id, fragmentManager, savedInstanceState)
     }
 
     /**
@@ -97,7 +85,6 @@ class FragmentNavigationSupplierCallbacks : FragmentManager.FragmentLifecycleCal
      * @param savedInstanceState состояние, используемое для восстановления бекстека
      */
     private fun addHolder(
-            level: Int,
             containerId: Int,
             id: String,
             fm: FragmentManager,
@@ -105,33 +92,25 @@ class FragmentNavigationSupplierCallbacks : FragmentManager.FragmentLifecycleCal
     ) {
         val fragmentNavigator = FragmentNavigator(fm, containerId, savedInstanceState)
         val tabFragmentNavigator = TabFragmentNavigator(fm, containerId, savedInstanceState)
-        val newHolder = FragmentNavigationHolder(id, fragmentNavigator, tabFragmentNavigator)
-        val levelHolders = navigatorHolders[level] ?: mutableListOf()
-        levelHolders.add(newHolder)
-        navigatorHolders[level] = levelHolders
+        val newHolder = FragmentNavigationHolder(fragmentNavigator, tabFragmentNavigator)
+        val oldHolder = navigationHolders[id]
+        require(oldHolder == null) { "You must specify unique tag for each FragmentContainer!" }
+        navigationHolders[id] = newHolder
     }
 
-    /**
-     * Добавление холдера на 0-ой уровень, т.е. на уровень Activity, которая управляет фрагментами.
-     */
-    private fun addZeroLevelHolder(activity: FragmentActivity, savedInstanceState: Bundle?) {
-        if (activity !is FragmentContainer) return
-
-        val fragmentManager = activity.supportFragmentManager
-        val containerId = activity.containerId
-
-        addHolder(0, containerId, ZERO_CONTAINER_ID, fragmentManager, savedInstanceState)
+    private fun obtainFragmentHolderRecursive(fragment: Fragment?): FragmentNavigationHolder? {
+        if (fragment == null) return null
+        val id = getFragmentId(fragment)
+        val fragmentHolder = navigationHolders[id]
+        return fragmentHolder ?: obtainFragmentHolderRecursive(fragment.parentFragment)
     }
+
 
     private fun getFragmentId(fragment: Fragment): String {
-        return if (fragment is IdentifiableScreen) fragment.screenId else fragment.id.toString()
+        return fragment.tag ?: error("Fragment tag must always be specified!")
     }
 
     private fun getContainerId(fragment: Fragment): Int? {
         return if (fragment is FragmentContainer) fragment.containerId else null
-    }
-
-    private companion object {
-        const val ZERO_CONTAINER_ID = "zero_container"
     }
 }

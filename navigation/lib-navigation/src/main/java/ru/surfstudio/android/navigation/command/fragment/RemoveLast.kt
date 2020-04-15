@@ -10,7 +10,8 @@ import ru.surfstudio.android.navigation.route.stub.StubFragmentRoute
  * Remove last screen from current stack and switch to previous.
  */
 data class RemoveLast(
-        override val animations: Animations = EmptyResourceAnimations
+        override val animations: Animations = EmptyResourceAnimations,
+        override val sourceTag: String = ""
 ) : FragmentNavigationCommand {
 
     override val route: FragmentRoute = StubFragmentRoute

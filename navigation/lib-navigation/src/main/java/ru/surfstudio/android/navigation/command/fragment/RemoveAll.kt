@@ -11,7 +11,8 @@ import ru.surfstudio.android.navigation.route.stub.StubFragmentRoute
  * Команда удаления всех экранов из текущего стека
  */
 data class RemoveAll(
-        override val animations: Animations = EmptyResourceAnimations
+        override val animations: Animations = EmptyResourceAnimations,
+        override val sourceTag: String = ""
 ) : FragmentNavigationCommand {
 
     override val route: FragmentRoute = StubFragmentRoute

@@ -4,5 +4,5 @@ import ru.surfstudio.android.navigation.di.supplier.holder.ActivityNavigationHol
 
 interface ActivityNavigationSupplier {
 
-    val currentNavigation: ActivityNavigationHolder?
+    fun obtain(): ActivityNavigationHolder
 }

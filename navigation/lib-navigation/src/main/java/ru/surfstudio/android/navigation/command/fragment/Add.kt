@@ -12,5 +12,6 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
  */
 data class Add(
         override val route: FragmentRoute,
-        override val animations: Animations = EmptyResourceAnimations
+        override val animations: Animations = EmptyResourceAnimations,
+        override val sourceTag: String = ""
 ) : FragmentNavigationCommand

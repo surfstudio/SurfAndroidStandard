@@ -3,7 +3,6 @@ package ru.surfstudio.android.navigation.command.fragment
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.resource.EmptyResourceAnimations
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
-import ru.surfstudio.android.navigation.option.activity.ActivityBundleOptions
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**
@@ -15,5 +14,6 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
  */
 data class Replace(
         override val route: FragmentRoute,
-        override val animations: Animations = EmptyResourceAnimations
+        override val animations: Animations = EmptyResourceAnimations,
+        override val sourceTag: String = ""
 ) : FragmentNavigationCommand

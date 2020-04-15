@@ -12,8 +12,7 @@ open class ActivityCommandExecutor(
 ) : CommandExecutor<ActivityNavigationCommand> {
 
     private val activityNavigator: ActivityNavigatorInterface
-        get() = activityNavigationSupplier.currentNavigation?.activityNavigator
-                ?: throw SupplierNotInitializedError()
+        get() = activityNavigationSupplier.obtain().activityNavigator
 
     override fun execute(command: ActivityNavigationCommand) {
         when (command) {

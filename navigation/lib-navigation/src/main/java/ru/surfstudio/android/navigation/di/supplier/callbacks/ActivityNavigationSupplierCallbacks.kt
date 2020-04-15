@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import ru.surfstudio.android.navigation.di.IdentifiableScreen
+import ru.surfstudio.android.navigation.di.supplier.ActivityNavigationSupplier
 import ru.surfstudio.android.navigation.di.supplier.holder.ActivityNavigationHolder
 import ru.surfstudio.android.navigation.di.supplier.FragmentNavigationSupplier
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
@@ -15,13 +16,17 @@ import java.lang.IllegalStateException
 //@PerApp
 class ActivityNavigationSupplierCallbacks(
         private val nestedCallbacksCreator: () -> FragmentNavigationSupplierCallbacks
-) : Application.ActivityLifecycleCallbacks {
+) : Application.ActivityLifecycleCallbacks, ActivityNavigationSupplier {
+
 
     private val navigatorHolders = hashMapOf<String, ActivityNavigationHolder?>()
 
     var currentHolder: ActivityNavigationHolder? = null
         private set
 
+    override fun obtain(): ActivityNavigationHolder {
+        return currentHolder ?: error("Navigation holder is empty. You have no visible activity.")
+    }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         val newHolder = createHolder(activity)
@@ -84,9 +89,12 @@ class ActivityNavigationSupplierCallbacks(
         fragmentManager.registerFragmentLifecycleCallbacks(nestedNavigationSupplier, true)
     }
 
-    private fun getActivityId(activity: Activity): String =
-            (activity as? IdentifiableScreen)?.screenId
-                    ?: throw IllegalStateException("Activity must implement from HasId.id method ")
+    private fun getActivityId(activity: Activity): String {
+        val identifiableActivity = activity as? IdentifiableScreen
+        val activityId = identifiableActivity?.screenId
+        requireNotNull(activityId) { "Activity must implement IdentifiableScreen.screenId method" }
+        return activityId
+    }
 
     private fun createHolder(activity: Activity): ActivityNavigationHolder? {
         if (activity !is AppCompatActivity) return null

@@ -13,8 +13,7 @@ open class DialogCommandExecutor(
 ) : CommandExecutor<DialogNavigationCommand> {
 
     private val dialogNavigator: DialogNavigatorInterface
-        get() = activityNavigationSupplier.currentNavigation?.dialogNavigator
-                ?: throw SupplierNotInitializedError()
+        get() = activityNavigationSupplier.obtain().dialogNavigator
 
     override fun execute(command: DialogNavigationCommand) {
         when (command) {
