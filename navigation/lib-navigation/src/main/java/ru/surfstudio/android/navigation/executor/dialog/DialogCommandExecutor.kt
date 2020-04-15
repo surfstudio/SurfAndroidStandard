@@ -4,7 +4,6 @@ import ru.surfstudio.android.navigation.command.dialog.Dismiss
 import ru.surfstudio.android.navigation.command.dialog.Show
 import ru.surfstudio.android.navigation.command.dialog.base.DialogNavigationCommand
 import ru.surfstudio.android.navigation.di.supplier.ActivityNavigationSupplier
-import ru.surfstudio.android.navigation.di.supplier.error.SupplierNotInitializedError
 import ru.surfstudio.android.navigation.executor.CommandExecutor
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigatorInterface
 

@@ -1419,7 +1419,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "navigation-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },

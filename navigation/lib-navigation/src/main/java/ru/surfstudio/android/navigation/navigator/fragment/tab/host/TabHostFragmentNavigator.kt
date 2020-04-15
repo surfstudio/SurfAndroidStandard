@@ -7,10 +7,10 @@ import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
  * Navigator that used in each host tab in [TabFragmentNavigator] mechanism
  */
 class TabHostFragmentNavigator(
-        override val fragmentManager: FragmentManager,
-        override val containerId: Int,
+        fragmentManager: FragmentManager,
+        containerId: Int,
         private val hostRouteTag: String
-) : FragmentNavigator() {
+) : FragmentNavigator(fragmentManager, containerId) {
 
     internal fun obtainBackStack() = backStack
 

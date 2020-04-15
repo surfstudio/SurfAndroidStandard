@@ -15,7 +15,7 @@ import java.lang.IllegalStateException
 
 //@PerApp
 class ActivityNavigationSupplierCallbacks(
-        private val nestedCallbacksCreator: () -> FragmentNavigationSupplierCallbacks
+        private val nestedCallbacksCreator: (AppCompatActivity, Bundle?) -> FragmentNavigationSupplierCallbacks
 ) : Application.ActivityLifecycleCallbacks, ActivityNavigationSupplier {
 
 
@@ -29,7 +29,7 @@ class ActivityNavigationSupplierCallbacks(
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        val newHolder = createHolder(activity)
+        val newHolder = createHolder(activity, savedInstanceState)
         navigatorHolders[getActivityId(activity)] = newHolder
         if (savedInstanceState != null) {
             currentHolder = newHolder
@@ -53,7 +53,8 @@ class ActivityNavigationSupplierCallbacks(
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
-        //empty
+        val id = getActivityId(activity)
+        navigatorHolders
     }
 
     override fun onActivityStopped(activity: Activity) {
@@ -96,10 +97,10 @@ class ActivityNavigationSupplierCallbacks(
         return activityId
     }
 
-    private fun createHolder(activity: Activity): ActivityNavigationHolder? {
+    private fun createHolder(activity: Activity, savedInstanceState: Bundle?): ActivityNavigationHolder? {
         if (activity !is AppCompatActivity) return null
 
-        val nestedNavigationSupplier = nestedCallbacksCreator()
+        val nestedNavigationSupplier = nestedCallbacksCreator(activity, savedInstanceState)
         registerNestedNavigationSupplier(activity, nestedNavigationSupplier)
 
         val activityNavigator = ActivityNavigator(activity)

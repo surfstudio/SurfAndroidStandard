@@ -1,6 +1,7 @@
 package ru.surfstudio.android.navigation.di.supplier.callbacks
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -12,12 +13,19 @@ import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
 
 //@PerAct
-class FragmentNavigationSupplierCallbacks : FragmentManager.FragmentLifecycleCallbacks(), FragmentNavigationSupplier {
+class FragmentNavigationSupplierCallbacks(
+        activity: AppCompatActivity,
+        savedState: Bundle?
+) : FragmentManager.FragmentLifecycleCallbacks(), FragmentNavigationSupplier {
 
     /**
      * Holders with fragment navigators for each [FragmentContainer]
      */
     private val navigationHolders = hashMapOf<String, FragmentNavigationHolder>()
+
+    init {
+        addZeroLevelHolder(activity, savedState)
+    }
 
     /**
      * List of active (created and not yet destroyed) fragments
@@ -30,16 +38,20 @@ class FragmentNavigationSupplierCallbacks : FragmentManager.FragmentLifecycleCal
         return obtainFragmentHolderRecursive(sourceFragment) ?: navigationHolders.values.first()
     }
 
+    fun onActivitySaveState(outState: Bundle?) {
+        navigationHolders[FragmentNavigationCommand.ACTIVITY_NAVIGATION_TAG]?.run {
+            fragmentNavigator.onSaveState(outState)
+            tabFragmentNavigator.onSaveState(outState)
+        }
+    }
+
     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
         val id = getFragmentId(f)
-        require(activeFragments.any { getFragmentId(it) == id }) { "You must specify unique tag for each fragment!" }
+        require(!activeFragments.any { getFragmentId(it) == id }) { "You must specify unique tag for each fragment!" }
         activeFragments.add(f)
     }
 
     override fun onFragmentActivityCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
-        if (navigationHolders.isEmpty()) {
-            addZeroLevelHolder(f.requireActivity(), savedInstanceState)
-        }
         val id = getFragmentId(f)
         val containerId = getContainerId(f) ?: return
         addHolder(containerId, id, fm, savedInstanceState)
