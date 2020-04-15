@@ -1,5 +1,7 @@
 package ru.surfstudio.android.navigation.executor.fragment
 
+import android.os.Handler
+import androidx.lifecycle.Lifecycle
 import ru.surfstudio.android.navigation.command.fragment.*
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.di.supplier.ActivityNavigationSupplier
@@ -12,15 +14,18 @@ open class FragmentCommandExecutor(
 ) : CommandExecutor<FragmentNavigationCommand> {
 
     override fun execute(command: FragmentNavigationCommand) {
-        val fragmentNavigationHolder = activityNavigationSupplier
-                .obtain()
-                .nestedNavigationSupplier
-                .obtain(command)
-        val tabFragmentNavigator = fragmentNavigationHolder.tabFragmentNavigator
-        val fragmentNavigator = fragmentNavigationHolder.fragmentNavigator
-        when (command.route) {
-            is TabRoute -> execute(command, tabFragmentNavigator)
-            else -> execute(command, fragmentNavigator)
+        val activityHolder = activityNavigationSupplier.obtain()
+        val activity = activityHolder.activity
+        if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+            val fragmentNavigationHolder = activityHolder.nestedNavigationSupplier.obtain(command)
+            val tabFragmentNavigator = fragmentNavigationHolder.tabFragmentNavigator
+            val fragmentNavigator = fragmentNavigationHolder.fragmentNavigator
+            when (command.route) {
+                is TabRoute -> execute(command, tabFragmentNavigator)
+                else -> execute(command, fragmentNavigator)
+            }
+        } else {
+            Handler().post { execute(command) }
         }
     }
 
@@ -34,5 +39,9 @@ open class FragmentCommandExecutor(
             is RemoveUntil -> navigator.removeUntil(command.route, command.isInclusive)
             is RemoveAll -> navigator.removeAll()
         }
+    }
+
+    override fun execute(commands: List<FragmentNavigationCommand>) {
+        TODO("Fragment navigation command list execution")
     }
 }

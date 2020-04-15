@@ -20,4 +20,8 @@ open class DialogCommandExecutor(
             is Dismiss -> dialogNavigator.dismiss(command.route)
         }
     }
+
+    override fun execute(commands: List<DialogNavigationCommand>) {
+        TODO("Activity navigation command list execution")
+    }
 }

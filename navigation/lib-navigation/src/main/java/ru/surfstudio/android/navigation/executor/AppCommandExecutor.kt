@@ -21,4 +21,8 @@ open class AppCommandExecutor(
             is DialogNavigationCommand -> dialogCommandExecutor.execute(command)
         }
     }
+
+    override fun execute(commands: List<NavigationCommand>) {
+        TODO("Command list execution")
+    }
 }

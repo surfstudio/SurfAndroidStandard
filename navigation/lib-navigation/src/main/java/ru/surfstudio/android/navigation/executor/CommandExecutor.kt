@@ -5,4 +5,6 @@ import ru.surfstudio.android.navigation.command.NavigationCommand
 interface CommandExecutor<C: NavigationCommand> {
 
     fun execute(command: C)
+
+    fun execute(commands: List<C>)
 }

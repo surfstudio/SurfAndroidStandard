@@ -19,6 +19,6 @@ class SingleActivity : AppCompatActivity(), IdentifiableScreen, FragmentContaine
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single)
-        Handler().post { App.navigator.execute(Add(SplashRoute())) }
+        App.navigator.execute(Add(SplashRoute()))
     }
 }

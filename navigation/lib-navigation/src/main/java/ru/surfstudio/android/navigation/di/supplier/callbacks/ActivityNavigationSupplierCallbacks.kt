@@ -31,7 +31,7 @@ class ActivityNavigationSupplierCallbacks(
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         val newHolder = createHolder(activity, savedInstanceState)
         navigatorHolders[getActivityId(activity)] = newHolder
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
             currentHolder = newHolder
         }
     }
@@ -105,6 +105,11 @@ class ActivityNavigationSupplierCallbacks(
 
         val activityNavigator = ActivityNavigator(activity)
         val dialogNavigator = DialogNavigator(activity)
-        return ActivityNavigationHolder(activityNavigator, dialogNavigator, nestedNavigationSupplier)
+        return ActivityNavigationHolder(
+                activity,
+                activityNavigator,
+                dialogNavigator,
+                nestedNavigationSupplier
+        )
     }
 }
