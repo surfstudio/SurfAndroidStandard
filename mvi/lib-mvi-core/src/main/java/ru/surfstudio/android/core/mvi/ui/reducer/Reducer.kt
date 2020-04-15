@@ -7,20 +7,12 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 /**
  * [Reducer] из терминологии Redux:
  *
- * Этот класс служит для изменения текущего состояние экрана [StateModel],
+ * Этот класс служит для изменения текущего состояние экрана [State],
  * при реакции на событие [Event].
  *
  * @see <a href="Reducers documentation">https://redux.js.org/basics/reducers</a>
  */
 interface Reducer<E : Event, S> : Reactor<E, State<S>> {
-
-    override fun react(sh: State<S>, event: E) {
-        val oldState = sh.value
-        val newState = reduce(oldState, event)
-        if (isStateChanged(oldState, newState)) {
-            sh.accept(newState)
-        }
-    }
 
     /**
      * Метод, в котором происходит определение того, изменилось ли состояние

@@ -8,6 +8,7 @@ import ru.surfstudio.android.logger.Logger
 /**
  * Experimental mechanism for travelling between states in `MVI-Reducer` approach.
  */
+@Deprecated("Currently not production ready solution")
 object ReducerStateTraveller : StateEmitter {
 
     private val stateMap: HashMap<String, MutableList<TravelEntry<*>>?> = hashMapOf()
