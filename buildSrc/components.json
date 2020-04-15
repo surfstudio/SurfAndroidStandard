@@ -356,10 +356,6 @@
           {
             "name": "activity-holder",
             "type": "api"
-          },
-          {
-            "name": "sample-common",
-            "type": "api"
           }
         ]
       }
