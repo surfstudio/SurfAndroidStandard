@@ -84,12 +84,6 @@ class GitTree(
      * @return parent for commit
      */
     fun getParent(commit: CommitWithBranch): CommitWithBranch? {
-        if (commit.commit.shortMessage.endsWith("Add release notes")) {
-            println("parents")
-            commit.commit.parents.forEach {
-                println("${it.shortMessage} ${it.standardHash}")
-            }
-        }
         val node = standardNodes.find { it.value == commit.commit }
                 ?: throw GitNodeNotFoundException(commit.commit)
 
@@ -250,10 +244,8 @@ class GitTree(
 
         stopEndNode = ends.maxBy { it.value.commitTime }
                 ?: throw GradleException("Can't find a stop end node with a min commit time")
-        println("stopEndNode ${stopEndNode.value.shortMessage} ${stopEndNode.value.standardHash}")
 
         return ends.flatMap { end ->
-            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR ${end.value.shortMessage}")
             watchedHashed.clear()
             buildChain(mutableListOf(end))
         }
@@ -350,16 +342,13 @@ class GitTree(
                 .sortedBy { it.commit.commitTime }
 
         lines.forEach { line ->
-            println("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE $line\n")
             line.forEach { node ->
-                println("NODE ${node.value.shortMessage}")
                 val commit = standardRepositoryCommitsForMirror.find { it.commit == node.value }
                 if (commit?.branch?.isEmpty() == true) {
                     commit.branch = branchName
                 }
             }
         }
-        println()
 
         standardRepositoryCommitsForMirror = standardRepositoryCommitsForMirror.filter { it.branch.isNotEmpty() }
     }
@@ -373,17 +362,12 @@ class GitTree(
         markAsWatched(node)
         result.add(chain)
 
-        println("--------------------------------------------------------")
-        println("START BUILD CHAIN FOR NODE: ${node.value.shortMessage} hash = ${node.value.standardHash}")
-
         // every line starts and ends with [version] commit
         if (chain.size > 1 && isVersionNode(node)) {
-            println("-------------------------- STOP ${node.value.shortMessage}")
             return result
         }
 
         node.parents.forEach {
-            println("parent: ${it.value.shortMessage} ${it.value.standardHash}")
             checkNode(it, chain, result)
         }
 
@@ -392,10 +376,7 @@ class GitTree(
                 1 -> {
                     val next = node.children.first()
 
-                    println("NEXT PARENTS FOR: ${next.value.shortMessage}")
-
                     next.parents.forEach {
-                        println("parent: ${it.value.shortMessage} ${it.value.standardHash}")
                         checkNode(it, chain, result)
                     }
 
@@ -403,29 +384,16 @@ class GitTree(
                         markAsWatched(next)
                         chain.add(next)
                         node = next
-                        println("\nONLY CHILD = NEXT NODE: ${next.value.shortMessage} " +
-                                "hash = ${next.value.standardHash}")
-                        next.value.parents.forEach {
-                            println("parents ${it.shortMessage} ${it.standardHash}")
-                        }
-                        next.children.forEach {
-                            println("children ${it.value.shortMessage} ${it.value.standardHash}")
-                        }
-
                     } else {
-                        println("-------------------------- RETURN FOR ${next.value.shortMessage}")
                         return result
                     }
                 }
                 0 -> {
-                    println("NO CHILDREN")
                     result.add(chain)
                     return result
                 }
                 else -> {
-                    println("HAS CHILDREN")
                     node.children.forEach {
-                        println("child: for${it.value.shortMessage}")
                         checkNode(it, chain, result)
                     }
                     return result
@@ -444,9 +412,6 @@ class GitTree(
             if (isVersionNode(node) && !newChain.contains(node)) {
                 newChain.add(node)
                 result.add(newChain)
-                println("-------------------------- ADD NODE AND SKIP ${node.value.shortMessage}")
-            } else {
-                println("-------------------------- SKIP ${node.value.shortMessage}")
             }
         }
     }

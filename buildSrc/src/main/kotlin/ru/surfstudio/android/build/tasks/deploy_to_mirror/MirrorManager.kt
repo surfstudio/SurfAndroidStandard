@@ -77,18 +77,15 @@ class MirrorManager(
             latestMirrorCommit = mirrorCommits.maxBy { it.commitTime }
 
             latestMirrorCommit?.also { safeLatestMirrorCommit ->
-                println("latestMirrorCommit ${safeLatestMirrorCommit.shortMessage}")
-                //todo fix check
-                /*
                 if (safeLatestMirrorCommit.commitTime > rootCommit.commitTime) {
                     throw GradleException("Invalid mirror commit $rootCommitHash: " +
                             "can't be earlier than latest mirror commit ${safeLatestMirrorCommit.standardHash}")
-                }*/
+                }
 
                 gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
                 applyGitTreeToMirror()
                 setBranches()
-                //mirrorRepository.push()
+                mirrorRepository.push()
                 return
             }
             throw GradleException("Can't get latest commit in branch $mainBranchFullName " +
@@ -119,13 +116,7 @@ class MirrorManager(
      * For all git tree commits apply them to mirror repository
      */
     private fun applyGitTreeToMirror() {
-        gitTree.standardRepositoryCommitsForMirror.forEach {
-            println("standard ${it.type} ${it.commit.shortMessage} ${it.commit.standardHash}")
-        }
-        println()
-
         gitTree.standardRepositoryCommitsForMirror.forEach { commit ->
-            println("commit ${commit.type} ${commit.commit.shortMessage} ${commit.commit.standardHash}")
             (when (commit.type) {
                 CommitType.SIMPLE -> commit(commit)
                 CommitType.MERGE -> merge(commit)
@@ -145,7 +136,6 @@ class MirrorManager(
     private fun commit(commit: CommitWithBranch): RevCommit? {
         // for old branches a line could contain an old [version] commit
         if (gitTree.shouldSkipCommit(commit.commit)) {
-            println("skip")
             return null
         }
 
@@ -171,7 +161,6 @@ class MirrorManager(
     private fun checkoutMirrorBranchForCommit(commit: CommitWithBranch) {
         with(mirrorRepository) {
             gitTree.getParent(commit)?.also { safeParent ->
-                println("has parent")
                 if (safeParent.mirrorCommitHash.isNotEmpty()) {
                     checkoutCommit(safeParent.mirrorCommitHash)
                 }
