@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentActivity
 import ru.surfstudio.android.navigation.di.IdentifiableScreen
 import ru.surfstudio.android.navigation.di.supplier.holder.ActivityNavigationHolder
 import ru.surfstudio.android.navigation.di.supplier.FragmentNavigationSupplier
-import ru.surfstudio.android.navigation.navigator.activity.view.ViewActivityNavigator
+import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
 import java.lang.IllegalStateException
 
@@ -69,7 +69,7 @@ class ActivityNavigationSupplierCallbacks(
             activity: Activity,
             nestedNavigationSupplier: FragmentNavigationSupplier?
     ) {
-        nestedNavigationSupplier as? FragmentNavigationSupplierCallbacks ?: return
+        if (nestedNavigationSupplier !is FragmentNavigationSupplierCallbacks) return
         if (activity !is FragmentActivity) return
         val fragmentManager = activity.supportFragmentManager
         fragmentManager.unregisterFragmentLifecycleCallbacks(nestedNavigationSupplier)
@@ -94,7 +94,7 @@ class ActivityNavigationSupplierCallbacks(
         val nestedNavigationSupplier = nestedCallbacksCreator()
         registerNestedNavigationSupplier(activity, nestedNavigationSupplier)
 
-        val activityNavigator = ViewActivityNavigator(activity)
+        val activityNavigator = ActivityNavigator(activity)
         val dialogNavigator = DialogNavigator(activity)
         return ActivityNavigationHolder(activityNavigator, dialogNavigator, nestedNavigationSupplier)
     }

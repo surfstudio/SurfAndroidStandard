@@ -33,11 +33,15 @@ import ru.surfstudio.android.navigation.utils.FragmentAnimationSupplier
  * To save back stack on configuration changes you must call
  * [onSaveState] and [onRestoreState] methods in corresponding lifecycle callbacks of parent screen.
  */
-abstract class FragmentNavigator(
+open class FragmentNavigator(
+        protected val fragmentManager: FragmentManager,
+        protected val containerId: Int,
+        savedState: Bundle? = null
 ) : FragmentNavigatorInterface {
 
-    protected abstract val fragmentManager: FragmentManager
-    protected abstract val containerId: Int
+    init {
+        onRestoreState(savedState)
+    }
 
     protected val backStack: FragmentBackStack = FragmentBackStack()
 

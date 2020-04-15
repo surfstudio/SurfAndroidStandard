@@ -6,9 +6,7 @@ import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 import ru.surfstudio.android.navigation.utils.ActivityAnimationSupplier
 
-abstract class ActivityNavigator : ActivityNavigatorInterface {
-
-    abstract val activity: AppCompatActivity
+open class ActivityNavigator(val activity: AppCompatActivity) : ActivityNavigatorInterface {
 
     protected open val animationSupplier = ActivityAnimationSupplier()
 

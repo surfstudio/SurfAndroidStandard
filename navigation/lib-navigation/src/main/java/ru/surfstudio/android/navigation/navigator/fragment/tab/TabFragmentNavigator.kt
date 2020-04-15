@@ -25,11 +25,15 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
  *
  * Delegates all the methods of a [FragmentNavigatorInterface] to an active stack.
  */
-abstract class TabFragmentNavigator : FragmentNavigatorInterface {
+open class TabFragmentNavigator(
+        protected val fragmentManager: FragmentManager,
+        protected val containerId: Int,
+        savedState: Bundle? = null
+) : FragmentNavigatorInterface {
 
-    protected abstract val fragmentManager: FragmentManager
-    protected abstract val containerId: Int
-
+    init {
+        onRestoreState(savedState)
+    }
     private var activeTabTag: String = ""
 
     private val hostEntries: TabHostEntries = TabHostEntries()

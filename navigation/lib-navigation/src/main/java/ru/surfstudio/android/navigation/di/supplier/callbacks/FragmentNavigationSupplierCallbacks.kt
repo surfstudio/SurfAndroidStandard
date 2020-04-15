@@ -8,8 +8,8 @@ import ru.surfstudio.android.navigation.di.FragmentContainer
 import ru.surfstudio.android.navigation.di.IdentifiableScreen
 import ru.surfstudio.android.navigation.di.supplier.holder.FragmentNavigationHolder
 import ru.surfstudio.android.navigation.di.supplier.FragmentNavigationSupplier
-import ru.surfstudio.android.navigation.navigator.fragment.tab.view.ViewTabFragmentNavigator
-import ru.surfstudio.android.navigation.navigator.fragment.view.ViewFragmentNavigator
+import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
+import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
 
 //@PerAct
 class FragmentNavigationSupplierCallbacks : FragmentManager.FragmentLifecycleCallbacks(), FragmentNavigationSupplier {
@@ -103,8 +103,8 @@ class FragmentNavigationSupplierCallbacks : FragmentManager.FragmentLifecycleCal
             fm: FragmentManager,
             savedInstanceState: Bundle?
     ) {
-        val fragmentNavigator = ViewFragmentNavigator(fm, containerId, savedInstanceState)
-        val tabFragmentNavigator = ViewTabFragmentNavigator(fm, containerId, savedInstanceState)
+        val fragmentNavigator = FragmentNavigator(fm, containerId, savedInstanceState)
+        val tabFragmentNavigator = TabFragmentNavigator(fm, containerId, savedInstanceState)
         val newHolder = FragmentNavigationHolder(id, fragmentNavigator, tabFragmentNavigator)
         val levelHolders = navigatorHolders[level] ?: mutableListOf()
         levelHolders.add(newHolder)
