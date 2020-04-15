@@ -76,7 +76,7 @@ ext {
             "com.squareup.retrofit2:adapter-rxjava2"           : "2.8.1",        //https://vk.cc/7UFxk3
             "com.squareup.okhttp3:logging-interceptor"         : "4.4.1",        //https://vk.cc/7UFwTd
             "junit:junit"                                      : "4.13",         //https://goo.gl/hEcfw1
-            "org.mockito:mockito-core"                         : "2.28.2",       //https://bit.ly/3bw7XGe
+            "org.mockito:mockito-core"                         : "2.8.9",       //https://bit.ly/3bw7XGe
             "org.powermock:powermock-classloading-xstream"     : "1.7.4",        //https://goo.gl/hEcfw1
             "org.powermock:powermock-module-junit4"            : "1.7.4",        //https://goo.gl/hEcfw1
             "org.powermock:powermock-module-junit4-rule"       : "1.7.4",        //https://goo.gl/hEcfw1
