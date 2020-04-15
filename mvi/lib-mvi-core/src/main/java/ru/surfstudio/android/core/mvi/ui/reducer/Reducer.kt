@@ -12,8 +12,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
  *
  * @see <a href="Reducers documentation">https://redux.js.org/basics/reducers</a>
  */
-interface Reducer<E : Event, S> :
-        Reactor<E, State<S>> {
+interface Reducer<E : Event, S> : Reactor<E, State<S>> {
 
     override fun react(sh: State<S>, event: E) {
         val oldState = sh.value
