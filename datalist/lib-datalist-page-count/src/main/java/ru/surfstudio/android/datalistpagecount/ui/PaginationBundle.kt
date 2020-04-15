@@ -20,4 +20,11 @@ class PaginationBundle<T>(
     fun safeGet(callback: (DataList<T>, PaginationState) -> Unit) {
         callback(data ?: return, state ?: return)
     }
+
+    /**
+     * Transform type of `PaginationBundle` and it's data.
+     * */
+    fun <R> transform(action: (T) -> R): PaginationBundle<R> {
+        return PaginationBundle(data?.transform(action), state)
+    }
 }
