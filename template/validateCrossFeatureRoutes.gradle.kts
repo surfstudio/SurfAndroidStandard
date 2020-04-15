@@ -5,8 +5,7 @@ tasks.register<ValidateCrossFeatureRoutesTask>("validateCrossFeatureRoutesTask")
         file.name.contains("Route")
     }
     viewFilterCondition = { file ->
-        file.name.contains("View") ||
-                file.name.contains("Activity") ||
+        file.name.contains("Activity") ||
                 file.name.contains("Fragment") ||
                 file.name.contains("Dialog")
     }
@@ -330,18 +329,17 @@ private class CrossFeatureRouteParser(logger: Logger?) : KClassParser(logger) {
         val targetClassPath = parseTargetClassPath(parsedFile.classBody)
         val isCrossFeatureRoute = targetClassPath.isNotBlank()
 
-        val result = when (isCrossFeatureRoute) {
-            true -> {
-                CrossFeatureRouteFile(
-                        parsedFile.packageName,
-                        parsedFile.className,
-                        parsedFile.baseClassPackageName,
-                        parsedFile.baseClassName,
-                        parsedFile.implementations,
-                        parsedFile.classBody,
-                        targetClassPath
-                )
-            }
+        val result = when {
+            isCrossFeatureRoute -> CrossFeatureRouteFile(
+                    parsedFile.packageName,
+                    parsedFile.className,
+                    parsedFile.baseClassPackageName,
+                    parsedFile.baseClassName,
+                    parsedFile.implementations,
+                    parsedFile.classBody,
+                    targetClassPath
+            )
+
             else -> null
         }
 
