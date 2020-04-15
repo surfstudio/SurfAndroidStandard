@@ -44,7 +44,8 @@ class MirrorManager(
     private val foldersToMirror = listOf(
             componentDirectory,
             "buildSrc",
-            "common"
+            "common",
+            "gradle"
     )
 
     private var latestMirrorCommit: RevCommit? = null
@@ -77,15 +78,16 @@ class MirrorManager(
             latestMirrorCommit = mirrorCommits.maxBy { it.commitTime }
 
             latestMirrorCommit?.also { safeLatestMirrorCommit ->
+                /*
                 if (safeLatestMirrorCommit.commitTime > rootCommit.commitTime) {
                     throw GradleException("Invalid mirror commit $rootCommitHash: " +
                             "can't be earlier than latest mirror commit ${safeLatestMirrorCommit.standardHash}")
-                }
+                }*/
 
                 gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
                 applyGitTreeToMirror()
                 setBranches()
-                mirrorRepository.push()
+                //mirrorRepository.push()
                 return
             }
             throw GradleException("Can't get latest commit in branch $mainBranchFullName " +
