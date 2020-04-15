@@ -83,11 +83,14 @@ class GitTree(
      *
      * @return parent for commit
      */
-    fun getParent(commit: CommitWithBranch): CommitWithBranch {
+    fun getParent(commit: CommitWithBranch): CommitWithBranch? {
         val node = standardNodes.find { it.value == commit.commit }
                 ?: throw GitNodeNotFoundException(commit.commit)
-        return standardRepositoryCommitsForMirror.find { it.commit == node.parents.firstOrNull()?.value }
-                ?: throw GitNodeNotFoundException(node.value)
+
+        // for a big git tree we can't always find a node parent with a search depth limit
+        return standardRepositoryCommitsForMirror.find {
+            it.commit == node.parents.firstOrNull()?.value
+        }
     }
 
     /**
@@ -236,9 +239,11 @@ class GitTree(
      */
     private fun createLines(): List<List<Node>> {
         markEndNodes()
-        val ends = standardNodes.filter { it.state == END }
-        stopEndNode = ends.minBy { it.value.commitTime }
-                ?: throw GradleException("Can't find a stop end node with min commit time")
+        val ends = standardNodes
+                .filter { it.state == END && it.value.shortMessage.endsWith(VERSION_LABEL) }
+
+        stopEndNode = ends.maxBy { it.value.commitTime }
+                ?: throw GradleException("Can't find a stop end node with a min commit time")
 
         return ends.flatMap { end ->
             watchedHashed.clear()
@@ -358,7 +363,7 @@ class GitTree(
         result.add(chain)
 
         // every line starts and ends with [version] commit
-        if (chain.first() != node && node.value.shortMessage.contains(VERSION_LABEL)) {
+        if (chain.size > 1 && isVersionNode(node)) {
             return result
         }
 
@@ -397,14 +402,22 @@ class GitTree(
         }
     }
 
-    private fun checkNode(node: Node, chain: MutableList<Node>, result: MutableList<List<Node>> ) {
+    private fun checkNode(node: Node, chain: MutableList<Node>, result: MutableList<List<Node>>) {
+        val newChain = chain.toMutableList()
         if (!isWatched(node)) {
             markAsWatched(node)
-            val newChain = chain.toMutableList()
             newChain.add(node)
             result.addAll(buildChain(newChain))
+        } else {
+            if (isVersionNode(node) && !newChain.contains(node)) {
+                newChain.add(node)
+                result.add(newChain)
+            }
         }
     }
+
+    private fun isVersionNode(node: Node): Boolean =
+            node.value.shortMessage.contains(VERSION_LABEL)
 
     private fun isWatched(node: Node): Boolean =
             watchedHashed.contains(node.value.standardHash)

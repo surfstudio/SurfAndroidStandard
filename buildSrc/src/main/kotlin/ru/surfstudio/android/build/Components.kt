@@ -51,8 +51,14 @@ object Components {
                 component.getModules(skipSamplesBuilding)
             }
         } else {
-            val mirrorComponent = getMirrorComponentByName(mirrorComponentName)
-            mirrorComponent.libraries + mirrorComponent.samples
+            val mirrorComponent = getComponentByName(mirrorComponentName)
+            val result = mirrorComponent.libraries + mirrorComponent.samples
+            if (GradlePropertiesManager.hasCommonComponent()) {
+                val commonComponent = getComponentByName(GradlePropertiesManager.commonComponentNameForMirror)
+                result + commonComponent.libraries + commonComponent.samples
+            } else {
+                result
+            }
         }
     }
 
@@ -162,9 +168,8 @@ object Components {
         }
     }
 
-    private fun getMirrorComponentByName(mirrorComponentName: String): Component {
-        val mirrorComponent = value.firstOrNull { it.name == mirrorComponentName }
-
-        return mirrorComponent ?: throw GradleException()
+    private fun getComponentByName(componentName: String): Component {
+        return value.firstOrNull { it.name == componentName }
+                ?: throw GradleException("Component name $componentName not found")
     }
 }
