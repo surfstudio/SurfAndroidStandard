@@ -1,1 +1,1 @@
-cd _mirror && chmod +x gradlew && ./gradlew clean assemble && cd ..
+cd _mirror && ./gradlew clean assemble && cd ..
