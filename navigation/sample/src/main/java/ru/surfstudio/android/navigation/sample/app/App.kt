@@ -26,6 +26,7 @@ class App : Application() {
         val activityCallbacks = ActivityNavigationSupplierCallbacks(fragmentCallbacksCreator)
         registerActivityLifecycleCallbacks(activityCallbacks)
         navigator = AppCommandExecutor(
+                activityCallbacks,
                 ActivityCommandExecutor(activityCallbacks),
                 FragmentCommandExecutor(activityCallbacks),
                 DialogCommandExecutor(activityCallbacks)

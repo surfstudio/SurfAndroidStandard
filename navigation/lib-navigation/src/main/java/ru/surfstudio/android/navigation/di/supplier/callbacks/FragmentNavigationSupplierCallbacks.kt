@@ -13,7 +13,7 @@ import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
 
 //@PerAct
-class FragmentNavigationSupplierCallbacks(
+open class FragmentNavigationSupplierCallbacks(
         activity: AppCompatActivity,
         savedState: Bundle?
 ) : FragmentManager.FragmentLifecycleCallbacks(), FragmentNavigationSupplier {
@@ -36,13 +36,6 @@ class FragmentNavigationSupplierCallbacks(
         val id = command.sourceTag
         val sourceFragment = activeFragments.find { getFragmentId(it) == id }
         return obtainFragmentHolderRecursive(sourceFragment) ?: navigationHolders.values.first()
-    }
-
-    fun onActivitySaveState(outState: Bundle?) {
-        navigationHolders[FragmentNavigationCommand.ACTIVITY_NAVIGATION_TAG]?.run {
-            fragmentNavigator.onSaveState(outState)
-            tabFragmentNavigator.onSaveState(outState)
-        }
     }
 
     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
@@ -72,6 +65,13 @@ class FragmentNavigationSupplierCallbacks(
 
     override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
         activeFragments.remove(f)
+    }
+
+    fun onActivitySaveState(outState: Bundle?) {
+        navigationHolders[FragmentNavigationCommand.ACTIVITY_NAVIGATION_TAG]?.run {
+            fragmentNavigator.onSaveState(outState)
+            tabFragmentNavigator.onSaveState(outState)
+        }
     }
 
     /**

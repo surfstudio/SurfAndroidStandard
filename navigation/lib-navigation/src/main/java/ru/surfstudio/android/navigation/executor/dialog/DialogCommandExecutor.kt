@@ -22,6 +22,6 @@ open class DialogCommandExecutor(
     }
 
     override fun execute(commands: List<DialogNavigationCommand>) {
-        TODO("Activity navigation command list execution")
+        TODO("Dialog navigation command list execution")
     }
 }

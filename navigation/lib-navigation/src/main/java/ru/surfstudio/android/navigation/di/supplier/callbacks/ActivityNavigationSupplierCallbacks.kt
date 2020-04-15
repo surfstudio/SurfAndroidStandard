@@ -11,21 +11,27 @@ import ru.surfstudio.android.navigation.di.supplier.holder.ActivityNavigationHol
 import ru.surfstudio.android.navigation.di.supplier.FragmentNavigationSupplier
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
-import java.lang.IllegalStateException
 
 //@PerApp
-class ActivityNavigationSupplierCallbacks(
+open class ActivityNavigationSupplierCallbacks(
         private val nestedCallbacksCreator: (AppCompatActivity, Bundle?) -> FragmentNavigationSupplierCallbacks
 ) : Application.ActivityLifecycleCallbacks, ActivityNavigationSupplier {
 
 
-    private val navigatorHolders = hashMapOf<String, ActivityNavigationHolder?>()
-
-    var currentHolder: ActivityNavigationHolder? = null
-        private set
+    private val navigatorHolders = hashMapOf<String, ActivityNavigationHolder>()
+    private var currentHolder: ActivityNavigationHolder? = null
+    private var onHolderActiveListenerSingle: ((ActivityNavigationHolder) -> Unit)? = null
 
     override fun obtain(): ActivityNavigationHolder {
         return currentHolder ?: error("Navigation holder is empty. You have no visible activity.")
+    }
+
+    override fun hasCurrentHolder(): Boolean {
+        return currentHolder != null
+    }
+
+    override fun setOnHolderActiveListenerSingle(listener: (ActivityNavigationHolder) -> Unit) {
+        onHolderActiveListenerSingle = listener
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -43,6 +49,8 @@ class ActivityNavigationSupplierCallbacks(
     override fun onActivityResumed(activity: Activity) {
         val currentHolder = navigatorHolders[getActivityId(activity)]
         this.currentHolder = currentHolder
+        onHolderActiveListenerSingle?.invoke(currentHolder ?: return)
+        onHolderActiveListenerSingle = null
     }
 
     override fun onActivityPaused(activity: Activity) {
@@ -54,7 +62,8 @@ class ActivityNavigationSupplierCallbacks(
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
         val id = getActivityId(activity)
-        navigatorHolders
+        val nestedCallbacks = navigatorHolders[id]?.nestedNavigationSupplier as? FragmentNavigationSupplierCallbacks
+        nestedCallbacks?.onActivitySaveState(outState)
     }
 
     override fun onActivityStopped(activity: Activity) {
@@ -68,7 +77,7 @@ class ActivityNavigationSupplierCallbacks(
     private fun destroyHolder(activity: Activity) {
         val id = getActivityId(activity)
         unregisterNestedNavigationSupplier(activity, navigatorHolders[id]?.nestedNavigationSupplier)
-        navigatorHolders[id] = null
+        navigatorHolders.remove(id)
     }
 
     private fun unregisterNestedNavigationSupplier(
@@ -97,8 +106,8 @@ class ActivityNavigationSupplierCallbacks(
         return activityId
     }
 
-    private fun createHolder(activity: Activity, savedInstanceState: Bundle?): ActivityNavigationHolder? {
-        if (activity !is AppCompatActivity) return null
+    protected open fun createHolder(activity: Activity, savedInstanceState: Bundle?): ActivityNavigationHolder {
+        require(activity is AppCompatActivity) { "All activities should implement AppCompatActivity!" }
 
         val nestedNavigationSupplier = nestedCallbacksCreator(activity, savedInstanceState)
         registerNestedNavigationSupplier(activity, nestedNavigationSupplier)
