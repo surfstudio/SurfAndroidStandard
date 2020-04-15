@@ -24,3 +24,9 @@ even if stream contains events from UI, which should be reacted directly.
 * ANDDEP-928 Remove Timber dependencies
 * **NO BACKWARD COMPATIBILITY** ANDDEP-997 Renamed RequestEvent.type to RequestEvent.request.
 Replaced RxMiddleware.asRequestEvent `Event` parameter with `EventFactory`.
+* ANDDEP-968 `RequestEvent.kt`: added fields `isLoading`, `hasData`, `hasError`;
+##### Mvi-mapper
+* ANDDEP-968 **NEW** `RequestMapper.kt`: class for managing requests;
+* ANDDEP-968 **NEW** `RequestMapperLambdas.kt`: file that holds typealiases for `RequestMapper`;
+##### Mvi-sample
+* ANDDEP-968 New sample screens: `KittiesActivity` and `KittiesAllActivity`;
