@@ -550,14 +550,6 @@
             "type": "api"
           },
           {
-            "name": "datalist-limit-offset",
-            "type": "implementation"
-          },
-          {
-            "name": "datalist-page-count",
-            "type": "implementation"
-          },
-          {
             "name": "logger",
             "type": "implementation"
           },
