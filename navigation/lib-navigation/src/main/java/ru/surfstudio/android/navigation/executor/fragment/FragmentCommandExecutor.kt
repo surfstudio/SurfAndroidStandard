@@ -13,7 +13,7 @@ open class FragmentCommandExecutor(
 
     override fun execute(command: FragmentNavigationCommand) {
         val activityHolder = activityNavigationSupplier.obtain()
-        val fragmentNavigationHolder = activityHolder.nestedNavigationSupplier.obtain(command)
+        val fragmentNavigationHolder = activityHolder.nestedNavigationSupplier.obtain(command.sourceTag)
         val tabFragmentNavigator = fragmentNavigationHolder.tabFragmentNavigator
         val fragmentNavigator = fragmentNavigationHolder.fragmentNavigator
         when (command.route) {

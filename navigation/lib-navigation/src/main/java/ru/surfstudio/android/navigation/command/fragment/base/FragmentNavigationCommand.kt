@@ -19,8 +19,7 @@ interface FragmentNavigationCommand : NavigationCommand {
     /**
      * Tag of a source screen, which will execute navigation command.
      *
-     * If a source screen is activity, you may just ignore this option,
-     * or pass [ACTIVITY_NAVIGATION_TAG] to explicitly execute command on top level.
+     * If a source screen is activity, you may just ignore this option
      *
      * If a source screen is fragment, you must pass
      * [androidx.fragment.app.Fragment.getTag] as a source tag,
