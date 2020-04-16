@@ -31,9 +31,6 @@ open class TabFragmentNavigator(
         savedState: Bundle? = null
 ) : FragmentNavigatorInterface {
 
-    init {
-        onRestoreState(savedState)
-    }
     private var activeTabTag: String = ""
 
     private val hostEntries: TabHostEntries = TabHostEntries()
@@ -45,6 +42,10 @@ open class TabFragmentNavigator(
 
     override val backStackEntryCount: Int
         get() = activeNavigator.backStackEntryCount
+
+    init {
+        onRestoreState(savedState)
+    }
 
     override fun add(route: FragmentRoute, animations: Animations) {
         if (route is TabRootRoute) {
@@ -90,14 +91,14 @@ open class TabFragmentNavigator(
         return activeNavigator.show(route, animations)
     }
 
-    override fun onSaveState(outState: Bundle?) {
+    final override fun onSaveState(outState: Bundle?) {
         outState ?: return
         outState.putString(EXTRA_ACTIVE_TAG, activeTabTag)
         outState.putStringArrayList(EXTRA_HOST_TAGS, ArrayList(hostEntries.tags))
         hostEntries.navigators.forEach { it.onSaveState(outState) }
     }
 
-    override fun onRestoreState(savedInstanceState: Bundle?) {
+    final override fun onRestoreState(savedInstanceState: Bundle?) {
         savedInstanceState ?: return
 
         hostEntries.clear()
