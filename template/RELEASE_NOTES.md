@@ -36,6 +36,7 @@
 * ANDDEP-982 `okHttp` version raised: `3.12.0 -> 4.4.1`. Migration done;
 * ANDDEP-982 `easyadapter` now depends on `androidx.asynclayoutinflater`;
 * ANDDEP-982 other libraries versions changed;
+* ANDDEP-915 Added `validateCrossFeatureRoutes.gradle.kts` task. **Note**: supported only `.kt` source files parsing;
 
 ## 0.4.0
 ##### Template
