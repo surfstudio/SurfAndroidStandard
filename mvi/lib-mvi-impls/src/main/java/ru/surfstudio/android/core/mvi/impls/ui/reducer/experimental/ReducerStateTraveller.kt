@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.impls.ui.reducer
+package ru.surfstudio.android.core.mvi.impls.ui.reducer.experimental
 
 import ru.surfstudio.android.core.mvi.impls.BuildConfig
 import ru.surfstudio.android.core.mvi.ui.relation.StateEmitter

@@ -31,7 +31,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name="ru.surfstudio.android.core.mvi.sample.ui.screen.reactor_based.main.MainActivityView"
+            android:name=".ui.screen.reactor_based.main.MainActivityView"
             android:label="Surf MVI Sample">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,24 +40,24 @@
         </activity>
 
         <activity
-            android:name="ru.surfstudio.android.core.mvi.sample.ui.screen.reactor_based.list.ComplexListActivityView"
+            android:name=".ui.screen.reactor_based.list.ComplexListActivityView"
             android:label="Complex list screen" />
 
         <activity
-            android:name="ru.surfstudio.android.core.mvi.sample.ui.screen.reactor_based.input.InputFormActivityView"
+            android:name=".ui.screen.reactor_based.input.InputFormActivityView"
             android:label="Input form screen" />
 
         <activity
-            android:name="ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.simple_list.SimpleListActivityView"
+            android:name=".ui.screen.reducer_based.simple_list.SimpleListActivityView"
             android:label="Input form screen" />
 
         <activity
-            android:name="ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.kitties.KittiesActivityView"
+            android:name=".ui.screen.reducer_based.kitties.KittiesActivityView"
             android:label="MVI-Reducer showcase activity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name="ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.kitties.all.KittiesAllActivityView"
+            android:name=".ui.screen.reducer_based.kitties.all.KittiesAllActivityView"
             android:label="MVI-Reducer showcase activity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
