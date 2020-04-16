@@ -1,14 +1,8 @@
 package ru.surfstudio.android.navigation.sample.app
 
 import android.app.Application
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.navigation.di.supplier.callbacks.ActivityNavigationSupplierCallbacks
-import ru.surfstudio.android.navigation.di.supplier.callbacks.FragmentNavigationSupplierCallbacks
 import ru.surfstudio.android.navigation.executor.AppCommandExecutor
-import ru.surfstudio.android.navigation.executor.activity.ActivityCommandExecutor
-import ru.surfstudio.android.navigation.executor.dialog.DialogCommandExecutor
-import ru.surfstudio.android.navigation.executor.fragment.FragmentCommandExecutor
 
 class App : Application() {
 
@@ -22,21 +16,8 @@ class App : Application() {
     }
 
     private fun initExecutor() {
-        val fragmentCallbacksCreator = ::createFragmentNavigationSupplierCallbacks
-        val activityCallbacks = ActivityNavigationSupplierCallbacks(fragmentCallbacksCreator)
+        val activityCallbacks = ActivityNavigationSupplierCallbacks()
         registerActivityLifecycleCallbacks(activityCallbacks)
-        navigator = AppCommandExecutor(
-                activityCallbacks,
-                ActivityCommandExecutor(activityCallbacks),
-                FragmentCommandExecutor(activityCallbacks),
-                DialogCommandExecutor(activityCallbacks)
-        )
-    }
-
-    private fun createFragmentNavigationSupplierCallbacks(
-            activity: AppCompatActivity,
-            savedState: Bundle?
-    ): FragmentNavigationSupplierCallbacks {
-        return FragmentNavigationSupplierCallbacks(activity, savedState)
+        navigator = AppCommandExecutor(activityCallbacks)
     }
 }

@@ -6,7 +6,6 @@ import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigatorInte
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigatorInterface
 
 open class ActivityNavigationHolder(
-        val activity: AppCompatActivity,
         val activityNavigator: ActivityNavigatorInterface,
         val dialogNavigator: DialogNavigatorInterface,
         val nestedNavigationSupplier: FragmentNavigationSupplier
