@@ -19,6 +19,8 @@ class SingleActivity : AppCompatActivity(), IdentifiableScreen, FragmentContaine
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single)
-        if (savedInstanceState == null) App.navigator.execute(Add(SplashRoute()))
+        if (savedInstanceState == null) { //Adding fragment only on first create
+            App.navigator.execute(Add(SplashRoute()))
+        }
     }
 }

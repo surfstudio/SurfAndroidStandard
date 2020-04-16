@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_red_dark"
+    android:background="@android:color/holo_blue_light"
     android:gravity="center"
-    android:text="Splash\nFragment"
-    android:textColor="@android:color/white"
+    android:text="Home\nFragment"
     android:textSize="24sp" />
