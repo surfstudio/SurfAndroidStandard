@@ -51,9 +51,10 @@ class MainFragment : Fragment(), FragmentContainer {
         profile_tab_btn.setOnClickListener { navigateToTab(PROFILE) }
     }
 
-    private fun setActiveTabReopenedListener(listener: () -> Unit) {
-        val tabFragmentNavigator = getFragmentHolder().tabFragmentNavigator as TabFragmentNavigator
-        tabFragmentNavigator.setActiveTabReopenedListener { listener() }
+    private fun setActiveTabReopenedListener(listener: (String) -> Unit) {
+        getFragmentHolder()
+                .tabFragmentNavigator
+                .setActiveTabReopenedListener(listener)
     }
 
     private fun navigateToTab(type: MainTabType) {

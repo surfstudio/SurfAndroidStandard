@@ -39,10 +39,6 @@ open class FragmentNavigator(
         savedState: Bundle? = null
 ) : FragmentNavigatorInterface {
 
-    init {
-        onRestoreState(savedState)
-    }
-
     protected val backStack: FragmentBackStack = FragmentBackStack()
 
     override val backStackEntryCount: Int
@@ -51,6 +47,10 @@ open class FragmentNavigator(
     private val backStackChangedListeners = arrayListOf<BackStackChangedListener>()
 
     protected open var animationSupplier = FragmentAnimationSupplier()
+
+    init {
+        onRestoreState(savedState)
+    }
 
     override fun add(route: FragmentRoute, animations: Animations) {
         val fragmentManager = fragmentManager
@@ -210,7 +210,7 @@ open class FragmentNavigator(
         outState.putSerializable(stackKey, ArrayList(outStack))
     }
 
-    override fun onRestoreState(savedInstanceState: Bundle?) {
+    final override fun onRestoreState(savedInstanceState: Bundle?) {
         val stackKey = getBackStackKey()
         val inStack = savedInstanceState?.getSerializable(stackKey) as? ArrayList<FragmentBackStackEntryObj>
                 ?: return
@@ -227,14 +227,14 @@ open class FragmentNavigator(
     /**
      * Add listener to observe back stack changes
      */
-    fun addBackStackChangeListener(listener: BackStackChangedListener) {
+    override fun addBackStackChangeListener(listener: BackStackChangedListener) {
         backStackChangedListeners.add(listener)
     }
 
     /**
      * Remove listener used to observe back stack changes
      */
-    fun removeBackStackChangeListener(listener: BackStackChangedListener) {
+    override fun removeBackStackChangeListener(listener: BackStackChangedListener) {
         backStackChangedListeners.remove(listener)
     }
 

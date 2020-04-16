@@ -29,7 +29,7 @@ open class TabFragmentNavigator(
         protected val fragmentManager: FragmentManager,
         protected val containerId: Int,
         savedState: Bundle? = null
-) : FragmentNavigatorInterface {
+) : TabFragmentNavigatorInterface {
 
     private var activeTabTag: String = ""
 
@@ -43,6 +43,9 @@ open class TabFragmentNavigator(
     override val backStackEntryCount: Int
         get() = activeNavigator.backStackEntryCount
 
+    override val tabCount: Int
+        get() = hostEntries.size
+
     init {
         onRestoreState(savedState)
     }
@@ -51,7 +54,7 @@ open class TabFragmentNavigator(
         if (route is TabRootRoute) {
             openTab(route)
         } else {
-            activeNavigator.add(route, animations) // TODO support common navigation algorithm without tabs
+            activeNavigator.add(route, animations)
         }
     }
 
@@ -59,7 +62,7 @@ open class TabFragmentNavigator(
         if (route is TabRootRoute) {
             openTab(route)
         } else {
-            activeNavigator.replace(route, animations) // TODO support common navigation algorithm without tabs
+            activeNavigator.replace(route, animations)
         }
     }
 
@@ -112,15 +115,15 @@ open class TabFragmentNavigator(
         activeTabTag = savedInstanceState.getString(EXTRA_ACTIVE_TAG) ?: ""
     }
 
-    fun addBackStackChangeListener(listener: BackStackChangedListener) {
+    override fun addBackStackChangeListener(listener: BackStackChangedListener) {
         activeNavigator.addBackStackChangeListener(listener)
     }
 
-    fun removeBackStackChangeListener(listener: BackStackChangedListener) {
+    override fun removeBackStackChangeListener(listener: BackStackChangedListener) {
         activeNavigator.removeBackStackChangeListener(listener)
     }
 
-    fun setActiveTabReopenedListener(listener: ActiveTabReopenedListener) {
+    override fun setActiveTabReopenedListener(listener: ActiveTabReopenedListener) {
         activeTabReopenedListener = listener
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.resource.EmptyResourceAnimations
+import ru.surfstudio.android.navigation.backstack.fragment.listener.BackStackChangedListener
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**
@@ -53,4 +54,8 @@ interface FragmentNavigatorInterface {
     fun onSaveState(outState: Bundle?)
 
     fun onRestoreState(savedInstanceState: Bundle?)
+
+    fun addBackStackChangeListener(listener: BackStackChangedListener)
+
+    fun removeBackStackChangeListener(listener: BackStackChangedListener)
 }
