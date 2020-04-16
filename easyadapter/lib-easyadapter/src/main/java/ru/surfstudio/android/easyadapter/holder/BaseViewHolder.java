@@ -16,6 +16,7 @@
 package ru.surfstudio.android.easyadapter.holder;
 
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,11 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public BaseViewHolder(View itemView) {
         super(itemView);
     }
+
+    /**
+     * Context of this ViewHolder.
+     * */
+    final public Context context = itemView.getContext();
 
     /**
      * Override this method, if you want custom animation "insert" appear for this holder
