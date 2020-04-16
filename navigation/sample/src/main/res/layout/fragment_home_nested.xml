@@ -5,6 +5,7 @@
     android:background="@android:color/holo_blue_light">
 
     <TextView
+        android:id="@+id/home_nested_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -12,10 +13,10 @@
         android:textSize="24sp" />
 
     <Button
-        android:id="@+id/home_add_btn"
+        android:id="@+id/home_nested_add_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="16dp"
-        android:text="Add" />
+        android:text="Add screen again" />
 </FrameLayout>

@@ -46,7 +46,7 @@ open class FragmentNavigationSupplierCallbacks(
     override fun onFragmentActivityCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
         val id = getFragmentId(f)
         val containerId = getContainerId(f) ?: return
-        addHolder(id, containerId, fm, savedInstanceState)
+        addHolder(id, containerId, f.childFragmentManager, savedInstanceState)
     }
 
     override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) {
