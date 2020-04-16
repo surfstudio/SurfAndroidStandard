@@ -1,6 +1,6 @@
-package ru.surfstudio.android.navigation.di.supplier
+package ru.surfstudio.android.navigation.supplier
 
-import ru.surfstudio.android.navigation.di.supplier.holder.FragmentNavigationHolder
+import ru.surfstudio.android.navigation.supplier.holder.FragmentNavigationHolder
 
 interface FragmentNavigationSupplier {
 

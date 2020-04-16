@@ -10,9 +10,8 @@ import ru.surfstudio.android.navigation.command.activity.Finish
 import ru.surfstudio.android.navigation.command.fragment.RemoveAll
 import ru.surfstudio.android.navigation.command.fragment.RemoveLast
 import ru.surfstudio.android.navigation.command.fragment.Replace
-import ru.surfstudio.android.navigation.di.FragmentContainer
-import ru.surfstudio.android.navigation.di.supplier.holder.FragmentNavigationHolder
-import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
+import ru.surfstudio.android.navigation.supplier.container.FragmentContainer
+import ru.surfstudio.android.navigation.supplier.holder.FragmentNavigationHolder
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App

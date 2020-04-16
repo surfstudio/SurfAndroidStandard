@@ -2,7 +2,7 @@ package ru.surfstudio.android.navigation.executor.fragment
 
 import ru.surfstudio.android.navigation.command.fragment.*
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
-import ru.surfstudio.android.navigation.di.supplier.ActivityNavigationSupplier
+import ru.surfstudio.android.navigation.supplier.ActivityNavigationSupplier
 import ru.surfstudio.android.navigation.executor.CommandExecutor
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
 import ru.surfstudio.android.navigation.route.tab.TabRoute

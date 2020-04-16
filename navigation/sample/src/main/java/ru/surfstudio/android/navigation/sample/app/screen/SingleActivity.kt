@@ -1,11 +1,10 @@
 package ru.surfstudio.android.navigation.sample.app.screen
 
 import android.os.Bundle
-import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.navigation.command.fragment.Add
-import ru.surfstudio.android.navigation.di.FragmentContainer
-import ru.surfstudio.android.navigation.di.IdentifiableScreen
+import ru.surfstudio.android.navigation.supplier.container.FragmentContainer
+import ru.surfstudio.android.navigation.supplier.id.IdentifiableScreen
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.splash.SplashRoute

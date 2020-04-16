@@ -1,6 +1,6 @@
-package ru.surfstudio.android.navigation.di.supplier
+package ru.surfstudio.android.navigation.supplier
 
-import ru.surfstudio.android.navigation.di.supplier.holder.ActivityNavigationHolder
+import ru.surfstudio.android.navigation.supplier.holder.ActivityNavigationHolder
 
 interface ActivityNavigationSupplier {
 

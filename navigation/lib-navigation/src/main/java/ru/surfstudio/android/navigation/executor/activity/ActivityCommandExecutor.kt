@@ -2,7 +2,7 @@ package ru.surfstudio.android.navigation.executor.activity
 
 import ru.surfstudio.android.navigation.command.activity.*
 import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigationCommand
-import ru.surfstudio.android.navigation.di.supplier.ActivityNavigationSupplier
+import ru.surfstudio.android.navigation.supplier.ActivityNavigationSupplier
 import ru.surfstudio.android.navigation.executor.CommandExecutor
 
 open class ActivityCommandExecutor(

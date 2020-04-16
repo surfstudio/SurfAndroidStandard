@@ -1,8 +1,8 @@
 package ru.surfstudio.android.navigation.sample.app
 
 import android.app.Application
-import ru.surfstudio.android.navigation.di.supplier.ActivityNavigationSupplier
-import ru.surfstudio.android.navigation.di.supplier.callbacks.ActivityNavigationSupplierCallbacks
+import ru.surfstudio.android.navigation.supplier.ActivityNavigationSupplier
+import ru.surfstudio.android.navigation.supplier.callbacks.ActivityNavigationSupplierCallbacks
 import ru.surfstudio.android.navigation.executor.AppCommandExecutor
 
 class App : Application() {

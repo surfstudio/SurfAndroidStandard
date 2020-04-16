@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.di.supplier.callbacks
+package ru.surfstudio.android.navigation.supplier.callbacks
 
 import android.os.Bundle
 import android.view.View
@@ -7,9 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
-import ru.surfstudio.android.navigation.di.FragmentContainer
-import ru.surfstudio.android.navigation.di.supplier.holder.FragmentNavigationHolder
-import ru.surfstudio.android.navigation.di.supplier.FragmentNavigationSupplier
+import ru.surfstudio.android.navigation.supplier.container.FragmentContainer
+import ru.surfstudio.android.navigation.supplier.holder.FragmentNavigationHolder
+import ru.surfstudio.android.navigation.supplier.FragmentNavigationSupplier
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
 

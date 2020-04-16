@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.di
+package ru.surfstudio.android.navigation.supplier.container
 
 import androidx.annotation.IdRes
 

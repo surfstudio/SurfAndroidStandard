@@ -1,14 +1,15 @@
-package ru.surfstudio.android.navigation.di.supplier.callbacks
+package ru.surfstudio.android.navigation.supplier.callbacks
 
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import ru.surfstudio.android.navigation.di.IdentifiableScreen
-import ru.surfstudio.android.navigation.di.supplier.ActivityNavigationSupplier
-import ru.surfstudio.android.navigation.di.supplier.holder.ActivityNavigationHolder
-import ru.surfstudio.android.navigation.di.supplier.FragmentNavigationSupplier
+import ru.surfstudio.android.navigation.supplier.id.IdentifiableScreen
+import ru.surfstudio.android.navigation.supplier.ActivityNavigationSupplier
+import ru.surfstudio.android.navigation.supplier.holder.ActivityNavigationHolder
+import ru.surfstudio.android.navigation.supplier.FragmentNavigationSupplier
+import ru.surfstudio.android.navigation.supplier.callbacks.creator.FragmentNavigationSupplierCallbacksCreator
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
 

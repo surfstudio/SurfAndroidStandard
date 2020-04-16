@@ -4,7 +4,7 @@ import ru.surfstudio.android.navigation.command.NavigationCommand
 import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigationCommand
 import ru.surfstudio.android.navigation.command.dialog.base.DialogNavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
-import ru.surfstudio.android.navigation.di.supplier.ActivityNavigationSupplier
+import ru.surfstudio.android.navigation.supplier.ActivityNavigationSupplier
 import ru.surfstudio.android.navigation.executor.activity.ActivityCommandExecutor
 import ru.surfstudio.android.navigation.executor.dialog.DialogCommandExecutor
 import ru.surfstudio.android.navigation.executor.fragment.FragmentCommandExecutor
