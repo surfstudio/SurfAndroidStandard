@@ -43,7 +43,8 @@ internal class KittiesAllMiddleware @Inject constructor(
     }
 
     private fun loadNextPageKitties(): KittiesAllEvent {
-        val nextOffset = state.kittiesRequestUi.data?.list?.nextOffset ?: 0
+        val paginationBundle = state.kittiesRequestUi.data
+        val nextOffset = paginationBundle?.data?.nextOffset ?: 0
         return Data.LoadKitties(nextOffset, isSwr = false)
     }
 
