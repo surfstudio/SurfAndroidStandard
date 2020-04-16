@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_main.*
+import ru.surfstudio.android.navigation.command.fragment.RemoveLast
 import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.di.FragmentContainer
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
@@ -15,6 +16,7 @@ import ru.surfstudio.android.navigation.sample.app.screen.main.MainTabType.*
 import ru.surfstudio.android.navigation.sample.app.screen.main.tabs.cart.CartTabRoute
 import ru.surfstudio.android.navigation.sample.app.screen.main.tabs.home.HomeTabRoute
 import ru.surfstudio.android.navigation.sample.app.screen.main.tabs.profile.ProfileTabRoute
+import ru.surfstudio.android.navigation.sample.app.utils.addOnBackPressedListener
 
 class MainFragment : Fragment(), FragmentContainer {
 
@@ -26,6 +28,10 @@ class MainFragment : Fragment(), FragmentContainer {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        addOnBackPressedListener {
+            App.navigator.execute(RemoveLast(sourceTag = tag!!, isTab = true))
+        }
 
         if (savedInstanceState == null) {
             home_tab_btn.post { navigateToTab(HOME) }
