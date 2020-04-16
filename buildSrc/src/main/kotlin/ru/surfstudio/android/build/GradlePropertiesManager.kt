@@ -46,6 +46,7 @@ object GradlePropertiesManager {
      *
      * @return true if mirror
      */
+    @JvmStatic
     fun isCurrentComponentAMirror(): Boolean = componentMirrorName != EMPTY_STRING
 
     /**
