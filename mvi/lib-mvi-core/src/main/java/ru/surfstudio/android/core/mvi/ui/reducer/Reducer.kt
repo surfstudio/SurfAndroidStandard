@@ -14,6 +14,14 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
  */
 interface Reducer<E : Event, S> : Reactor<E, State<S>> {
 
+    override fun react(sh: State<S>, event: E) {
+        val oldState = sh.value
+        val newState = reduce(oldState, event)
+        if (isStateChanged(oldState, newState)) {
+            sh.accept(newState)
+        }
+    }
+
     /**
      * Метод, в котором происходит определение того, изменилось ли состояние
      * после того, как произошла реакция на событие.

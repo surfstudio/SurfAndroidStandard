@@ -11,13 +11,4 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
  * */
 abstract class BaseReducer<E : Event, S : Any>(
         baseReactorDependency: BaseReactorDependency
-) : BaseReactor<E, State<S>>(baseReactorDependency), Reducer<E, S> {
-
-    override fun react(sh: State<S>, event: E) {
-        val oldState = sh.value
-        val newState = reduce(oldState, event)
-        if (isStateChanged(oldState, newState)) {
-            sh.accept(newState)
-        }
-    }
-}
+) : BaseReactor<E, State<S>>(baseReactorDependency), Reducer<E, S>
