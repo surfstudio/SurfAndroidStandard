@@ -189,7 +189,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -356,10 +356,6 @@
           {
             "name": "activity-holder",
             "type": "api"
-          },
-          {
-            "name": "sample-common",
-            "type": "api"
           }
         ]
       }
@@ -460,7 +456,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 15,
+    "unstable_version": 16,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -494,9 +490,42 @@
           {
             "name": "rx-extension",
             "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "mvi-mapper",
+        "dir": "lib-mvi-mapper",
+        "artifact_name": "mvi-mapper",
+        "third_party_dependencies": [
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
           },
           {
-            "name": "easyadapter",
+            "name": "org.mockito:mockito-core",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "mvi-core",
+            "type": "api"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp-binding",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
             "type": "implementation"
           }
         ]
@@ -567,7 +596,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 11,
+    "unstable_version": 12,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -1780,7 +1809,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 22,
+    "unstable_version": 23,
     "stable": false,
     "dir": "template",
     "libs": [],
