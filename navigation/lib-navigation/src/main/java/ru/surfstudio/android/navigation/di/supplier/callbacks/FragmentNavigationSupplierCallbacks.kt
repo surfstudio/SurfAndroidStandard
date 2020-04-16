@@ -1,6 +1,7 @@
 package ru.surfstudio.android.navigation.di.supplier.callbacks
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -43,7 +44,7 @@ open class FragmentNavigationSupplierCallbacks(
         activeFragments.add(f)
     }
 
-    override fun onFragmentActivityCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
+    override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
         val id = getFragmentId(f)
         val containerId = getContainerId(f) ?: return
         addHolder(id, containerId, f.childFragmentManager, savedInstanceState)
