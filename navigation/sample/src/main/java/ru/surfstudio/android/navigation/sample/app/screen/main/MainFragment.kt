@@ -6,9 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_main.*
+import ru.surfstudio.android.navigation.command.activity.Finish
+import ru.surfstudio.android.navigation.command.fragment.RemoveAll
 import ru.surfstudio.android.navigation.command.fragment.RemoveLast
 import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.di.FragmentContainer
+import ru.surfstudio.android.navigation.di.supplier.holder.FragmentNavigationHolder
+import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
@@ -30,8 +34,13 @@ class MainFragment : Fragment(), FragmentContainer {
         super.onActivityCreated(savedInstanceState)
 
         addOnBackPressedListener {
-            App.navigator.execute(RemoveLast(sourceTag = tag!!, isTab = true))
+            when {
+                hasTabsInStack() -> App.navigator.execute(RemoveLast(sourceTag = tag!!, isTab = true))
+                else -> App.navigator.execute(Finish())
+            }
         }
+
+        setActiveTabReopenedListener { App.navigator.execute(RemoveAll(sourceTag = tag!!, isTab = true)) }
 
         if (savedInstanceState == null) {
             home_tab_btn.post { navigateToTab(HOME) }
@@ -42,6 +51,11 @@ class MainFragment : Fragment(), FragmentContainer {
         profile_tab_btn.setOnClickListener { navigateToTab(PROFILE) }
     }
 
+    private fun setActiveTabReopenedListener(listener: () -> Unit) {
+        val tabFragmentNavigator = getFragmentHolder().tabFragmentNavigator as TabFragmentNavigator
+        tabFragmentNavigator.setActiveTabReopenedListener { listener() }
+    }
+
     private fun navigateToTab(type: MainTabType) {
         val route: FragmentRoute = when (type) {
             HOME -> HomeTabRoute()
@@ -49,5 +63,16 @@ class MainFragment : Fragment(), FragmentContainer {
             PROFILE -> ProfileTabRoute()
         }
         App.navigator.execute(Replace(route, sourceTag = tag!!))
+    }
+
+    private fun hasTabsInStack(): Boolean {
+        val backStackCount = getFragmentHolder()
+                .tabFragmentNavigator
+                .backStackEntryCount
+        return backStackCount > 1
+    }
+
+    private fun getFragmentHolder(): FragmentNavigationHolder {
+        return App.supplier.obtain().nestedNavigationSupplier.obtain(tag!!)
     }
 }

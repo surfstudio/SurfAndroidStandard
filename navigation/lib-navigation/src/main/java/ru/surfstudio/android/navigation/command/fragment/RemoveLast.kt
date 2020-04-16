@@ -12,7 +12,7 @@ import ru.surfstudio.android.navigation.route.stub.StubTabFragmentRoute
  *
  * @param animations animations [Animations] used to specify navigation transition appearance
  * @param sourceTag tag of a source screen, which will execute navigation command.
- * @param isTab - are we removing fragment from tab navigator, or from default navigator
+ * @param isTab are we removing fragment from tab navigator, or from default navigator
  */
 data class RemoveLast(
         override val animations: Animations = EmptyResourceAnimations,
