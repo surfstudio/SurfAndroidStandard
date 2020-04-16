@@ -21,6 +21,8 @@ tasks.whenTaskAdded {
  * 1. `CrossFeatureRoute` have valid `targetClassPath`?;
  * 2. Target view (`Fragment` or `Dialog`) of `CrossFeatureRoute` implements `CrossFeatureFragment` interface?;
  *
+ * **Note**: supported only `.kt` source files parsing.
+ *
  * ## You can setup this task by modifying these fields:
  * * [shouldSkipValidation];
  * * [ignoredDirectories];
