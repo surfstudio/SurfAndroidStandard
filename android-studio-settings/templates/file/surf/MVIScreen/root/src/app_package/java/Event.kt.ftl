@@ -6,10 +6,7 @@ import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEvent
 import ru.surfstudio.android.core.ui.state.LifecycleStage
 
-/**
- * События экрана [${viewClassName}].
- */
-sealed class ${eventClassName}: Event {
+internal sealed class ${eventClassName}: Event {
 
     data class Lifecycle(override var stage: LifecycleStage): ${eventClassName}(), LifecycleEvent
     data class Navigation(

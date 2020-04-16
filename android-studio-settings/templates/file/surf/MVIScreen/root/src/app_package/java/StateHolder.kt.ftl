@@ -7,11 +7,9 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 </#if>
 
 <#if (mviType=='reduce')>
-class ${stateClassName}
+//TODO обязательно добавить ключевое слово "data" и хотя бы одно поле. Это необходимо для корректного вычисления диффа между стейтами.
+internal class ${stateClassName}
 </#if>
 
-/**
- * StateHolder экрана [${viewClassName}].
- */
 @PerScreen
-class ${stateHolderClassName} @Inject constructor()<#if (mviType=='reduce')> : State<${stateClassName}>(${stateClassName}())</#if>
+internal class ${stateHolderClassName} @Inject constructor()<#if (mviType=='reduce')> : State<${stateClassName}>(${stateClassName}())</#if>

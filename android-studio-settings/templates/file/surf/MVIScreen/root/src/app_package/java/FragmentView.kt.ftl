@@ -15,10 +15,7 @@ import ${applicationPackage}.R
 </#if>
 import javax.inject.Inject
 
-/**
- * TODO
- */
-class ${viewClassName} : ${viewParentClassName}(),
+internal class ${viewClassName} : ${viewParentClassName}(),
     CrossFeatureFragment,
     SingleHubOwner<${eventClassName}> {
 

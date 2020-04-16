@@ -10,11 +10,8 @@ import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition
 import io.reactivex.Observable
 import ${packageName}.${eventClassName}.*
 
-/**
- * Middleware экрана [${viewClassName}].
- */
 @PerScreen
-class ${middlewareClassName} @Inject constructor(
+internal class ${middlewareClassName} @Inject constructor(
     baseMiddlewareDependency: BaseMiddlewareDependency<#if shouldAddNavigationMiddleware>,
     private val navigationMiddleware: NavigationMiddleware</#if>
 ) : BaseMiddleware<${eventClassName}>(baseMiddlewareDependency) {

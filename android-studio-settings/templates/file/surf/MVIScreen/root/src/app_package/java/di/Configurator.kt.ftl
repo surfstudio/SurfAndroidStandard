@@ -36,6 +36,8 @@ import ${applicationPackage}.ui.activity.di.ActivityComponent
 import ${applicationPackage}.ui.activity.di.${configuratorParentClassName}
 import ${applicationPackage}.ui.screen.CustomScreenModule
 import ${applicationPackage}.ui.screen.${parentScreenModule}
+<#else>
+//TODO добавить недостающие импорты.
 </#if>
 
 /**

@@ -1,24 +1,21 @@
 package ${packageName}
 
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.core.mvi.impls.ui.reducer.BaseReducer
+import ru.surfstudio.android.core.mvi.impls.ui.reactor.BaseReactorDependency
 import javax.inject.Inject
 import ${packageName}.${eventClassName}.*
 
 <#if isMergedStateHolder>
-class ${stateClassName}
+//TODO обязательно добавить ключевое слово "data" и хотя бы одно поле. Это необходимо для корректного вычисления диффа между стейтами.
+internal class ${stateClassName}
 
-/**
- * StateHolder экрана [${viewClassName}].
- */
 @PerScreen
-class ${stateHolderClassName} @Inject constructor() : State<${stateClassName}>(${stateClassName}())
+internal class ${stateHolderClassName} @Inject constructor() : State<${stateClassName}>(${stateClassName}())
 </#if>
 
-/**
- * Reducer экрана [${viewClassName}].
- */
 @PerScreen
-class ${reducerClassName} @Inject constructor(
+internal class ${reducerClassName} @Inject constructor(
     dependency: BaseReactorDependency
 ) : BaseReducer<${eventClassName}, ${stateClassName}>(dependency) {
 
