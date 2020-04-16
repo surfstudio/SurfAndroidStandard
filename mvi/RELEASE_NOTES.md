@@ -25,8 +25,15 @@ even if stream contains events from UI, which should be reacted directly.
 * **NO BACKWARD COMPATIBILITY** ANDDEP-997 Renamed RequestEvent.type to RequestEvent.request.
 Replaced RxMiddleware.asRequestEvent `Event` parameter with `EventFactory`.
 * ANDDEP-968 `RequestEvent.kt`: added fields `isLoading`, `hasData`, `hasError`;
+* ANDDEP-969 'RequestEvent.kt': added several shortcut-methods, such as `getData(), getDataOrNull()`, `getError()` and `getErrorOrNull()`;
+* ANDDEP-969 **NO BACKWARD COMPATIBILITY** `Reducer.kt`: interface now doesn't provide default implementation of `react()` method;
 ##### Mvi-mapper
 * ANDDEP-968 **NEW** `RequestMapper.kt`: class for managing requests;
 * ANDDEP-968 **NEW** `RequestMapperLambdas.kt`: file that holds typealiases for `RequestMapper`;
+##### Mvi-impls
+* ANDDEP-969 Added base classes: `BaseReactor` and `BaseReducer`;
 ##### Mvi-sample
 * ANDDEP-968 New sample screens: `KittiesActivity` and `KittiesAllActivity`;
+* ANDDEP-969 Refactored module structure. Now all reactor-based screens located in `reactor_based` package and all reducer-based screens located in `reducer_based` package;
+* ANDDEP-969 All reducers now based on `BaseReducer` instead of `Reducer`;
+* ANDDEP-969 `RequestMappers.kt`: added more documentation for mappers;

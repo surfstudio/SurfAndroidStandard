@@ -2,7 +2,11 @@
 # Datalist Release Notes
 ## 0.5.0-alpha
 ##### Datalist-limit-offset
-* TODO
+* ANDDEP-969 module now depends on `easyadapter` module;
+* ANDDEP-969 Added `PaginationBundle` class;
+##### Datalist-page-count
+* ANDDEP-969 module now depends on `easyadapter` module;
+* ANDDEP-969 Added `PaginationBundle` class;
 ## 0.4.0
 ##### Datalist-limit-offset
 * ANDDEP-242 Added the ability to force filtering in the DataList.merge method according to custom criteria to eliminate the same elements
