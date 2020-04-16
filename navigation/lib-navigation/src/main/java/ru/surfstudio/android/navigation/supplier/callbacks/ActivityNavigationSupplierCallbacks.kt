@@ -69,7 +69,7 @@ open class ActivityNavigationSupplierCallbacks(
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
         safeRequireActivityId(activity) { id ->
-            val nestedSupplier = navigatorHolders[id]?.nestedNavigationSupplier
+            val nestedSupplier = navigatorHolders[id]?.fragmentSupplier
             val castedNestedSupplier = nestedSupplier as? FragmentNavigationSupplierCallbacks
             castedNestedSupplier?.onActivitySaveState(outState)
         }
@@ -85,13 +85,13 @@ open class ActivityNavigationSupplierCallbacks(
 
     private fun destroyHolder(activity: Activity) {
         safeRequireActivityId(activity) { id ->
-            val nestedSupplier = navigatorHolders[id]?.nestedNavigationSupplier
-            unregisterNestedNavigationSupplier(activity, nestedSupplier)
+            val nestedSupplier = navigatorHolders[id]?.fragmentSupplier
+            unregisterFragmentNavigationSupplier(activity, nestedSupplier)
             navigatorHolders.remove(id)
         }
     }
 
-    private fun registerNestedNavigationSupplier(
+    private fun registerFragmentNavigationSupplier(
             activity: Activity,
             nestedNavigationSupplier: FragmentNavigationSupplierCallbacks
     ) {
@@ -100,7 +100,7 @@ open class ActivityNavigationSupplierCallbacks(
         fragmentManager.registerFragmentLifecycleCallbacks(nestedNavigationSupplier, true)
     }
 
-    private fun unregisterNestedNavigationSupplier(
+    private fun unregisterFragmentNavigationSupplier(
             activity: Activity,
             nestedNavigationSupplier: FragmentNavigationSupplier?
     ) {
@@ -114,7 +114,7 @@ open class ActivityNavigationSupplierCallbacks(
         require(activity is AppCompatActivity) { "All activities with ActivityNavigationHolders should implement AppCompatActivity!" }
 
         val nestedNavigationSupplier = nestedCallbacksCreator(activity, savedInstanceState)
-        registerNestedNavigationSupplier(activity, nestedNavigationSupplier)
+        registerFragmentNavigationSupplier(activity, nestedNavigationSupplier)
 
         val activityNavigator = ActivityNavigator(activity)
         val dialogNavigator = DialogNavigator(activity)

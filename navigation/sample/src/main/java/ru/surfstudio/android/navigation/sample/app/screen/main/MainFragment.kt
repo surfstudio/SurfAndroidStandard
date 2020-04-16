@@ -42,7 +42,7 @@ class MainFragment : Fragment(), FragmentContainer {
         setActiveTabReopenedListener { App.navigator.execute(RemoveAll(sourceTag = tag!!, isTab = true)) }
 
         if (savedInstanceState == null) {
-            home_tab_btn.post { navigateToTab(HOME) }
+            navigateToTab(HOME)
         }
 
         home_tab_btn.setOnClickListener { navigateToTab(HOME) }
@@ -73,6 +73,9 @@ class MainFragment : Fragment(), FragmentContainer {
     }
 
     private fun getFragmentHolder(): FragmentNavigationHolder {
-        return App.supplier.obtain().nestedNavigationSupplier.obtain(tag!!)
+        return App.supplier
+                .obtain()
+                .fragmentSupplier
+                .obtain(tag!!)
     }
 }
