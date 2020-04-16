@@ -14,7 +14,7 @@ import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
 
 //@PerApp
 open class ActivityNavigationSupplierCallbacks(
-        private val nestedCallbacksCreator: (AppCompatActivity, Bundle?) -> FragmentNavigationSupplierCallbacks
+        private val nestedCallbacksCreator: FragmentNavigationSupplierCallbacksCreator = ::FragmentNavigationSupplierCallbacks
 ) : Application.ActivityLifecycleCallbacks, ActivityNavigationSupplier {
 
 
@@ -35,10 +35,12 @@ open class ActivityNavigationSupplierCallbacks(
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        val newHolder = createHolder(activity, savedInstanceState)
-        navigatorHolders[getActivityId(activity)] = newHolder
-        if (savedInstanceState == null) {
-            currentHolder = newHolder
+        safeRequireActivityId(activity) { id ->
+            val newHolder = createHolder(activity, savedInstanceState)
+            navigatorHolders[id] = newHolder
+            if (savedInstanceState != null) {
+                currentHolder = newHolder
+            }
         }
     }
 
@@ -47,23 +49,29 @@ open class ActivityNavigationSupplierCallbacks(
     }
 
     override fun onActivityResumed(activity: Activity) {
-        val currentHolder = navigatorHolders[getActivityId(activity)]
-        this.currentHolder = currentHolder
-        onHolderActiveListenerSingle?.invoke(currentHolder ?: return)
-        onHolderActiveListenerSingle = null
+        safeRequireActivityId(activity) { id ->
+            val currentHolder = navigatorHolders[id]
+            this.currentHolder = currentHolder
+            onHolderActiveListenerSingle?.invoke(currentHolder ?: return@safeRequireActivityId)
+            onHolderActiveListenerSingle = null
+        }
     }
 
     override fun onActivityPaused(activity: Activity) {
-        val currentHolder = navigatorHolders[getActivityId(activity)]
-        if (this.currentHolder == currentHolder) {
-            this.currentHolder = null
+        safeRequireActivityId(activity) { id ->
+            val currentHolder = navigatorHolders[id]
+            if (this.currentHolder == currentHolder) {
+                this.currentHolder = null
+            }
         }
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
-        val id = getActivityId(activity)
-        val nestedCallbacks = navigatorHolders[id]?.nestedNavigationSupplier as? FragmentNavigationSupplierCallbacks
-        nestedCallbacks?.onActivitySaveState(outState)
+        safeRequireActivityId(activity) { id ->
+            val nestedSupplier = navigatorHolders[id]?.nestedNavigationSupplier
+            val castedNestedSupplier = nestedSupplier as? FragmentNavigationSupplierCallbacks
+            castedNestedSupplier?.onActivitySaveState(outState)
+        }
     }
 
     override fun onActivityStopped(activity: Activity) {
@@ -75,9 +83,20 @@ open class ActivityNavigationSupplierCallbacks(
     }
 
     private fun destroyHolder(activity: Activity) {
-        val id = getActivityId(activity)
-        unregisterNestedNavigationSupplier(activity, navigatorHolders[id]?.nestedNavigationSupplier)
-        navigatorHolders.remove(id)
+        safeRequireActivityId(activity) { id ->
+            val nestedSupplier = navigatorHolders[id]?.nestedNavigationSupplier
+            unregisterNestedNavigationSupplier(activity, nestedSupplier)
+            navigatorHolders.remove(id)
+        }
+    }
+
+    private fun registerNestedNavigationSupplier(
+            activity: Activity,
+            nestedNavigationSupplier: FragmentNavigationSupplierCallbacks
+    ) {
+        if (activity !is FragmentActivity) return
+        val fragmentManager = activity.supportFragmentManager
+        fragmentManager.registerFragmentLifecycleCallbacks(nestedNavigationSupplier, true)
     }
 
     private fun unregisterNestedNavigationSupplier(
@@ -90,35 +109,25 @@ open class ActivityNavigationSupplierCallbacks(
         fragmentManager.unregisterFragmentLifecycleCallbacks(nestedNavigationSupplier)
     }
 
-    private fun registerNestedNavigationSupplier(
-            activity: Activity,
-            nestedNavigationSupplier: FragmentNavigationSupplierCallbacks
-    ) {
-        if (activity !is FragmentActivity) return
-        val fragmentManager = activity.supportFragmentManager
-        fragmentManager.registerFragmentLifecycleCallbacks(nestedNavigationSupplier, true)
-    }
-
-    private fun getActivityId(activity: Activity): String {
-        val identifiableActivity = activity as? IdentifiableScreen
-        val activityId = identifiableActivity?.screenId
-        requireNotNull(activityId) { "Activity must implement IdentifiableScreen.screenId method" }
-        return activityId
-    }
-
     protected open fun createHolder(activity: Activity, savedInstanceState: Bundle?): ActivityNavigationHolder {
-        require(activity is AppCompatActivity) { "All activities should implement AppCompatActivity!" }
+        require(activity is AppCompatActivity) { "All activities with ActivityNavigationHolders should implement AppCompatActivity!" }
 
         val nestedNavigationSupplier = nestedCallbacksCreator(activity, savedInstanceState)
         registerNestedNavigationSupplier(activity, nestedNavigationSupplier)
 
         val activityNavigator = ActivityNavigator(activity)
         val dialogNavigator = DialogNavigator(activity)
+
         return ActivityNavigationHolder(
-                activity,
                 activityNavigator,
                 dialogNavigator,
                 nestedNavigationSupplier
         )
+    }
+
+    protected open fun safeRequireActivityId(activity: Activity, onActivityReady: (id: String) -> Unit) {
+        if (activity is AppCompatActivity && activity is IdentifiableScreen) {
+            onActivityReady(activity.screenId)
+        }
     }
 }

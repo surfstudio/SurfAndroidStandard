@@ -11,9 +11,9 @@ import ru.surfstudio.android.navigation.executor.fragment.FragmentCommandExecuto
 
 open class AppCommandExecutor(
         private val activityNavigationSupplier: ActivityNavigationSupplier,
-        private val activityCommandExecutor: ActivityCommandExecutor,
-        private val fragmentCommandExecutor: FragmentCommandExecutor,
-        private val dialogCommandExecutor: DialogCommandExecutor
+        private val activityCommandExecutor: ActivityCommandExecutor = ActivityCommandExecutor(activityNavigationSupplier),
+        private val fragmentCommandExecutor: FragmentCommandExecutor = FragmentCommandExecutor(activityNavigationSupplier),
+        private val dialogCommandExecutor: DialogCommandExecutor = DialogCommandExecutor(activityNavigationSupplier)
 ) : CommandExecutor<NavigationCommand> {
 
     protected val buffer = mutableListOf<NavigationCommand>()
@@ -26,6 +26,7 @@ open class AppCommandExecutor(
         if (activityNavigationSupplier.hasCurrentHolder()) {
             commands.forEach(::executeInternal) //TODO think about synchronous execution
         } else {
+            buffer.addAll(commands)
             activityNavigationSupplier.setOnHolderActiveListenerSingle { executeBuffer() }
         }
     }
