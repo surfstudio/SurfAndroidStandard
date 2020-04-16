@@ -32,22 +32,21 @@ open class FragmentNavigationSupplierCallbacks(
      */
     private val activeFragments = mutableListOf<Fragment>()
 
-    override fun obtain(command: FragmentNavigationCommand): FragmentNavigationHolder {
-        val id = command.sourceTag
-        val sourceFragment = activeFragments.find { getFragmentId(it) == id }
+    override fun obtain(sourceTag: String): FragmentNavigationHolder {
+        val sourceFragment = activeFragments.find { getFragmentId(it) == sourceTag }
         return obtainFragmentHolderRecursive(sourceFragment) ?: navigationHolders.values.first()
     }
 
     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
         val id = getFragmentId(f)
-        require(!activeFragments.any { getFragmentId(it) == id }) { "You must specify unique tag for each fragment!" }
+        require(activeFragments.all { getFragmentId(it) != id }) { "You must specify unique tag for each fragment!" }
         activeFragments.add(f)
     }
 
     override fun onFragmentActivityCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
         val id = getFragmentId(f)
         val containerId = getContainerId(f) ?: return
-        addHolder(containerId, id, fm, savedInstanceState)
+        addHolder(id, containerId, fm, savedInstanceState)
     }
 
     override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) {
@@ -84,7 +83,7 @@ open class FragmentNavigationSupplierCallbacks(
         val containerId = activity.containerId
         val id = FragmentNavigationCommand.ACTIVITY_NAVIGATION_TAG
 
-        addHolder(containerId, id, fragmentManager, savedInstanceState)
+        addHolder(id, containerId, fragmentManager, savedInstanceState)
     }
 
     /**
@@ -97,17 +96,26 @@ open class FragmentNavigationSupplierCallbacks(
      * @param savedInstanceState состояние, используемое для восстановления бекстека
      */
     private fun addHolder(
-            containerId: Int,
             id: String,
+            containerId: Int,
             fm: FragmentManager,
             savedInstanceState: Bundle?
     ) {
-        val fragmentNavigator = FragmentNavigator(fm, containerId, savedInstanceState)
-        val tabFragmentNavigator = TabFragmentNavigator(fm, containerId, savedInstanceState)
-        val newHolder = FragmentNavigationHolder(fragmentNavigator, tabFragmentNavigator)
         val oldHolder = navigationHolders[id]
         require(oldHolder == null) { "You must specify unique tag for each FragmentContainer!" }
-        navigationHolders[id] = newHolder
+
+        navigationHolders[id] = createHolder(id, containerId, fm, savedInstanceState)
+    }
+
+    protected open fun createHolder(
+            id: String,
+            containerId: Int,
+            fm: FragmentManager,
+            savedInstanceState: Bundle?
+    ): FragmentNavigationHolder {
+        val fragmentNavigator = FragmentNavigator(fm, containerId, savedInstanceState)
+        val tabFragmentNavigator = TabFragmentNavigator(fm, containerId, savedInstanceState)
+        return FragmentNavigationHolder(fragmentNavigator, tabFragmentNavigator)
     }
 
     private fun obtainFragmentHolderRecursive(fragment: Fragment?): FragmentNavigationHolder? {
