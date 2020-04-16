@@ -2,6 +2,7 @@ package ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.kitties.al
 
 import ru.surfstudio.android.core.mvi.impls.ui.reactor.BaseReactorDependency
 import ru.surfstudio.android.core.mvi.impls.ui.reducer.BaseReducer
+import ru.surfstudio.android.core.mvi.sample.ui.data.PaginationBundle
 import ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.kitties.all.KittiesAllEvent.LoadKittiesRequestEvent
 import ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.kitties.data.KittenUi
 import ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.kitties.util.RequestMappers
@@ -12,7 +13,6 @@ import ru.surfstudio.android.core.mvp.binding.rx.request.data.RequestUi
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.SwipeRefreshLoading
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.TransparentLoading
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.datalistlimitoffset.ui.PaginationBundle
 import javax.inject.Inject
 
 internal data class KittiesAllState(

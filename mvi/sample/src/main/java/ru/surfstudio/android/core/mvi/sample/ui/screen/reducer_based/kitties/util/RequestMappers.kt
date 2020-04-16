@@ -1,12 +1,12 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.kitties.util
 
+import ru.surfstudio.android.core.mvi.sample.ui.data.PaginationBundle
 import ru.surfstudio.android.core.mvi.ui.mapper.RequestDataMapper
 import ru.surfstudio.android.core.mvi.ui.mapper.RequestErrorHandler
 import ru.surfstudio.android.core.mvi.ui.mapper.RequestLoadingMapper
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.*
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList
-import ru.surfstudio.android.datalistlimitoffset.ui.PaginationBundle
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.rx.extension.scheduler.MainThreadImmediateScheduler
 

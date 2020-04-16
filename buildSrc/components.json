@@ -859,10 +859,6 @@
         ],
         "android_standard_dependencies": [
           {
-            "name": "easyadapter",
-            "type": "implementation"
-          },
-          {
             "name": "rx-extension",
             "type": "implementation"
           }
@@ -883,10 +879,6 @@
           }
         ],
         "android_standard_dependencies": [
-          {
-            "name": "easyadapter",
-            "type": "implementation"
-          },
           {
             "name": "logger",
             "type": "implementation"
