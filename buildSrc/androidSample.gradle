@@ -38,8 +38,13 @@ android {
 }
 
 configurations.all {
-    if (GradlePropertiesManager.isCurrentComponentAMirror()) {
-        exclude group: "ru.surfstudio.android", module: GradlePropertiesManager.componentMirrorName
+    resolutionStrategy {
+        dependencySubstitution {
+            if (GradlePropertiesManager.isCurrentComponentAMirror()) {
+                def componentMirrorName = GradlePropertiesManager.componentMirrorName
+                substitute module("ru.surfstudio.android:${componentMirrorName}") with project(":$componentMirrorName")
+            }
+        }
     }
 }
 
