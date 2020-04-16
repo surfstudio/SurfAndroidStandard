@@ -20,6 +20,7 @@ import ru.surfstudio.android.navigation.sample.app.screen.main.tabs.cart.CartTab
 import ru.surfstudio.android.navigation.sample.app.screen.main.tabs.home.HomeTabRoute
 import ru.surfstudio.android.navigation.sample.app.screen.main.tabs.profile.ProfileTabRoute
 import ru.surfstudio.android.navigation.sample.app.utils.addOnBackPressedListener
+import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
 
 class MainFragment : Fragment(), FragmentContainer {
 
@@ -62,7 +63,7 @@ class MainFragment : Fragment(), FragmentContainer {
             CART -> CartTabRoute()
             PROFILE -> ProfileTabRoute()
         }
-        App.navigator.execute(Replace(route, sourceTag = tag!!))
+        App.navigator.execute(Replace(route, FadeAnimations(), tag!!))
     }
 
     private fun hasTabsInStack(): Boolean {

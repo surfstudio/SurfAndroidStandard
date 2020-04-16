@@ -8,6 +8,8 @@ import ru.surfstudio.android.navigation.supplier.id.IdentifiableScreen
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.splash.SplashRoute
+import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
+import ru.surfstudio.android.navigation.sample.app.utils.animations.SlideAnimations
 
 class SingleActivity : AppCompatActivity(), IdentifiableScreen, FragmentContainer {
 
@@ -19,7 +21,7 @@ class SingleActivity : AppCompatActivity(), IdentifiableScreen, FragmentContaine
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single)
         if (savedInstanceState == null) { //Adding fragment only on first create
-            App.navigator.execute(Add(SplashRoute()))
+            App.navigator.execute(Add(SplashRoute(), FadeAnimations()))
         }
     }
 }

@@ -10,6 +10,8 @@ import ru.surfstudio.android.navigation.command.fragment.ReplaceHard
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.auth.AuthRoute
+import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
+import ru.surfstudio.android.navigation.sample.app.utils.animations.SlideAnimations
 
 class SplashFragment : Fragment() {
 
@@ -19,6 +21,8 @@ class SplashFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Handler().postDelayed({ App.navigator.execute(ReplaceHard(AuthRoute())) }, 1500L)
+        Handler().postDelayed({
+            App.navigator.execute(ReplaceHard(AuthRoute(), SlideAnimations()))
+        }, 1500L)
     }
 }

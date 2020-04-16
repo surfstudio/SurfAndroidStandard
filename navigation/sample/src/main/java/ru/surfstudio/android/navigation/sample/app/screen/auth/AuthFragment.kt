@@ -10,6 +10,7 @@ import ru.surfstudio.android.navigation.command.fragment.ReplaceHard
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.main.MainRoute
+import ru.surfstudio.android.navigation.sample.app.utils.animations.SlideAnimations
 
 class AuthFragment : Fragment() {
 
@@ -18,6 +19,6 @@ class AuthFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        auth_btn.setOnClickListener { App.navigator.execute(ReplaceHard(MainRoute())) }
+        auth_btn.setOnClickListener { App.navigator.execute(ReplaceHard(MainRoute(), SlideAnimations())) }
     }
 }
