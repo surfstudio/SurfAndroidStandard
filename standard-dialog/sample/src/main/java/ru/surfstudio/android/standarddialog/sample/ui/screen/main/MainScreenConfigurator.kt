@@ -1,8 +1,8 @@
 package ru.surfstudio.android.standarddialog.sample.ui.screen.main
 
 import android.content.Intent
-import com.example.standarddialog.StandardDialogComponent
-import com.example.standarddialog.StandardDialogPresenter
+import ru.surfstudio.android.standarddialog.StandardDialogComponent
+import ru.surfstudio.android.standarddialog.StandardDialogPresenter
 import dagger.Component
 import dagger.Module
 import dagger.Provides

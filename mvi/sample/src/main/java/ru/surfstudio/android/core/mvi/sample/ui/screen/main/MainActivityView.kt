@@ -9,13 +9,12 @@ import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition.open
 import ru.surfstudio.android.core.mvi.sample.R
 import ru.surfstudio.android.core.mvi.sample.ui.screen.input.InputFormActivityRoute
+import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.KittiesActivityRoute
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ComplexListActivityRoute
-import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
-import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy
-import javax.inject.Inject
-import ru.surfstudio.android.core.mvi.sample.ui.screen.main.MainEvent.*
+import ru.surfstudio.android.core.mvi.sample.ui.screen.main.MainEvent.Navigation
 import ru.surfstudio.android.core.mvi.sample.ui.screen.simple_list.SimpleListActivityRoute
+import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
+import javax.inject.Inject
 
 /**
  * Главный экран с навигацией по остальным
@@ -33,8 +32,6 @@ class MainActivityView : BaseReactActivityView(), SingleHubOwner<MainEvent> {
     override fun getContentView(): Int = R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
-        initLog()
-
         //самая обычная запись эмита события, явное указание, без экстеншнов
         main_open_input_form_btn.clicks() bindTo { hub.emit(Navigation().open(InputFormActivityRoute())) }
 
@@ -43,9 +40,6 @@ class MainActivityView : BaseReactActivityView(), SingleHubOwner<MainEvent> {
 
         //еще более простая запись при помощи экстеншна в SingleHubOwner
         main_open_complex_list_btn.clicks().emit(Navigation().open(ComplexListActivityRoute()))
-    }
-
-    private fun initLog() {
-        Logger.addLoggingStrategy(TimberLoggingStrategy())
+        main_open_mvi_reducer_screen_btn.clicks().emit(Navigation().open(KittiesActivityRoute()))
     }
 }

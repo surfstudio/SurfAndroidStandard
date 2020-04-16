@@ -19,6 +19,7 @@ object Initializator {
     @JvmStatic
     fun init(currentBuildDirectory: String) {
         initConfigProviderWithCurrentDirectory(currentBuildDirectory)
+        GradlePropertiesManager.init()
         val jsonComponents = JsonHelper.parseComponentsJson("$currentBuildDirectory/$COMPONENTS_JSON_FILE_PATH")
         if (GradlePropertiesManager.isCurrentComponentAMirror()) {
             checkOnlyMirrorComponentFolder(jsonComponents, currentBuildDirectory)
@@ -26,7 +27,6 @@ object Initializator {
             checkAllComponentsFolders(jsonComponents, currentBuildDirectory)
         }
         Components.init(jsonComponents)
-        GradlePropertiesManager.init()
     }
 
     /**
@@ -36,15 +36,37 @@ object Initializator {
         ConfigInfoProvider.currentDirectory = "$currentDirectory/"
     }
 
-    private fun checkOnlyMirrorComponentFolder(jsonComponents: List<ComponentJson>, currentDirectory: String) {
-        val componentMirrorName = GradlePropertiesManager.componentMirrorName
-        val component = jsonComponents.firstOrNull { it.id == componentMirrorName }
-                ?: throw ComponentNotFoundException(componentMirrorName)
-        checkComponentFolders(component, currentDirectory)
+    private fun checkOnlyMirrorComponentFolder(
+            jsonComponents: List<ComponentJson>,
+            currentDirectory: String
+    ) {
+        checkComponentFolders(
+                getComponentJson(
+                        GradlePropertiesManager.componentMirrorName,
+                        jsonComponents
+                ),
+                currentDirectory
+        )
+        if (GradlePropertiesManager.hasCommonComponent()) {
+            checkComponentFolders(
+                    getComponentJson(
+                            GradlePropertiesManager.commonComponentNameForMirror,
+                            jsonComponents
+                    ),
+                    currentDirectory
+            )
+        }
     }
 
+    private fun getComponentJson(
+            componentName: String,
+            jsonComponents: List<ComponentJson>
+    ): ComponentJson =
+            jsonComponents.firstOrNull { it.id == componentName }
+                    ?: throw ComponentNotFoundException(componentName)
+
     /**
-     * Check value directories for exist
+     * Check value directories for existance
      */
     private fun checkAllComponentsFolders(componentJsons: List<ComponentJson>, currentDirectory: String) {
         componentJsons.forEach { component ->

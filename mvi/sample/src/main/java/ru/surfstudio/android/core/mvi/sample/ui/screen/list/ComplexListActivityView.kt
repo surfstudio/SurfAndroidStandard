@@ -24,7 +24,7 @@ import javax.inject.Inject
  */
 class ComplexListActivityView : BaseReactActivityView() {
 
-    private val adapter = PaginationableAdapter { ComplexListEvent.LoadNextPage().emit(hub) }
+    private val adapter = PaginationableAdapter { ComplexListEvent.LoadNextPage.emit(hub) }
     private val controller = ComplexListController()
 
     override fun createConfigurator() = ComplexListScreenConfigurator(intent)
@@ -46,14 +46,14 @@ class ComplexListActivityView : BaseReactActivityView() {
         reactive_rv.adapter = adapter
 
         reactive_reload_btn.clicks()
-                .emit(ComplexListEvent.Reload(), hub)
+                .emit(ComplexListEvent.Reload, hub)
 
         reactive_query_tv.textChanges()
                 .skipInitialValue()
                 .map { ComplexListEvent.QueryChanged(it.toString()) }
                 .emit(hub)
 
-        reactive_swr.setOnRefreshListener { ComplexListEvent.SwipeRefresh().emit(hub) }
+        reactive_swr.setOnRefreshListener { ComplexListEvent.SwipeRefresh.emit(hub) }
 
         sh.list.observeMainLoading() bindTo { reactive_pb.isVisible = it }
         sh.list.observeSwrLoading() bindTo { reactive_swr.isRefreshing = it }

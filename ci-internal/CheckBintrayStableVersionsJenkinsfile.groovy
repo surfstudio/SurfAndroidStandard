@@ -1,6 +1,7 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
-// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-3.0.0-SNAPSHOT')
+// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import ru.surfstudio.ci.*
+import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 
@@ -23,13 +24,13 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = { initProperties(pipeline) }
+pipeline.propertiesProvider = { initProperties(pipeline, UNDEFINED_BRANCH) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -82,7 +83,7 @@ pipeline.finalizeBody = {
         } else {
             message = "Ошибка проверки стабильных версий артефактов на Bintray $errorReasons"
         }
-        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
+        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
     }
 }
 
@@ -90,11 +91,11 @@ pipeline.run()
 
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
-static List<Object> initProperties(ScmPipeline ctx) {
+static List<Object> initProperties(ScmPipeline ctx, String defaultBranch) {
     def script = ctx.script
     return [
             initDiscarder(script),
-            initParameters(script)
+            initParameters(script, defaultBranch)
     ]
 }
 
@@ -108,10 +109,11 @@ def static initDiscarder(script) {
     )
 }
 
-def static initParameters(script) {
+def static initParameters(script, defaultBranch) {
     return script.parameters([
             script.string(
                     name: "branchName_0",
+                    defaultValue: defaultBranch,
                     description: 'Ветка с исходным кодом'
             )
     ])

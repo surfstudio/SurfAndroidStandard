@@ -73,15 +73,11 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private Differ defaultDiffer = new DefaultDiffer(this::dispatchDiffResult, this::createDiffCallback);
     private AsyncDiffer asyncDiffer = new QueueAllAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
 
-    public EasyAdapter() {
-        setHasStableIds(true);
-    }
-
     /**
      * @see RecyclerView.Adapter#onAttachedToRecyclerView(RecyclerView)
      */
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         initLayoutManager(recyclerView.getLayoutManager());
     }
@@ -97,8 +93,9 @@ public class EasyAdapter extends RecyclerView.Adapter {
     /**
      * @see RecyclerView.Adapter#onCreateViewHolder(ViewGroup, int)
      */
+    @NonNull
     @Override
-    public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public final RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return supportedItemControllers.get(viewType).createViewHolder(parent);
     }
 
@@ -106,7 +103,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @see RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)
      */
     @Override
-    public final void onBindViewHolder(RecyclerView.ViewHolder holder, int adapterPosition) {
+    public final void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int adapterPosition) {
         int position = getListPosition(adapterPosition);
         BaseItem item = items.get(position);
 
@@ -134,24 +131,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * @see RecyclerView.Adapter#getItemId(int)
-     */
-    @Override
-    public final long getItemId(int position) {
-        return getItemStringId(position).hashCode();
-    }
-
-    /**
-     * Get the unique id from item at certain position
-     *
-     * @param position position of item
-     * @return unique item id
-     */
-    public final String getItemStringId(int position) {
-        return getItemStringIdInternal(items, position);
-    }
-
-    /**
      * Get BaseItem from items list at certain position
      *
      * @param position position of item
@@ -167,7 +146,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @param position position of item
      * @return item's hashcode
      */
-    public final String getItemHash(int position) {
+    public final Object getItemHash(int position) {
         return getItemHashInternal(items, position);
     }
 
@@ -369,7 +348,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
         for (int i = 0; i < itemCount; i++) {
             extractedItemsInfo.add(
                     new ItemInfo(
-                            getItemStringIdInternal(items, i),
+                            getItemIdInternal(items, i),
                             getItemHashInternal(items, i)
                     )
             );
@@ -377,12 +356,12 @@ public class EasyAdapter extends RecyclerView.Adapter {
         return extractedItemsInfo;
     }
 
-    private String getItemStringIdInternal(List<BaseItem> items, int position) {
+    private Object getItemIdInternal(List<BaseItem> items, int position) {
         BaseItem item = items.get(getListPosition(items, position));
         return item.getItemController().getItemId(item);
     }
 
-    private String getItemHashInternal(List<BaseItem> items, int position) {
+    private Object getItemHashInternal(List<BaseItem> items, int position) {
         BaseItem item = items.get(getListPosition(items, position));
         return item.getItemController().getItemHash(item);
     }
@@ -488,7 +467,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     /**
      * Empty first element for saving scroll position after notify... calls.
      */
-    private class FirstInvisibleItemController extends NoDataItemController<BaseViewHolder> {
+    private static class FirstInvisibleItemController extends NoDataItemController<BaseViewHolder> {
         @Override
         public BaseViewHolder createViewHolder(ViewGroup parent) {
             ViewGroup.LayoutParams lp = new RecyclerView.LayoutParams(1, 1); // установить размер 1px, иначе проблемы с swipe-to-refresh и drag&drop https://github.com/airbnb/epoxy/issues/74

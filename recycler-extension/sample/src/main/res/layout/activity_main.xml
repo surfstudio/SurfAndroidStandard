@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.surfstudio.android.recycler.extension.sample.MainActivity">
+    android:orientation="vertical"
+    android:padding="@dimen/default_margin">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_main_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <Button
+        android:id="@+id/show_sticky_recycler_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/show_sticky_recycler_btn_text" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <Button
+        android:id="@+id/show_carousel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/show_carousel_btn_text" />
+
+</LinearLayout>

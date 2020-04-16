@@ -10,7 +10,7 @@ buildscript {
         maven { url "${surf_maven_libs_url}" }
     }
     dependencies {
-        classpath "org.jmailen.gradle:kotlinter-gradle:$ktlintPluginVersion"
+        classpath "org.jmailen.gradle:kotlinter-gradle:${versions.ktlintPluginVersion}"
     }
 }
 
