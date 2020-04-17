@@ -53,12 +53,12 @@ public abstract class BaseItemController<H extends RecyclerView.ViewHolder, I ex
     /**
      * Create holder inside parent
      *
-     * @param parent parent, to which holder will attach
+     * @param parent parent which holder will attach to
      */
     public abstract H createViewHolder(ViewGroup parent);
 
     /**
-     * Calls when view, bounded to holder, is no longer active
+     * Calls when view, which is bounded to holder, is no longer active
      */
     public void unbind(H holder, I item) {
         // do nothing
@@ -70,23 +70,23 @@ public abstract class BaseItemController<H extends RecyclerView.ViewHolder, I ex
 
     /**
      * Get the unique id for item.
-     * Method is used for automatically call notify... methods, see {@link EasyAdapter}.
+     * Method is used for automatically call notify... methods
+     * to define if the items are the same, see {@link EasyAdapter}.
      *
      * @param item item
      * @return unique id retrieved from item
      */
-    public String getItemId(I item) {
-        return String.valueOf(NO_ID);
-    }
+    public abstract Object getItemId(I item);
 
     /**
      * Get the item hashcode.
-     * Method is used for automatically call notify... methods, see {@link EasyAdapter}
+     * Method is used for automatically call notify... methods
+     * to define if the item's content is the same, see {@link EasyAdapter}
      *
      * @param item item
      * @return hashcode of the item
      */
-    public abstract String getItemHash(I item);
+    public abstract Object getItemHash(I item);
 
     /**
      * @return hash code for this {@link BaseItemController} type
@@ -109,9 +109,5 @@ public abstract class BaseItemController<H extends RecyclerView.ViewHolder, I ex
             viewTypeIdsMap.put(clazz, id);
         }
         return id;
-    }
-
-    protected String getTypeStringHashCode() {
-        return String.valueOf(getTypeHashCode());
     }
 }

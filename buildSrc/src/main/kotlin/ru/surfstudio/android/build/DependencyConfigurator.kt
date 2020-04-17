@@ -51,7 +51,7 @@ object DependencyConfigurator {
      */
     @JvmStatic
     fun projectImplementation(project: Project, dependencyName: String) {
-        if (GradlePropertiesManager.isCurrentComponentAMirror() || !isProjectIncluded(project, dependencyName)) {
+        if (!isProjectIncluded(project, dependencyName)) {
             addDependency(project, IMPLEMENTATION_DEP_TYPE, getDependencyArtifactoryName(dependencyName))
         } else {
             addDependency(project, IMPLEMENTATION_DEP_TYPE, project.rootProject.project(dependencyName))
@@ -68,7 +68,7 @@ object DependencyConfigurator {
      */
     @JvmStatic
     fun projectTestImplementation(project: Project, dependencyName: String) {
-        if (GradlePropertiesManager.isCurrentComponentAMirror() || !isProjectIncluded(project, dependencyName)) {
+        if (!isProjectIncluded(project, dependencyName)) {
             addDependency(project, TEST_IMPLEMENTATION_DEP_TYPE, getDependencyArtifactoryName(dependencyName))
         } else {
             addDependency(project, TEST_IMPLEMENTATION_DEP_TYPE, project.rootProject.project(dependencyName))
@@ -85,7 +85,7 @@ object DependencyConfigurator {
      */
     @JvmStatic
     fun projectAndroidTestImplementation(project: Project, dependencyName: String) {
-        if (GradlePropertiesManager.isCurrentComponentAMirror() || !isProjectIncluded(project, dependencyName)) {
+        if (!isProjectIncluded(project, dependencyName)) {
             addDependency(project, ANDROID_TEST_IMPLEMENTATION_DEP_TYPE, getDependencyArtifactoryName(dependencyName))
         } else {
             addDependency(project, ANDROID_TEST_IMPLEMENTATION_DEP_TYPE, project.rootProject.project(dependencyName))
@@ -188,7 +188,7 @@ object DependencyConfigurator {
 
     private fun addAndroidStandardDependencies(project: Project, dependencies: List<Dependency>) {
         dependencies.forEach {
-            if (GradlePropertiesManager.isCurrentComponentAMirror() || !isProjectIncluded(project, it.name)) {
+            if (!isProjectIncluded(project, it.name)) {
                 addDependency(project, IMPLEMENTATION_DEP_TYPE, getDependencyArtifactoryName(it.name))
             } else {
                 addDependency(project, IMPLEMENTATION_DEP_TYPE, project.rootProject.project(":${it.name}"))

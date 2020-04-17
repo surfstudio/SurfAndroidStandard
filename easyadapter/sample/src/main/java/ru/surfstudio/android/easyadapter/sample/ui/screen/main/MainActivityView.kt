@@ -27,9 +27,9 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         show_multitype_list_btn.setOnClickListener { presenter.showMultitypeList() }
-        show_paginationable_list.setOnClickListener { presenter.showPagintationList() }
-        show_async_inflate_list.setOnClickListener { presenter.showAsyncInflateList() }
-        show_async_diff_list.setOnClickListener { presenter.showAsyncDiffList() }
+        show_paginationable_list_btn.setOnClickListener { presenter.showPagintationList() }
+        show_async_inflate_list_btn.setOnClickListener { presenter.showAsyncInflateList() }
+        show_async_diff_list_btn.setOnClickListener { presenter.showAsyncDiffList() }
     }
 
     override fun renderInternal(sm: MainScreenModel) {}

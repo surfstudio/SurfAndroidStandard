@@ -8,13 +8,12 @@ dependencies {
     api project(":i-token")
 
     implementation project(":base")
-    implementation "junit:junit:$junitVersion"
-    implementation "com.annimon:stream:$annimonStreamVersion"
-    implementation "org.robolectric:robolectric:$robolectricVersion"
-    implementation "org.robolectric:shadows-multidex:$robolectricVersion"
-    implementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation lang.annimonStream
+    implementation test.junit
+    implementation test.robolectric
+    implementation test.shadowsMultidex
+    implementation di.dagger
+    kapt di.daggerKapt
 }
 
 //Надстройка, которая пропускает сборку модуля при androidTest
