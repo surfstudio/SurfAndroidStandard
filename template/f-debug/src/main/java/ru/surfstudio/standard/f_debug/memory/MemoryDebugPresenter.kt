@@ -4,9 +4,9 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.standard.f_debug.DebugInteractor
 import ru.surfstudio.standard.f_debug.memory.route.StorageDebugScreenRoute
 import ru.surfstudio.standard.f_debug.server_settings.reboot.RebootDebugActivityRoute
-import ru.surfstudio.standard.f_debug.DebugInteractor
 import javax.inject.Inject
 
 @PerScreen

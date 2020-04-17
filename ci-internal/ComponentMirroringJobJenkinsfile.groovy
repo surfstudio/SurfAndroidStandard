@@ -1,4 +1,4 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-3.0.0-SNAPSHOT') // https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
@@ -34,10 +34,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -84,7 +84,8 @@ pipeline.stages = [
 
                                 script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
                                 withGithubCredentials(script) {
-                                    script.sh "./gradlew deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
+                                    script.sh "./gradlew deployToMirror -Pcomponent=${component.id} " +
+                                            "-Pcommit=$lastCommit -PmirrorUrl=${component.mirror_repo} " +
                                             "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
                                 }
                             }
@@ -92,7 +93,7 @@ pipeline.stages = [
                     pipeline.stages.add(
                             pipeline.stage("$ASSEMBLE_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
                                 script.dir("$MIRROR_FOLDER") {
-                                    script.sh "chmod +x gradlew && ./gradlew clean assemble"
+                                    script.sh "./gradlew clean assemble"
                                 }
                             }
                     )
@@ -117,7 +118,7 @@ pipeline.finalizeBody = {
     } else {
         message = "Зеркалирование компонентов из ветки '${branchName}' успешно выполнено. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
 }
 
 pipeline.run()

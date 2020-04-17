@@ -3,8 +3,6 @@
 apply from: '../keystore/signingConfigs.gradle'
 apply from: '../config.gradle'
 
-def config = extensions.getByName("ext")
-
 android {
 
     buildTypes {
@@ -14,7 +12,7 @@ android {
             multiDexEnabled true
             minifyEnabled false
             debuggable = true
-            applicationIdSuffix config["debugVersionNameSuffix"]
+            applicationIdSuffix meta.debugVersionNameSuffix
             resValue "string", "app_name", "Template Debug" //todo fix debug app name
         }
         qa {
@@ -22,7 +20,7 @@ android {
             multiDexEnabled true
             minifyEnabled true
             debuggable = true
-            applicationIdSuffix config["qaVersionNameSuffix"]
+            applicationIdSuffix meta.qaVersionNameSuffix
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
             // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
             matchingFallbacks = ['release']

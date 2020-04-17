@@ -2,6 +2,7 @@
 # Custom-view Release Notes
 ## 0.5.0-alpha
 ##### Custom-view
+* ANDDEP-998 ShadowLayout was moved to the custom-view module
 * ANDDEP-687 Added "com.google.android.material:material" dependency with "implementation" type
 ## 0.4.0
 ##### Custom-view

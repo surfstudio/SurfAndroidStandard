@@ -54,13 +54,14 @@ class TestNetworkModule {
     @Provides
     @PerApplication
     internal fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor { message ->
-            Logger.d("$HTTP_LOG_TAG $message")
-        }.apply {
-            level = if (BuildConfig.DEBUG)
-                HttpLoggingInterceptor.Level.BODY
-            else
-                HttpLoggingInterceptor.Level.BASIC
+        val logger = object : HttpLoggingInterceptor.Logger {
+            override fun log(message: String) = Logger.d("$HTTP_LOG_TAG $message")
+        }
+        return HttpLoggingInterceptor(logger).apply {
+            level = when (BuildConfig.DEBUG) {
+                true -> HttpLoggingInterceptor.Level.BODY
+                false -> HttpLoggingInterceptor.Level.BASIC
+            }
         }
     }
 

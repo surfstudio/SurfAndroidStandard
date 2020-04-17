@@ -27,10 +27,13 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "core-mvp-binding")
     DependencyConfigurator.projectImplementation(project, "easyadapter")
     DependencyConfigurator.projectImplementation(project, "mvi-core")
+    DependencyConfigurator.projectImplementation(project, "mvi-mapper")
     DependencyConfigurator.projectImplementation(project, "mvi-impls")
     DependencyConfigurator.projectImplementation(project, "mvp-dialog")
     DependencyConfigurator.projectImplementation(project, "rxbus")
     DependencyConfigurator.projectImplementation(project, "datalist-page-count")
+    DependencyConfigurator.projectImplementation(project, "datalist-limit-offset")
+    DependencyConfigurator.projectImplementation(project, "imageloader")
 
     DependencyConfigurator.implementation(project, "androidx.recyclerview:recyclerview")
     DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
