@@ -46,6 +46,7 @@ object GradlePropertiesManager {
      *
      * @return true if mirror
      */
+    @JvmStatic
     fun isCurrentComponentAMirror(): Boolean = componentMirrorName != EMPTY_STRING
 
     /**
@@ -72,7 +73,8 @@ object GradlePropertiesManager {
     private fun loadCommonComponentNameForMirror() {
         loadProperty(
                 propertiesFileName = GRADLE_PROPERTIES_FILE_PATH,
-                propertyName = COMMON_COMPONENT_NAME
+                propertyName = COMMON_COMPONENT_NAME,
+                required = false
         )?.also { propertyValue ->
             commonComponentNameForMirror = propertyValue
         }
@@ -87,7 +89,11 @@ object GradlePropertiesManager {
         }
     }
 
-    private fun loadProperty(propertiesFileName: String, propertyName: String): String? {
+    private fun loadProperty(
+            propertiesFileName: String,
+            propertyName: String,
+            required: Boolean = true
+    ): String? {
         val props = Properties()
         val propFile = File(propertiesFileName)
         if (!propFile.exists()) return null
@@ -96,7 +102,11 @@ object GradlePropertiesManager {
             if (props.containsKey(propertyName)) {
                 return props[propertyName].toString()
             } else {
-                throw NoPropertyDefinedInFileException(propertyName, propertiesFileName)
+                if (required) {
+                    throw NoPropertyDefinedInFileException(propertyName, propertiesFileName)
+                }
+                println("WARNING: $propertyName not found in $propertiesFileName")
+                return null
             }
         } else {
             throw CantReadFileException(propertiesFileName)
