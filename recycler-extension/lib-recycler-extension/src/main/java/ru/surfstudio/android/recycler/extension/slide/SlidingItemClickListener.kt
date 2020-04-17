@@ -26,13 +26,13 @@ class SlidingItemClickListener(private val rv: RecyclerView) :
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
         return when (e.action) {
-            MotionEvent.ACTION_DOWN -> onInterceptTouchStart(e)
+            MotionEvent.ACTION_DOWN -> onInterceptTouchStarted(e)
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> onInterceptTouchEnded(e)
             else -> false
         }
     }
 
-    private fun onInterceptTouchStart(e: MotionEvent): Boolean {
+    private fun onInterceptTouchStarted(e: MotionEvent): Boolean {
         startTouchTime = System.currentTimeMillis()
         return false
     }

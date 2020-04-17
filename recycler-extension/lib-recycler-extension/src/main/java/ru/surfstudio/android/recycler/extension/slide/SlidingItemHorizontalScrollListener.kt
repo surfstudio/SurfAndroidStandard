@@ -7,7 +7,7 @@ import ru.surfstudio.android.recycler.extension.util.dpToPx
 import kotlin.math.abs
 
 /**
- * Listener used to intercept slide gesture on [BindableSlidingViewHolder].
+ * Listener used to intercept slide/swipe gesture on [BindableSlidingViewHolder].
  * */
 class SlidingItemHorizontalScrollListener(private val rv: RecyclerView) :
         RecyclerView.OnItemTouchListener {
