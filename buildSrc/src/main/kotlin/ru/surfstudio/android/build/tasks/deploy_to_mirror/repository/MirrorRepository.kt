@@ -4,6 +4,7 @@ import org.eclipse.jgit.dircache.DirCache
 import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.MirrorCommitNotFoundByStandardHashException
+import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner
 import ru.surfstudio.android.build.utils.STANDARD_COMMIT_HASH_POSTFIX
 import ru.surfstudio.android.build.utils.STANDARD_COMMIT_HASH_PREFIX
 import ru.surfstudio.android.build.utils.mirrorStandardHash
@@ -42,14 +43,10 @@ class MirrorRepository(
     }
 
     fun push() {
-        git.push()
-                .setCredentialsProvider(
-                        UsernamePasswordCredentialsProvider(
-                                GithubConfig.USERNAME,
-                                GithubConfig.PASSWORD
-                        )
-                )
-                .call()
+        CommandLineRunner.runCommandWithResult(
+                command = "git push ${getPushUrl()}",
+                workingDir = repositoryPath
+        )
     }
 
     fun tag(commit: RevCommit, tagName: String) = git.tag()
