@@ -4,3 +4,4 @@
 ##### Android-studio-settings
 * Init tracking changes in RELEASE_NOTES
 * Additional hunspell settings info.
+* ANDDEP-1021 Added FreeMarker template for MVI screen creation
