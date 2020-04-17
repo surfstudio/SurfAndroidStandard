@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample.app.screen.main.tabs.home
+package ru.surfstudio.android.navigation.sample.app.screen.main.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
-import ru.surfstudio.android.navigation.sample.app.screen.main.tabs.home.nested.HomeNestedRoute
+import ru.surfstudio.android.navigation.sample.app.screen.main.home.nested.HomeNestedRoute
 
 class HomeTabFragment : Fragment() {
 

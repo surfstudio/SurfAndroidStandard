@@ -16,9 +16,9 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.main.MainTabType.*
-import ru.surfstudio.android.navigation.sample.app.screen.main.tabs.cart.CartTabRoute
-import ru.surfstudio.android.navigation.sample.app.screen.main.tabs.home.HomeTabRoute
-import ru.surfstudio.android.navigation.sample.app.screen.main.tabs.profile.ProfileTabRoute
+import ru.surfstudio.android.navigation.sample.app.screen.main.cart.CartTabRoute
+import ru.surfstudio.android.navigation.sample.app.screen.main.home.HomeTabRoute
+import ru.surfstudio.android.navigation.sample.app.screen.main.profile.ProfileTabRoute
 import ru.surfstudio.android.navigation.sample.app.utils.addOnBackPressedListener
 import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
 

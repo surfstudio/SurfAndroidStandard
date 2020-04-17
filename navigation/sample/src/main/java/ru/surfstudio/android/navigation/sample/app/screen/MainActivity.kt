@@ -10,7 +10,7 @@ import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.splash.SplashRoute
 import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
 
-class SingleActivity : AppCompatActivity(), IdentifiableScreen, FragmentNavigationContainer {
+class MainActivity : AppCompatActivity(), IdentifiableScreen, FragmentNavigationContainer {
 
     override val containerId: Int = R.id.fragment_container
 

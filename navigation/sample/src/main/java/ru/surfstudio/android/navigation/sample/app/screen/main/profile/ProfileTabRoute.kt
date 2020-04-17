@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample.app.screen.main.tabs.profile
+package ru.surfstudio.android.navigation.sample.app.screen.main.profile
 
 import androidx.fragment.app.Fragment
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute

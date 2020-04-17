@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample.app.screen.main.tabs.home.nested
+package ru.surfstudio.android.navigation.sample.app.screen.main.home.nested
 
 import android.os.Bundle
 import androidx.core.os.bundleOf
