@@ -85,7 +85,7 @@ pipeline.stages = [
                                 script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
                                 withGithubCredentials(script) {
                                     script.sh "./gradlew deployToMirror -Pcomponent=${component.id} " +
-                                            "-Pcommit=$lastCommit -PmirrorUrl=${pipeline.repoUrl}" +
+                                            "-Pcommit=$lastCommit -PmirrorUrl=${component.mirror_repo} " +
                                             "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
                                 }
                             }
@@ -93,7 +93,7 @@ pipeline.stages = [
                     pipeline.stages.add(
                             pipeline.stage("$ASSEMBLE_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
                                 script.dir("$MIRROR_FOLDER") {
-                                    script.sh "chmod +x gradlew && ./gradlew clean assemble"
+                                    script.sh "./gradlew clean assemble"
                                 }
                             }
                     )
