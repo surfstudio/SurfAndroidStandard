@@ -4,9 +4,9 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Listener used to reset state of [BindableSlidingViewHolder]'s when they're detached from window.
+ * Listener used to hide buttons of [BindableSlidingViewHolder] when it detached from window.
  * */
-class SlidingItemAttachListener(private val rv: RecyclerView) :
+class SlidingItemAttachStateListener(private val rv: RecyclerView) :
         RecyclerView.OnChildAttachStateChangeListener {
 
     override fun onChildViewDetachedFromWindow(view: View) {
@@ -15,6 +15,6 @@ class SlidingItemAttachListener(private val rv: RecyclerView) :
     }
 
     override fun onChildViewAttachedToWindow(view: View) {
-        /* empty body */
+        /* empty body. */
     }
 }

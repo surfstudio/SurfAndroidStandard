@@ -2,7 +2,6 @@ package ru.surfstudio.android.recycler.extension.slide
 
 import android.view.MotionEvent
 import android.view.VelocityTracker
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.recycler.extension.util.dpToPx
 import kotlin.math.abs
@@ -10,7 +9,8 @@ import kotlin.math.abs
 /**
  * Listener used to intercept slide gesture on [BindableSlidingViewHolder].
  * */
-class SlidingItemTouchListener(private val rv: RecyclerView) : RecyclerView.OnItemTouchListener {
+class SlidingItemHorizontalScrollListener(private val rv: RecyclerView) :
+        RecyclerView.OnItemTouchListener {
 
     private companion object {
         const val Y_DISTANCE_TO_DISABLE_INTERCEPTION_DP = 20
@@ -26,7 +26,7 @@ class SlidingItemTouchListener(private val rv: RecyclerView) : RecyclerView.OnIt
     private var startTouchY = 0f
 
     override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-        /** empty body */
+        /** empty body. */
     }
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
@@ -49,7 +49,7 @@ class SlidingItemTouchListener(private val rv: RecyclerView) : RecyclerView.OnIt
         startTouchX = e.x
         startTouchY = e.y
         isInterceptionDisabled = false
-        viewHolder = findSlidingViewHolderUnder(startTouchX, startTouchY)
+        viewHolder = rv.findSlidingViewHolderUnder(startTouchX, startTouchY)
         return false
     }
 
@@ -73,7 +73,7 @@ class SlidingItemTouchListener(private val rv: RecyclerView) : RecyclerView.OnIt
             velocityTracker?.addMovement(e)
 
             viewHolder?.onSlidingStarted()
-            hideVisibleButtons(excludedViewHolder = viewHolder)
+            rv.slidingViewHoldersHideButtons(excludeList = listOf(viewHolder))
             return true
         }
 
@@ -106,22 +106,5 @@ class SlidingItemTouchListener(private val rv: RecyclerView) : RecyclerView.OnIt
 
     private fun calculateDistanceBetween(target: Float, current: Float): Float {
         return target - current
-    }
-
-    private fun findSlidingViewHolderUnder(x: Float, y: Float): BindableSlidingViewHolder<*>? {
-        val view = rv.findChildViewUnder(x, y) ?: return null
-        val viewHolder = rv.findContainingViewHolder(view) ?: return null
-        return viewHolder as? BindableSlidingViewHolder<*>
-    }
-
-    private fun hideVisibleButtons(excludedViewHolder: BindableSlidingViewHolder<*>?) {
-        val layoutManager = rv.layoutManager as? LinearLayoutManager ?: return
-        val firstPosition = layoutManager.findFirstVisibleItemPosition()
-        val lastPosition = layoutManager.findLastVisibleItemPosition()
-        (firstPosition..lastPosition).forEach { position ->
-            val candidate = rv.findViewHolderForLayoutPosition(position) as? BindableSlidingViewHolder<*>
-            if (candidate == excludedViewHolder) return@forEach
-            candidate?.hideButtons()
-        }
     }
 }

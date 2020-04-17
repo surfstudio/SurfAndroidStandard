@@ -9,16 +9,19 @@ import androidx.recyclerview.widget.RecyclerView
  * */
 class SlidingHelper {
 
-    private var itemAttachListener: SlidingItemAttachListener? = null
-    private var itemTouchListener: SlidingItemTouchListener? = null
-    private var itemTouchScrollListener: SlidingItemTouchScrollListener? = null
+    private var itemAttachStateListener: SlidingItemAttachStateListener? = null
+    private var itemHorizontalScrollListener: SlidingItemHorizontalScrollListener? = null
+    private var itemVerticalScrollListener: SlidingItemVerticalScrollListener? = null
+    private var itemClickListener: SlidingItemClickListener? = null
     private var internalRv: RecyclerView? = null
 
     fun bind(rv: RecyclerView) {
-        internalRv = rv
-        initItemAttachListener(rv)
-        initItemTouchListener(rv)
-        itemItemTouchScrollListener(rv)
+        internalRv = rv.also {
+            initItemAttachListener(it)
+            initItemTouchListener(it)
+            initItemTouchScrollListener(it)
+            initItemClickListener(it)
+        }
     }
 
     fun unbind() {
@@ -26,40 +29,52 @@ class SlidingHelper {
             releaseItemAttachListener(it)
             releaseItemTouchListener(it)
             releaseItemTouchScrollListener(it)
+            releaseItemClickListener(it)
         }
         internalRv = null
     }
 
     private fun initItemAttachListener(rv: RecyclerView) {
-        val watcher = SlidingItemAttachListener(rv).also { itemAttachListener = it }
+        val watcher = SlidingItemAttachStateListener(rv).also { itemAttachStateListener = it }
         rv.addOnChildAttachStateChangeListener(watcher)
     }
 
     private fun initItemTouchListener(rv: RecyclerView) {
-        val listener = SlidingItemTouchListener(rv).also { itemTouchListener = it }
+        val listener = SlidingItemHorizontalScrollListener(rv).also { itemHorizontalScrollListener = it }
         rv.addOnItemTouchListener(listener)
     }
 
-    private fun itemItemTouchScrollListener(rv: RecyclerView) {
-        val listener = SlidingItemTouchScrollListener(rv).also { itemTouchScrollListener = it }
+    private fun initItemTouchScrollListener(rv: RecyclerView) {
+        val listener = SlidingItemVerticalScrollListener(rv).also { itemVerticalScrollListener = it }
+        rv.addOnItemTouchListener(listener)
+    }
+
+    private fun initItemClickListener(rv: RecyclerView) {
+        val listener = SlidingItemClickListener(rv).also { itemClickListener = it }
         rv.addOnItemTouchListener(listener)
     }
 
     private fun releaseItemAttachListener(rv: RecyclerView) {
-        val listener = itemAttachListener ?: return
+        val listener = itemAttachStateListener ?: return
         rv.removeOnChildAttachStateChangeListener(listener)
-        itemAttachListener = null
+        itemAttachStateListener = null
     }
 
     private fun releaseItemTouchListener(rv: RecyclerView) {
-        val listener = itemTouchListener ?: return
+        val listener = itemHorizontalScrollListener ?: return
         rv.removeOnItemTouchListener(listener)
-        itemTouchListener = null
+        itemHorizontalScrollListener = null
     }
 
     private fun releaseItemTouchScrollListener(rv: RecyclerView) {
-        val listener = itemTouchScrollListener ?: return
+        val listener = itemVerticalScrollListener ?: return
         rv.removeOnItemTouchListener(listener)
-        itemTouchListener = null
+        itemHorizontalScrollListener = null
+    }
+
+    private fun releaseItemClickListener(rv: RecyclerView) {
+        val listener = itemClickListener ?: return
+        rv.removeOnItemTouchListener(listener)
+        itemClickListener = null
     }
 }
