@@ -40,9 +40,17 @@ android {
 configurations.all {
     resolutionStrategy {
         dependencySubstitution {
+            /**
+             * All modules and transitive dependencies of mirror component
+             * must have a mirror module as a local dependency
+             * to avoid errors with dependency conflict
+             */
             if (GradlePropertiesManager.isCurrentComponentAMirror()) {
-                def componentMirrorName = GradlePropertiesManager.componentMirrorName
-                substitute module("ru.surfstudio.android:${componentMirrorName}") with project(":$componentMirrorName")
+                Components.getComponentLibraries(GradlePropertiesManager.componentMirrorName)
+                        .forEach {
+                            def libraryName = it.name
+                            substitute module("ru.surfstudio.android:$libraryName") with project(":$libraryName")
+                        }
             }
         }
     }
