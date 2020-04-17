@@ -56,13 +56,13 @@ class SlidingItemTouchListener(private val rv: RecyclerView) : RecyclerView.OnIt
     private fun onTouchInterceptionMoved(e: MotionEvent): Boolean {
         if (viewHolder == null || isInterceptionDisabled) return false
 
-        val travelledDistanceY = calculateDistanceBetween(startTouchY, e.y)
+        val travelledDistanceY = abs(calculateDistanceBetween(e.y, startTouchY))
         if (travelledDistanceY >= yDistanceToDisableInterceptionPx) {
             isInterceptionDisabled = true
             return false
         }
 
-        val travelledDistanceX = calculateDistanceBetween(startTouchX, e.x)
+        val travelledDistanceX = calculateDistanceBetween(e.x, startTouchX)
         val shouldIntercept = viewHolder?.onInterceptTouchEvent(travelledDistanceX) ?: false
         if (shouldIntercept) {
             startTouchX = e.x
@@ -89,7 +89,7 @@ class SlidingItemTouchListener(private val rv: RecyclerView) : RecyclerView.OnIt
 
     private fun onInterceptedTouchMoved(e: MotionEvent) {
         velocityTracker?.addMovement(e)
-        viewHolder?.onSliding(calculateDistanceBetween(startTouchX, e.x))
+        viewHolder?.onSliding(calculateDistanceBetween(e.x, startTouchX))
     }
 
     private fun onInterceptedTouchEnded(e: MotionEvent) {
@@ -104,8 +104,8 @@ class SlidingItemTouchListener(private val rv: RecyclerView) : RecyclerView.OnIt
         viewHolder = null
     }
 
-    private fun calculateDistanceBetween(from: Float, to: Float): Float {
-        return abs(from - to)
+    private fun calculateDistanceBetween(target: Float, current: Float): Float {
+        return target - current
     }
 
     private fun findSlidingViewHolderUnder(x: Float, y: Float): BindableSlidingViewHolder<*>? {

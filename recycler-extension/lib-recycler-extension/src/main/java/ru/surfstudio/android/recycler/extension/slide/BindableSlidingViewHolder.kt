@@ -19,7 +19,7 @@ import kotlin.math.roundToLong
 /**
  * [BindableViewHolder] with possibility of horizontal sliding to reveal side-buttons.
  *
- * To properly setup [RecyclerView] for sliding functionality - use helper [SlidingHelper].
+ * To properly setup [RecyclerView] for sliding functionality - use [SlidingHelper].
  * */
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes layoutRes: Int) :
@@ -52,8 +52,9 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
 
     // View groups
     private val slidingViews = listOf(contentContainer, leftButtonsContainer, rightButtonsContainer, contentBlockerView)
-    private val buttonViews by lazy { buttonContainers.flatMap { it.children.toList() } }
-    private val buttonContainers = listOf(leftButtonsContainer, rightButtonsContainer)
+    private val buttonViews by lazy {
+        listOf(leftButtonsContainer, rightButtonsContainer).flatMap { it.children.toList() }
+    }
 
     // Flags
     private var isInitialized = false
@@ -66,9 +67,6 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
     private val hasLeftButtons get() = leftButtons.isNotEmpty()
     private val hasRightButtons get() = rightButtons.isNotEmpty()
 
-    /** Width of screen in pixels. Used to calculate slide animation duration. */
-    private val screenWidthPx = context.resources.displayMetrics.widthPixels
-
     /**
      *  Width of left buttons container. Also defines how far buttons should scroll to the right.
      *
@@ -79,6 +77,9 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
 
     /** Width of right buttons container. Also defines how far buttons should scroll to the left. */
     private val rightContainerWidth by lazy { rightButtonsContainer.width.toFloat() }
+
+    /** Width of content container. */
+    private val contentContainerWidth by lazy { contentContainer.width.toFloat() }
 
     /** Amount of translation used to decide is current state is [InteractionState.LEFT_BUTTONS] or not. */
     private val leftContainerTriggerPosition by lazy { leftContainerWidth / 2 }
@@ -96,7 +97,7 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
     /** Amount of horizontal velocity, needed to change [InteractionState]. */
     protected open val swipeVelocityThreshold = context.dpToPx(SWIPE_VELOCITY_THRESHOLD_DP).toFloat()
 
-    /** Amount of horizontal scrolled distance, needed to intercept the user's touch. */
+    /** Amount of horizontal scrolled distance, needed to intercept user's touch. */
     protected open val touchInterceptThreshold = context.dpToPx(TOUCH_INTERCEPT_THRESHOLD_DP).toFloat()
 
     /** List of buttons to inflate into the left container. */
@@ -115,9 +116,13 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
         /* empty body */
     }
 
-    /** Callback, used to response to user's [buttonView] click. */
+    /**
+     * Callback, used to response to user's [buttonView] click.
+     *
+     * Default implementation call's `hideButtons()` method.
+     * */
     protected open fun onButtonClicked(buttonView: View) {
-        /* empty body */
+        hideButtons()
     }
 
     /**
@@ -233,11 +238,20 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
         when {
             !shouldAnimate -> slidingViews.forEach { it.translationX = absoluteTranslation }
             else -> {
+                val focusedContainerWidth = when {
+                    absoluteTranslation > 0f -> leftContainerWidth
+                    absoluteTranslation < 0f -> rightContainerWidth
+                    else -> when {
+                        currentSlideTranslation > 0f -> leftContainerWidth
+                        currentSlideTranslation < 0f -> rightContainerWidth
+                        else -> contentContainerWidth
+                    }
+                }
                 val animDuration = calculateSlideAnimDuration(
-                        screenWidth = screenWidthPx,
+                        containerWidth = focusedContainerWidth,
                         from = currentSlideTranslation,
                         to = absoluteTranslation,
-                        initialDuration = SLIDE_ANIM_DURATION
+                        duration = SLIDE_ANIM_DURATION
                 )
                 isAnimatingSlide = true
                 slidingViews.forEach { slidingView ->
@@ -263,13 +277,13 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
     }
 
     private fun calculateSlideAnimDuration(
-            screenWidth: Int,
+            containerWidth: Float,
             from: Float,
             to: Float,
-            initialDuration: Long
+            duration: Long
     ): Long {
         val distanceToTravel = abs(from - to)
-        return (distanceToTravel / screenWidth * initialDuration).roundToLong()
+        return (distanceToTravel / containerWidth * duration).roundToLong()
     }
 
     private fun View.animateSlideTo(
