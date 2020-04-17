@@ -24,7 +24,12 @@ open class AppCommandExecutor(
 
     override fun execute(commands: List<NavigationCommand>) {
         if (activityNavigationProvider.hasCurrentHolder()) {
-            commands.forEach(::executeInternal) //TODO think about synchronous execution
+            /* TODO: Think about smart command execution:
+            * For example, if fragment command follows activity command,
+            * we must wait for activity command to be fully executed,
+            * i.e. next activity will become fully visible to execute fragment navigation command.
+            * */
+            commands.forEach(::executeInternal)
         } else {
             buffer.addAll(commands)
             activityNavigationProvider.setOnHolderActiveListenerSingle { executeBuffer() }
