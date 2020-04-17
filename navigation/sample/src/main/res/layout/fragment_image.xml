@@ -2,8 +2,7 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_purple"
+    android:background="@android:color/holo_orange_light"
     android:gravity="center"
-    android:text="Cart\nFragment"
-    android:textColor="@android:color/white"
+    android:text="Image\nFragment"
     android:textSize="24sp" />

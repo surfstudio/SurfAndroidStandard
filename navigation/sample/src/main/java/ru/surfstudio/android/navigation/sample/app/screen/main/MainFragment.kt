@@ -16,7 +16,7 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.main.MainTabType.*
-import ru.surfstudio.android.navigation.sample.app.screen.main.cart.CartTabRoute
+import ru.surfstudio.android.navigation.sample.app.screen.main.cart.GalleryTabRoute
 import ru.surfstudio.android.navigation.sample.app.screen.main.home.HomeTabRoute
 import ru.surfstudio.android.navigation.sample.app.screen.main.profile.ProfileTabRoute
 import ru.surfstudio.android.navigation.sample.app.utils.addOnBackPressedListener
@@ -41,7 +41,7 @@ class MainFragment : Fragment(), FragmentNavigationContainer {
         }
 
         home_tab_btn.setOnClickListener { navigateToTab(HOME) }
-        cart_tab_btn.setOnClickListener { navigateToTab(CART) }
+        gallery_tab_btn.setOnClickListener { navigateToTab(CART) }
         profile_tab_btn.setOnClickListener { navigateToTab(PROFILE) }
     }
 
@@ -65,7 +65,7 @@ class MainFragment : Fragment(), FragmentNavigationContainer {
     private fun navigateToTab(type: MainTabType) {
         val route: FragmentRoute = when (type) {
             HOME -> HomeTabRoute()
-            CART -> CartTabRoute()
+            CART -> GalleryTabRoute()
             PROFILE -> ProfileTabRoute()
         }
         App.navigator.execute(Replace(route, FadeAnimations(), tag!!))
