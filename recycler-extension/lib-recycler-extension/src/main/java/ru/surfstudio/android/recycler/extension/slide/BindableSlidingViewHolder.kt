@@ -17,9 +17,35 @@ import kotlin.math.abs
 import kotlin.math.roundToLong
 
 /**
- * [BindableViewHolder] with possibility of horizontal sliding to reveal side-buttons.
+ * [BindableViewHolder] with possibility of horizontal sliding to reveal and fixate side-buttons.
  *
- * To properly setup [RecyclerView] for sliding functionality - use [SlidingHelper].
+ * ## General features:
+ *
+ * * You can add buttons to left or/and right side of your `ViewHolder` by
+ * overriding [leftButtons] and [rightButtons] fields (You can add as many buttons as you like,
+ * but recommended limit of buttons for single `ViewHolder` is not more than 3 buttons in a row);
+ *
+ * * Those side-buttons accessible through swipe-gesture or horizontal scrolling to the edges;
+ *
+ * * You can bind data to your side-buttons just as you would bind it to your `ViewHolder`.
+ * Use [onBindButton] method;
+ *
+ * * You can handle side-buttons `onClick` events in [onButtonClicked] method;
+ *
+ * * You can use [onSlidingStarted], [onSliding] and [onSlidingEnded] callback-methods to
+ * override or customize sliding of `ViewHolder`;
+ *
+ * * You can override [onInterceptTouchEvent] to decide by yourself
+ * when and why you want to intercept user's touch events;
+ *
+ * * If buttons not yet collapsed - they're gonna collapse in following conditions:
+ *    * `ViewHolder` is detached from window;
+ *    * User scrolling list vertically;
+ *    * User clicked on content of current item;
+ *    * User clicked on other item in list;
+ *
+ * **Note: [BindableSlidingViewHolder] won't work by itself!
+ * To enable sliding functionality, please, use [SlidingHelper].**
  * */
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes layoutRes: Int) :
@@ -112,29 +138,6 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
         contentBlockerView.setOnClickListener { onContentBlockerClicked() }
     }
 
-    /** Callback, used to bind [data] to the particular [buttonView]. */
-    protected open fun onBindButton(data: T, buttonView: View) {
-        /* empty body */
-    }
-
-    /**
-     * Callback, used to response to user's [buttonView] click.
-     *
-     * Default implementation call's `hideButtons()` method.
-     * */
-    protected open fun onButtonClicked(buttonView: View) {
-        hideButtons()
-    }
-
-    /**
-     * Callback, used to response to user's click on [contentBlockerView].
-     *
-     * Default implementation call's `hideButtons()` method.
-     * */
-    protected open fun onContentBlockerClicked() {
-        hideButtons()
-    }
-
     /**
      * Callback, used to bind [data] to this `ViewHolder`.
      *
@@ -145,9 +148,7 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
         bindButtons(data)
     }
 
-
     /** Callback, used to decide: are we intercepting this touch event of [RecyclerView]? */
-    @CallSuper
     open fun onInterceptTouchEvent(touchTranslationX: Float): Boolean {
         return when (interactionState) {
             MAIN_CONTENT -> when {
@@ -172,13 +173,11 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
     }
 
     /** Callback, used to handle user sliding gesture. */
-    @CallSuper
     open fun onSliding(touchTranslationX: Float) {
         relativeMoveContainersTo(touchTranslationX, shouldAnimate = false)
     }
 
     /** Callback, used to decide what to do when user ended his sliding gesture. */
-    @CallSuper
     open fun onSlidingEnded(touchVelocityX: Float) {
         when (interactionState) {
             MAIN_CONTENT -> when {
@@ -201,19 +200,45 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
         }
     }
 
+    /** Reveal left buttons container and fixate it. */
     fun showLeftButtons(shouldAnimate: Boolean = true) {
         interactionState = LEFT_BUTTONS
         moveContainersTo(leftContainerWidth, shouldAnimate)
     }
 
+    /** Reveal right buttons container and fixate it. */
     fun showRightButtons(shouldAnimate: Boolean = true) {
         interactionState = RIGHT_BUTTONS
         moveContainersTo(-rightContainerWidth, shouldAnimate)
     }
 
+    /** Hide all button containers and focus content. */
     fun hideButtons(shouldAnimate: Boolean = true) {
         interactionState = MAIN_CONTENT
         moveContainersTo(0f, shouldAnimate)
+    }
+
+    /** Callback, used to bind [data] to the particular [buttonView]. */
+    protected open fun onBindButton(data: T, buttonView: View) {
+        /* empty body */
+    }
+
+    /**
+     * Callback, used to response to user's [buttonView] click.
+     *
+     * Default implementation call's `hideButtons()` method.
+     * */
+    protected open fun onButtonClicked(buttonView: View) {
+        hideButtons()
+    }
+
+    /**
+     * Callback, used to response to user's click on [contentBlockerView].
+     *
+     * Default implementation call's `hideButtons()` method.
+     * */
+    protected open fun onContentBlockerClicked() {
+        hideButtons()
     }
 
     protected fun relativeMoveContainersTo(relativeTranslation: Float, shouldAnimate: Boolean) {
