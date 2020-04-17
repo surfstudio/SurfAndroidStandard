@@ -8,6 +8,7 @@ apply plugin: 'kotlin-kapt'
 apply from: '../config.gradle'
 
 apply from: '../setLabelToIcon.gradle'
+apply from: '../validateCrossFeatureRoutes.gradle.kts'
 apply from: '../keystore/signingConfigs.gradle'
 apply from: '../buildTypes.gradle'
 apply from: '../commonAndroidDefaultConfig.gradle'
