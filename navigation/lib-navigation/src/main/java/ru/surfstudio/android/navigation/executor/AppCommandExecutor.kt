@@ -4,16 +4,16 @@ import ru.surfstudio.android.navigation.command.NavigationCommand
 import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigationCommand
 import ru.surfstudio.android.navigation.command.dialog.base.DialogNavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
-import ru.surfstudio.android.navigation.supplier.ActivityNavigationSupplier
+import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.executor.activity.ActivityCommandExecutor
 import ru.surfstudio.android.navigation.executor.dialog.DialogCommandExecutor
 import ru.surfstudio.android.navigation.executor.fragment.FragmentCommandExecutor
 
 open class AppCommandExecutor(
-        private val activityNavigationSupplier: ActivityNavigationSupplier,
-        private val activityCommandExecutor: ActivityCommandExecutor = ActivityCommandExecutor(activityNavigationSupplier),
-        private val fragmentCommandExecutor: FragmentCommandExecutor = FragmentCommandExecutor(activityNavigationSupplier),
-        private val dialogCommandExecutor: DialogCommandExecutor = DialogCommandExecutor(activityNavigationSupplier)
+        private val activityNavigationProvider: ActivityNavigationProvider,
+        private val activityCommandExecutor: ActivityCommandExecutor = ActivityCommandExecutor(activityNavigationProvider),
+        private val fragmentCommandExecutor: FragmentCommandExecutor = FragmentCommandExecutor(activityNavigationProvider),
+        private val dialogCommandExecutor: DialogCommandExecutor = DialogCommandExecutor(activityNavigationProvider)
 ) : CommandExecutor<NavigationCommand> {
 
     protected val buffer = mutableListOf<NavigationCommand>()
@@ -23,11 +23,11 @@ open class AppCommandExecutor(
     }
 
     override fun execute(commands: List<NavigationCommand>) {
-        if (activityNavigationSupplier.hasCurrentHolder()) {
+        if (activityNavigationProvider.hasCurrentHolder()) {
             commands.forEach(::executeInternal) //TODO think about synchronous execution
         } else {
             buffer.addAll(commands)
-            activityNavigationSupplier.setOnHolderActiveListenerSingle { executeBuffer() }
+            activityNavigationProvider.setOnHolderActiveListenerSingle { executeBuffer() }
         }
     }
 

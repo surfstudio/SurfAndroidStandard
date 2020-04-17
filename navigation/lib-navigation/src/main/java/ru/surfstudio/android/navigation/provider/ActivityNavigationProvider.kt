@@ -1,16 +1,16 @@
-package ru.surfstudio.android.navigation.supplier
+package ru.surfstudio.android.navigation.provider
 
-import ru.surfstudio.android.navigation.supplier.holder.ActivityNavigationHolder
+import ru.surfstudio.android.navigation.provider.holder.ActivityNavigationHolder
 
-interface ActivityNavigationSupplier {
+interface ActivityNavigationProvider {
 
     /**
      * Obtains [ActivityNavigationHolder] for current fully visible activity
      */
-    fun obtain(): ActivityNavigationHolder
+    fun provide(): ActivityNavigationHolder
 
     /**
-     * Determines, whether this supplier has current holder, or it is not yet initialized
+     * Determines, whether this provider has current holder, or it is not yet initialized
      */
     fun hasCurrentHolder(): Boolean
 

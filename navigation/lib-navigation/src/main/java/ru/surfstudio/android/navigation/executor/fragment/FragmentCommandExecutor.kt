@@ -2,18 +2,18 @@ package ru.surfstudio.android.navigation.executor.fragment
 
 import ru.surfstudio.android.navigation.command.fragment.*
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
-import ru.surfstudio.android.navigation.supplier.ActivityNavigationSupplier
+import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.executor.CommandExecutor
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
 import ru.surfstudio.android.navigation.route.tab.TabRoute
 
 open class FragmentCommandExecutor(
-        private val activityNavigationSupplier: ActivityNavigationSupplier
+        private val activityNavigationProvider: ActivityNavigationProvider
 ) : CommandExecutor<FragmentNavigationCommand> {
 
     override fun execute(command: FragmentNavigationCommand) {
-        val activityHolder = activityNavigationSupplier.obtain()
-        val fragmentNavigationHolder = activityHolder.fragmentSupplier.obtain(command.sourceTag)
+        val activityHolder = activityNavigationProvider.provide()
+        val fragmentNavigationHolder = activityHolder.fragmentNavigationProvider.provide(command.sourceTag)
         val tabFragmentNavigator = fragmentNavigationHolder.tabFragmentNavigator
         val fragmentNavigator = fragmentNavigationHolder.fragmentNavigator
         when (command.route) {

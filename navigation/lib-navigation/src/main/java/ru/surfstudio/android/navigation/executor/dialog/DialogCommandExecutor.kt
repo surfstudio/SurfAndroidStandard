@@ -3,16 +3,16 @@ package ru.surfstudio.android.navigation.executor.dialog
 import ru.surfstudio.android.navigation.command.dialog.Dismiss
 import ru.surfstudio.android.navigation.command.dialog.Show
 import ru.surfstudio.android.navigation.command.dialog.base.DialogNavigationCommand
-import ru.surfstudio.android.navigation.supplier.ActivityNavigationSupplier
+import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.executor.CommandExecutor
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigatorInterface
 
 open class DialogCommandExecutor(
-        private val activityNavigationSupplier: ActivityNavigationSupplier
+        private val activityNavigationProvider: ActivityNavigationProvider
 ) : CommandExecutor<DialogNavigationCommand> {
 
     private val dialogNavigator: DialogNavigatorInterface
-        get() = activityNavigationSupplier.obtain().dialogNavigator
+        get() = activityNavigationProvider.provide().dialogNavigator
 
     override fun execute(command: DialogNavigationCommand) {
         when (command) {

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute
-import ru.surfstudio.android.navigation.utils.ActivityAnimationSupplier
+import ru.surfstudio.android.navigation.animation.utils.ActivityAnimationSupplier
 
 open class ActivityNavigator(val activity: AppCompatActivity) : ActivityNavigatorInterface {
 

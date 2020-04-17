@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.utils
+package ru.surfstudio.android.navigation.animation.utils
 
 import androidx.fragment.app.FragmentTransaction
 import ru.surfstudio.android.navigation.animation.Animations

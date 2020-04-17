@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.utils
+package ru.surfstudio.android.navigation.animation.utils
 
 import android.app.Activity
 import android.content.Context

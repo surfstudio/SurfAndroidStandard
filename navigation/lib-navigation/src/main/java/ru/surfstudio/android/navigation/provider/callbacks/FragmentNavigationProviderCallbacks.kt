@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.supplier.callbacks
+package ru.surfstudio.android.navigation.provider.callbacks
 
 import android.os.Bundle
 import android.view.View
@@ -7,20 +7,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
-import ru.surfstudio.android.navigation.supplier.container.FragmentContainer
-import ru.surfstudio.android.navigation.supplier.holder.FragmentNavigationHolder
-import ru.surfstudio.android.navigation.supplier.FragmentNavigationSupplier
+import ru.surfstudio.android.navigation.provider.container.FragmentNavigationContainer
+import ru.surfstudio.android.navigation.provider.holder.FragmentNavigationHolder
+import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
 
 //@PerAct
-open class FragmentNavigationSupplierCallbacks(
+open class FragmentNavigationProviderCallbacks(
         activity: AppCompatActivity,
         savedState: Bundle?
-) : FragmentManager.FragmentLifecycleCallbacks(), FragmentNavigationSupplier {
+) : FragmentManager.FragmentLifecycleCallbacks(), FragmentNavigationProvider {
 
     /**
-     * Holders with fragment navigators for each [FragmentContainer]
+     * Holders with fragment navigators for each [FragmentNavigationContainer]
      */
     private val navigationHolders = hashMapOf<String, FragmentNavigationHolder>()
 
@@ -33,7 +33,7 @@ open class FragmentNavigationSupplierCallbacks(
      */
     private val activeFragments = mutableListOf<Fragment>()
 
-    override fun obtain(sourceTag: String): FragmentNavigationHolder {
+    override fun provide(sourceTag: String): FragmentNavigationHolder {
         val sourceFragment = activeFragments.find { getFragmentId(it) == sourceTag }
         return obtainFragmentHolderRecursive(sourceFragment) ?: navigationHolders.values.first()
     }
@@ -78,7 +78,7 @@ open class FragmentNavigationSupplierCallbacks(
      * Добавление холдера на 0-ой уровень, т.е. на уровень Activity, которая управляет фрагментами.
      */
     private fun addZeroLevelHolder(activity: FragmentActivity, savedInstanceState: Bundle?) {
-        if (activity !is FragmentContainer) return
+        if (activity !is FragmentNavigationContainer) return
 
         val fragmentManager = activity.supportFragmentManager
         val containerId = activity.containerId
@@ -103,8 +103,7 @@ open class FragmentNavigationSupplierCallbacks(
             savedInstanceState: Bundle?
     ) {
         val oldHolder = navigationHolders[id]
-        require(oldHolder == null) { "You must specify unique tag for each FragmentContainer!" }
-
+        require(oldHolder == null) { "You must specify unique tag for each FragmentNavigationContainer!" }
         navigationHolders[id] = createHolder(id, containerId, fm, savedInstanceState)
     }
 
@@ -132,6 +131,6 @@ open class FragmentNavigationSupplierCallbacks(
     }
 
     private fun getContainerId(fragment: Fragment): Int? {
-        return if (fragment is FragmentContainer) fragment.containerId else null
+        return if (fragment is FragmentNavigationContainer) fragment.containerId else null
     }
 }

@@ -1,8 +1,8 @@
-package ru.surfstudio.android.navigation.supplier
+package ru.surfstudio.android.navigation.provider
 
-import ru.surfstudio.android.navigation.supplier.holder.FragmentNavigationHolder
+import ru.surfstudio.android.navigation.provider.holder.FragmentNavigationHolder
 
-interface FragmentNavigationSupplier {
+interface FragmentNavigationProvider {
 
     /**
      * Obtains [FragmentNavigationHolder] for current visible activity.
@@ -11,5 +11,5 @@ interface FragmentNavigationSupplier {
      *
      * @see [ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand.sourceTag]
      */
-    fun obtain(sourceTag: String): FragmentNavigationHolder
+    fun provide(sourceTag: String): FragmentNavigationHolder
 }

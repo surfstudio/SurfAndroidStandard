@@ -10,8 +10,8 @@ import ru.surfstudio.android.navigation.command.activity.Finish
 import ru.surfstudio.android.navigation.command.fragment.RemoveAll
 import ru.surfstudio.android.navigation.command.fragment.RemoveLast
 import ru.surfstudio.android.navigation.command.fragment.Replace
-import ru.surfstudio.android.navigation.supplier.container.FragmentContainer
-import ru.surfstudio.android.navigation.supplier.holder.FragmentNavigationHolder
+import ru.surfstudio.android.navigation.provider.container.FragmentNavigationContainer
+import ru.surfstudio.android.navigation.provider.holder.FragmentNavigationHolder
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
@@ -22,7 +22,7 @@ import ru.surfstudio.android.navigation.sample.app.screen.main.tabs.profile.Prof
 import ru.surfstudio.android.navigation.sample.app.utils.addOnBackPressedListener
 import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
 
-class MainFragment : Fragment(), FragmentContainer {
+class MainFragment : Fragment(), FragmentNavigationContainer {
 
     override val containerId: Int = R.id.main_fragment_container
 
@@ -33,14 +33,8 @@ class MainFragment : Fragment(), FragmentContainer {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        addOnBackPressedListener {
-            when {
-                hasTabsInStack() -> App.navigator.execute(RemoveLast(sourceTag = tag!!, isTab = true))
-                else -> App.navigator.execute(Finish())
-            }
-        }
-
-        setActiveTabReopenedListener { App.navigator.execute(RemoveAll(sourceTag = tag!!, isTab = true)) }
+        initBackPressedListener()
+        initActiveTabReopenedListener()
 
         if (savedInstanceState == null) {
             navigateToTab(HOME)
@@ -51,10 +45,21 @@ class MainFragment : Fragment(), FragmentContainer {
         profile_tab_btn.setOnClickListener { navigateToTab(PROFILE) }
     }
 
-    private fun setActiveTabReopenedListener(listener: (String) -> Unit) {
+    private fun initActiveTabReopenedListener() {
         getFragmentHolder()
                 .tabFragmentNavigator
-                .setActiveTabReopenedListener(listener)
+                .setActiveTabReopenedListener {
+                    App.navigator.execute(RemoveAll(sourceTag = tag!!, isTab = true))
+                }
+    }
+
+    private fun initBackPressedListener() {
+        addOnBackPressedListener {
+            when {
+                hasTabsInStack() -> App.navigator.execute(RemoveLast(sourceTag = tag!!, isTab = true))
+                else -> App.navigator.execute(Finish())
+            }
+        }
     }
 
     private fun navigateToTab(type: MainTabType) {
@@ -74,9 +79,9 @@ class MainFragment : Fragment(), FragmentContainer {
     }
 
     private fun getFragmentHolder(): FragmentNavigationHolder {
-        return App.supplier
-                .obtain()
-                .fragmentSupplier
-                .obtain(tag!!)
+        return App.provider
+                .provide()
+                .fragmentNavigationProvider
+                .provide(tag!!)
     }
 }

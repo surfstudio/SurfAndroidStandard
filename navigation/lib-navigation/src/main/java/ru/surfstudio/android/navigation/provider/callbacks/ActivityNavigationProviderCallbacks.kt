@@ -1,29 +1,32 @@
-package ru.surfstudio.android.navigation.supplier.callbacks
+package ru.surfstudio.android.navigation.provider.callbacks
 
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import ru.surfstudio.android.navigation.supplier.id.IdentifiableScreen
-import ru.surfstudio.android.navigation.supplier.ActivityNavigationSupplier
-import ru.surfstudio.android.navigation.supplier.holder.ActivityNavigationHolder
-import ru.surfstudio.android.navigation.supplier.FragmentNavigationSupplier
-import ru.surfstudio.android.navigation.supplier.callbacks.creator.FragmentNavigationSupplierCallbacksCreator
+import ru.surfstudio.android.navigation.provider.id.IdentifiableScreen
+import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
+import ru.surfstudio.android.navigation.provider.holder.ActivityNavigationHolder
+import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
+import ru.surfstudio.android.navigation.provider.callbacks.creator.FragmentNavigationProviderCallbacksCreator
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
 
+/**
+ * Activity
+ */
 //@PerApp
-open class ActivityNavigationSupplierCallbacks(
-        private val nestedCallbacksCreator: FragmentNavigationSupplierCallbacksCreator = ::FragmentNavigationSupplierCallbacks
-) : Application.ActivityLifecycleCallbacks, ActivityNavigationSupplier {
+open class ActivityNavigationProviderCallbacks(
+        private val fragmentCallbacksCreator: FragmentNavigationProviderCallbacksCreator = ::FragmentNavigationProviderCallbacks
+) : Application.ActivityLifecycleCallbacks, ActivityNavigationProvider {
 
 
     private val navigatorHolders = hashMapOf<String, ActivityNavigationHolder>()
     private var currentHolder: ActivityNavigationHolder? = null
     private var onHolderActiveListenerSingle: ((ActivityNavigationHolder) -> Unit)? = null
 
-    override fun obtain(): ActivityNavigationHolder {
+    override fun provide(): ActivityNavigationHolder {
         return currentHolder ?: error("Navigation holder is empty. You have no visible activity.")
     }
 
@@ -69,9 +72,9 @@ open class ActivityNavigationSupplierCallbacks(
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
         safeRequireActivityId(activity) { id ->
-            val nestedSupplier = navigatorHolders[id]?.fragmentSupplier
-            val castedNestedSupplier = nestedSupplier as? FragmentNavigationSupplierCallbacks
-            castedNestedSupplier?.onActivitySaveState(outState)
+            val provider = navigatorHolders[id]?.fragmentNavigationProvider
+            val callbacksProvider = provider as? FragmentNavigationProviderCallbacks
+            callbacksProvider?.onActivitySaveState(outState)
         }
     }
 
@@ -85,36 +88,37 @@ open class ActivityNavigationSupplierCallbacks(
 
     private fun destroyHolder(activity: Activity) {
         safeRequireActivityId(activity) { id ->
-            val nestedSupplier = navigatorHolders[id]?.fragmentSupplier
-            unregisterFragmentNavigationSupplier(activity, nestedSupplier)
+            val fragmentNavigationProvider = navigatorHolders[id]?.fragmentNavigationProvider
+            unregisterFragmentNavigationProvider(activity, fragmentNavigationProvider)
             navigatorHolders.remove(id)
         }
     }
 
-    private fun registerFragmentNavigationSupplier(
+    private fun registerFragmentNavigationProvider(
             activity: Activity,
-            nestedNavigationSupplier: FragmentNavigationSupplierCallbacks
+            fragmentNavigationProvider: FragmentNavigationProvider
     ) {
+        if (fragmentNavigationProvider !is FragmentNavigationProviderCallbacks) return
         if (activity !is FragmentActivity) return
         val fragmentManager = activity.supportFragmentManager
-        fragmentManager.registerFragmentLifecycleCallbacks(nestedNavigationSupplier, true)
+        fragmentManager.registerFragmentLifecycleCallbacks(fragmentNavigationProvider, true)
     }
 
-    private fun unregisterFragmentNavigationSupplier(
+    private fun unregisterFragmentNavigationProvider(
             activity: Activity,
-            nestedNavigationSupplier: FragmentNavigationSupplier?
+            fragmentNavigationProvider: FragmentNavigationProvider?
     ) {
-        if (nestedNavigationSupplier !is FragmentNavigationSupplierCallbacks) return
+        if (fragmentNavigationProvider !is FragmentNavigationProviderCallbacks) return
         if (activity !is FragmentActivity) return
         val fragmentManager = activity.supportFragmentManager
-        fragmentManager.unregisterFragmentLifecycleCallbacks(nestedNavigationSupplier)
+        fragmentManager.unregisterFragmentLifecycleCallbacks(fragmentNavigationProvider)
     }
 
     protected open fun createHolder(activity: Activity, savedInstanceState: Bundle?): ActivityNavigationHolder {
         require(activity is AppCompatActivity) { "All activities with ActivityNavigationHolders should implement AppCompatActivity!" }
 
-        val nestedNavigationSupplier = nestedCallbacksCreator(activity, savedInstanceState)
-        registerFragmentNavigationSupplier(activity, nestedNavigationSupplier)
+        val fragmentNavigationProvider = fragmentCallbacksCreator(activity, savedInstanceState)
+        registerFragmentNavigationProvider(activity, fragmentNavigationProvider)
 
         val activityNavigator = ActivityNavigator(activity)
         val dialogNavigator = DialogNavigator(activity)
@@ -122,7 +126,7 @@ open class ActivityNavigationSupplierCallbacks(
         return ActivityNavigationHolder(
                 activityNavigator,
                 dialogNavigator,
-                nestedNavigationSupplier
+                fragmentNavigationProvider
         )
     }
 

@@ -1,15 +1,12 @@
 package ru.surfstudio.android.navigation.navigator.fragment
 
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.resource.BaseResourceAnimations
 import ru.surfstudio.android.navigation.animation.resource.NoResourceAnimations
-import ru.surfstudio.android.navigation.animation.set.SetAnimations
-import ru.surfstudio.android.navigation.animation.shared.SharedElementAnimations
 import ru.surfstudio.android.navigation.command.fragment.Add
 import ru.surfstudio.android.navigation.command.NavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.Replace
@@ -19,7 +16,7 @@ import ru.surfstudio.android.navigation.backstack.fragment.entry.FragmentBackSta
 import ru.surfstudio.android.navigation.backstack.fragment.listener.BackStackChangedListener
 import ru.surfstudio.android.navigation.backstack.fragment.BackStackFragmentRoute
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
-import ru.surfstudio.android.navigation.utils.FragmentAnimationSupplier
+import ru.surfstudio.android.navigation.animation.utils.FragmentAnimationSupplier
 
 /**
  * Fragment navigator.

@@ -1,15 +1,15 @@
 package ru.surfstudio.android.navigation.sample.app
 
 import android.app.Application
-import ru.surfstudio.android.navigation.supplier.ActivityNavigationSupplier
-import ru.surfstudio.android.navigation.supplier.callbacks.ActivityNavigationSupplierCallbacks
+import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
+import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
 import ru.surfstudio.android.navigation.executor.AppCommandExecutor
 
 class App : Application() {
 
     companion object {
         lateinit var navigator: AppCommandExecutor
-        lateinit var supplier: ActivityNavigationSupplier
+        lateinit var provider: ActivityNavigationProvider
     }
 
     override fun onCreate() {
@@ -18,9 +18,9 @@ class App : Application() {
     }
 
     private fun initExecutor() {
-        val callbacksSupplier = ActivityNavigationSupplierCallbacks()
+        val callbacksSupplier = ActivityNavigationProviderCallbacks()
         registerActivityLifecycleCallbacks(callbacksSupplier)
         navigator = AppCommandExecutor(callbacksSupplier)
-        supplier = callbacksSupplier
+        provider = callbacksSupplier
     }
 }
