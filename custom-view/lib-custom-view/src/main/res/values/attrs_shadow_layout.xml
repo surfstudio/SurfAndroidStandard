@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ShadowLayout">
+        <attr name="shadowLeftOffset" format="dimension|reference" />
+        <attr name="shadowRightOffset" format="dimension|reference" />
+        <attr name="shadowTopOffset" format="dimension|reference" />
+        <attr name="shadowRadius" format="dimension|reference" />
+        <attr name="shadowAlphaPercent" format="integer|reference" />
+        <!-- Defines whether the ShadowLayout will clip the computed shadow to its padding.
+             This property is set to false by default. -->
+        <attr name="shadowClippedToPadding" format="boolean" />
+        <!-- Defines whether the shadow will be computed in a separate thread.
+             This property is set to false by default. -->
+        <attr name="isAsync" format="boolean" />
+    </declare-styleable>
+</resources>

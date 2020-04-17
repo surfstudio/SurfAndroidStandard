@@ -14,10 +14,10 @@ import java.io.File
 /**
  * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project.
  */
-open class WriteToFileReleaseNotesDiff : DefaultTask() {
+open class WriteToFileReleaseNotesDiff: DefaultTask() {
 
     companion object {
-        const val releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
+        const val RELEASE_NOTES_CHANGES_FILE_URL = "buildSrc/build/tmp/releaseNotesChanges.txt"
     }
 
     private lateinit var componentName: String
@@ -39,6 +39,10 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         writeChangesToFile()
     }
 
+    protected open fun addLineChange(change: String) {
+        releaseNotesChanges += change + "\n"
+    }
+
     private fun findComponent(): Component =
             Components.value.find { it.name == componentName }
                     ?: throw ComponentNotFoundException(componentName)
@@ -46,17 +50,13 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
     private fun generateComponentDiff(component: Component) {
         val rawDiff = extractRawDiff(component)
         val diffs = parseRawDiff(rawDiff)
-        if (diffs.isNotEmpty()) addReleaseNoteChange(component.name)
+        if (diffs.isNotEmpty()) addLineChange(component.name)
         writeDiff(diffs)
         if (diffs.isNotEmpty()) println()
     }
 
-    private fun addReleaseNoteChange(chane: String) {
-        releaseNotesChanges += "$chane\n"
-    }
-
     private fun writeChangesToFile() {
-        val file = File(releaseNotesChangesFileUrl)
+        val file = File(RELEASE_NOTES_CHANGES_FILE_URL)
         with(file) {
             if (exists()) {
                 delete()
@@ -81,7 +81,7 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
             diff.type == GitDiff.Type.SEPARATE -> "..."
             else -> "${diff.lineNumber}$paddingSpaces${diff.line}"
         }
-        addReleaseNoteChange(lineToPrint)
+        addLineChange(lineToPrint)
     }
 
     private fun parseRawDiff(diff: String): List<GitDiff> = SimpleGitDiffParser().parse(diff)

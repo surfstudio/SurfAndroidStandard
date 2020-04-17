@@ -1,4 +1,4 @@
-[Главная](../main.md)
+[Главная](../docs/main.md)
 
 # Настройки и плагины для Android Studio
 
