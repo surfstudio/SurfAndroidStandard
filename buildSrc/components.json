@@ -1419,6 +1419,10 @@
       {
         "name": "navigation-sample",
         "dir": "sample"
+      },
+      {
+        "name": "navigation-sample-standard",
+        "dir": "sample-standard"
       }
     ],
     "has_mirror": false,

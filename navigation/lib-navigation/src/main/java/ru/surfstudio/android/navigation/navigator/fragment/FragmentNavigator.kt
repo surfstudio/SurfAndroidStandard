@@ -53,7 +53,7 @@ open class FragmentNavigator(
         val fragmentManager = fragmentManager
         fragmentManager.executePendingTransactions()
 
-        val backStackTag = convertToBackStackTag(route.getTag())
+        val backStackTag = route.getTag()
         val fragment = route.createFragment()
 
         fragmentManager.beginTransaction().apply {
@@ -75,7 +75,7 @@ open class FragmentNavigator(
         val fragmentManager = fragmentManager
         fragmentManager.executePendingTransactions()
 
-        val backStackTag = convertToBackStackTag(route.getTag())
+        val backStackTag = route.getTag()
         val fragment = route.createFragment()
         val lastFragment = backStack.peekFragment()
 
@@ -98,7 +98,7 @@ open class FragmentNavigator(
         val fragmentManager = fragmentManager
         fragmentManager.executePendingTransactions()
 
-        val fragment = findFragment(convertToBackStackTag(route.getTag())) ?: return false
+        val fragment = findFragment(route.getTag()) ?: return false
 
         fragmentManager.beginTransaction()
                 .supplyWithAnimations(animations)
@@ -138,7 +138,7 @@ open class FragmentNavigator(
         val fragmentManager = fragmentManager
         fragmentManager.executePendingTransactions()
 
-        val backStackTag = convertToBackStackTag(route.getTag())
+        val backStackTag = route.getTag()
         val fragment = route.createFragment()
 
         fragmentManager.beginTransaction().apply {
@@ -158,7 +158,7 @@ open class FragmentNavigator(
 
     override fun removeUntil(route: FragmentRoute, isInclusive: Boolean): Boolean {
 
-        val backStackTag = convertToBackStackTag(route.getTag())
+        val backStackTag = route.getTag()
         val entry = backStack.find(backStackTag) ?: return false
 
         fragmentManager.executePendingTransactions()
@@ -235,14 +235,6 @@ open class FragmentNavigator(
         backStackChangedListeners.remove(listener)
     }
 
-    protected fun convertToBackStackTag(routeTag: String): String {
-        return "$containerId-$routeTag"
-    }
-
-    protected fun convertToRouteTag(backStackTag: String): String {
-        return backStackTag.split("-")[1]
-    }
-
     protected open fun getBackStackKey(): String {
         return BACK_STACK_KEY.format(containerId)
     }
@@ -305,7 +297,7 @@ open class FragmentNavigator(
         val fragmentManager = fragmentManager
         fragmentManager.executePendingTransactions()
 
-        val fragment = fragmentManager.findFragmentByTag(convertToBackStackTag(route.getTag()))
+        val fragment = fragmentManager.findFragmentByTag(route.getTag())
                 ?: return false
 
         fragmentManager.beginTransaction()

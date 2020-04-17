@@ -12,6 +12,7 @@ import ru.surfstudio.android.navigation.provider.holder.FragmentNavigationHolder
 import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
+import ru.surfstudio.android.navigation.route.Route
 
 //@PerAct
 open class FragmentNavigationProviderCallbacks(
@@ -127,7 +128,8 @@ open class FragmentNavigationProviderCallbacks(
 
 
     private fun getFragmentId(fragment: Fragment): String {
-        return fragment.tag ?: error("Fragment tag must always be specified!")
+        val screenId = fragment.arguments?.getString(Route.SCREEN_ID)
+        return screenId ?: error("Fragment id must always be specified!")
     }
 
     private fun getContainerId(fragment: Fragment): Int? {

@@ -33,5 +33,6 @@ interface Route {
         val EXTRA_TEN = "EXTRA_TEN"
         val EXTRA_ELEVEN = "EXTRA_ELEVEN"
         val EXTRA_TWELVE = "EXTRA_TWELVE"
+        val SCREEN_ID = "SCREEN_ID"
     }
 }
