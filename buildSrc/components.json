@@ -456,7 +456,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 16,
+    "unstable_version": 17,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -897,7 +897,7 @@
   {
     "id": "easyadapter",
     "version": "1.1.0",
-    "unstable_version": 11,
+    "unstable_version": 12,
     "stable": false,
     "dir": "easyadapter",
     "libs": [
