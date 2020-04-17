@@ -499,12 +499,10 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
             override fun onLoadFailed(errorDrawable: Drawable?) {
                 onErrorLambda?.invoke(errorDrawable)
-                super.onLoadFailed(errorDrawable)
             }
 
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                 onCompleteLambda?.invoke(resource, transition, imageCacheManager.imageSource)
-                super.onResourceReady(resource, transition)
             }
 
             override fun onLoadCleared(placeholder: Drawable?) {

@@ -1,8 +1,8 @@
 package ru.surfstudio.android.build
 
-import ru.surfstudio.android.build.exceptions.ComponentDirectoryNotExistException
-import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
-import ru.surfstudio.android.build.exceptions.LibraryDirectoryNotExistException
+import ru.surfstudio.android.build.exceptions.component.ComponentDirectoryNotExistException
+import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundException
+import ru.surfstudio.android.build.exceptions.library.LibraryDirectoryNotExistException
 import ru.surfstudio.android.build.exceptions.SampleDirectoryNotExistException
 import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
@@ -19,6 +19,7 @@ object Initializator {
     @JvmStatic
     fun init(currentBuildDirectory: String) {
         initConfigProviderWithCurrentDirectory(currentBuildDirectory)
+        GradlePropertiesManager.init()
         val jsonComponents = JsonHelper.parseComponentsJson("$currentBuildDirectory/$COMPONENTS_JSON_FILE_PATH")
         if (GradlePropertiesManager.isCurrentComponentAMirror()) {
             checkOnlyMirrorComponentFolder(jsonComponents, currentBuildDirectory)
@@ -35,15 +36,37 @@ object Initializator {
         ConfigInfoProvider.currentDirectory = "$currentDirectory/"
     }
 
-    private fun checkOnlyMirrorComponentFolder(jsonComponents: List<ComponentJson>, currentDirectory: String) {
-        val componentMirrorName = GradlePropertiesManager.getMirrorComponentName()
-        val component = jsonComponents.firstOrNull { it.id == componentMirrorName }
-                ?: throw ComponentNotFoundException(componentMirrorName)
-        checkComponentFolders(component, currentDirectory)
+    private fun checkOnlyMirrorComponentFolder(
+            jsonComponents: List<ComponentJson>,
+            currentDirectory: String
+    ) {
+        checkComponentFolders(
+                getComponentJson(
+                        GradlePropertiesManager.componentMirrorName,
+                        jsonComponents
+                ),
+                currentDirectory
+        )
+        if (GradlePropertiesManager.hasCommonComponent()) {
+            checkComponentFolders(
+                    getComponentJson(
+                            GradlePropertiesManager.commonComponentNameForMirror,
+                            jsonComponents
+                    ),
+                    currentDirectory
+            )
+        }
     }
 
+    private fun getComponentJson(
+            componentName: String,
+            jsonComponents: List<ComponentJson>
+    ): ComponentJson =
+            jsonComponents.firstOrNull { it.id == componentName }
+                    ?: throw ComponentNotFoundException(componentName)
+
     /**
-     * Check value directories for exist
+     * Check value directories for existance
      */
     private fun checkAllComponentsFolders(componentJsons: List<ComponentJson>, currentDirectory: String) {
         componentJsons.forEach { component ->

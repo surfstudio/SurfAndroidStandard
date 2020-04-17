@@ -18,6 +18,25 @@
 * ANDDEP-927 Add FirebaseCrashlyticsRemoteLoggingStrategy
 * ANDDEP-936 Remove Deprecated annotation from i-network module
 * ANDDEP-392 Fix firebase crashlytics initialization
+* ANDDEP-938 Add link of instruction of project initialization
+* ANDDEP-911 Kotlin code style auto-formatting support
+* ANDDEP-957 Fix dependency substitution for debug mode
+* ANDDEP-732 Fix version-plugin configuration for debug mode
+* ANDDEP-937 Fix setting label to app icon
+* ANDDEP-961 Add skipSamplesBuild flag for local android standard connection
+* ANDDEP-961 Small fixes
+* ANDDEP-928 Add RemoteLogger
+* ANDDEP-980 Fix template build
+* ANDDEP-1002 app module dependencies refactoring
+* ANDDEP-964 Refactored dependency imports in the project template
+* ANDDEP-982 `kotlin targetJvm` version raised: `1.6 -> 1.8`;
+* ANDDEP-982 `gradle-wrapper` version raised: `5.4.1 -> 5.6.4`;
+* ANDDEP-982 `kotlin` version raised: `1.3.31 -> 1.3.71`;
+* ANDDEP-982 `leakCanary` version raised: `1.6.2 -> 2.2`. Migration done;
+* ANDDEP-982 `okHttp` version raised: `3.12.0 -> 4.4.1`. Migration done;
+* ANDDEP-982 `easyadapter` now depends on `androidx.asynclayoutinflater`;
+* ANDDEP-982 other libraries versions changed;
+* ANDDEP-915 Added `validateCrossFeatureRoutes.gradle.kts` task. **Note**: supported only `.kt` source files parsing;
 
 ## 0.4.0
 ##### Template

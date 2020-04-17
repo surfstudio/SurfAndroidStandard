@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Recycler extension sample</string>
+
+    <string name="show_sticky_recycler_btn_text">Show sticky recycler view</string>
+    <string name="show_carousel_btn_text">Show carousel sample</string>
 </resources>

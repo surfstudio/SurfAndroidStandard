@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.tasks.check_dependencies_stable
 
 import org.gradle.api.DefaultTask
-import ru.surfstudio.android.build.exceptions.LibraryNotFoundException
+import ru.surfstudio.android.build.exceptions.library.LibraryNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library
 

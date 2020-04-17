@@ -1,7 +1,6 @@
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.DependencyConfigurator
 
-apply from: "$rootDir/buildSrc/deploy.gradle"
 apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
@@ -24,6 +23,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     lintOptions {

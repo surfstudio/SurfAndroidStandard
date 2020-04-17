@@ -8,6 +8,14 @@
 * Added support for asynchronous item list updates diff calculation
 * ANDDEP-812 - Fixed crash after enabling infinite scroll, fixed scroll position saving mechanism
 * ANDDEP-829 Fixed synchronous DiffResult dispatching in DefaultDiffer.
+* ANDDEP-785 Added method getItem() in EasyAdapter, to get BaseItem by position
+* ANDDEP-785 Added getter in EasyAdapter, for *firstInvisibleItemEnabled* property
+* **NO BACKWARD COMPATIBILITY** ANDDEP-909 Removed
+  `setHasStableIds(true)` in EasyAdapter.
+* **NO BACKWARD COMPATIBILITY** ANDDEP-958 Change getItemId and
+  getItemHash to Object for BaseItemController; getItemId became
+  abstract
+* ANDDEP-1017 Added DiffResultListener invoked after the DiffResult calculation
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder

@@ -1,9 +1,12 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-3.0.0-SNAPSHOT')
+// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
+import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
+import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.RepositoryUtil
@@ -18,6 +21,7 @@ import ru.surfstudio.ci.utils.android.config.AvdConfig
 // Stage names
 
 def CHECKOUT = 'Checkout'
+def NOTIFY_ABOUT_NEW_RELEASE_NOTES = 'Notify About New Release Notes'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
 def CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT = 'Check Configuration is project snapshot'
 def INCREMENT_PROJECT_SNAPSHOT_VERSION = 'Increment Project Snapshot Version'
@@ -31,9 +35,13 @@ def VERSION_PUSH = 'Version Push'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
+def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
+def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 
 //vars
 def branchName = ""
+def useBintrayDeploy = false
+def skipIncrementVersion = false
 
 //other config
 
@@ -56,10 +64,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -70,10 +78,17 @@ pipeline.initializeBody = {
     //Выбираем значения веток из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
     //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName_0') {
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName') {
         value -> branchName = value
     }
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'useBintrayDeploy') {
+        value -> useBintrayDeploy = Boolean.valueOf(value)
+    }
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'skipIncrementVersion') {
+        value -> skipIncrementVersion = Boolean.valueOf(value)
+    }
 
+    branchName = branchName.replace("refs/heads/", "")
     if (branchName.contains("origin/")) {
         branchName = branchName.replace("origin/", "")
     }
@@ -98,6 +113,24 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
+        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
+            def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
+            def prevCommitHash = commitParents[0]
+            script.sh("./gradlew WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}")
+            String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
+
+            if (releaseNotesChanges.trim() != "") {
+                def messageTitle = ""
+                if (releaseNotesChanges.contains("NO BACKWARD COMPATIBILITY")) {
+                    messageTitle = "Snapshot branch _${branchName}_ changed *without backward compatibility*:warning:"
+                } else {
+                    messageTitle = "Snapshot branch _${branchName}_ changed:"
+                }
+
+                releaseNotesChanges = "$messageTitle\n$releaseNotesChanges"
+                JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidStandardSlack, "slack", true)
+            }
+        },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
@@ -111,7 +144,11 @@ pipeline.stages = [
             script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
         },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
-            script.sh("./gradlew incrementProjectSnapshotVersion")
+            if (!skipIncrementVersion) {
+                script.sh("./gradlew incrementProjectSnapshotVersion")
+            } else {
+                script.echo "skip project snapshot version incrementation stage"
+            }
         },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
@@ -144,6 +181,15 @@ pipeline.stages = [
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    if (useBintrayDeploy) {
+                        /**
+                         * We can not use parameter -PdeployOnlyIfNotExist
+                         * for distributeArtifactsToBintray after uploadArchives,
+                         * otherwise deploy to Bintray will never be executed
+                         * after successful deploy to artifactory
+                         */
+                        script.sh "./gradlew distributeArtifactsToBintray -PonlyUnstable=true"
+                    }
                 }
             }
         },
@@ -154,39 +200,49 @@ pipeline.stages = [
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            RepositoryUtil.setDefaultJenkinsGitUser(script)
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+            if (!skipIncrementVersion) {
+                RepositoryUtil.setDefaultJenkinsGitUser(script)
+                String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+                def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
-            script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
-                    "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+                script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
+                        "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+                RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+            } else {
+                script.echo "skip version push stage"
+            }
         }
 ]
-
 
 
 pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
+    def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
     if (!success && !checkoutAborted) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        if (unstable) {
+            message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+        } else {
+            message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        }
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
+        if (useBintrayDeploy) {
+            message += "\nБыл выполнен деплой артефактов в Bintray.\n" +
+                    "Необходимо заменить последние версии артефактов в Bintray на стабильные"
+        }
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
-
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
 }
 
 pipeline.run()
 
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
-
-def static List<Object> initProperties(ScmPipeline ctx) {
+static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
             initBuildDiscarder(script),
@@ -208,8 +264,20 @@ def static initBuildDiscarder(script) {
 def static initParameters(script) {
     return script.parameters([
             script.string(
-                    name: "branchName_0",
-                    description: 'Ветка с исходным кодом')
+                    name: "branchName",
+                    description: 'Ветка с исходным кодом'
+            ),
+            script.booleanParam(
+                    defaultValue: false,
+                    name: "useBintrayDeploy",
+                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory.\n' +
+                            'Необходимо перед передачей проекта заказчику'
+            ),
+            script.booleanParam(
+                    defaultValue: false,
+                    name: "skipIncrementVersion",
+                    description: 'Деплой артефактов без инкремента версии'
+            )
     ])
 }
 
@@ -219,14 +287,14 @@ def static initTriggers(script) {
                     genericVariables: [
                             [
                                     key  : "branchName",
-                                    value: '$.push.changes[?(@.new.type == "branch")].new.name'
+                                    value: '$.ref'
                             ]
                     ],
                     printContributedVariables: true,
                     printPostContent: true,
-                    causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?project-snapshot\\/(.*)$',
-                    regexpFilterText: '$branchName_0'
+                    causeString: 'Triggered by Gitlab',
+                    regexpFilterExpression: '^(origin\\/)?refs\\/heads\\/project-snapshot\\/(.*)$',
+                    regexpFilterText: '$branchName'
             ),
             script.pollSCM('')
     ])

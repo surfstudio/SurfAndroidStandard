@@ -1,103 +1,144 @@
 ext {
+    //todo инструкция инициализации https://jirasurf.atlassian.net/wiki/spaces/ANDDEP/pages/1307901989
     applicationName = "AndroidStandard"
-    applicationId = "ru.surfstudio.android.template"
 
-    versionCode = 1
-    versionName = "0.0.1"
-    minSdkVersion = 21
-    targetSdkVersion = 28
-    compileSdkVersion = 28
-    debugVersionNameSuffix = ".debug"
-    qaVersionNameSuffix = ".qa"
+    versions = [
+            androidStandardVersion          : '0.5.0-alpha.8',      //версия version-plugin
+            gradlePluginVersion             : '3.6.1',              //https://bit.ly/2NXD4Pe
+            buildToolsVersion               : '29.0.3',             //https://bit.ly/2DNmq3Y
+            googleServicesVersion           : '4.3.3',              //https://bit.ly/2Q5FCge
+            buildScanPluginVersion          : '2.4.2',              //https://goo.gl/coZHFo
+            kotlinVersion                   : '1.3.71',             //https://goo.gl/2Epeje
+            annimonStreamVersion            : '1.2.1',              //https://bit.ly/2Ke0nlQ,
+            jetbrainsAnnotationsVersion     : '19.0.0',             //http://bit.ly/2NYf6Dt
+            multidexVersion                 : '2.0.1',              //http://bit.ly/2KenzA7
+            constraintLayoutVersion         : '2.0.0-alpha2',        //http://bit.ly/2S1WoNg
+            ktlintPluginVersion             : '2.3.2',              //https://bit.ly/2YLc3n8
+            daggerVersion                   : '2.27',               //https://vk.cc/7UFvQo
+            javaInjectVersion               : '1',                  //https://goo.gl/cM9Kcd
+            androidXVersion                 : '1.1.0',              //http://bit.ly/2zjueqh
+            androidxTestCoreVersion         : '1.2.0',              //http://bit.ly/2P1yKi1
+            androidxTestExtJunitVersion     : '1.1.1',              //http://bit.ly/2zC6UV1
+            androidxAnnotationVersion       : '1.1.0',              //http://bit.ly/2P3QBVO
+            androidXTestRunnerVersion       : '1.2.0',              //http://bit.ly/2ztEfBo
+            androidXEspressoCoreVersion     : '3.2.0',              //http://bit.ly/2DNc0AA
+            androidXEspressoIntentsVersion  : '3.2.0',              //http://bit.ly/2SikuDT
+            androidXEspressoContribVersion  : '3.2.0',              //http://bit.ly/2E0DdAq
+            robolectricVersion              : '4.3.1',              //http://bit.ly/2xLRICR
+            junitVersion                    : '4.13',               //https://goo.gl/hEcfw1
+            firebaseMessagingVersion        : '20.1.3',             //http://bit.ly/2Q81pGJ
+            firebaseAnalyticsVersion        : '17.2.3',             //http://bit.ly/2Q81pGJ
+            firebaseCoreVersion             : '17.2.3',
+            firebaseAppDistributionVersion  : '1.2.0',              //http://bit.ly/2Gc2qHh
+            firebaseCrashlyticsVersion      : '17.0.0-beta01',      //http://bit.ly/2RM7ec2
+            firebaseCrashlyticsGradleVersion: '2.0.0-beta01',       //http://bit.ly/2RM7ec2
+            okHttpVersion                   : '4.4.1',             //https://vk.cc/7UFwTd
+            retrofitVersion                 : '2.8.1',              //https://vk.cc/7UFxk3
+            chuckVersion                    : '1.1.0',              //https://bit.ly/2qCecTE
+            rxBinding2Version               : '2.2.0',              //https://goo.gl/KQ5Vga
+            stethoVersion                   : '1.5.1',              //https://bit.ly/2eZ3YI7
+            tinyDancerVersion               : '0.1.2',              //https://bit.ly/2Bluq9P
+            processPhoenixVersion           : '2.0.0',              //https://bit.ly/2OAc0po
+            leakCanaryVersion               : '2.2',              //https://goo.gl/w3pm32
+            anrWatchDogVersion              : '1.4.0',              //http://bit.ly/2NZvjZc
+            materialRangeBarVersion         : '1.4.4',              //https://bit.ly/2TxqAkm
+            timberVersion                   : '4.7.1',              //http://bit.ly/2LWbLaY
+            rxJava2DebugVersion             : '1.4.0',              //https://bit.ly/322Qzo7
+            androidDebugToolsVersion        : '1.0'                 //https://bit.ly/2QMKLfe
+    ]
 
-    gradlePluginVersion = '3.5.2'               //https://bit.ly/2NXD4Pe
-    buildToolsVersion = "29.0.0"                //https://bit.ly/2DNmq3Y
-    googleServicesVersion = '4.3.3'             //https://bit.ly/2Q5FCge
-    buildScanPluginVersion = '1.16'             //https://goo.gl/coZHFo
+    app = [
+            applicationId: "ru.surfstudio.android.template",
+            versionName  : "0.0.1",
+            versionCode  : 1
+    ]
 
-    //lang
-    kotlinVersion = '1.3.61'                    //https://goo.gl/2Epeje
-    ankoVersion = '0.10.8'                      //https://goo.gl/XGJGR7
-    annimonStreamVersion = '1.2.1'              //https://bit.ly/2Ke0nlQ
-    jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
+    meta = [
+            minSdkVersion         : 21,
+            targetSdkVersion      : 28,
+            compileSdkVersion     : 28,
+            debugVersionNameSuffix: ".debug",
+            qaVersionNameSuffix   : ".qa"
+    ]
 
-    //DI
-    javaInjectVersion = '1'                     //https://goo.gl/cM9Kcd
-    daggerVersion = '2.21'                      //https://vk.cc/7UFvQo
+    lang = [
+            kotlinStdLib        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlinVersion}",
+            annimonStream       : "com.annimon:stream:${versions.annimonStreamVersion}",
+            jetbrainsAnnotations: "org.jetbrains:annotations:${versions.jetbrainsAnnotationsVersion}"
+    ]
 
-    //androidx
-    androidxVersion = '1.0.2'                   //http://bit.ly/2zjueqh
-    androidxMaterialVersion = '1.0.0'           //http://bit.ly/2KAAq1y
-    androidxRecyclerViewVersion = '1.0.0'       //http://bit.ly/2RcUQjD
-    androidxExitInterfaceVersion = '1.0.0'      //http://bit.ly/2DPqlw6
-    androidxKtxVersion = '1.0.2'                //http://bit.ly/2qY7ffW
-    androidxTestVersion = '1.0.0'               //http://bit.ly/2P1yKi1
-    androidxTestExtJunitVersion = '1.0.0'       //http://bit.ly/2zC6UV1
-    androidxAnnotationVersion = '1.0.1'         //http://bit.ly/2P3QBVO
-    androidxMultidexVersion = '2.0.0'           //http://bit.ly/2r6uX9G
-    androidXTestRunnerVersion = '1.1.0'         //http://bit.ly/2ztEfBo
-    androidXEspressoCoreVersion = '3.1.0'       //http://bit.ly/2DNc0AA
-    androidXEspressoIntentsVersion = '3.1.0'    //http://bit.ly/2SikuDT
-    androidXEspressoContribVersion = '3.1.0'    //http://bit.ly/2E0DdAq
-    playCoreVersion = '1.3.6'                   //http://bit.ly/2Hod1T1
+    di = [
+            dagger    : "com.google.dagger:dagger:${versions.daggerVersion}",
+            daggerKapt: "com.google.dagger:dagger-compiler:${versions.daggerVersion}",
+            javaInject: "javax.inject:javax.inject:${versions.javaInjectVersion}"
+    ]
 
-    //gms
-    firebaseMessagingVersion = '20.1.0'         //http://bit.ly/2Q81pGJ
-    playServicesLocationVersion = '17.0.0'      //http://bit.ly/2CulYrn
-    firebaseAnalyticsVersion = '17.2.2'         //http://bit.ly/2Q81pGJ
-    firebaseCoreVersion = '17.2.2'
+    androidX = [
+            appcompat       : "androidx.appcompat:appcompat:${versions.androidXVersion}",
+            annotation      : "androidx.annotation:annotation:${versions.androidxAnnotationVersion}",
+            multidex        : "androidx.multidex:multidex:${versions.multidexVersion}",
+            constraintLayout: "androidx.constraintlayout:constraintlayout:${versions.constraintLayoutVersion}"
+    ]
 
-    //network
-    okHttpVersion = '3.12.0'                    //https://vk.cc/7UFwTd
-    retrofitVersion = '2.5.0'                   //https://vk.cc/7UFxk3
-    chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
-    gsonVersion = '2.8.5'                       //https://vk.cc/7UFvbd
+    firebase = [
+            messaging  : "com.google.firebase:firebase-messaging:${versions.firebaseMessagingVersion}",
+            analytics  : "com.google.firebase:firebase-analytics:${versions.firebaseAnalyticsVersion}",
+            core       : "com.google.firebase:firebase-core:${versions.firebaseCoreVersion}",
+            crashlytics: "com.google.firebase:firebase-crashlytics:${versions.firebaseCrashlyticsVersion}"
+    ]
 
-    //rx
-    ferroRxVersion = '2.0.0'                    //https://goo.gl/6ir26N
-    rxJava2Version = '2.2.3'                    //https://goo.gl/uzna2x
-    rxAndroid2Version = '2.1.0'                 //https://goo.gl/3Kd3iP
-    rxBinding2Version = '2.2.0'                 //https://goo.gl/KQ5Vga
-    rxRelayVersion = '2.1.0'                    //https://goo.gl/E643M0
+    okHttp = [
+            loggingInterceptor: "com.squareup.okhttp3:logging-interceptor:${versions.okHttpVersion}"
+    ]
 
-    //android framework
-    jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
-    multidexVersion = '2.0.1'                   //http://bit.ly/2KenzA7
-    constraintLayoutVersion = '1.1.3'           //http://bit.ly/2OxplzU
-    constraintLayoutXVersion = '2.0.0-alpha2'   //http://bit.ly/2S1WoNg
-    easyLauncherVersion = '1.3.1'               //https://goo.gl/CQNp8c
+    retrofit = [
+            core          : "com.squareup.retrofit2:retrofit:${versions.retrofitVersion}",
+            converterGson : "com.squareup.retrofit2:converter-gson:${versions.retrofitVersion}",
+            adapterRxJava2: "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofitVersion}"
+    ]
 
-    //glide
-    glideVersion = '4.8.0'                      //http://bit.ly/2Q7Fa41
+    network = [
+            chuck: "com.readystatesoftware.chuck:library:${versions.chuckVersion}"
+    ]
 
-    //ui
-    materialProgressBarVersion = '1.6.0'        //http://bit.ly/2vrzQvE
-    wangAviLibraryVersion = '2.1.3'             //http://bit.ly/2NVrDaI
+    rxBinding2 = [
+            core       : "com.jakewharton.rxbinding2:rxbinding:${versions.rxBinding2Version}",
+            kotlin     : "com.jakewharton.rxbinding2:rxbinding-kotlin:${versions.rxBinding2Version}",
+            appcompatV7: "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${versions.rxBinding2Version}"
+    ]
 
-    //test
-    robolectricVersion = '4.0.2'                //http://bit.ly/2xLRICR
-    junitVersion = '4.12'                       //https://goo.gl/hEcfw1
-    uiAutomatorVersion='2.2.0'                  //http://bit.ly/2ORotVQ
-    mockitoVersion = '2.23.4'                   //http://bit.ly/2OuQ9AA
-    powerMockVersion = '1.7.4'                  //http://bit.ly/2QisKq5
-    assertJVersion = '3.11.1'                   //http://bit.ly/2mXO1EX
+    test = [
+            robolectric    : "org.robolectric:robolectric:${versions.robolectricVersion}",
+            shadowsMultidex: "org.robolectric:shadows-multidex:${versions.robolectricVersion}",
+            junit          : "junit:junit:${versions.junitVersion}"
 
-    //surf
-    androidStandardVersion = '0.5.0-alpha.8'    //версия version-plugin
+    ]
 
-    //debug
-    stethoVersion = '1.5.0'                     //https://bit.ly/2eZ3YI7
-    tinyDancerVerxion = "0.1.2"                 //https://bit.ly/2Bluq9P
-    processPhoenix = '2.0.0'                    //https://bit.ly/2OAc0po
-    leakCanaryVersion = '1.6.2'                 //https://goo.gl/w3pm32
-    anrWatchDogVersion = '1.3.0'                //http://bit.ly/2NZvjZc
-    timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
-    chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
-    anrWatchDogVersion = '1.3.0'                //http://bit.ly/2NZvjZc
-    materialRangebarVersion = '1.4.4'           //https://bit.ly/2TxqAkm
-    timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
-    rxJava2DebugVersion = '1.4.0'               //https://bit.ly/322Qzo7
-    firebaseAppDistributionVersion = '1.2.0'    //http://bit.ly/2Gc2qHh
-    firebaseCrashlyticsVersion = '17.0.0-beta01'     //http://bit.ly/2RM7ec2
-    firebaseCrashlyticsGradleVersion = '2.0.0-beta01'//http://bit.ly/2RM7ec2
+    androidTest = [
+            core           : "androidx.test:core:${versions.androidxTestCoreVersion}",
+            extJunit       : "androidx.test.ext:junit:${versions.androidxTestExtJunitVersion}",
+            testRunner     : "androidx.test:runner:${versions.androidXTestRunnerVersion}",
+            espressoCore   : "androidx.test.espresso:espresso-core:${versions.androidXEspressoCoreVersion}",
+            espressoIntents: "androidx.test.espresso:espresso-intents:${versions.androidXEspressoIntentsVersion}",
+            espressoContrib: "androidx.test.espresso:espresso-contrib:${versions.androidXEspressoContribVersion}"
+    ]
+
+    view = [
+            materialRangeBar: "com.appyvet:materialrangebar:${versions.materialRangeBarVersion}"
+    ]
+
+    debug = [
+            tinyDancer       : "com.github.brianPlummer:tinydancer:${versions.tinyDancerVersion}",
+            processPhoenix   : "com.jakewharton:process-phoenix:${versions.processPhoenixVersion}",
+            anrWatchDog      : "com.github.anrwatchdog:anrwatchdog:${versions.anrWatchDogVersion}",
+            timber           : "com.jakewharton.timber:timber:${versions.timberVersion}",
+            rxJava2Debug     : "com.akaita.java:rxjava2-debug:${versions.rxJava2DebugVersion}",
+            androidDebugTools: "com.github.kk121:Android-Debug-Tools:${versions.androidDebugToolsVersion}",
+            leakCanary       : "com.squareup.leakcanary:leakcanary-android:${versions.leakCanaryVersion}"
+    ]
+
+    stetho = [
+            core  : "com.facebook.stetho:stetho:${versions.stethoVersion}",
+            okHttp: "com.facebook.stetho:stetho-okhttp3:${versions.stethoVersion}"
+    ]
 }

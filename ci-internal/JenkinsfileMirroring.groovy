@@ -1,4 +1,4 @@
-@Library('surf-lib@version-1.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-3.0.0-SNAPSHOT') // https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.CommonUtil
@@ -7,7 +7,7 @@ import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.Result
 import java.net.URLEncoder
 
-def encodeUrl(string){
+static def encodeUrl(string){
     URLEncoder.encode(string, "UTF-8") 
 }
 

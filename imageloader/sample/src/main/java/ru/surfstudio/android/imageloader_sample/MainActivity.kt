@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                 .with(this)
                 .url(R.drawable.android_gif)
                 .into(gifImageView, onCompleteLambda = { res, _, _ ->
+                    gifImageView.setImageDrawable(res)
                     if (res is GifDrawable) {
                         res.setLoopCount(10)
                         gifButton.setOnClickListener {
