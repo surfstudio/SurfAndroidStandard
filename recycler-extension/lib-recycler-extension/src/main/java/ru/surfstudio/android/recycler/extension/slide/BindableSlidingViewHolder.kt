@@ -61,6 +61,7 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
     private var isAnimatingSlide = false
 
     // Shortcuts
+    private val context get() = itemView.context
     private val currentSlideTranslation get() = contentContainer.translationX
     private val isReachedLeftContainer get() = currentSlideTranslation >= leftContainerTriggerPosition
     private val isReachedRightContainer get() = currentSlideTranslation <= rightContainerTriggerPosition
