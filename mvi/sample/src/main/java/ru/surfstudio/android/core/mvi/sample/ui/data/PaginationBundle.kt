@@ -14,7 +14,7 @@ class PaginationBundle<T>(
     val hasData = !data.isNullOrEmpty()
 
     /**
-     * Check that `data` and `state` is exist and if so - execute `callback`,
+     * Check that `data` and `state` exist and if so - execute `callback`,
      * do nothing otherwise.
      * */
     fun safeGet(callback: (DataList<T>, PaginationState) -> Unit) {

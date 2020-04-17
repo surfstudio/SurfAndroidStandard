@@ -16,7 +16,7 @@ object ReducerStateTraveller : StateEmitter {
     private val isEnabled: Boolean = BuildConfig.DEBUG
 
     /**
-     * Добавление стейта и холдера в список для хранения
+     * Add [holder] and it's [state] to the storage.
      */
     fun <S : Any> accept(state: S, holder: State<S>) {
         if (!isEnabled) return
@@ -27,7 +27,7 @@ object ReducerStateTraveller : StateEmitter {
     }
 
     /**
-     * Очистка хранилища холдера с именем holderName
+     * Clear storage by given [holderName].
      */
     fun erase(holderName: String) {
         if (!isEnabled) return
@@ -35,7 +35,7 @@ object ReducerStateTraveller : StateEmitter {
     }
 
     /**
-     * Очистка хранилища холдера
+     * Clear storage by given [holder].
      */
     fun erase(holder: State<*>) {
         if (!isEnabled) return
@@ -43,10 +43,10 @@ object ReducerStateTraveller : StateEmitter {
     }
 
     /**
-     * Перемещение по стейтам
+     * Travelling between states.
      *
-     * @param holderName имя холдера, для которого переключаем стейт
-     * @param index индекс стейта
+     * @param holderName is target, that travelling between states.
+     * @param index of state, we're travelling in.
      */
     fun travel(holderName: String, index: Int) {
         if (!isEnabled) return
@@ -57,7 +57,7 @@ object ReducerStateTraveller : StateEmitter {
     }
 
     /**
-     * Печать всех стейтов из Reducer
+     * Print all of the states in storage by given [holderName].
      */
     fun print(holderName: String) {
         if (!isEnabled) return

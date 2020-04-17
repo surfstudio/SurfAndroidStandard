@@ -5,12 +5,12 @@ import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 
 /**
- * [Reducer] из терминологии Redux:
+ * [Reducer] in terms of `Redux`:
  *
- * Этот класс служит для изменения текущего состояние экрана [State],
- * при реакции на событие [Event].
+ * This entity is responsible to react on given [Event]
+ * and produce new screen [State] as result of reaction.
  *
- * @see <a href="Reducers documentation">https://redux.js.org/basics/reducers</a>
+ * [Reducers documentation](https://redux.js.org/basics/reducers)
  */
 interface Reducer<E : Event, S> : Reactor<E, State<S>> {
 
@@ -23,23 +23,18 @@ interface Reducer<E : Event, S> : Reactor<E, State<S>> {
     }
 
     /**
-     * Метод, в котором происходит определение того, изменилось ли состояние
-     * после того, как произошла реакция на событие.
+     * Used to check: if screen [State] has changed or not, after reaction on some [Event].
      *
-     * Это происходит, чтобы StateHolder уведомлял своих подписчиков
-     * только при реальной смене состояния.
+     * So we can't skip screen rendering if [State] hasn't changed.
      *
-     * Можно переопределить, если необходима сложная проверка или настраиваемое поведение.
+     * Can be overridden if required some special checks or custom behaviour.
      */
     fun isStateChanged(oldState: S, newState: S) = oldState != newState
 
     /**
-     * Трансформация состояния экрана с помощью поступающих событий от Ui или от слоя данных.
+     * Transformation of current screen [State] by given [Event].
      *
-     * @param state состояние экрана
-     * @param event событие
-     *
-     * @return обновленное состояние экрана
+     * @return updated screen [State].
      */
     fun reduce(state: S, event: E): S
 }
