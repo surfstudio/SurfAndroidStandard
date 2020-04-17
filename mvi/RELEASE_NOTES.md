@@ -28,5 +28,5 @@ Replaced RxMiddleware.asRequestEvent `Event` parameter with `EventFactory`.
 ##### Mvi-mapper
 * ANDDEP-968 **NEW** `RequestMapper.kt`: class for managing requests;
 * ANDDEP-968 **NEW** `RequestMapperLambdas.kt`: file that holds typealiases for `RequestMapper`;
-##### Mvi-sample
-* ANDDEP-968 New sample screens: `KittiesActivity` and `KittiesAllActivity`;
+##### Mvi-impls
+* ANDDEP-969 Added base classes: `BaseReactor` and `BaseReducer`;

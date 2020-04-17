@@ -8,10 +8,10 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.junit.Test
 import ru.surfstudio.android.core.mvi.sample.R
-import ru.surfstudio.android.core.mvi.sample.ui.screen.input.InputFormActivityView
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ComplexListActivityView
-import ru.surfstudio.android.core.mvi.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.core.mvi.sample.ui.screen.simple_list.SimpleListActivityView
+import ru.surfstudio.android.core.mvi.sample.ui.screen.reactor_based.input.InputFormActivityView
+import ru.surfstudio.android.core.mvi.sample.ui.screen.reactor_based.list.ComplexListActivityView
+import ru.surfstudio.android.core.mvi.sample.ui.screen.reactor_based.main.MainActivityView
+import ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.simple_list.SimpleListActivityView
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
 import ru.surfstudio.android.sample.common.test.utils.RecyclerViewUtils.performItemClick
