@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.executor.fragment
+package ru.surfstudio.android.navigation.executor.screen.fragment
 
 import ru.surfstudio.android.navigation.command.fragment.*
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand

@@ -29,7 +29,7 @@ interface FragmentNavigationCommand : NavigationCommand {
      * you may need to execute navigation command for a current fragment's parent,
      * then you should pass parent tag as an option.
      */
-    val sourceTag: String
+    var sourceTag: String
 
     companion object {
         const val ACTIVITY_NAVIGATION_TAG = "activity_navigation_tag"

@@ -15,5 +15,5 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 data class Replace(
         override val route: FragmentRoute,
         override val animations: Animations = DefaultAnimations.fragment,
-        override val sourceTag: String = ""
+        override var sourceTag: String = ""
 ) : FragmentNavigationCommand

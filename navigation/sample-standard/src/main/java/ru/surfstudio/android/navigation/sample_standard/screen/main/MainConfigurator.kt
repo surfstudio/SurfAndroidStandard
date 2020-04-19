@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.navigation.sample_standard.dagger.ui.ActivityComponent
 import ru.surfstudio.android.navigation.sample_standard.dagger.ui.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.navigation.sample_standard.dagger.ui.screen.ActivityScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
 
 /**
@@ -22,7 +23,7 @@ class MainConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
         : BindableScreenComponent<MainActivityView>
 
     @Module
-    internal class MainScreenModule {
+    internal class MainScreenModule : ActivityScreenModule() {
 
         @Provides
         @PerScreen

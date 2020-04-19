@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.executor.activity
+package ru.surfstudio.android.navigation.executor.screen.activity
 
 import ru.surfstudio.android.navigation.command.activity.*
 import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigationCommand

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.executor.dialog
+package ru.surfstudio.android.navigation.executor.screen.dialog
 
 import ru.surfstudio.android.navigation.command.dialog.Dismiss
 import ru.surfstudio.android.navigation.command.dialog.Show

@@ -17,7 +17,7 @@ import ru.surfstudio.android.navigation.route.stub.StubTabFragmentRoute
  */
 data class RemoveAll(
         override val animations: Animations = DefaultAnimations.fragment,
-        override val sourceTag: String = "",
+        override var sourceTag: String = "",
         val isTab: Boolean = false
 ) : FragmentNavigationCommand {
 

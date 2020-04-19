@@ -5,16 +5,20 @@ import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigation
 import ru.surfstudio.android.navigation.command.dialog.base.DialogNavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
-import ru.surfstudio.android.navigation.executor.activity.ActivityCommandExecutor
-import ru.surfstudio.android.navigation.executor.dialog.DialogCommandExecutor
-import ru.surfstudio.android.navigation.executor.fragment.FragmentCommandExecutor
+import ru.surfstudio.android.navigation.executor.screen.activity.ActivityCommandExecutor
+import ru.surfstudio.android.navigation.executor.screen.dialog.DialogCommandExecutor
+import ru.surfstudio.android.navigation.executor.screen.fragment.FragmentCommandExecutor
 
+/**
+ * Command
+ */
+//@PerApp
 open class AppCommandExecutor(
-        private val activityNavigationProvider: ActivityNavigationProvider,
-        private val activityCommandExecutor: ActivityCommandExecutor = ActivityCommandExecutor(activityNavigationProvider),
-        private val fragmentCommandExecutor: FragmentCommandExecutor = FragmentCommandExecutor(activityNavigationProvider),
-        private val dialogCommandExecutor: DialogCommandExecutor = DialogCommandExecutor(activityNavigationProvider)
-) : CommandExecutor<NavigationCommand> {
+        protected val activityNavigationProvider: ActivityNavigationProvider,
+        protected val activityCommandExecutor: ActivityCommandExecutor = ActivityCommandExecutor(activityNavigationProvider),
+        protected val fragmentCommandExecutor: FragmentCommandExecutor = FragmentCommandExecutor(activityNavigationProvider),
+        protected val dialogCommandExecutor: DialogCommandExecutor = DialogCommandExecutor(activityNavigationProvider)
+) : NavigationCommandExecutor {
 
     protected val buffer = mutableListOf<NavigationCommand>()
 
@@ -36,7 +40,7 @@ open class AppCommandExecutor(
         }
     }
 
-    private fun executeBuffer() {
+    protected fun executeBuffer() {
         execute(buffer)
         buffer.clear()
     }
