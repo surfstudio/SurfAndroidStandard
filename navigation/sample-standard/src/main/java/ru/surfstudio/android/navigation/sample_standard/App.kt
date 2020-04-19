@@ -42,8 +42,9 @@ class App : Application() {
     }
 
     private fun registerNavigationProviderCallbacks() {
-        val callbacks = appComponent.activityNavigationProvider() as? ActivityNavigationProviderCallbacks
-        registerActivityLifecycleCallbacks(callbacks ?: return)
+        val provider = appComponent.activityNavigationProvider()
+        val callbackProvider = provider as? ActivityNavigationProviderCallbacks ?: return
+        registerActivityLifecycleCallbacks(callbackProvider)
     }
 
 }

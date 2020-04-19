@@ -42,7 +42,7 @@ open class ActivityNavigationProviderCallbacks(
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         safeRequireActivityId(activity) { id ->
-            val newHolder = createHolder(activity, savedInstanceState)
+            val newHolder = createHolder(id, activity, savedInstanceState)
             navigatorHolders[id] = newHolder
             if (savedInstanceState != null) {
                 currentHolder = newHolder
@@ -116,8 +116,9 @@ open class ActivityNavigationProviderCallbacks(
         fragmentManager.unregisterFragmentLifecycleCallbacks(fragmentNavigationProvider)
     }
 
-    protected open fun createHolder(activity: Activity, savedInstanceState: Bundle?): ActivityNavigationHolder {
+    protected open fun createHolder(id: String, activity: Activity, savedInstanceState: Bundle?): ActivityNavigationHolder {
         require(activity is AppCompatActivity) { "All activities with ActivityNavigationHolders should implement AppCompatActivity!" }
+        require(!navigatorHolders.containsKey(id)) { "Activity id must be unique! You should provide unique ActivityRoute.getTag() for each activity in application." }
 
         val fragmentNavigationProvider = fragmentCallbacksCreator(activity, savedInstanceState)
         registerFragmentNavigationProvider(activity, fragmentNavigationProvider)
