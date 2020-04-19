@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.navigation.route.BaseRoute
-import ru.surfstudio.android.navigation.route.Route.Companion.SCREEN_ID
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute.Companion.EXTRA_DATA_BUNDLE
 
 /**
@@ -15,6 +14,7 @@ open class ActivityRoute : BaseRoute<AppCompatActivity>() {
 
     companion object {
         const val EXTRA_DATA_BUNDLE = "extra data bundle"
+        const val SCREEN_ID = "extra screen id"
     }
 
     /**
@@ -25,9 +25,8 @@ open class ActivityRoute : BaseRoute<AppCompatActivity>() {
     open fun createIntent(context: Context): Intent {
         return Intent(context, requireScreenClass())
                 .apply {
-                    //TODO подумать, хорошая ли идея класть сюда SCREEN_ID для идентификации экрана
-                    putExtra(EXTRA_DATA_BUNDLE, prepareData())
                     putExtra(SCREEN_ID, getTag())
+                    putExtra(EXTRA_DATA_BUNDLE, prepareData())
                 }
     }
 }

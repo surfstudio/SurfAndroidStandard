@@ -128,8 +128,7 @@ open class FragmentNavigationProviderCallbacks(
 
 
     private fun getFragmentId(fragment: Fragment): String {
-        val screenId = fragment.arguments?.getString(Route.SCREEN_ID)
-        return screenId ?: error("Fragment id must always be specified!")
+        return fragment.tag ?: error("Fragment tag must always be specified!")
     }
 
     private fun getContainerId(fragment: Fragment): Int? {

@@ -2,22 +2,24 @@ package ru.surfstudio.android.navigation.provider.callbacks
 
 import android.app.Activity
 import android.app.Application
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import ru.surfstudio.android.navigation.provider.id.IdentifiableScreen
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.provider.holder.ActivityNavigationHolder
 import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
 import ru.surfstudio.android.navigation.provider.callbacks.creator.FragmentNavigationProviderCallbacksCreator
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
+import ru.surfstudio.android.navigation.route.activity.ActivityRoute.Companion.SCREEN_ID
 
 /**
  * Activity
  */
 //@PerApp
 open class ActivityNavigationProviderCallbacks(
+        private val packageName: String,
         private val fragmentCallbacksCreator: FragmentNavigationProviderCallbacksCreator = ::FragmentNavigationProviderCallbacks
 ) : Application.ActivityLifecycleCallbacks, ActivityNavigationProvider {
 
@@ -131,8 +133,18 @@ open class ActivityNavigationProviderCallbacks(
     }
 
     protected open fun safeRequireActivityId(activity: Activity, onActivityReady: (id: String) -> Unit) {
-        if (activity is AppCompatActivity && activity is IdentifiableScreen) {
-            onActivityReady(activity.screenId)
+        if (activity is AppCompatActivity) {
+            val intent = activity.intent
+            val screenId = when {
+                intent.hasExtra(SCREEN_ID) -> intent.getStringExtra(SCREEN_ID)
+                activity.packageName == packageName && intent.action == Intent.ACTION_MAIN -> LAUNCHER_ACTIVITY_ID
+                else -> return
+            }
+            onActivityReady(screenId)
         }
+    }
+
+    private companion object {
+        const val LAUNCHER_ACTIVITY_ID = "ActivityNavigationProviderCallbacks Launcher activity"
     }
 }
