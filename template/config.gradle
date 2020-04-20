@@ -16,7 +16,7 @@ ext {
             ktlintPluginVersion             : '2.3.2',              //https://bit.ly/2YLc3n8
             daggerVersion                   : '2.27',               //https://vk.cc/7UFvQo
             javaInjectVersion               : '1',                  //https://goo.gl/cM9Kcd
-            androidXVersion                 : '1.1.0',              //http://bit.ly/2zjueqh
+            androidXVersion                 : '1.0.2',              //http://bit.ly/2zjueqh
             androidxTestCoreVersion         : '1.2.0',              //http://bit.ly/2P1yKi1
             androidxTestExtJunitVersion     : '1.1.1',              //http://bit.ly/2zC6UV1
             androidxAnnotationVersion       : '1.1.0',              //http://bit.ly/2P3QBVO
