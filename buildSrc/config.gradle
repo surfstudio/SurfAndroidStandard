@@ -42,7 +42,7 @@ ext {
             "androidx.recyclerview:recyclerview"               : "1.0.0",        //https://bit.ly/33s8ohH
             "androidx.core:core"                               : "1.0.2",        //https://bit.ly/2yYY82h
             "androidx.core:core-ktx"                           : "1.0.2",        //http://bit.ly/2qY7ffW
-            "androidx.constraintlayout:constraintlayout"       : "2.0.0-alpha2",  //http://bit.ly/2S1WoNg
+            "androidx.constraintlayout:constraintlayout"       : "2.0.0-alpha2", //http://bit.ly/2S1WoNg
             "androidx.appcompat:appcompat"                     : "1.0.2",        //http://bit.ly/2zjueqh
             "androidx.multidex:multidex"                       : "2.0.1",        //http://bit.ly/2r6uX9G
             "androidx.exifinterface:exifinterface"             : "1.1.0",        //http://bit.ly/2DPqlw6
