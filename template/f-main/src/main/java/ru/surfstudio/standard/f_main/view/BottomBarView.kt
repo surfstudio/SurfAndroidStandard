@@ -23,6 +23,7 @@ class BottomBarView @JvmOverloads constructor(
     private val tabButtonsMap by lazy {
         hashMapOf<MainTabType, BottomBarItemView>(
                 MainTabType.FEED to bottom_bar_feed_btn,
+                MainTabType.SEARCH to bottom_bar_search_btn,
                 MainTabType.PROFILE to bottom_bar_profile_btn
         )
     }

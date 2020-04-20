@@ -20,8 +20,7 @@ class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent
     @PerScreen
     @Component(dependencies = [ActivityComponent::class],
             modules = [ActivityScreenModule::class, MainScreenModule::class])
-    interface MainScreenComponent
-        : ScreenComponent<MainActivityView>
+    interface MainScreenComponent : ScreenComponent<MainActivityView>
 
     @Module
     internal class MainScreenModule(route: MainActivityRoute) : CustomScreenModule<MainActivityRoute>(route)

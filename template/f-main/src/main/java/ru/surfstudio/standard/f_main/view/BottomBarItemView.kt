@@ -20,6 +20,7 @@ class BottomBarItemView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     init {
+        orientation = VERTICAL
         inflate(context, R.layout.view_bottom_bar_item, this)
         initAttrs(attrs)
     }
@@ -31,7 +32,7 @@ class BottomBarItemView @JvmOverloads constructor(
         val colorRes = if (isChecked) R.color.colorAccent else android.R.color.black
         val colorFilter = ContextCompat.getColor(context, colorRes)
         bottom_bar_item_iv.setColorFilter(colorFilter)
-        bottom_bar_item_label.setTextColor(colorFilter)
+        bottom_bar_item_tv.setTextColor(colorFilter)
 
         if (isChecked) animateIcon()
     }
@@ -60,7 +61,7 @@ class BottomBarItemView @JvmOverloads constructor(
         val labelText = ta.getString(R.styleable.BottomBarItemView_item_labelText) ?: EMPTY_STRING
         val iconRes = ta.getResourceId(R.styleable.BottomBarItemView_item_icon, -1)
 
-        bottom_bar_item_label.text = labelText
+        bottom_bar_item_tv.text = labelText
         bottom_bar_item_iv.setImageDrawable(ContextCompat.getDrawable(context, iconRes))
 
         ta.recycle()
