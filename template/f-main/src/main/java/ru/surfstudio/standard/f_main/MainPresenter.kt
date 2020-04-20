@@ -1,6 +1,6 @@
 package ru.surfstudio.standard.f_main
 
-import ru.surfstudio.android.core.mvp.presenter.BasePresenter
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
 import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragmentNavigator
@@ -17,23 +17,16 @@ import javax.inject.Inject
 @PerScreen
 class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
+        private val bm: MainBindModel,
         private val tabNavigator: TabFragmentNavigator
-) : BasePresenter<MainActivityView>(basePresenterDependency) {
-
-    private val sm = MainScreenModel()
+) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
-        view.render(sm)
-        openFragment(sm.tabType)
+        bm.tabType.bindTo(::onTabSelected)
     }
 
-    fun onTabClick(tabType: MainTabType) {
-        sm.tabType = tabType
-        view.render(sm)
-        openFragment(sm.tabType)
-    }
-
-    private fun openFragment(tabType: MainTabType) {
+    private fun onTabSelected(tabType: MainTabType) {
+        bm.tabType.accept(tabType)
         val tabRoute: FragmentRoute = when (tabType) {
             MainTabType.FEED -> FeedFragmentRoute()
             MainTabType.SEARCH -> SearchFragmentRoute()

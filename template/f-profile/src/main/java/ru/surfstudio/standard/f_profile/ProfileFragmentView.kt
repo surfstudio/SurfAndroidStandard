@@ -4,19 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.surfstudio.android.core.mvp.fragment.BaseRenderableFragmentView
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxFragmentView
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
 import ru.surfstudio.standard.f_profile.di.ProfileScreenConfigurator
 import javax.inject.Inject
 
-class ProfileFragmentView: BaseRenderableFragmentView<ProfileScreenModel>(), CrossFeatureFragment {
+class ProfileFragmentView: BaseRxFragmentView(), CrossFeatureFragment {
 
     @Inject
-    lateinit var presenter: ProfilePresenter
+    lateinit var bm: ProfileBindModel
 
     override fun createConfigurator() = ProfileScreenConfigurator()
-
-    override fun getPresenters()= arrayOf(presenter)
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -24,7 +22,4 @@ class ProfileFragmentView: BaseRenderableFragmentView<ProfileScreenModel>(), Cro
             savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_profile, container, false)
 
-    override fun renderInternal(sm: ProfileScreenModel?) {
-        // TODO
-    }
 }
