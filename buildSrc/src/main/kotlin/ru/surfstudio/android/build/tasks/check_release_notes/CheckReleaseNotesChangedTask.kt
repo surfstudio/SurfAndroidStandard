@@ -54,7 +54,6 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
 
                 val isChangesNotRequireDescription = diffs.all {
                     MD_FILE_REGEX.toRegex().containsMatchIn(it)
-                            || TEST_FILE_REGEX.toRegex().containsMatchIn(it)
                             || GRADLE_FILE_REGEX.toRegex().containsMatchIn(it)
                 }
                 if (!isChangesNotRequireDescription) {
