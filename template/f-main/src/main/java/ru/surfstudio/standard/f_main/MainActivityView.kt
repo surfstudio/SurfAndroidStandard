@@ -37,10 +37,10 @@ class MainActivityView : BaseRxActivityView(), FragmentContainer {
     override fun getScreenName(): String = "MainActivityView"
 
     private fun initViews() {
-        bm.tabType.bindTo(main_bottom_bar::updateSelection)
+        bm.tabTypeState.bindTo(main_bottom_bar::updateSelection)
     }
 
     private fun initListeners() {
-        main_bottom_bar.tabSelectedAction = { bm.tabType.accept(it) }
+        main_bottom_bar.tabSelectedAction = { bm.tabSelectedAction.accept(it) }
     }
 }

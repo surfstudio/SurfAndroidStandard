@@ -22,11 +22,11 @@ class MainPresenter @Inject constructor(
 ) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
-        bm.tabType.bindTo(::onTabSelected)
+        bm.tabSelectedAction.bindTo(::onTabSelected)
     }
 
     private fun onTabSelected(tabType: MainTabType) {
-        bm.tabType.accept(tabType)
+        bm.tabTypeState.accept(tabType)
         val tabRoute: FragmentRoute = when (tabType) {
             MainTabType.FEED -> FeedFragmentRoute()
             MainTabType.SEARCH -> SearchFragmentRoute()

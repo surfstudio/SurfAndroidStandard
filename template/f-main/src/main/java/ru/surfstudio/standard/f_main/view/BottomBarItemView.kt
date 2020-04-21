@@ -38,14 +38,21 @@ class BottomBarItemView @JvmOverloads constructor(
     }
 
     /**
+     * @param isVisible true, если бейдж нужно показать, false если скрыть
+     */
+    fun setBadgeVisibility(isVisible: Boolean) {
+        bottom_bar_item_badge.isVisible = isVisible
+    }
+    
+    /**
      * @param value значение счетчика
      */
-    fun setBadge(value: Int) {
+    fun setCounter(value: Int) {
         val isNotZero = value != 0
-        badge_count_tv.isVisible = isNotZero
-        
+        bottom_bar_item_count_tv.isVisible = isNotZero
+
         if (isNotZero) {
-            badge_count_tv.text = value.toString()
+            bottom_bar_item_count_tv.text = value.toString()
         }
     }
 

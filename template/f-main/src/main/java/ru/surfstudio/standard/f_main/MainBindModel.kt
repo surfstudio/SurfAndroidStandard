@@ -1,6 +1,7 @@
 package ru.surfstudio.standard.f_main
 
-import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.ui.navigation.MainTabType
@@ -11,5 +12,6 @@ import javax.inject.Inject
  */
 @PerScreen
 class MainBindModel @Inject constructor() : BindModel {
-    val tabType: Bond<MainTabType> = Bond(MainTabType.FEED)
+    val tabTypeState: State<MainTabType> = State(MainTabType.FEED)
+    val tabSelectedAction: Action<MainTabType> = Action()
 }

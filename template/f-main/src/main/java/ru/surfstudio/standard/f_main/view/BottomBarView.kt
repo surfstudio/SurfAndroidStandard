@@ -60,8 +60,15 @@ class BottomBarView @JvmOverloads constructor(
      * @param value значение счетчика
      * @param tabType тип таба, на который устанавливать
      */
-    fun setBadgeOnTab(value: Int, tabType: MainTabType) {
-        tabButtonsMap[tabType]?.setBadge(value)
+    fun setCounterOnTab(value: Int, tabType: MainTabType) {
+        tabButtonsMap[tabType]?.setCounter(value)
+    }
+
+    /**
+     * @param isVisible true, если бейдж нужно показать, false если скрыть
+     */
+    fun setBadgeVisibilityOnTab(isVisible: Boolean, tabType: MainTabType){
+        tabButtonsMap[tabType]?.setBadgeVisibility(isVisible)
     }
 
     private fun initListeners() {

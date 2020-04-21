@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
@@ -18,8 +17,19 @@
             tools:ignore="ContentDescription"
             tools:srcCompat="@drawable/debug_ic_android" />
 
+        <View
+            android:id="@+id/bottom_bar_item_badge"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/colorAccent"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
         <TextView
-            android:id="@+id/badge_count_tv"
+            android:id="@+id/bottom_bar_item_count_tv"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_gravity="center_horizontal"
