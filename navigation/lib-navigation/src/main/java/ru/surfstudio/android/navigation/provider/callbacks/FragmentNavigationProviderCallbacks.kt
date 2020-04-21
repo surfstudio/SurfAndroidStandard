@@ -41,7 +41,7 @@ open class FragmentNavigationProviderCallbacks(
 
     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
         val id = getFragmentId(f)
-        require(activeFragments.all { getFragmentId(it) != id }) { "You must specify unique tag for each fragment!" }
+        require(activeFragments.all { !getFragmentId(it).contains(id) }) { "You must specify unique tag for each fragment!" }
         activeFragments.add(f)
     }
 
