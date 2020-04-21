@@ -17,6 +17,11 @@ import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 
 open class CheckReleaseNotesChangedTask : DefaultTask() {
 
+    companion object {
+        const val MD_FILE_REGEX = "/*\\.md"
+        const val GRADLE_FILE_REGEX = "/*\\.gradle"
+    }
+
     private lateinit var revisionToCompare: String
 
     /**
@@ -45,19 +50,26 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
                     ?: throw ComponentNotFoundException(component.name)
 
             if (isComponentChanged(resultByConfig.isComponentChanged, resultByFile.isComponentChanged)) {
-                if (isComponentHasDiffs(componentsWithDiffs, component)) {
-                    val diffs = componentsWithDiffs.getValue(component)
-                    if (!isReleaseFileIncluded(diffs, component.name)) {
-                        throw ReleaseNotesForFilesException(
+                val diffs = componentsWithDiffs.getValue(component)
+
+                val isChangesNotRequireDescription = diffs.all {
+                    MD_FILE_REGEX.toRegex().containsMatchIn(it)
+                            || GRADLE_FILE_REGEX.toRegex().containsMatchIn(it)
+                }
+                if (!isChangesNotRequireDescription) {
+                    if (isComponentHasDiffs(componentsWithDiffs, component)) {
+                        if (!isReleaseFileIncluded(diffs, component.name)) {
+                            throw ReleaseNotesForFilesException(
+                                    component.name,
+                                    resultByConfig.reasonOfComponentChange.reason
+                            )
+                        }
+                    } else {
+                        throw ReleaseNotesForConfigurationException(
                                 component.name,
-                                resultByConfig.reasonOfComponentChange.reason
+                                resultByFile.reasonOfComponentChange.reason
                         )
                     }
-                } else {
-                    throw ReleaseNotesForConfigurationException(
-                            component.name,
-                            resultByFile.reasonOfComponentChange.reason
-                    )
                 }
             }
         }
