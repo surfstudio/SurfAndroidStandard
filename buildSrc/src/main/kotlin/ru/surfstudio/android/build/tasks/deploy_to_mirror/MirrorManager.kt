@@ -3,6 +3,9 @@ package ru.surfstudio.android.build.tasks.deploy_to_mirror
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
 import org.gradle.api.GradleException
+import ru.surfstudio.android.build.COMMON_COMPONENT_NAME
+import ru.surfstudio.android.build.GradlePropertiesManager
+import ru.surfstudio.android.build.MIRROR_PROPERTIES_FILE_PATH
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
 import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
@@ -40,19 +43,31 @@ class MirrorManager(
             "gradlew.bat",
             "settings.gradle"
     )
-    private val foldersToMirror = listOf(
+    private val foldersToMirror = mutableListOf(
             componentDirectory,
             "buildSrc",
-            "common", //todo mirror if needed
             "gradle"
     )
     private val uniqueMirrorFiles = listOf(
             ".git",
             "README.md",
-            "mirror.properties"
+            MIRROR_PROPERTIES_FILE_PATH
     )
 
     private var latestMirrorCommit: RevCommit? = null
+
+    init {
+        GradlePropertiesManager.loadProperty(
+                propertiesFileName = "${mirrorDir.name}/$MIRROR_PROPERTIES_FILE_PATH",
+                propertyName = COMMON_COMPONENT_NAME,
+                required = false
+        )?.apply {
+            if (isNotEmpty()) {
+                foldersToMirror.add(this)
+            }
+        }
+        println(foldersToMirror)
+    }
 
     /**
      * Mirrors standard repository to mirror repository.
