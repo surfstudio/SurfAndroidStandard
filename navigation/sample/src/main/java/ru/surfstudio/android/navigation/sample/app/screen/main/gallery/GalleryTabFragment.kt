@@ -1,6 +1,7 @@
-package ru.surfstudio.android.navigation.sample.app.screen.main.cart
+package ru.surfstudio.android.navigation.sample.app.screen.main.gallery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,7 @@ import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.provider.container.FragmentNavigationContainer
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
-import ru.surfstudio.android.navigation.sample.app.screen.main.cart.image.ImageRoute
-import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
+import ru.surfstudio.android.navigation.sample.app.screen.main.gallery.image.ImageRoute
 
 class GalleryTabFragment : Fragment(), FragmentNavigationContainer {
 
@@ -27,20 +27,23 @@ class GalleryTabFragment : Fragment(), FragmentNavigationContainer {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if (savedInstanceState == null)
-            addPicture()
+        subscribeToBackStackChanges()
 
         gallery_next_image_btn.setOnClickListener { addPicture() }
         gallery_prev_image_btn.setOnClickListener { removePicture() }
     }
 
     private fun addPicture() {
-        currentPicture++
         App.navigator.execute(Replace(ImageRoute(currentPicture), sourceTag = tag!!))
     }
 
     private fun removePicture() {
-        currentPicture--
         App.navigator.execute(RemoveLast(sourceTag = tag!!))
+    }
+
+    private fun subscribeToBackStackChanges() {
+        val provider = App.provider.provide().fragmentNavigationProvider.provide(tag!!)
+        val backStackEntries = provider.fragmentNavigator.addBackStackChangeListener { currentPicture = it.size + 1 }
+        Log.d("111111 Update pic", "backStacks$backStackEntries, manager=${childFragmentManager}")
     }
 }

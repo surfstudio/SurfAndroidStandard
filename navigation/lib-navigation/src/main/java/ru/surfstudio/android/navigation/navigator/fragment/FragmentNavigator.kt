@@ -50,9 +50,6 @@ open class FragmentNavigator(
     }
 
     override fun add(route: FragmentRoute, animations: Animations) {
-        val fragmentManager = fragmentManager
-        fragmentManager.executePendingTransactions()
-
         val backStackTag = convertToBackStackTag(route.getTag())
         val fragment = route.createFragment()
 
@@ -66,15 +63,12 @@ open class FragmentNavigator(
                             Add(BackStackFragmentRoute(route.getTag()), animations)
                     )
             )
-            commit()
+            commitNow()
         }
     }
 
 
     override fun replace(route: FragmentRoute, animations: Animations) {
-        val fragmentManager = fragmentManager
-        fragmentManager.executePendingTransactions()
-
         val backStackTag = convertToBackStackTag(route.getTag())
         val fragment = route.createFragment()
         val lastFragment = backStack.peekFragment()
@@ -90,38 +84,23 @@ open class FragmentNavigator(
                             Replace(BackStackFragmentRoute(route.getTag()), animations)
                     )
             )
-            commit()
+            commitNow()
         }
     }
 
-    override fun remove(route: FragmentRoute, animations: Animations): Boolean {
-        val fragmentManager = fragmentManager
-        fragmentManager.executePendingTransactions()
-
-        val fragment = findFragment(convertToBackStackTag(route.getTag())) ?: return false
+    override fun remove(route: FragmentRoute, animations: Animations) {
+        val fragment = findFragment(convertToBackStackTag(route.getTag())) ?: return
 
         fragmentManager.beginTransaction()
                 .supplyWithAnimations(animations)
                 .remove(fragment)
                 .commit()
-        return true
     }
 
     private fun findFragment(backStackTag: String): Fragment? =
             backStack.findFragment(backStackTag)
 
-    override fun show(route: FragmentRoute, animations: Animations): Boolean {
-        return toggleVisibility(route, true, animations)
-    }
-
-    override fun hide(route: FragmentRoute, animations: Animations): Boolean {
-        return toggleVisibility(route, false, animations)
-    }
-
-    override fun removeLast(animations: Animations): Boolean {
-        val fragmentManager = fragmentManager
-        fragmentManager.executePendingTransactions()
-
+    override fun removeLast(animations: Animations) {
         fragmentManager.beginTransaction().run {
             val entry = backStack.pop()
             setupReverseAnimations(this, entry.command, animations)
@@ -129,15 +108,11 @@ open class FragmentNavigator(
                 is Add -> setupReverseAdd(this, entry)
                 is Replace -> setupReverseReplace(this, entry)
             }
-            commit()
+            commitNow()
         }
-        return true
     }
 
     override fun replaceHard(route: FragmentRoute, animations: Animations) {
-        val fragmentManager = fragmentManager
-        fragmentManager.executePendingTransactions()
-
         val backStackTag = convertToBackStackTag(route.getTag())
         val fragment = route.createFragment()
 
@@ -152,16 +127,13 @@ open class FragmentNavigator(
                             Replace(BackStackFragmentRoute(route.getTag()), animations)
                     )
             )
-            commit()
+            commitNow()
         }
     }
 
-    override fun removeUntil(route: FragmentRoute, isInclusive: Boolean): Boolean {
-
+    override fun removeUntil(route: FragmentRoute, isInclusive: Boolean) {
         val backStackTag = convertToBackStackTag(route.getTag())
-        val entry = backStack.find(backStackTag) ?: return false
-
-        fragmentManager.executePendingTransactions()
+        val entry = backStack.find(backStackTag) ?: return
         fragmentManager.beginTransaction()
                 .apply {
 
@@ -180,11 +152,9 @@ open class FragmentNavigator(
                 }
                 .commitNow()
         notifyBackStackListeners()
-        return true
     }
 
-    override fun removeAll(): Boolean {
-        fragmentManager.executePendingTransactions()
+    override fun removeAll() {
         fragmentManager
                 .beginTransaction()
                 .apply {
@@ -197,7 +167,14 @@ open class FragmentNavigator(
                 }
                 .commitNow()
         notifyBackStackListeners()
-        return true
+    }
+
+    override fun show(route: FragmentRoute, animations: Animations) {
+        toggleVisibility(route, true, animations)
+    }
+
+    override fun hide(route: FragmentRoute, animations: Animations) {
+        toggleVisibility(route, false, animations)
     }
 
     override fun onSaveState(outState: Bundle?) {
@@ -282,7 +259,6 @@ open class FragmentNavigator(
         notifyBackStackListeners()
     }
 
-
     /**
      * Perform operation opposite to ordinary [add].
      */
@@ -301,12 +277,10 @@ open class FragmentNavigator(
             route: FragmentRoute,
             shouldShow: Boolean,
             animationBundle: Animations
-    ): Boolean {
-        val fragmentManager = fragmentManager
-        fragmentManager.executePendingTransactions()
-
-        val fragment = fragmentManager.findFragmentByTag(convertToBackStackTag(route.getTag()))
-                ?: return false
+    ) {
+        val tag = convertToBackStackTag(route.getTag())
+        val fragment = fragmentManager.findFragmentByTag(tag)
+                ?: return
 
         fragmentManager.beginTransaction()
                 .apply {
@@ -314,8 +288,6 @@ open class FragmentNavigator(
                     if (shouldShow) show(fragment) else hide(fragment)
                     commit()
                 }
-
-        return true
     }
 
     private fun addToBackStack(entry: FragmentBackStackEntry) {
@@ -326,7 +298,7 @@ open class FragmentNavigator(
     private fun notifyBackStackListeners() = backStackChangedListeners.forEach { it.invoke(backStack) }
 
     companion object {
-        private const val BACK_STACK_KEY = "TabChildFragmentNavigator container %d"
+        private const val BACK_STACK_KEY = "FragmentNavigator container %d"
         const val ROUTE_TAG_DELIMITER = "-"
     }
 }

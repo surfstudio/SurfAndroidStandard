@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample.app.screen.main.cart.image
+package ru.surfstudio.android.navigation.sample.app.screen.main.gallery.image
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -70,28 +70,28 @@ open class TabFragmentNavigator(
         activeNavigator.replaceHard(route, animations)
     }
 
-    override fun remove(route: FragmentRoute, animations: Animations): Boolean {
-        return activeNavigator.remove(route, animations)
+    override fun remove(route: FragmentRoute, animations: Animations) {
+        activeNavigator.remove(route, animations)
     }
 
-    override fun removeLast(animations: Animations): Boolean {
-        return activeNavigator.removeLast(animations)
+    override fun removeLast(animations: Animations) {
+        activeNavigator.removeLast(animations)
     }
 
-    override fun removeUntil(route: FragmentRoute, isInclusive: Boolean): Boolean {
-        return activeNavigator.removeUntil(route, isInclusive)
+    override fun removeUntil(route: FragmentRoute, isInclusive: Boolean) {
+        activeNavigator.removeUntil(route, isInclusive)
     }
 
-    override fun removeAll(): Boolean {
-        return activeNavigator.removeAll()
+    override fun removeAll() {
+        activeNavigator.removeAll()
     }
 
-    override fun hide(route: FragmentRoute, animations: Animations): Boolean {
-        return activeNavigator.hide(route, animations)
+    override fun hide(route: FragmentRoute, animations: Animations) {
+        activeNavigator.hide(route, animations)
     }
 
-    override fun show(route: FragmentRoute, animations: Animations): Boolean {
-        return activeNavigator.show(route, animations)
+    override fun show(route: FragmentRoute, animations: Animations) {
+        activeNavigator.show(route, animations)
     }
 
     final override fun onSaveState(outState: Bundle?) {
@@ -141,7 +141,6 @@ open class TabFragmentNavigator(
     private fun addNewTab(route: FragmentRoute) {
         val routeTag = route.getTag()
         activeTabTag = routeTag
-        fragmentManager.executePendingTransactions()
 
         val newNavigator = TabHostFragmentNavigator(fragmentManager, containerId, routeTag)
         val newEntry = TabHostEntry(routeTag, newNavigator)
@@ -163,7 +162,6 @@ open class TabFragmentNavigator(
 
     private fun attachExistentTab(routeTag: String) {
         activeTabTag = routeTag
-        fragmentManager.executePendingTransactions()
         fragmentManager.beginTransaction().apply {
             detachVisibleTabs()
             extractFragmentsToAttach().forEach { attach(it) }

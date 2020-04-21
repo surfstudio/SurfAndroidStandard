@@ -30,26 +30,17 @@ interface FragmentNavigatorInterface {
 
     fun replaceHard(route: FragmentRoute, animations: Animations = EmptyResourceAnimations)
 
-    fun remove(
-            route: FragmentRoute,
-            animations: Animations = EmptyResourceAnimations
-    ): Boolean
+    fun remove(route: FragmentRoute, animations: Animations = EmptyResourceAnimations)
 
-    fun removeLast(animations: Animations): Boolean
+    fun removeLast(animations: Animations)
 
-    fun removeUntil(route: FragmentRoute, isInclusive: Boolean): Boolean
+    fun removeUntil(route: FragmentRoute, isInclusive: Boolean)
 
-    fun removeAll(): Boolean
+    fun removeAll()
 
-    fun hide(
-            route: FragmentRoute,
-            animations: Animations = EmptyResourceAnimations
-    ): Boolean
+    fun hide(route: FragmentRoute, animations: Animations = EmptyResourceAnimations)
 
-    fun show(
-            route: FragmentRoute,
-            animations: Animations = EmptyResourceAnimations
-    ): Boolean
+    fun show(route: FragmentRoute, animations: Animations = EmptyResourceAnimations)
 
     fun onSaveState(outState: Bundle?)
 

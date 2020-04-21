@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_auth.*
+import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.command.fragment.ReplaceHard
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.main.MainRoute
+import ru.surfstudio.android.navigation.sample.app.screen.main.gallery.GalleryTabRoute
+import ru.surfstudio.android.navigation.sample.app.screen.main.gallery.image.ImageRoute
 
 class AuthFragment : Fragment() {
 
@@ -18,6 +21,17 @@ class AuthFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        auth_btn.setOnClickListener { App.navigator.execute(ReplaceHard(MainRoute())) }
+        val mainRoute = MainRoute()
+        val galleryRoute = GalleryTabRoute()
+        auth_btn.setOnClickListener {
+            App.navigator.execute(
+                    listOf(
+                            ReplaceHard(mainRoute), //opens main screen
+                            Replace(galleryRoute, sourceTag = mainRoute.getTag()), //opens second tab in main
+                            Replace(ImageRoute(1), sourceTag = galleryRoute.getTag()), //opens first nested image in gallery
+                            Replace(ImageRoute(2), sourceTag = galleryRoute.getTag()) //opens second nested image in gallery
+                    )
+            )
+        }
     }
 }

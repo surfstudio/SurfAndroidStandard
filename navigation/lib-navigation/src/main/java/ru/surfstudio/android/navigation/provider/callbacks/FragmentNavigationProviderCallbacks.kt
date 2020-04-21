@@ -1,7 +1,7 @@
 package ru.surfstudio.android.navigation.provider.callbacks
 
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -12,7 +12,6 @@ import ru.surfstudio.android.navigation.provider.holder.FragmentNavigationHolder
 import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
-import ru.surfstudio.android.navigation.route.Route
 
 //@PerAct
 open class FragmentNavigationProviderCallbacks(
@@ -35,18 +34,21 @@ open class FragmentNavigationProviderCallbacks(
     private val activeFragments = mutableListOf<Fragment>()
 
     override fun provide(sourceTag: String): FragmentNavigationHolder {
-        val sourceFragment = activeFragments.find { getFragmentId(it) == sourceTag }
+        val sourceFragment = if (sourceTag.isNotEmpty()) {
+            activeFragments.find { getFragmentId(it).contains(sourceTag) }
+        } else {
+            null
+        }
         return obtainFragmentHolderRecursive(sourceFragment) ?: navigationHolders.values.first()
     }
 
     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
         val id = getFragmentId(f)
-        require(activeFragments.all { !getFragmentId(it).contains(id) }) { "You must specify unique tag for each fragment!" }
-        activeFragments.add(f)
-    }
 
-    override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
-        val id = getFragmentId(f)
+        Log.d("111111 Create", "Fragment=$f, Manager=$fm")
+        require(activeFragments.all { getFragmentId(it) != id }) { "You must specify unique tag for each fragment!" }
+        activeFragments.add(f)
+
         val containerId = getContainerId(f) ?: return
         addHolder(id, containerId, f.childFragmentManager, savedInstanceState)
     }
@@ -60,11 +62,8 @@ open class FragmentNavigationProviderCallbacks(
         }
     }
 
-    override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
-        navigationHolders.remove(getFragmentId(f))
-    }
-
     override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
+        navigationHolders.remove(getFragmentId(f))
         activeFragments.remove(f)
     }
 
@@ -91,9 +90,8 @@ open class FragmentNavigationProviderCallbacks(
     /**
      * Добавление холдера с навигаторами в список холдеров на определенный уровень
      *
-     * @param level уровень вложенности, на который будет добавлен холдер
-     * @param containerId идентификатор контейнера, в котором будет происходить навигация
      * @param id уникальный идентификатор фрагмента
+     * @param containerId идентификатор контейнера, в котором будет происходить навигация
      * @param fm менеджер, который будет осуществлять навигацию
      * @param savedInstanceState состояние, используемое для восстановления бекстека
      */
