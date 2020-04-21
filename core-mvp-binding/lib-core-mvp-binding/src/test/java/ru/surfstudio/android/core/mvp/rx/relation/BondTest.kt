@@ -24,7 +24,7 @@ import org.junit.Test
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond
 
 class BondTest : BaseRelationTest() {
-
+//fdlkfjkds
     private lateinit var bond: Bond<String>
 
     private lateinit var testViewObservable: TestObserver<String>
