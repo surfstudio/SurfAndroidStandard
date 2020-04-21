@@ -19,8 +19,8 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
 
     companion object {
         const val MD_FILE_REGEX = "/*\\.md"
-        const val TEST_FILE_REGEX = "/androidTest/|/test/"
         const val GRADLE_FILE_REGEX = "/*\\.gradle"
+        const val SAMPLE_FILE_REGEX = "/sample/"
     }
 
     private lateinit var revisionToCompare: String
@@ -55,8 +55,8 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
 
                 val isChangesNotRequireDescription = diffs.all {
                     MD_FILE_REGEX.toRegex().containsMatchIn(it)
-                            || TEST_FILE_REGEX.toRegex().containsMatchIn(it)
                             || GRADLE_FILE_REGEX.toRegex().containsMatchIn(it)
+                            || SAMPLE_FILE_REGEX.toRegex().containsMatchIn(it)
                 }
                 if (!isChangesNotRequireDescription) {
                     if (isComponentHasDiffs(componentsWithDiffs, component)) {
