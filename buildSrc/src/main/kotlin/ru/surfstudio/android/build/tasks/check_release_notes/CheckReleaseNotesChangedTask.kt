@@ -17,9 +17,10 @@ import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 
 open class CheckReleaseNotesChangedTask : DefaultTask() {
 
-    companion object{
+    companion object {
         const val MD_FILE_REGEX = "/*\\.md"
         const val TEST_FILE_REGEX = "/androidTest/"
+        const val GRADLE_FILE_REGEX = "/*\\.gradle"
     }
 
     private lateinit var revisionToCompare: String
@@ -53,7 +54,9 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
                 val diffs = componentsWithDiffs.getValue(component)
 
                 val isChangesNotRequireDescription = diffs.all {
-                    MD_FILE_REGEX.toRegex().containsMatchIn(it) || TEST_FILE_REGEX.toRegex().containsMatchIn(it)
+                    MD_FILE_REGEX.toRegex().containsMatchIn(it)
+                            || TEST_FILE_REGEX.toRegex().containsMatchIn(it)
+                            || GRADLE_FILE_REGEX.toRegex().containsMatchIn(it)
                 }
                 if (!isChangesNotRequireDescription) {
                     if (isComponentHasDiffs(componentsWithDiffs, component)) {
