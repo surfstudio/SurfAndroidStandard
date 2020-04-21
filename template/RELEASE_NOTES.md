@@ -37,6 +37,7 @@
 * ANDDEP-982 `easyadapter` now depends on `androidx.asynclayoutinflater`;
 * ANDDEP-982 other libraries versions changed;
 * ANDDEP-915 Added `validateCrossFeatureRoutes.gradle.kts` task. **Note**: supported only `.kt` source files parsing;
+* ANDDEP-599 Added `CompletableSafeConverter` to parse not empty Completable-request response;
 
 ## 0.4.0
 ##### Template
