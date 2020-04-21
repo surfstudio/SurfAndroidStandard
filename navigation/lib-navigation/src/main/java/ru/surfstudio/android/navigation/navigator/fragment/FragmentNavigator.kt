@@ -110,6 +110,7 @@ open class FragmentNavigator(
             }
             commitNow()
         }
+        notifyBackStackListeners()
     }
 
     override fun replaceHard(route: FragmentRoute, animations: Animations) {
