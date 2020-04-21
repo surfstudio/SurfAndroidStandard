@@ -153,6 +153,10 @@ class MirrorManager(
             )
         }
 
+        if (mirrorRepository.status().isClean) {
+            return null
+        }
+
         mirrorRepository.add()
         val newCommit = mirrorRepository.commit(commit.commit)
         commit.mirrorCommitHash = newCommit?.name ?: EMPTY_STRING
