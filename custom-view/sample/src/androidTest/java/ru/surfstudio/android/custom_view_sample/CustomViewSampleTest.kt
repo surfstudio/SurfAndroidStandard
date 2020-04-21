@@ -16,6 +16,7 @@ import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils
 
 class CustomViewSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
+    //fjkdslfjdskf
 
     override fun setUp() {
         super.setUp()
