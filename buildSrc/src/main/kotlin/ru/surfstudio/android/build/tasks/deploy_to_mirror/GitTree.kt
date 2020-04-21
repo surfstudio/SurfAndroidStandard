@@ -350,12 +350,7 @@ class GitTree(
             }
         }
 
-        mirrorNodes.forEach {
-            println("NODE ${it.value.shortMessage}")
-        }
-        println()
-        
-        val mirrorHashes = mirrorNodes.map { it.value.standardHash }
+        val mirrorHashes = mirrorNodes.map { it.value.mirrorStandardHash }
         standardRepositoryCommitsForMirror = standardRepositoryCommitsForMirror.filter {
             it.branch.isNotEmpty() && !mirrorHashes.contains(it.commit.standardHash)
         }
