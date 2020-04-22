@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
+  Copyright (c) 2020-present, SurfStudio LLC.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -66,24 +66,13 @@ import kotlin.math.roundToLong
 abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes layoutRes: Int) :
         BindableViewHolder<T>(parent, R.layout.layout_bindable_sliding_view_holder) {
 
-    private companion object {
-        const val SLIDE_ANIM_DURATION = 300L
-        const val SWIPE_VELOCITY_THRESHOLD_DP = 600f
-        const val TOUCH_INTERCEPT_THRESHOLD_DP = 40f
-    }
-
-    /**
-     * Internal interaction state.
-     *
-     * @property MAIN_CONTENT User interact's with main content of `ViewHolder`.
-     * @property LEFT_BUTTONS User interact's with left buttons (`ViewHolder` translated to the right).
-     * @property RIGHT_BUTTONS User interact's with right buttons (`ViewHolder` translated to the left).
-     * */
-    protected enum class InteractionState {
-        MAIN_CONTENT,
-        LEFT_BUTTONS,
-        RIGHT_BUTTONS
-    }
+    // Shortcuts
+    private val context get() = itemView.context
+    private val currentSlideTranslation get() = contentContainer.translationX
+    private val isReachedLeftContainer get() = currentSlideTranslation >= leftContainerTriggerPosition
+    private val isReachedRightContainer get() = currentSlideTranslation <= rightContainerTriggerPosition
+    private val hasLeftButtons get() = leftButtons.isNotEmpty()
+    private val hasRightButtons get() = rightButtons.isNotEmpty()
 
     // Views
     private val leftButtonsContainer = itemView.sliding_left_buttons_container
@@ -96,18 +85,6 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
     private val buttonViews by lazy {
         listOf(leftButtonsContainer, rightButtonsContainer).flatMap { it.children.toList() }
     }
-
-    // Flags
-    private var isInitialized = false
-    private var isAnimatingSlide = false
-
-    // Shortcuts
-    private val context get() = itemView.context
-    private val currentSlideTranslation get() = contentContainer.translationX
-    private val isReachedLeftContainer get() = currentSlideTranslation >= leftContainerTriggerPosition
-    private val isReachedRightContainer get() = currentSlideTranslation <= rightContainerTriggerPosition
-    private val hasLeftButtons get() = leftButtons.isNotEmpty()
-    private val hasRightButtons get() = rightButtons.isNotEmpty()
 
     /**
      *  Width of left buttons container. Also defines how far buttons should scroll to the right.
@@ -128,6 +105,12 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
 
     /** Amount of translation used to decide is current state is [InteractionState.RIGHT_BUTTONS] or not. */
     private val rightContainerTriggerPosition by lazy { -rightContainerWidth / 2 }
+
+    /** Flag: are this `ViewHolder` has initialized it's side-buttons? */
+    private var isInitialized = false
+
+    /** Flag: are this `ViewHolder` is currently sliding by animation? */
+    private var isAnimatingSlide = false
 
     /** Internal interaction state. */
     protected var interactionState = MAIN_CONTENT
@@ -344,4 +327,22 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
                 .start()
     }
 
+    /**
+     * Internal interaction state.
+     *
+     * @property MAIN_CONTENT User interact's with main content of `ViewHolder`.
+     * @property LEFT_BUTTONS User interact's with left buttons (`ViewHolder` translated to the right).
+     * @property RIGHT_BUTTONS User interact's with right buttons (`ViewHolder` translated to the left).
+     * */
+    protected enum class InteractionState {
+        MAIN_CONTENT,
+        LEFT_BUTTONS,
+        RIGHT_BUTTONS
+    }
+
+    private companion object {
+        const val SLIDE_ANIM_DURATION = 300L
+        const val SWIPE_VELOCITY_THRESHOLD_DP = 600f
+        const val TOUCH_INTERCEPT_THRESHOLD_DP = 40f
+    }
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
+  Copyright (c) 2020-present, SurfStudio LLC.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -25,20 +25,16 @@ import androidx.recyclerview.widget.RecyclerView
 class SlidingItemClickListener(private val rv: RecyclerView) :
         RecyclerView.OnItemTouchListener {
 
-    private companion object {
-        const val CLICK_MAX_TOUCH_TIME_MS = 300L
-    }
-
     private var startTouchTime = 0L
     private var startTouchX = 0f
     private var startTouchY = 0f
 
     override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-        /** empty body. */
+        /* empty body */
     }
 
     override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-        /** empty body. */
+        /* empty body */
     }
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
@@ -66,5 +62,9 @@ class SlidingItemClickListener(private val rv: RecyclerView) :
                     .forEach { it.hideButtons(shouldAnimate = true) }
         }
         return false
+    }
+
+    private companion object {
+        const val CLICK_MAX_TOUCH_TIME_MS = 300L
     }
 }

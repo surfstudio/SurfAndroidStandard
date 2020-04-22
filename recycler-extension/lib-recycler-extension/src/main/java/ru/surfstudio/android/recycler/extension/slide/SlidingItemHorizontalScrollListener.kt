@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
+  Copyright (c) 2020-present, SurfStudio LLC.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -27,10 +27,6 @@ import kotlin.math.abs
 class SlidingItemHorizontalScrollListener(private val rv: RecyclerView) :
         RecyclerView.OnItemTouchListener {
 
-    private companion object {
-        const val Y_DISTANCE_TO_DISABLE_INTERCEPTION_DP = 20
-    }
-
     private var viewHolder: BindableSlidingViewHolder<*>? = null
     private var velocityTracker: VelocityTracker? = null
 
@@ -41,7 +37,7 @@ class SlidingItemHorizontalScrollListener(private val rv: RecyclerView) :
     private var startTouchY = 0f
 
     override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-        /** empty body. */
+        /* empty body */
     }
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
@@ -124,5 +120,9 @@ class SlidingItemHorizontalScrollListener(private val rv: RecyclerView) :
 
     private fun calculateDistanceBetween(target: Float, current: Float): Float {
         return target - current
+    }
+
+    private companion object {
+        const val Y_DISTANCE_TO_DISABLE_INTERCEPTION_DP = 20
     }
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
+  Copyright (c) 2020-present, SurfStudio LLC.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -30,6 +30,6 @@ class SlidingItemAttachStateListener(private val rv: RecyclerView) :
     }
 
     override fun onChildViewAttachedToWindow(view: View) {
-        /* empty body. */
+        /* empty body */
     }
 }

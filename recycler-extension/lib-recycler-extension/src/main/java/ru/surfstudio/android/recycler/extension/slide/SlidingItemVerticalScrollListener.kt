@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
+  Copyright (c) 2020-present, SurfStudio LLC.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -26,10 +26,6 @@ import kotlin.math.abs
 class SlidingItemVerticalScrollListener(private val rv: RecyclerView) :
         RecyclerView.OnItemTouchListener {
 
-    private companion object {
-        const val RESET_DISTANCE_DP = 40
-    }
-
     private var distanceToResetPx = rv.context.dpToPx(RESET_DISTANCE_DP)
     private var isResetAllowed = false
 
@@ -37,11 +33,11 @@ class SlidingItemVerticalScrollListener(private val rv: RecyclerView) :
     private var startTouchY = 0f
 
     override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-        /** empty body. */
+        /* empty body */
     }
 
     override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-        /** empty body. */
+        /* empty body */
     }
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
@@ -67,5 +63,9 @@ class SlidingItemVerticalScrollListener(private val rv: RecyclerView) :
             isResetAllowed = false
         }
         return false
+    }
+
+    private companion object {
+        const val RESET_DISTANCE_DP = 40
     }
 }
