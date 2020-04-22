@@ -22,6 +22,6 @@ import ru.surfstudio.android.core.mvi.event.Event
  *
  * Events from the list can be processed with custom reusable middleware of type [E].
  */
-interface CompositionEvent<E : Event> {
+interface CompositionEvent<E :  Event> {
     var events: List<E>
 }
