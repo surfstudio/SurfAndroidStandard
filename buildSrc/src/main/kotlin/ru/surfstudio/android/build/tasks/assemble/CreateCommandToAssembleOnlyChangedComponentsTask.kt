@@ -3,11 +3,12 @@ package ru.surfstudio.android.build.tasks.assemble
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
+import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
+import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
-import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
 import java.io.File
 
 /**
@@ -26,10 +27,19 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
-        val componentsWithChangedConfiguration = checkForConfigurationChanges(currentRevision)
-        val componentsWithChangedFiles = checkForFileChanges(currentRevision)
+        val currentComponents = Components.value
 
-        checkComponentsChanged(componentsWithChangedConfiguration + componentsWithChangedFiles)
+        val componentsChangeResults = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
+                .getChangeInformationForComponents()
+                .filter { componentCheckResult -> componentCheckResult.isComponentChanged }
+                .map { componentCheckResult -> currentComponents.find { it.name == componentCheckResult.componentName } }
+
+        val componentsChangeFilesResults = ComponentsFilesChecker(currentRevision, revisionToCompare)
+                .getChangeInformationForComponents()
+                .filter { componentCheckResult -> componentCheckResult.isComponentChanged }
+                .map { componentCheckResult -> currentComponents.find { it.name == componentCheckResult.componentName } }
+
+        writeAssembleCommand(componentsChangeResults + componentsChangeFilesResults)
     }
 
     private fun extractInputArguments() {
@@ -39,40 +49,33 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
         revisionToCompare = project.findProperty(GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE) as String
     }
 
-    private fun checkForConfigurationChanges(currentRevision: String): List<ComponentCheckResult> {
-        return ComponentsConfigurationChecker(currentRevision, revisionToCompare)
-                .getChangeInformationForComponents()
-    }
+    private fun writeAssembleCommand(changedComponents: List<Component?>) {
+        val assembleCommand = createOutputForChangedComponents(changedComponents)
 
-    private fun checkForFileChanges(currentRevision: String): List<ComponentCheckResult> {
-        return ComponentsFilesChecker(currentRevision, revisionToCompare)
-                .getChangeInformationForComponents(ignoreReleaseNotesChanges = true)
-    }
-
-    private fun checkComponentsChanged(changeResultComponents: List<ComponentCheckResult>) {
-        val components = changeResultComponents.filter {
-            it.isComponentChanged
+        val file = File(ASSEMBLE_COMMAND_FILE_URL)
+        with(file) {
+            if (exists()) {
+                delete()
+            }
+            createNewFile()
+            appendText(assembleCommand)
         }
 
-        if (components.isNotEmpty()) {
-            val assembleCommand = createOutputForChangedComponents(components)
+        logger.lifecycle(assembleCommand)
+    }
 
-            val file = File(ASSEMBLE_COMMAND_FILE_URL)
-            with(file) {
-                if (exists()) {
-                    delete()
-                }
-                createNewFile()
-                appendText(assembleCommand)
+    private fun createOutputForChangedComponents(results: List<Component?>): String {
+        return results.joinToString(separator = " ") { component ->
+
+            val librariesAssembleCommand = component?.libraries?.joinToString(separator = " ") { library ->
+                ":${library.name}:clean :${library.name}:assemble"
             }
 
-            logger.lifecycle(assembleCommand)
-        }
-    }
+            val samplesAssembleCommand = component?.samples?.joinToString(separator = " ") { sample ->
+                ":${sample.name}:clean :${sample.name}:assemble"
+            }
 
-    private fun createOutputForChangedComponents(results: List<ComponentCheckResult>): String {
-        return results.map {
-            ":${it.componentName}:clean :${it.componentName}:assemble"
-        }.joinToString(separator = " ")
+            return@joinToString "$librariesAssembleCommand $samplesAssembleCommand"
+        }
     }
 }
