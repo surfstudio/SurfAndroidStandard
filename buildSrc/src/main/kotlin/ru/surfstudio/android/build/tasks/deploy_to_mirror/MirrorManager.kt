@@ -66,7 +66,6 @@ class MirrorManager(
                 foldersToMirror.add(this)
             }
         }
-        println(foldersToMirror)
     }
 
     /**
@@ -98,7 +97,7 @@ class MirrorManager(
             gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
             applyGitTreeToMirror()
             setBranches()
-            //mirrorRepository.push()
+            mirrorRepository.push()
         } else {
             throw GradleException("Can't get main branch " +
                     "for repo ${mirrorRepository.repositoryName}")
