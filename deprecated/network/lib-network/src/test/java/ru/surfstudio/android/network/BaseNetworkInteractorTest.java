@@ -115,7 +115,7 @@ public class BaseNetworkInteractorTest {
                 .assertError(new TestServerException());
     }
 
-    @Test
+   /* @Test
     public void testCacheException() {
         cacheRequest = Observable.error(new TestCacheException());
         repository.hybridQuery(DataStrategy.AUTO, cacheRequest, integer -> networkRequest)
@@ -124,7 +124,7 @@ public class BaseNetworkInteractorTest {
                 .assertValues(SERVER);
         PowerMockito.verifyStatic(VerificationModeFactory.times(1));
         Logger.e((Throwable) anyObject(), anyString());
-    }
+    }*/
 
     @Test
     public void testEmptyCacheException() {
