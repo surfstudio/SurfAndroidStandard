@@ -184,7 +184,7 @@ pipeline.stages = [
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.SKIP_STAGE) {
             if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
