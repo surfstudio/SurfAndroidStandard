@@ -12,6 +12,7 @@ import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
 import ru.surfstudio.android.navigation.provider.callbacks.creator.FragmentNavigationProviderCallbacksCreator
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
+import ru.surfstudio.android.navigation.provider.callbacks.listener.OnHolderActiveListener
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute.Companion.SCREEN_ID
 
 /**
@@ -19,24 +20,27 @@ import ru.surfstudio.android.navigation.route.activity.ActivityRoute.Companion.S
  */
 //@PerApp
 open class ActivityNavigationProviderCallbacks(
-        private val packageName: String,
         private val fragmentCallbacksCreator: FragmentNavigationProviderCallbacksCreator = ::FragmentNavigationProviderCallbacks
 ) : Application.ActivityLifecycleCallbacks, ActivityNavigationProvider {
 
 
     private val navigatorHolders = hashMapOf<String, ActivityNavigationHolder>()
     private var currentHolder: ActivityNavigationHolder? = null
-    private var onHolderActiveListenerSingle: ((ActivityNavigationHolder) -> Unit)? = null
+    private var onHolderActiveListenerSingle: OnHolderActiveListener? = null
 
     override fun provide(): ActivityNavigationHolder {
         return currentHolder ?: error("Navigation holder is empty. You have no visible activity.")
+    }
+
+    override fun provide(id: String): ActivityNavigationHolder? {
+        return navigatorHolders[id]
     }
 
     override fun hasCurrentHolder(): Boolean {
         return currentHolder != null
     }
 
-    override fun setOnHolderActiveListenerSingle(listener: (ActivityNavigationHolder) -> Unit) {
+    override fun setOnHolderActiveListenerSingle(listener: OnHolderActiveListener) {
         onHolderActiveListenerSingle = listener
     }
 
@@ -138,7 +142,7 @@ open class ActivityNavigationProviderCallbacks(
             val intent = activity.intent
             val screenId = when {
                 intent.hasExtra(SCREEN_ID) -> intent.getStringExtra(SCREEN_ID)
-                activity.packageName == packageName && intent.action == Intent.ACTION_MAIN -> LAUNCHER_ACTIVITY_ID
+                intent.action == Intent.ACTION_MAIN -> LAUNCHER_ACTIVITY_ID
                 else -> return
             }
             onActivityReady(screenId)

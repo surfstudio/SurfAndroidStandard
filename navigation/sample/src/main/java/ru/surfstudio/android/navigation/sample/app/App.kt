@@ -22,7 +22,7 @@ class App : Application() {
     }
 
     private fun initExecutor() {
-        val callbacksSupplier = ActivityNavigationProviderCallbacks(packageName)
+        val callbacksSupplier = ActivityNavigationProviderCallbacks()
         registerActivityLifecycleCallbacks(callbacksSupplier)
         navigator = AppCommandExecutor(callbacksSupplier)
         provider = callbacksSupplier

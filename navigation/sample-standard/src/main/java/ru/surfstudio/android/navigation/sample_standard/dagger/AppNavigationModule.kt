@@ -25,7 +25,7 @@ class AppNavigationModule {
     @Provides
     @PerApplication
     fun provideActivityNavigationProviderCallbacks(context: Context): ActivityNavigationProviderCallbacks {
-        return ActivityNavigationProviderCallbacks(context.packageName)
+        return ActivityNavigationProviderCallbacks()
     }
 
     @Provides
