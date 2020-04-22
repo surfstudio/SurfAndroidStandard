@@ -24,6 +24,10 @@ object DefaultAnimations {
      */
     var fragment: Animations = EmptyResourceAnimations
 
+    /**
+     * Animations to be executed for each tab change in TabNavigator mechanism.
+     */
+    var tab: Animations = EmptyResourceAnimations
 
     /**
      * Animations to be executed for each

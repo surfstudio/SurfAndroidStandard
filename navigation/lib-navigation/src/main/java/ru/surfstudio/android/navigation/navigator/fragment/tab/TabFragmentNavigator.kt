@@ -5,7 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import ru.surfstudio.android.navigation.animation.Animations
-import ru.surfstudio.android.navigation.animation.resource.EmptyResourceAnimations
+import ru.surfstudio.android.navigation.animation.DefaultAnimations
+import ru.surfstudio.android.navigation.animation.utils.FragmentAnimationSupplier
 import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.backstack.fragment.listener.BackStackChangedListener
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
@@ -45,6 +46,8 @@ open class TabFragmentNavigator(
 
     override val tabCount: Int
         get() = hostEntries.size
+
+    protected open val animationSupplier = FragmentAnimationSupplier()
 
     init {
         onRestoreState(savedState)
@@ -146,10 +149,11 @@ open class TabFragmentNavigator(
         val newEntry = TabHostEntry(routeTag, newNavigator)
         hostEntries.add(newEntry)
 
-        fragmentManager.beginTransaction()
-                .detachVisibleTabs()
-                .commitNow()
-        newNavigator.replace(route, EmptyResourceAnimations)
+        fragmentManager.beginTransaction().apply {
+            detachVisibleTabs()
+            commitNow()
+        }
+        newNavigator.replace(route, DefaultAnimations.tab)
     }
 
     private fun openExistentTab(routeTag: String) {
@@ -163,6 +167,7 @@ open class TabFragmentNavigator(
     private fun attachExistentTab(routeTag: String) {
         activeTabTag = routeTag
         fragmentManager.beginTransaction().apply {
+            animationSupplier.supplyWithAnimations(this, DefaultAnimations.tab)
             detachVisibleTabs()
             extractFragmentsToAttach().forEach { attach(it) }
             commitNow()

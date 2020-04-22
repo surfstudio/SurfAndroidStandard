@@ -2,6 +2,7 @@ package ru.surfstudio.android.navigation.command.fragment
 
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.DefaultAnimations
+import ru.surfstudio.android.navigation.animation.resource.NoResourceAnimations
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.route.stub.StubFragmentRoute
@@ -15,7 +16,7 @@ import ru.surfstudio.android.navigation.route.stub.StubTabFragmentRoute
  * @param isTab are we removing fragment from tab navigator, or from default navigator
  */
 data class RemoveLast(
-        override val animations: Animations = DefaultAnimations.fragment,
+        override val animations: Animations = NoResourceAnimations,
         override var sourceTag: String = "",
         val isTab: Boolean = false
 ) : FragmentNavigationCommand {

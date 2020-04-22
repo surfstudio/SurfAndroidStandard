@@ -5,6 +5,7 @@ import ru.surfstudio.android.navigation.animation.DefaultAnimations
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
 import ru.surfstudio.android.navigation.executor.AppCommandExecutor
+import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
 import ru.surfstudio.android.navigation.sample.app.utils.animations.SlideAnimations
 
 class App : Application() {
@@ -28,6 +29,7 @@ class App : Application() {
     }
 
     private fun initAnimations() {
-        DefaultAnimations.fragment = SlideAnimations()
+        DefaultAnimations.fragment = SlideAnimations() //animations for all fragment changes
+        DefaultAnimations.tab = FadeAnimations() //animations for tab changes
     }
 }
