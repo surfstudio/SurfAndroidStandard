@@ -1,7 +1,6 @@
 package ru.surfstudio.android.easyadapter.sample.ui.screen.pagination
 
 import ru.surfstudio.android.core.mvp.model.LdsPgnScreenModel
-import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 import ru.surfstudio.android.easyadapter.sample.interactor.DataListLimitOffset
 import ru.surfstudio.android.easyadapter.sample.interactor.DataListPageCount

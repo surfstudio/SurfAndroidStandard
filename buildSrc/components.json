@@ -1194,6 +1194,10 @@
             "type": "implementation"
           },
           {
+            "name": "pagination",
+            "type": "implementation"
+          },
+          {
             "name": "connection",
             "type": "implementation"
           },
