@@ -350,7 +350,10 @@ class GitTree(
             }
         }
 
-        standardRepositoryCommitsForMirror = standardRepositoryCommitsForMirror.filter { it.branch.isNotEmpty() }
+        val mirrorHashes = mirrorNodes.map { it.value.mirrorStandardHash }
+        standardRepositoryCommitsForMirror = standardRepositoryCommitsForMirror.filter {
+            it.branch.isNotEmpty() && !mirrorHashes.contains(it.commit.standardHash)
+        }
     }
 
     /**
