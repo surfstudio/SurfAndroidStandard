@@ -10,8 +10,8 @@ open class WriteToFileReleaseNotesDiffForSlack : WriteToFileReleaseNotesDiff() {
         const val LINE_INFO_REGEX = "([0-9]+) +([-+]) (\\*)?"
         const val NO_BACKWARD_LABEL_REGEX = "(\\*\\*)?NO BACKWARD COMPATIBILITY(\\*\\*)?"
         const val SMILE_WARNING = ":warning:"
-        const val SMILE_CHECK_MARK = ":heavy_check_mark:"
-        const val SMILE_DELETE = ":small_red_triangle_down:"
+        const val SMILE_CHECK_MARK = ":heavy_plus_sign: "
+        const val SMILE_DELETE = ":heavy_minus_sign:"
     }
 
     override fun addLineChange(change: String) {
@@ -25,6 +25,11 @@ open class WriteToFileReleaseNotesDiffForSlack : WriteToFileReleaseNotesDiff() {
         var stylizedLine = ""
         var lineInfo = lineInfoMatch.value.trim()
         var lineText = line.substring(lineInfoMatch.range.last + 1).trim()
+
+        val lineNumber = lineInfoMatch.groups[1]
+        lineNumber?.let {
+            lineInfo = lineInfo.replaceRange(lineNumber.range, "")
+        }
 
         val lineEditType = lineInfoMatch.groupValues[2]
         if (lineEditType == "-") stylizedLine = setQuote(stylizedLine)
