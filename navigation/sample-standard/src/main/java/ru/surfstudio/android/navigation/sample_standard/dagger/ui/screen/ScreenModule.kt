@@ -11,7 +11,7 @@ import ru.surfstudio.android.navigation.executor.screen.ScreenCommandExecutor
 import ru.surfstudio.android.navigation.sample_standard.screen.base.FragmentProviderImpl
 
 @Module
-open class ActivityScreenModule {
+open class ScreenModule {
 
     @Provides
     @PerScreen

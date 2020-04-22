@@ -1,5 +1,6 @@
 package ru.surfstudio.android.navigation.executor
 
+import android.os.Handler
 import ru.surfstudio.android.navigation.command.NavigationCommand
 import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigationCommand
 import ru.surfstudio.android.navigation.command.dialog.base.DialogNavigationCommand
@@ -33,7 +34,7 @@ open class AppCommandExecutor(
             * we must wait for activity command to be fully executed,
             * i.e. next activity will become fully visible to execute fragment navigation command.
             * */
-            commands.forEach(::executeInternal)
+            executeInternal(commands)
         } else {
             buffer.addAll(commands)
             activityNavigationProvider.setOnHolderActiveListenerSingle { executeBuffer() }
@@ -45,11 +46,27 @@ open class AppCommandExecutor(
         buffer.clear()
     }
 
-    protected fun executeInternal(command: NavigationCommand) {
+
+    protected open fun executeInternal(commands: List<NavigationCommand>) {
+        val activityCommands = commands.takeWhile { it is ActivityNavigationCommand }
+        val nonActivityCommands = commands.takeLast(commands.size - activityCommands.size)
+        activityCommands.forEach(::executeInternal)
+
+        when {
+            activityCommands.isNotEmpty() && nonActivityCommands.isNotEmpty() -> postponeExecution(nonActivityCommands)
+            nonActivityCommands.isNotEmpty() -> nonActivityCommands.forEach(::executeInternal)
+        }
+    }
+
+    protected open fun executeInternal(command: NavigationCommand) {
         when (command) {
             is ActivityNavigationCommand -> activityCommandExecutor.execute(command)
             is FragmentNavigationCommand -> fragmentCommandExecutor.execute(command)
             is DialogNavigationCommand -> dialogCommandExecutor.execute(command)
         }
+    }
+
+    private fun postponeExecution(commands: List<NavigationCommand>) {
+        Handler().post { commands.forEach(::execute) }
     }
 }
