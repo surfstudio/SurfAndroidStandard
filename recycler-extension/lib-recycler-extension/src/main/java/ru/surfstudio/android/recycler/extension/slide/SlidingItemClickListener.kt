@@ -15,6 +15,8 @@ class SlidingItemClickListener(private val rv: RecyclerView) :
     }
 
     private var startTouchTime = 0L
+    private var startTouchX = 0f
+    private var startTouchY = 0f
 
     override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
         /** empty body. */
@@ -34,13 +36,20 @@ class SlidingItemClickListener(private val rv: RecyclerView) :
 
     private fun onInterceptTouchStarted(e: MotionEvent): Boolean {
         startTouchTime = System.currentTimeMillis()
+        startTouchX = e.x
+        startTouchY = e.y
         return false
     }
 
     private fun onInterceptTouchEnded(e: MotionEvent): Boolean {
         val endTouchTime = System.currentTimeMillis()
         val touchTime = endTouchTime - startTouchTime
-        if (touchTime <= CLICK_MAX_TOUCH_TIME_MS) rv.slidingViewHoldersHideButtons()
+        if (touchTime <= CLICK_MAX_TOUCH_TIME_MS) {
+            val viewHolder = rv.findSlidingViewHolderUnder(startTouchX, startTouchY)
+            rv.findVisibleSlidingViewHolders()
+                    .filter { it != viewHolder }
+                    .forEach { it.hideButtons(shouldAnimate = true) }
+        }
         return false
     }
 }

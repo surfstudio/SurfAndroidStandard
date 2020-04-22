@@ -35,9 +35,9 @@ internal class SlidingItemController(
             super.onButtonClicked(buttonView)
             when (buttonView) {
                 is FavoritesSlidingButtonView -> {
-                    // TODO DEMO PURPOSE ONLY, DON'T CHANGE STATE OF VIEW THIS WAY
+                    // demo purpose only, don't change state of view this way!
                     buttonView.isInFavorites = !buttonView.isInFavorites
-                    // TODO BETTER CALL THIS CALLBACK AND UPDATE LIST FROM PRESENTER
+                    // better call callback below and update list from presenter.
                     onFavoritesClicked()
                 }
                 is ShareSlidingButtonView -> onShareClicked()

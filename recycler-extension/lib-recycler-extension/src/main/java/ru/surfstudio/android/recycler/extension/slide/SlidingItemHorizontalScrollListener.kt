@@ -73,7 +73,10 @@ class SlidingItemHorizontalScrollListener(private val rv: RecyclerView) :
             velocityTracker?.addMovement(e)
 
             viewHolder?.onSlidingStarted()
-            rv.slidingViewHoldersHideButtons(excludeList = listOf(viewHolder))
+            rv.findVisibleSlidingViewHolders()
+                    .filter { it != viewHolder }
+                    .forEach { it.hideButtons(shouldAnimate = true) }
+
             return true
         }
 

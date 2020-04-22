@@ -48,7 +48,7 @@ class SlidingItemVerticalScrollListener(private val rv: RecyclerView) :
         if (!isResetAllowed) return false
         val travelledDistanceY = abs(startTouchY - e.y)
         if (travelledDistanceY >= distanceToResetPx) {
-            rv.slidingViewHoldersHideButtons()
+            rv.findVisibleSlidingViewHolders().forEach { it.hideButtons(shouldAnimate = true) }
             isResetAllowed = false
         }
         return false

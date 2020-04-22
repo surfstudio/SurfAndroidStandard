@@ -121,10 +121,13 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
             contentBlockerView.isInvisible = value == MAIN_CONTENT
         }
 
-    /** Amount of horizontal velocity, needed to change [InteractionState]. */
+    /** Animation duration of [InteractionState] changing (milliseconds). */
+    protected open val slideAnimationDuration = SLIDE_ANIM_DURATION
+
+    /** Amount of horizontal velocity (pixels), needed to change [InteractionState]. */
     protected open val swipeVelocityThreshold = context.dpToPx(SWIPE_VELOCITY_THRESHOLD_DP).toFloat()
 
-    /** Amount of horizontal scrolled distance, needed to intercept user's touch. */
+    /** Amount of horizontal scrolled distance (pixels), needed to intercept user's touch. */
     protected open val touchInterceptThreshold = context.dpToPx(TOUCH_INTERCEPT_THRESHOLD_DP).toFloat()
 
     /** List of buttons to inflate into the left container. */
@@ -277,7 +280,7 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
                         containerWidth = focusedContainerWidth,
                         from = currentSlideTranslation,
                         to = absoluteTranslation,
-                        duration = SLIDE_ANIM_DURATION
+                        duration = slideAnimationDuration
                 )
                 isAnimatingSlide = true
                 slidingViews.forEach { slidingView ->
