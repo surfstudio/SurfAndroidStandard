@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
 package ru.surfstudio.android.recycler.extension.slide
 
 import androidx.recyclerview.widget.RecyclerView
@@ -5,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * Helper used to setup [RecyclerView] to work with [BindableSlidingViewHolder]'s.
  *
- * **Note: you should call `bind()` in `onCreate()` and `unbind()` in `onDestroy()` methods
- * to avoid memory leaks!**
+ * **Note for Fragments: you should call `bind()` in `onViewCreated()`/`onActivityCreated()`
+ * and `unbind()` in `onDestroyView()` methods to avoid memory leaks!**
  * */
 class SlidingHelper {
 
@@ -21,7 +36,7 @@ class SlidingHelper {
      *
      * Adding listeners to [RecyclerView].
      *
-     *  **Note: to avoid memory leaks - don't forget to call `unbind()` in `onDestroy()` method!**
+     *  **Note for Fragments: to avoid memory leaks - don't forget to call `unbind()` in `onDestroyView()` method!**
      * */
     fun bind(rv: RecyclerView) {
         internalRv = rv.also {
