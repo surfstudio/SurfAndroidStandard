@@ -306,7 +306,7 @@ pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
         def message = "Ветка ${sourceBranch} в состоянии ${pipeline.jobResult} из-за этапов: ${unsuccessReasons}; ${CommonUtil.getBuildUrlSlackLink(script)}"
-        JarvisUtil.sendMessageToUser(script, message, authorUsername, "gitlab")
+//        JarvisUtil.sendMessageToUser(script, message, authorUsername, "gitlab")
     }
 }
 
