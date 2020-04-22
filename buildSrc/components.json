@@ -920,6 +920,27 @@
           }
         ],
         "android_standard_dependencies": []
+      },
+      {
+        "name": "pagination",
+        "dir": "lib-pagination",
+        "artifact_name": "pagination",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          }
+        ]
       }
     ],
     "samples": [
