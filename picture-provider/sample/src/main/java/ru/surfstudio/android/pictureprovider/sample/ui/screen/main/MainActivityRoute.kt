@@ -8,7 +8,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
  * Роутер открытия главного экрана
  */
 class MainActivityRoute : ActivityRoute() {
-    override fun prepareIntent(context: Context?): Intent {
+    override fun prepareIntent(context: Context?  ): Intent {
         return Intent(context, MainActivityView::class.java)
     }
 }
