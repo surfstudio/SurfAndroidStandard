@@ -1,4 +1,4 @@
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
+@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
 //  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
@@ -306,7 +306,7 @@ pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
         def message = "Ветка ${sourceBranch} в состоянии ${pipeline.jobResult} из-за этапов: ${unsuccessReasons}; ${CommonUtil.getBuildUrlSlackLink(script)}"
-        JarvisUtil.sendMessageToUser(script, message, authorUsername, "gitlab")
+//        JarvisUtil.sendMessageToUser(script, message, authorUsername, "gitlab")
     }
 }
 
