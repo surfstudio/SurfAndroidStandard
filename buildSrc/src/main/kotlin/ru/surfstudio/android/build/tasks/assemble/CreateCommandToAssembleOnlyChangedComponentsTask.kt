@@ -9,6 +9,7 @@ import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
+import ru.surfstudio.android.build.tasks.changed_components.models.ComponentChangeReason
 import java.io.File
 
 /**
@@ -22,24 +23,31 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
 
     private lateinit var revisionToCompare: String
 
+    private val currentComponents = Components.value
+    private val changedComponentsMap = mutableMapOf<Component?, ComponentChangeReason>()
+
     @TaskAction
     fun check() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
-        val currentComponents = Components.value
-
-        val componentsChangeResults = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
+        changedComponentsMap += ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
                 .filter { componentCheckResult -> componentCheckResult.isComponentChanged }
-                .map { componentCheckResult -> currentComponents.find { it.name == componentCheckResult.componentName } }
+                .map { componentCheckResult ->
+                    currentComponents.find { it.name == componentCheckResult.componentName } to componentCheckResult.reasonOfComponentChange
+                }
 
-        val componentsChangeFilesResults = ComponentsFilesChecker(currentRevision, revisionToCompare)
+        changedComponentsMap += ComponentsFilesChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
                 .filter { componentCheckResult -> componentCheckResult.isComponentChanged }
-                .map { componentCheckResult -> currentComponents.find { it.name == componentCheckResult.componentName } }
+                .map { componentCheckResult ->
+                    currentComponents.find { it.name == componentCheckResult.componentName } to componentCheckResult.reasonOfComponentChange
+                }
 
-        writeAssembleCommand(componentsChangeResults + componentsChangeFilesResults)
+        addDependentComponents()
+
+        writeAssembleCommand(changedComponentsMap.toMap())
     }
 
     private fun extractInputArguments() {
@@ -49,7 +57,26 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
         revisionToCompare = project.findProperty(GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE) as String
     }
 
-    private fun writeAssembleCommand(changedComponents: List<Component?>) {
+    /**
+     * Find and add components which depend on changedComponents
+     */
+    private fun addDependentComponents() {
+        val changedComponentsNames = changedComponentsMap.keys.map {
+            it?.name
+        }
+
+        currentComponents.forEach { component ->
+            component.libraries.forEach { library ->
+                library.androidStandardDependencies.forEach { androidStandardDependency ->
+                    if (changedComponentsNames.contains(androidStandardDependency.name)) {
+                        changedComponentsMap += component to ComponentChangeReason.NO_REASON
+                    }
+                }
+            }
+        }
+    }
+
+    private fun writeAssembleCommand(changedComponents: Map<Component?, ComponentChangeReason>) {
         val assembleCommand = createOutputForChangedComponents(changedComponents)
 
         val file = File(ASSEMBLE_COMMAND_FILE_URL)
@@ -64,18 +91,21 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
         logger.lifecycle(assembleCommand)
     }
 
-    private fun createOutputForChangedComponents(results: List<Component?>): String {
-        return results.joinToString(separator = " ") { component ->
+    private fun createOutputForChangedComponents(results: Map<Component?, ComponentChangeReason>): String {
+        return results
+                .filter { it.value != ComponentChangeReason.COMPONENT_REMOVED }
+                .keys
+                .joinToString(separator = " ") { component ->
 
-            val librariesAssembleCommand = component?.libraries?.joinToString(separator = " ") { library ->
-                ":${library.name}:clean :${library.name}:assemble"
-            }
+                    val librariesAssembleCommand = component?.libraries?.joinToString(separator = " ") { library ->
+                        ":${library.name}:clean :${library.name}:assemble"
+                    }
 
-            val samplesAssembleCommand = component?.samples?.joinToString(separator = " ") { sample ->
-                ":${sample.name}:clean :${sample.name}:assemble"
-            }
+                    val samplesAssembleCommand = component?.samples?.joinToString(separator = " ") { sample ->
+                        ":${sample.name}:clean :${sample.name}:assemble"
+                    }
 
-            return@joinToString "$librariesAssembleCommand $samplesAssembleCommand"
-        }
+                    return@joinToString "$librariesAssembleCommand $samplesAssembleCommand"
+                }
     }
 }
