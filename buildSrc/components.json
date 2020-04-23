@@ -391,7 +391,7 @@
   {
     "id": "converter-gson",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "deprecated/converter-gson",
     "libs": [
@@ -456,7 +456,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 17,
+    "unstable_version": 18,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -596,7 +596,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 12,
+    "unstable_version": 13,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -1117,7 +1117,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 8,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1297,7 +1297,7 @@
   {
     "id": "network",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "deprecated/network",
     "libs": [
@@ -1809,7 +1809,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 23,
+    "unstable_version": 24,
     "stable": false,
     "dir": "template",
     "libs": [],
