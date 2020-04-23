@@ -116,24 +116,40 @@ public abstract class EasyPaginationAdapter extends EasyAdapter {
         super.onAttachedToRecyclerView(recyclerView);
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         initLayoutManager(layoutManager);
-        initPaginationListener(recyclerView, layoutManager);
+        initPaginationListener(recyclerView);
     }
 
-    protected void initPaginationListener(RecyclerView recyclerView, final RecyclerView.LayoutManager layoutManager) {
+    /**
+     * Function which checks if it's needed to show more elements.
+     * Can be overridden in descendant class.
+     *
+     * @param recyclerView RecyclerView for check condition
+     * @return true if more elements can be shown
+     */
+    protected boolean showMoreElements(@NonNull RecyclerView recyclerView) {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager != null) {
+            int totalItemCount = layoutManager.getItemCount();
+            int firstVisibleItem = findFirstVisibleItem(layoutManager);
+            int lastVisibleItem = findLastVisibleItem(layoutManager);
+            int numVisibleItem = lastVisibleItem - firstVisibleItem;
+
+            return totalItemCount - lastVisibleItem < 2 * numVisibleItem;
+        }
+        return false;
+    }
+
+    protected void initPaginationListener(RecyclerView recyclerView) {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (onShowMoreListener != null && !blockShowMoreEvent) {
-                    int totalItemCount = layoutManager.getItemCount();
-                    int firstVisibleItem = findFirstVisibleItem(layoutManager);
-                    int lastVisibleItem = findLastVisibleItem(layoutManager);
-                    int numVisibleItem = lastVisibleItem - firstVisibleItem;
-
-                    if (totalItemCount - lastVisibleItem < 2 * numVisibleItem) {
-                        blockShowMoreEvent = true;
-                        onShowMoreListener.onShowMore();
-                    }
+                if (onShowMoreListener != null &&
+                        !blockShowMoreEvent &&
+                        showMoreElements(recyclerView)
+                ) {
+                    blockShowMoreEvent = true;
+                    onShowMoreListener.onShowMore();
                 }
             }
         });

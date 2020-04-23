@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.isVisible
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
+import ru.surfstudio.android.easyadapter.sample.R
 import ru.surfstudio.android.pagination.EasyPaginationAdapter
 import ru.surfstudio.android.pagination.PaginationState
-import ru.surfstudio.android.easyadapter.sample.R
 
 class PaginationableAdapter(onShowMoreListener: () -> Unit) : EasyPaginationAdapter() {
 
