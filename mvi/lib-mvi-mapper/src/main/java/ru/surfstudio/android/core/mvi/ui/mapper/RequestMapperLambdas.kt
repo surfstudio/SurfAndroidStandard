@@ -98,7 +98,7 @@ typealias RequestErrorHandler<T> = (error: Throwable?, data: T?, loading: Loadin
  * @param T Тип данных запроса.
  * @param E Тип обрабатываемой специфичной ошибки запроса.
  * */
-typealias RequestSpecificErrorHandler<E, T> = (error: E?, data: T?, loading: Loading?) -> Boolean
+typealias RequestSpecificErrorHandler<E, T> = (error: E, data: T?, loading: Loading?) -> Boolean
 
 /**
  * **Реактор на изменение состояния жизненного цикла запроса.**
