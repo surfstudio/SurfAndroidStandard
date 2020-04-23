@@ -23,7 +23,7 @@ import ru.surfstudio.android.core.ui.event.back.OnBackPressedDelegate
 /**
  * [EventHub], that handles BackPressedEvents (clicks on system "Back" button)
  */
-interface BackPressedEventHub<E : Event,  EventStream> : EventHub<E, EventStream>, OnBackPressedDelegate {
+interface BackPressedEventHub<E : Event, EventStream> : EventHub<E, EventStream>, OnBackPressedDelegate {
 
     val backPressedCreator: ParamlessEventFactory<E>?
 
