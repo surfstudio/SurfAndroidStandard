@@ -46,12 +46,12 @@ import ru.surfstudio.android.easyadapter.item.NoDataItem;
  * {@link BasePaginationFooterController} and {@link BasePaginationFooterHolder} implementation.
  * These were made abstract to support custom look and logic.
  */
-public abstract class BasePaginationableAdapter extends EasyAdapter {
+public abstract class EasyPaginationAdapter extends EasyAdapter {
 
     private OnShowMoreListener onShowMoreListener;
     private boolean blockShowMoreEvent = true;
 
-    public BasePaginationableAdapter() {
+    public EasyPaginationAdapter() {
         getPaginationFooterController().setListener(this::onShowMoreClick);
     }
 
