@@ -1,4 +1,4 @@
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
+@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
 //  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
