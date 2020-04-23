@@ -33,6 +33,9 @@ dependencies {
     implementation project(":f-auth")
     implementation project(":f-main")
     implementation project(":f-splash")
+    implementation project(":f-search")
+    implementation project(":f-feed")
+    implementation project(":f-profile")
 
     implementation lang.kotlinStdLib
     implementation lang.jetbrainsAnnotations
