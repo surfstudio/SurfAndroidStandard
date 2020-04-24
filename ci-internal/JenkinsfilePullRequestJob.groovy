@@ -250,7 +250,7 @@ pipeline.stages = [
         },
 
         pipeline.stage(BUILD) {
-            script.sh("./gradlew createCommandToAssembleOnlyChangedComponentsTask -PrevisionToCompare=${prevCommitHash}")
+            script.sh("./gradlew createCommandToAssembleOnlyChangedComponentsTask -PrevisionToCompare=${lastDestinationBranchCommitHash}")
             String assembleCommand = script.readFile(assembleCommandFileUrl)
 
             script.echo "Assemble components: $assembleCommand"
