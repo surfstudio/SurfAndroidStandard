@@ -83,7 +83,7 @@ def getTestInstrumentationRunnerName = { script, prefix ->
     ).split("\n").last()
 }
 
-def assembleCommandFileUrl = "buildSrc/build/tmp/assembleCommand.txt"
+def assembleCommandFileName = "buildSrc/build/tmp/assembleCommand.txt"
 
 //init
 def script = this
@@ -251,11 +251,11 @@ pipeline.stages = [
 
         pipeline.stage(BUILD) {
             script.sh("./gradlew createCommandToAssembleOnlyChangedComponentsTask -PrevisionToCompare=${lastDestinationBranchCommitHash}")
-            String assembleCommand = script.readFile(assembleCommandFileUrl)
+            String assembleCommand = script.readFile(assembleCommandFileName)
 
             script.echo "Assemble components: $assembleCommand"
 
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "$assembleCommand")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean $assembleCommand")
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +

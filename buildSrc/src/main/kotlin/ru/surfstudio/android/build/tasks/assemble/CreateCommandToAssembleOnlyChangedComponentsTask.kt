@@ -13,13 +13,9 @@ import ru.surfstudio.android.build.tasks.changed_components.models.ComponentChan
 import java.io.File
 
 /**
- * Find changed components and create command to assemble only changed
+ * Find changed components and create command to assemble only changed and dependent from changed
  */
 open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
-
-    companion object {
-        const val ASSEMBLE_COMMAND_FILE_URL = "buildSrc/build/tmp/assembleCommand.txt"
-    }
 
     private lateinit var revisionToCompare: String
 
@@ -27,7 +23,7 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
     private val changedComponentsMap = mutableMapOf<Component?, ComponentChangeReason>()
 
     @TaskAction
-    fun check() {
+    fun createAssembleCommand() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
@@ -79,7 +75,7 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
     private fun writeAssembleCommand(changedComponents: Map<Component?, ComponentChangeReason>) {
         val assembleCommand = createOutputForChangedComponents(changedComponents)
 
-        val file = File(ASSEMBLE_COMMAND_FILE_URL)
+        val file = File(ASSEMBLE_COMMAND_FILE_NAME)
         with(file) {
             if (exists()) {
                 delete()
@@ -87,8 +83,6 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
             createNewFile()
             appendText(assembleCommand)
         }
-
-        logger.lifecycle(assembleCommand)
     }
 
     private fun createOutputForChangedComponents(results: Map<Component?, ComponentChangeReason>): String {
@@ -98,14 +92,18 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
                 .joinToString(separator = " ") { component ->
 
                     val librariesAssembleCommand = component?.libraries?.joinToString(separator = " ") { library ->
-                        ":${library.name}:clean :${library.name}:assemble"
+                        ":${library.name}:assemble"
                     }
 
                     val samplesAssembleCommand = component?.samples?.joinToString(separator = " ") { sample ->
-                        ":${sample.name}:clean :${sample.name}:assemble"
+                        ":${sample.name}:assemble"
                     }
 
                     return@joinToString "$librariesAssembleCommand $samplesAssembleCommand"
                 }
+    }
+
+    companion object {
+        const val ASSEMBLE_COMMAND_FILE_NAME = "buildSrc/build/tmp/assembleCommand.txt"
     }
 }
