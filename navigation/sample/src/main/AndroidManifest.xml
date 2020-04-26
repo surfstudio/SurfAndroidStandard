@@ -19,7 +19,7 @@
     package="ru.surfstudio.android.navigation.sample">
 
     <application
-        android:name="ru.surfstudio.android.navigation.sample.app.App"
+        android:name=".app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Navigation sample"

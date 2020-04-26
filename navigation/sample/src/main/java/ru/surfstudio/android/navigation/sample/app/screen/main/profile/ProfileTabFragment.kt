@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_profile.*
 import ru.surfstudio.android.navigation.command.activity.Start
@@ -17,6 +18,10 @@ import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimatio
 
 class ProfileTabFragment : Fragment() {
 
+
+    private val sourceRoute = ProfileTabRoute()
+    private val targetRoute = AboutRoute()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
@@ -26,5 +31,16 @@ class ProfileTabFragment : Fragment() {
         profile_settings_btn.setOnClickListener { App.navigator.execute(Start(ApplicationSettingsRoute())) }
         profile_about_app_btn.setOnClickListener { App.navigator.execute(Start(AboutRoute())) }
         profile_logout_btn.setOnClickListener { App.navigator.execute(ReplaceHard(AuthRoute(), FadeAnimations())) }
+
+        App.resultObserver.addListener(sourceRoute, targetRoute, ::showAppName)
+    }
+
+    private fun showAppName(name: String) {
+        Toast.makeText(requireActivity(), "App name: $name", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onDestroyView() {
+        App.resultObserver.removeListener(sourceRoute, targetRoute)
+        super.onDestroyView()
     }
 }

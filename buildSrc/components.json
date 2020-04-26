@@ -1413,6 +1413,17 @@
             "type": "implementation"
           }
         ]
+      },
+      {
+        "name": "navigation-observer",
+        "dir": "lib-navigation-observer",
+        "artifact_name": "navigation-observer",
+        "android_standard_dependencies": [
+          {
+            "name": "navigation",
+            "type": "api"
+          }
+        ]
       }
     ],
     "samples": [

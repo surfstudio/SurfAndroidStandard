@@ -27,6 +27,7 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "core-mvp-binding")
     DependencyConfigurator.projectImplementation(project, "easyadapter")
     DependencyConfigurator.projectImplementation(project, "navigation")
+    DependencyConfigurator.projectImplementation(project, "navigation-observer")
 
     DependencyConfigurator.implementation(project, "androidx.recyclerview:recyclerview")
     DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
