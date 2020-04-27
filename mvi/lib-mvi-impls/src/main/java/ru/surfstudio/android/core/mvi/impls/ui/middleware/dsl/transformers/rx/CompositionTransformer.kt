@@ -6,6 +6,7 @@ import io.reactivex.ObservableTransformer
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.composition.CompositionEvent
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
+import java.lang.IllegalStateException
 
 /**
  * [CompositionEvent]'s decomposition to another middleware.
@@ -17,8 +18,8 @@ import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
  *
  *  If there's no input events, it can still produce output events if necessary.
  *
- *  Output events are created by calling constructor with [List]<[T]> parameter,
- *  and composition event [C] must have one.
+ *  Output events are created by calling no-args constructor,
+ *  so composition event [C] must have one.
  */
 class CompositionTransformer<T : Event, C : CompositionEvent<T>>(
         private val compositionEventClass: Class<C>,
@@ -28,7 +29,17 @@ class CompositionTransformer<T : Event, C : CompositionEvent<T>>(
     override fun apply(upstream: Observable<C>): ObservableSource<C> {
         val inEvents = upstream.flatMap { composition -> Observable.fromIterable(composition.events) }
         val outEvents = middleware.transform(inEvents)
-        return outEvents.map { compositionEventClass.getConstructor(List::class.java).newInstance(listOf(it)) }
+        return outEvents.map(::createCompositionEvent)
+    }
+
+    private fun createCompositionEvent(nestedEvent: T): C {
+        val newCompositionEvent = try {
+            compositionEventClass.newInstance()
+        } catch (exception: InstantiationException) {
+            throw CompositionEventNoConstructorException()
+        }
+
+        return newCompositionEvent.apply { events = listOf(nestedEvent) }
     }
 
     companion object {
@@ -46,4 +57,7 @@ class CompositionTransformer<T : Event, C : CompositionEvent<T>>(
             return CompositionTransformer(transformationClass, middleware)
         }
     }
+
+    class CompositionEventNoConstructorException :
+            IllegalStateException("All composition events must have no args constructor!")
 }
