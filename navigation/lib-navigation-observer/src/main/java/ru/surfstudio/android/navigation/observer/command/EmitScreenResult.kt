@@ -14,7 +14,7 @@ import java.io.Serializable
  *
  * This command can be handled in [ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult].
  */
-class EmitScreenResult<T : Serializable, out R>(
+class EmitScreenResult<T : Serializable, R>(
         val sourceRoute: BaseRoute<*>,
         override val route: R,
         val result: T
