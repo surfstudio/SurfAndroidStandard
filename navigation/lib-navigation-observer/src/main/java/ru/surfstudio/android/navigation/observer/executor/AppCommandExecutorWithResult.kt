@@ -25,8 +25,8 @@ class AppCommandExecutorWithResult(
 
     override fun dispatchCommand(command: NavigationCommand) {
         if (command is EmitScreenResult<*, *>) {
-            val targetRoute = command.route as ResultRoute<Serializable>
-            targetRoute as BaseRoute<*>
+            val targetRoute = command.route
+            targetRoute as ResultRoute<Serializable>
             screenResultEmitter.emit(command.sourceRoute, targetRoute, command.result)
         } else {
             super.dispatchCommand(command)
