@@ -2,6 +2,7 @@
 # Core-mvi Release Notes
 ## 0.5.0-alpha
 ##### Core-mvi
+* ANDDEP-1008 License added
 * ANDDEP-671 Core mvi refactor, add comments
 * ANDDEP-671 Add navigation middleware, add dsl
 * Divide Mvi Core and Mvi Implementation
@@ -28,5 +29,5 @@ Replaced RxMiddleware.asRequestEvent `Event` parameter with `EventFactory`.
 ##### Mvi-mapper
 * ANDDEP-968 **NEW** `RequestMapper.kt`: class for managing requests;
 * ANDDEP-968 **NEW** `RequestMapperLambdas.kt`: file that holds typealiases for `RequestMapper`;
-##### Mvi-sample
-* ANDDEP-968 New sample screens: `KittiesActivity` and `KittiesAllActivity`;
+##### Mvi-impls
+* ANDDEP-969 Added base classes: `BaseReactor` and `BaseReducer`;

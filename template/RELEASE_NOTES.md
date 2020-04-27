@@ -2,6 +2,7 @@
 # Template Release Notes
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-46 Added default BottomBarView implementation
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type to f-debug
 * ANDDEP-687 Added "com.google.dagger:dagger" dependency with "implementation" type to f-debug
 * ANDDEP-687 Added "javax.inject:javax.inject" and "com.annimon:stream" to commonModule.gradle
@@ -37,6 +38,7 @@
 * ANDDEP-982 `easyadapter` now depends on `androidx.asynclayoutinflater`;
 * ANDDEP-982 other libraries versions changed;
 * ANDDEP-915 Added `validateCrossFeatureRoutes.gradle.kts` task. **Note**: supported only `.kt` source files parsing;
+* ANDDEP-599 Added `CompletableSafeConverter` to parse not empty Completable-request response;
 
 ## 0.4.0
 ##### Template

@@ -1,18 +1,10 @@
 package ru.surfstudio.android.build.tasks.generate_release_notes_diff
 
 /**
- * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project.
+ * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project
+ * and send them to Slack.
  */
 open class WriteToFileReleaseNotesDiffForSlack : WriteToFileReleaseNotesDiff() {
-
-    companion object {
-        //stylized line const
-        const val LINE_INFO_REGEX = "([0-9]+) +([-+]) (\\*)?"
-        const val NO_BACKWARD_LABEL_REGEX = "(\\*\\*)?NO BACKWARD COMPATIBILITY(\\*\\*)?"
-        const val SMILE_WARNING = ":warning:"
-        const val SMILE_CHECK_MARK = ":heavy_check_mark:"
-        const val SMILE_DELETE = ":small_red_triangle_down:"
-    }
 
     override fun addLineChange(change: String) {
         super.addLineChange(styleLine(change))
@@ -26,17 +18,22 @@ open class WriteToFileReleaseNotesDiffForSlack : WriteToFileReleaseNotesDiff() {
         var lineInfo = lineInfoMatch.value.trim()
         var lineText = line.substring(lineInfoMatch.range.last + 1).trim()
 
+        val lineNumber = lineInfoMatch.groups[1]
+        lineNumber?.let {
+            lineInfo = lineInfo.replaceRange(lineNumber.range, "").trim()
+        }
+
         val lineEditType = lineInfoMatch.groupValues[2]
         if (lineEditType == "-") stylizedLine = setQuote(stylizedLine)
-        lineInfo = lineInfo.replace(lineEditType, "")
+        lineInfo = lineInfo.replaceFirst(lineEditType, "")
 
         val isStartParagraph = lineInfoMatch.groupValues[3].isNotBlank()
         if (isStartParagraph) {
             if (lineEditType == "+") {
-                lineInfo = lineInfo.replace(lineInfoMatch.groupValues[3], SMILE_CHECK_MARK)
+                lineInfo = lineInfo.replaceFirst(lineInfoMatch.groupValues[3], SMILE_PLUS)
             } else {
-                lineInfo = lineInfo.replace(lineInfoMatch.groupValues[3], "")
-                lineInfo = SMILE_DELETE + lineInfo
+                lineInfo = lineInfo.replaceFirst(lineInfoMatch.groupValues[3], "")
+                lineInfo = SMILE_MINUS + lineInfo
             }
         }
 
@@ -44,8 +41,8 @@ open class WriteToFileReleaseNotesDiffForSlack : WriteToFileReleaseNotesDiff() {
                 NO_BACKWARD_LABEL_REGEX.toRegex(),
                 SMILE_WARNING + setBold(setItalic(setRedBackground("NO BACKWARD COMPATIBILITY")))
         )
-        stylizedLine += lineInfo + lineText
 
+        stylizedLine += "$lineInfo $lineText"
         return stylizedLine
     }
 
@@ -56,4 +53,12 @@ open class WriteToFileReleaseNotesDiffForSlack : WriteToFileReleaseNotesDiff() {
     private fun setRedBackground(text: String) = "`$text`"
 
     private fun setQuote(text: String) = ">$text"
+
+    companion object {
+        const val LINE_INFO_REGEX = "([0-9]+) +([-+]) (\\*)?"
+        const val NO_BACKWARD_LABEL_REGEX = "(\\*\\*)?NO BACKWARD COMPATIBILITY(\\*\\*)?"
+        const val SMILE_WARNING = ":warning:"
+        const val SMILE_PLUS = ":heavy_plus_sign:"
+        const val SMILE_MINUS = ":heavy_minus_sign:"
+    }
 }

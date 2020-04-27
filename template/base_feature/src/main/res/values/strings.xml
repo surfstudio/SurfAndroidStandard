@@ -15,4 +15,9 @@
     <string name="state_empty_text">Ничего не найдено</string>
     <string name="state_error_message">Произошла ошибка</string>
     <string name="state_error_btn">Обновить</string>
+
+    <!--  TODO переименовать табы в соответствии с проектом  -->
+    <string name="bottom_bar_feed">Новости</string>
+    <string name="bottom_bar_search">Поиск</string>
+    <string name="bottom_bar_profile">Профиль</string>
 </resources>
