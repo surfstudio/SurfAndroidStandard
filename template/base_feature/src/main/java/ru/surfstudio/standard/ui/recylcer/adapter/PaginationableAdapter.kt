@@ -7,14 +7,14 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.updateLayoutParams
-import ru.surfstudio.android.easyadapter.pagination.BasePaginationableAdapter
-import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.pagination.PaginationState
+import ru.surfstudio.android.pagination.EasyPaginationAdapter
 import ru.surfstudio.android.template.base_feature.R
 
 /**
  * Класс адаптера с поддержкой пагинации на основе EasyAdapter
  */
-open class PaginationableAdapter(onShowMoreListener: () -> Unit) : BasePaginationableAdapter() {
+open class PaginationableAdapter(onShowMoreListener: () -> Unit) : EasyPaginationAdapter() {
     protected var paginationFooterItemController: BasePaginationFooterController<*>? = null
 
     init {

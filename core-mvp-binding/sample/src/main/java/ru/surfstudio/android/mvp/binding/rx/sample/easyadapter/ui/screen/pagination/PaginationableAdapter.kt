@@ -24,15 +24,15 @@ import android.widget.TextView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ru.surfstudio.android.core.mvp.binding.sample.R
-import ru.surfstudio.android.easyadapter.pagination.BasePaginationableAdapter
-import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.pagination.PaginationState
+import ru.surfstudio.android.pagination.EasyPaginationAdapter
 
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
  *
  * Класс адаптера с поддержкой пагинации на основе EasyAdapter
  */
-open class PaginationableAdapter(onShowMoreListener: () -> Unit) : BasePaginationableAdapter() {
+open class PaginationableAdapter(onShowMoreListener: () -> Unit) : EasyPaginationAdapter() {
     protected var paginationFooterItemController: BasePaginationFooterController<*>? = null
 
     init {
@@ -56,8 +56,8 @@ open class PaginationableAdapter(onShowMoreListener: () -> Unit) : BasePaginatio
                 listener: OnShowMoreListener
         ) : BasePaginationFooterHolder(parent, R.layout.pagination_footer_layout) {
 
-            val loadingIndicator: View = View(parent.context) //TODO loading
-            val showMoreTv: TextView = itemView.findViewById(R.id.pagination_footer_text)
+            private val loadingIndicator: View = View(parent.context)
+            private val showMoreTv: TextView = itemView.findViewById(R.id.pagination_footer_text)
 
             init {
                 showMoreTv.setOnClickListener { listener.onShowMore() }

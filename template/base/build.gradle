@@ -16,6 +16,7 @@ dependencies {
                     "mvp-dialog",
                     "mvp-widget",
                     "easyadapter",
+                    "pagination",
                     "analytics",
                     "firebase-analytics",
                     "push",
@@ -37,6 +38,7 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"]
+                    "rxbus"
+            ]
     )
 }

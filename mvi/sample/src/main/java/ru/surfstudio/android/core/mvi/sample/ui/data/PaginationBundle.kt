@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.mvi.sample.ui.data
 
 import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList
-import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.pagination.PaginationState
 
 /**
  * UI representation of paginated `DataList`.

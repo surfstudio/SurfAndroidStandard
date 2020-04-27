@@ -6,7 +6,7 @@ import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.pag
 import ru.surfstudio.android.core.mvp.binding.rx.request.state.RequestState
 import ru.surfstudio.android.core.mvp.binding.rx.request.Request
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
-import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.pagination.PaginationState
 import ru.surfstudio.android.rx.extension.toObservable
 
 fun <T, PE : PaginationEvent> RequestEvent<DataList<T>>.toPaginationEvent(

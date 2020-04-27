@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.isVisible
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
-import ru.surfstudio.android.easyadapter.pagination.BasePaginationableAdapter
-import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.network.sample.R
+import ru.surfstudio.android.pagination.EasyPaginationAdapter
+import ru.surfstudio.android.pagination.PaginationState
 
-class ProductListAdapter(onShowMoreListener: () -> Unit) : BasePaginationableAdapter() {
+class ProductListAdapter(onShowMoreListener: () -> Unit) : EasyPaginationAdapter() {
 
     private var paginationFooterItemController: BasePaginationFooterController<*>? = null
 
