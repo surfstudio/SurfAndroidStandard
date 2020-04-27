@@ -67,12 +67,12 @@ abstract class BindableSlidingViewHolder<T : Any>(parent: ViewGroup, @LayoutRes 
         BindableViewHolder<T>(parent, R.layout.layout_bindable_sliding_view_holder) {
 
     // Shortcuts
-    private val context get() = itemView.context
     private val currentSlideTranslation get() = contentContainer.translationX
     private val isReachedLeftContainer get() = currentSlideTranslation >= leftContainerTriggerPosition
     private val isReachedRightContainer get() = currentSlideTranslation <= rightContainerTriggerPosition
     private val hasLeftButtons get() = leftButtons.isNotEmpty()
     private val hasRightButtons get() = rightButtons.isNotEmpty()
+    protected val context get() = itemView.context
 
     // Views
     private val leftButtonsContainer = itemView.sliding_left_buttons_container
