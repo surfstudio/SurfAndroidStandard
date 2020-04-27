@@ -36,7 +36,7 @@ class CompositionTransformer<T : Event, C : CompositionEvent<T>>(
         /**
          * Creates [CompositionTransformer].
          *
-         * Instead of constructor we use static method
+         * We use static method instead of constructor
          * to enable type erasure avoiding mechanism by Kotlin.
          */
         inline fun <T : Event, reified C : CompositionEvent<T>> create(
