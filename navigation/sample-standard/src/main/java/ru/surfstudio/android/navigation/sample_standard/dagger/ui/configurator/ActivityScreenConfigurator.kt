@@ -22,7 +22,6 @@ abstract class ActivityScreenConfigurator(intent: Intent?) : BaseActivityViewCon
     }
 
     override fun getParentComponent(): AppComponent {
-        getTargetActivity()
         val app = persistentScope.screenState.activity.application as App
         return app.appComponent
     }

@@ -15,7 +15,7 @@ class HomeNestedRoute(
 
     override fun getScreenClass(): Class<out Fragment>? = HomeNestedFragment::class.java
 
-    override fun prepareData(): Bundle? = bundleOf(Route.EXTRA_FIRST to order)
+    override fun prepareData(): Bundle = bundleOf(Route.EXTRA_FIRST to order)
 
     override fun getTag(): String = super.getTag() + order
 }

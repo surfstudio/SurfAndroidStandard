@@ -12,7 +12,7 @@ class ImageRoute(val index: Int = 1) : FragmentRoute() {
 
     override fun getScreenClass(): Class<out Fragment>? = ImageFragment::class.java
 
-    override fun prepareData(): Bundle? = bundleOf(Route.EXTRA_FIRST to index)
+    override fun prepareData(): Bundle = bundleOf(Route.EXTRA_FIRST to index)
 
     override fun getTag(): String = super.getTag() + index
 }
