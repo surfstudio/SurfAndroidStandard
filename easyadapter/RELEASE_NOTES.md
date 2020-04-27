@@ -16,6 +16,8 @@
   getItemHash to Object for BaseItemController; getItemId became
   abstract
 * ANDDEP-1017 Added DiffResultListener invoked after the DiffResult calculation
+* **NO BACKWARD COMPATIBILITY** ANDDEP-1038 Move
+  BasePaginationableAdapter to pagination module and rename to EasyPaginationAdapter
 ##### Pagination
 * ANDDEP-1038 Add pagination module
 ## 1.0.0

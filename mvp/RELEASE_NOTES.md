@@ -19,6 +19,8 @@
 * ANDDEP-922 Fix inconsistent dialog navigator behavior: CoreSimpleDialog now showing with it's route tag. Methods `DialogNavigator.showSimpleDialog`, `CoreSimpleDialogInterface.show`, `CoreSimpleBottomSheetDialogFragment.show`, `CoreSimpleDialogFragment.show` and `SimpleDialogDelegate.show` are changed **without backward compatibility support**.
 * ANDDEP-985 Fix screen names logging
 * ANDDEP-928 Fix SimpleDialogDelegate logs
+##### Core-mvp
+* ANDDEP-1038 Fix import for PaginationState
 ## 0.4.0
 ##### Core-mvp
 * ANDDEP-320 Ability to dynamically set LoadState, a flexible way to display LoadState
