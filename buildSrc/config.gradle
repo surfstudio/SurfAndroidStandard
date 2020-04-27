@@ -76,11 +76,11 @@ ext {
             "com.squareup.retrofit2:adapter-rxjava2"           : "2.8.1",        //https://vk.cc/7UFxk3
             "com.squareup.okhttp3:logging-interceptor"         : "4.4.1",        //https://vk.cc/7UFwTd
             "junit:junit"                                      : "4.13",         //https://goo.gl/hEcfw1
-            "org.mockito:mockito-core"                         : "3.3.3",       //https://bit.ly/3bw7XGe
-            "org.powermock:powermock-classloading-xstream"     : "2.0.7",        //https://goo.gl/hEcfw1
-            "org.powermock:powermock-module-junit4"            : "2.0.7",        //https://goo.gl/hEcfw1
-            "org.powermock:powermock-module-junit4-rule"       : "2.0.7",        //https://goo.gl/hEcfw1
-            "org.powermock:powermock-api-mockito2"             : "2.0.7",        //https://goo.gl/hEcfw1
+            "org.mockito:mockito-core"                         : "2.8.9",        //https://bit.ly/3bw7XGe
+            "org.powermock:powermock-classloading-xstream"     : "1.7.4",        //https://goo.gl/hEcfw1
+            "org.powermock:powermock-module-junit4"            : "1.7.4",        //https://goo.gl/hEcfw1
+            "org.powermock:powermock-module-junit4-rule"       : "1.7.4",        //https://goo.gl/hEcfw1
+            "org.powermock:powermock-api-mockito2"             : "1.7.4",        //https://goo.gl/hEcfw1
             "com.annimon:stream"                               : "1.2.1",        //https://bit.ly/2Ke0nlQ
             "com.github.anrwatchdog:anrwatchdog"               : "1.4.0",        //http://bit.ly/2NZvjZc
             "me.zhanghai.android.materialprogressbar:library"  : "1.6.1",        //http://bit.ly/2vrzQvE
