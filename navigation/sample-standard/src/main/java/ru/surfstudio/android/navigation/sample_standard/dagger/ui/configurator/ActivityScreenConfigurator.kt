@@ -7,6 +7,7 @@ import ru.surfstudio.android.navigation.sample_standard.dagger.AppComponent
 import ru.surfstudio.android.navigation.sample_standard.dagger.ui.ActivityComponent
 import ru.surfstudio.android.navigation.sample_standard.dagger.ui.ActivityNavigationModule
 import ru.surfstudio.android.navigation.sample_standard.dagger.ui.DaggerActivityComponent
+import ru.surfstudio.android.sample.dagger.app.DefaultApp
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
 
@@ -21,6 +22,7 @@ abstract class ActivityScreenConfigurator(intent: Intent?) : BaseActivityViewCon
     }
 
     override fun getParentComponent(): AppComponent {
+        getTargetActivity()
         val app = persistentScope.screenState.activity.application as App
         return app.appComponent
     }

@@ -2,6 +2,7 @@ package ru.surfstudio.android.navigation.observer.bus
 
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
+import ru.surfstudio.android.navigation.observer.route.ResultRoute
 import ru.surfstudio.android.navigation.observer.storage.ScreenResultInfo
 import ru.surfstudio.android.navigation.observer.storage.ScreenResultStorage
 import ru.surfstudio.android.navigation.route.BaseRoute
@@ -19,11 +20,11 @@ open class ScreenResultBus(
 
     private val listeners = mutableListOf<ScreenResultListenerInfo<Serializable>>()
 
-    override fun <T : Serializable> addListener(
+    override fun <T : Serializable, R> addListener(
             sourceRoute: BaseRoute<*>,
-            targetRoute: BaseRoute<*>,
+            targetRoute: R,
             listener: (T) -> Unit
-    ) {
+    ) where R : BaseRoute<*>, R : ResultRoute<T> {
         val sourceId = getRouteId(sourceRoute)
         val targetId = getRouteId(targetRoute)
 
@@ -31,20 +32,20 @@ open class ScreenResultBus(
         addListenerInfo(sourceId, targetId, listener)
     }
 
-    override fun removeListener(
+    override fun <R> removeListener(
             sourceRoute: BaseRoute<*>,
-            targetRoute: BaseRoute<*>
-    ) {
+            targetRoute: R
+    ) where R : BaseRoute<*>, R : ResultRoute<*> {
         val sourceId = getRouteId(sourceRoute)
         val targetId = getRouteId(targetRoute)
         listeners.removeAll { it.sourceId == sourceId && it.targetId == targetId }
     }
 
-    override fun <T : Serializable> emit(
+    override fun <T : Serializable, R> emit(
             sourceRoute: BaseRoute<*>,
-            targetRoute: BaseRoute<*>,
+            targetRoute: R,
             result: T
-    ) {
+    ) where R: BaseRoute<*>, R: ResultRoute<T> {
         val sourceId = getRouteId(sourceRoute)
         val targetId = getRouteId(targetRoute)
 

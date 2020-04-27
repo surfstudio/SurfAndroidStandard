@@ -2,6 +2,7 @@ package ru.surfstudio.android.navigation.observer.command
 
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.command.NavigationCommand
+import ru.surfstudio.android.navigation.observer.route.ResultRoute
 import ru.surfstudio.android.navigation.route.BaseRoute
 import java.io.Serializable
 
@@ -13,10 +14,10 @@ import java.io.Serializable
  *
  * This command can be handled in [ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult].
  */
-class EmitScreenResult<T : Serializable>(
+class EmitScreenResult<T : Serializable, R>(
         val sourceRoute: BaseRoute<*>,
-        override val route: BaseRoute<*>,
+        override val route: R,
         val result: T
-) : NavigationCommand {
+) : NavigationCommand where R : BaseRoute<*>, R : ResultRoute<T> {
     override val animations: Animations? = null
 }

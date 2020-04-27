@@ -7,7 +7,10 @@ import ru.surfstudio.android.navigation.executor.screen.fragment.FragmentCommand
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.command.EmitScreenResult
 import ru.surfstudio.android.navigation.command.NavigationCommand
+import ru.surfstudio.android.navigation.observer.route.ResultRoute
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
+import ru.surfstudio.android.navigation.route.BaseRoute
+import java.io.Serializable
 
 /**
  * [AppCommandExecutor] implementation, that supports [EmitScreenResult] command execution.
@@ -21,8 +24,10 @@ class AppCommandExecutorWithResult(
 ) : AppCommandExecutor(activityNavigationProvider, activityCommandExecutor, fragmentCommandExecutor, dialogCommandExecutor) {
 
     override fun dispatchCommand(command: NavigationCommand) {
-        if (command is EmitScreenResult<*>) {
-            screenResultEmitter.emit(command.sourceRoute, command.route, command.result)
+        if (command is EmitScreenResult<*, *>) {
+            val targetRoute = command.route as ResultRoute<Serializable>
+            targetRoute as BaseRoute<*>
+            screenResultEmitter.emit(command.sourceRoute, targetRoute, command.result)
         } else {
             super.dispatchCommand(command)
         }

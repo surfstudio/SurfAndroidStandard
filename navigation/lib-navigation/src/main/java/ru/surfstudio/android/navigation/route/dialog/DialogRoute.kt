@@ -13,6 +13,6 @@ open class DialogRoute : BaseRoute<DialogFragment>() {
      */
     open fun createDialog(): DialogFragment {
         return requireScreenClass().newInstance()
-                .apply { prepareData()?.let(::setArguments) }
+                .apply { arguments = prepareData() }
     }
 }

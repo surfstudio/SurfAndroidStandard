@@ -1,5 +1,6 @@
 package ru.surfstudio.android.navigation.observer
 
+import ru.surfstudio.android.navigation.observer.route.ResultRoute
 import ru.surfstudio.android.navigation.route.BaseRoute
 import java.io.Serializable
 
@@ -16,9 +17,9 @@ interface ScreenResultEmitter {
      * @param targetRoute [BaseRoute] of a screen, that is emitting result
      * @param result result from the target screen
      */
-    fun <T : Serializable> emit(
+    fun <T : Serializable, R> emit(
             sourceRoute: BaseRoute<*>,
-            targetRoute: BaseRoute<*>,
+            targetRoute: R,
             result: T
-    )
+    ) where R: BaseRoute<*>, R: ResultRoute<T>
 }

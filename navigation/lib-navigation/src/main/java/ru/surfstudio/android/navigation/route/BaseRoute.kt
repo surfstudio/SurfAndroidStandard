@@ -31,7 +31,7 @@ abstract class BaseRoute<S> : Route {
      *
      * You should override this method if data needs to be passed to the screen.
      */
-    open fun prepareData(): Bundle? = null
+    open fun prepareData(): Bundle = Bundle()
 
     /**
      * Returns the screen tag which is used to uniquely identify the screen
