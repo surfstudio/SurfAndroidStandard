@@ -1,17 +1,10 @@
 package ru.surfstudio.android.build.tasks.generate_release_notes_diff
 
 /**
- * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project.
+ * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project
+ * and send them to Slack.
  */
 open class WriteToFileReleaseNotesDiffForSlack : WriteToFileReleaseNotesDiff() {
-
-    companion object {
-        const val LINE_INFO_REGEX = "([0-9]+) +([-+]) (\\*)?"
-        const val NO_BACKWARD_LABEL_REGEX = "(\\*\\*)?NO BACKWARD COMPATIBILITY(\\*\\*)?"
-        const val SMILE_WARNING = ":warning:"
-        const val SMILE_PLUS = ":heavy_plus_sign:"
-        const val SMILE_MINUS = ":heavy_minus_sign:"
-    }
 
     override fun addLineChange(change: String) {
         super.addLineChange(styleLine(change))
@@ -60,4 +53,12 @@ open class WriteToFileReleaseNotesDiffForSlack : WriteToFileReleaseNotesDiff() {
     private fun setRedBackground(text: String) = "`$text`"
 
     private fun setQuote(text: String) = ">$text"
+
+    companion object {
+        const val LINE_INFO_REGEX = "([0-9]+) +([-+]) (\\*)?"
+        const val NO_BACKWARD_LABEL_REGEX = "(\\*\\*)?NO BACKWARD COMPATIBILITY(\\*\\*)?"
+        const val SMILE_WARNING = ":warning:"
+        const val SMILE_PLUS = ":heavy_plus_sign:"
+        const val SMILE_MINUS = ":heavy_minus_sign:"
+    }
 }
