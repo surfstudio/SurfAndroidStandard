@@ -74,7 +74,7 @@ ext {
             "com.squareup.retrofit2:retrofit"                  : "2.8.1",        //https://vk.cc/7UFxk3
             "com.squareup.retrofit2:converter-gson"            : "2.8.1",        //https://vk.cc/7UFxk3
             "com.squareup.retrofit2:adapter-rxjava2"           : "2.8.1",        //https://vk.cc/7UFxk3
-            "com.squareup.okhttp3:logging-interceptor"         : "3.12.2",        //https://vk.cc/7UFwTd
+            "com.squareup.okhttp3:logging-interceptor"         : "3.12.0",        //https://vk.cc/7UFwTd
             "junit:junit"                                      : "4.13",         //https://goo.gl/hEcfw1
             "org.mockito:mockito-core"                         : "2.8.9",       //https://bit.ly/3bw7XGe
             "org.powermock:powermock-classloading-xstream"     : "1.7.4",        //https://goo.gl/hEcfw1
