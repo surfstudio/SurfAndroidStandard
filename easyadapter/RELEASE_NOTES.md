@@ -20,8 +20,12 @@
   * Move `BasePaginationableAdapter` to easyadapter-pagination module
     and rename to `EasyPaginationAdapter`
   * Move `PaginationState` to easyadapter-pagination
-  * Add `OnShowMoreListener` as constructor param for
-    `EasyPaginationAdapter`
+  * Add `OnShowMoreListener` and `paginationFooterController` as
+    constructor params for `EasyPaginationAdapter`. Remove
+    `getPaginationFooterController` method
+  * Make `EasyPaginationAdapter` not abstract
+  * Add `shouldShowMoreElements` for `EasyPaginationAdapter` in order to
+    implement custom logic for showing more elements trigger
 
 ##### Easyadapter Pagination
 * ANDDEP-1038 Add easyadapter-pagination module

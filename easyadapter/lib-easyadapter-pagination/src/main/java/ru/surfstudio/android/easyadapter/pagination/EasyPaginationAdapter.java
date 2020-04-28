@@ -42,9 +42,8 @@ import ru.surfstudio.android.easyadapter.item.NoDataItem;
  * <br>
  * It can emit this event on user's scroll only if the state is {@link PaginationState#READY}
  * <br>
- * To use this adapter in your project you must implement {@link #getPaginationFooterController()} method with your own
- * {@link BasePaginationFooterController} and {@link BasePaginationFooterHolder} implementation.
- * These were made abstract to support custom look and logic.
+ * To use this adapter in your project you must implement
+ * {@link BasePaginationFooterController} and {@link OnShowMoreListener} for constructor params
  */
 public class EasyPaginationAdapter extends EasyAdapter {
 
