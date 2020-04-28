@@ -261,6 +261,10 @@
             "type": "implementation"
           },
           {
+            "name": "easyadapter-pagination",
+            "type": "implementation"
+          },
+          {
             "name": "recycler-extension",
             "type": "implementation"
           }

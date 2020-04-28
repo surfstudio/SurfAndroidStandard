@@ -46,22 +46,20 @@ import ru.surfstudio.android.easyadapter.item.NoDataItem;
  * {@link BasePaginationFooterController} and {@link BasePaginationFooterHolder} implementation.
  * These were made abstract to support custom look and logic.
  */
-public abstract class EasyPaginationAdapter extends EasyAdapter {
+public class EasyPaginationAdapter extends EasyAdapter {
 
     private OnShowMoreListener onShowMoreListener;
     private boolean blockShowMoreEvent = true;
+    private BasePaginationFooterController<? extends RecyclerView.ViewHolder> paginationFooterController;
 
-    public EasyPaginationAdapter(OnShowMoreListener onShowMoreListener) {
+    public EasyPaginationAdapter(
+            BasePaginationFooterController<? extends RecyclerView.ViewHolder> paginationFooterController,
+            OnShowMoreListener onShowMoreListener
+    ) {
         setOnShowMoreListener(onShowMoreListener);
-        getPaginationFooterController().setListener(this::onShowMoreClick);
+        this.paginationFooterController = paginationFooterController;
+        this.paginationFooterController.setListener(this::onShowMoreClick);
     }
-
-    /**
-     * Get the pagination footer controller responsible for displaying loader and error messages.
-     *
-     * @return pagination footer controller
-     */
-    protected abstract BasePaginationFooterController<? extends RecyclerView.ViewHolder> getPaginationFooterController();
 
     /**
      * Set the items to adapter.
@@ -71,9 +69,9 @@ public abstract class EasyPaginationAdapter extends EasyAdapter {
      */
     public void setItems(@NonNull ItemList items, @NonNull PaginationState state) {
         blockShowMoreEvent = state != PaginationState.READY;
-        getPaginationFooterController().setState(state);
+        paginationFooterController.setState(state);
         if (state.isVisible()) {
-            items.add(getPaginationFooterController());
+            items.add(paginationFooterController);
         }
         super.setItems(items);
     }
@@ -249,7 +247,7 @@ public abstract class EasyPaginationAdapter extends EasyAdapter {
     }
 
     private boolean hasFooter() {
-        return getPaginationFooterController().getState().isVisible();
+        return paginationFooterController.getState().isVisible();
     }
 
     private void onShowMoreClick() {
@@ -271,9 +269,9 @@ public abstract class EasyPaginationAdapter extends EasyAdapter {
         if (lastIndex >= 0 && hasFooter()) {
             items.remove(lastIndex);
         }
-        getPaginationFooterController().setState(state);
+        paginationFooterController.setState(state);
         if (state.isVisible()) {
-            items.add(getPaginationFooterController());
+            items.add(paginationFooterController);
         }
         setItems(items, true);
     }
@@ -292,7 +290,7 @@ public abstract class EasyPaginationAdapter extends EasyAdapter {
      *
      * @param <H> ViewHolder type
      */
-    protected abstract static class BasePaginationFooterController<H extends BasePaginationFooterHolder> extends NoDataItemController<H> {
+    public abstract static class BasePaginationFooterController<H extends BasePaginationFooterHolder> extends NoDataItemController<H> {
         private PaginationState state = PaginationState.COMPLETE;
         private OnShowMoreListener listener;
 
@@ -360,11 +358,10 @@ public abstract class EasyPaginationAdapter extends EasyAdapter {
     /**
      * {@link BindableViewHolder} that displays current {@link PaginationState}
      */
-    protected static abstract class BasePaginationFooterHolder extends BindableViewHolder<PaginationState> {
+    public static abstract class BasePaginationFooterHolder extends BindableViewHolder<PaginationState> {
         public BasePaginationFooterHolder(ViewGroup parent, @LayoutRes int layoutRes) {
             super(parent, layoutRes);
         }
     }
-
 }
 

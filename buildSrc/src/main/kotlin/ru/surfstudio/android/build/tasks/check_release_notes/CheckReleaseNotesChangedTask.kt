@@ -20,7 +20,7 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
     companion object {
         const val MD_FILE_REGEX = "/*\\.md"
         const val GRADLE_FILE_REGEX = "/*\\.gradle"
-        const val SAMPLE_FILE_REGEX = "/sample/"
+        const val SAMPLE_FILE_REGEX = "/*sample*/"
     }
 
     private lateinit var revisionToCompare: String
