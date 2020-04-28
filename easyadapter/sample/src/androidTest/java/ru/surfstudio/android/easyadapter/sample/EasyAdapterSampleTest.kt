@@ -26,7 +26,7 @@ class EasyAdapterSampleTest : BaseSampleTest<MainActivityView>(MainActivityView:
                     checkIfToastIsVisible("Value = 0")
                 }
         )
-        test(R.id.show_paginationable_list_btn, PaginationListActivityView::class.java)
+        test(R.id.show_simple_paginationable_list_btn, PaginationListActivityView::class.java)
         test(R.id.show_async_inflate_list_btn, AsyncInflateListActivityView::class.java)
         test(R.id.show_async_diff_list_btn, AsyncDiffActivityView::class.java)
     }

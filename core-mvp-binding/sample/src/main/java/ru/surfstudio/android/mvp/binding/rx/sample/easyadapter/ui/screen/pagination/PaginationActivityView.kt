@@ -26,6 +26,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.easyadapter.pagination.EasyPaginationAdapter
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
@@ -35,6 +36,7 @@ import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycle
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycler.controller.EmptyStateController
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycler.controller.ErrorStateController
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.stub.Stub
+import ru.surfstudio.android.sample.common.ui.base.easyadapter.PaginationFooterItemController
 import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
 import javax.inject.Inject
 
@@ -54,7 +56,7 @@ class PaginationActivityView : BaseRxActivityView() {
     private lateinit var elementController: ElementController
     private lateinit var errorStateController: ErrorStateController
 
-    private val adapter: PaginationableAdapter = PaginationableAdapter {}
+    private val adapter = EasyPaginationAdapter(PaginationFooterItemController()) {}
 
     override fun getContentView(): Int = R.layout.pagination_activity
 

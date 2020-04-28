@@ -16,7 +16,7 @@
 package ru.surfstudio.android.easyadapter.pagination;
 
 /**
- * States for {@link BasePaginationableAdapter}.
+ * States for {@link EasyPaginationAdapter}.
  */
 public enum PaginationState {
 
