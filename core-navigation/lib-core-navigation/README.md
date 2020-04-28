@@ -49,6 +49,9 @@
 `АctivityNavigator#observeActivityResult` в презентере. При этом подписаться
 следует один раз за время жизни презентера (например в `onFirstLoad()`).
 
+# Использование
+[Пример использования](../sample)
+
 ### Подключение
 
 Gradle:
@@ -57,21 +60,21 @@ Gradle:
 ```
 
 [core-ui]: ../../core-ui/lib-core-ui/README.md
-[act]: /src/main/java/ru/surfstudio/android/core/ui/navigation/activity/navigator/ActivityNavigator.java
-[f-nav]: /src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/FragmentNavigator.java
-[tab]:  /src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/tabfragment/TabFragmentNavigator.kt
-[child]: /src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/ChildFragmentNavigator.java
-[global]: /src/main/java/ru/surfstudio/android/core/ui/navigation/activity/navigator/GlobalNavigator.java
-[act_for_act]: /src/main/java/ru/surfstudio/android/core/ui/navigation/activity/navigator/ActivityNavigatorForActivity.java
-[act_for_fr]: /src/main/java/ru/surfstudio/android/core/ui/navigation/activity/navigator/ActivityNavigatorForFragment.java
-[ar]: /src/main/java/ru/surfstudio/android/core/ui/navigation/activity/route/ActivityRoute.java
-[awpr]:  /src/main/java/ru/surfstudio/android/core/ui/navigation/activity/route/ActivityWithParamsRoute.java
-[awrr]: /src/main/java/ru/surfstudio/android/core/ui/navigation/activity/route/ActivityWithResultRoute.java
-[awparr]: /src/main/java/ru/surfstudio/android/core/ui/navigation/activity/route/ActivityWithParamsAndResultRoute.java
-[nir]: /src/main/java/ru/surfstudio/android/core/ui/navigation/activity/route/NewIntentRoute.java
-[fr]: /src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/route/FragmentRoute.java
-[fwpr]: /src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/route/FragmentWithParamsRoute.java
-[rfr]: /src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/route/RootFragmentRoute.kt
+[act]: src/main/java/ru/surfstudio/android/core/ui/navigation/activity/navigator/ActivityNavigator.java
+[f-nav]: src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/FragmentNavigator.java
+[tab]:  src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/tabfragment/TabFragmentNavigator.kt
+[child]: src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/ChildFragmentNavigator.java
+[global]: src/main/java/ru/surfstudio/android/core/ui/navigation/activity/navigator/GlobalNavigator.java
+[act_for_act]: src/main/java/ru/surfstudio/android/core/ui/navigation/activity/navigator/ActivityNavigatorForActivity.java
+[act_for_fr]: src/main/java/ru/surfstudio/android/core/ui/navigation/activity/navigator/ActivityNavigatorForFragment.java
+[ar]: src/main/java/ru/surfstudio/android/core/ui/navigation/activity/route/ActivityRoute.java
+[awpr]:  src/main/java/ru/surfstudio/android/core/ui/navigation/activity/route/ActivityWithParamsRoute.java
+[awrr]: src/main/java/ru/surfstudio/android/core/ui/navigation/activity/route/ActivityWithResultRoute.java
+[awparr]: src/main/java/ru/surfstudio/android/core/ui/navigation/activity/route/ActivityWithParamsAndResultRoute.java
+[nir]: src/main/java/ru/surfstudio/android/core/ui/navigation/activity/route/NewIntentRoute.java
+[fr]: src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/route/FragmentRoute.java
+[fwpr]: src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/route/FragmentWithParamsRoute.java
+[rfr]: src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/route/RootFragmentRoute.kt
 [nav]: ../../docs/ui/navigation.md
 [dial]: ../../mvp/lib-mvp-dialog/README.md
-[i_route]: /src/main/java/ru/surfstudio/android/core/ui/navigation/Route.java
+[i_route]: src/main/java/ru/surfstudio/android/core/ui/navigation/Route.java

@@ -37,7 +37,7 @@
 Большинство асинхронных взаимодействий осуществляются через rxJava. 
 
 # Использование
-[Пример использования](../core-ui-sample)
+[Пример использования](../sample)
 
 # Подключение
 Gradle:
@@ -46,7 +46,7 @@ Gradle:
 ```
 
 # Ссылки
-[Архитектура приложений Surf](../docs/common/architect.md)
+[Архитектура приложений Surf](../../docs/common/architect.md)
 
 [bac]: src/main/java/ru/surfstudio/android/core/ui/configurator/BaseActivityConfigurator.java
 [bfc]: src/main/java/ru/surfstudio/android/core/ui/configurator/BaseFragmentConfigurator.java
@@ -55,6 +55,5 @@ Gradle:
 [pss]: src/main/java/ru/surfstudio/android/core/ui/scope/PersistentScopeStorage.java
 [ss]: src/main/java/ru/surfstudio/android/core/ui/state/ScreenState.java
 [sedm]: src/main/java/ru/surfstudio/android/core/ui/event/ScreenEventDelegateManager.java
-[pm]: src/main/java/ru/surfstudio/android/core/ui/permission/PermissionManager.java
 [ap]: src/main/java/ru/surfstudio/android/core/ui/provider/ActivityProvider.java
 [fp]: src/main/java/ru/surfstudio/android/core/ui/provider/FragmentProvider.java
