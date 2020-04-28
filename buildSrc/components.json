@@ -810,6 +810,12 @@
         ]
       }
     ],
+    "samples": [
+      {
+        "name": "core-navigation-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -852,6 +858,12 @@
             "type": "implementation"
           }
         ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "permission-sample",
+        "dir": "sample"
       }
     ],
     "has_mirror": false,
