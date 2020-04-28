@@ -26,7 +26,7 @@ android {
 dependencies {
     DependencyConfigurator.projectImplementation(project, "core-mvp-binding")
     DependencyConfigurator.projectImplementation(project, "easyadapter")
-    DependencyConfigurator.projectImplementation(project, "pagination")
+    DependencyConfigurator.projectImplementation(project, "easyadapter-pagination")
     DependencyConfigurator.projectImplementation(project, "mvp-dialog")
 
     DependencyConfigurator.implementation(project, "androidx.recyclerview:recyclerview")

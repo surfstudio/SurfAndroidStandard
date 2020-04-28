@@ -24,8 +24,8 @@ import android.widget.TextView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ru.surfstudio.android.core.mvi.sample.R
-import ru.surfstudio.android.pagination.PaginationState
-import ru.surfstudio.android.pagination.EasyPaginationAdapter
+import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.easyadapter.pagination.EasyPaginationAdapter
 
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>

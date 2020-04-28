@@ -22,7 +22,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.pagination.PaginationState
+import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.stub.generateStubs

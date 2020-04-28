@@ -922,9 +922,9 @@
         "android_standard_dependencies": []
       },
       {
-        "name": "pagination",
-        "dir": "lib-pagination",
-        "artifact_name": "pagination",
+        "name": "easyadapter-pagination",
+        "dir": "lib-easyadapter-pagination",
+        "artifact_name": "easyadapter-pagination",
         "third_party_dependencies": [
           {
             "name": "androidx.recyclerview:recyclerview",
@@ -1194,7 +1194,7 @@
             "type": "implementation"
           },
           {
-            "name": "pagination",
+            "name": "easyadapter-pagination",
             "type": "implementation"
           },
           {

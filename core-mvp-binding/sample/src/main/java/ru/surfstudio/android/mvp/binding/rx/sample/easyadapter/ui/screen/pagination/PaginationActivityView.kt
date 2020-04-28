@@ -26,7 +26,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.pagination.PaginationState
+import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycler.animator.SlideItemAnimator

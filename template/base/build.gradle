@@ -16,7 +16,7 @@ dependencies {
                     "mvp-dialog",
                     "mvp-widget",
                     "easyadapter",
-                    "pagination",
+                    "easyadapter-pagination",
                     "analytics",
                     "firebase-analytics",
                     "push",

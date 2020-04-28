@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.surfstudio.android.pagination;
+package ru.surfstudio.android.easyadapter.pagination;
 
 import android.view.ViewGroup;
 
@@ -126,7 +126,7 @@ public abstract class EasyPaginationAdapter extends EasyAdapter {
      * @param recyclerView RecyclerView for check condition
      * @return true if more elements can be shown
      */
-    protected boolean showMoreElements(@NonNull RecyclerView recyclerView) {
+    protected boolean shouldShowMoreElements(@NonNull RecyclerView recyclerView) {
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager != null) {
             int totalItemCount = layoutManager.getItemCount();
@@ -146,7 +146,7 @@ public abstract class EasyPaginationAdapter extends EasyAdapter {
                 super.onScrolled(recyclerView, dx, dy);
                 if (onShowMoreListener != null &&
                         !blockShowMoreEvent &&
-                        showMoreElements(recyclerView)
+                        shouldShowMoreElements(recyclerView)
                 ) {
                     blockShowMoreEvent = true;
                     onShowMoreListener.onShowMore();

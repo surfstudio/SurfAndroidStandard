@@ -9,7 +9,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.request.state.RequestState
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
-import ru.surfstudio.android.pagination.PaginationState
+import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import javax.inject.Inject
 
 /**

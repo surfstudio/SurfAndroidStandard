@@ -17,9 +17,10 @@
   abstract
 * ANDDEP-1017 Added DiffResultListener invoked after the DiffResult calculation
 * **NO BACKWARD COMPATIBILITY** ANDDEP-1038 Move
-  BasePaginationableAdapter to pagination module and rename to EasyPaginationAdapter
-##### Pagination
-* ANDDEP-1038 Add pagination module
+  `BasePaginationableAdapter` to easyadapter-pagination module and
+  rename to `EasyPaginationAdapter`; Move `PaginationState` to easyadapter-pagination
+##### Easyadapter Pagination
+* ANDDEP-1038 Add easyadapter-pagination module
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder

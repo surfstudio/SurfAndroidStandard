@@ -7,8 +7,8 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.updateLayoutParams
-import ru.surfstudio.android.pagination.PaginationState
-import ru.surfstudio.android.pagination.EasyPaginationAdapter
+import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.easyadapter.pagination.EasyPaginationAdapter
 import ru.surfstudio.android.template.base_feature.R
 
 /**
