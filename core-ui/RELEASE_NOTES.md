@@ -7,6 +7,8 @@
 * Fix extra name for settingsNegativeButtonStr in DefaultSettingsRationalActivity
 * Add additional Route Extra parameters
 * ANDDEP-985 Fix screen names logging
+* ANDDEP-1049 **NO BACKWARD COMPATIBILITY** All classes responsible for navigation migrated from `core-ui` to `core-navigation`
+* ANDDEP-1049 **NO BACKWARD COMPATIBILITY** All classes responsible for permissions migrated from `core-ui` to `permission`
 ## 0.4.0
 ##### Core-ui
 * Added the ability to set text for the buttons of the standard dialog for switching to settings.
