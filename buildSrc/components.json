@@ -772,7 +772,7 @@
   {
     "id": "core-navigation",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 0,
     "stable": false,
     "dir": "core-navigation",
     "libs": [
@@ -822,7 +822,7 @@
   {
     "id": "permission",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 0,
     "stable": false,
     "dir": "permission",
     "libs": [
