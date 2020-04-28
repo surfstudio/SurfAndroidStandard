@@ -6,7 +6,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 /**
- * Презентер главного экрана
+ * Презентер экрана профиля
  */
 @PerScreen
 internal class ProfilePresenter @Inject constructor(

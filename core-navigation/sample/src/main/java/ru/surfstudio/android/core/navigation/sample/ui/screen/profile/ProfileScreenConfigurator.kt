@@ -11,7 +11,7 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivity
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
 /**
- * Конфигуратор активити главного экрана
+ * Конфигуратор экрана профиля
  */
 internal class ProfileScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
     @PerScreen

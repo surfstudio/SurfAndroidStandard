@@ -5,6 +5,9 @@ import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithParamsRoute
 
+/**
+ * Роут экрана профиля
+ */
 class ProfileRoute(val userName: String) : ActivityWithParamsRoute() {
 
     constructor(intent: Intent) : this(intent.getStringExtra(Route.EXTRA_FIRST))
