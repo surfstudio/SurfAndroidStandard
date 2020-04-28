@@ -9,13 +9,11 @@ import ru.surfstudio.android.network.sample.R
 import ru.surfstudio.android.easyadapter.pagination.EasyPaginationAdapter
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 
-class ProductListAdapter(onShowMoreListener: () -> Unit) : EasyPaginationAdapter() {
+class ProductListAdapter(
+        onShowMoreListener: () -> Unit
+) : EasyPaginationAdapter(onShowMoreListener) {
 
     private var paginationFooterItemController: BasePaginationFooterController<*>? = null
-
-    init {
-        setOnShowMoreListener(onShowMoreListener)
-    }
 
     override fun getPaginationFooterController(): BasePaginationFooterController<*> {
         if (paginationFooterItemController == null)
@@ -30,8 +28,9 @@ class ProductListAdapter(onShowMoreListener: () -> Unit) : EasyPaginationAdapter
             return Holder(parent, listener)
         }
 
-        inner class Holder(parent: ViewGroup,
-                           listener: OnShowMoreListener
+        inner class Holder(
+                parent: ViewGroup,
+                listener: OnShowMoreListener
         ) : BasePaginationFooterHolder(parent, R.layout.layout_pagination_footer) {
 
             private val loadingIndicator: MaterialProgressBar = itemView.findViewById(R.id.pagination_footer_progress_bar)

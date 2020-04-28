@@ -51,7 +51,8 @@ public abstract class EasyPaginationAdapter extends EasyAdapter {
     private OnShowMoreListener onShowMoreListener;
     private boolean blockShowMoreEvent = true;
 
-    public EasyPaginationAdapter() {
+    public EasyPaginationAdapter(OnShowMoreListener onShowMoreListener) {
+        setOnShowMoreListener(onShowMoreListener);
         getPaginationFooterController().setListener(this::onShowMoreClick);
     }
 

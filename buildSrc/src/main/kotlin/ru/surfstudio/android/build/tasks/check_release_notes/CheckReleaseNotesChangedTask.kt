@@ -42,7 +42,8 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
                 .getChangeInformationForComponents()
 
         val currentComponents = Components.value
-        val componentsWithDiffs = ComponentsDiffProvider(currentRevision, revisionToCompare, currentComponents).provideComponentsWithDiff()
+        val componentsWithDiffs = ComponentsDiffProvider(currentRevision, revisionToCompare, currentComponents)
+                .provideComponentsWithDiff()
 
         currentComponents.forEach { component ->
             val resultByConfig = componentsChangeResults.find { it.componentName == component.name }
@@ -51,7 +52,7 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
                     ?: throw ComponentNotFoundException(component.name)
 
             if (isComponentChanged(resultByConfig.isComponentChanged, resultByFile.isComponentChanged)) {
-                val diffs = componentsWithDiffs.getValue(component)
+                val diffs = componentsWithDiffs[component] ?: return
 
                 val isChangesNotRequireDescription = diffs.all {
                     MD_FILE_REGEX.toRegex().containsMatchIn(it)

@@ -32,12 +32,11 @@ import ru.surfstudio.android.easyadapter.pagination.EasyPaginationAdapter
  *
  * Класс адаптера с поддержкой пагинации на основе EasyAdapter
  */
-open class PaginationableAdapter(onShowMoreListener: () -> Unit) : EasyPaginationAdapter() {
-    protected var paginationFooterItemController: BasePaginationFooterController<*>? = null
+open class PaginationableAdapter(
+        onShowMoreListener: () -> Unit
+) : EasyPaginationAdapter(onShowMoreListener) {
 
-    init {
-        setOnShowMoreListener(onShowMoreListener)
-    }
+    private var paginationFooterItemController: BasePaginationFooterController<*>? = null
 
     override fun getPaginationFooterController(): BasePaginationFooterController<*> {
         if (paginationFooterItemController == null)
