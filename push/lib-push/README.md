@@ -19,7 +19,7 @@
 5. Зарегистрировать [`PushEventListener`][pushListener] в Application, с его помощью можно установить необходимые действия при открытии или отклонения пуша. [Пример][pushListenerimpl]
 6. Чтобы группировать пуш-уведомления проинициализируйте свойство group у PushHandleStrategy. Данное свойство указывает к какой группе будет принадлежать пуш.
 7. Если нужно программно удалить нотификацию нужно использовать метод `NotificationManagerHelper.cancel()`
-8. Пример добавления кастомной действии можно увидить в [DataPushStrategy](../analytics-sample/src/main/java/ru/surfstudio/android/firebase/sample/ui/common/notification/strategies/simple/DataPushStrategy.kt)
+8. Пример добавления кастомного действия можно увидеть в [DataPushStrategy](../analytics-sample/src/main/java/ru/surfstudio/android/firebase/sample/ui/common/notification/strategies/simple/DataPushStrategy.kt)
 [Пример использования](../firebase-sample)
 
 ## Release Notes
