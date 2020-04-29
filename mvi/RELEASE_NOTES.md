@@ -2,6 +2,7 @@
 # Core-mvi Release Notes
 ## 0.5.0-alpha
 ##### Core-mvi
+* ANDDEP-1008 License added
 * ANDDEP-671 Core mvi refactor, add comments
 * ANDDEP-671 Add navigation middleware, add dsl
 * Divide Mvi Core and Mvi Implementation
@@ -22,3 +23,11 @@ even if stream contains events from UI, which should be reacted directly.
 * Remove listenForResult extension for EventTransformerList + listenForResult from NavigationMiddleware
 * Fixed StandardReactDialogView negative button nullability
 * ANDDEP-928 Remove Timber dependencies
+* **NO BACKWARD COMPATIBILITY** ANDDEP-997 Renamed RequestEvent.type to RequestEvent.request.
+Replaced RxMiddleware.asRequestEvent `Event` parameter with `EventFactory`.
+* ANDDEP-968 `RequestEvent.kt`: added fields `isLoading`, `hasData`, `hasError`;
+##### Mvi-mapper
+* ANDDEP-968 **NEW** `RequestMapper.kt`: class for managing requests;
+* ANDDEP-968 **NEW** `RequestMapperLambdas.kt`: file that holds typealiases for `RequestMapper`;
+##### Mvi-impls
+* ANDDEP-969 Added base classes: `BaseReactor` and `BaseReducer`;

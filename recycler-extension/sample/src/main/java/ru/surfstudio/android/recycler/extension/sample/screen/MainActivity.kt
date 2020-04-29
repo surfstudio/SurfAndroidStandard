@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setOnClickListener(show_sticky_recycler_btn, StickyRecyclerActivity::class.java)
         setOnClickListener(show_carousel_btn, CarouselActivity::class.java)
+        setOnClickListener(show_sliding_item_btn, SlidingItemsActivity::class.java)
     }
 
     private fun setOnClickListener(btn: Button, activityClass: Class<*>) {

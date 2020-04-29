@@ -55,12 +55,12 @@ public abstract class BindableItemController<T, H extends BindableViewHolder<T>>
     }
 
     @Override
-    public final String getItemId(BindableItem<T, H> item) {
+    public final Object getItemId(BindableItem<T, H> item) {
         return getItemId(item.getData());
     }
 
     @Override
-    public final String getItemHash(BindableItem<T, H> item) {
+    public final Object getItemHash(BindableItem<T, H> item) {
         return getItemHash(item.getData());
     }
 
@@ -71,7 +71,7 @@ public abstract class BindableItemController<T, H extends BindableViewHolder<T>>
      * @param data data
      * @return unique id retrieved from data
      */
-    protected abstract String getItemId(T data);
+    protected abstract Object getItemId(T data);
 
     /**
      * Get the data hashcode.
@@ -80,7 +80,7 @@ public abstract class BindableItemController<T, H extends BindableViewHolder<T>>
      * @param data data
      * @return hashcode of the data
      */
-    protected String getItemHash(T data) {
-        return String.valueOf(data == null ? 0 : data.hashCode());
+    protected Object getItemHash(T data) {
+        return data == null ? 0 : data.hashCode();
     }
 }

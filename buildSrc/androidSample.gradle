@@ -1,5 +1,6 @@
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.DependencyConfigurator
+import ru.surfstudio.android.build.GradlePropertiesManager
 
 apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'com.android.application'
@@ -26,14 +27,38 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        dependencySubstitution {
+            /**
+             * All modules and transitive dependencies of mirror component
+             * must have a mirror module as a local dependency
+             * to avoid errors with dependency conflict
+             */
+            if (GradlePropertiesManager.isCurrentComponentAMirror()) {
+                Components.getComponentLibraries(GradlePropertiesManager.componentMirrorName)
+                        .forEach {
+                            def libraryName = it.name
+                            substitute module("ru.surfstudio.android:$libraryName") with project(":$libraryName")
+                        }
+            }
+        }
+    }
+}
+
 dependencies {
-    DependencyConfigurator.projectImplementation(project, "sample-dagger")
+    implementation project(":sample-dagger")
+
     DependencyConfigurator.projectImplementation(project, "dagger-scope")
     DependencyConfigurator.projectImplementation(project, "rxbus")
     DependencyConfigurator.projectImplementation(project, "core-ui")
@@ -46,12 +71,12 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "logger")
     DependencyConfigurator.projectImplementation(project, "util-ktx")
 
-    DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk7")
+    DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
     DependencyConfigurator.implementation(project, "androidx.appcompat:appcompat")
     DependencyConfigurator.implementation(project, "androidx.constraintlayout:constraintlayout")
 
-    DependencyConfigurator.projectAndroidTestImplementation(project, "sample-common")
+    androidTestImplementation project(":sample-common")
 }
 
 task printTestInstrumentationRunnerName {

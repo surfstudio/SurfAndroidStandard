@@ -2,9 +2,9 @@ apply from: '../commonModule.gradle'
 
 dependencies {
     api project(":domain")
-    api "com.google.firebase:firebase-core:$firebaseCoreVersion" //todo might be removed for real project
-    api "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion"
-    api "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
+    api firebase.core //todo might be removed for real project
+    api firebase.analytics
+    api firebase.messaging
 
     gradle.ext.androidStandard.api(
             this,
@@ -16,6 +16,7 @@ dependencies {
                     "mvp-dialog",
                     "mvp-widget",
                     "easyadapter",
+                    "easyadapter-pagination",
                     "analytics",
                     "firebase-analytics",
                     "push",
@@ -37,6 +38,7 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"]
+                    "rxbus"
+            ]
     )
 }

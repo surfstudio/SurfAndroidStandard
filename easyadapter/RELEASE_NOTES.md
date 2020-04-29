@@ -12,6 +12,23 @@
 * ANDDEP-785 Added getter in EasyAdapter, for *firstInvisibleItemEnabled* property
 * **NO BACKWARD COMPATIBILITY** ANDDEP-909 Removed
   `setHasStableIds(true)` in EasyAdapter.
+* **NO BACKWARD COMPATIBILITY** ANDDEP-958 Change getItemId and
+  getItemHash to Object for BaseItemController; getItemId became
+  abstract
+* ANDDEP-1017 Added DiffResultListener invoked after the DiffResult calculation
+* **NO BACKWARD COMPATIBILITY** ANDDEP-1038
+  * Move `BasePaginationableAdapter` to easyadapter-pagination module
+    and rename to `EasyPaginationAdapter`
+  * Move `PaginationState` to easyadapter-pagination
+  * Add `OnShowMoreListener` and `paginationFooterController` as
+    constructor params for `EasyPaginationAdapter`. Remove
+    `getPaginationFooterController` method
+  * Make `EasyPaginationAdapter` not abstract
+  * Add `shouldShowMoreElements` for `EasyPaginationAdapter` in order to
+    implement custom logic for showing more elements trigger
+
+##### Easyadapter Pagination
+* ANDDEP-1038 Add easyadapter-pagination module
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder

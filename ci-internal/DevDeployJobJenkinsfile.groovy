@@ -1,5 +1,5 @@
 @Library('surf-lib@version-3.0.0-SNAPSHOT')
-// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import groovy.json.JsonSlurper
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
@@ -109,7 +109,7 @@ pipeline.stages = [
         pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
             def prevCommitHash = commitParents[0]
-            script.sh("./gradlew writeToFileReleaseNotesDiff -PrevisionToCompare=${prevCommitHash}")
+            script.sh("./gradlew WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}")
             String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
             if (releaseNotesChanges.trim() != "") {
                 releaseNotesChanges = "Android Standard changes:\n$releaseNotesChanges"
