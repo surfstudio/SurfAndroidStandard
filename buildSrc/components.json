@@ -261,6 +261,10 @@
             "type": "implementation"
           },
           {
+            "name": "easyadapter-pagination",
+            "type": "implementation"
+          },
+          {
             "name": "recycler-extension",
             "type": "implementation"
           }
@@ -920,6 +924,27 @@
           }
         ],
         "android_standard_dependencies": []
+      },
+      {
+        "name": "easyadapter-pagination",
+        "dir": "lib-easyadapter-pagination",
+        "artifact_name": "easyadapter-pagination",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          }
+        ]
       }
     ],
     "samples": [
@@ -1170,6 +1195,10 @@
           },
           {
             "name": "easyadapter",
+            "type": "implementation"
+          },
+          {
+            "name": "easyadapter-pagination",
             "type": "implementation"
           },
           {
