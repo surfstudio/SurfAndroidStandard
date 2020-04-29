@@ -22,7 +22,6 @@ class PaginationListActivityView : BaseRenderableActivityView<PaginationListScre
     internal lateinit var presenter: PaginationListPresenter
 
     private val adapter = EasyPaginationAdapter(PaginationFooterItemController()) {
-        Logger.d("onShowMoreListener invoked")
         presenter.loadMore()
     }
 

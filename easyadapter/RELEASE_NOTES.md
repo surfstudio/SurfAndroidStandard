@@ -16,7 +16,7 @@
   getItemHash to Object for BaseItemController; getItemId became
   abstract
 * ANDDEP-1017 Added DiffResultListener invoked after the DiffResult calculation
-* **NO BACKWARD COMPATIBILITY** ANDDEP-1038
+* ANDDEP-1038 **NO BACKWARD COMPATIBILITY**
   * Move `BasePaginationableAdapter` to easyadapter-pagination module
     and rename to `EasyPaginationAdapter`
   * Move `PaginationState` to easyadapter-pagination
@@ -26,7 +26,8 @@
   * Make `EasyPaginationAdapter` not abstract
   * Add `shouldShowMoreElements` for `EasyPaginationAdapter` in order to
     implement custom logic for showing more elements trigger
-
+* ANDDEP-1044 **NO BACKWARD COMPATIBILITY**
+  * Remove animations methods from `BaseViewHolder` to interface `AnimatableViewHolder`
 ##### Easyadapter Pagination
 * ANDDEP-1038 Add easyadapter-pagination module
 ## 1.0.0

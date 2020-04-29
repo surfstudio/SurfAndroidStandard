@@ -21,8 +21,8 @@ import android.view.ViewGroup;
 import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
 
+import ru.surfstudio.android.easyadapter.AnimatableViewHolder;
 import ru.surfstudio.android.easyadapter.controller.BindableItemController;
-
 
 /**
  * {@link androidx.recyclerview.widget.RecyclerView.ViewHolder} with binding and displaying data support.
@@ -33,7 +33,7 @@ import ru.surfstudio.android.easyadapter.controller.BindableItemController;
  *
  * @param <T> data type
  */
-public abstract class BindableViewHolder<T> extends BaseViewHolder {
+public abstract class BindableViewHolder<T> extends BaseViewHolder implements AnimatableViewHolder {
 
     public BindableViewHolder(ViewGroup parent, @LayoutRes int layoutRes) {
         super(parent, layoutRes);
