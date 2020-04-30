@@ -31,6 +31,7 @@ class RecyclerExtensionSampleTest : BaseSampleTest<MainActivity>(MainActivity::c
             activityClass: Class<T>,
             lambda: () -> Unit = {}
     ) {
+        //flkdsfkjsdfkj
         performClick(buttonResId)
         checkIfActivityIsVisible(activityClass)
         lambda()
