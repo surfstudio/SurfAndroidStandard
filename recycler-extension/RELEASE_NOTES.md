@@ -2,7 +2,9 @@
 # Recycler-extension Release Notes
 ## 0.5.0-alpha
 ##### Recycler-extension
-* ANDDEP-687 Changed "com.google.android.material:material" dependency from "api" to "implementation" type
+* ANDDEP-687 Changed "com.google.android.material:material" dependency
+  from "api" to "implementation" type
+* ANDDEP-1038 Add `AnimatableViewHolder` and `BaseItemAnimator`
 ## 0.4.0
 ##### Recycler-extension
 * ANDDEP-266 DividerItemDecorator Update

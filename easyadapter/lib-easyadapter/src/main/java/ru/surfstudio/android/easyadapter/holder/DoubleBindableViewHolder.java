@@ -21,8 +21,6 @@ import android.view.ViewGroup;
 import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ru.surfstudio.android.easyadapter.AnimatableViewHolder;
-
 /**
  * /**
  * {@link androidx.recyclerview.widget.RecyclerView.ViewHolder} with binding and displaying data support for two blocks of data.
@@ -34,7 +32,7 @@ import ru.surfstudio.android.easyadapter.AnimatableViewHolder;
  * @param <T1> first data type
  * @param <T2> second data type
  */
-public abstract class DoubleBindableViewHolder<T1, T2> extends BaseViewHolder implements AnimatableViewHolder {
+public abstract class DoubleBindableViewHolder<T1, T2> extends BaseViewHolder {
 
     public DoubleBindableViewHolder(ViewGroup parent, @LayoutRes int layoutRes) {
         super(parent, layoutRes);

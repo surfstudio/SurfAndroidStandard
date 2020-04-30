@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.easyadapter
+package ru.surfstudio.android.recycler.extension.animator
 
 /**
  * Base interface for view holders which support animations.

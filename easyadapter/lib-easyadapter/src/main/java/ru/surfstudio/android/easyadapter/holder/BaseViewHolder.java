@@ -22,8 +22,6 @@ import android.view.ViewGroup;
 import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ru.surfstudio.android.easyadapter.animator.BaseItemAnimator;
-
 /**
  * Base ViewHolder with has constructor with item layout resource id
  */
