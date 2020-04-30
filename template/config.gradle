@@ -62,7 +62,7 @@ ext {
     ]
 
     lang = [
-            kotlinStdLib        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlinVersion}",
+            kotlinStdLib        : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlinVersion}",
             annimonStream       : "com.annimon:stream:${versions.annimonStreamVersion}",
             jetbrainsAnnotations: "org.jetbrains:annotations:${versions.jetbrainsAnnotationsVersion}"
     ]

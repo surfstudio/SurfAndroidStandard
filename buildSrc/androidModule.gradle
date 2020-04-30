@@ -47,7 +47,7 @@ android {
 }
 
 dependencies {
-    DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk7")
+    DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 
 //временное решение для разрешения конфликтов версий сторонних зависимостей

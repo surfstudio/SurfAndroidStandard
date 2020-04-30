@@ -1,8 +1,24 @@
+/*
+  Copyright (c) 2020, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
 package ru.surfstudio.android.core.mvi.ui.mapper
 
 import ru.surfstudio.android.core.mvp.binding.rx.request.Request
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.Loading
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.RequestUi
+import kotlin.reflect.KClass
 
 /**
  * Предназначен для удобного и максимально контролируемого
@@ -126,11 +142,39 @@ class RequestMapper<T, D> private constructor(
      *
      * @return Новый экземпляр `RequestMapper`.
      * */
-    @Suppress("UNCHECKED_CAST")
-    fun <E : Throwable> handleSpecificError(handler: RequestErrorHandler<D>): RequestMapper<T, D> {
-        return if (!request.isError || isErrorHandled) this
-        else when (val castedError = request.getErrorOrNull() as? E) {
-            is E -> {
+    inline fun <reified E : Throwable> handleSpecificError(noinline handler: RequestSpecificErrorHandler<E, D>): RequestMapper<T, D> {
+        val errorClass = E::class
+        return handleSpecificError(errorClass, handler)
+    }
+
+    /**
+     * Обрабатывает только ошибки типа [E].
+     *
+     * ## RequestErrorHandler
+     * **Обработчик ошибки запроса.**
+     *
+     * Используется для обработки возникающих в процессе выполнения запроса ошибок.
+     *
+     * Применяется паттерн `Chain of Responsibility`, т.е. каждый обработчик по-очередно
+     * выполняет обработку ошибки и возвращает результат: была ли обработана ошибка.
+     *
+     * Если ошибка не была обработана, то она будет передана в следующие обработчики (если таковые есть)
+     * пока ошибка не будет обработана, или же не закончатся обработчики.
+     *
+     * **Получает в качестве аргументов**: ошибку, ui-данные и состояние загрузки.
+     *
+     * **Возвращает**: была ли обработана ошибка?
+     *
+     * @param errorClass класс для обрабатываемой ошибки.
+     *
+     * @return Новый экземпляр `RequestMapper`.
+     * */
+    fun <E : Throwable> handleSpecificError(errorClass: KClass<E>, handler: RequestSpecificErrorHandler<E, D>): RequestMapper<T, D> {
+        val error = request.getErrorOrNull()
+        val isSpecificError = error?.let { it::class == errorClass } ?: false
+        return when {
+            !isErrorHandled && isSpecificError -> {
+                val castedError = errorClass.java.cast(error)
                 val isHandled = handler(castedError, data, loading)
                 produceNewRequestMapper(request, data, isErrorHandled = isHandled)
             }
