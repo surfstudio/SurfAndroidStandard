@@ -7,21 +7,23 @@ import kotlinx.android.synthetic.main.activity_kitties_all.*
 import ru.surfstudio.android.core.mvi.event.hub.owner.SingleHubOwner
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.sample.R
-import ru.surfstudio.android.core.mvi.sample.ui.adapter.PaginationableAdapter
 import ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.kitties.all.KittiesAllEvent.Input
 import ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.kitties.controller.HeaderItemController
 import ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.kitties.controller.KittenItemController
 import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.easyadapter.pagination.EasyPaginationAdapter
+import ru.surfstudio.android.sample.common.ui.base.easyadapter.PaginationFooterItemController
 import javax.inject.Inject
 
 internal class KittiesAllActivityView :
         BaseReactActivityView(),
         SingleHubOwner<KittiesAllEvent> {
 
-    private val easyAdapter = PaginationableAdapter(
-            onShowMoreListener = { Input.LoadNext.emit() }
-    )
+    private val easyAdapter = EasyPaginationAdapter(PaginationFooterItemController()) {
+        Input.LoadNext.emit()
+    }
+
     private val kittenItemController = KittenItemController(
             onClickedAction = { /*no action*/ }
     )
