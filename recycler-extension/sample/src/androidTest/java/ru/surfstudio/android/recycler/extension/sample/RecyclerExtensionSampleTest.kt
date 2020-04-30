@@ -13,7 +13,7 @@ import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 class RecyclerExtensionSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
 
     @Test
-    fun testStickyRecyclerActivity(){
+    fun testStickyRecyclerActivity() {
         test(
                 buttonResId = R.id.show_sticky_recycler_btn,
                 activityClass = StickyRecyclerActivity::class.java,
