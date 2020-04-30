@@ -2,17 +2,12 @@
 // https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
+import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.JarvisUtil
-import ru.surfstudio.ci.CommonUtil
-import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.utils.android.AndroidUtil
-import ru.surfstudio.ci.Result
-import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
 
@@ -120,11 +115,14 @@ pipeline.stages = [
             String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
 
             if (releaseNotesChanges.trim() != "") {
-                def messageTitle = ""
-                if (releaseNotesChanges.contains("NO BACKWARD COMPATIBILITY")) {
-                    messageTitle = "Snapshot branch _${branchName}_ changed *without backward compatibility*:warning:"
-                } else {
-                    messageTitle = "Snapshot branch _${branchName}_ changed:"
+                boolean isAddedNoBackwardCompatibility = releaseNotesChanges.split("\n")
+                        .any {
+                            it.contains(":heavy_plus_sign:") && it.contains("NO BACKWARD COMPATIBILITY")
+                        }
+
+                def messageTitle = "Snapshot branch _${branchName}_ has changed"
+                if (isAddedNoBackwardCompatibility) {
+                    messageTitle += " *without backward compatibility*:warning:"
                 }
 
                 releaseNotesChanges = "$messageTitle\n$releaseNotesChanges"

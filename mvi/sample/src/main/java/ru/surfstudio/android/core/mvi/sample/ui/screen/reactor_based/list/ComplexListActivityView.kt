@@ -14,9 +14,10 @@ import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.core.mvi.sample.ui.screen.reactor_based.list.controller.ComplexListController
-import ru.surfstudio.android.core.mvi.sample.ui.adapter.PaginationableAdapter
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeMainLoading
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeSwrLoading
+import ru.surfstudio.android.easyadapter.pagination.EasyPaginationAdapter
+import ru.surfstudio.android.sample.common.ui.base.easyadapter.PaginationFooterItemController
 import javax.inject.Inject
 
 /**
@@ -24,7 +25,9 @@ import javax.inject.Inject
  */
 class ComplexListActivityView : BaseReactActivityView() {
 
-    private val adapter = PaginationableAdapter { ComplexListEvent.LoadNextPage.emit(hub) }
+    private val adapter = EasyPaginationAdapter(PaginationFooterItemController()) {
+        ComplexListEvent.LoadNextPage.emit(hub)
+    }
     private val controller = ComplexListController()
 
     override fun createConfigurator() = ComplexListScreenConfigurator(intent)
