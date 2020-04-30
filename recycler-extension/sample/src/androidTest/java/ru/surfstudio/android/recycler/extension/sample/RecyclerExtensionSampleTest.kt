@@ -13,7 +13,7 @@ import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 class RecyclerExtensionSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
 
     @Test
-    fun testRecyclerExtensionSample() {
+    fun testStickyRecyclerActivity(){
         test(
                 buttonResId = R.id.show_sticky_recycler_btn,
                 activityClass = StickyRecyclerActivity::class.java,
@@ -23,7 +23,28 @@ class RecyclerExtensionSampleTest : BaseSampleTest<MainActivity>(MainActivity::c
                     checkText(LAST_ITEM_TITLE)
                 }
         )
-        test(R.id.show_carousel_btn, CarouselActivity::class.java)
+    }
+
+    @Test
+    fun testCarouselActivity() {
+        test(R.id.show_carousel_btn, CarouselActivity::class.java) {
+            RecyclerViewUtils.scrollToBottom(R.id.sample_carousel_view)
+        }
+    }
+
+    @Test
+    fun testSlidingItemsActivity() {
+        test(R.id.show_sliding_item_btn, SlidingItemsActivity::class.java) {
+            RecyclerViewUtils.scrollToBottom(R.id.sliding_items_rv)
+        }
+    }
+
+    @Test
+    fun testSnapHelpersActivity() {
+        test(R.id.show_snap_helpers_item_btn, SnapHelpersActivity::class.java) {
+            RecyclerViewUtils.scrollToBottom(R.id.gravity_snap_helper_rv)
+            RecyclerViewUtils.scrollToBottom(R.id.gravity_pager_snap_helper_rv)
+        }
     }
 
     private fun <T> test(
