@@ -9,4 +9,5 @@ android {
 
 dependencies {
     api project(":sample-common")
+    api project(":sample-common")
 }

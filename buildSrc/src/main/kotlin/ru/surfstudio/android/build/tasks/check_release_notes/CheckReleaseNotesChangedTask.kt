@@ -9,7 +9,6 @@ import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundExcepti
 import ru.surfstudio.android.build.exceptions.property.PropertyNotDefineException
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesForConfigurationException
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesForFilesException
-import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsDiffProvider
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
@@ -18,9 +17,10 @@ import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 open class CheckReleaseNotesChangedTask : DefaultTask() {
 
     companion object {
-        const val MD_FILE_REGEX = "/*\\.md"
-        const val GRADLE_FILE_REGEX = "/*\\.gradle"
-        const val SAMPLE_FILE_REGEX = "/*sample*/"
+        const val MD_FILE_REGEX = "\\.md"
+        const val GRADLE_FILE_REGEX = "\\.gradle"
+        const val SAMPLE_FILE_REGEX = "/sample/"
+        const val TEST_FILE_REGEX = "/(test|androidTest)/"
     }
 
     private lateinit var revisionToCompare: String
@@ -41,45 +41,36 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
         val componentsChangeFilesResults = ComponentsFilesChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
 
-        val currentComponents = Components.value
-        val componentsWithDiffs = ComponentsDiffProvider(currentRevision, revisionToCompare, currentComponents)
+        val componentsWithDiffs = ComponentsDiffProvider(currentRevision, revisionToCompare, Components.value)
                 .provideComponentsWithDiff()
 
-        currentComponents.forEach { component ->
+        componentsWithDiffs.filter {
+            isComponentRequiredReleaseNotes(it.value)
+        }.forEach { (component, diffs) ->
             val resultByConfig = componentsChangeResults.find { it.componentName == component.name }
                     ?: throw ComponentNotFoundException(component.name)
             val resultByFile = componentsChangeFilesResults.find { it.componentName == component.name }
                     ?: throw ComponentNotFoundException(component.name)
 
             if (isComponentChanged(resultByConfig.isComponentChanged, resultByFile.isComponentChanged)) {
-                val diffs = componentsWithDiffs[component] ?: return
-
-                val isChangesNotRequireDescription = diffs.all {
-                    MD_FILE_REGEX.toRegex().containsMatchIn(it)
-                            || GRADLE_FILE_REGEX.toRegex().containsMatchIn(it)
-                            || SAMPLE_FILE_REGEX.toRegex().containsMatchIn(it)
-                }
-                if (!isChangesNotRequireDescription) {
-                    if (isComponentHasDiffs(componentsWithDiffs, component)) {
-                        if (!isReleaseFileIncluded(diffs, component.name)) {
-                            throw ReleaseNotesForFilesException(
-                                    component.name,
-                                    resultByConfig.reasonOfComponentChange.reason
-                            )
-                        }
-                    } else {
-                        throw ReleaseNotesForConfigurationException(
-                                component.name,
-                                resultByFile.reasonOfComponentChange.reason
-                        )
-                    }
+                if (!isReleaseFileIncluded(diffs, component.name)) {
+                    throw ReleaseNotesForFilesException(
+                            component.name,
+                            resultByConfig.reasonOfComponentChange.reason
+                    )
                 }
             }
         }
     }
 
-    private fun isComponentHasDiffs(componentsWithDiffs: Map<Component, List<String>>, component: Component) =
-            componentsWithDiffs.containsKey(component)
+    private fun isComponentRequiredReleaseNotes(diffs: List<String>): Boolean {
+        return !diffs.all {
+            MD_FILE_REGEX.toRegex().containsMatchIn(it)
+                    || GRADLE_FILE_REGEX.toRegex().containsMatchIn(it)
+                    || SAMPLE_FILE_REGEX.toRegex().containsMatchIn(it)
+                    || TEST_FILE_REGEX.toRegex().containsMatchIn(it)
+        }
+    }
 
     private fun isComponentChanged(resultByConfig: Boolean, resultByFile: Boolean) =
             resultByConfig.or(resultByFile)
