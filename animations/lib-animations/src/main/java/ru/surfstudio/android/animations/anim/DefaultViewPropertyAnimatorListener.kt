@@ -27,6 +27,7 @@ class DefaultViewPropertyAnimatorListener(predefinedAlpha: Float? = null,
                                           predefinedVisibility: Int? = null)
     : ViewPropertyAnimatorListener {
 
+    val d = 5
     private var initialAlpha: Float? = predefinedAlpha
     private var initialVisibility: Int? = predefinedVisibility
 
