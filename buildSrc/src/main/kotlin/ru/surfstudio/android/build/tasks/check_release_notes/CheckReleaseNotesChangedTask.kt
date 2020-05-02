@@ -52,13 +52,13 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
             val resultByFile = componentsChangeFilesResults.find { it.componentName == component.name }
                     ?: throw ComponentNotFoundException(component.name)
 
-            if (isComponentChanged(resultByConfig.isComponentChanged, resultByFile.isComponentChanged)) {
-                if (!isReleaseFileIncluded(diffs, component.name)) {
-                    throw ReleaseNotesForFilesException(
-                            component.name,
-                            resultByConfig.reasonOfComponentChange.reason
-                    )
-                }
+            if (isComponentChanged(resultByConfig.isComponentChanged, resultByFile.isComponentChanged)
+                    && !isReleaseFileIncluded(diffs, component.name)
+            ) {
+                throw ReleaseNotesForFilesException(
+                        component.name,
+                        resultByConfig.reasonOfComponentChange.reason
+                )
             }
         }
     }
