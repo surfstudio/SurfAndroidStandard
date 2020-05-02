@@ -8,6 +8,7 @@ import static org.junit.Assert.assertNull;
 
 public class DateUtilTests {
 
+    int t = 5;
     @Test
     public void parsingOfNullStringShouldReturnNull() {
         assertNull(DateUtil.parseDate(null));

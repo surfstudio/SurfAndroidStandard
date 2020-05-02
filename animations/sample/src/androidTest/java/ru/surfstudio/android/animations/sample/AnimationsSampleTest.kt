@@ -14,6 +14,7 @@ import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfSna
 
 class AnimationsSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
 
+    val s = 5
     // Массив id кнопок виджета для показа и скрытия анимации
     private val widgetAnimationButtons = arrayOf(R.id.show_animation_btn, R.id.reset_animation_btn)
 
