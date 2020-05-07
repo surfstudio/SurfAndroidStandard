@@ -39,7 +39,9 @@
 * ANDDEP-982 other libraries versions changed;
 * ANDDEP-915 Added `validateCrossFeatureRoutes.gradle.kts` task. **Note**: supported only `.kt` source files parsing;
 * ANDDEP-599 Added `CompletableSafeConverter` to parse not empty Completable-request response;
-
+* ANDDEP-1038 Remove `PaginationableAdapter` and add
+  `PaginationFooterItemController` instead for using
+  `easyadapter-pagination` module
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
@@ -54,11 +56,16 @@
 * Added plugin [`Build scans`](https://guides.gradle.org/creating-build-scans/)
 * Added the ability to add a request execution delay
   * On the DebugScreen screen in the server settings section, you can add a request delay of 0s, 0.5s, 1s, 2s, 4s, 8s
-* ANDDEP-444 Dagger dependencies taken out of [`AppComponent`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppComponent.kt)
-and [`ActivityComponent`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityComponent.kt)
-in separate classes:  [`AppProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppProxyDependencies.kt)
-and [`ActivityProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityProxyDependencies.kt),
-which are now responsible for distributing dependencies between components.
+* ANDDEP-444 Dagger dependencies taken out of
+  [`AppComponent`](base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppComponent.kt)
+  and
+  [`ActivityComponent`](base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityComponent.kt)
+  in separate classes:
+  [`AppProxyDependencies`](base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppProxyDependencies.kt)
+  and
+  [`ActivityProxyDependencies`](base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityProxyDependencies.kt),
+  which are now responsible for distributing dependencies between
+  components.
 * SBB-1862 Added module cf-pagination
 
 ## 0.3.0
@@ -67,4 +74,5 @@ which are now responsible for distributing dependencies between components.
 * ANDDEP-250 Assembly types are moved to a separate gradle file
 * ANDDEP-254 Added application signature mechanism - keystore directory.
 * ANDDEP-255 Created a minimal test environment for testing without an emulator (Robolectric)
-* Added the ability to connect modules locally. Description is [here](template/android-standard/README.md)
+* Added the ability to connect modules locally. Description is
+  [here](android-standard/README.md)

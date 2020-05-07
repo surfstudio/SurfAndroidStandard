@@ -215,10 +215,10 @@ open class EventTransformerList<E : Event>(
      *
      * @see [CompositionTransformer]
      */
-    infix fun <T : Event, C : CompositionEvent<T>> Observable<C>.decompose(
+    inline infix fun <T : Event, reified C : CompositionEvent<T>> Observable<C>.decompose(
             mw: RxMiddleware<T>
     ): Observable<C> {
-        return compose(CompositionTransformer<T, C>(mw))
+        return compose(CompositionTransformer.create<T, C>(mw))
     }
 
     /**
@@ -236,7 +236,7 @@ open class EventTransformerList<E : Event>(
      *
      * @see [CompositionTransformer]
      */
-    infix fun <T : Event, C : CompositionEvent<T>> KClass<C>.decomposeTo(mw: RxMiddleware<T>) =
+    inline infix fun <T : Event, reified C : CompositionEvent<T>> KClass<C>.decomposeTo(mw: RxMiddleware<T>) =
             eventStream.ofType(this.java).decompose(mw)
 
     /**
