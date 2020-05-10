@@ -70,6 +70,7 @@ pipeline.postExecuteStageBody = { stage ->
 }
 
 pipeline.initializeBody = {
+
     CommonUtil.printInitialStageStrategies(pipeline)
 
     script.echo "artifactory user: ${script.env.surf_maven_username}"
