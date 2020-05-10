@@ -106,16 +106,6 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
-        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
-            def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
-            def prevCommitHash = commitParents[0]
-            script.sh("./gradlew WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}")
-            String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
-            if (releaseNotesChanges.trim() != "") {
-                releaseNotesChanges = "Android Standard changes:\n$releaseNotesChanges"
-                JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
-            }
-        },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
@@ -127,13 +117,6 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
-        },
-        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
-            script.sh("./gradlew incrementGlobalUnstableVersion")
-        },
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
-            def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
-            script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
@@ -161,37 +144,6 @@ pipeline.stages = [
         },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
-        pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
-                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                }
-            }
-        },
-        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
-            withArtifactoryCredentials(script) {
-                script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
-            }
-        },
-        pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            RepositoryUtil.setDefaultJenkinsGitUser(script)
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
-
-            script.sh "git commit -a -m \"Increase global alpha version counter to " +
-                    "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
-        },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
-                script.error("Cannot mirror without change version")
-            }
-            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
-                    script.string(name: 'branch', value: branchName),
-                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
-            ]
         }
 ]
 
