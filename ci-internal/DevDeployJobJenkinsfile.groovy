@@ -53,6 +53,7 @@ def getTestInstrumentationRunnerName = { script, prefix ->
 }
 
 //init
+//init
 def script = this
 def pipeline = new EmptyScmPipeline(script)
 
