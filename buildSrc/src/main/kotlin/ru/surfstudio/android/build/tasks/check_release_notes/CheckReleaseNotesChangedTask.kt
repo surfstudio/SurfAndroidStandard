@@ -19,6 +19,7 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
 
     companion object {
         const val test = "test"
+        const val test2 = "test"
         const val MD_FILE_REGEX = "/*\\.md"
         const val GRADLE_FILE_REGEX = "/*\\.gradle"
         const val SAMPLE_FILE_REGEX = "/*sample*/"
