@@ -42,6 +42,8 @@ def branchName = ""
 def globalVersion = "<unknown>"
 def buildDescription = ""
 
+testTrigger = "init"
+
 //other config
 
 def getTestInstrumentationRunnerName = { script, prefix ->
@@ -98,6 +100,8 @@ pipeline.stages = [
                     credentialsId: pipeline.repoCredentialsId
             )
             script.sh "git checkout -B $branchName origin/$branchName"
+
+            script.echo "тригер $testTrigger"
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
@@ -192,6 +196,7 @@ def static initParameters(script) {
 }
 
 def static initTriggers(script) {
+testTrigger = "изменилось"
     return script.pipelineTriggers([
             script.GenericTrigger(
                     genericVariables: [
