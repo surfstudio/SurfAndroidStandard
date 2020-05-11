@@ -42,7 +42,7 @@ def branchName = ""
 def globalVersion = "<unknown>"
 def buildDescription = ""
 
-testTrigger = "init"
+def testTrigger = "init"
 
 //other config
 
@@ -62,7 +62,10 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = { initProperties(pipeline) }
+pipeline.propertiesProvider = {
+    testTrigger = "изменилось"
+    initProperties(pipeline)
+}
 
 pipeline.preExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
@@ -196,7 +199,6 @@ def static initParameters(script) {
 }
 
 def static initTriggers(script) {
-testTrigger = "изменилось"
     return script.pipelineTriggers([
             script.GenericTrigger(
                     genericVariables: [
