@@ -11,6 +11,7 @@
 
 ### Доступные анимаци
 * `crossfadeViews(inView: View, outView: View)`
+* test
 * `fadeOut` -  Сокрытие вью с изменением прозрачности
 * `fadeIn` -  Появление вью с изменением прозрачности
 * `pulseAnimation` - Анимация типа "пульс"
