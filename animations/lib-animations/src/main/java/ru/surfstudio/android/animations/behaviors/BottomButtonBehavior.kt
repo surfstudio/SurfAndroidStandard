@@ -35,6 +35,7 @@ class BottomButtonBehavior @JvmOverloads constructor(
         attrs: AttributeSet? = null
 ) : ViewSnackbarBehavior<Button>(context, attrs) {
 
+    var test = ""
     var showScrollLevel: Int = -1
     var hideScrollLevel: Int = 1
 
