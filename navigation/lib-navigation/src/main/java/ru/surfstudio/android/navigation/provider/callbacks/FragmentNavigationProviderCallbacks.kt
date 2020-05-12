@@ -13,7 +13,14 @@ import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
 
-//@PerAct
+/**
+ * Fragment navigation entities provider.
+ *
+ * It is based on a fragment lifecycle callbacks and
+ * can be used to provide navigation entities for current visible activity.
+ *
+ * Used in activity scope (created once for each new activity).
+ */
 open class FragmentNavigationProviderCallbacks(
         activity: AppCompatActivity,
         savedState: Bundle?

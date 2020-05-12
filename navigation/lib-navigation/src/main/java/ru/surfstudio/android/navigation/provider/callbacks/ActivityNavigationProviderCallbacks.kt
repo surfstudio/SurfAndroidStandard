@@ -9,18 +9,25 @@ import androidx.fragment.app.FragmentActivity
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.provider.holder.ActivityNavigationHolder
 import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
-import ru.surfstudio.android.navigation.provider.callbacks.creator.FragmentNavigationProviderCallbacksCreator
+import ru.surfstudio.android.navigation.provider.callbacks.factory.FragmentNavigationProviderCallbacksFactory
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
 import ru.surfstudio.android.navigation.provider.callbacks.listener.OnHolderActiveListener
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute.Companion.SCREEN_ID
 
 /**
- * Activity
+ * Activity navigation entities provider.
+ *
+ * It is based on activity lifecycle callbacks and
+ * can be used to provide navigation entities for current visible activity.
+ *
+ * Used only in application scope (singleton).
+ *
+ * @param fragmentCallbacksFactory factory, which is used to create [FragmentNavigationProviderCallbacks]
+ * for each activity.
  */
-//@PerApp
 open class ActivityNavigationProviderCallbacks(
-        private val fragmentCallbacksCreator: FragmentNavigationProviderCallbacksCreator = ::FragmentNavigationProviderCallbacks
+        private val fragmentCallbacksFactory: FragmentNavigationProviderCallbacksFactory = FragmentNavigationProviderCallbacksFactory()
 ) : Application.ActivityLifecycleCallbacks, ActivityNavigationProvider {
 
 
@@ -124,7 +131,7 @@ open class ActivityNavigationProviderCallbacks(
         require(activity is AppCompatActivity) { "All activities with ActivityNavigationHolders should implement AppCompatActivity!" }
         require(!navigatorHolders.containsKey(id)) { "Activity id must be unique! You should provide unique ActivityRoute.getTag() for each activity in application." }
 
-        val fragmentNavigationProvider = fragmentCallbacksCreator(activity, savedInstanceState)
+        val fragmentNavigationProvider = fragmentCallbacksFactory.create(activity, savedInstanceState)
         registerFragmentNavigationProvider(activity, fragmentNavigationProvider)
 
         val activityNavigator = ActivityNavigator(activity)
