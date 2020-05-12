@@ -1,3 +1,3 @@
 # EasyAdapter Sample
 
-Пример использования модуля [easyadapter](../../easyadapter)
+Sample of using [easyadapter](../../easyadapter)
