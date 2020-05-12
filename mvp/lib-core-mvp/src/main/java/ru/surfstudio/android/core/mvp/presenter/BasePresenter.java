@@ -36,8 +36,11 @@ import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.core.mvp.error.ErrorHandler;
 import ru.surfstudio.android.core.mvp.view.CoreView;
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator;
+import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.rx.extension.ActionSafe;
+import ru.surfstudio.android.rx.extension.BiFunctionSafe;
 import ru.surfstudio.android.rx.extension.ConsumerSafe;
+import ru.surfstudio.android.rx.extension.ObservableV1ToObservableV2;
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider;
 
 /**
@@ -583,4 +586,119 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
             autoReloadDisposable.dispose();
         }
     }
+
+    //region deprecated support old labirint layer
+
+    @Deprecated
+    protected <T> Disposable subscribe(
+            rx.Observable<T> observable,
+            final ConsumerSafe<T> onNext,
+            final ConsumerSafe<Throwable> onError
+    ) {
+        Observable<T> observableV2 = new ObservableV1ToObservableV2<>(observable)
+                .observeOn(schedulersProvider.main(), true);
+        return super.subscribe(observableV2, onNext, onError);
+    }
+
+    @Deprecated
+    protected <T> Disposable subscribe(rx.Observable<T> observable,
+                                       final ConsumerSafe<T> onNext,
+                                       final ActionSafe onCompleted,
+                                       final ConsumerSafe<Throwable> onError
+    ) {
+        Observable<T> observableV2 = new ObservableV1ToObservableV2<>(observable)
+                .observeOn(schedulersProvider.main(), true);
+        return super.subscribe(observableV2, onNext, onCompleted, onError);
+    }
+
+    @Deprecated
+    protected <T> Disposable subscribe(
+            rx.Observable<T> observable,
+            BiFunctionSafe<T, T, Boolean> replaceFrozenEventPredicate,
+            ConsumerSafe<T> onNext,
+            ConsumerSafe<Throwable> onError
+    ) {
+        Observable<T> observableV2 = new ObservableV1ToObservableV2<>(observable)
+                .observeOn(schedulersProvider.main(), true);
+        return super.subscribe(observableV2, replaceFrozenEventPredicate, onNext, onError);
+    }
+
+    @Deprecated
+    protected <T> Disposable subscribeTakeLastFrozen(
+            rx.Observable<T> observable,
+            ConsumerSafe<T> onNext,
+            ConsumerSafe<Throwable> onError
+    ) {
+        return super.subscribeTakeLastFrozen(new ObservableV1ToObservableV2<>(observable), onNext, onError);
+    }
+
+    @Deprecated
+    protected <T> Disposable subscribe(
+            final rx.Observable<T> observable,
+            final ConsumerSafe<T> onNext
+    ) {
+        return subscribe(
+                observable,
+                onNext,
+                Logger::e
+        );
+    }
+
+    protected <T> Disposable subscribeIoHandleError(
+            rx.Observable<T> observable,
+            final ConsumerSafe<T> onNext
+    ) {
+        return subscribeIoHandleError(new ObservableV1ToObservableV2<>(observable), onNext, null);
+    }
+
+    /**
+     * Используется, когда после выполнения запроса не нужны никакие действия.
+     * В основном, когда трекаются события аналитики
+     */
+    protected Disposable subscribeIoHandleError(final rx.Observable<Void> observable) {
+        return subscribeIoHandleError(
+                observable,
+                aVoid -> { /* do nothing */},
+                null
+        );
+    }
+
+    /**
+     * Работает также как {@link #subscribe}, кроме того автоматически обрабатывает ошибки,
+     */
+    protected <T> Disposable subscribeIoHandleError(
+            rx.Observable<T> observable,
+            final ConsumerSafe<T> onNext,
+            final ConsumerSafe<Throwable> onError
+    ) {
+        Observable<T> observableV2 = new ObservableV1ToObservableV2<>(observable)
+                .subscribeOn(schedulersProvider.worker());
+        return subscribe(observableV2, onNext, e -> handleError(e, onError));
+    }
+
+    protected <T> Disposable subscribeIoHandleError(
+            rx.Observable<T> observable,
+            final ConsumerSafe<T> onNext,
+            final ActionSafe onCompleted,
+            final ConsumerSafe<Throwable> onError
+    ) {
+        Observable<T> observableV2 = new ObservableV1ToObservableV2<>(observable)
+                .subscribeOn(schedulersProvider.worker());
+        return subscribe(observableV2, onNext, onCompleted, e -> handleError(e, onError));
+    }
+
+    protected <T> Disposable subscribeIoHandleErrorAutoReload(
+            rx.Observable<T> observable,
+            final ActionSafe autoReloadAction,
+            final ConsumerSafe<T> onNext,
+            @Nullable final ConsumerSafe<Throwable> onError
+    ) {
+        return subscribeIoHandleError(
+                initializeAutoReload(new ObservableV1ToObservableV2<>(observable), autoReloadAction),
+                onNext,
+                onError
+        );
+    }
+
+    //endregion
 }
