@@ -13,23 +13,20 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.easyadapter.animator;
+package ru.surfstudio.android.recycler.extension.animator;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ru.surfstudio.android.easyadapter.holder.BaseViewHolder;
-
-
 /**
- * ItemAnimator with support custom animations for ViewHolders, see {@link BaseViewHolder}
+ * ItemAnimator with support custom animations for ViewHolders, see {@link AnimatableViewHolder}
  */
-public class BaseItemAnimator extends DefaultItemAnimator {
+public class ViewHolderItemAnimator extends DefaultItemAnimator {
 
     @Override
     public final void onRemoveStarting(RecyclerView.ViewHolder item) {
         super.onRemoveStarting(item);
-        if (!(item instanceof BaseViewHolder) || !((BaseViewHolder) item).animateRemove()) {
+        if (!(item instanceof AnimatableViewHolder) || !((AnimatableViewHolder) item).animateRemove()) {
             onRemoveStartingInternal(item);
         }
     }
@@ -37,7 +34,7 @@ public class BaseItemAnimator extends DefaultItemAnimator {
     @Override
     public final void onAddStarting(RecyclerView.ViewHolder item) {
         super.onAddStarting(item);
-        if (!(item instanceof BaseViewHolder) || !((BaseViewHolder) item).animateInsert()) {
+        if (!(item instanceof AnimatableViewHolder) || !((AnimatableViewHolder) item).animateInsert()) {
             onAddStartingInternal(item);
         }
     }
@@ -45,7 +42,7 @@ public class BaseItemAnimator extends DefaultItemAnimator {
     @Override
     public final void onChangeStarting(RecyclerView.ViewHolder item, boolean oldItem) {
         super.onChangeStarting(item, oldItem);
-        if (!(item instanceof BaseViewHolder) || !((BaseViewHolder) item).animateChange()) {
+        if (!(item instanceof AnimatableViewHolder) || !((AnimatableViewHolder) item).animateChange()) {
             onChangeStartingInternal(item);
         }
     }
