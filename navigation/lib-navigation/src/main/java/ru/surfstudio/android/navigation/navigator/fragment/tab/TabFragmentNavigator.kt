@@ -8,7 +8,7 @@ import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.DefaultAnimations
 import ru.surfstudio.android.navigation.animation.utils.FragmentAnimationSupplier
 import ru.surfstudio.android.navigation.command.fragment.Replace
-import ru.surfstudio.android.navigation.backstack.fragment.listener.BackStackChangedListener
+import ru.surfstudio.android.navigation.backstack.fragment.listener.FragmentBackStackChangedListener
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntries
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntry
@@ -39,7 +39,7 @@ open class TabFragmentNavigator(
     private val activeNavigator
         get() = hostEntries.first { it.tag == activeTabTag }.navigator
 
-    private var activeTabReopenedListener: ActiveTabReopenedListener = {}
+    private var activeTabReopenedListener: ActiveTabReopenedListener? = null
 
     override val backStackEntryCount: Int
         get() = activeNavigator.backStackEntryCount
@@ -118,11 +118,11 @@ open class TabFragmentNavigator(
         activeTabTag = savedInstanceState.getString(EXTRA_ACTIVE_TAG) ?: ""
     }
 
-    override fun addBackStackChangeListener(listener: BackStackChangedListener) {
+    override fun addBackStackChangeListener(listener: FragmentBackStackChangedListener) {
         activeNavigator.addBackStackChangeListener(listener)
     }
 
-    override fun removeBackStackChangeListener(listener: BackStackChangedListener) {
+    override fun removeBackStackChangeListener(listener: FragmentBackStackChangedListener) {
         activeNavigator.removeBackStackChangeListener(listener)
     }
 
@@ -158,7 +158,7 @@ open class TabFragmentNavigator(
 
     private fun openExistentTab(routeTag: String) {
         if (activeTabTag == routeTag) {
-            activeTabReopenedListener(routeTag)
+            activeTabReopenedListener?.invoke(routeTag)
         } else {
             attachExistentTab(routeTag)
         }

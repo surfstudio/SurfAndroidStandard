@@ -7,5 +7,5 @@ interface TabFragmentNavigatorInterface : FragmentNavigatorInterface {
 
     val tabCount: Int
 
-    fun setActiveTabReopenedListener(listener: ActiveTabReopenedListener)
+    fun setActiveTabReopenedListener(listener: ActiveTabReopenedListener?)
 }

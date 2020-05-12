@@ -13,7 +13,7 @@ import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.backstack.fragment.FragmentBackStack
 import ru.surfstudio.android.navigation.backstack.fragment.entry.FragmentBackStackEntry
 import ru.surfstudio.android.navigation.backstack.fragment.entry.FragmentBackStackEntryObj
-import ru.surfstudio.android.navigation.backstack.fragment.listener.BackStackChangedListener
+import ru.surfstudio.android.navigation.backstack.fragment.listener.FragmentBackStackChangedListener
 import ru.surfstudio.android.navigation.backstack.fragment.BackStackFragmentRoute
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.animation.utils.FragmentAnimationSupplier
@@ -41,7 +41,7 @@ open class FragmentNavigator(
     override val backStackEntryCount: Int
         get() = backStack.size
 
-    private val backStackChangedListeners = arrayListOf<BackStackChangedListener>()
+    private val backStackChangedListeners = arrayListOf<FragmentBackStackChangedListener>()
 
     protected open var animationSupplier = FragmentAnimationSupplier()
 
@@ -202,14 +202,14 @@ open class FragmentNavigator(
     /**
      * Add listener to observe back stack changes
      */
-    override fun addBackStackChangeListener(listener: BackStackChangedListener) {
+    override fun addBackStackChangeListener(listener: FragmentBackStackChangedListener) {
         backStackChangedListeners.add(listener)
     }
 
     /**
      * Remove listener used to observe back stack changes
      */
-    override fun removeBackStackChangeListener(listener: BackStackChangedListener) {
+    override fun removeBackStackChangeListener(listener: FragmentBackStackChangedListener) {
         backStackChangedListeners.remove(listener)
     }
 
@@ -296,7 +296,10 @@ open class FragmentNavigator(
         notifyBackStackListeners()
     }
 
-    private fun notifyBackStackListeners() = backStackChangedListeners.forEach { it.invoke(backStack) }
+    private fun notifyBackStackListeners() {
+        val stackCopy = backStack.copy()
+        backStackChangedListeners.forEach { it.invoke(stackCopy) }
+    }
 
     companion object {
         private const val BACK_STACK_KEY = "FragmentNavigator container %d"

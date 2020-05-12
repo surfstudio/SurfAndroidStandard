@@ -1424,6 +1424,27 @@
             "type": "api"
           }
         ]
+      },
+      {
+        "name": "navigation-rx",
+        "dir": "lib-navigation-rx",
+        "artifact_name": "navigation-rx",
+        "android_standard_dependencies": [
+          {
+            "name": "navigation",
+            "type": "api"
+          },
+          {
+            "name": "navigation-observer",
+            "type": "api"
+          }
+        ],
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          }
+        ]
       }
     ],
     "samples": [
