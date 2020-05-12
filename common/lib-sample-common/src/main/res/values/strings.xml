@@ -1,9 +1,9 @@
 <resources>
-    <string name="no_internet_connection_error_message">Не удалось загрузить данные. Проверьте соединение с интернетом и попробуйте еще раз</string>
-    <string name="bad_response_error_message">Произошла ошибка загрузки данных на экране. Попробуйте позже еще раз</string>
+    <string name="no_internet_connection_error_message">Can't load data. Check Internet connection and try again</string>
+    <string name="bad_response_error_message">Error while loading data occurred. Try again later</string>
     <string name="unexpected_error_error_message">@string/default_http_error_message</string>
-    <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>
-    <string name="pagination_footer_text">Загрузить еще</string>
+    <string name="default_http_error_message">Error while loading data occurred, the screen probably has outdated information</string>
+    <string name="pagination_footer_text">Load more</string>
 
     <!-- placeholder -->
     <string name="placeholder_error_state_title_txt">Whooops!</string>
@@ -11,6 +11,6 @@
     <string name="placeholder_error_state_btn">Retry</string>
 
     <string name="placeholder_empty_state_title_txt">Your list is empty</string>
-    <string name="placeholder_empty_state_subtitle_txt">Completely empty... Please, add something</string>
+    <string name="placeholder_empty_state_subtitle_txt">Completely empty… Please, add something</string>
     <string name="placeholder_empty_state_action_btn">Add something</string>
 </resources>
