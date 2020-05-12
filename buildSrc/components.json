@@ -460,7 +460,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 22,
+    "unstable_version": 23,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -600,7 +600,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 15,
+    "unstable_version": 16,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -1142,7 +1142,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 10,
+    "unstable_version": 11,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1326,7 +1326,7 @@
   {
     "id": "network",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "deprecated/network",
     "libs": [
