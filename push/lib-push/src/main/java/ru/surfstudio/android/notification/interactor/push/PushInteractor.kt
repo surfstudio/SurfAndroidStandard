@@ -16,14 +16,14 @@
 package ru.surfstudio.android.notification.interactor.push
 
 import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 /**
  * Логика работы с пушами
  */
 class PushInteractor {
 
-    private val notificationPublishSubject = BehaviorSubject.create<BaseNotificationTypeData<*>>()
+    private val notificationPublishSubject = PublishSubject.create<BaseNotificationTypeData<*>>()
 
     /**
      * Подписка на пуши определенного типа.
