@@ -30,12 +30,12 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 
 /**
- * Утилиты для тестирования RecyclerView
+ * Utils for [RecyclerView] tests
  */
 object RecyclerViewUtils {
 
     /**
-     * Функция, выполняющая нажатие на элемент RecyclerView с заданной позицией
+     * Function which clicks a RecyclerView's element with given position
      */
     fun performItemClick(@IdRes recyclerViewResId: Int, position: Int) {
         onView(withId(recyclerViewResId))
@@ -43,7 +43,7 @@ object RecyclerViewUtils {
     }
 
     /**
-     * Функция, выполняющая скролл RecyclerView на заданную позицию
+     * Function which scrolls a RecyclerView to given position
      */
     fun scrollTo(@IdRes recyclerViewResId: Int, position: Int) {
         onView(withId(recyclerViewResId))
@@ -51,7 +51,7 @@ object RecyclerViewUtils {
     }
 
     /**
-     * Функция, выполняющая скролл RecyclerView к элементу с заданным заголовком
+     * Function which scrolls a RecyclerView to element with given title
      */
     fun scrollTo(@IdRes recyclerViewResId: Int, itemTitle: String) {
         onView(withId(recyclerViewResId))
@@ -61,13 +61,12 @@ object RecyclerViewUtils {
     }
 
     /**
-     * Функция, выполняющая скролл RecyclerView до конца списка
+     * Function which scroll a RecyclerView to the end
      */
     fun scrollToBottom(@IdRes recyclerViewResId: Int) {
         onView(withId(recyclerViewResId))
                 .perform(ScrollToBottomAction())
     }
-
 
     class ScrollToBottomAction : ViewAction {
         override fun getDescription(): String {

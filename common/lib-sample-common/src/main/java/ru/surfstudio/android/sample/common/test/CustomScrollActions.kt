@@ -25,7 +25,6 @@ import androidx.core.widget.NestedScrollView
 import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.util.HumanReadables
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -33,14 +32,14 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 
 /**
- * ViewAction, позволяющий выполнять scrollTo() для NestedScrollView
+ * ViewAction which allows function call scrollTo() for NestedScrollView
  */
 fun nestedScrollTo(): ViewAction = object : ViewAction {
 
     override fun getConstraints(): Matcher<View> {
         return Matchers.allOf(
                 isDescendantOfA(isAssignableFrom(NestedScrollView::class.java)),
-                withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+                withEffectiveVisibility(Visibility.VISIBLE))
     }
 
     override fun getDescription(): String {
@@ -94,10 +93,10 @@ private fun findFirstParentLayoutOfClass(view: View, parentClass: Class<out View
     var incrementView: ViewParent? = null
     var i = 0
     while (parent != null && parent.javaClass != parentClass) {
-        if (i == 0) {
-            parent = findParent(view)
+        parent = if (i == 0) {
+            findParent(view)
         } else {
-            parent = findParent(incrementView!!)
+            findParent(incrementView!!)
         }
         incrementView = parent
         i++

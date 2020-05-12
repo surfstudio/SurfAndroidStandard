@@ -21,19 +21,19 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 
 /**
- * Утилиты для тестирования Activity
+ * Utils for [Activity] tests
  */
 object ActivityUtils {
 
     /**
-     * Функция, открывающая новый экран
+     * Function for launching a new screen
      */
     fun <T : Activity> launchActivity(activityClass: Class<T>) {
         ActivityScenario.launch(activityClass)
     }
 
     /**
-     * Функция, проверяющая, что экран является видимым
+     * Function which checks if the screen is visible
      */
     fun <T> checkIfActivityIsVisible(activityClass: Class<T>) {
         intended(hasComponent(activityClass.name))

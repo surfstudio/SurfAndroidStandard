@@ -19,7 +19,7 @@ import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
 
 /**
- * Утилиты для работы с [IdlingResource]
+ * Utils for working with [IdlingResource]
  */
 object IdlingUtils {
 

@@ -26,13 +26,13 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.CoreMatchers.allOf
 
 /**
- * Утилиты для проверки отображения заданного текста на экране
+ * Utils for checking a given text visibility on the screen
  */
 object TextUtils {
 
     /**
-     * Функция, проверяющая, что text для вью, принадлежащей другой вью,
-     * равен значению строкового ресурса
+     * Function for checking if text of view which belongs to another view
+     * is equal to given string resource
      */
     fun checkViewText(@IdRes viewResId: Int, @IdRes parentViewResId: Int, @StringRes textResId: Int) {
         onView(allOf(withId(viewResId), isDescendantOfA(withId(parentViewResId))))
@@ -41,8 +41,8 @@ object TextUtils {
     }
 
     /**
-     * Функция, проверяющая, что text для вью, принадлежащей другой вью,
-     * равен заданному значению
+     * Function for checking if text of view which belongs to another view
+     * is equal to given string
      */
     fun checkViewText(@IdRes viewResId: Int, @IdRes parentViewResId: Int, text: String) {
         onView(allOf(withId(viewResId), isDescendantOfA(withId(parentViewResId))))
@@ -51,7 +51,7 @@ object TextUtils {
     }
 
     /**
-     * Функция, проверяющая, что text для вью равен значению строкового ресурса
+     * Function for checking if text of view is equal to given string resource
      */
     fun checkViewText(@IdRes viewResId: Int, @StringRes textResId: Int) {
         onView(withId(viewResId))
@@ -60,7 +60,7 @@ object TextUtils {
     }
 
     /**
-     * Функция, проверяющая, что text для вью равен заданному значению
+     * Function for checking if text of view is equal to given string
      */
     fun checkViewText(@IdRes viewResId: Int, text: String) {
         onView(withId(viewResId))
@@ -69,7 +69,7 @@ object TextUtils {
     }
 
     /**
-     * Функция, проверяющая, что на экрана отображается вью с заданным текстом
+     * Function which checks if the screen contains a view with given string resource
      */
     fun checkText(@IdRes vararg textResIdList: Int) {
         textResIdList.forEach {
@@ -79,7 +79,7 @@ object TextUtils {
     }
 
     /**
-     * Функция, проверяющая, что на экрана отображается вью с заданным текстом
+     * Function which checks if the screen contains a view with given string
      */
     fun checkText(vararg textList: String) {
         textList.forEach {
@@ -89,13 +89,13 @@ object TextUtils {
     }
 
     /**
-     * Функция, проверяющая, что text или hint для вью равны значению строкового ресурса,
-     * и выполняющая ввод нового значения для вью.
+     * Function which checks if the text or hint of view are equal to given string resource
+     * and inputs a new value
      *
-     * @param viewResId id вью, значения которой будут проверено, а затем изменено
-     * @param oldTextResId id строкового ресурса, значение которого должно быть равно hint или text для вью
-     * @param isHint флаг, указывающий, какое свойство для вью требуется проверить - hint или text
-     * @param newText новое значение текста для вью
+     * @param viewResId view ID which value will be checked and changed
+     * @param oldTextResId string resource ID which value should be equal to hint or text of view
+     * @param isHint flag which shows which view property should be checked (hint or text)
+     * @param newText a new text value for view
      */
     fun checkAndInputText(
             @IdRes viewResId: Int,
@@ -113,7 +113,7 @@ object TextUtils {
     }
 
     /**
-     * Функция, возвращающая значение строкового ресурса
+     * Function which returns a string resource value
      */
     fun getString(@StringRes stringResId: Int): String {
         return InstrumentationRegistry.getInstrumentation().targetContext.getString(stringResId)

@@ -16,7 +16,7 @@
 package ru.surfstudio.android.sample.common.test.utils
 
 /**
- * Утилиты для настройки анимаций во время выполнения инструментальных тестов
+ * Utils for animation settings during instrumental tests execution
  */
 object AnimationUtils {
 

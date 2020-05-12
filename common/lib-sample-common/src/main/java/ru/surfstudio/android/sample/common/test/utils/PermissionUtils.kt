@@ -21,7 +21,7 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
 /**
- * Утилиты для работы с разрешениями для инструментальных тестов
+ * Utils for working with permissions for instrumental tests
  */
 object PermissionUtils {
 

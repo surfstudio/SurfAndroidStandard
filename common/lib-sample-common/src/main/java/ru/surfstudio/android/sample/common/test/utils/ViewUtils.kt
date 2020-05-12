@@ -23,12 +23,12 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 
 /**
- * Общие утилиты для тестирования View
+ * Common utils for View tests
  */
 object ViewUtils {
 
     /**
-     * Функция, выполняющая нажатие на каждую вью, id которых переданы в параметрах
+     * Function which clicks every view which ID is given to params
      */
     fun performClick(@IdRes vararg viewIdResList: Int) {
         viewIdResList.forEach {
@@ -37,8 +37,8 @@ object ViewUtils {
     }
 
     /**
-     * Функция, выполняющая нажатие на каждую вью, id которых переданы в параметрах,
-     * и вызывающая другую функцию после клика на каждую вью
+     * Function which clicks every view which ID is given to params
+     * and calls another function after every click
      */
     fun performClick(action: () -> Unit, @IdRes vararg viewIdResList: Int) {
         viewIdResList.forEach {
@@ -48,8 +48,8 @@ object ViewUtils {
     }
 
     /**
-     * Функция, выполняющая нажатие на каждую вью, id которых переданы в параметрах,
-     * и проверяющая, что значение каждой вью после клика равно указанному тексту
+     * Function which clicks every view which ID is given to params
+     * and checks if every view's text is equal to given text after click
      */
     fun performClick(textForCheck: String, @IdRes vararg viewIdResList: Int) {
         viewIdResList.forEach {
