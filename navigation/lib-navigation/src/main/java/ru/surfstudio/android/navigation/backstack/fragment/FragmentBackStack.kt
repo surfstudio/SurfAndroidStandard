@@ -35,7 +35,7 @@ class FragmentBackStack : BackStack<FragmentBackStackEntry>, Stack<FragmentBackS
      */
     fun copy(): FragmentBackStack {
         val stackCopy = FragmentBackStack()
-        forEach(stackCopy::push)
+        forEach { entry -> stackCopy.push(entry) }
         return stackCopy
     }
 }

@@ -126,7 +126,7 @@ open class TabFragmentNavigator(
         activeNavigator.removeBackStackChangeListener(listener)
     }
 
-    override fun setActiveTabReopenedListener(listener: ActiveTabReopenedListener) {
+    override fun setActiveTabReopenedListener(listener: ActiveTabReopenedListener?) {
         activeTabReopenedListener = listener
     }
 
