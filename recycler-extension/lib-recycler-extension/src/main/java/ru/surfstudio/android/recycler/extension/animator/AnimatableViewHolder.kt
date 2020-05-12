@@ -17,7 +17,7 @@ package ru.surfstudio.android.recycler.extension.animator
 
 /**
  * Base interface for view holders which support animations.
- * Can be used with [BaseItemAnimator]
+ * Can be used with [ViewHolderItemAnimator]
  */
 interface AnimatableViewHolder {
 

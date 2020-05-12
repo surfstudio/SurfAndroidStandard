@@ -16,12 +16,12 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycler.animator
 
-import ru.surfstudio.android.recycler.extension.animator.BaseItemAnimator
+import ru.surfstudio.android.recycler.extension.animator.ViewHolderItemAnimator
 
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
  */
-open class StandardItemAnimator : BaseItemAnimator() {
+open class StandardItemAnimator : ViewHolderItemAnimator() {
 
     init {
         addDuration = ADD_DURATION

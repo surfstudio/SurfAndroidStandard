@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * ItemAnimator with support custom animations for ViewHolders, see {@link AnimatableViewHolder}
  */
-public class BaseItemAnimator extends DefaultItemAnimator {
+public class ViewHolderItemAnimator extends DefaultItemAnimator {
 
     @Override
     public final void onRemoveStarting(RecyclerView.ViewHolder item) {
