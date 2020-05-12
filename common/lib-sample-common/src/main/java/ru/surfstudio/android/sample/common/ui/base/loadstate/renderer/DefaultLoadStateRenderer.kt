@@ -7,10 +7,12 @@ import ru.surfstudio.android.sample.common.ui.base.loadstate.*
 import ru.surfstudio.android.sample.common.ui.base.loadstate.presentations.*
 
 /**
- * Проектная реализация BaseLoadStateRenderer
+ * Project implementation of [BaseLoadStateRenderer]
  */
-class DefaultLoadStateRenderer(placeHolderView: PlaceHolderViewContainer,
-                               override val defaultState: LoadStateInterface = NoneLoadState()) : BaseLoadStateRenderer() {
+class DefaultLoadStateRenderer(
+        placeHolderView: PlaceHolderViewContainer,
+        override val defaultState: LoadStateInterface = NoneLoadState()
+) : BaseLoadStateRenderer() {
 
     init {
         putPresentation(
@@ -27,11 +29,13 @@ class DefaultLoadStateRenderer(placeHolderView: PlaceHolderViewContainer,
                 MainLoadingLoadStatePresentation(placeHolderView))
     }
 
-    fun configEmptyState(imageRes: Int? = null,
-                         titleRes: Int? = null,
-                         subtitleRes: Int? = null,
-                         btnRes: Int? = null,
-                         onBtnClickedListener: (() -> Unit)? = null): DefaultLoadStateRenderer {
+    fun configEmptyState(
+            imageRes: Int? = null,
+            titleRes: Int? = null,
+            subtitleRes: Int? = null,
+            btnRes: Int? = null,
+            onBtnClickedListener: (() -> Unit)? = null
+    ): DefaultLoadStateRenderer {
         (getPresentation(EmptyLoadState::class.java) as EmptyLoadStatePresentation)
                 .configState(
                         imageRes,
@@ -42,11 +46,13 @@ class DefaultLoadStateRenderer(placeHolderView: PlaceHolderViewContainer,
         return this
     }
 
-    fun configErrorState(imageRes: Int? = null,
-                         titleRes: Int? = null,
-                         subtitleRes: Int? = null,
-                         btnRes: Int? = null,
-                         onBtnClickedListener: (() -> Unit)? = null): DefaultLoadStateRenderer {
+    fun configErrorState(
+            imageRes: Int? = null,
+            titleRes: Int? = null,
+            subtitleRes: Int? = null,
+            btnRes: Int? = null,
+            onBtnClickedListener: (() -> Unit)? = null
+    ): DefaultLoadStateRenderer {
         (getPresentation(ErrorLoadState::class.java) as ErrorLoadStatePresentation)
                 .configState(
                         imageRes,

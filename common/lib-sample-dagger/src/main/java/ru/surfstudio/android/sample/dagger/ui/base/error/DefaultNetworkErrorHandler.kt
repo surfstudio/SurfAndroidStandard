@@ -8,7 +8,7 @@ import ru.surfstudio.android.network.error.NetworkException
 import ru.surfstudio.android.network.error.NoInternetException
 
 /**
- * Базовый класс для обработки ошибок, возникающий при работе с Observable из слоя Interactor
+ * Base class to handle error which occur during Observable usage from Interactor
  */
 abstract class DefaultNetworkErrorHandler : ErrorHandler {
 
@@ -23,7 +23,7 @@ abstract class DefaultNetworkErrorHandler : ErrorHandler {
     }
 
     /**
-     * @param err - CompositeException может возникать при комбинировании Observable
+     * @param err - CompositeException which could occur while combining Observable
      */
     private fun handleCompositeException(err: CompositeException) {
         val exceptions = err.exceptions
