@@ -1634,6 +1634,10 @@
           {
             "name": "com.annimon:stream",
             "type": "implementation"
+          },
+          {
+            "name": "io.reactivex:rxjava",
+            "type": "api"
           }
         ],
         "android_standard_dependencies": []
