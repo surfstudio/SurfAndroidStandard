@@ -2,6 +2,7 @@ package ru.surfstudio.android.location.sample.ui.screen.location_service_sample
 
 import android.annotation.SuppressLint
 import android.location.Location
+import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
@@ -10,6 +11,7 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.location.LocationService
 import ru.surfstudio.android.location.domain.LocationPriority
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
@@ -26,7 +28,7 @@ class LocationServicePresenter(
         basePresenterDependency: BasePresenterDependency,
         screenEventDelegateManager: ScreenEventDelegateManager,
         permissionManager: PermissionManager,
-        activityProvider: ActivityProvider,
+        activityProvider: Provider<AppCompatActivity>,
         commonLocationPermissionRequest: CommonLocationPermissionRequest,
         private val locationService: LocationService
 ) : BaseSamplePresenter<LocationServiceActivityView>(basePresenterDependency) {

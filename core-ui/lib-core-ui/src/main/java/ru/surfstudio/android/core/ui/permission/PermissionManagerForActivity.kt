@@ -16,20 +16,20 @@
 package ru.surfstudio.android.core.ui.permission
 
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator
+import ru.surfstudio.android.core.ui.provider.Provider
 
 /**
  * PermissionManager, работающий из активити.
  */
 class PermissionManagerForActivity(
         eventDelegateManager: ScreenEventDelegateManager,
-        activityNavigator: ActivityNavigator,
+        activityNavigator: IActivityNavigator,
         sharedPreferences: SharedPreferences,
-        private val activityProvider: ActivityProvider
+        private val activityProvider: Provider<AppCompatActivity>
 ) : PermissionManager(eventDelegateManager, activityProvider, activityNavigator, sharedPreferences) {
 
     override fun performPermissionRequest(permissionRequest: PermissionRequest) =

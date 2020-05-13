@@ -25,6 +25,7 @@ import androidx.annotation.WorkerThread
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import java.io.*
@@ -87,7 +88,7 @@ internal fun <T : Serializable> parseMultipleResultIntent(
 
 //region Вспомогательные функции для обработки результата открытия экрана
 internal fun <T : Serializable> observeSingleScreenResult(
-        activityNavigator: ActivityNavigator,
+        activityNavigator: IActivityNavigator,
         route: ActivityWithResultRoute<T>
 ): Observable<T> {
     return activityNavigator.observeResult<T>(route)
@@ -95,7 +96,7 @@ internal fun <T : Serializable> observeSingleScreenResult(
 }
 
 internal fun <T : Serializable> observeMultipleScreenResult(
-        activityNavigator: ActivityNavigator,
+        activityNavigator: IActivityNavigator,
         route: ActivityWithResultRoute<ArrayList<T>>
 ): Observable<List<T>> {
     return activityNavigator.observeResult<ArrayList<T>>(route)

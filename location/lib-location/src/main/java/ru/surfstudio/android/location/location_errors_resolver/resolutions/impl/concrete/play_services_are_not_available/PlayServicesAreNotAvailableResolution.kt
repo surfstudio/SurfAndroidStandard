@@ -15,9 +15,11 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.play_services_are_not_available
 
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.GoogleApiAvailability
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.location.exceptions.PlayServicesAreNotAvailableException
 import ru.surfstudio.android.location.exceptions.PlayServicesAvailabilityErrorIsNotResolvableException
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.base.BaseLocationErrorResolutionWithActivityResultDelegateImpl
@@ -29,7 +31,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
  */
 class PlayServicesAreNotAvailableResolution(
         screenEventDelegateManager: ScreenEventDelegateManager,
-        private val activityProvider: ActivityProvider
+        private val activityProvider: Provider<AppCompatActivity>
 ) : BaseLocationErrorResolutionWithActivityResultDelegateImpl<PlayServicesAreNotAvailableException>(
         screenEventDelegateManager
 ) {

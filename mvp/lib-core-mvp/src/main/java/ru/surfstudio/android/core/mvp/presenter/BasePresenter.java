@@ -36,6 +36,7 @@ import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.core.mvp.error.ErrorHandler;
 import ru.surfstudio.android.core.mvp.view.CoreView;
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator;
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator;
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.rx.extension.ActionSafe;
 import ru.surfstudio.android.rx.extension.BiFunctionSafe;
@@ -63,7 +64,7 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider;
  */
 public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V> {
 
-    private final ActivityNavigator activityNavigator;
+    private final IActivityNavigator activityNavigator;
     private final SchedulersProvider schedulersProvider;
     private final ConnectionProvider connectionProvider;
     private ErrorHandler errorHandler;

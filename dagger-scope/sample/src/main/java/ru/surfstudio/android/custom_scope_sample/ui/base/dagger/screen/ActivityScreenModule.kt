@@ -1,6 +1,7 @@
 package ru.surfstudio.android.custom_scope_sample.ui.base.dagger.screen
 
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope
@@ -10,6 +11,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
 import ru.surfstudio.android.core.ui.state.ScreenState
@@ -44,7 +46,7 @@ class ActivityScreenModule(private val activityViewPersistentScope: ActivityView
 
     @Provides
     @PerScreen
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
+    internal fun provideActivityNavigator(activityProvider: Provider<AppCompatActivity>,
                                           eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
@@ -54,7 +56,7 @@ class ActivityScreenModule(private val activityViewPersistentScope: ActivityView
     internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
                                           activityNavigator: ActivityNavigator,
                                           @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-                                          activityProvider: ActivityProvider): PermissionManager {
+                                          activityProvider: Provider<AppCompatActivity>): PermissionManager {
         return PermissionManagerForActivity(
                 eventDelegateManager,
                 activityNavigator,
@@ -65,7 +67,7 @@ class ActivityScreenModule(private val activityViewPersistentScope: ActivityView
 
     @Provides
     @PerScreen
-    internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {
+    internal fun provideMessageController(activityProvider: Provider<AppCompatActivity>): MessageController {
         return DefaultMessageController(activityProvider)
     }
 }

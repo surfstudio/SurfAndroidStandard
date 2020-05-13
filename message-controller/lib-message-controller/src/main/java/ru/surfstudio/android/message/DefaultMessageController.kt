@@ -22,18 +22,19 @@ import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.FragmentProvider
+import ru.surfstudio.android.core.ui.provider.Provider
 
 /**
  * Базовый класс контроллера отображения сообщений
  * Для нахождения view использует fragment и затем activity провайдеры
  */
 class DefaultMessageController @JvmOverloads constructor(
-        val activityProvider: ActivityProvider,
+        val activityProvider: Provider<AppCompatActivity>,
         val fragmentProvider: FragmentProvider? = null
 ) : MessageController {
 
@@ -234,7 +235,7 @@ class DefaultMessageController @JvmOverloads constructor(
                 ?: fragmentView.findViewById(R.id.coordinator)
     }
 
-    private fun getViewFromActivity(activityProvider: ActivityProvider): View? {
+    private fun getViewFromActivity(activityProvider: Provider<AppCompatActivity>): View? {
         val activity = activityProvider.get()
         return activity.findViewById(R.id.snackbar_container)
                 ?: activity.findViewById(R.id.coordinator)

@@ -16,10 +16,11 @@
 package ru.surfstudio.android.mvp.dialog.navigation.navigator;
 
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
-import ru.surfstudio.android.core.ui.provider.ActivityProvider;
+import ru.surfstudio.android.core.ui.provider.Provider;
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
 
 /**
@@ -27,11 +28,11 @@ import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
  */
 public class DialogNavigatorForActivity extends DialogNavigator {
 
-    private ActivityProvider activityProvider;
+    private Provider<AppCompatActivity> activityProvider;
     private ActivityViewPersistentScope activityViewPersistentScope;
 
 
-    public DialogNavigatorForActivity(ActivityProvider activityProvider,
+    public DialogNavigatorForActivity(Provider<AppCompatActivity> activityProvider,
                                       ActivityViewPersistentScope activityViewPersistentScope) {
         super(activityProvider, activityViewPersistentScope);
         this.activityProvider = activityProvider;

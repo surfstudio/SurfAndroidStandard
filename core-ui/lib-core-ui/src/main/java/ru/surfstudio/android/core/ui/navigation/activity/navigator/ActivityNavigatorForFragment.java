@@ -20,11 +20,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstaller;
-import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.provider.FragmentProvider;
+import ru.surfstudio.android.core.ui.provider.Provider;
 
 /**
  * ActivityNavigator working in Fragment.
@@ -33,14 +34,14 @@ public class ActivityNavigatorForFragment extends ActivityNavigator {
 
     private FragmentProvider fragmentProvider;
 
-    public ActivityNavigatorForFragment(ActivityProvider activityProvider,
+    public ActivityNavigatorForFragment(Provider<AppCompatActivity> activityProvider,
                                         FragmentProvider fragmentProvider,
                                         ScreenEventDelegateManager eventDelegateManager) {
         this(activityProvider, fragmentProvider, eventDelegateManager, null, false);
 
     }
 
-    public ActivityNavigatorForFragment(ActivityProvider activityProvider,
+    public ActivityNavigatorForFragment(Provider<AppCompatActivity> activityProvider,
                                         FragmentProvider fragmentProvider,
                                         ScreenEventDelegateManager eventDelegateManager,
                                         SplitFeatureInstaller splitFeatureInstaller,
