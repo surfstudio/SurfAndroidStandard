@@ -322,10 +322,6 @@
             "type": "api"
           },
           {
-            "name": "network",
-            "type": "api"
-          },
-          {
             "name": "connection",
             "type": "api"
           },
