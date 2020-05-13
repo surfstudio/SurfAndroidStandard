@@ -3,9 +3,9 @@ package ru.surfstudio.android.sample.dagger.ui.base.error
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.message.MessageController
-import ru.surfstudio.android.network.error.ConversionException
-import ru.surfstudio.android.network.error.NoInternetException
 import ru.surfstudio.android.sample.common.R
+import ru.surfstudio.android.sample.dagger.app.exceptions.ConversionException
+import ru.surfstudio.android.sample.dagger.app.exceptions.NoInternetException
 import javax.inject.Inject
 
 /**

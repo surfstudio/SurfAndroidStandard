@@ -42,6 +42,7 @@
 * ANDDEP-1038 Remove `PaginationableAdapter` and add
   `PaginationFooterItemController` instead for using
   `easyadapter-pagination` module
+* ANDDEP-1057 Update androidStandardVersion
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template

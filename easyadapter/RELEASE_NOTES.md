@@ -31,8 +31,10 @@
   * Move `AnimatableViewHolder` and `BaseItemAnimator` to
     `recycler-extension` module
   * Rename `BaseItemAnimator` to `ViewHolderItemAnimator`
+* ANDDEP-853 Translate README
 ##### Easyadapter Pagination
 * ANDDEP-1038 Add easyadapter-pagination module
+* ANDDEP-853 Translate README
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder

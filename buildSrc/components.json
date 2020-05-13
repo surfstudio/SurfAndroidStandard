@@ -322,10 +322,6 @@
             "type": "api"
           },
           {
-            "name": "network",
-            "type": "api"
-          },
-          {
             "name": "connection",
             "type": "api"
           },
@@ -1846,7 +1842,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 25,
+    "unstable_version": 26,
     "stable": false,
     "dir": "template",
     "libs": [],

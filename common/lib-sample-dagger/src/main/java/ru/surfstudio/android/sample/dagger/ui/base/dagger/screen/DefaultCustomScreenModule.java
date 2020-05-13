@@ -23,7 +23,7 @@ public abstract class DefaultCustomScreenModule<R extends Route> {
 
     @Provides
     @PerScreen
-    R provideRoute() {
+    public R provideRoute() {
         return route;
     }
 }

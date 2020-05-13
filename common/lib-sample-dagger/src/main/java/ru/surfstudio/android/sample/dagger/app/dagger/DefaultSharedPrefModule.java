@@ -18,14 +18,14 @@ public class DefaultSharedPrefModule {
     @Provides
     @PerApplication
     @Named(NO_BACKUP_SHARED_PREF)
-    SharedPreferences provideNoBackupSharedPref(Context context) {
+    public SharedPreferences provideNoBackupSharedPref(Context context) {
         return context.getSharedPreferences(NO_BACKUP_SHARED_PREF, Context.MODE_PRIVATE);
     }
 
     @Provides
     @PerApplication
     @Named(BACKUP_SHARED_PREF)
-    SharedPreferences provideBackupSharedPref(Context context) {
+    public SharedPreferences provideBackupSharedPref(Context context) {
         return context.getSharedPreferences(BACKUP_SHARED_PREF, Context.MODE_PRIVATE);
     }
 }

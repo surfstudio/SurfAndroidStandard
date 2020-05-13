@@ -32,7 +32,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 
 /**
- * ViewAction which allows function call scrollTo() for NestedScrollView
+ * ViewAction which allows function scrollTo() call for NestedScrollView
  */
 fun nestedScrollTo(): ViewAction = object : ViewAction {
 

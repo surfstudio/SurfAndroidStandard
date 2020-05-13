@@ -1,5 +1,5 @@
 <resources>
-    <string name="no_internet_connection_error_message">Can't load data. Check Internet connection and try again</string>
+    <string name="no_internet_connection_error_message">Can\'t load data. Check Internet connection and try again</string>
     <string name="bad_response_error_message">Error while loading data occurred. Try again later</string>
     <string name="unexpected_error_error_message">@string/default_http_error_message</string>
     <string name="default_http_error_message">Error while loading data occurred, the screen probably has outdated information</string>
