@@ -15,9 +15,11 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception
 
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.api.ResolvableApiException
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.base.BaseLocationErrorResolutionWithActivityResultDelegateImpl
 
 /**
@@ -27,7 +29,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
  */
 class ResolvableApiExceptionResolution(
         screenEventDelegateManager: ScreenEventDelegateManager,
-        private val activityProvider: ActivityProvider
+        private val activityProvider: Provider<AppCompatActivity>
 ) : BaseLocationErrorResolutionWithActivityResultDelegateImpl<ResolvableApiException>(screenEventDelegateManager) {
 
     override val resolvingThrowableClass = ResolvableApiException::class.java

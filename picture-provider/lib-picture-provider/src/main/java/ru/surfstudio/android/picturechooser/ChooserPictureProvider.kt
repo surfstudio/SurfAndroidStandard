@@ -2,17 +2,18 @@ package ru.surfstudio.android.picturechooser
 
 import android.content.Context
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Observable
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.core.ui.provider.Provider
 
 /**
  * Позволяет получить одно или несколько изображений из любого места на устройстве
  */
 class ChooserPictureProvider(
-        private val activityNavigator: ActivityNavigator,
-        private val activityProvider: ActivityProvider
+        private val activityNavigator: IActivityNavigator,
+        private val activityProvider: Provider<AppCompatActivity>
 ) {
 
     private val currentActivity get() = activityProvider.get()

@@ -2,10 +2,12 @@ package ru.surfstudio.android.sample.dagger.ui.base.dagger.activity
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatActivity
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.rxbus.RxBus
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.picturechooser.PicturePermissionChecker
@@ -29,7 +31,7 @@ interface DefaultActivityComponent {
     fun connectionProvider(): ConnectionProvider
     fun stringsProvider(): StringsProvider
 
-    fun activityProvider(): ActivityProvider
+    fun activityProvider(): Provider<AppCompatActivity>
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context
     fun picturePermissionChecker(): PicturePermissionChecker

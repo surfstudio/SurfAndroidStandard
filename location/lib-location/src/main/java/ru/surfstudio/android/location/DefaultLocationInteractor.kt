@@ -2,6 +2,7 @@ package ru.surfstudio.android.location
 
 import android.location.Location
 import androidx.annotation.RequiresPermission
+import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
@@ -10,6 +11,7 @@ import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.location.domain.CurrentLocationRequest
 import ru.surfstudio.android.location.domain.LastKnownLocationRequest
 import ru.surfstudio.android.location.domain.LocationPriority
@@ -29,7 +31,7 @@ import java.util.concurrent.TimeUnit
 class DefaultLocationInteractor(
         private val permissionManager: PermissionManager,
         private val screenEventDelegateManager: ScreenEventDelegateManager,
-        private val activityProvider: ActivityProvider,
+        private val activityProvider: Provider<AppCompatActivity>,
         private val locationService: LocationService
 ) {
 

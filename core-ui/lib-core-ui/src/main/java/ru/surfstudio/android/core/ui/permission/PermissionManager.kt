@@ -16,34 +16,32 @@
 package ru.surfstudio.android.core.ui.permission
 
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
-import java.util.HashMap
-
-import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
-import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultDelegate
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
-
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
+import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultDelegate
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.permission.exceptions.PermissionsRationalIsNotProvidedException
 import ru.surfstudio.android.core.ui.permission.exceptions.SettingsRationalIsNotProvidedException
 import ru.surfstudio.android.core.ui.permission.screens.default_permission_rational.DefaultPermissionRationalRoute
 import ru.surfstudio.android.core.ui.permission.screens.settings_rational.DefaultSettingsRationalRoute
+import ru.surfstudio.android.core.ui.provider.Provider
 import java.io.Serializable
+import java.util.*
 
 /**
  * Класс для проверки и запросов разрешений.
  */
 abstract class PermissionManager(
         eventDelegateManager: ScreenEventDelegateManager,
-        private val activityProvider: ActivityProvider,
-        private val activityNavigator: ActivityNavigator,
+        private val activityProvider: Provider<AppCompatActivity>,
+        private val activityNavigator: IActivityNavigator,
         private val sharedPreferences: SharedPreferences
 ) : RequestPermissionsResultDelegate {
 

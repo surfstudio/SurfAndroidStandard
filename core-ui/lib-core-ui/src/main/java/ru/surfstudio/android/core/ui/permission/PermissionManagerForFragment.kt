@@ -16,18 +16,19 @@
 package ru.surfstudio.android.core.ui.permission
 
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator
 import ru.surfstudio.android.core.ui.provider.FragmentProvider
+import ru.surfstudio.android.core.ui.provider.Provider
 
 /**
  * PermissionManager, работающий из фрагмента.
  */
 class PermissionManagerForFragment(
         eventDelegateManager: ScreenEventDelegateManager,
-        activityProvider: ActivityProvider,
-        activityNavigator: ActivityNavigator,
+        activityProvider: Provider<AppCompatActivity>,
+        activityNavigator: IActivityNavigator,
         sharedPreferences: SharedPreferences,
         private val fragmentProvider: FragmentProvider
 ) : PermissionManager(eventDelegateManager, activityProvider, activityNavigator, sharedPreferences) {

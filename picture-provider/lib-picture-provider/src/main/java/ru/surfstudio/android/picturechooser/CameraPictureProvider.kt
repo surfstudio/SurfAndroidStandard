@@ -21,12 +21,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.exifinterface.media.ExifInterface
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
 import io.reactivex.Observable
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import ru.surfstudio.android.picturechooser.exceptions.ExternalStorageException
@@ -39,8 +40,8 @@ import java.util.*
  *  Позволяет получить данные с камеры стороннего приложения
  */
 class CameraPictureProvider(
-        private val activityNavigator: ActivityNavigator,
-        private val activityProvider: ActivityProvider
+        private val activityNavigator: IActivityNavigator,
+        private val activityProvider: Provider<AppCompatActivity>
 ) {
 
     private val currentActivity get() = activityProvider.get()
