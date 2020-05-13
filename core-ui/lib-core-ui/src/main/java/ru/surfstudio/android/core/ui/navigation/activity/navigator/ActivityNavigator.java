@@ -68,7 +68,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider;
  * презентером и родительской активити вью
  */
 public abstract class ActivityNavigator extends BaseActivityResultDelegate
-        implements Navigator, NewIntentDelegate, OnCompletelyDestroyDelegate, OnResumeDelegate, OnPauseDelegate {
+        implements Navigator, NewIntentDelegate, OnCompletelyDestroyDelegate, OnResumeDelegate, OnPauseDelegate, IActivityNavigator {
 
     private Map<NewIntentRoute, Subject> newIntentSubjects = new HashMap<>();
     private final ActivityProvider activityProvider;
@@ -144,6 +144,12 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
             throw new IllegalArgumentException("route class " + routeClass.getCanonicalName()
                     + "must have default constructor", e);
         }
+    }
+
+    @Override
+    public <T extends Serializable> rx.Observable<ScreenResult<T>> observeResultDeprecated(Class<? extends SupportOnActivityResultRoute<T>> routeClass) {
+        /* do nothing */
+        return null;
     }
 
     /**
