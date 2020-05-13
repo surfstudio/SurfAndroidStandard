@@ -11,7 +11,6 @@ import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesForConfi
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesForFilesException
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsDiffProvider
-import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 
 open class CheckReleaseNotesChangedTask : DefaultTask() {
@@ -36,31 +35,21 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
-        val componentsChangeResults = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
-                .getChangeInformationForComponents()
-        val componentsChangeFilesResults = ComponentsFilesChecker(currentRevision, revisionToCompare)
+        val componentsInformation = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
 
-        val componentsWithDiffs = ComponentsDiffProvider(currentRevision, revisionToCompare, Components.value)
+        ComponentsDiffProvider(currentRevision, revisionToCompare, Components.value)
                 .provideComponentsWithDiff()
+                .filter { isComponentRequiredReleaseNotes(it.value) }
+                .forEach { (component, diffs) ->
+                    val reasonOfComponentChange = componentsInformation.find { it.componentName == component.name }
+                            ?.reasonOfComponentChange?.reason
+                            ?: throw ComponentNotFoundException(component.name)
 
-        componentsWithDiffs.filter {
-            isComponentRequiredReleaseNotes(it.value)
-        }.forEach { (component, diffs) ->
-            val resultByConfig = componentsChangeResults.find { it.componentName == component.name }
-                    ?: throw ComponentNotFoundException(component.name)
-            val resultByFile = componentsChangeFilesResults.find { it.componentName == component.name }
-                    ?: throw ComponentNotFoundException(component.name)
-
-            if (isComponentChanged(resultByConfig.isComponentChanged, resultByFile.isComponentChanged)
-                    && !isReleaseFileIncluded(diffs, component.name)
-            ) {
-                throw ReleaseNotesForFilesException(
-                        component.name,
-                        resultByConfig.reasonOfComponentChange.reason
-                )
-            }
-        }
+                    if (!isReleaseNotesChanged(diffs, component.name)) {
+                        throw ReleaseNotesForFilesException(component.name, reasonOfComponentChange)
+                    }
+                }
     }
 
     private fun isComponentRequiredReleaseNotes(diffs: List<String>): Boolean {
@@ -72,10 +61,7 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
         }
     }
 
-    private fun isComponentChanged(resultByConfig: Boolean, resultByFile: Boolean) =
-            resultByConfig.or(resultByFile)
-
-    private fun isReleaseFileIncluded(diffs: List<String>, componentName: String): Boolean =
+    private fun isReleaseNotesChanged(diffs: List<String>, componentName: String): Boolean =
             diffs.find { it.contains("$componentName/$RELEASE_NOTES_FILE_NAME") } != null
 
     private fun extractInputArguments() {
