@@ -1,9 +1,10 @@
 package ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.custom_scope_sample.app.dagger.AppComponent
 import ru.surfstudio.android.dagger.scope.PerActivity
@@ -22,7 +23,7 @@ interface ActivityComponent {
     fun connectionProvider(): ConnectionProvider
     fun stringsProvider(): StringsProvider
 
-    fun activityProvider(): ActivityProvider
+    fun activityProvider(): Provider<AppCompatActivity>
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context
 }

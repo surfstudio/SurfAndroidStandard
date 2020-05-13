@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 
@@ -57,7 +58,7 @@ import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureIn
 import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstaller;
 import ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature.DynamicCrossFeatureRoute;
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.ActivityCrossFeatureRoute;
-import ru.surfstudio.android.core.ui.provider.ActivityProvider;
+import ru.surfstudio.android.core.ui.provider.Provider;
 
 /**
  * позволяет осуществлять навигацияю между активити
@@ -71,7 +72,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
         implements Navigator, NewIntentDelegate, OnCompletelyDestroyDelegate, OnResumeDelegate, OnPauseDelegate, IActivityNavigator {
 
     private Map<NewIntentRoute, Subject> newIntentSubjects = new HashMap<>();
-    private final ActivityProvider activityProvider;
+    private final Provider<AppCompatActivity> activityProvider;
     private final SplitFeatureInstaller splitFeatureInstaller;
     private Disposable splitFeatureInstallDisposable = Disposables.disposed();
     private final Boolean isSplitFeatureModeOn;
@@ -87,7 +88,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param activityProvider     actual Activity provider instance
      * @param eventDelegateManager screen event delegate manager instance
      */
-    public ActivityNavigator(ActivityProvider activityProvider,
+    public ActivityNavigator(Provider<AppCompatActivity> activityProvider,
                              ScreenEventDelegateManager eventDelegateManager) {
         this(activityProvider, eventDelegateManager, null, false);
     }
@@ -103,7 +104,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      *                              has already been deployed to Google Play. Otherwise, cross-feature
      *                              navigation won't work at all.
      */
-    public ActivityNavigator(ActivityProvider activityProvider,
+    public ActivityNavigator(Provider<AppCompatActivity> activityProvider,
                              ScreenEventDelegateManager eventDelegateManager,
                              SplitFeatureInstaller splitFeatureInstaller,
                              Boolean isSplitFeatureModeOn) {

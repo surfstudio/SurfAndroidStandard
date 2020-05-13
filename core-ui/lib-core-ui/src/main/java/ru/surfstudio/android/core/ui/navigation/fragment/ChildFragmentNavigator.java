@@ -17,12 +17,13 @@ package ru.surfstudio.android.core.ui.navigation.fragment;
 
 
 import androidx.annotation.IdRes;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import ru.surfstudio.android.core.ui.FragmentContainer;
-import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.provider.FragmentProvider;
+import ru.surfstudio.android.core.ui.provider.Provider;
 
 /**
  * позволяет осуществлять навигацияю между фрагментами внутри фрагмента
@@ -34,7 +35,7 @@ import ru.surfstudio.android.core.ui.provider.FragmentProvider;
 public class ChildFragmentNavigator extends FragmentNavigator {
     private final FragmentProvider fragmentProvider;
 
-    public ChildFragmentNavigator(ActivityProvider activityProvider,
+    public ChildFragmentNavigator(Provider<AppCompatActivity> activityProvider,
                                   FragmentProvider fragmentProvider) {
         super(activityProvider);
         this.fragmentProvider = fragmentProvider;

@@ -19,6 +19,7 @@ import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.core.mvp.error.ErrorHandler;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator;
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator;
 import ru.surfstudio.android.core.ui.state.ScreenState;
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider;
 
@@ -34,7 +35,7 @@ public class BasePresenterDependency {
 
     private ErrorHandler errorHandler;
 
-    private ActivityNavigator activityNavigator;
+    private IActivityNavigator activityNavigator;
     private ConnectionProvider connectionProvider;
 
     public BasePresenterDependency(SchedulersProvider schedulersProvider,
@@ -42,7 +43,7 @@ public class BasePresenterDependency {
                                    ScreenEventDelegateManager eventDelegateManager,
                                    ErrorHandler errorHandler,
                                    ConnectionProvider connectionProvider,
-                                   ActivityNavigator activityNavigator) {
+                                   IActivityNavigator activityNavigator) {
         this.schedulersProvider = schedulersProvider;
         this.screenState = screenState;
         this.eventDelegateManager = eventDelegateManager;
@@ -59,7 +60,7 @@ public class BasePresenterDependency {
         return eventDelegateManager;
     }
 
-    public ActivityNavigator getActivityNavigator() {
+    public IActivityNavigator getActivityNavigator() {
         return activityNavigator;
     }
 

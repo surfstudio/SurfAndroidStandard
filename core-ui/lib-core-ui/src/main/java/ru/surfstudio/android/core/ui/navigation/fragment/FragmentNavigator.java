@@ -19,6 +19,7 @@ package ru.surfstudio.android.core.ui.navigation.fragment;
 import androidx.annotation.IdRes;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -29,7 +30,7 @@ import java.lang.annotation.RetentionPolicy;
 import ru.surfstudio.android.core.ui.FragmentContainer;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute;
-import ru.surfstudio.android.core.ui.provider.ActivityProvider;
+import ru.surfstudio.android.core.ui.provider.Provider;
 
 import static android.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE;
 import static android.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
@@ -40,14 +41,14 @@ import static android.app.FragmentTransaction.TRANSIT_NONE;
  * позволяет осуществлять навигацияю между фрагментами
  */
 public class FragmentNavigator implements Navigator {
-    protected final ActivityProvider activityProvider;
+    protected final Provider<AppCompatActivity> activityProvider;
 
     @IntDef({TRANSIT_NONE, TRANSIT_FRAGMENT_OPEN, TRANSIT_FRAGMENT_CLOSE, TRANSIT_FRAGMENT_FADE})
     @Retention(RetentionPolicy.SOURCE)
     private @interface Transit {
     }
 
-    public FragmentNavigator(ActivityProvider activityProvider) {
+    public FragmentNavigator(Provider<AppCompatActivity> activityProvider) {
         this.activityProvider = activityProvider;
     }
 
