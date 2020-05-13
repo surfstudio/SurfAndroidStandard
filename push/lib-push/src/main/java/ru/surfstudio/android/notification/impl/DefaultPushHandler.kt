@@ -21,7 +21,7 @@ import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.notification.interactor.push.IntentPushDataConverter
-import ru.surfstudio.android.notification.interactor.push.PushInteractor
+import ru.surfstudio.android.notification.interactor.push.PushNotificationsListener
 import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
 import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 
@@ -33,7 +33,7 @@ import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 class DefaultPushHandler(
         private val activeActivityHolder: ActiveActivityHolder,
         private val pushHandleStrategyFactory: AbstractPushHandleStrategyFactory,
-        private val pushInteractor: PushInteractor
+        private val pushNotificationsListener: PushNotificationsListener
 ) : PushHandler {
 
     override fun handleMessage(context: Context, title: String, body: String, data: Map<String, String>) {
@@ -41,7 +41,7 @@ class DefaultPushHandler(
         val pushHandleStrategy = createStrategy(data)
 
         Logger.i("DefaultPushHandler пуш $activity \n $title \n pushStrategy = $pushHandleStrategy")
-        pushHandleStrategy?.handle(activity ?: context, pushInteractor, body.hashCode(), title, body)
+        pushHandleStrategy?.handle(activity ?: context, pushNotificationsListener, body.hashCode(), title, body)
     }
 
     /**
@@ -57,7 +57,7 @@ class DefaultPushHandler(
 
         pushHandleStrategy?.handle(
                 context = activity ?: context,
-                pushInteractor = pushInteractor,
+                pushNotificationsListener = pushNotificationsListener,
                 uniqueId = uniqueId,
                 title = title,
                 body = body

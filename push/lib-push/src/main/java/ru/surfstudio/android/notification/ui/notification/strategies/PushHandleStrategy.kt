@@ -25,7 +25,7 @@ import android.widget.RemoteViews
 import androidx.annotation.StringRes
 import ru.surfstudio.android.notification.R
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
-import ru.surfstudio.android.notification.interactor.push.PushInteractor
+import ru.surfstudio.android.notification.interactor.push.PushNotificationsListener
 import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGroup
 import java.io.Serializable
 import ru.surfstudio.android.notification.ui.notification.*
@@ -143,14 +143,14 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
      * Требуемое действие нотификации
      *
      * @param context текущий контекст
-     * @param pushInteractor пуш-интерактор
+     * @param pushNotificationsListener слушатель пуш-уведомлений
      * @param uniqueId уникальный идентификатор для уведомления, будет использован если не задан [pushId]
      * @param title заголовок пуш-нотификации
      * @param body текст пуш-нотификации
      */
     open fun handle(
             context: Context,
-            pushInteractor: PushInteractor,
+            pushNotificationsListener: PushNotificationsListener,
             uniqueId: Int,
             title: String,
             body: String
@@ -162,7 +162,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
         groupSummaryNotificationBuilder = makeGroupSummaryNotificationBuilder(context, title, body)
         pushId = makePushId(uniqueId)
         deleteIntent = makeDeleteIntent(context, group?.id)
-        pushInteractor.onNewNotification(typeData)
+        pushNotificationsListener.onNewPushNotification(typeData)
 
         if (context is Activity && handlePushInActivity(context)) return
 
@@ -173,7 +173,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
      * Требуемое действие нотификации
      *
      * @param context текущий контекст
-     * @param pushInteractor пуш-интерактор
+     * @param pushNotificationsListener слушатель пуш-уведомлений
      * @param title заголовок пуш-нотификации
      * @param body текст пуш-нотификации
      */
@@ -181,7 +181,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
             ReplaceWith("handle(context, pushInteractor, uniqueId, title, body"))
     open fun handle(
             context: Context,
-            pushInteractor: PushInteractor,
+            pushNotificationsListener: PushNotificationsListener,
             title: String,
             body: String
     ) {
@@ -189,7 +189,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
         pendingIntent = preparePendingIntent(context, title, -1)
         notificationBuilder = makeNotificationBuilder(context, title, body)
         channel = makeNotificationChannel(context, title)
-        pushInteractor.onNewNotification(typeData)
+        pushNotificationsListener.onNewPushNotification(typeData)
 
         if (context is Activity && handlePushInActivity(context)) return
 
