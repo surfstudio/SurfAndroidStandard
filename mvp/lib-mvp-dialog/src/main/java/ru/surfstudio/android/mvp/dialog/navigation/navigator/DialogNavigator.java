@@ -29,7 +29,7 @@ import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
 /**
  * позволяет открывать диалоги
  */
-public abstract class DialogNavigator implements Navigator {
+public abstract class DialogNavigator implements Navigator, IDialogNavigator {
 
     private Provider<AppCompatActivity> activityProvider;
     private ScreenPersistentScope screenPersistentScope;
