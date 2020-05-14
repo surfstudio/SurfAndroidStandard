@@ -2,6 +2,7 @@
 # Template Release Notes
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1040 fixed template build stage
 * ANDDEP-46 Added default BottomBarView implementation
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type to f-debug
 * ANDDEP-687 Added "com.google.dagger:dagger" dependency with "implementation" type to f-debug
