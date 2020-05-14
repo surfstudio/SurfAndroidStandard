@@ -34,6 +34,11 @@ import ru.surfstudio.android.imageloader.util.BlurStrategy
 interface ImageLoaderInterface {
 
     /**
+     * Загрузка изображения из сети без заголовков для вызова из Java кода
+     */
+    fun url(url: String): ImageLoaderInterface
+
+    /**
      * Загрузка изображения из сети
      *
      * @param url сетевая ссылка на изображение
