@@ -99,6 +99,8 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         fun with(context: Context) = ImageLoader(context)
     }
 
+    override fun url(url: String) = url(url, emptyMap())
+
     @Throws(IllegalArgumentException::class)
     override fun url(url: String, headers: Map<String, String>) =
             apply {
