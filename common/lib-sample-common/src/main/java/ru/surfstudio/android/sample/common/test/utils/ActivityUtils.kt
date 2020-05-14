@@ -33,7 +33,7 @@ object ActivityUtils {
         }
 
         if (currentActivity == null || currentActivity!!::class.java != activityClass) {
-            throw RuntimeException("$activityClass is not visible")
+            throw RuntimeException("activity ${activityClass.name} is not visible")
         }
     }
 }
