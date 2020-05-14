@@ -1725,7 +1725,7 @@
   {
     "id": "shared-pref",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "shared-pref",
     "libs": [
