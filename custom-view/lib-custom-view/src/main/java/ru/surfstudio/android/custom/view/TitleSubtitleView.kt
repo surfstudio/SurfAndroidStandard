@@ -26,8 +26,14 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat.getDrawable
 
 private const val DEFAULT_MAX_LINES: Int = 1
+
+private const val START_DRAWABLE_POSITION: Int = 0
+private const val TOP_DRAWABLE_POSITION: Int = 1
+private const val END_DRAWABLE_POSITION: Int = 2
+private const val BOTTOM_DRAWABLE_POSITION: Int = 3
 
 /**
  * Виджет для отображения текста с подписью
@@ -126,6 +132,54 @@ class TitleSubtitleView @JvmOverloads constructor(
         set(value) {
             field = value
             subTitleView.maxLines = value
+        }
+
+    var titleDrawableStart: Int = -1
+        set(value) {
+            field = value
+            setupDrawable(titleView, value, START_DRAWABLE_POSITION)
+        }
+
+    var subTitleDrawableStart: Int = -1
+        set(value) {
+            field = value
+            setupDrawable(subTitleView, value, START_DRAWABLE_POSITION)
+        }
+
+    var titleDrawableTop: Int = -1
+        set(value) {
+            field = value
+            setupDrawable(titleView, value, TOP_DRAWABLE_POSITION)
+        }
+
+    var subTitleDrawableTop: Int = -1
+        set(value) {
+            field = value
+            setupDrawable(subTitleView, value, TOP_DRAWABLE_POSITION)
+        }
+
+    var titleDrawableEnd: Int = -1
+        set(value) {
+            field = value
+            setupDrawable(titleView, value, END_DRAWABLE_POSITION)
+        }
+
+    var subTitleDrawableEnd: Int = -1
+        set(value) {
+            field = value
+            setupDrawable(subTitleView, value, END_DRAWABLE_POSITION)
+        }
+
+    var titleDrawableBottom: Int = -1
+        set(value) {
+            field = value
+            setupDrawable(titleView, value, BOTTOM_DRAWABLE_POSITION)
+        }
+
+    var subTitleDrawableBottom: Int = -1
+        set(value) {
+            field = value
+            setupDrawable(subTitleView, value, BOTTOM_DRAWABLE_POSITION)
         }
 
     var onTitleClickListenerCallback: ((String) -> Unit)? = null
@@ -305,4 +359,53 @@ class TitleSubtitleView @JvmOverloads constructor(
                 2 -> View.GONE
                 else -> View.VISIBLE
             }
+
+    private fun setupDrawable(
+            textView: TextView,
+            drawableId: Int,
+            drawablePosition: Int
+    ) {
+        val textViewDrawables = textView.compoundDrawables
+        textViewDrawables[drawablePosition] = getDrawable(context, drawableId)
+        textView.setCompoundDrawablesWithIntrinsicBounds(
+                textViewDrawables[START_DRAWABLE_POSITION],
+                textViewDrawables[TOP_DRAWABLE_POSITION],
+                textViewDrawables[END_DRAWABLE_POSITION],
+                textViewDrawables[BOTTOM_DRAWABLE_POSITION]
+        )
+    }
+
+    private fun setDrawables(
+            textView: TextView,
+            startDrawableId: Int = 0,
+            topDrawableId: Int = 0,
+            endDrawableId: Int = 0,
+            bottomDrawableId: Int = 0
+    ) {
+        val textViewDrawables = textView.compoundDrawables
+        textView.setCompoundDrawablesWithIntrinsicBounds(
+                if (startDrawableId != 0) getDrawable(context, startDrawableId) else textViewDrawables[START_DRAWABLE_POSITION],
+                if (topDrawableId != 0) getDrawable(context, topDrawableId) else textViewDrawables[TOP_DRAWABLE_POSITION],
+                if (endDrawableId != 0) getDrawable(context, endDrawableId) else textViewDrawables[END_DRAWABLE_POSITION],
+                if (bottomDrawableId != 0) getDrawable(context, bottomDrawableId) else textViewDrawables[BOTTOM_DRAWABLE_POSITION]
+        )
+    }
+
+    fun setTitleDrawables(
+            startDrawableId: Int = 0,
+            topDrawableId: Int = 0,
+            endDrawableId: Int = 0,
+            bottomDrawableId: Int = 0
+    ) {
+        setDrawables(titleView, startDrawableId, topDrawableId, endDrawableId, bottomDrawableId)
+    }
+
+    fun setSubTitleDrawables(
+            startDrawableId: Int = 0,
+            topDrawableId: Int = 0,
+            endDrawableId: Int = 0,
+            bottomDrawableId: Int = 0
+    ) {
+        setDrawables(subTitleView, startDrawableId, topDrawableId, endDrawableId, bottomDrawableId)
+    }
 }
