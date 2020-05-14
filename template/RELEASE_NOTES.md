@@ -43,6 +43,7 @@
   `PaginationFooterItemController` instead for using
   `easyadapter-pagination` module
 * ANDDEP-1057 Update androidStandardVersion
+* ANDDEP-1039 Removed extra .gitignore and proguard-rules.pro files
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
