@@ -17,12 +17,5 @@ class TitleSubtitleViewDemoActivity : AppCompatActivity() {
         )
 
         fifth_tsv.subTitleStartDrawableId = R.drawable.ic_brightness_7_red_24dp
-
-        sixth_tsv.titleStartDrawable = getDrawable(this, R.drawable.ic_brightness_7_red_24dp)
-
-        seventh_tsv.setSubTitleDrawables(
-                topDrawable = getDrawable(this, R.drawable.ic_brightness_7_red_24dp),
-                bottomDrawable = getDrawable(this, R.drawable.ic_brightness_7_red_24dp)
-        )
     }
 }
