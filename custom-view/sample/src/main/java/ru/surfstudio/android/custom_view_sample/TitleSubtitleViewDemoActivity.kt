@@ -3,6 +3,7 @@ package ru.surfstudio.android.custom_view_sample
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_tv.*
+import androidx.core.content.ContextCompat.getDrawable
 
 class TitleSubtitleViewDemoActivity : AppCompatActivity() {
 
@@ -15,6 +16,13 @@ class TitleSubtitleViewDemoActivity : AppCompatActivity() {
                 endDrawableId = R.drawable.ic_brightness_7_red_24dp
         )
 
-        fifth_tsv.subTitleDrawableStart = R.drawable.ic_brightness_7_red_24dp
+        fifth_tsv.subTitleStartDrawableId = R.drawable.ic_brightness_7_red_24dp
+
+        sixth_tsv.titleStartDrawable = getDrawable(this, R.drawable.ic_brightness_7_red_24dp)
+
+        seventh_tsv.setSubTitleDrawables(
+                topDrawable = getDrawable(this, R.drawable.ic_brightness_7_red_24dp),
+                bottomDrawable = getDrawable(this, R.drawable.ic_brightness_7_red_24dp)
+        )
     }
 }

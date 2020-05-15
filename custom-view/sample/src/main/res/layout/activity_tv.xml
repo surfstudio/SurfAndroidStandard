@@ -33,5 +33,13 @@
             android:id="@+id/fifth_tsv"
             style="@style/SampleTitleSubtitleViewStyle" />
 
+        <ru.surfstudio.android.custom.view.TitleSubtitleView
+            android:id="@+id/sixth_tsv"
+            style="@style/SampleTitleSubtitleViewStyle" />
+
+        <ru.surfstudio.android.custom.view.TitleSubtitleView
+            android:id="@+id/seventh_tsv"
+            style="@style/SampleTitleSubtitleViewStyle" />
+
     </LinearLayout>
 </ScrollView>
