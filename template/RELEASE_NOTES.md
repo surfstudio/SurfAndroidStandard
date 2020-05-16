@@ -43,6 +43,7 @@
   `PaginationFooterItemController` instead for using
   `easyadapter-pagination` module
 * ANDDEP-1057 Update androidStandardVersion
+* Fixed fast switching states between NONE and other
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
