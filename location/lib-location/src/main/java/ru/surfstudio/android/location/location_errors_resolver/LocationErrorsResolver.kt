@@ -22,7 +22,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.Locat
 /**
  * Утилита для решения проблем, связанных с невозможностью получения местоположения.
  */
-internal object LocationErrorsResolver {
+public object LocationErrorsResolver {
 
     /**
      * Решить проблемы, связанные с невозможностью получения местоположения.

@@ -10,7 +10,6 @@ import io.reactivex.Single
 import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.location.domain.CurrentLocationRequest
 import ru.surfstudio.android.location.domain.LastKnownLocationRequest
@@ -26,13 +25,13 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Интерактор, содержащий методы для наиболее частых случаев использования. Для более гибкой настройки следует
- * использовать [LocationService].
+ * использовать [ILocationService].
  */
 class DefaultLocationInteractor(
         private val permissionManager: PermissionManager,
         private val screenEventDelegateManager: ScreenEventDelegateManager,
         private val activityProvider: Provider<AppCompatActivity>,
-        private val locationService: LocationService
+        private val locationService: ILocationService
 ) {
 
     private var lastCurrentLocation: Location? = null

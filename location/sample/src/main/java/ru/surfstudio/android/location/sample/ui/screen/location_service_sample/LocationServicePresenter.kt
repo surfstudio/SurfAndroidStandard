@@ -12,6 +12,7 @@ import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.Provider
+import ru.surfstudio.android.location.ILocationService
 import ru.surfstudio.android.location.LocationService
 import ru.surfstudio.android.location.domain.LocationPriority
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
@@ -30,7 +31,7 @@ class LocationServicePresenter(
         permissionManager: PermissionManager,
         activityProvider: Provider<AppCompatActivity>,
         commonLocationPermissionRequest: CommonLocationPermissionRequest,
-        private val locationService: LocationService
+        private val locationService: ILocationService
 ) : BaseSamplePresenter<LocationServiceActivityView>(basePresenterDependency) {
 
     private val resolutions = mutableListOf<LocationErrorResolution<*>>()
