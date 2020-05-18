@@ -19,7 +19,7 @@ import android.content.Intent;
 
 import java.io.Serializable;
 
-import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
+import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute;
 
 /**
  * см {@link ActivityRoute}

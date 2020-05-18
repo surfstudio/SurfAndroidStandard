@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.ui.event.result;
+package ru.surfstudio.android.core.ui.navigation.event.result;
 
 
 import android.content.Intent;

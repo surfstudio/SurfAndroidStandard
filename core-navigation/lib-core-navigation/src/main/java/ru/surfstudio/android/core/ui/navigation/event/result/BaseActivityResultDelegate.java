@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.ui.event.result;
+package ru.surfstudio.android.core.ui.navigation.event.result;
 
 
 import android.app.Activity;
@@ -28,6 +28,7 @@ import java.util.Set;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
+import ru.surfstudio.android.core.ui.event.result.ActivityResultDelegate;
 import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.logger.Logger;
 
