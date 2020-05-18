@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.sample.ui.screen.main
+package ru.surfstudio.android.core.navigation.sample.ui.screen.profile
 
 import android.content.Intent
 import dagger.Component
@@ -11,24 +11,24 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivity
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
 /**
- * Конфигуратор активити главного экрана
+ * Конфигуратор экрана профиля
  */
-internal class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
+internal class ProfileScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
     @PerScreen
     @Component(dependencies = [DefaultActivityComponent::class],
-            modules = [DefaultActivityScreenModule::class, MainScreenModule::class])
-    internal interface MainScreenComponent : ScreenComponent<MainActivityView>
+            modules = [DefaultActivityScreenModule::class, ProfileScreenModule::class])
+    internal interface ProfileScreenComponent : ScreenComponent<ProfileActivityView>
 
     @Module
-    internal class MainScreenModule
+    internal class ProfileScreenModule(route: ProfileRoute) : DefaultCustomScreenModule<ProfileRoute>(route)
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
-        return DaggerMainScreenConfigurator_MainScreenComponent.builder()
+        return DaggerProfileScreenConfigurator_ProfileScreenComponent.builder()
                 .defaultActivityComponent(defaultActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)
-                .mainScreenModule(MainScreenModule())
+                .profileScreenModule(ProfileScreenModule(ProfileRoute(intent)))
                 .build()
     }
 }
