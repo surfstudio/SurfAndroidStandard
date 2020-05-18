@@ -16,8 +16,8 @@
 package ru.surfstudio.android.core.ui.navigation.feature.route.feature
 
 import android.content.Intent
-import ru.surfstudio.android.core.ui.event.result.CrossFeatureSupportOnActivityResultRoute
-import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
+import ru.surfstudio.android.core.ui.navigation.event.result.CrossFeatureSupportOnActivityResultRoute
+import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature.ActivityDynamicCrossFeatureRoute
 import java.io.Serializable
 

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-	package="ru.surfstudio.android.core.ui"
+	package="ru.surfstudio.android.core.ui.permission"
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	
 	<application>
 		
 		<activity
-			android:name=".permission.screens.default_permission_rational.DefaultPermissionRationalActivity"
+			android:name=".screens.default_permission_rational.DefaultPermissionRationalActivity"
 			android:theme="@style/Theme.AppCompat.Translucent"
 			android:excludeFromRecents="true"/>
 		
 		<activity
-			android:name=".permission.screens.settings_rational.DefaultSettingsRationalActivity"
+			android:name=".screens.settings_rational.DefaultSettingsRationalActivity"
 			android:theme="@style/Theme.AppCompat.Translucent"
 			android:excludeFromRecents="true"/>
 		
