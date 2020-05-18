@@ -9,10 +9,9 @@ import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.location.LocationService
+import ru.surfstudio.android.location.ILocationService
 import ru.surfstudio.android.location.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.location.sample.ui.base.dagger.activity.CustomActivityComponent
 import ru.surfstudio.android.location.sample.ui.screen.common.CommonLocationPermissionRequest
@@ -38,7 +37,7 @@ class LocationServiceScreenConfigurator(intent: Intent) : CustomActivityScreenCo
                 permissionManager: PermissionManager,
                 activityProvider: Provider<AppCompatActivity>,
                 commonLocationPermissionRequest: CommonLocationPermissionRequest,
-                locationService: LocationService
+                locationService: ILocationService
         ) = LocationServicePresenter(
                 basePresenterDependency,
                 screenEventDelegateManager,

@@ -5,6 +5,7 @@ import android.location.Location
 import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.location.ILocationService
 import ru.surfstudio.android.location.LocationService
 import ru.surfstudio.android.location.sample.ui.screen.common.CommonLocationPermissionRequest
 
@@ -12,7 +13,7 @@ import ru.surfstudio.android.location.sample.ui.screen.common.CommonLocationPerm
 class TestLocationModule {
 
     @Provides
-    internal fun provideLocationService(context: Context): LocationService {
+    internal fun provideLocationService(context: Context): ILocationService {
         return LocationService(
                 context,
                 LocationServices.getFusedLocationProviderClient(context).apply {

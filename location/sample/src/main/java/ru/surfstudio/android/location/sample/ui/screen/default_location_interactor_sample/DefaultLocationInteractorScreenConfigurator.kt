@@ -12,7 +12,7 @@ import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.location.DefaultLocationInteractor
-import ru.surfstudio.android.location.LocationService
+import ru.surfstudio.android.location.ILocationService
 import ru.surfstudio.android.location.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.location.sample.ui.base.dagger.activity.CustomActivityComponent
 import ru.surfstudio.android.location.sample.ui.screen.common.CommonLocationPermissionRequest
@@ -37,7 +37,7 @@ class DefaultLocationInteractorScreenConfigurator(intent: Intent) : CustomActivi
                 permissionManager: PermissionManager,
                 screenEventDelegateManager: ScreenEventDelegateManager,
                 activityProvider: Provider<AppCompatActivity>,
-                locationService: LocationService
+                locationService: ILocationService
         ) = DefaultLocationInteractor(permissionManager, screenEventDelegateManager, activityProvider, locationService)
 
         @Provides
