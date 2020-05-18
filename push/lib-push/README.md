@@ -1,4 +1,4 @@
-[Главная](../docs/main.md)
+[Главная](../../docs/main.md)
 
 [TOC]
 
@@ -18,7 +18,7 @@
    с помощью `pushHandler.handleMessage()`
 5. Зарегистрировать [`PushEventListener`][pushListener] в Application, с его помощью можно установить необходимые действия при открытии или отклонения пуша. [Пример][pushListenerimpl]
 6. Чтобы группировать пуш-уведомления проинициализируйте свойство group у PushHandleStrategy. Данное свойство указывает к какой группе будет принадлежать пуш.
-[Пример использования](../firebase-sample)
+[Пример использования](../../push/sample)
 
 ## Release Notes
 
@@ -29,6 +29,6 @@ Gradle:
     implementation "ru.surfstudio.android:push:X.X.X"
 ```
 
-[nm]: ../firebase-sample/src/main/java/ru/surfstudio/android/firebase/sample/app/dagger/NotificationModule.kt
+[nm]: ../../push/sample/src/main/java/ru/surfstudio/android/push/sample/app/dagger/NotificationModule.kt
 [pushlistener]: src/main/java/ru/surfstudio/android/notification/ui/PushEventListener.kt
-[pushListenerimpl]: ../template/base_feature/src/main/java/ru/surfstudio/standard/application/app/App.kt
+[pushListenerimpl]: ../../template/base_feature/src/main/java/ru/surfstudio/standard/application/app/App.kt
