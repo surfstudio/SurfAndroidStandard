@@ -62,6 +62,8 @@ task generateDataForPlugin(type: GenerateDataForPluginTask) //dev //project-snap
 
 task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //dev
 
+task generateProjectConfigurationVersionFileTask(type: GenerateProjectConfigurationVersionFileTask) //dev
+
 task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask) // project-snapshot
 
 task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion) //pr //release

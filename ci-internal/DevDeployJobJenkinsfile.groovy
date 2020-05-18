@@ -131,6 +131,10 @@ pipeline.stages = [
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
             script.sh("./gradlew incrementGlobalUnstableVersion")
         },
+        pipeline.stage(INCREMENT_TEMPLATE_VERSION_PLUGIN) {
+            script.sh("./gradlew incrementGlobalUnstableVersion")
+            //todo update template version
+        },
         pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
