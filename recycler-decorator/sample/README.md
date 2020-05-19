@@ -1,3 +1,3 @@
 # Recycler-decorator Sample
 
-Пример использования модуля [recycler decorator](../recycler-decorator)
+Пример использования модуля [recycler decorator](../lib-recycler-decorator)

@@ -1,4 +1,4 @@
-[Главная страница репозитория](../docs/main.md)
+[Главная страница репозитория](/docs/main.md)
 
 [TOC]
 
@@ -38,7 +38,7 @@ Gradle:
 
 #### Использование
 
-[Пример использования](../core-mvp-sample)
+[Пример использования](../sample-core-mvp)
 
 
-[async]: ../docs/common/async.md
+[async]: /docs/common/async.md

@@ -2,7 +2,7 @@
 Модуль c утилитами для `SharedPreferences`
 
 # Использование
-[Пример использования](../shared-pref-sample)
+[Пример использования](../sample)
 
 Для того, чтобы работали `NO_BACKUP_SHARED_PREF`, необходимо:
 * Создать файл `backup_scheme.xml`, в котором

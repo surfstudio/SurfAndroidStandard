@@ -1,4 +1,4 @@
-[Главная страница репозитория](../docs/main.md)
+[Главная страница репозитория](/docs/main.md)
 
 [TOC]
 
@@ -10,7 +10,7 @@
  1. [`DefaultMessageController`][default]
 
 # Использование
-[Пример использования](../message-controller-sample)
+[Пример использования](../sample)
 
 # Подключение
 Gradle:

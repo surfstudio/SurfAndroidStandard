@@ -1,4 +1,4 @@
-[Главная страница репозитория](../docs/main.md)
+[Главная страница репозитория](/docs/main.md)
 
 [TOC]
 
@@ -51,7 +51,7 @@ Gradle:
                .url(IMAGE_URL)
                .into(imageView)
 
-[Пример использования](../imageloader-sample)
+[Пример использования](../sample)
 
 ## ДОКУМЕНТАЦИЯ
 

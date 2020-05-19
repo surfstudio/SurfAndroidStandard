@@ -2,8 +2,8 @@
 
 # Пример создания собственного Scope
 
-Используются студийные [Scope](../dagger-scope/README.md).
-Общая информация об использовании [здесь](../docs/common/di.md).
+Используются студийные [Scope](../lib-dagger-scope/README.md).
+Общая информация об использовании [здесь](/docs/common/di.md).
 
 В данном примере некоторый объект [`EmailData`][ld] живет дольше, чем две активити,
 но меньше чем приложение. Например, это могут быть данные , который заполнил пользователь.
@@ -57,5 +57,5 @@ AppComponent.
 [lss]: src/main/java/ru/surfstudio/android/custom_scope_sample/ui/base/LoginScopeStorage.kt
 [pl]: src/main/java/ru/surfstudio/android/custom_scope_sample/ui/base/dagger/scope/PerLogin.kt
 [asc]: src/main/java/ru/surfstudio/android/custom_scope_sample/ui/base/configurator/ActivityScreenConfigurator.java
-[lcomp]: src/main/java/ru/surfstudio/android/custom_scope_sample/ui/base/dagger/login/LoginScreenComponent.kt
+[lcomp]: src/main/java/ru/surfstudio/android/custom_scope_sample/ui/base/dagger/login/LoginComponent.kt
 [lasc]: src/main/java/ru/surfstudio/android/custom_scope_sample/ui/base/configurator/LoginActivityScreenConfigurator.java

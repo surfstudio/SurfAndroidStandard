@@ -1,4 +1,4 @@
-[Главная](../../main.md)
+[Главная](/docs/main.md)
 
 [TOC]
 
@@ -113,7 +113,7 @@ f2 - преобразование значение со стороны през�
 [pmexist]: https://habr.com/company/mobileup/blog/342850/
 [pmenter]: https://habr.com/company/mobileup/blog/326962/
 [pmscheme]: https://habrastorage.org/webt/rz/nb/rh/rznbrht-4vw_74h6wzrjrui8upk.png
-[related]: src/main/java/ru/surfstudio/android/core/mvp/rx/domain/Relation.kt
+[related]: src/main/java/ru/surfstudio/android/core/mvp/binding/rx/relation/Relation.kt
 [rxkotlin]: https://github.com/ReactiveX/RxKotlin
 
 
@@ -129,7 +129,7 @@ f2 - преобразование значение со стороны през�
 * [`BaseBindingPresenter`][bbp]
 
 # Использование
-[Пример использования](../core-mvp-binding-sample)
+[Пример использования](../sample)
 
 # Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru)
