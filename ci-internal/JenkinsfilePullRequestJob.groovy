@@ -53,7 +53,6 @@ final String TEMP_FOLDER_NAME = "temp"
 def stagesForProjectMode = [
         PRE_MERGE,
         RELEASE_NOTES_DIFF,
-        BUILD,
         UNIT_TEST
 ]
 def stagesForReleaseMode = [
@@ -64,11 +63,9 @@ def stagesForReleaseMode = [
         CHECK_RELEASE_NOTES_VALID,
         CHECK_RELEASE_NOTES_CHANGED,
         CHECKS_RESULT,
-        BUILD,
         UNIT_TEST,
         INSTRUMENTATION_TEST,
         STATIC_CODE_ANALYSIS,
-        BUILD_TEMPLATE,
         INSTRUMENTATION_TEST_TEMPLATE
 ]
 def stagesForTargetBranchChangedMode = [
@@ -246,20 +243,6 @@ pipeline.stages = [
                 throw script.error("Checks Failed, see reason above ^^^")
             }
         },
-
-        pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
-        },
-        pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=true\n" +
-                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
-            /**
-             * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
-             * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
-             */
-            script.sh("./gradlew -p template clean build assembleQa assembleDebug --stacktrace")
-        },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
@@ -297,9 +280,6 @@ pipeline.stages = [
                             0
                     )
             )
-        },
-        pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         }
 ]
 pipeline.finalizeBody = {
