@@ -239,6 +239,21 @@ pipeline.stages = [
                 throw script.error("Checks Failed, see reason above ^^^")
             }
         },
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                    script,
+                    new AvdConfig(),
+                    "debug",
+                    getTestInstrumentationRunnerName,
+                    new AndroidTestConfig(
+                            "assembleAndroidTest",
+                            "build/outputs/androidTest-results/instrumental",
+                            "build/reports/androidTests/instrumental",
+                            true,
+                            0
+                    )
+            )
+        },
         pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.dir("template") {
                 AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
@@ -255,22 +270,8 @@ pipeline.stages = [
                         )
                 )
             }
-        },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
         }
+
 ]
 pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
