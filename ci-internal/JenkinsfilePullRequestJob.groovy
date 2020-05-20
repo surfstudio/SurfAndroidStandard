@@ -239,25 +239,6 @@ pipeline.stages = [
                 throw script.error("Checks Failed, see reason above ^^^")
             }
         },
-
-        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.dir("template") {
-                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                        script,
-                        new AvdConfig(),
-                        "debug",
-                        getTestInstrumentationRunnerName,
-                        new AndroidTestConfig(
-                                "assembleAndroidTest",
-                                "build/outputs/androidTest-results/instrumentalTemplateQ",
-                                "build/reports/androidTests/instrumentalTemplateQ",
-                                true,
-                                0
-                        ),
-                       "Template instrumentation test "
-                )
-            }
-        },
         pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
