@@ -6,6 +6,10 @@ import ru.surfstudio.ci.*
 //  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
+@Library('surf-lib@version-3.0.0-SNAPSHOT')
+//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+
+import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.pipeline.pr.PrPipeline
@@ -249,6 +253,23 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
+        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.dir("template") {
+                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                        script,
+                        new AvdConfig(),
+                        "debug",
+                        getTestInstrumentationRunnerName,
+                        new AndroidTestConfig(
+                                "assembleAndroidTest",
+                                "build/outputs/androidTest-results/instrumentalTemplateQ",
+                                "build/reports/androidTests/instrumentalTemplateQ",
+                                true,
+                                0
+                        )
+                )
+            }
+        },
         pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
@@ -263,23 +284,6 @@ pipeline.stages = [
                             0
                     )
             )
-        },
-        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.dir("template") {
-                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                        script,
-                        new AvdConfig(),
-                        "debug",
-                        getTestInstrumentationRunnerName,
-                        new AndroidTestConfig(
-                                "assembleAndroidTest",
-                                "build/outputs/androidTest-results/instrumentalTemplate",
-                                "build/reports/androidTests/instrumentalTemplate",
-                                true,
-                                0
-                        )
-                )
-            }
         }
 ]
 pipeline.finalizeBody = {
