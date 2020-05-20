@@ -1,4 +1,28 @@
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
+@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
+//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+
+import ru.surfstudio.ci.*
+@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
+//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+
+import ru.surfstudio.ci.*
+@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
+//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+
+import ru.surfstudio.ci.*
+@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
+//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+
+import ru.surfstudio.ci.*
+@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
+//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+
+import ru.surfstudio.ci.*
+@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
+//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+
+import ru.surfstudio.ci.*
+@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
 //  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
@@ -239,22 +263,7 @@ pipeline.stages = [
                 throw script.error("Checks Failed, see reason above ^^^")
             }
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    "Q Inst tests",
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
-        },
+
         pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.dir("template") {
                 AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
@@ -272,8 +281,23 @@ pipeline.stages = [
                         )
                 )
             }
+        },
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                    "Q Inst tests",
+                    script,
+                    new AvdConfig(),
+                    "debug",
+                    getTestInstrumentationRunnerName,
+                    new AndroidTestConfig(
+                            "assembleAndroidTest",
+                            "build/outputs/androidTest-results/instrumental",
+                            "build/reports/androidTests/instrumental",
+                            true,
+                            0
+                    )
+            )
         }
-
 ]
 pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
