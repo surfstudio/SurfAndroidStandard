@@ -245,23 +245,6 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.dir("template") {
-                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                        script,
-                        new AvdConfig(),
-                        "debug",
-                        getTestInstrumentationRunnerName,
-                        new AndroidTestConfig(
-                                "assembleAndroidTest",
-                                "build/outputs/androidTest-results/instrumental",
-                                "build/reports/androidTests/instrumental",
-                                true,
-                                0
-                        )
-                )
-            }
-        },
         pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
