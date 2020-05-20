@@ -2,14 +2,6 @@
 //  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
-//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
-
-import ru.surfstudio.ci.*
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
-//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
-
-import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.pipeline.pr.PrPipeline
@@ -246,12 +238,6 @@ pipeline.stages = [
             if (!checksPassed) {
                 throw script.error("Checks Failed, see reason above ^^^")
             }
-        },
-        pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
-                    "testReleaseUnitTest",
-                    "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
         },
         pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.dir("template") {
