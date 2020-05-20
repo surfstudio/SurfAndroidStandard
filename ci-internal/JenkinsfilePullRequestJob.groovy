@@ -2,30 +2,6 @@
 //  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
-@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
-//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
-
-import ru.surfstudio.ci.*
-@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
-//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
-
-import ru.surfstudio.ci.*
-@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
-//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
-
-import ru.surfstudio.ci.*
-@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
-//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
-
-import ru.surfstudio.ci.*
-@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
-//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
-
-import ru.surfstudio.ci.*
-@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
-//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
-
-import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.pipeline.pr.PrPipeline
