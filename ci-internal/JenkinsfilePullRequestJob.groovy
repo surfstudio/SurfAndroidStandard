@@ -243,7 +243,6 @@ pipeline.stages = [
         pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.dir("template") {
                 AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                        "Q Template inst tests",
                         script,
                         new AvdConfig(),
                         "debug",
@@ -254,13 +253,13 @@ pipeline.stages = [
                                 "build/reports/androidTests/instrumentalTemplateQ",
                                 true,
                                 0
-                        )
+                        ),
+                       "INSTRUMENTATION TEST TEMPLATE"
                 )
             }
         },
         pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    "Q Inst tests",
                     script,
                     new AvdConfig(),
                     "debug",
