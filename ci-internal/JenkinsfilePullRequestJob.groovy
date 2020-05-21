@@ -1,5 +1,4 @@
-import ru.surfstudio.ci.*
-@Library('surf-lib@ANDDEP-389-fix-archiving-unit-test-results-jenkins-TEST')
+@Library('surf-lib@version-3.0.0-SNAPSHOT')
 //  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
@@ -8,6 +7,8 @@ import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.pipeline.pr.PrPipeline
 import ru.surfstudio.ci.stage.SimpleStage
 import ru.surfstudio.ci.stage.StageStrategy
+import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
+import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
@@ -252,6 +253,9 @@ pipeline.stages = [
                             0
                     )
             )
+        },
+        pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
+            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         }
 ]
 pipeline.finalizeBody = {
