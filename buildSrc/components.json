@@ -189,7 +189,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -238,6 +238,14 @@
           },
           {
             "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "permission",
             "type": "implementation"
           },
           {
@@ -291,6 +299,14 @@
           },
           {
             "name": "core-ui",
+            "type": "api"
+          },
+          {
+            "name": "core-navigation",
+            "type": "api"
+          },
+          {
+            "name": "permission",
             "type": "api"
           },
           {
@@ -456,7 +472,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 23,
+    "unstable_version": 24,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -477,6 +493,10 @@
         "android_standard_dependencies": [
           {
             "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
             "type": "implementation"
           },
           {
@@ -558,6 +578,10 @@
             "type": "implementation"
           },
           {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
             "name": "core-mvp",
             "type": "implementation"
           },
@@ -596,7 +620,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 17,
+    "unstable_version": 18,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -648,6 +672,10 @@
             "type": "implementation"
           },
           {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
             "name": "core-mvp",
             "type": "implementation"
           },
@@ -682,7 +710,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -697,10 +725,6 @@
           },
           {
             "name": "androidx.appcompat:appcompat",
-            "type": "implementation"
-          },
-          {
-            "name": "com.google.android.play:core",
             "type": "implementation"
           },
           {
@@ -744,6 +768,106 @@
     ],
     "has_mirror": true,
     "mirror_repo": "https://github.com/surfstudio/Core-ui"
+  },
+  {
+    "id": "core-navigation",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "core-navigation",
+    "libs": [
+      {
+        "name": "core-navigation",
+        "dir": "lib-core-navigation",
+        "artifact_name": "core-navigation",
+        "third_party_dependencies": [
+          {
+            "name": "com.agna.ferro:ferro-rx",
+            "type": "implementation"
+          },
+          {
+            "name": "com.google.android.play:core",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "activity-holder",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "core-navigation-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "permission",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "permission",
+    "libs": [
+      {
+        "name": "permission",
+        "dir": "lib-permission",
+        "artifact_name": "permission",
+        "third_party_dependencies": [
+          {
+            "name": "com.agna.ferro:ferro-rx",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "activity-holder",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "permission-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
   },
   {
     "id": "custom-view",
@@ -1047,7 +1171,7 @@
   {
     "id": "location",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "location",
     "libs": [
@@ -1064,6 +1188,10 @@
         "android_standard_dependencies": [
           {
             "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "permission",
             "type": "implementation"
           },
           {
@@ -1138,7 +1266,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 11,
+    "unstable_version": 12,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1212,6 +1340,10 @@
           {
             "name": "core-ui",
             "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
           }
         ]
       },
@@ -1281,6 +1413,10 @@
           },
           {
             "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
             "type": "implementation"
           },
           {
@@ -1424,7 +1560,7 @@
   {
     "id": "picture-provider",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "picture-provider",
     "libs": [
@@ -1445,6 +1581,14 @@
           },
           {
             "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "permission",
             "type": "implementation"
           },
           {
@@ -1725,7 +1869,7 @@
   {
     "id": "shared-pref",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "shared-pref",
     "libs": [
@@ -1759,7 +1903,7 @@
   {
     "id": "standard-dialog",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "standard-dialog",
     "libs": [
@@ -1776,6 +1920,10 @@
         "android_standard_dependencies": [
           {
             "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
             "type": "implementation"
           },
           {
@@ -1842,7 +1990,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 26,
+    "unstable_version": 27,
     "stable": false,
     "dir": "template",
     "libs": [],
