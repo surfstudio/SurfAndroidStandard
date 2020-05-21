@@ -33,6 +33,7 @@ class MviSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.j
 
     @Test
     fun testInputFormActivityViewWithEmptyInput() {
+        Thread.sleep(1000)
         performClick(R.id.main_open_input_form_btn)
         checkIfActivityIsVisible(InputFormActivityView::class.java)
         performClick(R.id.submit_btn)
