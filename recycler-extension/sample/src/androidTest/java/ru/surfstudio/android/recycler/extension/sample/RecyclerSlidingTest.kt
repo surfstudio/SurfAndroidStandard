@@ -14,7 +14,12 @@ internal class RecyclerSlidingTest : BaseSampleTest<SlidingItemsActivity>(Slidin
 
     @Test
     fun testSliding() {
-
+        onView(
+                allOf(
+                        withId(R.id.sliding_item_title_tv),
+                        withText("Item #1")
+                )
+        ).perform(ViewActions.swipeLeft())
 
         val itemSideButton = onView(
                 allOf(
