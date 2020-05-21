@@ -279,7 +279,8 @@ pipeline.stages = [
                                 "build/reports/androidTests/instrumental",
                                 true,
                                 0
-                        )
+                        ),
+                       "Instrumentation test template"
                 )
             }
         },
