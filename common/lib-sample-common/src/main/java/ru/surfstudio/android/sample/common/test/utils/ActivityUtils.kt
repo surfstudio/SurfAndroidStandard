@@ -6,6 +6,7 @@ import androidx.core.view.children
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers
+import junit.framework.AssertionFailedError
 
 /**
  * Утилиты для тестирования Activity
@@ -33,7 +34,7 @@ object ActivityUtils {
         }
 
         if (currentActivity == null || currentActivity!!::class.java != activityClass) {
-            throw RuntimeException("activity ${activityClass.name} is not visible")
+            throw AssertionFailedError("Activity ${activityClass.name} is not visible")
         }
     }
 }
