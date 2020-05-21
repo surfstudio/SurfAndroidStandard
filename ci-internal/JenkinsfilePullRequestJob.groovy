@@ -7,8 +7,6 @@ import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.pipeline.pr.PrPipeline
 import ru.surfstudio.ci.stage.SimpleStage
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
-import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
@@ -239,20 +237,11 @@ pipeline.stages = [
                 throw script.error("Checks Failed, see reason above ^^^")
             }
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
+        pipeline.stage(UNIT_TEST) {
+            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
+                    "testReleaseUnitTest",
+                    "**/test-results/testReleaseUnitTest/*.xml",
+                    "app/build/reports/tests/testReleaseUnitTest/")
         }
 ]
 pipeline.finalizeBody = {
