@@ -388,30 +388,30 @@ class TitleSubtitleView @JvmOverloads constructor(
     private fun setupTitleDrawables(
             ta: TypedArray
     ) {
-        val drawablesId = listOf(
-                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableStart, INITIAL_DRAWABLE_ID),
-                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableTop, INITIAL_DRAWABLE_ID),
-                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableEnd, INITIAL_DRAWABLE_ID),
-                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableBottom, INITIAL_DRAWABLE_ID)
+        val drawablesId = mapOf(
+                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableStart, INITIAL_DRAWABLE_ID) to START_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableTop, INITIAL_DRAWABLE_ID) to TOP_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableEnd, INITIAL_DRAWABLE_ID) to END_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableBottom, INITIAL_DRAWABLE_ID) to BOTTOM_DRAWABLE_POSITION
         )
 
-        listOf(START_DRAWABLE_POSITION, TOP_DRAWABLE_POSITION, END_DRAWABLE_POSITION, BOTTOM_DRAWABLE_POSITION).forEach { position ->
-            setupTitleDrawable(drawablesId[position], position)
+        drawablesId.entries.forEach { (drawableRes, position) ->
+            setupTitleDrawable(drawableRes, position)
         }
     }
 
     private fun setupSubTitleDrawables(
             ta: TypedArray
     ) {
-        val drawablesId = listOf(
-                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableStart, INITIAL_DRAWABLE_ID),
-                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableTop, INITIAL_DRAWABLE_ID),
-                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableEnd, INITIAL_DRAWABLE_ID),
-                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableBottom, INITIAL_DRAWABLE_ID)
+        val drawablesId = mapOf(
+                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableStart, INITIAL_DRAWABLE_ID) to START_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableTop, INITIAL_DRAWABLE_ID) to TOP_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableEnd, INITIAL_DRAWABLE_ID) to END_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableBottom, INITIAL_DRAWABLE_ID) to BOTTOM_DRAWABLE_POSITION
         )
 
-        listOf(START_DRAWABLE_POSITION, TOP_DRAWABLE_POSITION, END_DRAWABLE_POSITION, BOTTOM_DRAWABLE_POSITION).forEach { position ->
-            setupSubTitleDrawable(drawablesId[position], position)
+        drawablesId.entries.forEach { (drawableRes, position) ->
+            setupTitleDrawable(drawableRes, position)
         }
     }
 
