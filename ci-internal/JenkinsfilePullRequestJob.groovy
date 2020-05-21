@@ -280,7 +280,7 @@ pipeline.stages = [
                                 true,
                                 0
                         ),
-                       "Instrumentation test template"
+                       "Template Instrumentation Test"
                 )
             }
         },
