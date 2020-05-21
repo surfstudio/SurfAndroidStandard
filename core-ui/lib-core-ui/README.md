@@ -55,7 +55,7 @@ Gradle:
 [pss]: src/main/java/ru/surfstudio/android/core/ui/scope/PersistentScopeStorage.java
 [ss]: src/main/java/ru/surfstudio/android/core/ui/state/ScreenState.java
 [sedm]: src/main/java/ru/surfstudio/android/core/ui/event/ScreenEventDelegateManager.java
-[nav]: docs/navigation.md
-[pm]: src/main/java/ru/surfstudio/android/core/ui/permission/PermissionManager.kt
+[nav]: /docs/ui/navigation.md
+[pm]: ../../permission/lib-permission/src/main/java/ru/surfstudio/android/core/ui/permission/PermissionManager.kt
 [ap]: src/main/java/ru/surfstudio/android/core/ui/provider/ActivityProvider.java
 [fp]: src/main/java/ru/surfstudio/android/core/ui/provider/FragmentProvider.java
