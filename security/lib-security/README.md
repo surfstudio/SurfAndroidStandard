@@ -4,7 +4,7 @@
 # Использование
 #### Основные классы:
 
-1. `AppDebuggableChecker` - класс, проверяющий debuggable-флаги приложения при его запуске.
+1. [ReleaseAppChecker](src/main/java/ru/surfstudio/android/security/app/ReleaseAppChecker.kt) - класс, проверяющий debuggable-флаги приложения при его запуске.
 2. [RootChecker](src/main/java/ru/surfstudio/android/security/root/RootChecker.kt) - проверяет наличие рут-прав на устройстве.
 3. [KeyEncryptor](src/main/java/ru/surfstudio/android/security/crypto/KeyEncryptor.kt) - абстрактный класс для реализации безопасного [Encryptor'a](../../filestorage/lib-filestorage/src/main/java/ru/surfstudio/android/filestorage/encryptor/Encryptor.kt).
 4. [CertificatePinnerCreator](src/main/java/ru/surfstudio/android/security/ssl/CertificatePinnerCreator.kt) - класс, создающий CertificatePinner для OkHttpClient для реализации ssl-pinning.

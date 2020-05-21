@@ -12,7 +12,7 @@
 ## 0.4.0
 ##### Security
 * ANDDEP-82 Security Module
-* `AppDebuggableChecker` - a class that checks the debuggable flags of the application when it starts.
+* [ReleaseAppChecker](lib-security/src/main/java/ru/surfstudio/android/security/app/ReleaseAppChecker.kt) - a class that checks the debuggable flags of the application when it starts.
 * [RootChecker](lib-security/src/main/java/ru/surfstudio/android/security/root/RootChecker.kt) - checks for root-rights on the device.
 * [KeyEncryptor](lib-security/src/main/java/ru/surfstudio/android/security/crypto/KeyEncryptor.kt) - an abstract class for implementing secure [Encryptor'a](../filestorage/lib-filestorage/src/main/java/ru/surfstudio/android/filestorage/encryptor/Encryptor.kt).
 * [CertificatePinnerCreator](lib-security/src/main/java/ru/surfstudio/android/security/ssl/CertificatePinnerCreator.kt) - a class that creates a CertificatePinner for OkHttpClient to implement ssl-pinning.
