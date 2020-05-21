@@ -33,3 +33,5 @@ now event composition mechanism supports middlewares that can only produces outp
 * ANDDEP-968 **NEW** `RequestMapperLambdas.kt`: file that holds typealiases for `RequestMapper`;
 ##### Mvi-impls
 * ANDDEP-969 Added base classes: `BaseReactor` and `BaseReducer`;
+* **NO BACKWARD COMPATIBILITY** ANDDEP-1049 Package for `BaseActivityResultDelegate`,`SupportOnActivityResultRoute` and `CrossFeatureSupportOnActivityResultRoute` is changed 
+from `ru.surfstudio.android.core.ui.event.result` to:  `ru.surfstudio.android.core.ui.navigation.event.result`

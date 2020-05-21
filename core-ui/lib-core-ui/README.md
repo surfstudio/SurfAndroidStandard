@@ -27,17 +27,12 @@
 
 ### Дополнительные сущности:
 
-1. [ActivityNavigator, FragmentNavigator, TabFragmentNavigator, ChildFragmentNavigator,
- GlobalNavigator][nav] - позволяют осуществлять навигацию по приложению c помощью
- специальных сущностей Route
-1. [`PermissionManager`][pm] - позволяет запрашивать RuntimePermissions
 1. [`ActivityProvider`][ap], [`FragmentProvider`][fp] - предоставляют "живые" Activity
 или Fragment даже после смены конфигурации
 
 Механизм делегирования событий экрана (см ScreenEventDelegateManager)
 позволяет создавать законченные сущности, которые необходимы для "чистой"
-архитектуры. Например, использование ActivityNavigator избавляет от необходимости
-переопределять метод onActivityResult и полностью инкапсулирует работу с Intent.
+архитектуры.
 
 Большинство асинхронных взаимодействий осуществляются через rxJava. 
 
