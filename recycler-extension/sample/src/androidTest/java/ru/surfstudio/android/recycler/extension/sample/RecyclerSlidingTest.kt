@@ -3,9 +3,9 @@ package ru.surfstudio.android.recycler.extension.sample
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.not
 import org.junit.Test
 import ru.surfstudio.android.recycler.extension.sample.screen.SlidingItemsActivity
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
@@ -35,6 +35,8 @@ internal class RecyclerSlidingTest : BaseSampleTest<SlidingItemsActivity>(Slidin
                 )
         ).perform(ViewActions.swipeUp())
 
-        itemSideButton.check(ViewAssertions.matches(not(isCompletelyDisplayed())))
+        Thread.sleep(1000)
+
+        itemSideButton.check(doesNotExist())
     }
 }
