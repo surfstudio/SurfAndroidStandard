@@ -411,7 +411,7 @@ class TitleSubtitleView @JvmOverloads constructor(
         )
 
         drawablesId.entries.forEach { (drawableRes, position) ->
-            setupTitleDrawable(drawableRes, position)
+            setupSubTitleDrawable(drawableRes, position)
         }
     }
 
