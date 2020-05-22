@@ -1,11 +1,14 @@
 package ru.surfstudio.android.core.mvi.sample.ui
 
+import android.view.animation.AnimationUtils
+import androidx.annotation.CallSuper
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
+import org.junit.After
 import org.junit.Test
 import ru.surfstudio.android.core.mvi.sample.R
 import ru.surfstudio.android.core.mvi.sample.ui.screen.reactor_based.input.InputFormActivityView
@@ -14,11 +17,26 @@ import ru.surfstudio.android.core.mvi.sample.ui.screen.reactor_based.main.MainAc
 import ru.surfstudio.android.core.mvi.sample.ui.screen.reducer_based.simple_list.SimpleListActivityView
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
+import ru.surfstudio.android.sample.common.test.utils.AnimationUtils.disableAnimations
+import ru.surfstudio.android.sample.common.test.utils.AnimationUtils.enableAnimations
+import ru.surfstudio.android.sample.common.test.utils.AnimationUtils.grantScaleAnimationPermission
 import ru.surfstudio.android.sample.common.test.utils.RecyclerViewUtils.performItemClick
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfSnackbarIsVisible
 
 class MviSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
+
+    override fun setUp() {
+        super.setUp()
+        grantScaleAnimationPermission()
+        disableAnimations()
+    }
+
+    @After
+    @CallSuper
+    fun tearDown() {
+        enableAnimations()
+    }
 
     @Test
     fun testInputFormActivity() {
@@ -60,6 +78,7 @@ class MviSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.j
 
     @Test
     fun testComplexListActivity() {
+        AnimationUtils.currentAnimationTimeMillis()
         performClick(R.id.main_open_complex_list_btn)
         checkIfActivityIsVisible(ComplexListActivityView::class.java)
         onView(withId(R.id.reactive_query_tv)).perform(typeText("3"), closeSoftKeyboard())
