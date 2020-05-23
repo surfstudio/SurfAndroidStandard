@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="?selectableItemBackgroundBorderless"
-        app:item_icon="@drawable/debug_ic_android"
+        app:item_icon="@drawable/ic_android"
         app:item_labelText="@string/bottom_bar_feed" />
 
     <ru.surfstudio.standard.f_main.view.BottomBarItemView
@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="?selectableItemBackgroundBorderless"
-        app:item_icon="@drawable/debug_ic_android"
+        app:item_icon="@drawable/ic_android"
         app:item_labelText="@string/bottom_bar_search" />
 
     <ru.surfstudio.standard.f_main.view.BottomBarItemView
@@ -31,7 +31,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="?selectableItemBackgroundBorderless"
-        app:item_icon="@drawable/debug_ic_android"
+        app:item_icon="@drawable/ic_android"
         app:item_labelText="@string/bottom_bar_profile" />
 
 </merge>

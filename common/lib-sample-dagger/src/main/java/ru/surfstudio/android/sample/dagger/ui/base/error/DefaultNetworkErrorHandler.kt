@@ -3,9 +3,9 @@ package ru.surfstudio.android.sample.dagger.ui.base.error
 import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.network.error.ConversionException
-import ru.surfstudio.android.network.error.NetworkException
-import ru.surfstudio.android.network.error.NoInternetException
+import ru.surfstudio.android.sample.dagger.app.exceptions.ConversionException
+import ru.surfstudio.android.sample.dagger.app.exceptions.NetworkException
+import ru.surfstudio.android.sample.dagger.app.exceptions.NoInternetException
 
 /**
  * Базовый класс для обработки ошибок, возникающий при работе с Observable из слоя Interactor
