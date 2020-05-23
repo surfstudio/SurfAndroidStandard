@@ -26,8 +26,12 @@ even if stream contains events from UI, which should be reacted directly.
 * **NO BACKWARD COMPATIBILITY** ANDDEP-997 Renamed RequestEvent.type to RequestEvent.request.
 Replaced RxMiddleware.asRequestEvent `Event` parameter with `EventFactory`.
 * ANDDEP-968 `RequestEvent.kt`: added fields `isLoading`, `hasData`, `hasError`;
+* ANDDEP-1046 Fixed output events observing mechanism in CompositionTransformer: 
+now event composition mechanism supports middlewares that can only produces output events.  
 ##### Mvi-mapper
 * ANDDEP-968 **NEW** `RequestMapper.kt`: class for managing requests;
 * ANDDEP-968 **NEW** `RequestMapperLambdas.kt`: file that holds typealiases for `RequestMapper`;
 ##### Mvi-impls
 * ANDDEP-969 Added base classes: `BaseReactor` and `BaseReducer`;
+* **NO BACKWARD COMPATIBILITY** ANDDEP-1049 Package for `BaseActivityResultDelegate`,`SupportOnActivityResultRoute` and `CrossFeatureSupportOnActivityResultRoute` is changed 
+from `ru.surfstudio.android.core.ui.event.result` to:  `ru.surfstudio.android.core.ui.navigation.event.result`
