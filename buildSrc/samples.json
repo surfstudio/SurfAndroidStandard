@@ -1,0 +1,25 @@
+[
+  {
+    "id": "easyadapter-sample",
+    "parent_lib": "easyadapter",
+    "dir": "easyadapter/sample",
+    "android_standard_dependencies": [
+      {
+        "name": "easyadapter",
+        "type": "implementation"
+      },
+      {
+        "name": "picture-provider",
+        "type": "implementation"
+      },
+      {
+        "name": "datalist-limit-offset",
+        "type": "implementation"
+      },
+      {
+        "name": "datalist-page-count",
+        "type": "implementation"
+      }
+    ]
+  }
+]

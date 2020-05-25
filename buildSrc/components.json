@@ -1073,6 +1073,12 @@
         "dir": "sample"
       }
     ],
+    "dependent_samples": [
+      {
+        "name": "network-sample",
+        "dir": "deprecated/network/sample"
+      }
+    ],
     "has_mirror": true,
     "mirror_repo": "https://github.com/surfstudio/EasyAdapter"
   },

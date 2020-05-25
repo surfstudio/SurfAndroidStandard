@@ -19,6 +19,7 @@ data class ComponentJson(
         val dir: String = EMPTY_STRING,
         val libs: List<LibJson> = listOf(),
         val samples: List<SampleJson> = listOf(),
+        @SerializedName("dependent_samples") val dependentSamples: List<SampleJson> = listOf(),
         @SerializedName("has_mirror") val hasMirror: Boolean = false,
         @SerializedName("mirror_repo") val mirrorRepo: String = EMPTY_STRING
 ) : Transformable<Component> {
@@ -49,6 +50,13 @@ data class ComponentJson(
                         directoryPath = "$dir/${it.dir}",
                         directory = it.dir
                 )
+            },
+            dependentSamples = samples.map {
+                Sample(
+                        name = it.name,
+                        directoryPath = "$dir/${it.dir}",
+                        directory = it.dir
+                )
             }
     )
 
@@ -61,6 +69,7 @@ data class ComponentJson(
             hasMirror = component.hasMirror,
             mirrorRepo = component.mirrorRepo,
             libs = component.libraries.map { LibJson(it) },
-            samples = component.samples.map { SampleJson(it) }
+            samples = component.samples.map { SampleJson(it) },
+            dependentSamples = component.dependentSamples.map { SampleJson(it) }
     )
 }
