@@ -103,6 +103,8 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
                         ":${dependentSample.name}:assemble"
                     }
 
+                    println(dependentSamplesAssembleCommand)
+
                     return@joinToString "$librariesAssembleCommand $samplesAssembleCommand $dependentSamplesAssembleCommand"
                 }
     }
