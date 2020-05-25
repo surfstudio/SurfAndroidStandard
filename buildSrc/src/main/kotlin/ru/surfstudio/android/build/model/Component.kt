@@ -18,6 +18,7 @@ data class Component(
         var unstableVersion: Int = EMPTY_INT,
         val libraries: List<Library> = listOf(),
         val samples: List<Sample> = listOf(),
+        val dependentSamples: List<Sample> = listOf(),
         val hasMirror: Boolean = false,
         val mirrorRepo: String = EMPTY_STRING
 ) {

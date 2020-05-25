@@ -42,6 +42,7 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
                 }
 
         addDependentComponents()
+        addDependentSamples()
 
         writeAssembleCommand(changedComponentsMap.toMap())
     }
@@ -72,6 +73,17 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
         }
     }
 
+    /**
+     * Find and add samples which depend on changedComponents
+     */
+    private fun addDependentSamples() {
+        val changedComponentsNames = changedComponentsMap.keys.map {
+            it?.name
+        }
+
+
+    }
+
     private fun writeAssembleCommand(changedComponents: Map<Component?, ComponentChangeReason>) {
         val assembleCommand = createOutputForChangedComponents(changedComponents)
 
@@ -99,7 +111,11 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
                         ":${sample.name}:assemble"
                     }
 
-                    return@joinToString "$librariesAssembleCommand $samplesAssembleCommand"
+                    val dependentSamplesAssembleCommand = component?.dependentSamples?.joinToString(separator = " ") { dependentSample ->
+                        ":${dependentSample.name}:assemble"
+                    }
+
+                    return@joinToString "$librariesAssembleCommand $samplesAssembleCommand $dependentSamplesAssembleCommand"
                 }
     }
 
