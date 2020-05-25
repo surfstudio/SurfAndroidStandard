@@ -51,7 +51,7 @@ data class ComponentJson(
                         directory = it.dir
                 )
             },
-            dependentSamples = samples.map {
+            dependentSamples = dependentSamples.map {
                 Sample(
                         name = it.name,
                         directoryPath = "$dir/${it.dir}",
