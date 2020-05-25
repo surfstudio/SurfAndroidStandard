@@ -42,7 +42,6 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
                 }
 
         addDependentComponents()
-        addDependentSamples()
 
         writeAssembleCommand(changedComponentsMap.toMap())
     }
@@ -71,17 +70,6 @@ open class CreateCommandToAssembleOnlyChangedComponentsTask : DefaultTask() {
                 }
             }
         }
-    }
-
-    /**
-     * Find and add samples which depend on changedComponents
-     */
-    private fun addDependentSamples() {
-        val changedComponentsNames = changedComponentsMap.keys.map {
-            it?.name
-        }
-
-
     }
 
     private fun writeAssembleCommand(changedComponents: Map<Component?, ComponentChangeReason>) {
