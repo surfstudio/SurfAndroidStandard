@@ -16,6 +16,7 @@
   getItemHash to Object for BaseItemController; getItemId became
   abstract
 * ANDDEP-1017 Added DiffResultListener invoked after the DiffResult calculation
+* ANDDERP-1052 Added class for testing
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder
