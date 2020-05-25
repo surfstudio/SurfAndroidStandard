@@ -11,8 +11,9 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @PerScreen
-internal class PaginationListPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                           private val repository: FirstDataRepository
+internal class PaginationListPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val repository: FirstDataRepository
 ) : BasePresenter<PaginationListActivityView>(basePresenterDependency) {
 
     private val sm: PaginationListScreenModel = PaginationListScreenModel()
