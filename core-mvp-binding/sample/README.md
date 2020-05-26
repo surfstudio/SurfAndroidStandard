@@ -32,4 +32,4 @@
 [easyadapterView]: src/main/java/ru/surfstudio/android/mvp/binding/rx/sample/easyadapter/ui/screen/main/EAMainActivityView.kt
 [easyadapterPresenter]: src/main/java/ru/surfstudio/android/mvp/binding/rx/sample/easyadapter/ui/screen/main/EAMainPresenter.kt
 
-# Пример использования модуля (deprecated) [core-mvp-binding](../lib-core-mvp-binding/README.md)
+# Пример использования модуля (deprecated) [core-mvp-binding](../README.md)

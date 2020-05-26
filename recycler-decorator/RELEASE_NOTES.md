@@ -10,3 +10,4 @@
 * fix gradle config for recycler-decorator-easyadapter
 * Fix readme
 * ANDDEP-1048 Fixing wrong docs links and docs structure
+* ANDDEP-793 added component readme

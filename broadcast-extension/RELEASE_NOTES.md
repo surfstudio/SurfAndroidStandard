@@ -6,3 +6,4 @@
 ## 0.5.0-alpha
 ##### Broadcast-extension
 * ANDDEP-1048 Fixing wrong docs links and docs structure
+* ANDDEP-793 readme transfer

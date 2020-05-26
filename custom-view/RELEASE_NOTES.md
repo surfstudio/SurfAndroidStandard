@@ -11,6 +11,7 @@
 * ANDDEP-998 ShadowLayout was moved to the custom-view module
 * ANDDEP-687 Added "com.google.android.material:material" dependency with "implementation" type
 * ANDDEP-1048 Fixing wrong docs links and docs structure
+* ANDDEP-793 readme transfer
 ## 0.4.0
 ##### Custom-view
 * Fixed incorrect behavior of MaterialProgressBar on Android version 5 and below

@@ -4,4 +4,4 @@
 
 ## 0.5.0-alpha
 ##### Activity-holder
-* TODO
+* ANDDEP-793 readme transfer

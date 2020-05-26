@@ -10,3 +10,4 @@
 * ANDDEP-978 Fix common dependency
 * ANDDEP-1038 Add PaginationFooterItemController for samples
 * ANDDEP-1037 Dependencies on deprecated module Network removed
+* ANDDEP-793 added component readme

@@ -3,7 +3,7 @@
 - [Добавление кастомного скоупа между `@PerApplication` и `@PerActivity`](#добавление-кастомного-скоупа-между-perapplication-и-peractivity)
 - [Добавление сущности в ActivityScope конкретной Activity](#добавление-сущности-в-activityscope-конкретной-activity)
 
-Используются студийные [Scope](../lib-dagger-scope/README.md).
+Используются студийные [Scope](../README.md).
 Общая информация об использовании [здесь](/docs/common/di.md).
 
 В данном примере некоторый объект [`EmailData`][ld] живет дольше, чем две активити,
