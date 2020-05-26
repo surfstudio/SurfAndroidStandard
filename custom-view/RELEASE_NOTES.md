@@ -5,6 +5,7 @@
 * ANDDEP-998 ShadowLayout was moved to the custom-view module
 * ANDDEP-687 Added "com.google.android.material:material" dependency with "implementation" type
 * ANDDEP-468 Added functionality for setting title/subtitle drawables programmatically
+* Fixed lag when one type of state showed twice
 ## 0.4.0
 ##### Custom-view
 * Fixed incorrect behavior of MaterialProgressBar on Android version 5 and below
