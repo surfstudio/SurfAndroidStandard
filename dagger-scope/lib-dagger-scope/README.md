@@ -8,7 +8,7 @@
 * Scope активити (аннотация [@PerActivity](src/main/java/ru/surfstudio/android/dagger/scope/PerActivity.java))
 * Scope экрана (аннотация [@PerScreen](src/main/java/ru/surfstudio/android/dagger/scope/PerScreen.java))
 
-Эти скоупы используются в приложениях студии. Описание работы [здесь][../docs/common/di.md].
+Эти скоупы используются в приложениях студии. Описание работы [здесь](/docs/common/di.md).
 
 # Подключение
 Gradle:
@@ -16,4 +16,4 @@ Gradle:
     implementation "ru.surfstudio.android:dagger-scope:X.X.X"
 ```
 
-[configurator]: ../core-ui/README.md
+[configurator]: /core-ui/lib-core-ui/README.md

@@ -1,3 +1,3 @@
 # Standard-Dialog Sample
 
-Пример использования модуля [standard-dialog](../standard-dialog)
+Пример использования модуля [standard-dialog](../lib-standard-dialog)
