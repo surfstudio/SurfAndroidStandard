@@ -872,7 +872,7 @@
   {
     "id": "custom-view",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "custom-view",
     "libs": [
@@ -1990,7 +1990,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 27,
+    "unstable_version": 28,
     "stable": false,
     "dir": "template",
     "libs": [],
