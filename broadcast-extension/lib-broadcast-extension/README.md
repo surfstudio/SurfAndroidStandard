@@ -1,6 +1,8 @@
 [Главная страница репозитория](/docs/main.md)
 
-[TOC]
+- [Broadcast-extension](#broadcast-extension)
+- [Подключение](#подключение)
+- [Использование](#использование)
 
 # Broadcast-extension
 Модуль содержит расширения для Broadcast Receiver.

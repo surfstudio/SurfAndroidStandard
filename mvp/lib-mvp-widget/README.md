@@ -1,7 +1,5 @@
 [Главная страница репозитория](/docs/main.md)
 
-[TOC]
-
 # MVP widget
 
 Расширение модуля [core-mvp][core-mvp] для работы со view

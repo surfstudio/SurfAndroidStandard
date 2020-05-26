@@ -1,8 +1,15 @@
 [Главная страница репозитория](/docs/main.md)
 
-[TOC]
-
 # Core MVI Implementations
+
+- [Базовые реализации](#базовые-реализации)
+  - [ScreenEventHub](#screeneventhub)
+  - [BaseMiddleware](#basemiddleware)
+  - [BaseMapMiddleware](#basemapmiddleware)
+  - [NavigationMiddleware](#navigationmiddleware)
+  - [EventTransformerList](#eventtransformerlist)
+  - [Screen Binder](#screen-binder)
+
 Этот модуль содержит самые базовые реализации mvi-сущностей, которые могут 
 либо сразу использоваться, либо расширяться на проектах. 
 

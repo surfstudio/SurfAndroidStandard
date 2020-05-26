@@ -1,8 +1,7 @@
 [Главная страница репозитория](/docs/main.md)
 
-[TOC]
-
 # MessageController
+
 Модуль для отображения Snackbar.
 
 Основные классы:

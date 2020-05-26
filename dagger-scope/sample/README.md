@@ -1,6 +1,7 @@
-[TOC]
-
 # Пример создания собственного Scope
+
+- [Добавление кастомного скоупа между `@PerApplication` и `@PerActivity`](#добавление-кастомного-скоупа-между-perapplication-и-peractivity)
+- [Добавление сущности в ActivityScope конкретной Activity](#добавление-сущности-в-activityscope-конкретной-activity)
 
 Используются студийные [Scope](../lib-dagger-scope/README.md).
 Общая информация об использовании [здесь](/docs/common/di.md).

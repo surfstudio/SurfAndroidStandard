@@ -1,8 +1,11 @@
 [Главная](../main.md)
 
-[TOC]
-
 # Работа с Сервером
+
+- [Обработка ошибок](#обработка-ошибок)
+  - [Открытие экранов по спец ошибкам](#открытие-экранов-по-спец-ошибкам)
+- [Маппинг ответов сервера](#маппинг-ответов-сервера)
+- [Тесты API](#тесты-api)
 
 Работа с сервером обычно происходит с помощью библиотек retrofit2, okhttp, gson, rxjava.
 
@@ -87,11 +90,11 @@
 [log]: ../common/logging.md
 [gson_converter]: ../../deprecated/converter-gson/lib-converter-gson/
 [call]: ../../deprecated/network/sample/README.md
-[simple_cache]: ../../network/docs/usage.md
-[etag]: ../../network/docs/etag.md
-[hybrid]: ../../network/docs/hybrid.md
+[simple_cache]: ../../deprecated/network/lib-network/docs/usage.md
+[etag]: ../../deprecated/network/lib-network/docs/etag.md
+[hybrid]: ../../deprecated/network/lib-network/docs/hybrid.md
 [handle_errors_on_presenter]: ../ui/presenter.md
-[file_cache]: ../../filestorage/README.md
+[file_cache]: ../../filestorage/lib-filestorage/README.md
 [mapping]: ../../deprecated/network/lib-network/docs/usage.md?at=dev%2FG-0.5.0
 [interactor]: interactor.md
 [network]: ../../deprecated/network/lib-network/docs/usage.md

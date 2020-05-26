@@ -1,7 +1,5 @@
 [Главная страница репозитория](/docs/main.md)
 
-[TOC]
-
 # Recycler extension
 
 Дополнения для работы с `RecycleView` и `EasyAdapter`
