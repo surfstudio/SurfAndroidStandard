@@ -45,7 +45,8 @@
   `easyadapter-pagination` module
 * ANDDEP-1057 Update androidStandardVersion
 * ANDDEP-1039 Removed extra .gitignore and proguard-rules.pro files
-* ANDDEP-1049 Added `permission` and `core-navigation` dependencies to template. 
+* ANDDEP-1049 Added `permission` and `core-navigation` dependencies to template.
+* Fixed fast switching states between NONE and other
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
