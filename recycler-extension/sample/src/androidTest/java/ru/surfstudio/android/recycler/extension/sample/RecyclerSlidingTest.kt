@@ -1,16 +1,31 @@
 package ru.surfstudio.android.recycler.extension.sample
 
+import androidx.annotation.CallSuper
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.CoreMatchers.allOf
+import org.junit.After
 import org.junit.Test
 import ru.surfstudio.android.recycler.extension.sample.screen.SlidingItemsActivity
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
+import ru.surfstudio.android.sample.common.test.utils.AnimationUtils
 
 internal class RecyclerSlidingTest : BaseSampleTest<SlidingItemsActivity>(SlidingItemsActivity::class.java) {
+
+    override fun setUp() {
+        super.setUp()
+        AnimationUtils.grantScaleAnimationPermission()
+        AnimationUtils.disableAnimations()
+    }
+
+    @After
+    @CallSuper
+    fun tearDown() {
+        AnimationUtils.enableAnimations()
+    }
 
     @Test
     fun testSliding() {
