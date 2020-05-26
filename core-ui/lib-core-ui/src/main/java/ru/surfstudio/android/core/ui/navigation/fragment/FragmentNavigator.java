@@ -202,7 +202,7 @@ public class FragmentNavigator implements Navigator {
      * @param route - машрут перехода к фрагменту
      * @return - был ли совершен уже переход по этому маршруту
      */
-    public boolean isRouteAlreadyInStack(@NonNull FragmentRoute route) {
+    public boolean isRouteInBackStack(@NonNull FragmentRoute route) {
         FragmentManager fragmentManager = getFragmentManager();
         for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
             FragmentManager.BackStackEntry backStack = fragmentManager.getBackStackEntryAt(i);
@@ -220,7 +220,7 @@ public class FragmentNavigator implements Navigator {
      * @param inclusive удалить стек включая и роут
      */
     public void replaceOrPopBackStack(@NonNull FragmentRoute route, boolean stackable, @Transit int transition, boolean inclusive) {
-        if (isRouteAlreadyInStack(route)) {
+        if (isRouteInBackStack(route)) {
             popBackStack(route, inclusive);
         } else {
             replace(route, stackable, transition);
