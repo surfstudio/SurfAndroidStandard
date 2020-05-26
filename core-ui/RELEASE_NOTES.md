@@ -6,7 +6,7 @@
 * Fix logging screen names
 * Fix extra name for settingsNegativeButtonStr in DefaultSettingsRationalActivity
 * Add additional Route Extra parameters
-* Added method to 'FragmentNavigator' for checking that fragment already exists at back stack
+* Added method to 'FragmentNavigator' for checking that fragment already exists in back stack
 * Added method to 'FragmentNavigator' for creating new fragment or get fragment from back stack and show him
 ## 0.4.0
 ##### Core-ui
