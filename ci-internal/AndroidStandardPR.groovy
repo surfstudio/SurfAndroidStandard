@@ -16,7 +16,7 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
 // Stage names
 def PRE_MERGE = 'PreMerge'
-def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
+def CHECK_CONFIGURATION_IS_OPEN_SOURCE = 'Check Configuration Is Open Source'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
 def CHECK_STABLE_MODULES_NOT_CHANGED = 'Check Stable Modules Not Changed'
 def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not Became Stable'
@@ -58,7 +58,7 @@ def stagesForProjectMode = [
 ]
 def stagesForReleaseMode = [
         PRE_MERGE,
-        CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT,
+        CHECK_CONFIGURATION_IS_OPEN_SOURCE,
         CHECK_STABLE_MODULES_IN_ARTIFACTORY,
         CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
         CHECK_RELEASE_NOTES_VALID,
@@ -192,7 +192,7 @@ pipeline.stages = [
             script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
 
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
+        pipeline.stage(CHECK_CONFIGURATION_IS_OPEN_SOURCE) {
             script.sh "./gradlew checkConfigurationIsOpenSourceTask"
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
