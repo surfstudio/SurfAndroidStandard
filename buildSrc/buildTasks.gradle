@@ -66,7 +66,7 @@ task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask) 
 
 task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion) //pr //release
 
-task checkReleaseNotesNotContainCyrillic(type: CheckReleaseNotesNotContainCyrillic) //pr //release
+task checkReleaseNotesContainOnlyLatin(type: CheckReleaseNotesContainOnlyLatin) //pr //release
 
 task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask) //pr
 
