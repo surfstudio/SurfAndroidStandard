@@ -72,7 +72,7 @@ StandardDialogPresenter.
                   isCancelable = true,
                   dialogTag = "tagSimple"))
                   
-[Пример использования](../standard-dialog-sample)
+[Пример использования](../sample)
 
 # Подключение
 Gradle:

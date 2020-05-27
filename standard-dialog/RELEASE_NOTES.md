@@ -1,5 +1,9 @@
-[TOC]
 # Standard-dialog Release Notes
+
+- [0.5.0-alpha](#050-alpha)
+- [0.2.1](#021)
+- [0.2.0](#020)
+
 ## 0.5.0-alpha
 ##### Standard-dialog
 * ANDDEP-687 Added "javax.inject:javax.inject" dependency with "implementation" type
