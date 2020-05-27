@@ -1,0 +1,23 @@
+def user = System.getenv('GRADLE_BUILD_CACHE_USER')
+def pass = System.getenv('GRADLE_BUILD_CACHE_PASS')
+
+if (user && pass) {
+    def isCi = user.contains("ci")
+
+    buildCache {
+        local {
+            enabled = !isCi
+        }
+        remote(HttpBuildCache) {
+            url = 'https://gradle-cache.surfstudio.ru/cache/'
+            push = isCi
+
+            credentials {
+                username = user
+                password = pass
+            }
+        }
+    }
+} else {
+    println "Remote build cache DISABLED. Need specify 'GRADLE_BUILD_CACHE_USER' and 'GRADLE_BUILD_CACHE_PASS' global variables"
+}

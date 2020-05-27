@@ -1,0 +1,2034 @@
+[
+  {
+    "id": "activity-holder",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "activity-holder",
+    "libs": [
+      {
+        "name": "activity-holder",
+        "dir": "lib-activity-holder",
+        "artifact_name": "activity-holder",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": [
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "analytics",
+    "version": "0.5.0",
+    "unstable_version": 4,
+    "stable": false,
+    "dir": "analytics",
+    "libs": [
+      {
+        "name": "analytics",
+        "dir": "lib-analytics",
+        "artifact_name": "analytics",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "firebase-analytics",
+        "dir": "lib-firebase-analytics",
+        "artifact_name": "firebase-analytics",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.firebase:firebase-analytics",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "analytics",
+            "type": "api"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "analytics-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "animations",
+    "version": "0.5.0",
+    "unstable_version": 3,
+    "stable": false,
+    "dir": "animations",
+    "libs": [
+      {
+        "name": "animations",
+        "dir": "lib-animations",
+        "artifact_name": "animations",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.android.material:material",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": [
+      {
+        "name": "animations-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "app-migration",
+    "version": "0.5.0",
+    "unstable_version": 3,
+    "stable": false,
+    "dir": "app-migration",
+    "libs": [
+      {
+        "name": "app-migration",
+        "dir": "lib-app-migration",
+        "artifact_name": "app-migration",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": [
+          {
+            "name": "shared-pref",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "app-migration-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "broadcast-extension",
+    "version": "0.5.0",
+    "unstable_version": 3,
+    "stable": false,
+    "dir": "broadcast-extension",
+    "libs": [
+      {
+        "name": "broadcast-extension",
+        "dir": "lib-broadcast-extension",
+        "artifact_name": "broadcast-extension",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "broadcast-extension-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "common",
+    "version": "0.5.0",
+    "unstable_version": 6,
+    "stable": false,
+    "dir": "common",
+    "libs": [
+      {
+        "name": "sample-common",
+        "dir": "lib-sample-common",
+        "artifact_name": "sample-common",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.test:core",
+            "type": "api"
+          },
+          {
+            "name": "androidx.test.ext:junit",
+            "type": "api"
+          },
+          {
+            "name": "androidx.test:runner",
+            "type": "api"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-core",
+            "type": "api"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-contrib",
+            "type": "api"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-intents",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "custom-view",
+            "type": "api"
+          },
+          {
+            "name": "core-mvp",
+            "type": "api"
+          },
+          {
+            "name": "logger",
+            "type": "api"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "permission",
+            "type": "implementation"
+          },
+          {
+            "name": "connection",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "animations",
+            "type": "implementation"
+          },
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          },
+          {
+            "name": "easyadapter-pagination",
+            "type": "implementation"
+          },
+          {
+            "name": "recycler-extension",
+            "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "sample-dagger",
+        "dir": "lib-sample-dagger",
+        "artifact_name": "sample-dagger",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.dagger:dagger-compiler",
+            "type": "kapt"
+          },
+          {
+            "name": "com.google.dagger:dagger",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-mvp",
+            "type": "api"
+          },
+          {
+            "name": "core-ui",
+            "type": "api"
+          },
+          {
+            "name": "core-navigation",
+            "type": "api"
+          },
+          {
+            "name": "permission",
+            "type": "api"
+          },
+          {
+            "name": "dagger-scope",
+            "type": "api"
+          },
+          {
+            "name": "animations",
+            "type": "api"
+          },
+          {
+            "name": "picture-provider",
+            "type": "api"
+          },
+          {
+            "name": "mvp-dialog",
+            "type": "api"
+          },
+          {
+            "name": "mvp-widget",
+            "type": "api"
+          },
+          {
+            "name": "standard-dialog",
+            "type": "api"
+          },
+          {
+            "name": "logger",
+            "type": "api"
+          },
+          {
+            "name": "connection",
+            "type": "api"
+          },
+          {
+            "name": "filestorage",
+            "type": "api"
+          },
+          {
+            "name": "converter-gson",
+            "type": "api"
+          },
+          {
+            "name": "shared-pref",
+            "type": "api"
+          },
+          {
+            "name": "rx-extension",
+            "type": "api"
+          },
+          {
+            "name": "util-ktx",
+            "type": "api"
+          },
+          {
+            "name": "message-controller",
+            "type": "api"
+          },
+          {
+            "name": "rxbus",
+            "type": "api"
+          },
+          {
+            "name": "activity-holder",
+            "type": "api"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "connection",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "connection",
+    "libs": [
+      {
+        "name": "connection",
+        "dir": "lib-connection",
+        "artifact_name": "connection",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "converter-gson",
+    "version": "0.5.0",
+    "unstable_version": 2,
+    "stable": false,
+    "dir": "deprecated/converter-gson",
+    "libs": [
+      {
+        "name": "converter-gson",
+        "dir": "lib-converter-gson",
+        "artifact_name": "converter-gson",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.code.gson:gson",
+            "type": "api"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "network",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "core-app",
+    "version": "0.5.0",
+    "unstable_version": 4,
+    "stable": false,
+    "dir": "deprecated/core-app",
+    "libs": [
+      {
+        "name": "core-app",
+        "dir": "lib-core-app",
+        "artifact_name": "core-app",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "mvi",
+    "version": "0.5.0",
+    "unstable_version": 24,
+    "stable": false,
+    "dir": "mvi",
+    "libs": [
+      {
+        "name": "mvi-core",
+        "dir": "lib-mvi-core",
+        "artifact_name": "mvi-core",
+        "third_party_dependencies": [
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.mockito:mockito-core",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp-binding",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "mvi-mapper",
+        "dir": "lib-mvi-mapper",
+        "artifact_name": "mvi-mapper",
+        "third_party_dependencies": [
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.mockito:mockito-core",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "mvi-core",
+            "type": "api"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp-binding",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "mvi-impls",
+        "dir": "lib-mvi-impls",
+        "artifact_name": "mvi-impls",
+        "third_party_dependencies": [
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.mockito:mockito-core",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "mvi-core",
+            "type": "api"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp-binding",
+            "type": "implementation"
+          },
+          {
+            "name": "mvp-widget",
+            "type": "implementation"
+          },
+          {
+            "name": "mvp-dialog",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "mvi-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "core-mvp-binding",
+    "version": "0.5.0",
+    "unstable_version": 18,
+    "stable": false,
+    "dir": "core-mvp-binding",
+    "libs": [
+      {
+        "name": "core-mvp-binding",
+        "dir": "lib-core-mvp-binding",
+        "artifact_name": "core-mvp-binding",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          },
+          {
+            "name": "com.jakewharton.rxbinding2:rxbinding",
+            "type": "api"
+          },
+          {
+            "name": "com.jakewharton.rxbinding2:rxbinding-kotlin",
+            "type": "api"
+          },
+          {
+            "name": "com.jakewharton.rxbinding2:rxbinding-appcompat-v7",
+            "type": "api"
+          },
+          {
+            "name": "com.jakewharton.rxrelay2:rxrelay",
+            "type": "api"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.mockito:mockito-core",
+            "type": "testImplementation"
+          },
+          {
+            "name": "androidx.constraintlayout:constraintlayout",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-app",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "mvp-dialog",
+            "type": "implementation"
+          },
+          {
+            "name": "mvp-widget",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "core-mvp-binding-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "core-ui",
+    "version": "0.5.0",
+    "unstable_version": 7,
+    "stable": false,
+    "dir": "core-ui",
+    "libs": [
+      {
+        "name": "core-ui",
+        "dir": "lib-core-ui",
+        "artifact_name": "core-ui",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.android.material:material",
+            "type": "api"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          },
+          {
+            "name": "com.agna.ferro:ferro-rx",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "activity-holder",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "core-ui-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": true,
+    "mirror_repo": "https://github.com/surfstudio/Core-ui"
+  },
+  {
+    "id": "core-navigation",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "core-navigation",
+    "libs": [
+      {
+        "name": "core-navigation",
+        "dir": "lib-core-navigation",
+        "artifact_name": "core-navigation",
+        "third_party_dependencies": [
+          {
+            "name": "com.agna.ferro:ferro-rx",
+            "type": "implementation"
+          },
+          {
+            "name": "com.google.android.play:core",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "activity-holder",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "core-navigation-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "permission",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "permission",
+    "libs": [
+      {
+        "name": "permission",
+        "dir": "lib-permission",
+        "artifact_name": "permission",
+        "third_party_dependencies": [
+          {
+            "name": "com.agna.ferro:ferro-rx",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "activity-holder",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "permission-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "custom-view",
+    "version": "0.5.0",
+    "unstable_version": 4,
+    "stable": false,
+    "dir": "custom-view",
+    "libs": [
+      {
+        "name": "custom-view",
+        "dir": "lib-custom-view",
+        "artifact_name": "custom-view",
+        "third_party_dependencies": [
+          {
+            "name": "me.zhanghai.android.materialprogressbar:library",
+            "type": "api"
+          },
+          {
+            "name": "com.wang.avi:library",
+            "type": "api"
+          },
+          {
+            "name": "com.google.android.material:material",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "animations",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "imageloader",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "custom-view-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "dagger-scope",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "dagger-scope",
+    "libs": [
+      {
+        "name": "dagger-scope",
+        "dir": "lib-dagger-scope",
+        "artifact_name": "dagger-scope",
+        "third_party_dependencies": [
+          {
+            "name": "javax.inject:javax.inject",
+            "type": "implementation"
+          },
+          {
+            "name": "com.google.dagger:dagger",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": [
+      {
+        "name": "dagger-scope-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "datalist",
+    "version": "0.5.0",
+    "unstable_version": 2,
+    "stable": false,
+    "dir": "datalist",
+    "libs": [
+      {
+        "name": "datalist-limit-offset",
+        "dir": "lib-datalist-limit-offset",
+        "artifact_name": "datalist-limit-offset",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "datalist-page-count",
+        "dir": "lib-datalist-page-count",
+        "artifact_name": "datalist-page-count",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "easyadapter",
+    "version": "1.1.0",
+    "unstable_version": 14,
+    "stable": false,
+    "dir": "easyadapter",
+    "libs": [
+      {
+        "name": "easyadapter",
+        "dir": "lib-easyadapter",
+        "artifact_name": "easyadapter",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.asynclayoutinflater:asynclayoutinflater",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      },
+      {
+        "name": "easyadapter-pagination",
+        "dir": "lib-easyadapter-pagination",
+        "artifact_name": "easyadapter-pagination",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "easyadapter-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": true,
+    "mirror_repo": "https://github.com/surfstudio/EasyAdapter"
+  },
+  {
+    "id": "filestorage",
+    "version": "0.5.0",
+    "unstable_version": 2,
+    "stable": false,
+    "dir": "filestorage",
+    "libs": [
+      {
+        "name": "filestorage",
+        "dir": "lib-filestorage",
+        "artifact_name": "filestorage",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.code.gson:gson",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "org.jetbrains:annotations",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "filestorage-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "imageloader",
+    "version": "0.5.0",
+    "unstable_version": 6,
+    "stable": false,
+    "dir": "imageloader",
+    "libs": [
+      {
+        "name": "imageloader",
+        "dir": "lib-imageloader",
+        "artifact_name": "imageloader",
+        "third_party_dependencies": [
+          {
+            "name": "com.github.bumptech.glide:glide",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "imageloader-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "location",
+    "version": "0.5.0",
+    "unstable_version": 3,
+    "stable": false,
+    "dir": "location",
+    "libs": [
+      {
+        "name": "location",
+        "dir": "lib-location",
+        "artifact_name": "location",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.android.gms:play-services-location",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "permission",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "location-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "logger",
+    "version": "0.5.0",
+    "unstable_version": 3,
+    "stable": false,
+    "dir": "logger",
+    "libs": [
+      {
+        "name": "logger",
+        "dir": "lib-logger",
+        "artifact_name": "logger",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "message-controller",
+    "version": "0.5.0",
+    "unstable_version": 4,
+    "stable": false,
+    "dir": "message-controller",
+    "libs": [
+      {
+        "name": "message-controller",
+        "dir": "lib-message-controller",
+        "artifact_name": "message-controller",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "message-controller-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "mvp",
+    "version": "0.5.0",
+    "unstable_version": 12,
+    "stable": false,
+    "dir": "mvp",
+    "libs": [
+      {
+        "name": "core-mvp",
+        "dir": "lib-core-mvp",
+        "artifact_name": "core-mvp",
+        "third_party_dependencies": [
+          {
+            "name": "com.agna.ferro:ferro-rx",
+            "type": "api"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4-rule",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-api-mockito2",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-classloading-xstream",
+            "type": "testImplementation"
+          },
+          {
+            "name": "androidx.test:runner",
+            "type": "androidTestImplementation"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-core",
+            "type": "androidTestImplementation"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          },
+          {
+            "name": "easyadapter-pagination",
+            "type": "implementation"
+          },
+          {
+            "name": "connection",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "mvp-widget",
+        "dir": "lib-mvp-widget",
+        "artifact_name": "mvp-widget",
+        "third_party_dependencies": [
+          {
+            "name": "javax.inject:javax.inject",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.constraintlayout:constraintlayout",
+            "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4-rule",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-api-mockito2",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-classloading-xstream",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "mvp-dialog",
+        "dir": "lib-mvp-dialog",
+        "artifact_name": "mvp-dialog",
+        "third_party_dependencies": [
+          {
+            "name": "javax.inject:javax.inject",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "mvp-widget",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "core-mvp-sample",
+        "dir": "sample-core-mvp"
+      },
+      {
+        "name": "loadstate-sample",
+        "dir": "sample-loadstate"
+      },
+      {
+        "name": "mvp-dialog-sample",
+        "dir": "sample-mvp-dialog"
+      },
+      {
+        "name": "mvp-widget-sample",
+        "dir": "sample-mvp-widget"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "network",
+    "version": "0.5.0",
+    "unstable_version": 6,
+    "stable": false,
+    "dir": "deprecated/network",
+    "libs": [
+      {
+        "name": "network",
+        "dir": "lib-network",
+        "artifact_name": "network",
+        "third_party_dependencies": [
+          {
+            "name": "javax.inject:javax.inject",
+            "type": "api"
+          },
+          {
+            "name": "com.squareup.retrofit2:retrofit",
+            "type": "api"
+          },
+          {
+            "name": "com.squareup.retrofit2:converter-gson",
+            "type": "api"
+          },
+          {
+            "name": "com.squareup.retrofit2:adapter-rxjava2",
+            "type": "api"
+          },
+          {
+            "name": "com.squareup.okhttp3:logging-interceptor",
+            "type": "api"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4-rule",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-api-mockito2",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-classloading-xstream",
+            "type": "testImplementation"
+          },
+          {
+            "name": "androidx.test:runner",
+            "type": "androidTestImplementation"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-core",
+            "type": "androidTestImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "filestorage",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "connection",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "network-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "picture-provider",
+    "version": "0.5.0",
+    "unstable_version": 3,
+    "stable": false,
+    "dir": "picture-provider",
+    "libs": [
+      {
+        "name": "picture-provider",
+        "dir": "lib-picture-provider",
+        "artifact_name": "picture-provider",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.exifinterface:exifinterface",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-app",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "permission",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "picture-provider-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "push",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "push",
+    "libs": [
+      {
+        "name": "push",
+        "dir": "lib-push",
+        "artifact_name": "push",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": [
+          {
+            "name": "activity-holder",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "recycler-extension",
+    "version": "0.5.0",
+    "unstable_version": 4,
+    "stable": false,
+    "dir": "recycler-extension",
+    "libs": [
+      {
+        "name": "recycler-extension",
+        "dir": "lib-recycler-extension",
+        "artifact_name": "recycler-extension",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          },
+          {
+            "name": "androidx.core:core-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.constraintlayout:constraintlayout",
+            "type": "implementation"
+          },
+          {
+            "name": "com.google.android.material:material",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "recycler-extension-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "recycler-decorator",
+    "version": "0.5.0",
+    "unstable_version": 4,
+    "stable": false,
+    "dir": "recycler-decorator",
+    "libs": [
+      {
+        "name": "recycler-decorator",
+        "dir": "lib-recycler-decorator",
+        "artifact_name": "recycler-decorator",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          },
+          {
+            "name": "androidx.core:core-ktx",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": []
+      },
+      {
+        "name": "recycler-decorator-easyadapter",
+        "dir": "lib-recycler-decorator-easyadapter",
+        "artifact_name": "recycler-decorator-easyadapter",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          },
+          {
+            "name": "recycler-decorator",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "recycler-decorator-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "rx-extension",
+    "version": "0.5.0",
+    "unstable_version": 6,
+    "stable": false,
+    "dir": "rx-extension",
+    "libs": [
+      {
+        "name": "rx-extension",
+        "dir": "lib-rx-extension",
+        "artifact_name": "rx-extension",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          },
+          {
+            "name": "io.reactivex.rxjava2:rxandroid",
+            "type": "api"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "rxbus",
+    "version": "0.5.0",
+    "unstable_version": 2,
+    "stable": false,
+    "dir": "rxbus",
+    "libs": [
+      {
+        "name": "rxbus",
+        "dir": "lib-rxbus",
+        "artifact_name": "rxbus",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "security",
+    "version": "0.5.0",
+    "unstable_version": 6,
+    "stable": false,
+    "dir": "security",
+    "libs": [
+      {
+        "name": "security",
+        "dir": "lib-security",
+        "artifact_name": "security",
+        "third_party_dependencies": [
+          {
+            "name": "com.squareup.okhttp3:logging-interceptor",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "filestorage",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "shared-pref",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "core-app",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "security-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "shared-pref",
+    "version": "0.5.0",
+    "unstable_version": 4,
+    "stable": false,
+    "dir": "shared-pref",
+    "libs": [
+      {
+        "name": "shared-pref",
+        "dir": "lib-shared-pref",
+        "artifact_name": "shared-pref",
+        "third_party_dependencies": [
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "shared-pref-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "standard-dialog",
+    "version": "0.5.0",
+    "unstable_version": 5,
+    "stable": false,
+    "dir": "standard-dialog",
+    "libs": [
+      {
+        "name": "standard-dialog",
+        "dir": "lib-standard-dialog",
+        "artifact_name": "standard-dialog",
+        "third_party_dependencies": [
+          {
+            "name": "javax.inject:javax.inject",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "mvp-dialog",
+            "type": "implementation"
+          },
+          {
+            "name": "dagger-scope",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "standard-dialog-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "util-ktx",
+    "version": "0.5.0",
+    "unstable_version": 3,
+    "stable": false,
+    "dir": "util-ktx",
+    "libs": [
+      {
+        "name": "util-ktx",
+        "dir": "lib-util-ktx",
+        "artifact_name": "util-ktx",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.core:core-ktx",
+            "type": "api"
+          },
+          {
+            "name": "com.google.android.material:material",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "template",
+    "version": "0.5.0",
+    "unstable_version": 28,
+    "stable": false,
+    "dir": "template",
+    "libs": [],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "android-standard-version-plugin",
+    "version": "0.5.0",
+    "unstable_version": 2,
+    "stable": false,
+    "dir": "android-standard-version-plugin",
+    "libs": [],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "android-studio-settings",
+    "version": "0.5.0",
+    "unstable_version": 3,
+    "stable": false,
+    "dir": "android-studio-settings",
+    "libs": [],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "docs",
+    "version": "0.5.0",
+    "unstable_version": 13,
+    "stable": false,
+    "dir": "docs",
+    "libs": [],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  }
+]

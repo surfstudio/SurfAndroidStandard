@@ -1,0 +1,68 @@
+import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/config.gradle"
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+DependencyConfigurator.configure(project)
+
+android {
+    compileSdkVersion project.ext.compileSdkVersion
+    buildToolsVersion project.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.libMinSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        versionCode project.ext.moduleVersionCode
+        versionName Components.getModuleVersion(project.name)
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    buildTypes {
+        qa {
+            debuggable = true
+            minifyEnabled false
+        }
+
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+}
+
+//временное решение для разрешения конфликтов версий сторонних зависимостей
+configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        libraryVersions.each { libName, version ->
+            if ("${details.requested.group}:${details.requested.name}" == libName) {
+                details.useVersion version
+            }
+        }
+    }
+}
+
+task printTestInstrumentationRunnerName {
+    doLast {
+        println "$android.defaultConfig.testInstrumentationRunner"
+    }
+}

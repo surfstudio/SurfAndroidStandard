@@ -1,0 +1,6 @@
+// Gradle scripts for modules which will NOT be deployed
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidModule.gradle"
+
+DependencyConfigurator.configure(project)
