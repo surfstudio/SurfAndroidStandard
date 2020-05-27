@@ -1,8 +1,33 @@
-[Главная страница репозитория](../docs/main.md)
-
-[TOC]
+[Главная страница репозитория](/docs/main.md)
 
 # Image Loader
+
+- [ОТВЕТСТВЕННОЕ ЛИЦО](#ответственное-лицо)
+- [ЧТО НОВОГО](#что-нового)
+- [ПОДКЛЮЧЕНИЕ](#подключение)
+- [ЗАВИСИМОСТИ И ТЕХНОЛОГИИ](#зависимости-и-технологии)
+- [ИСПОЛЬЗОВАНИЕ](#использование)
+- [ДОКУМЕНТАЦИЯ](#документация)
+  - [with](#with)
+  - [url](#url)
+  - [preview](#preview)
+  - [error](#error)
+  - [listener](#listener)
+  - [errorListener](#errorlistener)
+  - [skipCache](#skipcache)
+  - [maxWidth](#maxwidth)
+  - [maxHeight](#maxheight)
+  - [centerCrop](#centercrop)
+  - [circle](#circle)
+  - [roundedCorners](#roundedcorners)
+  - [blur](#blur)
+  - [mask](#mask)
+  - [downsamplingMultiplier](#downsamplingmultiplier)
+  - [crossFade](#crossfade)
+  - [into](#into)
+  - [get](#get)
+  - [force](#force)
+
 Модуль с утилитой для загрузки изображений.
 
 `ImageLoader` - это обёртка над библиотекой-загрузчиком изображений, которая служит для упрощения 
@@ -51,7 +76,7 @@ Gradle:
                .url(IMAGE_URL)
                .into(imageView)
 
-[Пример использования](../imageloader-sample)
+[Пример использования](../sample)
 
 ## ДОКУМЕНТАЦИЯ
 

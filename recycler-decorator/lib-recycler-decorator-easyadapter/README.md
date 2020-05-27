@@ -1,7 +1,5 @@
 [Главная страница репозитория](/docs/main.md)
 
-[TOC]
-
 # RecyclerView decorator ktx
 
 Расширения для подключения EasyAdapter к Decorator.Builder

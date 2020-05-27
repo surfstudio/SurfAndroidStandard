@@ -4,14 +4,14 @@
 # Использование
 #### Основные классы:
 
-1. [AppDebuggableChecker](../security/src/main/java/ru/surfstudio/android/security/app/AppDebuggableChecker.kt)- класс, проверяющий debuggable-флаги приложения при его запуске.
-2. [RootChecker](../security/src/main/java/ru/surfstudio/android/security/root/RootChecker.kt) - проверяет наличие рут-прав на устройстве.
-3. [KeyEncryptor](../security/src/main/java/ru/surfstudio/android/security/crypto/KeyEncryptor.kt) - абстрактный класс для реализации безопасного [Encryptor'a](../../filestorage/src/main/java/ru/surfstudio/android/filestorage/encryptor/Encryptor.kt).
-4. [CertificatePinnerCreator](../security/src/main/java/ru/surfstudio/android/security/ssl/CertificatePinnerCreator.kt) - класс, создающий CertificatePinner для OkHttpClient для реализации ssl-pinning.
-5. [SessionManager](../security/src/main/java/ru/surfstudio/android/security/session/SessionManager.kt) - Менеджер для отслеживания сессии Activity.
-6. [SecurityUiExtensions](../security/src/main/java/ru/surfstudio/android/security/ui/SecurityUiExtensions.kt) -  - Утилиты для реализаци безопасного UI.
+1. [ReleaseAppChecker](src/main/java/ru/surfstudio/android/security/app/ReleaseAppChecker.kt) - класс, проверяющий debuggable-флаги приложения при его запуске.
+2. [RootChecker](src/main/java/ru/surfstudio/android/security/root/RootChecker.kt) - проверяет наличие рут-прав на устройстве.
+3. [KeyEncryptor](src/main/java/ru/surfstudio/android/security/crypto/KeyEncryptor.kt) - абстрактный класс для реализации безопасного [Encryptor'a](../../filestorage/lib-filestorage/src/main/java/ru/surfstudio/android/filestorage/encryptor/Encryptor.kt).
+4. [CertificatePinnerCreator](src/main/java/ru/surfstudio/android/security/ssl/CertificatePinnerCreator.kt) - класс, создающий CertificatePinner для OkHttpClient для реализации ssl-pinning.
+5. [SessionManager](src/main/java/ru/surfstudio/android/security/session/SessionManager.kt) - Менеджер для отслеживания сессии Activity.
+6. [SecurityUiExtensions](src/main/java/ru/surfstudio/android/security/ui/SecurityUiExtensions.kt) -  - Утилиты для реализаци безопасного UI.
 
-[Пример использования модуля](../security-sample)
+[Пример использования модуля](../sample)
 
 #### Подключение:
 Выгрузка модуля как артефакта не предусмотрена. Модуль является примером реализации описанных ниже рекомендаций.
@@ -27,7 +27,7 @@ Implicit Intent следует использовать, когда необхо
 6. Любая [Sensitive data](https://en.wikipedia.org/wiki/Information_sensitivity) должна храниться в защищенном
 [internal storage](https://developer.android.com/training/data-storage/files).
 7. Пароли, пинкоды и.т.п строго не рекомендуется хранить на устройстве. Если всё же это необходимо - такие данные должны быть зашифрованы. См. п. 6.
-[Пример](../security-sample/src/main/java/ru/surfstudio/android/security/sample/interactor/storage/ApiKeyStorageWrapper.kt)
+[Пример](../sample/src/main/java/ru/surfstudio/android/security/sample/interactor/storage/ApiKeyStorageWrapper.kt)
 8. Activity с важной информацией должны быть защищены с помощью флага [FLAG_SECURE](https://developer.android.com/reference/android/view/WindowManager.LayoutParams).
 Флаг запрещает делать скриншоты с этого Activity и в свернутом виде контент окна тоже не будет отображаться.
 9. Финансовые приложения, приложения имеющие дело с важными персональными данными пользователя должны иметь проверку на [ROOT](https://ru.wikipedia.org/wiki/Root).
@@ -40,13 +40,13 @@ Root права дают возможность залезть в закрыту
 <br> 4. Полностью прекратить доступ пользователя в приложение.
 <br> Проверку root прав следует делать при помощи NDK, т.к проверка будет проходить на более низком уровне.
 Использование проверки при помощи Java кода, не эффективна, т.к существуют способы ["спрятать"](https://github.com/devadvance/rootcloak) root права от проверяющего кода на Java.
-[Пример](../security-sample/src/main/java/ru/surfstudio/android/security/sample/ui/screen/main/MainPresenter.kt)
+[Пример](../sample/src/main/java/ru/surfstudio/android/security/sample/ui/screen/main/MainPresenter.kt)
 10. Приложение должно быть защищено от debug'a и запуске на эмуляторе.
-[Пример использования AppDebuggableChecker](../security-sample/src/main/java/ru/surfstudio/android/security/sample/app/CustomApp.kt)
+[Пример использования AppDebuggableChecker](../sample/src/main/java/ru/surfstudio/android/security/sample/app/CustomApp.kt)
 11. Поля ввода секретных данных, должны поддерживать валидацию введеных данных с помощью Regex, InputFilter, ограничения ввода спецсимволов и.т.п.
 <br>Данная мера поможет минимизировать риск [SQL injection](https://ru.wikipedia.org/wiki/Внедрение_SQL-кода).
 Также у полей должны отсутствовать пункты "копировать", "вырезать" в контекстом меню, и отключить вызов контекстного меню по долгому нажатию. См.
-[Пример использования](../security-sample)
+[Пример использования](../sample)
 13. Захардкоженные ключи рекомендуется хранить в нативном коде при помощи NDK.
 13. Для ввода пинкода рекомендуется использовать кастомную клавиатуру.
 14. Для дополнительной безопасности сетевого соединения используется SSL pining (Certificate pinning).
@@ -56,7 +56,7 @@ Certificate pinning – это внедрение SSL сертификата, к
 16. Ближе к релизу стоит прогнать приложение на "дыры" в безопасности с помощью пентест инструментов, например [DROZER](https://labs.mwrinfosecurity.com/tools/drozer/).
 17. На релизных сборках отключать DebugScreen.
 18. Приложение должно следить за сессией пользователя.
-[Пример использвания SessionManager](../security-sample/src/main/java/ru/surfstudio/android/security/sample/app/CustomApp.kt)
+[Пример использвания SessionManager](../sample/src/main/java/ru/surfstudio/android/security/sample/app/CustomApp.kt)
 
 <br>
 
