@@ -121,7 +121,7 @@ pipeline.stages = [
             script.sh("./gradlew checkVersionEqualsComponentVersion -Pcomponent=${componentName} -PcomponentVersion=${componentVersion}")
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
-            script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
+            script.sh "./gradlew checkConfigurationIsOpenSourceTask"
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkStandardDependenciesStableTask -Pcomponent=${componentName}")

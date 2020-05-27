@@ -80,7 +80,7 @@ task deployToMirror(type: DeployToMirrorTask)
 
 task checkConfigurationIsProjectSnapshotTask(type: CheckConfigurationIsProjectSnapshotTask) // project-snapshot
 
-task checkConfigurationIsNotProjectSnapshotTask(type: CheckConfigurationIsNotProjectSnapshotTask) // dev, release, pr
+task checkConfigurationIsOpenSourceTask(type: CheckConfigurationIsOpenSourceTask) // dev, release, pr
 
 task generateReleaseNotesDiff(type: GenerateReleaseNotesDiffTask) // helper
 

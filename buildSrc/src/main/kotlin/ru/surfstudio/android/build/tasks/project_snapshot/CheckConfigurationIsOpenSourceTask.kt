@@ -7,11 +7,11 @@ import ru.surfstudio.android.build.exceptions.project_snapshot.ConfigurationIsPr
 import ru.surfstudio.android.build.exceptions.project_snapshot.ConfigurationNotProjectSnapshotException
 
 /**
- * Check configuration is not project snapshot
+ * Check configuration is open source
  *
  * @throws ConfigurationNotProjectSnapshotException
  */
-open class CheckConfigurationIsNotProjectSnapshotTask : DefaultTask() {
+open class CheckConfigurationIsOpenSourceTask : DefaultTask() {
 
     @TaskAction
     fun check() {
