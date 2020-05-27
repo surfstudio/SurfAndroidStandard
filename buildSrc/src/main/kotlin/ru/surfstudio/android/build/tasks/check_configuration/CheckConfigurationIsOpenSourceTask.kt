@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks.project_snapshot
+package ru.surfstudio.android.build.tasks.check_configuration
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
