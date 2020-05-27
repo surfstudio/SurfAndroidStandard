@@ -1,8 +1,7 @@
-[Главная страница репозитория](../docs/main.md)
-
-[TOC]
+[Главная страница репозитория](/docs/main.md)
 
 # MessageController
+
 Модуль для отображения Snackbar.
 
 Основные классы:
@@ -10,7 +9,7 @@
  1. [`DefaultMessageController`][default]
 
 # Использование
-[Пример использования](../message-controller-sample)
+[Пример использования](../sample)
 
 # Подключение
 Gradle:

@@ -15,7 +15,7 @@
 */
 package ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition
 
-import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
+import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
 import ru.surfstudio.android.mvp.dialog.navigation.route.DialogRoute
