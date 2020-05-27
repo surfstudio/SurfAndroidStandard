@@ -29,6 +29,8 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
+        println("CurrentRevision is $currentRevision; RevisionToCompare is $revisionToCompare")
+
         val resultByFiles = ComponentsFilesChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents(ignoreReleaseNotesChanges = true)
 
@@ -58,6 +60,8 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
                     }
 
                     if (isComponentUnstableAndChanged(component, resultByFile, resultByConfig)) {
+                        println("Updating version of ${component.name}")
+
                         component.copy(unstableVersion = component.unstableVersion + 1)
                     } else {
                         component.copy()
@@ -72,6 +76,8 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
                 File("$currentDirectory/$COMPONENTS_JSON_FILE_PATH")
         )
         Components.value = newComponents //fix reuse process with old parsed components for next tasks
+
+        println("Unstable changed components was successfully updated")
     }
 
     private fun isComponentUnstableAndChanged(

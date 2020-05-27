@@ -35,6 +35,8 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
+        println("CurrentRevision is $currentRevision; RevisionToCompare is $revisionToCompare")
+
         val componentsInformation = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
 

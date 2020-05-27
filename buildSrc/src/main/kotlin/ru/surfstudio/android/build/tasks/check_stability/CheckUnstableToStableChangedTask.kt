@@ -18,6 +18,9 @@ open class CheckUnstableToStableChangedTask : DefaultTask() {
     fun check() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
+
+        println("CurrentRevision is $currentRevision; RevisionToCompare is $revisionToCompare")
+
         val provider = ProjectConfigurationProvider(currentRevision, revisionToCompare)
 
         val currentProjectConfiguration = provider.provideCurrentRevisionConfiguration()
@@ -32,6 +35,8 @@ open class CheckUnstableToStableChangedTask : DefaultTask() {
                         fail("${component.id} was unstable in current revision, but changed to stable in $revisionToCompare")
                     }
                 }
+
+        println("Components did not changed")
     }
 
     private fun extractInputArguments() {

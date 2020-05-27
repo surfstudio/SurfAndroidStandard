@@ -36,6 +36,7 @@ class ProjectConfigurationProvider(
         val outputJsonFile = createJsonFileNameByRevision(currentRevision)
         if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
             runCommandWithResult(createCommandForCurrentRevision(currentRevision), File(currentDirectory))
+            println("Configuration file for current revision doesn`t exists. Created a new one")
         }
 
         return JsonHelper.parseProjectConfigurationFile(outputJsonFile)
@@ -52,6 +53,7 @@ class ProjectConfigurationProvider(
         if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
             TempProjectCreator(revisionToCompare, TEMP_FOLDER_NAME).createProjectWithRevToCompare()
             runCommandWithResult(createCommandForRevisionToCompare(revisionToCompare), File(currentDirectory))
+            println("Configuration file for revision to compare doesn`t exists. Created a new one")
         }
 
         return JsonHelper.parseProjectConfigurationFile(outputJsonFile)

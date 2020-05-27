@@ -23,9 +23,13 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
+        println("CurrentRevision is $currentRevision; RevisionToCompare is $revisionToCompare")
+
         checkForFileChanges(currentRevision)
 
         checkForConfigurationChanges(currentRevision)
+
+        println("Components did not changed")
     }
 
     private fun checkForConfigurationChanges(currentRevision: String) {

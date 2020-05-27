@@ -92,6 +92,8 @@ class ProjectConfigurationCreator(
     private fun saveProjectConfigurationToFile(projectConfiguration: ProjectConfiguration) {
         createIntermediateFoldersForJsonFile()
         JsonHelper.write(projectConfiguration, createJsonOutputFile())
+
+        println("Project configuration was saved in $outputJsonFileName")
     }
 
     /**
