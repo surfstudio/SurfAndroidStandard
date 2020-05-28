@@ -189,7 +189,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -472,7 +472,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 25,
+    "unstable_version": 26,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -772,7 +772,7 @@
   {
     "id": "core-navigation",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "core-navigation",
     "libs": [
@@ -822,7 +822,7 @@
   {
     "id": "permission",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "permission",
     "libs": [
@@ -872,7 +872,7 @@
   {
     "id": "custom-view",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "custom-view",
     "libs": [
@@ -1266,7 +1266,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 13,
+    "unstable_version": 14,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1654,7 +1654,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -1990,7 +1990,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 29,
+    "unstable_version": 30,
     "stable": false,
     "dir": "template",
     "libs": [],
