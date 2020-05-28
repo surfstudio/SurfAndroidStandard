@@ -30,7 +30,7 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
 
         checkForConfigurationChanges(currentRevision)
 
-        println("Stable components did not changed")
+        println("Stable components have not changed")
     }
 
     private fun checkForConfigurationChanges(currentRevision: String) {
