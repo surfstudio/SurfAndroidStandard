@@ -14,6 +14,7 @@ import ru.surfstudio.android.build.tasks.changed_components.models.ComponentChec
 import ru.surfstudio.android.build.tasks.check_stability.currentDirectory
 import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
 import ru.surfstudio.android.build.utils.JsonHelper
+import ru.surfstudio.android.build.utils.printRevisionsInfo
 import java.io.File
 
 /**
@@ -29,7 +30,7 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
-        println("CurrentRevision is $currentRevision; RevisionToCompare is $revisionToCompare")
+        printRevisionsInfo(currentRevision, revisionToCompare)
 
         val resultByFiles = ComponentsFilesChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents(ignoreReleaseNotesChanges = true)
