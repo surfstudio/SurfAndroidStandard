@@ -1,4 +1,4 @@
 # Picture-Provider Sample
 
 Пример использования модулей:
-+ [picture-provider](../picture-provider)
++ [picture-provider](../lib-picture-provider)

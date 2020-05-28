@@ -1,10 +1,7 @@
 package ru.surfstudio.standard
 
-import androidx.test.espresso.intent.Intents
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.standard.common.ElapsedTimeIdlingResource
@@ -19,16 +16,6 @@ import ru.surfstudio.standard.f_splash.TRANSITION_DELAY_MS
 @RunWith(AndroidJUnit4::class)
 @SmallTest
 class TemplateTest {
-
-    @Before
-    fun setUp() {
-        Intents.init()
-    }
-
-    @After
-    fun tearDown() {
-        Intents.release()
-    }
 
     @Test
     fun testApplicationLaunch() {
