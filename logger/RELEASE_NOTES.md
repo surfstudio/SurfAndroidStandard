@@ -10,7 +10,6 @@
   * Following classes were moved to Template: `RemoteLogger`,
     `RemoteLoggerLoggingStrategy`, `TimberLoggingStrategy`,
     `RemoteLoggingStrategy`
-* ANDDEP-793 readme transfer
 ## 0.3.0
 ##### Logger
 * ANDDEP-222 - added the ability to select a strategy for logging

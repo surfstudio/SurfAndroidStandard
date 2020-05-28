@@ -31,7 +31,6 @@ Replaced RxMiddleware.asRequestEvent `Event` parameter with `EventFactory`.
 * ANDDEP-1046 Fixed output events observing mechanism in CompositionTransformer: 
 now event composition mechanism supports middlewares that can only produces output events.
 * ANDDEP-1048 Fixing wrong docs links and docs structure
-* ANDDEP-793 added component readme
 ##### Mvi-mapper
 * ANDDEP-968 **NEW** `RequestMapper.kt`: class for managing requests;
 * ANDDEP-968 **NEW** `RequestMapperLambdas.kt`: file that holds typealiases for `RequestMapper`;

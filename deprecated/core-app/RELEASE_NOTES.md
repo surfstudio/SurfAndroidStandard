@@ -7,7 +7,6 @@
 ##### Core-app
 * **NO BACKWARD COMPATIBILITY** ANDDEP-928 Remove CoreApp
 * ANDDEP-1048 Fixing wrong docs links and docs structure
-* ANDDEP-793 readme transfer
 ## 0.4.0
 ##### Core-app
 * Module - ** deprecated **

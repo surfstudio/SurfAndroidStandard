@@ -19,7 +19,6 @@
     * **NO BACKWARD COMPATIBILITY** All classes responsible for permissions migrated from `core-ui` to `permission`
     If your app depends on permission handling mechanisms from `core-ui`, add `permission` module in its gradle dependencies as well.
 * ANDDEP-1048 Fixing wrong docs links and docs structure
-* ANDDEP-793 readme transfer
 ## 0.4.0
 ##### Core-ui
 * Added the ability to set text for the buttons of the standard dialog for switching to settings.

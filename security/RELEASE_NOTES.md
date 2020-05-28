@@ -12,7 +12,6 @@
     * [ReleaseSignatureChecker](lib-security/src/main/java/ru/surfstudio/android/security/app/ReleaseSignatureChecker.kt) - a class for checking release signature.
     * [SecurityUtils](lib-security/src/main/java/ru/surfstudio/android/security/crypto/security/SecurityUtils.kt) - added different utils for encoding and decoding.
 * ANDDEP-928 Remove clearCrashlyticsLogs function
-* ANDDEP-793 readme transfer
 ## 0.4.0
 ##### Security
 * ANDDEP-82 Security Module

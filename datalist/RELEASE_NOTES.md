@@ -6,7 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Datalist-limit-offset
-* ANDDEP-793 added component readme
+* TODO
 ## 0.4.0
 ##### Datalist-limit-offset
 * ANDDEP-242 Added the ability to force filtering in the DataList.merge method according to custom criteria to eliminate the same elements

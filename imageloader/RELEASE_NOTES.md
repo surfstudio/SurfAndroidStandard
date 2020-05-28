@@ -12,7 +12,6 @@
 more about this problem -  https://clck.ru/FVpbQ
 * ANDDEP-959 Added ability to work with Animatable drawable (GIF) in callbacks of into method
 * ANDDEP-1048 Fixing wrong docs links and docs structure
-* ANDDEP-793 readme transfer
 ## 0.4.0
 ##### Imageloader
 * ANDDEP-317 Optimization [`ImageLoader`](lib-imageloader/src/main/java/ru/surfstudio/android/imageloader/ImageLoader.kt):

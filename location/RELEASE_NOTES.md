@@ -5,7 +5,7 @@
 
 ## 0.5.0-alpha
 ##### Location
-* ANDDEP-793 readme transfer
+* TODO
 ## 0.4.0
 ##### Location
 * Fixed loss of callback of `LocationErrorResolution` in fragment

@@ -6,7 +6,6 @@
 - [0.2.1](#021)
 
 ## 0.5.0-alpha
-* ANDDEP-793 added component readme
 ##### Core-mvp
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 ##### Mvp-widget

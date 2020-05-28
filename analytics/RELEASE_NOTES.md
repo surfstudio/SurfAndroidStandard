@@ -7,7 +7,6 @@
 ##### Analytics
 * ANDDEP-928 Remove Crashlytics dependencies
 * ANDDEP-1048 Fixing wrong docs links and docs structure
-* ANDDEP-793 added component readme
 ## 0.4.0
 ##### Analytics
 * ANDDEP-294 Improved analytics module
