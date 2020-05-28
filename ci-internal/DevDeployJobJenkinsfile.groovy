@@ -91,8 +91,6 @@ pipeline.initializeBody = {
 
     buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
-
-    globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
 }
 
 pipeline.stages = [
@@ -122,6 +120,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
+            globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             globalVersion = globalConfiguration.version
 
             if (("dev/G-" + globalVersion) != branchName) {
