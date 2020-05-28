@@ -35,6 +35,7 @@ def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def androidStandardTemplateName = "android-standard-template"
 def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
 def androidStandardTemplateConfigurationFile = "template/config.gradle"
+def projectConfigurationVersionFile = "buildSrc/build/tmp/projectVersion.txt"
 def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
 def idChatAndroidSlack = "CFSF53SJ1"
 
@@ -42,6 +43,7 @@ def idChatAndroidSlack = "CFSF53SJ1"
 def branchName = ""
 def globalVersion = "<unknown>"
 def buildDescription = ""
+def globalConfiguration = ""
 
 //other config
 
@@ -107,7 +109,7 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
-        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.SKIP_STAGE, false) {
+        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
             def prevCommitHash = commitParents[0]
             script.sh("./gradlew WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}")
@@ -117,22 +119,25 @@ pipeline.stages = [
                 JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
             }
         },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION, StageStrategy.SKIP_STAGE) {
-            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
+        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
+            globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             globalVersion = globalConfiguration.version
 
             if (("dev/G-" + globalVersion) != branchName) {
                 script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
             }
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
             script.sh("./gradlew incrementGlobalUnstableVersion")
         },
         pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
-            currentStandardVersion = getCurrentStandardVersion(script, projectConfigurationFile)
+            script.sh("./gradlew generateProjectConfigurationVersionFileTask")
+
+            def currentStandardVersion = ""
+            script.readFile(projectConfigurationVersionFile).withReader { currentStandardVersion = it.readLine() }
 
             AndroidUtil.changeGradleVariable(
                     script,
@@ -140,20 +145,20 @@ pipeline.stages = [
                     "androidStandardVersion",
                     "'$currentStandardVersion'")
         },
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
-        pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
-        pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -171,14 +176,14 @@ pipeline.stages = [
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
-        pipeline.stage(DEPLOY_MODULES, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                 }
             }
         },
-        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
             withArtifactoryCredentials(script) {
                 script.sh "./gradlew generateDataForPlugin"
                 script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
@@ -186,13 +191,12 @@ pipeline.stages = [
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
-            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
 
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
@@ -339,25 +343,4 @@ def static withArtifactoryCredentials(script, body) {
 def static getGlobalConfiguration(script, projectConfigurationFile) {
     String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
     return new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
-}
-
-static String getCurrentStandardVersion(script, projectConfigurationFile) {
-    def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
-
-    if (!globalConfiguration.stable) {
-        if (globalConfiguration.project_snapshot_name == "")
-            return getCurrentStandardAlphaVersion(globalConfiguration)
-
-        return getCurrentStandardAlphaVersion(globalConfiguration) + "-" + getCurrentStandardProjectVersion(globalConfiguration)
-    }
-
-    return script.error("Currently stable versions are not supported")
-}
-
-static String getCurrentStandardAlphaVersion(globalConfiguration) {
-    return globalConfiguration.version + "-alpha." + globalConfiguration.unstable_version
-}
-
-static String getCurrentStandardProjectVersion(globalConfiguration) {
-    return globalConfiguration.project_snapshot_name + "." + globalConfiguration.project_snapshot_version
 }
