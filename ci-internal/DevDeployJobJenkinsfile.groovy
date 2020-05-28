@@ -43,7 +43,7 @@ def idChatAndroidSlack = "CFSF53SJ1"
 def branchName = ""
 def globalVersion = "<unknown>"
 def buildDescription = ""
-def globalConfiguration = new groovy.json.JsonSlurperClassic()
+def globalConfiguration = new JsonSlurperClassic()
 
 //other config
 
