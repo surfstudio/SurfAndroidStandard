@@ -9,6 +9,7 @@ import ru.surfstudio.android.build.tasks.check_release_notes.*
 import ru.surfstudio.android.build.tasks.check_stability.*
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.*
 import ru.surfstudio.android.build.tasks.generate_release_notes_diff.*
+import ru.surfstudio.android.build.tasks.generate_version_file.*
 import ru.surfstudio.android.build.tasks.increment_version.*
 import ru.surfstudio.android.build.tasks.project_snapshot.*
 
@@ -60,9 +61,9 @@ task checkVersionEqualsComponentVersion(type: CheckVersionEqualsComponentVersion
 
 task generateDataForPlugin(type: GenerateDataForPluginTask) //dev //project-snapshot
 
-task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //dev
-
 task generateProjectConfigurationVersionFileTask(type: GenerateProjectConfigurationVersionFileTask) //dev
+
+task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //dev
 
 task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask) // project-snapshot
 
