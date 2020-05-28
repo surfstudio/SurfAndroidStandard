@@ -14,12 +14,16 @@ open class GenerateProjectConfigurationVersionFileTask : DefaultTask() {
 
     @TaskAction
     fun generate() {
+        val currentVersion = ConfigInfoProvider.getVersion()
+
         with(File(PROJECT_CONFIGURATION_VERSION_FILE_NAME)) {
             if (exists()) {
                 delete()
             }
             createNewFile()
-            appendText(ConfigInfoProvider.getVersion())
+            appendText(currentVersion)
         }
+
+        println("Configuration file was generated with current project version: $currentVersion")
     }
 }
