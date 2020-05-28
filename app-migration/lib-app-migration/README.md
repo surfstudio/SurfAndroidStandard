@@ -7,7 +7,7 @@
 3. Поставить `AppMigrationStorage` в конструктор [`AppMigrationManager`][amm]
 4. Вызвать `AppMigrationManager.tryMigrateApp()` при инициализации приложения 
 
-[Пример использования](../app-migration-sample)
+[Пример использования](../sample)
 
 # Подключение
 Gradle:

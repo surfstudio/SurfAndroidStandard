@@ -1,5 +1,3 @@
-[TOC]
-
 # Permission
 Является расширением [`core-ui`][core-ui]-модуля для работы с Runtime Permissions (разрешениями приложения).
 
