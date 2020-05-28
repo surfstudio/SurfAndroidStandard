@@ -6,6 +6,7 @@ import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.tasks.changed_components.ProjectConfigurationProvider
+import ru.surfstudio.android.build.utils.printRevisionsInfo
 
 /**
  * Task check if any unstable component was changed to stable and fails if so
@@ -19,7 +20,7 @@ open class CheckUnstableToStableChangedTask : DefaultTask() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
-        println("CurrentRevision is $currentRevision; RevisionToCompare is $revisionToCompare")
+        printRevisionsInfo(currentRevision, revisionToCompare)
 
         val provider = ProjectConfigurationProvider(currentRevision, revisionToCompare)
 

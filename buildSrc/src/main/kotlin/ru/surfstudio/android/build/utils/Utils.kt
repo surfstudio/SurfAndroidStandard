@@ -27,3 +27,13 @@ fun createCompositeVersion(
 
     return compositeVersion
 }
+
+/**
+ * Revisions output for components check
+ */
+fun printRevisionsInfo(
+        currentRevision: String,
+        revisionToCompare: String
+) {
+    println("CurrentRevision is $currentRevision; RevisionToCompare is $revisionToCompare")
+}

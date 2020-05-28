@@ -8,6 +8,7 @@ import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurat
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
+import ru.surfstudio.android.build.utils.printRevisionsInfo
 
 val currentDirectory: String = System.getProperty("user.dir")
 
@@ -23,13 +24,13 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
-        println("CurrentRevision is $currentRevision; RevisionToCompare is $revisionToCompare")
+        printRevisionsInfo(currentRevision, revisionToCompare)
 
         checkForFileChanges(currentRevision)
 
         checkForConfigurationChanges(currentRevision)
 
-        println("Components did not changed")
+        println("Stable components did not changed")
     }
 
     private fun checkForConfigurationChanges(currentRevision: String) {

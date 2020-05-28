@@ -12,6 +12,7 @@ import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesForFiles
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsDiffProvider
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
+import ru.surfstudio.android.build.utils.printRevisionsInfo
 
 open class CheckReleaseNotesChangedTask : DefaultTask() {
 
@@ -35,7 +36,7 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
-        println("CurrentRevision is $currentRevision; RevisionToCompare is $revisionToCompare")
+        printRevisionsInfo(currentRevision, revisionToCompare)
 
         val componentsInformation = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
