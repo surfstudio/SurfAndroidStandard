@@ -35,7 +35,6 @@ def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def androidStandardTemplateName = "android-standard-template"
 def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
 def androidStandardTemplateConfigurationFile = "template/config.gradle"
-def projectConfigurationVersionFile = "buildSrc/build/tmp/projectVersion.txt"
 def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
 def idChatAndroidSlack = "CFSF53SJ1"
 
@@ -43,7 +42,6 @@ def idChatAndroidSlack = "CFSF53SJ1"
 def branchName = ""
 def globalVersion = "<unknown>"
 def buildDescription = ""
-def globalConfiguration = "<unknown>"
 
 //other config
 
@@ -120,7 +118,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION, StageStrategy.SKIP_STAGE) {
-            globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
+            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             globalVersion = globalConfiguration.version
 
             if (("dev/G-" + globalVersion) != branchName) {
@@ -134,10 +132,7 @@ pipeline.stages = [
             script.sh("./gradlew incrementGlobalUnstableVersion")
         },
         pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
-            script.sh("./gradlew generateProjectConfigurationVersionFileTask")
-
-            def currentStandardVersion = ""
-            script.readFile(projectConfigurationVersionFile).withReader { currentStandardVersion = it.readLine() }
+            currentStandardVersion = getCurrentStandardVersion(script, projectConfigurationFile)
 
             AndroidUtil.changeGradleVariable(
                     script,
@@ -191,6 +186,7 @@ pipeline.stages = [
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
+            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
 
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
@@ -343,4 +339,25 @@ def static withArtifactoryCredentials(script, body) {
 def static getGlobalConfiguration(script, projectConfigurationFile) {
     String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
     return new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+}
+
+static String getCurrentStandardVersion(script, projectConfigurationFile) {
+    def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
+
+    if (!globalConfiguration.stable) {
+        if (globalConfiguration.project_snapshot_name == "")
+            return getCurrentStandardAlphaVersion(globalConfiguration)
+
+        return getCurrentStandardAlphaVersion(globalConfiguration) + "-" + getCurrentStandardProjectVersion(globalConfiguration)
+    }
+
+    return script.error("Currently stable versions are not supported")
+}
+
+static String getCurrentStandardAlphaVersion(globalConfiguration) {
+    return globalConfiguration.version + "-alpha." + globalConfiguration.unstable_version
+}
+
+static String getCurrentStandardProjectVersion(globalConfiguration) {
+    return globalConfiguration.project_snapshot_name + "." + globalConfiguration.project_snapshot_version
 }
