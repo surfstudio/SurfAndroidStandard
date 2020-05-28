@@ -136,8 +136,7 @@ pipeline.stages = [
         pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
             script.sh("./gradlew generateProjectConfigurationVersionFileTask")
 
-            def currentStandardVersion = ""
-            File(projectConfigurationVersionFile).withReader { currentStandardVersion = it.readLine() }
+            def currentStandardVersion = script.readFile(projectConfigurationVersionFile)
 
             AndroidUtil.changeGradleVariable(
                     script,
