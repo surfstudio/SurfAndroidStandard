@@ -37,7 +37,7 @@ open class CheckUnstableToStableChangedTask : DefaultTask() {
                     }
                 }
 
-        println("Components did not changed")
+        println("Unstable components did not become stable")
     }
 
     private fun extractInputArguments() {

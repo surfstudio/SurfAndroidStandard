@@ -77,7 +77,7 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
         )
         Components.value = newComponents //fix reuse process with old parsed components for next tasks
 
-        println("Unstable changed components was successfully updated")
+        println("Unstable changed components were successfully updated")
     }
 
     private fun isComponentUnstableAndChanged(
