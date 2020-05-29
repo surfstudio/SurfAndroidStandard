@@ -1,7 +1,7 @@
-# Analytics
+[Главная](/docs/main.md)
 
-## Модули
+# Модули
 
 - [Analytics](lib-analytics)
-- [Firebase Analytics](lib-firebase-analytics)
+- [Firebase analytics](lib-firebase-analytics)
 - [Пример](sample)

@@ -11,7 +11,7 @@
 
 Для работы с сетью предусмотрены модули:
  * [network][network]
- * [Gson-конвертер](../../deprecated/converter-gson/lib-converter-gson/README.md)
+ * [Gson-конвертер](../../deprecated/converter-gson/README.md)
 
 При работе с сервером возникает необхдимость добавлять те или иные параметры
 в запрос. Для этих целей хорошо подходит сущности типа `Interceptor`. Такие
@@ -94,9 +94,9 @@
 [etag]: ../../deprecated/network/lib-network/docs/etag.md
 [hybrid]: ../../deprecated/network/lib-network/docs/hybrid.md
 [handle_errors_on_presenter]: ../ui/presenter.md
-[file_cache]: ../../filestorage/lib-filestorage/README.md
+[file_cache]: ../../filestorage/README.md
 [mapping]: ../../deprecated/network/lib-network/docs/usage.md?at=dev%2FG-0.5.0
 [interactor]: interactor.md
 [network]: ../../deprecated/network/lib-network/docs/usage.md
-[core_ui]: ../../core-ui/lib-core-ui/README.md
+[core_ui]: ../../core-ui/README.md
 

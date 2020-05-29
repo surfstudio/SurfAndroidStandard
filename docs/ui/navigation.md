@@ -68,6 +68,6 @@ abstract class CustomScreenModule<out R : Route>(private val route: R) {
 
 Более подробно [Основные Routes и Navigators][nav], [Навигаторы для диалогов][dial]
 
-[core_ui]: ../../core-ui/lib-core-ui/README.md
-[nav]: ../../core-navigation/lib-core-navigation/README.md
+[core_ui]: ../../core-ui/README.md
+[nav]: ../../core-navigation/README.md
 [dial]: ../../mvp/lib-mvp-dialog/README.md
