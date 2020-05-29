@@ -43,8 +43,6 @@ task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //
 
 task generateProjectConfigurationVersionFileTask(type: GenerateProjectConfigurationVersionFileTask) //dev
 
-task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //dev
-
 task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask) // project-snapshot
 
 task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersionTask) // pr, release
