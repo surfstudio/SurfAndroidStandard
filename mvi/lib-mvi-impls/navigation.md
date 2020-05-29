@@ -1,8 +1,10 @@
-[Главная страница репозитория](../docs/main.md)
-
-[TOC]
+[Главная страница репозитория](../../docs/main.md)
 
 # Навигация
+
+- [Composition](#composition)
+- [Схема](#схема)
+
 За всю навигацию в mvi отвечает `NavigationMiddleware` (`NavigationMiddlewareInterface`).
 
 Механзим работы этого middleware следующий: 
