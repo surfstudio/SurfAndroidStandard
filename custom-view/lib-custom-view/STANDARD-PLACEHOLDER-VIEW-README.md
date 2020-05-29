@@ -1,4 +1,4 @@
-[Ридми модуля](README.md)
+[Ридми модуля](../README.md)
 
 # StandardPlaceholderView
 
