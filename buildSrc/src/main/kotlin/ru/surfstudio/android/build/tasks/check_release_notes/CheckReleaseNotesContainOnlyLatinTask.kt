@@ -8,9 +8,9 @@ import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesContains
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesInfo
 
 /**
- * Check ReleaseNotes contain only latin symbols.
+ * Check ReleaseNotes contain only latin symbols
  */
-open class CheckReleaseNotesContainOnlyLatin : DefaultTask() {
+open class CheckReleaseNotesContainOnlyLatinTask : DefaultTask() {
 
     @TaskAction
     fun check() {

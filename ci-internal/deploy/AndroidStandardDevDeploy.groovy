@@ -126,7 +126,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
-            script.sh "./gradlew checkConfigurationIsOpenSourceTask"
+            script.sh "./gradlew checkConfigurationIsOpenSource"
         },
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
             script.sh("./gradlew incrementGlobalUnstableVersion")

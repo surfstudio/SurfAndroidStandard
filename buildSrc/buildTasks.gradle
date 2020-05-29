@@ -16,41 +16,39 @@ task checkComponentDependenciesAreStable(type: CheckComponentDependenciesAreStab
 
 task checkStableModuleDependenciesAreAlsoStable(type: CheckStableModuleDependenciesAreAlsoStableTask) // pr
 
-task checkDependenciesArtifactExistsInArtifactoryTask(type: CheckDependenciesArtifactExistsInArtifactoryTask) // release
+task checkDependenciesArtifactExistsInArtifactory(type: CheckDependenciesArtifactExistsInArtifactoryTask) // release
 
-task checkDependenciesArtifactExistsInBintrayTask(type: CheckDependenciesArtifactExistsInBintrayTask) // release
+task checkDependenciesArtifactExistsInBintray(type: CheckDependenciesArtifactExistsInBintrayTask) // release
 
-task checkDependencyForComponentUnstable(type: CheckDependencyForComponentUnstableTask) // release
+task checkDependenciesForComponentAreUnstable(type: CheckDependenciesForComponentAreUnstableTask) // release
 
-task checkStableComponentsChanged(type: CheckStableComponentsChangedTask) // pr
-
-task createProjectConfiguration(type: CreateProjectConfigurationTask)
+task checkStableComponentsHaveChanged(type: CheckStableComponentsHaveChangedTask) // pr
 
 task incrementUnstableChangedComponents(type: IncrementUnstableChangedComponentsTask) // dev
 
-task checkSameArtifactVersionExistsInArtifactoryTask(type: CheckSameArtifactVersionExistsInArtifactoryTask) //release
+task checkSameArtifactVersionExistsInArtifactory(type: CheckSameArtifactVersionExistsInArtifactoryTask) // release
 
-task checkSameArtifactVersionExistsInBintrayTask(type: CheckSameArtifactVersionExistsInBintrayTask) //release
+task checkSameArtifactVersionExistsInBintray(type: CheckSameArtifactVersionExistsInBintrayTask) // release
 
-task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask) // pr
+task checkUnstableComponentBecameStable(type: CheckUnstableComponentBecameStableTask) // pr
 
-task checkComponentStable(type: CheckComponentStableTask) //release
+task checkComponentIsStable(type: CheckComponentIsStableTask) // release
 
-task checkVersionEqualsComponentVersion(type: CheckVersionEqualsComponentVersionTask) //release
+task checkPropertyVersionEqualsComponentVersion(type: CheckPropertyVersionEqualsComponentVersionTask) // release
 
-task generateDataForPlugin(type: GenerateDataForPluginTask) //dev, project-snapshot
+task generateDataForPlugin(type: GenerateDataForPluginTask) // dev, project-snapshot
 
-task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //dev
+task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) // dev
 
 task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask) // project-snapshot
 
-task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion) // pr, release
+task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersionTask) // pr, release
 
-task checkReleaseNotesContainOnlyLatin(type: CheckReleaseNotesContainOnlyLatin) // pr, release
+task checkReleaseNotesContainOnlyLatin(type: CheckReleaseNotesContainOnlyLatinTask) // pr, release
 
-task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask) // pr
+task checkStableArtifactsExistInArtifactory(type: CheckStableArtifactsExistInArtifactoryTask) // pr
 
-task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBintrayTask) // pr
+task checkStableArtifactsExistInBintray(type: CheckStableArtifactsExistInBintrayTask) // pr
 
 task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask) // release
 
@@ -58,19 +56,21 @@ task checkReleaseNotesWasChangedForChangedComponent(type: CheckReleaseNotesWasCh
 
 task deployComponentToMirror(type: DeployComponentToMirrorTask) // component mirror
 
-task checkConfigurationIsProjectSnapshotTask(type: CheckConfigurationIsProjectSnapshotTask) // project-snapshot
+task checkConfigurationIsProjectSnapshot(type: CheckConfigurationIsProjectSnapshotTask) // project-snapshot
 
-task checkConfigurationIsOpenSourceTask(type: CheckConfigurationIsOpenSourceTask) // dev, release, pr
+task checkConfigurationIsOpenSource(type: CheckConfigurationIsOpenSourceTask) // dev, release, pr
 
 task generateReleaseNotesDiff(type: GenerateReleaseNotesDiffTask) // pr
 
-task writeToFileReleaseNotesDiffForSlack(type: WriteToFileReleaseNotesDiffForSlack) //dev, project-snapshot
+task writeToFileReleaseNotesDiffForSlack(type: WriteToFileReleaseNotesDiffForSlack) // dev, project-snapshot
 
-task writeToFileReleaseNotesDiff(type: WriteToFileReleaseNotesDiff) //dev, project-snapshot
+task writeToFileReleaseNotesDiff(type: WriteToFileReleaseNotesDiff) // dev, project-snapshot
 
 task checkAllBintrayArtifactsVersionsAreStable(type: CheckAllBintrayArtifactsVersionsAreStableTask) // bintray
 
 task checkAllReleaseArtifactsHaveTag(type: CheckAllReleaseArtifactsHaveTagTask) // bintray
+
+task createProjectConfiguration(type: CreateProjectConfigurationTask) // currently not used
 
 task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
     dir = file('./temp')

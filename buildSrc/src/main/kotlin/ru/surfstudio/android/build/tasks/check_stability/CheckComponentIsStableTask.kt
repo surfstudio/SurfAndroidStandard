@@ -6,12 +6,12 @@ import ru.surfstudio.android.build.exceptions.component.ComponentUnstableExcepti
 import ru.surfstudio.android.build.utils.getPropertyComponent
 
 /**
- * Check component stable
+ * Check component is stable
  */
-open class CheckComponentStableTask : DefaultTask() {
+open class CheckComponentIsStableTask : DefaultTask() {
 
     /**
-     * Check component stable
+     * Check component is stable
      */
     @TaskAction
     fun check() {

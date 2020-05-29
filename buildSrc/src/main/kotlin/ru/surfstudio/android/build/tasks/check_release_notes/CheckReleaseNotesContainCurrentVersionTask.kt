@@ -11,7 +11,7 @@ import ru.surfstudio.android.build.model.release_notes.ReleaseNotesInfo
 /**
  * Check ReleaseNotes contain current project version
  */
-open class CheckReleaseNotesContainCurrentVersion : DefaultTask() {
+open class CheckReleaseNotesContainCurrentVersionTask : DefaultTask() {
 
     @TaskAction
     fun check() {

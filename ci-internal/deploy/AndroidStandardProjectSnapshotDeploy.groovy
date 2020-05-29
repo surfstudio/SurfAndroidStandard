@@ -139,7 +139,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
-            script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
+            script.sh("./gradlew checkConfigurationIsProjectSnapshot")
         },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
             if (!skipIncrementVersion) {

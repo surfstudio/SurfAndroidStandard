@@ -118,33 +118,33 @@ pipeline.stages = [
             def parts = branchName.split("/")
             componentName = parts[1]
             componentVersion = parts[2]
-            script.sh("./gradlew checkVersionEqualsComponentVersion -Pcomponent=${componentName} -PcomponentVersion=${componentVersion}")
+            script.sh("./gradlew checkPropertyVersionEqualsComponentVersion -Pcomponent=${componentName} -PcomponentVersion=${componentVersion}")
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
-            script.sh "./gradlew checkConfigurationIsOpenSourceTask"
+            script.sh "./gradlew checkConfigurationIsOpenSource"
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkComponentDependenciesAreStable -Pcomponent=${componentName}")
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
-                script.sh("./gradlew checkDependenciesArtifactExistsInArtifactoryTask -Pcomponent=${componentName}")
-                script.sh("./gradlew checkDependenciesArtifactExistsInBintrayTask -Pcomponent=${componentName}")
+                script.sh("./gradlew checkDependenciesArtifactExistsInArtifactory -Pcomponent=${componentName}")
+                script.sh("./gradlew checkDependenciesArtifactExistsInBintray -Pcomponent=${componentName}")
             }
         },
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
-                script.sh("./gradlew checkSameArtifactVersionExistsInArtifactoryTask -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
+                script.sh("./gradlew checkSameArtifactVersionExistsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
             }
             withBintrayCredentials(script) {
-                script.sh("./gradlew checkSameArtifactVersionExistsInBintrayTask -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
+                script.sh("./gradlew checkSameArtifactVersionExistsInBintray -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
             }
         },
         pipeline.stage(CHECK_COMPONENT_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkComponentStable -Pcomponent=${componentName}")
+            script.sh("./gradlew checkComponentIsStable -Pcomponent=${componentName}")
         },
         pipeline.stage(CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkDependencyForComponentUnstable -Pcomponent=${componentName}")
+            script.sh("./gradlew checkDependenciesForComponentAreUnstable -Pcomponent=${componentName}")
         },
         pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesContainCurrentVersion")

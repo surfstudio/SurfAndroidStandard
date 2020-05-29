@@ -11,7 +11,7 @@ import ru.surfstudio.android.build.utils.printRevisionsInfo
 /**
  * Task check if any unstable component was changed to stable and fails if so
  */
-open class CheckUnstableToStableChangedTask : DefaultTask() {
+open class CheckUnstableComponentBecameStableTask : DefaultTask() {
 
     private lateinit var revisionToCompare: String
 

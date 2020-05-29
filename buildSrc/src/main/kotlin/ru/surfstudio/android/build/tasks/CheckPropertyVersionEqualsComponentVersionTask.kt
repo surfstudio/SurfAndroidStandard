@@ -10,7 +10,7 @@ import ru.surfstudio.android.build.utils.getPropertyComponent
 /**
  * Check version from property equals version from component
  */
-open class CheckVersionEqualsComponentVersionTask : DefaultTask() {
+open class CheckPropertyVersionEqualsComponentVersionTask : DefaultTask() {
 
     /**
      * Check version from property equals version from component

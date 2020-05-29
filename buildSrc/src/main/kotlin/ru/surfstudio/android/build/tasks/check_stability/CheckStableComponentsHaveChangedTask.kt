@@ -15,7 +15,7 @@ val currentDirectory: String = System.getProperty("user.dir")
 /**
  * Task checking if stable components in current revision compared to [revisionToCompare] are changed
  */
-open class CheckStableComponentsChangedTask : DefaultTask() {
+open class CheckStableComponentsHaveChangedTask : DefaultTask() {
 
     private lateinit var revisionToCompare: String
 

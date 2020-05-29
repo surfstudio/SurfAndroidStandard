@@ -11,7 +11,7 @@ import ru.surfstudio.android.build.utils.getPropertyComponent
 /**
  * Check components libraries depend on parameter component libraries unstable
  */
-open class CheckDependencyForComponentUnstableTask : DefaultTask() {
+open class CheckDependenciesForComponentAreUnstableTask : DefaultTask() {
 
     @TaskAction
     fun check() {

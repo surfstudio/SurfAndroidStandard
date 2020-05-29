@@ -193,25 +193,25 @@ pipeline.stages = [
         },
 
         pipeline.stage(CHECK_CONFIGURATION_IS_OPEN_SOURCE) {
-            script.sh "./gradlew checkConfigurationIsOpenSourceTask"
+            script.sh "./gradlew checkConfigurationIsOpenSource"
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
                 script.echo "artifactory user: ${script.env.surf_maven_username}"
-                script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
+                script.sh("./gradlew checkStableArtifactsExistInArtifactory")
             }
 
             withBintrayCredentials(script) {
                 script.echo "bintray user: ${script.env.surf_bintray_username}"
-                script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
+                script.sh("./gradlew checkStableArtifactsExistInBintray")
             }
 
         },
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            script.sh("./gradlew checkStableComponentsHaveChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            script.sh("./gradlew checkUnstableComponentBecameStable -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkStableModuleDependenciesAreAlsoStable")
