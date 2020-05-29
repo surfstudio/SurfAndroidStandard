@@ -2,14 +2,13 @@ package ru.surfstudio.android.build.tasks.check_dependencies_stable
 
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
-import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.exceptions.UnstableLibraryDependenciesException
-import ru.surfstudio.android.build.model.Component
+import ru.surfstudio.android.build.utils.getPropertyComponent
 
 /**
- * Task to check standard library's dependencies
+ * Task to check component dependencies stability
  */
-open class CheckStableComponentStandardDependenciesStableTask : BaseCheckDependenciesStableTask() {
+open class CheckComponentDependenciesAreStableTask : BaseCheckDependenciesStableTask() {
 
     /**
      * Check library's standard dependencies for stability
@@ -18,11 +17,9 @@ open class CheckStableComponentStandardDependenciesStableTask : BaseCheckDepende
      */
     @TaskAction
     fun check() {
-        val unstableLibs = HashSet<UnstableLib>()
+        val component = project.getPropertyComponent()
 
-        Components.value
-                .filter(Component::stable)
-                .forEach { unstableLibs.addAll(checkComponent(it)) }
+        val unstableLibs = checkComponent(component)
 
         if (unstableLibs.isNotEmpty()) throw UnstableLibraryDependenciesException(unstableLibs.toString())
     }

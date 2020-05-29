@@ -8,7 +8,7 @@ import ru.surfstudio.android.build.utils.getPropertyComponent
 /**
  * Check artifact for android standard dependencies exist in artifactory
  */
-open class CheckExistingDependencyArtifactsInArtifactoryTask : DefaultTask() {
+open class CheckDependenciesArtifactExistsInArtifactoryTask : DefaultTask() {
 
     @TaskAction
     fun check() {

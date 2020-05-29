@@ -84,7 +84,7 @@ pipeline.stages = [
 
                                 script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
                                 withGithubCredentials(script) {
-                                    script.sh "./gradlew deployToMirror -Pcomponent=${component.id} " +
+                                    script.sh "./gradlew deployComponentToMirror -Pcomponent=${component.id} " +
                                             "-Pcommit=$lastCommit -PmirrorUrl=${component.mirror_repo} " +
                                             "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
                                 }

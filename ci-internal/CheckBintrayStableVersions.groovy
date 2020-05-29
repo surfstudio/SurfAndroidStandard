@@ -63,10 +63,10 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(CHECK_TAGS_FOR_RELEASE_ARTIFACTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh "./gradlew checkTagsForReleaseArtifactsTask"
+            script.sh "./gradlew checkAllReleaseArtifactsHaveTag"
         },
         pipeline.stage(CHECK_BINTRAY_STABLE_VERSIONS) {
-            script.sh "./gradlew checkBintrayStableVersionsTask"
+            script.sh "./gradlew checkAllBintrayArtifactsVersionsAreStable"
         }
 ]
 

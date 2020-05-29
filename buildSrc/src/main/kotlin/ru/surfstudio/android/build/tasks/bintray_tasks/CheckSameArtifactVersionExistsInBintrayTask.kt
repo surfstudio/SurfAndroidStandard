@@ -10,7 +10,7 @@ import ru.surfstudio.android.build.utils.getPropertyComponent
 /**
  * Check same artifact version in bintray.
  */
-open class CheckSameArtifactsInBintrayTask : DefaultTask() {
+open class CheckSameArtifactVersionExistsInBintrayTask : DefaultTask() {
 
     /**
      * Check artifact with same version in bintray

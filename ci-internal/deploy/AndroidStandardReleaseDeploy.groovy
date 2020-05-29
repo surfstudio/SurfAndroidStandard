@@ -124,20 +124,20 @@ pipeline.stages = [
             script.sh "./gradlew checkConfigurationIsOpenSourceTask"
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkStandardDependenciesStableTask -Pcomponent=${componentName}")
+            script.sh("./gradlew checkComponentDependenciesAreStable -Pcomponent=${componentName}")
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
-                script.sh("./gradlew checkExistingDependencyArtifactsInArtifactory -Pcomponent=${componentName}")
-                script.sh("./gradlew checkExistingDependencyArtifactsInBintray -Pcomponent=${componentName}")
+                script.sh("./gradlew checkDependenciesArtifactExistsInArtifactoryTask -Pcomponent=${componentName}")
+                script.sh("./gradlew checkDependenciesArtifactExistsInBintrayTask -Pcomponent=${componentName}")
             }
         },
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
-                script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
+                script.sh("./gradlew checkSameArtifactVersionExistsInArtifactoryTask -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
             }
             withBintrayCredentials(script) {
-                script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
+                script.sh("./gradlew checkSameArtifactVersionExistsInBintrayTask -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
             }
         },
         pipeline.stage(CHECK_COMPONENT_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {

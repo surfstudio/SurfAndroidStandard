@@ -14,7 +14,10 @@ import ru.surfstudio.android.build.tasks.changed_components.ComponentsDiffProvid
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.utils.printRevisionsInfo
 
-open class CheckReleaseNotesChangedTask : DefaultTask() {
+/**
+ * Task to check that release notes was changed
+ */
+open class CheckReleaseNotesWasChangedForChangedComponentTask : DefaultTask() {
 
     companion object {
         const val MD_FILE_REGEX = "\\.md"

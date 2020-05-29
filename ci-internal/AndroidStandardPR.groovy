@@ -214,14 +214,14 @@ pipeline.stages = [
             script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkStableComponentStandardDependenciesStableTask")
+            script.sh("./gradlew checkStableModuleDependenciesAreAlsoStable")
         },
         pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
             script.sh("./gradlew CheckReleaseNotesContainOnlyLatin")
         },
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            script.sh("./gradlew checkReleaseNotesWasChangedForChangedComponent -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECKS_RESULT) {
             script.sh "rm -rf $TEMP_FOLDER_NAME"

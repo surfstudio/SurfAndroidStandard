@@ -1,9 +1,9 @@
 package ru.surfstudio.android.build.tasks.bintray_tasks.release
 
 /**
- * Check if all release artifacts have a tag with format ARTIFACT-NAME/STABLE-VERSION
+ * Check if all release artifacts have a tag with format ARTIFACT-NAME/STABLE-VERSION CheckAllBintrayArtifactsVersionsAreStableTask
  */
-open class CheckTagsForReleaseArtifactsTask : BaseCheckBintrayForReleaseTask() {
+open class CheckAllReleaseArtifactsHaveTagTask : BaseCheckBintrayForReleaseTask() {
 
     override fun performCheck(
             packageName: String,

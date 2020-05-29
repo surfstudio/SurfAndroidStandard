@@ -12,7 +12,7 @@ import ru.surfstudio.android.build.utils.getPropertyComponent
 /**
  * Task for deploying [component] to mirror
  */
-open class DeployToMirrorTask : DefaultTask() {
+open class DeployComponentToMirrorTask : DefaultTask() {
 
     private lateinit var component: Component
     private lateinit var commitHash: String
