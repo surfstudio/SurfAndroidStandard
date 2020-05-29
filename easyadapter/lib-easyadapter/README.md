@@ -1,9 +1,12 @@
 # EasyAdapter
-This module is a development of project
+This module evolved from project
 [EasyAdapter](https://github.com/MaksTuev/EasyAdapter).
 
 This is adapter which simplifies the process of adding a complex content
 to RecyclerView.
+
+The adapter does not require to call `notify...` methods because it uses
+`DiffUtil`.
 
 # Usage
 Gradle:
@@ -11,21 +14,41 @@ Gradle:
     implementation "ru.surfstudio.android:easyadapter:X.X.X"
 ```
 
+# Sample code
+```
+adapter.setItems(
+    ItemList.create()
+        .addAll(sm.firstDataList, firstDataItemController)
+        .addAll(sm.secondDataList, secondDataItemController)
+        .add(emptyItemController)
+        .add(sm.firstData, sm.secondData, twoDataItemController)
+)
+                
+```
+
 The main idea is using unique `ItemController` which is responsible for
-render and behaviour of a single element.
+render and behaviour of a single element type.
 
 It can be used for static and dynamically populated content.
 
 ## Multitype list
 1. Create instance of `EasyAdapter` using default constructor and pass
    to `RecyclerView`
-2. For each list element create [controller](src/main/java/ru/surfstudio/android/easyadapter/controller)
+2. For each list element create its controller which should be inherited
+   from one of base
+   [controllers](src/main/java/ru/surfstudio/android/easyadapter/controller)
 3. Create `ItemList` and add data using pairs of data and controller
 4. Pass filled `ItemList` to `EasyAdapter` using `setItems()`
 
 [Sample for multitype list](../sample/src/main/java/ru/surfstudio/android/easyadapter/sample/ui/screen/multitype/MultitypeListActivityView.kt)
 
-There are 3 kinds of controllers:
+The library has base `BaseItemController` class for every controller in
+order to create your own implementations.
+
+For example,
+[sticky header and footer controllers](https://github.com/surfstudio/SurfAndroidStandard/tree/dev/G-0.5.0/recycler-extension/lib-recycler-extension/src/main/java/ru/surfstudio/android/recycler/extension/sticky/controller)
+
+Also there are 3 kinds of controllers for common usage:
 1. For a single data you should inherit `BindableItemController`,
    [sample](../sample/src/main/java/ru/surfstudio/android/easyadapter/sample/ui/screen/common/controllers/FirstDataItemController.kt)
 2. For two kinds of data you should inherit
