@@ -60,9 +60,9 @@
 для различных лоад-стейтов.
 
 
-[broadcast]: ../../broadcast-extension/lib-broadcast-extension/README.md
-[message]: ../../message-controller/lib-message-controller/README.md
-[sticky]: ../../recycler-extension/lib-recycler-extension/README.md
+[broadcast]: ../../broadcast-extension/README.md
+[message]: ../../message-controller/README.md
+[sticky]: ../../recycler-extension/README.md
 [easy]: ../../easyadapter/lib-easyadapter/
-[imageloader]: ../../imageloader/lib-imageloader/README.md
+[imageloader]: ../../imageloader/README.md
 [glide]: https://github.com/bumptech/glide

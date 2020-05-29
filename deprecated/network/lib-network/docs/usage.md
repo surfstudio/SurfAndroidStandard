@@ -67,5 +67,5 @@
 [hybrid]: hybrid.md
 [etag]: etag.md
 [network_main]: ../../../../docs/interactor/network.md
-[filestorage]: ../../../../filestorage/lib-filestorage/README.md
+[filestorage]: ../../../../filestorage/README.md
 [url]: url_cache.md

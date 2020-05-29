@@ -39,5 +39,5 @@ ActivityViewModule(FragmentViewModule) и другие модули,
 [sc]:../src/main/java/ru/surfstudio/android/core/mvp/configurator/ScreenComponent.java
 [vc]: ../src/main/java/ru/surfstudio/android/core/mvp/configurator/ViewConfigurator.java
 [di]: ../../../docs/common/di.md
-[core-ui]: ../../../core-ui/lib-core-ui/README.md
+[core-ui]: ../../../core-ui/README.md
 [nav]: ../../../docs/ui/navigation.md

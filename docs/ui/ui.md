@@ -30,11 +30,11 @@
 
 Как правильно построить UI слой можно посмотреть [здесь][core_mvp].
 
-[core_ui]: ../../core-ui/lib-core-ui/README.md
+[core_ui]: ../../core-ui/README.md
 [core_mvp]: ../../mvp/lib-core-mvp/
-[core_app]: ../../deprecated/core-app/lib-core-app/README.md
+[core_app]: ../../deprecated/core-app/README.md
 [mvp_widget]: ../../mvp/lib-mvp-widget/README.md
-[mvp_binding]: ../../core-mvp-binding/lib-core-mvp-binding/README.md
+[mvp_binding]: ../../core-mvp-binding/README.md
 [struct]: structure.md
 [nav]: navigation.md
 [dial]: ../../mvp/lib-mvp-dialog/README.md
