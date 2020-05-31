@@ -240,6 +240,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew :easyadapter-sample:assembleDebug :easyadapter-sample:assembleDebugAndroidTest")
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
