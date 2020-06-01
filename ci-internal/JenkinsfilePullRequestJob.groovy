@@ -246,7 +246,7 @@ pipeline.stages = [
                 throw script.error("Checks Failed, see reason above ^^^")
             }
         },
-        pipeline.stage(BUILD) {
+        pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
             // script.sh("./gradlew :template:assembleDebug")
         },
@@ -266,7 +266,7 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE) {
             script.dir("template") {
                 AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                         script,
@@ -284,8 +284,7 @@ pipeline.stages = [
                 )
             }
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
-            script.sh("./gradlew :template:assembleDebugAndroidTest")
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             /*AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
