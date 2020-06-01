@@ -174,7 +174,7 @@ class RequestMapper<T, D> private constructor(
         val isSpecificError = error?.let { it::class == errorClass } ?: false
         return when {
             !isErrorHandled && isSpecificError -> {
-                val castedError = errorClass.java.cast(error)
+                val castedError: E = errorClass.java.cast(error)!!
                 val isHandled = handler(castedError, data, loading)
                 produceNewRequestMapper(request, data, isErrorHandled = isHandled)
             }
