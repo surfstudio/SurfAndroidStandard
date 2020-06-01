@@ -38,7 +38,7 @@ internal object NotificationGroupHelper {
 
         val notificationObject: MutableList<String>
 
-        val notifContent: String = sp.getString(getGroupKey(groupId), EMPTY_STRING)
+        val notifContent: String = sp.getString(getGroupKey(groupId), EMPTY_STRING) ?: EMPTY_STRING
         notificationObject = getArrayFromJson(notifContent)
         notificationObject.add(desc)
 
@@ -57,7 +57,7 @@ internal object NotificationGroupHelper {
 
     private fun getArrayFromJson(jsonString: String): MutableList<String> {
         val res = ArrayList<String>()
-        if(jsonString == EMPTY_STRING) return res
+        if (jsonString == EMPTY_STRING) return res
 
         val jsonArray = JSONArray(jsonString)
         for (i in (0 until jsonArray.length())) {
