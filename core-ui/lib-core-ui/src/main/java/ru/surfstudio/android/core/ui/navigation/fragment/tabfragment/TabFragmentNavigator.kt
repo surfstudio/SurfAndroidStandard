@@ -257,7 +257,7 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
         }
     }
 
-    private fun isFragmentExistInMap(fragment: Fragment): Boolean  =  fragmentMap.values.any { it.any { it.tag == fragment.tag }}
+    private fun isFragmentExistInMap(fragment: Fragment): Boolean = fragmentMap.values.any { it.any { it.tag == fragment.tag } }
 
     private fun remove(routeTag: String?, transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_CLOSE): Boolean {
         fragmentManager.executePendingTransactions()
@@ -364,7 +364,12 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
                 Logger.i("TabFragmentNavigator restoreFromBundle after restore map = $fragmentMap")
 
                 val savedCurrentTabTag = savedInstanceState.getString(EXTRA_CURRENT_TAB_TAG)
-                showExistent(savedCurrentTabTag)
+
+                if (savedCurrentTabTag != null) {
+                    showExistent(savedCurrentTabTag)
+                } else {
+                    Logger.e(NullPointerException("Couldn't get saved current tab tag"))
+                }
 
                 true
             } catch (t: Throwable) {
