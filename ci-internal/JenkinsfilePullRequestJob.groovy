@@ -164,7 +164,7 @@ pipeline.initializeBody = {
 }
 
 pipeline.stages = [
-        pipeline.stage(PRE_MERGE, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(PRE_MERGE) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
                 script.sh "git clean -fd"
