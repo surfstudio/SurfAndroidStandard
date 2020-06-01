@@ -248,8 +248,9 @@ pipeline.stages = [
         },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            script.sh("./gradlew :easyadapter-sample:assembleDebug")
         },
-        pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(BUILD_TEMPLATE, StageStrategy.SKIP_STAGE) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
                     "androidStandardDebugMode=true\n" +
                     "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
@@ -259,13 +260,13 @@ pipeline.stages = [
              */
             script.sh("./gradlew -p template clean build assembleQa assembleDebug --stacktrace")
         },
-        pipeline.stage(UNIT_TEST) {
+        pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.SKIP_STAGE) {
             script.dir("template") {
                 AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                         script,
@@ -283,9 +284,9 @@ pipeline.stages = [
                 )
             }
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew :easyadapter-sample:assembleDebug :easyadapter-sample:assembleDebugAndroidTest")
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+        pipeline.stage(INSTRUMENTATION_TEST) {
+            script.sh("./gradlew :easyadapter-sample:assembleDebugAndroidTest")
+            /*AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
                     "debug",
@@ -297,7 +298,7 @@ pipeline.stages = [
                             true,
                             0
                     )
-            )
+            )*/
         },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
