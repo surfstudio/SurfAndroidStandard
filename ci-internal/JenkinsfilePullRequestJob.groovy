@@ -248,7 +248,7 @@ pipeline.stages = [
         },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
-            script.sh("./gradlew :template:assembleDebug")
+            // script.sh("./gradlew :template:assembleDebug")
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.SKIP_STAGE) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
