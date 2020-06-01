@@ -248,7 +248,7 @@ pipeline.stages = [
         },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
-            script.sh("./gradlew :core-ui-sample:assembleDebug")
+            script.sh("./gradlew :template:assembleDebug")
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.SKIP_STAGE) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
@@ -285,7 +285,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(INSTRUMENTATION_TEST) {
-            script.sh("./gradlew :core-ui-sample:assembleDebugAndroidTest")
+            script.sh("./gradlew :template:assembleDebugAndroidTest")
             /*AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
