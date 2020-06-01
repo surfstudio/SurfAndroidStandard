@@ -207,7 +207,7 @@ pipeline.stages = [
             }
 
         },
-        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.SKIP_STAGE) {
@@ -248,7 +248,7 @@ pipeline.stages = [
         },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
-            script.sh("./gradlew :easyadapter-sample:assembleDebug")
+            script.sh("./gradlew :core-ui-sample:assembleDebug")
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.SKIP_STAGE) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
@@ -285,7 +285,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(INSTRUMENTATION_TEST) {
-            script.sh("./gradlew :easyadapter-sample:assembleDebugAndroidTest")
+            script.sh("./gradlew :core-ui-sample:assembleDebugAndroidTest")
             /*AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
