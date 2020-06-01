@@ -18,7 +18,7 @@
     1. [Асинхронные взаимодействия](common/async.md)
     1. [Пагинация](common/pagin.md)
     1. [Аналитика](../analytics/sample/README.md)
-    1. [Пуш-уведомления](../push/lib-push/README.md)
+    1. [Пуш-уведомления](../push/README.md)
 
 1. [**Слой Interactor**](interactor/interactor.md)
     1. [Рассылка событий через интерактор](interactor/events_by_interactor.md)

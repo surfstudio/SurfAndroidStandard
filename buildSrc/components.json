@@ -1647,7 +1647,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "push-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },
