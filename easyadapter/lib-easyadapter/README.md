@@ -5,9 +5,6 @@ This module evolved from project
 This is adapter which simplifies the process of adding a complex content
 to RecyclerView.
 
-The adapter does not require to call `notify...` methods because it uses
-`DiffUtil`.
-
 # Usage
 Gradle:
 ```
@@ -26,6 +23,16 @@ adapter.setItems(
                 
 ```
 
+# Features
+* Encapsulation for logic of rendering a single element type
+* Simple and declarative RecyclerView filling
+* No need to call `notify...` methods
+* Async `DiffUtil` support
+* Async inflate support
+* [Pagination support](../lib-easyadapter-pagination/README.md)
+* Endless scroll support
+
+# Detailed description
 The main idea is using unique `ItemController` which is responsible for
 render and behaviour of a single element type.
 
@@ -45,8 +52,9 @@ It can be used for static and dynamically populated content.
 The library has base `BaseItemController` class for every controller in
 order to create your own implementations.
 
-For example,
-[sticky header and footer controllers](https://github.com/surfstudio/SurfAndroidStandard/tree/dev/G-0.5.0/recycler-extension/lib-recycler-extension/src/main/java/ru/surfstudio/android/recycler/extension/sticky/controller)
+For example:
+* [Sticky header and footer controllers](https://github.com/surfstudio/SurfAndroidStandard/tree/dev/G-0.5.0/recycler-extension/lib-recycler-extension/src/main/java/ru/surfstudio/android/recycler/extension/sticky/controller)
+* [Sliding controllers](https://github.com/surfstudio/SurfAndroidStandard/tree/dev/G-0.5.0/recycler-extension/lib-recycler-extension/src/main/java/ru/surfstudio/android/recycler/extension/slide)
 
 Also there are 3 kinds of controllers for common usage:
 1. For a single data you should inherit `BindableItemController`,
@@ -68,6 +76,9 @@ controller. The implementation based on `AsyncViewHolder`.
 [Sample async inflate controller](../sample/src/main/java/ru/surfstudio/android/easyadapter/sample/ui/screen/async/AsyncInflateItemController.kt)
 
 ## Render based on diff of elements
+
+The adapter does not require to call `notify...` methods because it uses
+`DiffUtil`.
 
 `DiffUtil` is used to determine which elements were changed and when a
 new render is required for them. Each element has two fields for such
@@ -104,7 +115,3 @@ action after diff dispatching, see
 up during EasyAdapter instance initialization.
 
 [Sample for async diff usage](../sample/src/main/java/ru/surfstudio/android/easyadapter/sample/ui/screen/async_diff/AsyncDiffActivityView.kt)
-
-## Pagination
-
-See [easyadapter-pagination](../lib-easyadapter-pagination/README.md)
