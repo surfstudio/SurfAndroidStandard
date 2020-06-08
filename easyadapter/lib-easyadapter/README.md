@@ -15,10 +15,13 @@ Gradle:
 ```
 adapter.setItems(
     ItemList.create()
-        .addAll(sm.firstDataList, firstDataItemController)
-        .addAll(sm.secondDataList, secondDataItemController)
+        .addAll(dataList, firstDataItemController)
+        .addAllIf(condition, anotherDataList, secondDataItemController)
         .add(emptyItemController)
-        .add(sm.firstData, sm.secondData, twoDataItemController)
+        .add(firstData, secondData, twoDataItemController)
+        .addIf(condition, data, controller)
+        .addHeader(header, headerController)
+        .addFooter(footer, footerController)
 )
                 
 ```
