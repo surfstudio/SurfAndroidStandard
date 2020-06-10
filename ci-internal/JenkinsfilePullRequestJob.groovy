@@ -2,10 +2,6 @@
 //  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
-//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
-
-import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.pipeline.pr.PrPipeline
