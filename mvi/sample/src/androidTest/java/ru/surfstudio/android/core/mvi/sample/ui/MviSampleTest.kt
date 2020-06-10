@@ -38,6 +38,7 @@ class MviSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.j
         enableAnimations()
     }
 
+
     @Test
     fun testInputFormActivity() {
         performClick(R.id.main_open_input_form_btn)
