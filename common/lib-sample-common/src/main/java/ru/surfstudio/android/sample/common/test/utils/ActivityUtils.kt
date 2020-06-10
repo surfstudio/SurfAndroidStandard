@@ -32,8 +32,10 @@ object ActivityUtils {
                         .context as Activity
             }
         }
+        if (currentActivity == null)
+            throw AssertionFailedError("can't find activity ${activityClass.name}")
 
-        if (currentActivity == null || currentActivity!!::class.java != activityClass) {
+        if (currentActivity!!::class.java != activityClass) {
             throw AssertionFailedError("activity ${activityClass.name} is not visible")
         }
     }
