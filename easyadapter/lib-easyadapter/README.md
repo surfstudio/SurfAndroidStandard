@@ -121,8 +121,6 @@ override fun getItemHash(data: SampleData): Object {
 
 For usual cases there is no need to override `getItemHash`.
 
-For previous versions see [docs](docs/deprecated.md)
-
 ## Async diff
 
 `DiffResult` of elements is also could be calculated in a worker thread,
