@@ -76,8 +76,6 @@ Also there are 3 kinds of controllers for common usage:
 2. For a controller which is bound to two elements of data, you should
    inherit `DoubleBindableItemController`,
    [sample](../sample/src/main/java/ru/surfstudio/android/easyadapter/sample/ui/screen/common/controllers/TwoDataItemController.kt).
-   You can also use `BindableItemController` which could be initialized
-   with object which contains all data sources.
 3. For a static controller which contains no changeable data you should
    inherit `NoDataItemController`,
    [sample](../sample/src/main/java/ru/surfstudio/android/easyadapter/sample/ui/screen/common/controllers/EmptyItemController.kt)
@@ -97,10 +95,16 @@ The adapter does not require to call `notify...` methods because it uses
 `DiffUtil` is used to determine which elements were changed and when we
 should re-render them. Each element has two fields for such
 determination, see `ItemInfo`.
+
+`ItemInfo` is used internally and its content is initialized using
+`getItemId` and `getItemHash` methods of `BaseItemController`:
 * `id` must be unique and constant for each element in order to be
   different.
 * `hash` is calculated internally and is based on content, see
   `BaseItemController.getItemHash`.
+
+In most cases you only need to implement `getItemId` for your
+`BaseItemController` implementation.
 
 `hash` and `id` have `Object` type to avoid possible collisions and
 achieve more flexibility.
