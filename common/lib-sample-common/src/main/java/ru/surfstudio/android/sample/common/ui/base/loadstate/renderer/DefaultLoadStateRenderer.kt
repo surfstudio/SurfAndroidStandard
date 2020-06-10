@@ -7,7 +7,7 @@ import ru.surfstudio.android.sample.common.ui.base.loadstate.*
 import ru.surfstudio.android.sample.common.ui.base.loadstate.presentations.*
 
 /**
- * Project implementation of [BaseLoadStateRenderer]
+ * Default implementation of [BaseLoadStateRenderer] which can be used in projects
  */
 class DefaultLoadStateRenderer(
         placeHolderView: PlaceHolderViewContainer,

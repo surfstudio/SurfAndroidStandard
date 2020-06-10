@@ -8,7 +8,7 @@ import ru.surfstudio.android.sample.dagger.app.exceptions.NetworkException
 import ru.surfstudio.android.sample.dagger.app.exceptions.NoInternetException
 
 /**
- * Base class to handle error which occur during Observable usage from Interactor
+ * Default class to handle errors which occur in [Observable] subscriptions
  */
 abstract class DefaultNetworkErrorHandler : ErrorHandler {
 

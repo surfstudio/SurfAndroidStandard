@@ -5,7 +5,7 @@ import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 import javax.inject.Inject
 
-// aliases for two DataList distinguishing. In real project only one will be used
+// aliases for different DataList distinguishing. In real project only one will be used
 typealias DataListPageCount<T> = DataList<T>
 typealias DataListLimitOffset<T> = ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList<T>
 

@@ -7,8 +7,8 @@ import ru.surfstudio.android.dagger.scope.PerScreen;
 
 /**
  * Base class for additional screen module.
- * Usually is used to provide params which are passed to screen in its presenter on start,
- * in such case params are passes using [Route]
+ * Used to provide initial params to a presenter on screen start.
+ * Such params are wrapped in [Route].
  *
  * @param <R>
  */

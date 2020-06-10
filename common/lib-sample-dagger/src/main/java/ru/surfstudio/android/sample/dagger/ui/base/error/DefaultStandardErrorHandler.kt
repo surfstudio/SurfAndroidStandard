@@ -9,7 +9,8 @@ import ru.surfstudio.android.sample.dagger.app.exceptions.NoInternetException
 import javax.inject.Inject
 
 /**
- * Standard error handler for server errors
+ * Default error handler for network errors
+ * which will show messages with [MessageController] if an error occurs
  */
 @PerScreen
 open class DefaultStandardErrorHandler @Inject constructor(

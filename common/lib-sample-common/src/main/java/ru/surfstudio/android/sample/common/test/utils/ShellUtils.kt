@@ -19,7 +19,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
 /**
- * Utils for console commands launching on device for running tests
+ * Utils for console commands execution on device while running instrumental tests
  */
 object ShellUtils {
 

@@ -25,6 +25,9 @@ import ru.surfstudio.android.utilktx.util.SdkUtils
  */
 object PermissionUtils {
 
+    /**
+     * Function which grants given permission list on device for running instrumental tests
+     */
     fun grantPermissions(vararg permissionNameList: String) {
         if (SdkUtils.isAtLeastMarshmallow()) {
             val command = "pm grant ${getApplicationContext<Context>().packageName} ${permissionNameList.joinToString()}"

@@ -16,7 +16,7 @@
 package ru.surfstudio.android.sample.common.test.utils
 
 /**
- * Utils for animation settings during instrumental tests execution
+ * Utils for system animation settings on device during instrumental tests execution
  */
 object AnimationUtils {
 
@@ -34,14 +34,23 @@ object AnimationUtils {
             "settings put global animator_duration_scale 1"
     )
 
+    /**
+     * Function which grants scale animation permission on device
+     */
     fun grantScaleAnimationPermission() {
         PermissionUtils.grantPermissions(animationPermission)
     }
 
+    /**
+     * Disable animations on device
+     */
     fun disableAnimations() {
         ShellUtils.executeCommands(*disableAnimationsCommands)
     }
 
+    /**
+     * Enable animations on device
+     */
     fun enableAnimations() {
         ShellUtils.executeCommands(*enableAnimationsCommands)
     }

@@ -12,7 +12,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
- * Common module for dependencies of Activity and Fragment
+ * Common module for Activity and Fragment dependencies
  */
 @Module
 abstract class DefaultScreenModule {

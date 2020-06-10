@@ -2,8 +2,8 @@
 This module evolved from project
 [EasyAdapter](https://github.com/MaksTuev/EasyAdapter).
 
-This is adapter which simplifies the process of adding a complex content
-to RecyclerView.
+This is an implementation of `RecyclerView.Adapter`, which simplifies
+the process of adding a complex content to RecyclerView.
 
 # Usage
 Gradle:
@@ -27,7 +27,7 @@ adapter.setItems(
 ```
 
 # Features
-* Encapsulation for logic of rendering a single element type
+* Rendering logic is separated by element types
 * Simple and declarative RecyclerView filling
 * No need to call `notify...` methods
 * Async `DiffUtil` support
@@ -36,19 +36,29 @@ adapter.setItems(
 * Endless scroll support
 
 # Detailed description
-The main idea is using unique `ItemController` which is responsible for
-render and behaviour of a single element type.
+The main idea is to separate element types and to use different
+`ItemController` for each type.
+
+`ItemController` is responsible for element's identification, rendering
+and behavior.
 
 It can be used for static and dynamically populated content.
 
 ## Multitype list
 1. Create instance of `EasyAdapter` using default constructor and pass
-   to `RecyclerView`
-2. For each list element create its controller which should be inherited
-   from one of base
+   it to `RecyclerView`
+2. For each element type in the list create `ItemController`, which
+   should be inherited from one of base
    [controllers](src/main/java/ru/surfstudio/android/easyadapter/controller)
 3. Create `ItemList` and add data using pairs of data and controller
 4. Pass filled `ItemList` to `EasyAdapter` using `setItems()`
+
+`ItemList` is used for data population and contains several methods to
+add data (see Sample code above).
+
+It's possible to add or insert by index
+single or multiple data which is associated to particular
+`ItemController` implementation.
 
 [Sample for multitype list](../sample/src/main/java/ru/surfstudio/android/easyadapter/sample/ui/screen/multitype/MultitypeListActivityView.kt)
 
@@ -60,10 +70,11 @@ For example:
 * [Sliding controllers](https://github.com/surfstudio/SurfAndroidStandard/tree/dev/G-0.5.0/recycler-extension/lib-recycler-extension/src/main/java/ru/surfstudio/android/recycler/extension/slide)
 
 Also there are 3 kinds of controllers for common usage:
-1. For a single data you should inherit `BindableItemController`,
+1. For a controller which is bound to a single element of data, you
+   should inherit `BindableItemController`,
    [sample](../sample/src/main/java/ru/surfstudio/android/easyadapter/sample/ui/screen/common/controllers/FirstDataItemController.kt)
-2. For two kinds of data you should inherit
-   `DoubleBindableItemController`,
+2. For a controller which is bound to two elements of data, you should
+   inherit `DoubleBindableItemController`,
    [sample](../sample/src/main/java/ru/surfstudio/android/easyadapter/sample/ui/screen/common/controllers/TwoDataItemController.kt).
    You can also use `BindableItemController` which could be initialized
    with object which contains all data sources.
@@ -73,7 +84,7 @@ Also there are 3 kinds of controllers for common usage:
 
 ## Async inflate
 
-A library also has async inflate support which could be uses for each
+A library also has async inflate support which could be used for each
 controller. The implementation based on `AsyncViewHolder`.
 
 [Sample async inflate controller](../sample/src/main/java/ru/surfstudio/android/easyadapter/sample/ui/screen/async/AsyncInflateItemController.kt)
@@ -83,16 +94,16 @@ controller. The implementation based on `AsyncViewHolder`.
 The adapter does not require to call `notify...` methods because it uses
 `DiffUtil`.
 
-`DiffUtil` is used to determine which elements were changed and when a
-new render is required for them. Each element has two fields for such
+`DiffUtil` is used to determine which elements were changed and when we
+should re-render them. Each element has two fields for such
 determination, see `ItemInfo`.
 * `id` must be unique and constant for each element in order to be
   different.
 * `hash` is calculated internally and is based on content, see
   `BaseItemController.getItemHash`.
 
-Type of `hash` and `id` was changed to `Object` in order to avoid
-possible collisions and achieve more flexibility.
+`hash` and `id` have `Object` type to avoid possible collisions and
+achieve more flexibility.
 
 If list contains a big number of elements and there is a big probability
 of collisions, then it's recommended to override controller's method

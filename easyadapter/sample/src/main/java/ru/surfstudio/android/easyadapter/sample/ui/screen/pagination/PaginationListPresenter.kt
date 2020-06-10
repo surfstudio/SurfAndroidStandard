@@ -30,7 +30,7 @@ internal class PaginationListPresenter @Inject constructor(
     private fun loadData() {
         subscribeIoHandleError(getDataByPage()
                 .delay(getDelay(), TimeUnit.MILLISECONDS)
-                .timeout(1000L, TimeUnit.MILLISECONDS), // for demonstration
+                .timeout(1000L, TimeUnit.MILLISECONDS), // delay for loading demonstration
                 {
                     with(sm) {
                         pageList.merge(it)

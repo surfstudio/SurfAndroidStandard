@@ -26,7 +26,7 @@ import ru.surfstudio.android.sample.common.test.utils.TextUtils
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils
 
 /**
- * Base class for all samples' instrumental tests
+ * Base class for all instrumental tests in samples
  */
 @RunWith(AndroidJUnit4::class)
 open class BaseSampleTest<T : Activity>(private val mainActivityClass: Class<T>) {

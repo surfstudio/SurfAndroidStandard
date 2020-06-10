@@ -23,8 +23,8 @@ import org.junit.runner.RunWith
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils
 
 /**
- * Base class for the samples' simplest instrumental tests,
- * which check if application launch succeed
+ * Base class for the simplest instrumental tests in samples.
+ * It only checks that sample's activity launch succeed.
  */
 @RunWith(AndroidJUnit4::class)
 @SmallTest
