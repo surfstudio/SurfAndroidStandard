@@ -1,6 +1,8 @@
-[Главная](../../../docs/main.md)
+[Главная](../../docs/main.md)
 
 [Ридми модуля](../README.md)
+
+[TOC]
 
 #### View
 
@@ -117,5 +119,5 @@ Api вью может иметь только методы вида `void someMe
 [custom]: ../../../docs/ui/custom_views.md
 [ls]: ../../../template/base_feature/src/main/java/ru/surfstudio/standard/ui/placeholder/LoadState.kt
 [sws]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/SwipeRefreshState.java
-[placeholder]: ../../../custom-view/README.md
+[placeholder]: ../../../custom-view/lib-custom-view/README.md
 [widget]: ../../../mvp/lib-mvp-widget/README.md

@@ -1,5 +1,7 @@
 # Mvp-Binding sample
 
+
+
 # Модуль с примерами использования
 
 ## Главный экан
@@ -29,7 +31,7 @@
 Демонстрирует возможности комбинирования Action/State.
 
 [tuevSample]: https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample
-[easyadapterView]: src/main/java/ru/surfstudio/android/mvp/binding/rx/sample/easyadapter/ui/screen/main/EAMainActivityView.kt
-[easyadapterPresenter]: src/main/java/ru/surfstudio/android/mvp/binding/rx/sample/easyadapter/ui/screen/main/EAMainPresenter.kt
+[easyadapterView]: src/main/java/ru/surfstudio/android/core/mvp/rx/sample/easyadapter/ui/screen/main/EAMainActivityView.kt
+[easyadapterPresenter]: src/main/java/ru/surfstudio/android/core/mvp/rx/sample/easyadapter/ui/screen/main/EAMainPresenter.kt
 
-# Пример использования модуля (deprecated) [core-mvp-binding](../README.md)
+# Пример использования модуля (deprecated) [core-mvp-binding](../core-mvp-binding/README.md)

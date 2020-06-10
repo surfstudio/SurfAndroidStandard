@@ -1,17 +1,14 @@
 [Главная](../main.md)
 
-# Работа с Сервером
+[TOC]
 
-- [Обработка ошибок](#обработка-ошибок)
-  - [Открытие экранов по спец ошибкам](#открытие-экранов-по-спец-ошибкам)
-- [Маппинг ответов сервера](#маппинг-ответов-сервера)
-- [Тесты API](#тесты-api)
+# Работа с Сервером
 
 Работа с сервером обычно происходит с помощью библиотек retrofit2, okhttp, gson, rxjava.
 
 Для работы с сетью предусмотрены модули:
  * [network][network]
- * [Gson-конвертер](../../deprecated/converter-gson/README.md)
+ * [Gson-конвертер](../../deprecated/converter-gson/lib-converter-gson/README.md)
 
 При работе с сервером возникает необхдимость добавлять те или иные параметры
 в запрос. Для этих целей хорошо подходит сущности типа `Interceptor`. Такие
@@ -90,13 +87,13 @@
 [log]: ../common/logging.md
 [gson_converter]: ../../deprecated/converter-gson/lib-converter-gson/
 [call]: ../../deprecated/network/sample/README.md
-[simple_cache]: ../../deprecated/network/lib-network/docs/usage.md
-[etag]: ../../deprecated/network/lib-network/docs/etag.md
-[hybrid]: ../../deprecated/network/lib-network/docs/hybrid.md
+[simple_cache]: ../../network/docs/usage.md
+[etag]: ../../network/docs/etag.md
+[hybrid]: ../../network/docs/hybrid.md
 [handle_errors_on_presenter]: ../ui/presenter.md
 [file_cache]: ../../filestorage/README.md
 [mapping]: ../../deprecated/network/lib-network/docs/usage.md?at=dev%2FG-0.5.0
 [interactor]: interactor.md
 [network]: ../../deprecated/network/lib-network/docs/usage.md
-[core_ui]: ../../core-ui/README.md
+[core_ui]: ../../core-ui/lib-core-ui/README.md
 

@@ -24,7 +24,7 @@ def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
-def UPDATE_TEMPLATE_VERSION_PLUGIN = 'Update Template Version Plugin'
+def CHECK_ANDROID_STANDARD_TEMPLATE = 'Check Android Standard Template'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
@@ -34,8 +34,6 @@ def MIRROR_COMPONENTS = 'Mirror Components'
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def androidStandardTemplateName = "android-standard-template"
 def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
-def androidStandardTemplateConfigurationFile = "template/config.gradle"
-def projectConfigurationVersionFile = "buildSrc/build/tmp/projectVersion.txt"
 def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
 def idChatAndroidSlack = "CFSF53SJ1"
 
@@ -43,7 +41,6 @@ def idChatAndroidSlack = "CFSF53SJ1"
 def branchName = ""
 def globalVersion = "<unknown>"
 def buildDescription = ""
-def globalConfiguration = ""
 
 //other config
 
@@ -83,7 +80,7 @@ pipeline.initializeBody = {
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName') {
         value -> branchName = value
     }
-
+    
     branchName = branchName.replace("refs/heads/", "")
     if (branchName.contains("origin/")) {
         branchName = branchName.replace("origin/", "")
@@ -120,7 +117,8 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
+            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
             globalVersion = globalConfiguration.version
 
             if (("dev/G-" + globalVersion) != branchName) {
@@ -132,17 +130,6 @@ pipeline.stages = [
         },
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
             script.sh("./gradlew incrementGlobalUnstableVersion")
-        },
-        pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
-            script.sh("./gradlew generateProjectConfigurationVersionFileTask")
-
-            def currentStandardVersion = script.readFile(projectConfigurationVersionFile)
-
-            AndroidUtil.changeGradleVariable(
-                    script,
-                    androidStandardTemplateConfigurationFile,
-                    "androidStandardVersion",
-                    "'$currentStandardVersion'")
         },
         pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
@@ -190,6 +177,8 @@ pipeline.stages = [
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
+            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
@@ -336,9 +325,4 @@ def static withArtifactoryCredentials(script, body) {
     ]) {
         body()
     }
-}
-
-def static getGlobalConfiguration(script, projectConfigurationFile) {
-    String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-    return new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 }

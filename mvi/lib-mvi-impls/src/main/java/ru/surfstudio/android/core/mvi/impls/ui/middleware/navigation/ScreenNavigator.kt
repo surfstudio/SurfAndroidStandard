@@ -18,7 +18,7 @@ package ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation
 import android.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
 import android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN
 import io.reactivex.Observable
-import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute
+import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator

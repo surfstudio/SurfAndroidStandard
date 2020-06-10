@@ -1,18 +1,10 @@
+[TOC]
 # Mvp Release Notes
-
-- [0.5.0-alpha](#050-alpha)
-- [0.4.0](#040)
-- [0.3.0](#030)
-- [0.2.1](#021)
-
 ## 0.5.0-alpha
-##### Core-mvp
-* ANDDEP-1048 Fixing wrong docs links and docs structure
 ##### Mvp-widget
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 * ANDDEP-687 Changed "androidx.constraintlayout:constraintlayout" dependency from "api" to "implementation" type
 * ANDDEP-633 Fixed widget manual destroy method
-* ANDDEP-1048 Fixing wrong docs links and docs structure
 ##### Mvp-dialog
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 * Fix logging screen names
@@ -27,7 +19,6 @@
 * ANDDEP-922 Fix inconsistent dialog navigator behavior: CoreSimpleDialog now showing with it's route tag. Methods `DialogNavigator.showSimpleDialog`, `CoreSimpleDialogInterface.show`, `CoreSimpleBottomSheetDialogFragment.show`, `CoreSimpleDialogFragment.show` and `SimpleDialogDelegate.show` are changed **without backward compatibility support**.
 * ANDDEP-985 Fix screen names logging
 * ANDDEP-928 Fix SimpleDialogDelegate logs
-* ANDDEP-1048 Fixing wrong docs links and docs structure
 ## 0.4.0
 ##### Core-mvp
 * ANDDEP-320 Ability to dynamically set LoadState, a flexible way to display LoadState

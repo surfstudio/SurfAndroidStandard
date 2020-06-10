@@ -1,7 +1,6 @@
 package ru.surfstudio.android.utilktx.data.wrapper.scrollable
 
 import ru.surfstudio.android.utilktx.data.wrapper.DataWrapperInterface
-import java.io.Serializable
 
 private const val START_POSITION = 0
 
@@ -15,4 +14,4 @@ interface ScrollableDataInterface {
 
 data class ScrollableData<T>(override var data: T,
                              override var scrollPosition: Int = START_POSITION)
-    : DataWrapperInterface<T>, ScrollableDataInterface, Serializable
+    : DataWrapperInterface<T>, ScrollableDataInterface

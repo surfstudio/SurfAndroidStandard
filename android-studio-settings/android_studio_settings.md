@@ -97,12 +97,12 @@ org.gradle.jvmargs=-Xmx3g
 11. [CPU Usage Indicator](https://plugins.jetbrains.com/plugin/8580-cpu-usage-indicator) - Позволяет включить индикатор использования процессора. Также позволяет смотреть дамп тредов и фейлов.
 12. [Vector Drawable Thumbnails](https://plugins.jetbrains.com/plugin/10741-vector-drawable-thumbnails) - Просмотр drawable в виде сетки, в отдельном окошке.
 13. [Rainbow Brackets](https://plugins.jetbrains.com/plugin/10080-rainbow-brackets) - Раскрашивает открывающую и закрывающую скобку в один цвет, чтобы удобно было читать вложенные конструкции
-14. [Hunspell](https://plugins.jetbrains.com/plugin/10275-hunspell) - Продвинутый спелчекер. [Добавление русского языка](#hunspell-проверка-правописания)
+14. [Hunspell](https://plugins.jetbrains.com/plugin/10275-hunspell) - Продвинутый спелчекер. [Добавление русского языка](#hunspell)
 
 ##### Настройка плагинов
 
 ###### Hunspell. Проверка правописания
-1. В Ide: Settings -> Plugins -> Установить плагин [hunspell](https://plugins.jetbrains.com/plugin/10275-hunspell) для AndroidStudio.
+1. В Ide: Settings -> Plugins -> Установить плагин [hunspell](https://plugins.jetbrains.com/plugin/10275-hunspell) для  AndroidStudio.
 2. Перезапустить ide при необходимости
 3. Скачивание словаря
     1. Переходим в удобное для вас место, которое не будет чистится(т.е. не надо держать в ~/Downloads).  

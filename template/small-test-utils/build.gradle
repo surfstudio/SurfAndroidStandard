@@ -13,7 +13,6 @@ dependencies {
     implementation test.robolectric
     implementation test.shadowsMultidex
     implementation di.dagger
-    annotationProcessor test.autoService
     kapt di.daggerKapt
 }
 

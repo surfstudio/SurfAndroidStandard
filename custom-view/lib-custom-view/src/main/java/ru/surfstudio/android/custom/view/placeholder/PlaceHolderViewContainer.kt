@@ -40,7 +40,6 @@ class PlaceHolderViewContainer(
 
         stateDisposable = loadStateSubject.debounce(STATE_TOGGLE_DELAY_MS, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .distinctUntilChanged()
                 .subscribe {
                     removeAllViews()
                     addView(it.stateView)
@@ -74,7 +73,7 @@ class PlaceHolderViewContainer(
     /**
      * Сущность, представляющая состояние в виде вью или пустого объекта
      */
-    data class StatePresentation(val stateView: View)
+    class StatePresentation(val stateView: View)
 }
 
 /**

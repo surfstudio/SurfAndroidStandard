@@ -1,14 +1,9 @@
-[Главная страница репозитория](/docs/main.md)
+[Главная страница репозитория](../docs/main.md)
+
+[TOC]
 
 # Core MVI
-
-- [Общее описание](#общее-описание)
-- [Ответственности классов](#ответственности-классов)
-- [Основные преимущества](#основные-преимущества)
-- [Реализация на проектах](#реализация-на-проектах)
-  - [DSL](#dsl)
-
-Является развитием идей [core-mvp](/mvp/lib-core-mvp/) и [core-mvp-binding](/core-mvp-binding).
+Является развитием идей [core-mvp](../core-mvp/) и [core-mvp-binding](../core-mvp-binding). 
 Так же, этот подход во многом черпал вдохновение из [Redux](https://redux.js.org/), [Flux](https://ru.wikipedia.org/wiki/Flux-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0) и  [MVI Android](http://hannesdorfmann.com/android/model-view-intent).  
 
 **`Внимание!` Модуль находится в стадии активной разработки!**
@@ -47,6 +42,13 @@ Kotlin-sealed-class.
 ##### StateHolder 
 Класс, отвечающий за хранение состояния экрана, и его передачу View.
 
+Реализации:
+
+* Для [Reactor](#Reactor)-подхода базовая реализация не требуется, класс-холдер не обязательно должен наследоваться от какого-либо другого класса.
+
+* [ReducerStateHolder][redholder] - StateHolder, имеющий единое состояние.
+
+* [ReducerRxStateHolder][redrxholder] - StateHolder с единым реактивным состоянием.
 ##### Reactor
 Класс, осуществляющий реакцию на события и преобразование текущего состояния экрана. Содержит единственный метод `react(holder, event)`, 
 в котором обновляет поля у StateHolder в зависимости от пришедшего события. 
@@ -111,13 +113,13 @@ Middleware принимает в себя поток событий, транс�
 Если в каноничном MVP Presenter отвечал и за управление подписками, и за хранение, и за трансформацию данных, 
 в данном подходе было решено разделить его на независимые части. 
 
-Так же, важную роль играет сохранение плюсов подхода реактивных биндингов: [core-mvp-binding](/core-mvp-binding).
+Так же, важную роль играет сохранение плюсов подхода реактивных биндингов: [core-mvp-binding](../core-mvp-binding). 
 Модель `View` в каноничном виде MVI всегда отражает полное состояние экрана, и при любом изменении модели требуется полная перерисовка экрана. Этот подход реализован с помощью 
 [State Reducer Pattern](https://medium.com/@ivanmontiel/discovering-the-state-reducer-pattern-3f324bb1a4c4). 
 Однако из-за перерисовки экрана при получении каждого нового события, может значительно страдать производительность. 
-Для того, чтобы этого избежать, вместо хранения в модели всех данных в простом виде, задействуются сущности [State][state] и [Command][cmd] из вышеописанного модуля: [core-mvp-binding](/core-mvp-binding). Благодаря им, `View` может вместо подписки на изменение экрана целиком, подписаться на изменение значений всех переменных, и перерисовыватьтолько небольшие части экрана, зависящие от этих переменных. Этот подход получил название `State Reactor`.
+Для того, чтобы этого избежать, вместо хранения в модели всех данных в простом виде, задействуются сущности [State][state] и [Command][cmd] из вышеописанного модуля: [core-mvp-binding](../core-mvp-binding). Благодаря им, `View` может вместо подписки на изменение экрана целиком, подписаться на изменение значений всех переменных, и перерисовыватьтолько небольшие части экрана, зависящие от этих переменных. Этот подход получил название `State Reactor`.
 ## Реализация на проектах
-Базовые реализации классов вынесены из модуля для поддержания гибкости. Вы можете найти примеры реализаций в модуле [core-mvi-sample](../sample), в папке [ui/base](../sample/src/main/java/ru/surfstudio/android/core/mvi/sample/ui/base)
+Базовые реализации классов вынесены из модуля для поддержания гибкости. Вы можете найти примеры реализаций в модуле [core-mvi-sample](../core-mvi-sample), в папке [ui/base](../core-mvi-sample/src/main/java/ru/surfstudio/android/core/mvi/sample/ui/base)
 
 
 ----
@@ -168,20 +170,22 @@ Middleware принимает в себя поток событий, транс�
 [ev]: src/main/java/ru/surfstudio/android/core/mvi/event/Event.kt
 [hub]: src/main/java/ru/surfstudio/android/core/mvi/event/hub/EventHub.kt
 [rxhub]: src/main/java/ru/surfstudio/android/core/mvi/event/hub/RxEventHub.kt
-[lchub]: src/main/java/ru/surfstudio/android/core/mvi/event/lifecycle/LifecycleEventHub.kt
+[lchub]: src/main/java/ru/surfstudio/android/core/mvi/event/hub/lifecycle/LifecycleEventHub.kt
 [mw]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/Middleware.kt
 [rxmw]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/RxMiddleware.kt
 [reactor]: src/main/java/ru/surfstudio/android/core/mvi/ui/reactor/Reactor.kt
 [reducer]: src/main/java/ru/surfstudio/android/core/mvi/ui/reducer/Reducer.kt
+[redholder]: src/main/java/ru/surfstudio/android/core/mvi/ui/holder/ReducerStateHolder.kt
+[redrxholder]: src/main/java/ru/surfstudio/android/core/mvi/ui/holder/ReducerRxStateHolder.kt
 [rxbnd]: src/main/java/ru/surfstudio/android/core/mvi/ui/binder/RxBinder.kt 
 
-[loading]: /core-mvp-binding/lib-core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/binding/rx/request/data/Loading.kt
-[rspui]: /core-mvp-binding/lib-core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/binding/rx/request/data/RequestUi.kt
+[loading]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/request/data/Loading.kt
+[rspui]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/request/data/RequestUi.kt
 [rspev]: src/main/java/ru/surfstudio/android/core/mvi/event/RequestEvent.kt
-[rsp]: /core-mvp-binding/lib-core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/binding/rx/request/Request.kt
-[rspst]: /core-mvp-binding/lib-core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/binding/rx/request/state/RequestState.kt
+[rsp]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/request/event/Request.kt 
+[rspst]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/request/state/RequestState.kt
 
-[state]: /core-mvp-binding/lib-core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/binding/rx/relation/mvp/State.kt
-[cmd]: /core-mvp-binding/lib-core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/binding/rx/relation/mvp/Command.kt
+[state]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/domain/mvp/State.kt
+[cmd]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/domain/mvp/Command.kt
 
-[dsl_readme_link]: ../lib-mvi-impls/dsl.md
+[dsl_readme_link]: DSL_README.md

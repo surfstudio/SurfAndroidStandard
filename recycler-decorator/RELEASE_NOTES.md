@@ -1,6 +1,5 @@
+[TOC]
 # Recycler-decorator Release Notes
-
-- [0.5.0-alpha](#050-alpha)
 
 ## 0.5.0-alpha
 ##### Recycler-decorator
@@ -9,4 +8,3 @@
 * Add .gitignore
 * fix gradle config for recycler-decorator-easyadapter
 * Fix readme
-* ANDDEP-1048 Fixing wrong docs links and docs structure

@@ -1,8 +1,8 @@
 [Главная](../main.md)
 
-# UI слой
+[TOC]
 
-- [Использование студийных модулей](#использование-студийных-модулей)
+# UI слой
 
 Большинство наших приложений построено на MVP-архитектуре.
 
@@ -17,8 +17,8 @@
 #### Использование студийных модулей
 
 Для построения ахитектуры UI слоя следует подключить в проект core-модули:
-- [core-ui][core_ui]  - базовые классы ui-слоя
-- [core-mvp][core_mvp]- mvp-обертка для core-ui
+- [core-ui][core-ui]  - базовые классы ui-слоя
+- [core-mvp][core-mvp]- mvp-обертка для core-ui
 - [core-app][core_app] - стандартная конфигурация App + дополнительные сущности
 
 Также при неодбходимости использовать диалоги с поддержкой mvp и виджеты:
@@ -28,13 +28,13 @@
 Опционально(**экспериметальный модуль**):
 - [core-mvp-binding][mvp_binding] - модуль для биндинга
 
-Как правильно построить UI слой можно посмотреть [здесь][core_mvp].
+Как правильно построить UI слой можно посмотреть [здесь][core-mvp].
 
-[core_ui]: ../../core-ui/README.md
+[core_ui]: ../../core-ui/lib-core-ui/README.md
 [core_mvp]: ../../mvp/lib-core-mvp/
-[core_app]: ../../deprecated/core-app/README.md
+[core_app]: ../../deprecated/core-app/lib-core-app/README.md
 [mvp_widget]: ../../mvp/lib-mvp-widget/README.md
-[mvp_binding]: ../../core-mvp-binding/README.md
+[mvp_binding]: ../../core-mvp-binding/lib-core-mvp-binding/README.md
 [struct]: structure.md
 [nav]: navigation.md
 [dial]: ../../mvp/lib-mvp-dialog/README.md

@@ -23,7 +23,6 @@ class MainPresenter @Inject constructor(
 
     override fun onFirstLoad() {
         bm.tabSelectedAction.bindTo(::onTabSelected)
-        onTabSelected(bm.tabTypeState.value)
     }
 
     private fun onTabSelected(tabType: MainTabType) {

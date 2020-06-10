@@ -62,8 +62,6 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "dagger-scope")
     DependencyConfigurator.projectImplementation(project, "rxbus")
     DependencyConfigurator.projectImplementation(project, "core-ui")
-    DependencyConfigurator.projectImplementation(project, "core-navigation")
-    DependencyConfigurator.projectImplementation(project, "permission")
     DependencyConfigurator.projectImplementation(project, "core-mvp")
     DependencyConfigurator.projectImplementation(project, "rx-extension")
     DependencyConfigurator.projectImplementation(project, "connection")

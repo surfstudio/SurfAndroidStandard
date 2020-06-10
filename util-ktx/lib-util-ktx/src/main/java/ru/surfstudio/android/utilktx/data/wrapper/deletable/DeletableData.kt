@@ -1,7 +1,6 @@
 package ru.surfstudio.android.utilktx.data.wrapper.deletable
 
 import ru.surfstudio.android.utilktx.data.wrapper.DataWrapperInterface
-import java.io.Serializable
 
 /**
  * Интерфейс сущности, которая должна уметь удаляться с возможностью возвращения
@@ -25,4 +24,4 @@ interface DeletableDataInterface {
 
 data class DeletableData<T>(override var data: T,
                             override var isDeleted: Boolean = false)
-    : DataWrapperInterface<T>, DeletableDataInterface, Serializable
+    : DataWrapperInterface<T>, DeletableDataInterface

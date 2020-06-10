@@ -1,12 +1,9 @@
+[TOC]
 # Core-app Release Notes
-
-- [0.5.0-alpha](#050-alpha)
-- [0.4.0](#040)
-
 ## 0.5.0-alpha
 ##### Core-app
 * **NO BACKWARD COMPATIBILITY** ANDDEP-928 Remove CoreApp
-* ANDDEP-1048 Fixing wrong docs links and docs structure
+
 ## 0.4.0
 ##### Core-app
 * Module - ** deprecated **

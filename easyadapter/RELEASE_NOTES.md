@@ -1,10 +1,5 @@
+[TOC]
 # Easy-adapter Release Notes
-
-- [1.1.0-alpha](#110-alpha)
-- [1.0.0](#100)
-- [0.3.0](#030)
-- [0.2.1](#021)
-
 ## 1.1.0-alpha
 ##### Easyadapter
 * ANDDEP-646 - Improved EasyAdapter. In BaseItem added next and previous links to items, adapterPosition, position in ItemList.

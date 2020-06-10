@@ -1,12 +1,6 @@
-# Использование
+[TOC]
 
-- [Cache](#cache)
-- [CallAdapter](#calladapter)
-- [Error](#error)
-- [Etag](#etag)
-- [Response](#response)
-- [Маппинг сущностей](#маппинг-сущностей)
-- [Прочее](#прочее)
+# Использование
 
 ### Cache
 
@@ -65,7 +59,8 @@
 [obExt]: ../src/main/java/ru/surfstudio/android/network/ObservableExtension.kt
 [call]: ../src/main/java/ru/surfstudio/android/network/calladapter/BaseCallAdapterFactory.java
 [hybrid]: hybrid.md
+[mapping]: mapping.md
 [etag]: etag.md
-[network_main]: ../../../../docs/interactor/network.md
-[filestorage]: ../../../../filestorage/README.md
+[network_main]: ../../docs/interactor/network.md
+[filestorage]: ../../filestorage/README.md
 [url]: url_cache.md

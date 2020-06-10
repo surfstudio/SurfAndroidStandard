@@ -1,7 +1,6 @@
 package ru.surfstudio.android.utilktx.data.wrapper.loadable
 
 import ru.surfstudio.android.utilktx.data.wrapper.DataWrapperInterface
-import java.io.Serializable
 
 /**
  * Интерфейс сущности, которая может иметь состояние загрузки
@@ -34,7 +33,7 @@ interface LoadableDataInterface {
 
 data class LoadableData<T>(override var data: T,
                            override var loadStatus: LoadStatus = LoadStatus.NORMAL)
-    : DataWrapperInterface<T>, LoadableDataInterface, Serializable
+    : DataWrapperInterface<T>, LoadableDataInterface
 
 enum class LoadStatus {
     NORMAL, //обычное состояние

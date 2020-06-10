@@ -1,13 +1,9 @@
+
 [Главная](../../main.md)
 
-# Android Java Code Style
+[TOC]
 
-- [Основные положения](#основные-положения)
-- [Расположение методов](#расположение-методов)
-- [Комментарии](#комментарии)
-- [Правила именования типовых сущностей](#правила-именования-типовых-сущностей)
-- [Использование аннотаций](#использование-аннотаций)
-- [Остальное](#остальное)
+# Android Java Code Style
 
 ## Основные положения
 
@@ -166,4 +162,4 @@ id компонентов в layout должны соответствовать 
 [java_conv]: http://www.oracle.com/technetwork/java/codeconvtoc-136057.html
 [google_java]: https://github.com/surfstudio/java-code-style
 [ex_order]: https://gist.github.com/icebail/aab425a46efab03a1024df5dbc553763#file-registrationactivitystep2-java
-[extra]: ../../../core-navigation/lib-core-navigation/src/main/java/ru/surfstudio/android/core/ui/navigation
+[extra]: ../../../core-ui/lib-core-ui/docs/navigation.md

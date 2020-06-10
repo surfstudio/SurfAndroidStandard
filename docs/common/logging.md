@@ -1,5 +1,7 @@
 [Главная](../main.md)
 
+[TOC]
+
 #  Логгирование
 
 Логгирование в logcat осуществляется с помощью [Logger][logger].
@@ -36,6 +38,6 @@ id, email при входе в аккаунт (для быстрой связи 
 Для отслеживания ANR применяется библиотека AnrWatchDog. При детектировании
 ANR соответствующий NonFatal следует отправлять на удаленный сервер.
 
-[logger]: ../../logger/README.md
-[response]: ../../deprecated/converter-gson/README.md
+[logger]: ../../logger/lib-logger/README.md
+[response]: ../../deprecated/converter-gson/lib-converter-gson/README.md
 [firebase-crashlytics]: https://firebase.google.com/docs/crashlytics

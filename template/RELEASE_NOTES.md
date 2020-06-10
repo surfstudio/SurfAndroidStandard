@@ -1,12 +1,7 @@
+[TOC]
 # Template Release Notes
-
-- [0.5.0-alpha](#050-alpha)
-- [0.4.0](#040)
-- [0.3.0](#030)
-
 ## 0.5.0-alpha
 ##### Template
-* ANDDEP-1040 fixed template build stage
 * ANDDEP-46 Added default BottomBarView implementation
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type to f-debug
 * ANDDEP-687 Added "com.google.dagger:dagger" dependency with "implementation" type to f-debug
@@ -48,10 +43,6 @@
   `PaginationFooterItemController` instead for using
   `easyadapter-pagination` module
 * ANDDEP-1057 Update androidStandardVersion
-* ANDDEP-1039 Removed extra .gitignore and proguard-rules.pro files
-* ANDDEP-1049 Added `permission` and `core-navigation` dependencies to template.
-* ANDDEP-1048 Fixing wrong docs links and docs structure
-* Fixed fast switching states between NONE and other
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template

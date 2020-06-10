@@ -1,11 +1,26 @@
 package ru.surfstudio.android.recycler.decorator.sample
 
+import androidx.annotation.CallSuper
+import org.junit.After
 import org.junit.Test
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
+import ru.surfstudio.android.sample.common.test.utils.AnimationUtils
 import ru.surfstudio.android.sample.common.test.utils.RecyclerViewUtils
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
 class DecoratorSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
+
+    override fun setUp() {
+        super.setUp()
+        AnimationUtils.grantScaleAnimationPermission()
+        AnimationUtils.disableAnimations()
+    }
+
+    @After
+    @CallSuper
+    fun tearDown() {
+        AnimationUtils.enableAnimations()
+    }
 
     @Test
     fun testChatSample() {

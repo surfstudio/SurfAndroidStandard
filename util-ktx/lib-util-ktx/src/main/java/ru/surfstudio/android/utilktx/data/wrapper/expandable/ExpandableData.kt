@@ -1,7 +1,6 @@
 package ru.surfstudio.android.utilktx.data.wrapper.expandable
 
 import ru.surfstudio.android.utilktx.data.wrapper.DataWrapperInterface
-import java.io.Serializable
 
 /**
  * Если объект может быть сворачиваемым
@@ -25,4 +24,4 @@ interface ExpandableDataInterface {
 
 data class ExpandableData<T>(override var data: T,
                              override var isExpanded: Boolean = false)
-    : DataWrapperInterface<T>, ExpandableDataInterface, Serializable
+    : DataWrapperInterface<T>, ExpandableDataInterface

@@ -1,5 +1,7 @@
 [Главная](../main.md)
 
+[TOC]
+
 # Шина сообщений
 
 Шина сообщений нужна, когда необходимо реагировать на те или иные события.
@@ -33,6 +35,6 @@ Activity в стеке.
 Для подписки на внешние события(системные) используется обертка над [BroadCastReceiver][bcr].
 
 [widget]: ../../mvp/lib-mvp-widget/README.md
-[rxbus]: ../../rxbus/README.md
+[rxbus]: ../../rxbus/lib-rxbus/README.md
 [interactor]: ../interactor/events_by_interactor.md
-[bcr]: ../../broadcast-extension/README.md
+[bcr]: ../../broadcast-extension/lib-broadcast-extension/README.md

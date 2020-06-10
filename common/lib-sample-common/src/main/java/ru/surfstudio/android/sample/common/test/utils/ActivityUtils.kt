@@ -34,7 +34,7 @@ object ActivityUtils {
         }
 
         if (currentActivity == null || currentActivity!!::class.java != activityClass) {
-            throw AssertionFailedError("Activity ${activityClass.name} is not visible")
+            throw AssertionFailedError("activity ${activityClass.name} is not visible (current activity: ${activityClass.name}")
         }
     }
 }

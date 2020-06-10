@@ -18,7 +18,8 @@ dependencies {
     implementation network.chuck
 
     implementation debug.tinyDancer
-    implementation debug.leakCanary
+    qaImplementation debug.leakCanary
+    debugImplementation debug.leakCanary
 
     implementation stetho.core
     implementation stetho.okHttp

@@ -1,5 +1,7 @@
 [Главная](../main.md)
 
+[TOC]
+
 # Навигация
 
 Навигация в наших приложениях построена не на использовании Intent'ов напрямую,
@@ -19,7 +21,7 @@ Route - является оберткой над Intent(навигация по 
 Навигация между экранами должна происходить только из слоя Presenter.
 
 Для навигации по приложению предусмотрены сущности `Navigator`(поставляются
-модулями *[core-ui](../../core-ui), [mvp-dialog][dial]*). `Navigator` осуществляет
+модулями *[core-ui][core-ui], [mvp-dialog][dial]*). `Navigator` осуществляет
 навигацию в соответствии с переданным ему объектом `Route`.
 
 `Route` может быть использован и без навигатора: например, внутри `PagerAdapter`
@@ -68,6 +70,6 @@ abstract class CustomScreenModule<out R : Route>(private val route: R) {
 
 Более подробно [Основные Routes и Navigators][nav], [Навигаторы для диалогов][dial]
 
-[core_ui]: ../../core-ui/README.md
-[nav]: ../../core-navigation/README.md
+[core_ui]: ../../core-ui/lib-core-ui/README.md
+[nav]: ../../core-ui/lib-core-ui/docs/navigation.md
 [dial]: ../../mvp/lib-mvp-dialog/README.md

@@ -45,9 +45,6 @@ object ConfigInfoProvider {
         this.globalConfigInfo = newConfigInfo //fix reuse process with old config info for next tasks
     }
 
-    @JvmStatic
-    fun getVersion() = globalConfigInfo.version
-
     private fun parseProjectConfigInfoJson(): GlobalConfigInfo {
         return GsonBuilder().create()
                 .fromJson(configInfoJsonFile.reader(), ConfigInfoJson::class.java)
@@ -55,4 +52,7 @@ object ConfigInfoProvider {
     }
 
     private fun openConfigInfoFile() = File(currentDirectory + CONFIG_INFO_JSON_FILE_PATH)
+
+    @JvmStatic
+    private fun getVersion() = globalConfigInfo.version
 }

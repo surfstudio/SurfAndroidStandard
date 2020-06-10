@@ -1,4 +1,6 @@
-[Ридми модуля](../../README.md)
+[Ридми модуля](../README.md)
+
+[TOC]
 
 # Использование
 
@@ -16,11 +18,13 @@
 * .e - ERROR
 
 Logger поддерживает стратегии логгирования. Стандартная стратегия
-предусматривает запись логов через Timber.
+предусматривает запись логов через Timber. Есть возможность добавить кастомные стратегии,
+создав наследника [AbstractGroupedLoggingStrategy](../src/main/java/ru/surfstudio/android/logger/logging_strategies/impl/base/AbstractGroupedLoggingStrategy.java)
+и добавив его к Logger путем вызова метода `#addLoggingStrategy()`.
 
-Для логгирования в Crashlytics предусмотрен объект [RemoteLogger](../../../template/base/src/main/java/ru/surfstudio/standard/base/logger/RemoteLogger.kt).
+Для логгирования в Crashlytics предусмотрен объект [RemoteLogger](../src/main/java/ru/surfstudio/android/logger/RemoteLogger.kt).
 
-При подключении в Logger стратегии [RemoteLoggerLoggingStrategy](../../../template/base_feature/src/main/java/ru/surfstudio/standard/application/logger/strategies/remote/RemoteLoggerLoggingStrategy.kt)
+При подключении в Logger стратегии [RemoteLoggerLoggingStrategy](../src/main/java/ru/surfstudio/android/logger/logging_strategies/impl/concrete/remote_logger/RemoteLoggerLoggingStrategy.kt)
 в RemoteLogger отправляются:
 
 * Все логи Logger’a выше уровня `VERBOSE`

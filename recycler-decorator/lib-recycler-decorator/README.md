@@ -1,5 +1,7 @@
 [Главная страница репозитория](/docs/main.md)
 
+[TOC]
+
 # RecyclerView decorator
 
 Универсальный декоратор для работы с `RecycleView`.

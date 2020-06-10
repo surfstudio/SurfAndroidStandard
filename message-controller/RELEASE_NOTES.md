@@ -1,8 +1,5 @@
+[TOC]
 # Message-controller Release Notes
-
-- [0.5.0-alpha](#050-alpha)
-- [0.2.1](#021)
-
 ## 0.5.0-alpha
 ##### Message-controller
 * ANDDEP-687 Removed "androidx.exifinterface:exifinterface" dependency

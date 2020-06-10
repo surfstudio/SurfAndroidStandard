@@ -149,11 +149,11 @@ getLoadStateRenderer()
 - далее придется пройтись по проекту и добавить импорт вашего класса LoadState.kt там, где раньше было обращение к enum, если включен автоимпорт, он может сделать это за вас
 
 [lsscm]: ../src/main/java/ru/surfstudio/android/core/mvp/model/LdsScreenModel.java
-[lsi]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/LoadStateInterface.java
+[lsi]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/LoadStateInterface.java
 [blav]: ../src/main/java/ru/surfstudio/android/core/mvp/activity/BaseLdsActivityView.java
 [blfv]: ../src/main/java/ru/surfstudio/android/core/mvp/fragment/BaseLdsFragmentView.java
-[lsri]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/LoadStateRendererInterface.java
-[lsp]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/LoadStatePresentation.kt
-[ulse]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/UnknownLoadStateException.kt
-[blr]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/BaseLoadStateRenderer.kt
-[splhv]: ../../../custom-view/lib-custom-view/src/main/java/ru/surfstudio/android/custom/view/placeholder/StandardPlaceHolderView.kt
+[lsri]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/renderer/LoadStateRendererInterface.java
+[lsp]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/renderer/LoadStatePresentation.kt
+[ulse]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/renderer/UnknownLoadStateException.kt
+[blr]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/renderer/BaseLoadStateRenderer.kt
+[splhv]: ../../custom-view/src/main/java/ru/surfstudio/android/custom/view/placeholder/StandardPlaceHolderView.kt

@@ -1,10 +1,10 @@
-[Главная](../../../docs/main.md)
+[Главная](../../docs/main.md)
 
 [Ридми модуля](../README.md)
 
-# Presenter
+[TOC]
 
-- [Обработка ошибок](#обработка-ошибок)
+# Presenter
 
 Содержат всю логику соответствующего [экрана][view].
 Все презентеры должны быть унаследованы от класса [**BasePresenter**][base].
@@ -129,7 +129,7 @@ Observables в этом случае выполняются *параллель�
 [base]: ../src/main/java/ru/surfstudio/android/core/mvp/presenter/BasePresenter.java
 [view]: view.md
 [model]: screen_model.md
-[delegates]: ../../../core-ui/README.md
+[delegates]: ../../../core-ui/lib-core-ui/README.md
 [nav]: ../../../docs/ui/navigation.md
 [async]: ../../../docs/common/async.md
 [mvp]: ../README.md

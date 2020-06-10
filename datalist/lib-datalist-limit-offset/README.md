@@ -11,10 +11,10 @@
 Также имеет специальную [утилиту][util] для разбиения большого запроса на мелкие блоки.
 
 ### Использование
-Используется так же, как и [datalist-page-count](../lib-datalist-page-count/README.md).
+Используется так же, как и [datalist-page-count](../datalist-page-count/README.md).
 
-Пример использования [datalist-page-count](../lib-datalist-page-count)
-можно найти [здесь](/deprecated/network/sample).
+Пример использования [datalist-page-count](../datalist-page-count)
+можно найти [здесь](../network-sample).
 
 # Подключение
 Gradle:
