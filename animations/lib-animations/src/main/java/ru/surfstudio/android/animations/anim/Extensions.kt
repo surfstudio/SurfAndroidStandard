@@ -17,9 +17,9 @@ package ru.surfstudio.android.animations.anim
 
 import android.animation.ObjectAnimator
 import android.animation.TimeInterpolator
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 
 /**
  * Extension для анимации View
@@ -32,10 +32,11 @@ import android.view.animation.LinearInterpolator
  */
 fun View.fadeIn(
         duration: Long = AnimationUtil.ANIM_ENTERING,
+        delay: Long = 0,
         defaultAlpha: Float = alpha,
         endAction: (() -> Unit)? = null
 ) =
-        AnimationUtil.fadeIn(this, duration, defaultAlpha, endAction)
+        AnimationUtil.fadeIn(this, duration, delay, defaultAlpha, endAction)
 
 /**
  * Сокрытие вью с изменением прозрачности

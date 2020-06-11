@@ -56,7 +56,7 @@ class PlaceHolderViewContainer(
 
     fun changeViewTo(view: View) = loadStateSubject.onNext(StatePresentation(view))
 
-    fun show() = fadeIn(DEFAULT_DURATION, ALPHA_FULL)
+    fun show() = fadeIn(duration = DEFAULT_DURATION, defaultAlpha = ALPHA_FULL)
 
     fun hide() = fadeOut(DEFAULT_DURATION, View.GONE, ALPHA_FULL)
 

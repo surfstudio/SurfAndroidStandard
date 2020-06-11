@@ -18,13 +18,13 @@ package ru.surfstudio.android.animations.anim
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.TimeInterpolator
-import androidx.transition.*
-import androidx.core.view.ViewCompat
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
+import androidx.core.view.ViewCompat
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.transition.*
 
 /**
  * Утилиты для работы с анимацией
@@ -91,10 +91,10 @@ object AnimationUtil {
     fun fadeIn(
             inView: View,
             duration: Long = ANIM_ENTERING,
+            delay: Long = 0L,
             defaultAlpha: Float = inView.alpha,
             endAction: (() -> Unit)? = null
     ) {
-
         val animatorListener = DefaultViewPropertyAnimatorListener(inView.alpha, inView.visibility)
 
         inView.alpha = 0f
@@ -104,6 +104,7 @@ object AnimationUtil {
         ViewCompat.animate(inView)
                 .alpha(defaultAlpha)
                 .setDuration(duration)
+                .setStartDelay(delay)
                 .setInterpolator(FastOutLinearInInterpolator())
                 .setListener(animatorListener)
                 .withEndAction {
@@ -138,13 +139,17 @@ object AnimationUtil {
     /**
      * Изменение ширины и высоты вью
      */
-    fun newSize(view: View,
-                newWidth: Int, newHeight: Int,
-                duration: Long = ANIM_TRANSITION) {
-        val transition = TransitionSet()
-                .addTransition(ChangeBounds())
-        transition.duration = duration
-        beginTransitionSafe(view, transition)
+    fun newSize(
+            view: View,
+            newWidth: Int,
+            newHeight: Int,
+            duration: Long = ANIM_TRANSITION,
+            delay: Long = 0L
+    ) {
+        val transition: ChangeBounds = ChangeBounds().apply { startDelay = delay }
+        val transitionSet: TransitionSet = TransitionSet().addTransition(transition)
+        transitionSet.duration = duration
+        beginTransitionSafe(view, transitionSet)
 
         val lp = view.layoutParams
         lp.width = newWidth
