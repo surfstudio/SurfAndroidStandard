@@ -1,8 +1,12 @@
 # Recycler-decorator Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [1.1.0-alpha](#110-alpha)
+- [1.0.0](#100)
 
-## 0.5.0-alpha
+## 1.1.0-alpha
+##### Recycler-decorator
+* TODO
+## 1.0.0
 ##### Recycler-decorator
 * ANDDEP-785 added Builder for RecyclerView.ItemDecoration and sample
 * ANDDEP-785 added ktx for Decorator.Builder to use with EasyAdapter
