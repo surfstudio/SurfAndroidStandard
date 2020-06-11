@@ -189,7 +189,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 9,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -1021,7 +1021,7 @@
   {
     "id": "easyadapter",
     "version": "1.1.0",
-    "unstable_version": 15,
+    "unstable_version": 16,
     "stable": false,
     "dir": "easyadapter",
     "libs": [
