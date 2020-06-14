@@ -28,4 +28,10 @@ open class ActivityNavigator(val activity: AppCompatActivity) : ActivityNavigato
     override fun finishAffinity() {
         activity.finishAffinity()
     }
+
+    override fun canBeStarted(route: ActivityRoute): Boolean {
+        val intent = route.createIntent(activity)
+        val hasActivityComponent = intent.resolveActivity(activity.packageManager) != null
+        return hasActivityComponent
+    }
 }

@@ -1,5 +1,6 @@
 package ru.surfstudio.android.navigation.observer
 
+import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
 import ru.surfstudio.android.navigation.observer.route.ResultRoute
 import ru.surfstudio.android.navigation.route.BaseRoute
 import java.io.Serializable
@@ -21,8 +22,8 @@ interface ScreenResultObserver {
     fun <T : Serializable, R> addListener(
             sourceRoute: BaseRoute<*>,
             targetRoute: R,
-            listener: (T) -> Unit
-    ) where R: BaseRoute<*>, R: ResultRoute<T>
+            listener: ScreenResultListener<T>
+    ) where R : BaseRoute<*>, R : ResultRoute<T>
 
     /**
      * Removes screen result listener.
@@ -33,5 +34,5 @@ interface ScreenResultObserver {
     fun <R> removeListener(
             sourceRoute: BaseRoute<*>,
             targetRoute: R
-    ) where R: BaseRoute<*>, R: ResultRoute<*>
+    ) where R : BaseRoute<*>, R : ResultRoute<*>
 }
