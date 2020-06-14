@@ -8,7 +8,7 @@ import ru.surfstudio.android.sample.dagger.app.exceptions.NetworkException
 import ru.surfstudio.android.sample.dagger.app.exceptions.NoInternetException
 
 /**
- * Базовый класс для обработки ошибок, возникающий при работе с Observable из слоя Interactor
+ * Default class to handle errors which occur in [Observable] subscriptions
  */
 abstract class DefaultNetworkErrorHandler : ErrorHandler {
 
@@ -23,7 +23,7 @@ abstract class DefaultNetworkErrorHandler : ErrorHandler {
     }
 
     /**
-     * @param err - CompositeException может возникать при комбинировании Observable
+     * @param err - CompositeException which could occur while combining Observable
      */
     private fun handleCompositeException(err: CompositeException) {
         val exceptions = err.exceptions
