@@ -3,7 +3,7 @@ ext {
     applicationName = "AndroidStandard"
 
     versions = [
-            androidStandardVersion          : '0.5.0-alpha.8',      //версия version-plugin
+            androidStandardVersion          : '0.5.0-alpha.139',    //версия version-plugin
             gradlePluginVersion             : '3.6.1',              //https://bit.ly/2NXD4Pe
             buildToolsVersion               : '29.0.3',             //https://bit.ly/2DNmq3Y
             googleServicesVersion           : '4.3.3',              //https://bit.ly/2Q5FCge
@@ -32,19 +32,20 @@ ext {
             firebaseAppDistributionVersion  : '1.2.0',              //http://bit.ly/2Gc2qHh
             firebaseCrashlyticsVersion      : '17.0.0-beta01',      //http://bit.ly/2RM7ec2
             firebaseCrashlyticsGradleVersion: '2.0.0-beta01',       //http://bit.ly/2RM7ec2
-            okHttpVersion                   : '4.4.1',             //https://vk.cc/7UFwTd
+            okHttpVersion                   : '4.4.1',              //https://vk.cc/7UFwTd
             retrofitVersion                 : '2.8.1',              //https://vk.cc/7UFxk3
             chuckVersion                    : '1.1.0',              //https://bit.ly/2qCecTE
             rxBinding2Version               : '2.2.0',              //https://goo.gl/KQ5Vga
             stethoVersion                   : '1.5.1',              //https://bit.ly/2eZ3YI7
             tinyDancerVersion               : '0.1.2',              //https://bit.ly/2Bluq9P
             processPhoenixVersion           : '2.0.0',              //https://bit.ly/2OAc0po
-            leakCanaryVersion               : '2.2',              //https://goo.gl/w3pm32
+            leakCanaryVersion               : '2.2',                //https://goo.gl/w3pm32
             anrWatchDogVersion              : '1.4.0',              //http://bit.ly/2NZvjZc
             materialRangeBarVersion         : '1.4.4',              //https://bit.ly/2TxqAkm
             timberVersion                   : '4.7.1',              //http://bit.ly/2LWbLaY
             rxJava2DebugVersion             : '1.4.0',              //https://bit.ly/322Qzo7
-            androidDebugToolsVersion        : '1.0'                 //https://bit.ly/2QMKLfe
+            androidDebugToolsVersion        : '1.0',                //https://bit.ly/2QMKLfe
+            autoServiceVersion              : '1.0-rc4'             //https://bit.ly/2WsGYH4
     ]
 
     app = [
@@ -110,8 +111,8 @@ ext {
     test = [
             robolectric    : "org.robolectric:robolectric:${versions.robolectricVersion}",
             shadowsMultidex: "org.robolectric:shadows-multidex:${versions.robolectricVersion}",
-            junit          : "junit:junit:${versions.junitVersion}"
-
+            junit          : "junit:junit:${versions.junitVersion}",
+            autoService    : "com.google.auto.service:auto-service:${versions.autoServiceVersion}"
     ]
 
     androidTest = [

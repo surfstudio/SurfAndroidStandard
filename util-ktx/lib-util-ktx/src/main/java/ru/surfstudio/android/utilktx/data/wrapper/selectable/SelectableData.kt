@@ -1,6 +1,8 @@
 package ru.surfstudio.android.utilktx.data.wrapper.selectable
 
 import ru.surfstudio.android.utilktx.data.wrapper.DataWrapperInterface
+import ru.surfstudio.android.utilktx.data.wrapper.checkable.CheckableData
+import java.io.Serializable
 
 /**
  * Интерфейс сущности, которая может быть выделяемым
@@ -20,4 +22,4 @@ interface SelectableDataInterface {
  */
 data class SelectableData<T>(override var data: T,
                              override var isSelected: Boolean = false)
-    : DataWrapperInterface<T>, SelectableDataInterface
+    : DataWrapperInterface<T>, SelectableDataInterface, Serializable

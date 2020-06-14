@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.easyadapter.holder;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +22,8 @@ import android.view.ViewGroup;
 import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ru.surfstudio.android.easyadapter.animator.BaseItemAnimator;
-
-
 /**
- * Base ViewHolder with convenient features:
- * <p>
- * 1) It has constructor with item layout resource id
- * 2) It supports custom animation with {@link BaseItemAnimator}
+ * Base ViewHolder with has constructor with item layout resource id
  */
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
@@ -40,32 +33,5 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     public BaseViewHolder(View itemView) {
         super(itemView);
-    }
-
-    /**
-     * Override this method, if you want custom animation "insert" appear for this holder
-     *
-     * @return true, if holder has custom animation
-     */
-    public boolean animateInsert() {
-        return false;
-    }
-
-    /**
-     * Override this method, if you want custom animation "change" appear for this holder
-     *
-     * @return true, if holder has custom animation
-     */
-    public boolean animateChange() {
-        return false;
-    }
-
-    /**
-     * Override this method, if you want custom animation "remove" appear for this holder
-     *
-     * @return true, if holder has custom animation
-     */
-    public boolean animateRemove() {
-        return false;
     }
 }

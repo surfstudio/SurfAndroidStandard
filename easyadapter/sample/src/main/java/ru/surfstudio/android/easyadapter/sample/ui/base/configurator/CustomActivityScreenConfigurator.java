@@ -11,9 +11,8 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivi
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule;
 
 /**
- * Базовый конфигуратор для экрана, основанного на активити
+ * Base configurator for screen which is based on Activity
  */
-
 public abstract class CustomActivityScreenConfigurator
         extends BaseActivityViewConfigurator<CustomAppComponent, CustomActivityComponent, DefaultActivityScreenModule> {
 
