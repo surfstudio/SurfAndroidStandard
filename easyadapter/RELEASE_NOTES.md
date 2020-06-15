@@ -1,17 +1,17 @@
 # Easy-adapter Release Notes
 
-- [1.2.0-alpha](#120-alpha)
-- [1.1.0](#110)
+- [2.1.0-alpha](#210-alpha)
+- [2.0.0](#200)
 - [1.0.0](#100)
 - [0.3.0](#030)
 - [0.2.1](#021)
 
-## 1.2.0-alpha
+## 2.1.0-alpha
 ##### Easyadapter
 * TODO
 ##### Easyadapter Pagination
 * TODO
-## 1.1.0
+## 2.0.0
 ##### Easyadapter
 * ANDDEP-646 - Improved EasyAdapter. In BaseItem added next and previous links to items, adapterPosition, position in ItemList.
 * ANDDEP-795 - Fixed the appear of the invisible item in all rows except first in case of using GridLayoutManager
