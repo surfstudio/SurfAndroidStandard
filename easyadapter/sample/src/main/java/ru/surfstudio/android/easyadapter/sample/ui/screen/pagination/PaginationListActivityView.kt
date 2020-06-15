@@ -12,7 +12,6 @@ import ru.surfstudio.android.easyadapter.pagination.EasyPaginationAdapter
 import ru.surfstudio.android.easyadapter.sample.R
 import ru.surfstudio.android.easyadapter.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.easyadapter.sample.ui.screen.common.controllers.FirstDataItemController
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.sample.common.ui.base.easyadapter.PaginationFooterItemController
 import javax.inject.Inject
 

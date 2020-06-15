@@ -12,12 +12,10 @@ android {
 dependencies {
     DependencyConfigurator.projectImplementation(project, "analytics")
     DependencyConfigurator.projectImplementation(project, "firebase-analytics")
-    DependencyConfigurator.projectImplementation(project, "push")
     DependencyConfigurator.projectImplementation(project, "activity-holder")
     DependencyConfigurator.projectImplementation(project, "picture-provider")
 
     DependencyConfigurator.implementation(project, "com.android.support:multidex")
-    DependencyConfigurator.implementation(project, "com.google.firebase:firebase-messaging")
 
     DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
 }

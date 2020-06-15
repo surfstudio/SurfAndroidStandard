@@ -35,7 +35,7 @@ class PaginationFooterItemController
         }
 
         override fun bind(state: PaginationState) {
-            //для пагинации на StaggeredGrid
+            // for StaggeredGrid pagination
             if (itemView.layoutParams is StaggeredGridLayoutManager.LayoutParams) {
                 itemView.updateLayoutParams<StaggeredGridLayoutManager.LayoutParams> { isFullSpan = true }
             }
