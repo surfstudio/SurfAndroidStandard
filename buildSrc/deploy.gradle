@@ -112,13 +112,6 @@ ext.configureDeploy = { context ->
                     if (!Components.isLibraryFromComponent(project.name, componentName)) return
                 }
 
-                // If -PonlyUnstable=true deploy only unstable artifacts
-                if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {
-                    if (project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == trueValue
-                            && Components.getComponentStability(project.name)
-                    ) return
-                }
-
                 def overrideExisted = false
                 // Read -PoverrideExisted property
                 if (project.hasProperty(GradleProperties.OVERRIDE_EXISTED)) {
