@@ -52,7 +52,7 @@ class MultitypeListActivityView : BaseRenderableActivityView<MultitypeListScreen
         adapter.setItems(ItemList.create()
                 .addAll(sm.firstDataList, firstDataItemController)
                 .addAll(sm.secondDataList, secondDataItemController)
-                .add(emptyItemController)
+                .addHeader(emptyItemController)
                 .add(sm.firstData, sm.secondData, twoDataItemController))
     }
 

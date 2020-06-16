@@ -3,25 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/default_height"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/first_tv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:textColor="@color/colorPrimaryDark"
-        android:gravity="center"
         android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        tools:text="First data"/>
+        tools:text="First data" />
 
     <TextView
         android:id="@+id/second_tv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:textColor="@color/colorAccent"
-        android:gravity="center"
         android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/colorAccent"
         android:textStyle="italic"
-        tools:text="Second data"/>
+        tools:text="Second data" />
 </LinearLayout>

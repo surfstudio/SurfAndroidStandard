@@ -2,7 +2,6 @@ package ru.surfstudio.android.easyadapter.sample.ui.screen.common.controllers
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import android.widget.TextView
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
@@ -25,15 +24,13 @@ class SecondDataItemController(
         private val secondTv: TextView = itemView.findViewById(R.id.second_tv)
 
         init {
-            itemView.findViewById<RelativeLayout>(R.id.second_data_container).apply {
-                setOnClickListener { onClickListener(data) }
-            }
+            itemView.setOnClickListener { onClickListener(data) }
         }
 
         @SuppressLint("SetTextI18n")
         override fun bind(data: SecondData) {
             this.data = data
-            secondTv.text = "${data.stringValue} click me!"
+            secondTv.text = data.stringValue
         }
     }
 }

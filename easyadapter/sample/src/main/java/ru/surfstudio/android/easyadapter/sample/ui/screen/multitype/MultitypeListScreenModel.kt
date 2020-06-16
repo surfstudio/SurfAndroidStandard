@@ -6,7 +6,7 @@ import ru.surfstudio.android.easyadapter.sample.domain.SecondData
 
 class MultitypeListScreenModel : ScreenModel() {
     val firstData = FirstData(10)
-    val secondData = SecondData("Second data")
+    val secondData = SecondData("Sed ut perspiciatis")
 
     val firstDataList = arrayListOf(
             FirstData(0),
@@ -15,8 +15,8 @@ class MultitypeListScreenModel : ScreenModel() {
     )
 
     val secondDataList = arrayListOf(
-            SecondData("a"),
-            SecondData("b"),
-            SecondData("c")
+            SecondData("Lorem ipsum dolor sit amet"),
+            SecondData("consectetur adipiscing elit"),
+            SecondData("sed do eiusmod tempor incididunt")
     )
 }
