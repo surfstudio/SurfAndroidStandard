@@ -188,14 +188,14 @@ pipeline.stages = [
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
 
-        pipeline.stage(RELEASE_NOTES_DIFF, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(RELEASE_NOTES_DIFF, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
 
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
+        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT, StageStrategy.SKIP_STAGE) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
-        pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.SKIP_STAGE) {
             withArtifactoryCredentials(script) {
                 script.echo "artifactory user: ${script.env.surf_maven_username}"
                 script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
@@ -207,23 +207,23 @@ pipeline.stages = [
             }
 
         },
-        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew checkStableComponentStandardDependenciesStableTask")
         },
-        pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
             script.sh("./gradlew checkReleaseNotesNotContainCyrillic")
         },
-        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECKS_RESULT) {
+        pipeline.stage(CHECKS_RESULT, StageStrategy.SKIP_STAGE) {
             script.sh "rm -rf $TEMP_FOLDER_NAME"
             def checksPassed = true
             [
