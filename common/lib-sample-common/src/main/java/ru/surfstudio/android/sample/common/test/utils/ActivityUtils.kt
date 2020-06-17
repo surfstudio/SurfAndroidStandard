@@ -48,7 +48,7 @@ object ActivityUtils {
             }
         }
         if (currentActivity == null)
-            throw AssertionFailedError("can't find activity ${activityClass.name}")
+            throw AssertionFailedError("can't find current activity")
 
         if (currentActivity!!::class.java != activityClass) {
             throw AssertionFailedError("activity ${activityClass.name} is not visible (current activity: ${currentActivity!!::class.java.name})")
