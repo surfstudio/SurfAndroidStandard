@@ -898,7 +898,7 @@
     "id": "easyadapter",
     "version": "2.0.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "easyadapter",
     "libs": [
       {
@@ -1562,7 +1562,7 @@
     "id": "recycler-decorator",
     "version": "1.0.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "recycler-decorator",
     "libs": [
       {
