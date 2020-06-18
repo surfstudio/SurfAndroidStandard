@@ -223,7 +223,7 @@ pipeline.stages = [
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECKS_RESULT) {
+        pipeline.stage(CHECKS_RESULT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh "rm -rf $TEMP_FOLDER_NAME"
             def checksPassed = true
             [
