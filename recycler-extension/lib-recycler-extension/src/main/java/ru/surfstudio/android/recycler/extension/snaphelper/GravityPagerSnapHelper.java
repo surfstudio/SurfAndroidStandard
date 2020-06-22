@@ -17,89 +17,42 @@ package ru.surfstudio.android.recycler.extension.snaphelper;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 /**
  * Комбинирует поведение снапига по гравитации и запрета на "бесконечный" скролл
  */
 public class GravityPagerSnapHelper extends GravitySnapHelper {
 
-    private PagerSnapHelper pagerSnapHelper;
+    private static final int MIN_VELOCITY_DP_X = 1800;
+    private float screenDensity;
 
     public GravityPagerSnapHelper(int gravity, Context context) {
         super(gravity);
-        pagerSnapHelper = new PagerSnapHelper(context);
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        screenDensity = metrics.density;
     }
 
     @Override
     public int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {
-        return pagerSnapHelper.findTargetSnapPosition(layoutManager, velocityX, velocityY);
-    }
-
-    /**
-     * При флинге позволяет скроллить RecyclerView только на количество элементов, умещающееся в
-     * видимой части списка
-     */
-    private static class PagerSnapHelper extends SnapHelper {
-
-        private static final int MIN_VELOCITY_DP_X = 1800;
-        private OrientationHelper mHorizontalHelper;
-        private float screenDensity;
-
-        PagerSnapHelper(Context context) {
-            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-            screenDensity = metrics.density;
+        if (Math.abs(velocityX / screenDensity) < MIN_VELOCITY_DP_X) {
+            return RecyclerView.NO_POSITION;
         }
-
-        @Nullable
-        @Override
-        public int[] calculateDistanceToFinalSnap(@NonNull RecyclerView.LayoutManager layoutManager, @NonNull View targetView) {
-            return new int[]{
-                    getHorizontalHelper(layoutManager).getDecoratedStart(targetView),
-                    0};
-        }
-
-        @Nullable
-        @Override
-        public View findSnapView(RecyclerView.LayoutManager layoutManager) {
-            return null;
-        }
-
-        @Override
-        public int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {
-            if (Math.abs(velocityX / screenDensity) < MIN_VELOCITY_DP_X) {
-                return RecyclerView.NO_POSITION;
-            }
-            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-            int fistVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
-            int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
-            int delta = lastVisibleItemPosition - fistVisibleItemPosition;
-            int targetPosition;
-            final int firstItem = 0;
-            final int lastItem = layoutManager.getItemCount() - 1;
-            if (velocityX > 0) {
-                targetPosition = lastVisibleItemPosition;
-                return Math.min(lastItem, targetPosition);
-            } else {
-                targetPosition = fistVisibleItemPosition - delta + 1;
-                return Math.max(firstItem, targetPosition);
-            }
-        }
-
-        @NonNull
-        private OrientationHelper getHorizontalHelper(
-                @NonNull RecyclerView.LayoutManager layoutManager) {
-            if (mHorizontalHelper == null) {
-                mHorizontalHelper = OrientationHelper.createHorizontalHelper(layoutManager);
-            }
-            return mHorizontalHelper;
+        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
+        int fistVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+        int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
+        int delta = lastVisibleItemPosition - fistVisibleItemPosition;
+        int targetPosition;
+        final int firstItem = 0;
+        final int lastItem = layoutManager.getItemCount() - 1;
+        if (velocityX > 0) {
+            targetPosition = lastVisibleItemPosition;
+            return Math.min(lastItem, targetPosition);
+        } else {
+            targetPosition = fistVisibleItemPosition - delta + 1;
+            return Math.max(firstItem, targetPosition);
         }
     }
 }
