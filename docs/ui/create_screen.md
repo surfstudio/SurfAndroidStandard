@@ -1,8 +1,10 @@
 [Главная](../main.md)
 
-[TOC]
-
 # Создание нового экрана
+
+- [Создание экрана](#создание-экрана)
+- [Шаблоны](#шаблоны)
+
 
 ##### Создание экрана
 Для создания экрана необходимо проделать следующие шаги:
@@ -27,5 +29,5 @@
 Шаблоны работают в студии 3.0 и выше
 
 [core-mvp]: ../../mvp/lib-core-mvp/README.md
-[multi]: ../common/multimodule/detail.md
+[multi]: ../common/multimodule/multimodules.md
 [configurator]: ../../mvp/lib-core-mvp/docs/configurator.md

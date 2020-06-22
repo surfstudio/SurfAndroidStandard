@@ -7,9 +7,6 @@ import ru.surfstudio.android.sample.dagger.app.dagger.DaggerDefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 
-/**
- * Класс приложения
- */
 class DefaultApp : Application() {
 
     val activeActivityHolder = ActiveActivityHolder()
@@ -29,9 +26,6 @@ class DefaultApp : Application() {
                 .build()
     }
 
-    /**
-     * Регистрирует слушатель аткивной активити
-     */
     private fun registerActiveActivityListener() {
         registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
