@@ -7,16 +7,16 @@ import androidx.fragment.app.FragmentTransaction
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.resource.BaseResourceAnimations
 import ru.surfstudio.android.navigation.animation.resource.NoResourceAnimations
-import ru.surfstudio.android.navigation.command.fragment.Add
-import ru.surfstudio.android.navigation.command.NavigationCommand
-import ru.surfstudio.android.navigation.command.fragment.Replace
+import ru.surfstudio.android.navigation.animation.utils.FragmentAnimationSupplier
+import ru.surfstudio.android.navigation.backstack.fragment.BackStackFragmentRoute
 import ru.surfstudio.android.navigation.backstack.fragment.FragmentBackStack
 import ru.surfstudio.android.navigation.backstack.fragment.entry.FragmentBackStackEntry
 import ru.surfstudio.android.navigation.backstack.fragment.entry.FragmentBackStackEntryObj
 import ru.surfstudio.android.navigation.backstack.fragment.listener.FragmentBackStackChangedListener
-import ru.surfstudio.android.navigation.backstack.fragment.BackStackFragmentRoute
+import ru.surfstudio.android.navigation.command.NavigationCommand
+import ru.surfstudio.android.navigation.command.fragment.Add
+import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
-import ru.surfstudio.android.navigation.animation.utils.FragmentAnimationSupplier
 
 /**
  * Fragment navigator.
@@ -192,7 +192,7 @@ open class FragmentNavigator(
         inStack
                 .mapNotNull { entryObj ->
                     val fragment = fragmentManager.findFragmentByTag(entryObj.tag)
-                    fragment?.let { FragmentBackStackEntry(entryObj.tag, it, entryObj.command) }
+                    fragment?.let { entryObj.toEntry(fragment) }
                 }
                 .forEach { entry ->
                     backStack.push(entry)

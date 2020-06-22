@@ -1,5 +1,6 @@
 package ru.surfstudio.android.navigation.executor.screen.fragment
 
+import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.*
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
@@ -7,6 +8,11 @@ import ru.surfstudio.android.navigation.executor.CommandExecutor
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
 import ru.surfstudio.android.navigation.route.tab.TabRoute
 
+/**
+ * Command executor for [ActivityNavigationCommand]s.
+ *
+ * There should be single instance of this executor for an application.
+ */
 open class FragmentCommandExecutor(
         private val activityNavigationProvider: ActivityNavigationProvider
 ) : CommandExecutor<FragmentNavigationCommand> {

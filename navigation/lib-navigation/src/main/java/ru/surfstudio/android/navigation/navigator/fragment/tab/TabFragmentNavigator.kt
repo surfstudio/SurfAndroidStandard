@@ -55,7 +55,7 @@ open class TabFragmentNavigator(
 
     override fun add(route: FragmentRoute, animations: Animations) {
         if (route is TabRootRoute) {
-            openTab(route)
+            openRoot(route)
         } else {
             activeNavigator.add(route, animations)
         }
@@ -63,7 +63,7 @@ open class TabFragmentNavigator(
 
     override fun replace(route: FragmentRoute, animations: Animations) {
         if (route is TabRootRoute) {
-            openTab(route)
+            openRoot(route)
         } else {
             activeNavigator.replace(route, animations)
         }
@@ -133,7 +133,7 @@ open class TabFragmentNavigator(
     /**
      * Opens tab as a root.
      */
-    fun openTab(route: FragmentRoute) {
+    fun openRoot(route: FragmentRoute) {
         if (hostEntries.tags.contains(route.getTag())) {
             openExistentTab(route.getTag())
         } else {

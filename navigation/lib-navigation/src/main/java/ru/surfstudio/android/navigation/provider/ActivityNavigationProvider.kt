@@ -4,6 +4,9 @@ import ru.surfstudio.android.navigation.provider.callbacks.listener.OnHolderActi
 import ru.surfstudio.android.navigation.provider.holder.ActivityNavigationHolder
 import ru.surfstudio.android.navigation.provider.holder.FragmentNavigationHolder
 
+/**
+ * Provider that can obtain [ActivityNavigationHolder].
+ */
 interface ActivityNavigationProvider {
 
     /**

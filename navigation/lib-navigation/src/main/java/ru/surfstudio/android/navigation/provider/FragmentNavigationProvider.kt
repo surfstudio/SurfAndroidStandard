@@ -2,6 +2,9 @@ package ru.surfstudio.android.navigation.provider
 
 import ru.surfstudio.android.navigation.provider.holder.FragmentNavigationHolder
 
+/**
+ * Provider that can obtain [FragmentNavigationHolder].
+ */
 interface FragmentNavigationProvider {
 
     /**
@@ -11,5 +14,5 @@ interface FragmentNavigationProvider {
      *
      * @see [ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand.sourceTag]
      */
-    fun provide(sourceTag: String): FragmentNavigationHolder
+    fun provide(sourceTag: String?): FragmentNavigationHolder
 }

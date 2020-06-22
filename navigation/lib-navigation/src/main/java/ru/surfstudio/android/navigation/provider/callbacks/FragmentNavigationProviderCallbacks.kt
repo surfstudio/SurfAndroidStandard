@@ -40,11 +40,11 @@ open class FragmentNavigationProviderCallbacks(
      */
     private val activeFragments = mutableListOf<Fragment>()
 
-    override fun provide(sourceTag: String): FragmentNavigationHolder {
-        val sourceFragment = if (sourceTag.isNotEmpty()) {
-            activeFragments.find { getFragmentId(it).contains(sourceTag) }
-        } else {
+    override fun provide(sourceTag: String?): FragmentNavigationHolder {
+        val sourceFragment = if (sourceTag.isNullOrEmpty()) {
             null
+        } else {
+            activeFragments.find { getFragmentId(it).contains(sourceTag) }
         }
         return obtainFragmentHolderRecursive(sourceFragment) ?: navigationHolders.values.first()
     }
