@@ -11,21 +11,19 @@ import java.io.Serializable
 
 class ListenForScreenResultObservable<T : Serializable, R>(
         private val screenResultObserver: ScreenResultObserver,
-        private val sourceRoute: BaseRoute<*>,
         private val targetRoute: R
 ) : Observable<T>() where R : BaseRoute<*>, R : ResultRoute<T> {
 
     override fun subscribeActual(observer: Observer<in T>?) {
         requireNotNull(observer)
-        val listener = Listener(screenResultObserver, observer, sourceRoute, targetRoute)
+        val listener = Listener(screenResultObserver, observer, targetRoute)
         observer.onSubscribe(listener)
-        screenResultObserver.addListener(sourceRoute, targetRoute, listener)
+        screenResultObserver.addListener(targetRoute, listener)
     }
 
     private class Listener<T : Serializable, R>(
             private val screenResultObserver: ScreenResultObserver,
             private val observer: Observer<in T>,
-            private val sourceRoute: BaseRoute<*>,
             private val targetRoute: R
     ) : BaseNavigationDisposable(), ScreenResultListener<T> where R : BaseRoute<*>, R : ResultRoute<T> {
 
@@ -34,7 +32,7 @@ class ListenForScreenResultObservable<T : Serializable, R>(
         }
 
         override fun onDispose() {
-            screenResultObserver.removeListener(sourceRoute, targetRoute)
+            screenResultObserver.removeListener(targetRoute)
         }
     }
 }

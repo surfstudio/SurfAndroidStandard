@@ -12,15 +12,12 @@ import java.io.Serializable
 interface ScreenResultObserver {
 
     /**
-     * Adds listener, which will be invoked on each screen result, emitted by [targetRoute],
-     * and specified for [sourceRoute].
+     * Adds listener, which will be invoked on each screen result, emitted by [targetRoute]
      *
-     * @param sourceRoute [BaseRoute] of a screen, that is observing result
      * @param targetRoute [BaseRoute] of a screen, that is emitting result
      * @param listener listener tha
      */
     fun <T : Serializable, R> addListener(
-            sourceRoute: BaseRoute<*>,
             targetRoute: R,
             listener: ScreenResultListener<T>
     ) where R : BaseRoute<*>, R : ResultRoute<T>
@@ -28,11 +25,9 @@ interface ScreenResultObserver {
     /**
      * Removes screen result listener.
      *
-     * @param sourceRoute [BaseRoute] of a screen, that is observing result
      * @param targetRoute [BaseRoute] of a screen, that is emitting result
      */
     fun <R> removeListener(
-            sourceRoute: BaseRoute<*>,
             targetRoute: R
     ) where R : BaseRoute<*>, R : ResultRoute<*>
 }
