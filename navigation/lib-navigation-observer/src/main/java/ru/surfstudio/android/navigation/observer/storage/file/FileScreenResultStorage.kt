@@ -16,28 +16,28 @@ class FileScreenResultStorage(
         rootDirectory.mkdir()
     }
 
-    override fun <T : Serializable> get(sourceId: String, targetId: String): ScreenResultInfo<T>? {
-        val name = getFileName(sourceId, targetId)
+    override fun <T : Serializable> get(targetId: String): ScreenResultInfo<T>? {
+        val name = getFileName(targetId)
         val bytes = getBytesFromFile(name)
         return bytes?.let { decode(it) }
     }
 
 
     override fun <T : Serializable> save(info: ScreenResultInfo<T>) {
-        val name = getFileName(info.sourceId, info.targetId)
+        val name = getFileName(info.targetId)
         val bytes = encode(info) ?: return
         saveBytesOrRewrite(name, bytes)
     }
 
-    override fun remove(sourceId: String, targetId: String) {
-        val name = getFileName(sourceId, targetId)
+    override fun remove(targetId: String) {
+        val name = getFileName(targetId)
         getFilesList()
                 .filter { it.name == name }
                 .forEach { it.delete() }
     }
 
-    override fun contains(sourceId: String, targetId: String): Boolean {
-        val name = getFileName(sourceId, targetId)
+    override fun contains(targetId: String): Boolean {
+        val name = getFileName(targetId)
         return getFilesList().any { it.name == name }
     }
 
@@ -47,8 +47,8 @@ class FileScreenResultStorage(
                 .forEach { it.delete() }
     }
 
-    private fun getFileName(sourceId: String, targetId: String): String {
-        return sourceId + targetId
+    private fun getFileName(targetId: String): String {
+        return targetId
     }
 
     private fun getFilesList(): List<File> {

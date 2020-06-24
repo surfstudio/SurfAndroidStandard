@@ -82,6 +82,6 @@ class MainFragment : Fragment(), FragmentNavigationContainer {
         return App.provider
                 .provide()
                 .fragmentNavigationProvider
-                .provide(tag!!)
+                .provide(tag)
     }
 }

@@ -9,33 +9,20 @@ import ru.surfstudio.android.navigation.animation.resource.BaseResourceAnimation
 import ru.surfstudio.android.navigation.animation.set.SetAnimations
 import ru.surfstudio.android.navigation.animation.shared.SharedElementAnimations
 
+/**
+ * Supplier which is responsible for inflating Activity transition with animations.
+ */
 open class ActivityAnimationSupplier {
 
-    fun setResourceAnimations(
-            context: Context,
-            optionsCompat: Bundle?,
-            animationBundle: BaseResourceAnimations
-    ): Bundle? {
-        val resourceAnimations = ActivityOptionsCompat.makeCustomAnimation(
-                context,
-                animationBundle.enterAnimation,
-                animationBundle.exitAnimation
-        )
-        return resourceAnimations.toBundle()?.apply { optionsCompat?.let(::putAll) }
-    }
-
-    fun setSharedElementAnimations(
-            activity: Activity,
-            optionsCompat: Bundle?,
-            animationBundle: SharedElementAnimations
-    ): Bundle? {
-        val sharedElements = animationBundle.sharedElements
-                .map { androidx.core.util.Pair(it.sharedView, it.transitionName) }
-        val resourceAnimations =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *sharedElements.toTypedArray())
-        return resourceAnimations.toBundle()?.apply { optionsCompat?.let(::putAll) }
-    }
-
+    /**
+     * Add animations to activity transition options.
+     *
+     * @param activity activity which will execute transition
+     * @param options bundle with activity transition options
+     * @param animations bundle with animations
+     *
+     * @return [Bundle] options with animations
+     */
     open fun supplyWithAnimations(
             activity: Activity,
             options: Bundle?,
@@ -43,9 +30,9 @@ open class ActivityAnimationSupplier {
     ): Bundle? {
         return when (animations) {
             is SetAnimations -> {
-                val unwrappedBundles = animations.set.map { supplyWithAnimations(activity, options, it) }
-                val setBundle = Bundle().apply { unwrappedBundles.forEach { it?.let(::putAll) } }
-                if (setBundle.isEmpty) null else setBundle
+                val nonNullOptions = options ?: Bundle()
+                animations.set.forEach { supplyWithAnimations(activity, nonNullOptions, it) }
+                if (nonNullOptions.isEmpty) null else nonNullOptions
             }
             is SharedElementAnimations ->
                 setSharedElementAnimations(activity, options, animations)
@@ -53,5 +40,52 @@ open class ActivityAnimationSupplier {
                 setResourceAnimations(activity, options, animations)
             else -> null
         }
+    }
+
+    /**
+     * Add resource animations to activity transition options.
+     *
+     * @param context activity which will execute transition
+     * @param options bundle with activity transition options
+     * @param animations bundle with animations
+     *
+     * @return [Bundle] options with animations
+     */
+    fun setResourceAnimations(
+            context: Context,
+            options: Bundle?,
+            animations: BaseResourceAnimations
+    ): Bundle? {
+        val resourceAnimations = ActivityOptionsCompat.makeCustomAnimation(
+                context,
+                animations.enterAnimation,
+                animations.exitAnimation
+        )
+        val nonNullOptions = options ?: Bundle()
+        nonNullOptions.putAll(resourceAnimations.toBundle())
+        return nonNullOptions
+    }
+
+    /**
+     * Add [SharedElementAnimations] to activity transition options.
+     *
+     * @param activity activity which will execute transition
+     * @param options bundle with activity transition options
+     * @param animations bundle with animations
+     *
+     * @return [Bundle] options with animations
+     */
+    fun setSharedElementAnimations(
+            activity: Activity,
+            options: Bundle?,
+            animations: SharedElementAnimations
+    ): Bundle? {
+        val sharedElements = animations.sharedElements
+                .map { androidx.core.util.Pair(it.sharedView, it.transitionName) }
+        val resourceAnimations =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *sharedElements.toTypedArray())
+        val nonNullOptions = options ?: Bundle()
+        nonNullOptions.putAll(resourceAnimations.toBundle())
+        return nonNullOptions
     }
 }

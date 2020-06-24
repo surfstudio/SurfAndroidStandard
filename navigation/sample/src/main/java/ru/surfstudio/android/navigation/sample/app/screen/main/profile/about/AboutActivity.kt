@@ -7,7 +7,6 @@ import ru.surfstudio.android.navigation.observer.command.EmitScreenResult
 import ru.surfstudio.android.navigation.command.activity.Finish
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
-import ru.surfstudio.android.navigation.sample.app.screen.main.profile.ProfileTabRoute
 
 class AboutActivity : AppCompatActivity() {
 
@@ -19,12 +18,11 @@ class AboutActivity : AppCompatActivity() {
         close_btn.setOnClickListener {
             val appName = application.packageName
 
-            val sourceRoute = ProfileTabRoute()
             val targetRoute = AboutRoute()
 
             App.navigator.execute(listOf(
                     Finish(),
-                    EmitScreenResult(sourceRoute, targetRoute, appName)
+                    EmitScreenResult(targetRoute, appName)
             ))
         }
     }

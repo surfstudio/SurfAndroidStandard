@@ -6,6 +6,9 @@ import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigation
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 import ru.surfstudio.android.navigation.route.stub.StubActivityRoute
 
+/**
+ * Finish current activity
+ */
 data class Finish(
         override val animations: Animations = DefaultAnimations.activity
 ) : ActivityNavigationCommand {

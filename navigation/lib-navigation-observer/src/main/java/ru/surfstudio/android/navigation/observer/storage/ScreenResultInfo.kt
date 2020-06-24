@@ -7,7 +7,6 @@ import java.io.Serializable
  * Used in [ScreenResultStorage].
  */
 data class ScreenResultInfo<T : Serializable>(
-        val sourceId: String,
         val targetId: String,
         val result: T
 ) : Serializable
