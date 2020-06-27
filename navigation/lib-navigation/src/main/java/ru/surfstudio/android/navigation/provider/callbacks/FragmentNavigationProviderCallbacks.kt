@@ -31,14 +31,14 @@ open class FragmentNavigationProviderCallbacks(
      */
     private val navigationHolders = hashMapOf<String, FragmentNavigationHolder>()
 
-    init {
-        addZeroLevelHolder(activity, savedState)
-    }
-
     /**
      * List of active (created and not yet destroyed) fragments
      */
     private val activeFragments = mutableListOf<Fragment>()
+
+    init {
+        addZeroLevelHolder(activity, savedState)
+    }
 
     override fun provide(sourceTag: String?): FragmentNavigationHolder {
         val sourceFragment = if (sourceTag.isNullOrEmpty()) {
@@ -53,7 +53,7 @@ open class FragmentNavigationProviderCallbacks(
         val id = getFragmentId(f)
 
         Log.d("111111 Create", "Fragment=$f, Manager=$fm")
-        require(activeFragments.all { getFragmentId(it) != id }) { "You must specify unique tag for each fragment!" }
+        require(activeFragments.all { getFragmentId(it) != id }) { "You must specify unique tag for each fragment! Tag=$id" }
         activeFragments.add(f)
 
         val containerId = getContainerId(f) ?: return

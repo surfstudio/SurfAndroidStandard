@@ -31,8 +31,8 @@ open class ScreenCommandExecutor(
     }
 
     /**
-     * Supplies [FragmentNavigationCommand] with empty[FragmentNavigationCommand.sourceTag] with
-     * new sourceTag, extracted from current scope fragment's tag.
+     * Supplies [FragmentNavigationCommand] which contains no [FragmentNavigationCommand.sourceTag]
+     * with new sourceTag, extracted from current scope fragment's tag.
      */
     private fun supplyCommandWithCurrentFragmentTag(command: NavigationCommand) {
         if (command !is FragmentNavigationCommand) return
