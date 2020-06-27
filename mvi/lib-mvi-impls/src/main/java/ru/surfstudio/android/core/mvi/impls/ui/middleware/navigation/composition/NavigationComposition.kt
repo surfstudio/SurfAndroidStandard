@@ -16,6 +16,7 @@
 package ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition
 
 import ru.surfstudio.android.core.mvi.event.composition.CompositionEvent
+import ru.surfstudio.android.core.mvi.event.composition.CompositionListEvent
 import ru.surfstudio.android.core.mvi.event.navigation.NavigationEvent
 import java.io.Serializable
 
@@ -26,4 +27,4 @@ import java.io.Serializable
  *
  * [NavigationComposition] should be decomposed in [NavigationMiddleware].
  */
-interface NavigationComposition : CompositionEvent<NavigationEvent>, Serializable
+interface NavigationComposition : CompositionListEvent<NavigationEvent>, Serializable

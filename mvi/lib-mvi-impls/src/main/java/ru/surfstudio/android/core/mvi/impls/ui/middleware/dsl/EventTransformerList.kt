@@ -18,6 +18,7 @@ package ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.composition.CompositionEvent
+import ru.surfstudio.android.core.mvi.event.composition.CompositionListEvent
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.transformers.rx.*
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
@@ -222,6 +223,17 @@ open class EventTransformerList<E : Event>(
     }
 
     /**
+     * Decompose events to process them in another middleware
+     *
+     * @see [SingleCompositionTransformer]
+     */
+    inline infix fun <T : Event, reified C : CompositionListEvent<T>> Observable<C>.unwrap(
+            mw: RxMiddleware<T>
+    ): Observable<C> {
+        return compose(SingleCompositionTransformer.create<T, C>(mw))
+    }
+
+    /**
      * Decompose events filtered by type [T], to process them in another middleware.
      *
      * @see [CompositionTransformer]
@@ -232,12 +244,31 @@ open class EventTransformerList<E : Event>(
     /**
      * Decompose events filtered by type [T], to process them in another middleware.
      *
+     * @see [CompositionTransformer]
+     */
+    inline fun <reified T : Event, reified C : CompositionListEvent<T>> unwrapTo(mw: RxMiddleware<T>) =
+            eventStream.filterIsInstance<C>().unwrap(mw)
+
+    /**
+     * Decompose events filtered by type [T], to process them in another middleware.
+     *
      * Used in DSL mechanism with syntax: "Event::class decomposeTo middleware"
      *
      * @see [CompositionTransformer]
      */
     inline infix fun <T : Event, reified C : CompositionEvent<T>> KClass<C>.decomposeTo(mw: RxMiddleware<T>) =
             eventStream.ofType(this.java).decompose(mw)
+
+
+    /**
+     * Decompose events filtered by type [T], to process them in another middleware.
+     *
+     * Used in DSL mechanism with syntax: "Event::class decomposeTo middleware"
+     *
+     * @see [CompositionTransformer]
+     */
+    inline infix fun <T : Event, reified C : CompositionListEvent<T>> KClass<C>.unwrapTo(mw: RxMiddleware<T>) =
+            eventStream.ofType(this.java).unwrap(mw)
 
     /**
      * Filters events by a given [filterCondition].

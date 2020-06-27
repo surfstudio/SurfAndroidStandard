@@ -19,60 +19,60 @@ import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.ObservableTransformer
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.event.composition.CompositionListEvent
+import ru.surfstudio.android.core.mvi.event.composition.CompositionEvent
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import java.lang.IllegalStateException
 
 /**
- * [CompositionListEvent]'s decomposition to another middleware.
+ * [CompositionEvent]'s decomposition to another middleware.
  *
  * It works as follows:
- *  1) Extracts input events from [CompositionListEvent].
- *  2) Passes events to another [RxMiddleware]<[T]> responsible for mapping from input to output.
- *  3) Packs output events in the [CompositionListEvent] and pass it to the parent middleware.
+ *  1) Extracts input event from [CompositionEvent].
+ *  2) Passes this event to another [RxMiddleware]<[T]> responsible for mapping from input to output.
+ *  3) Packs output event in the [CompositionEvent] and pass it to the parent middleware.
  *
- *  If there's no input events, it can still produce output events if necessary.
+ *  If there's no input event, it can still produce output events if necessary.
  *
  *  Output events are created by calling no-args constructor,
  *  so composition event [C] must have one.
  */
-class CompositionTransformer<T : Event, C : CompositionListEvent<T>>(
+class SingleCompositionTransformer<T : Event, C : CompositionEvent<T>>(
         private val compositionEventClass: Class<C>,
         private val middleware: RxMiddleware<T>
 ) : ObservableTransformer<C, C> {
 
     override fun apply(upstream: Observable<C>): ObservableSource<C> {
-        val inEvents = upstream.flatMap { composition -> Observable.fromIterable(composition.events) }
+        val inEvents = upstream.map { it.event }
         val outEvents = middleware.transform(inEvents)
-        return outEvents.map(::createCompositionListEvent)
+        return outEvents.map(::createCompositionEvent)
     }
 
-    private fun createCompositionListEvent(nestedEvent: T): C {
-        val newCompositionListEvent = try {
+    private fun createCompositionEvent(nestedEvent: T): C {
+        val newCompositionEvent = try {
             compositionEventClass.newInstance()
         } catch (exception: InstantiationException) {
-            throw CompositionListEventNoConstructorException()
+            throw CompositionEventNoConstructorException()
         }
 
-        return newCompositionListEvent.apply { events = listOf(nestedEvent) }
+        return newCompositionEvent.apply { event = nestedEvent }
     }
 
     companion object {
 
         /**
-         * Creates [CompositionTransformer].
+         * Creates [SingleCompositionTransformer].
          *
          * We use static method instead of constructor
          * to enable type erasure avoiding mechanism by Kotlin.
          */
-        inline fun <T : Event, reified C : CompositionListEvent<T>> create(
+        inline fun <T : Event, reified C : CompositionEvent<T>> create(
                 middleware: RxMiddleware<T>
-        ): CompositionTransformer<T, C> {
+        ): SingleCompositionTransformer<T, C> {
             val transformationClass = C::class.java
-            return CompositionTransformer(transformationClass, middleware)
+            return SingleCompositionTransformer(transformationClass, middleware)
         }
     }
 
-    class CompositionListEventNoConstructorException :
+    class CompositionEventNoConstructorException :
             IllegalStateException("All composition events must have no args constructor!")
 }
