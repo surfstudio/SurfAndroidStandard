@@ -67,5 +67,17 @@
 
 Все необходимые для Fragment-навигации классы создаются в провайдерах: FragmentNavigationProvider,
 и его реализации FragmentNavigationProviderCallbacks.
-Здесь для каждого Fragment в onFragmentCreated создаются FragmentNavigator и TabFragmentNavigator, 
+Здесь для Fragment в onFragmentCreated создаются FragmentNavigator и TabFragmentNavigator,
 и происходит переключение между ними: извлечение нужного навигатора происходит по тегу фрагмента, с которым он ассоциирован.
+
+Внимание! Fragment будет содержать навигаторы, только если он наследуется от FragmentNavigationContainer,
+то есть, в нем есть ViewGroup, внутри которого будут помещены дочерние фрагменты.
+
+Извлечение нужного навигатора производится через FragmentNavigationProvider.provide(sourceTag).
+SourceTag здесь - это тег фрагмента, который содержит навигацию.
+В механизме навигации через CommandExecutor, этот тег предоставляется через FragmentCommand.sourceTag.
+Если необходимо явно вызвать навигатор из Activity (SupportFragmentManager), в качестве SourceTag может быть передан
+ACTIVITY_NAVIGATION_TAG.
+
+Для того, чтобы постоянно не указывать sourceTag, существует ScreenCommandExecutor,
+который действует на основе FragmentProvider, извлекает фрагмент из текущего Dagger-скоупа, и снабжает им команду.
