@@ -6,7 +6,7 @@
     android:background="@android:color/darker_gray">
 
     <FrameLayout
-        android:id="@+id/main_fragment_container"
+        android:id="@+id/bottom_nav_fragment_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_tabs_container"

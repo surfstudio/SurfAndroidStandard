@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.guide
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation
 
 import android.os.Bundle
 import dagger.Component
@@ -13,20 +13,20 @@ import ru.surfstudio.android.navigation.sample_standard.dagger.ui.screen.ScreenM
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule
 
-class GuideScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
+class BottomNavScreenConfigurator(args: Bundle?) : FragmentScreenConfigurator(args) {
 
     @PerScreen
     @Component(dependencies = [DefaultActivityComponent::class],
-            modules = [DefaultFragmentScreenModule::class, GuideScreenModule::class])
-    internal interface GuideFragmentScreenComponent
-        : BindableScreenComponent<GuideFragmentView>
+            modules = [DefaultFragmentScreenModule::class, BottomNavigationScreenModule::class])
+    internal interface BottomNavFragmentScreenComponent
+        : BindableScreenComponent<BottomNavigationFragmentView>
 
     @Module
-    internal class GuideScreenModule: ScreenModule() {
+    internal class BottomNavigationScreenModule : ScreenModule() {
 
         @Provides
         @PerScreen
-        fun providePresenters(presenter: GuidePresenter): Any = presenter
+        fun providePresenters(presenter: BottomNavigationPresenter): Any = presenter
     }
 
     @Suppress("DEPRECATION")
@@ -35,10 +35,10 @@ class GuideScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
             fragmentScreenModule: DefaultFragmentScreenModule?,
             args: Bundle?
     ): ScreenComponent<*> {
-        return DaggerGuideScreenConfigurator_GuideFragmentScreenComponent.builder()
+        return DaggerBottomNavScreenConfigurator_BottomNavFragmentScreenComponent.builder()
                 .defaultActivityComponent(parentComponent)
                 .defaultFragmentScreenModule(fragmentScreenModule)
-                .guideScreenModule(GuideScreenModule())
+                .bottomNavigationScreenModule(BottomNavigationScreenModule())
                 .build()
     }
 }

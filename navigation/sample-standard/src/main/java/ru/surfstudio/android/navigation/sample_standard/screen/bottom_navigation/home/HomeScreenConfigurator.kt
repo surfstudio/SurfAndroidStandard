@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.guide
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.home
 
 import android.os.Bundle
 import dagger.Component
@@ -13,21 +13,22 @@ import ru.surfstudio.android.navigation.sample_standard.dagger.ui.screen.ScreenM
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule
 
-class GuideScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
+class HomeScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
 
     @PerScreen
     @Component(dependencies = [DefaultActivityComponent::class],
-            modules = [DefaultFragmentScreenModule::class, GuideScreenModule::class])
-    internal interface GuideFragmentScreenComponent
-        : BindableScreenComponent<GuideFragmentView>
+            modules = [DefaultFragmentScreenModule::class, HomeScreenModule::class])
+    internal interface HomeFragmentScreenComponent
+        : BindableScreenComponent<HomeFragment>
 
     @Module
-    internal class GuideScreenModule: ScreenModule() {
+    internal class HomeScreenModule : ScreenModule() {
 
         @Provides
         @PerScreen
-        fun providePresenters(presenter: GuidePresenter): Any = presenter
+        fun providePresenters(presenter: HomePresenter): Any = presenter
     }
+
 
     @Suppress("DEPRECATION")
     override fun createScreenComponent(
@@ -35,10 +36,10 @@ class GuideScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
             fragmentScreenModule: DefaultFragmentScreenModule?,
             args: Bundle?
     ): ScreenComponent<*> {
-        return DaggerGuideScreenConfigurator_GuideFragmentScreenComponent.builder()
+        return DaggerHomeScreenConfigurator_HomeFragmentScreenComponent.builder()
                 .defaultActivityComponent(parentComponent)
                 .defaultFragmentScreenModule(fragmentScreenModule)
-                .guideScreenModule(GuideScreenModule())
+                .homeScreenModule(HomeScreenModule())
                 .build()
     }
 }
