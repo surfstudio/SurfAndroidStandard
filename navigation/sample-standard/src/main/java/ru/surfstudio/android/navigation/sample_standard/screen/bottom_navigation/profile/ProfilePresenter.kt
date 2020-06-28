@@ -1,0 +1,39 @@
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.profile
+
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
+import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.navigation.command.activity.Start
+import ru.surfstudio.android.navigation.command.dialog.Show
+import ru.surfstudio.android.navigation.command.fragment.RemoveLast
+import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
+import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand.Companion.ACTIVITY_NAVIGATION_TAG
+import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
+import ru.surfstudio.android.navigation.observer.ScreenResultObserver
+import ru.surfstudio.android.navigation.rx.extension.observeScreenResult
+import ru.surfstudio.android.navigation.sample_standard.screen.base.dialog.simple.SimpleDialogResult
+import ru.surfstudio.android.navigation.sample_standard.screen.base.presenter.CommandExecutionPresenter
+import ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.profile.logout.LogoutConfirmationRoute
+import ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.profile.settings.ApplicationSettingsRoute
+import javax.inject.Inject
+
+@PerScreen
+class ProfilePresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val bm: ProfileBindModel,
+        private val screenResultObserver: ScreenResultObserver,
+        override val commandExecutor: NavigationCommandExecutor
+) : BaseRxPresenter(basePresenterDependency), CommandExecutionPresenter {
+
+    override fun onFirstLoad() {
+        val confirmLogoutRoute = LogoutConfirmationRoute()
+        subscribe(screenResultObserver.observeScreenResult(confirmLogoutRoute)) { result ->
+            if (result == SimpleDialogResult.POSITIVE) {
+                RemoveLast(sourceTag = ACTIVITY_NAVIGATION_TAG).execute()
+            }
+        }
+
+        bm.openConfirmLogoutScreen bindTo { Show(confirmLogoutRoute).execute() }
+        bm.openSettings.bindTo { Start(ApplicationSettingsRoute()).execute() }
+    }
+}

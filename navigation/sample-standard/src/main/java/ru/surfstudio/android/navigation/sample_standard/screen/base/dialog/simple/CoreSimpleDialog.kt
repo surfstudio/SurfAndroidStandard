@@ -16,7 +16,7 @@ import ru.surfstudio.android.navigation.sample_standard.di.AppComponent
 abstract class CoreSimpleDialog : DialogFragment() {
 
     protected fun getAppComponent(): AppComponent {
-        val app = requireActivity().baseContext as App
+        val app = requireActivity().application as App
         return app.appComponent
     }
 

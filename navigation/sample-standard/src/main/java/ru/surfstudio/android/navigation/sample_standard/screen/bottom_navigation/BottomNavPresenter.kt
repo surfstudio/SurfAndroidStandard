@@ -7,12 +7,15 @@ import ru.surfstudio.android.navigation.command.activity.FinishAffinity
 import ru.surfstudio.android.navigation.command.fragment.RemoveAll
 import ru.surfstudio.android.navigation.command.fragment.RemoveLast
 import ru.surfstudio.android.navigation.command.fragment.Replace
+import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
+import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand.Companion.ACTIVITY_NAVIGATION_TAG
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigatorInterface
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.sample_standard.screen.base.presenter.CommandExecutionPresenter
 import ru.surfstudio.android.navigation.scope.ScreenScopeNavigationProvider
 import ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.home.HomeFragmentRoute
+import ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.profile.ProfileRoute
 import javax.inject.Inject
 
 @PerScreen
@@ -38,7 +41,7 @@ class BottomNavPresenter @Inject constructor(
     private fun openTab(type: BottomNavTabType) {
         val route: FragmentRoute = when (type) {
             BottomNavTabType.HOME -> HomeFragmentRoute()
-            else -> TODO()
+            else -> ProfileRoute()
         }
         Replace(route).execute()
     }
@@ -46,7 +49,8 @@ class BottomNavPresenter @Inject constructor(
     private fun onBackPressed() {
         when {
             hasTabsInStack() -> RemoveLast(isTab = true).execute()
-            else -> FinishAffinity().execute()
+            else -> RemoveLast(sourceTag = ACTIVITY_NAVIGATION_TAG).execute()
+
         }
     }
 
