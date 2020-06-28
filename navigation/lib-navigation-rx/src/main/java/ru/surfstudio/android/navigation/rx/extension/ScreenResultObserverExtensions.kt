@@ -7,6 +7,9 @@ import ru.surfstudio.android.navigation.route.BaseRoute
 import ru.surfstudio.android.navigation.rx.ListenForScreenResultObservable
 import java.io.Serializable
 
+/**
+ * Observes screen all screen results emitted by screen associated with [targetRoute]
+ */
 fun <T : Serializable, R> ScreenResultObserver.observeScreenResult(
         targetRoute: R
 ): Observable<T> where R : BaseRoute<*>, R : ResultRoute<T> =
