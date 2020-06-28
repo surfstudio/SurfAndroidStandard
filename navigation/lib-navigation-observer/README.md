@@ -36,12 +36,12 @@ Gradle:
     implementation "ru.surfstudio.android:navigation-observer:X.X.X"
 ```
 
-[observer]: /src/main/java/ru/surfstudio/android/navigation/observer/ScreenResultObserver.kt
-[emitter]: /src/main/java/ru/surfstudio/android/navigation/observer/ScreenResultEmitter.kt
-[bus]: /src/main/java/ru/surfstudio/android/navigation/observer/bus/ScreenResultBus.kt
-[result-route]: /src/main/java/ru/surfstudio/android/navigation/observer/route/ResultRoute.kt
+[observer]: src/main/java/ru/surfstudio/android/navigation/observer/ScreenResultObserver.kt
+[emitter]: src/main/java/ru/surfstudio/android/navigation/observer/ScreenResultEmitter.kt
+[bus]: src/main/java/ru/surfstudio/android/navigation/observer/bus/ScreenResultBus.kt
+[result-route]: src/main/java/ru/surfstudio/android/navigation/observer/route/ResultRoute.kt
 [base-route]: ../lib-navigation/src/main/java/ru/surfstudio/android/navigation/route/BaseRoute.kt
-[storage]: /src/main/java/ru/surfstudio/android/navigation/observer/storage/ScreenResultStorage.kt
-[file-storage]: /src/main/java/ru/surfstudio/android/navigation/observer/storage/file/FileScreenResultStorage.kt
-[executor]: /src/main/java/ru/surfstudio/android/navigation/observer/executor/AppCommandExecutorWithResult.kt
-[command]: /src/main/java/ru/surfstudio/android/navigation/observer/command/EmitScreenResult.kt
+[storage]: src/main/java/ru/surfstudio/android/navigation/observer/storage/ScreenResultStorage.kt
+[file-storage]: src/main/java/ru/surfstudio/android/navigation/observer/storage/file/FileScreenResultStorage.kt
+[executor]: src/main/java/ru/surfstudio/android/navigation/observer/executor/AppCommandExecutorWithResult.kt
+[command]: src/main/java/ru/surfstudio/android/navigation/observer/command/EmitScreenResult.kt
