@@ -3,6 +3,7 @@
 ## 0.5.0-alpha
 ##### Custom-view
 * ANDDEP-687 Added "com.google.android.material:material" dependency with "implementation" type
+* Added methods setTitleText(text, type) and setSubTitleText(text, type) for TitleSubtitleView
 ## 0.4.0
 ##### Custom-view
 * Fixed incorrect behavior of MaterialProgressBar on Android version 5 and below

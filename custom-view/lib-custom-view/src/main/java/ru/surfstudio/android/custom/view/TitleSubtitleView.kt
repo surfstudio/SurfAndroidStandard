@@ -17,8 +17,6 @@ package ru.surfstudio.android.custom.view
 
 import android.content.Context
 import android.content.res.TypedArray
-import androidx.core.content.ContextCompat
-import androidx.core.widget.TextViewCompat
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -26,6 +24,8 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 
 private const val DEFAULT_MAX_LINES: Int = 1
 
@@ -156,6 +156,18 @@ class TitleSubtitleView @JvmOverloads constructor(
         addViews()
         applyAttrs(attributeSet)
     }
+
+    /**
+     * Устанавливает текст и тип текста заголовка
+     */
+    fun setTitleText(text: CharSequence, type: TextView.BufferType) =
+            titleView.setText(text, type)
+
+    /**
+     * Устанавливает текст и тип текста подзаголовка
+     */
+    fun setSubTitleText(text: CharSequence, type: TextView.BufferType) =
+            subTitleView.setText(text, type)
 
     /**
      * Возвращает заголовок к дефолтному значению
