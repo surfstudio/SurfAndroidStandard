@@ -32,6 +32,6 @@ Gradle:
     implementation "ru.surfstudio.android:navigation-rx:X.X.X"
 ```
 
-[active-tab-obs]: src/main/java/ru/surfstudio/android/navigation/rx/ActiveTabReopenedObservable.kt
-[backstack-obs]: src/main/java/ru/surfstudio/android/navigation/rx/FragmentBackStackChangedObservable.kt
-[result-obs]: src/main/java/ru/surfstudio/android/navigation/rx/ListenForResultObservable.kt
+[active-tab-obs]: /src/main/java/ru/surfstudio/android/navigation/rx/ActiveTabReopenedObservable.kt
+[backstack-obs]: /src/main/java/ru/surfstudio/android/navigation/rx/FragmentBackStackChangedObservable.kt
+[result-obs]: /src/main/java/ru/surfstudio/android/navigation/rx/ListenForResultObservable.kt

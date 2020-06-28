@@ -103,7 +103,7 @@ Gradle:
 ActivityNavigationProviderCallbacks.
 Во втором случае, не забудьте зарегистрировать коллбеки в Application.
 
-1. Если вы используете модуль [navigation-observer](lib-navigation-observer), инициализируйте ScreenResultBus.
+1. Если вы используете модуль [navigation-observer](../lib-navigation-observer), инициализируйте ScreenResultBus.
 Для него потребуется хранилище ScreenResultStorage, можете использовать FileScreenResultStorage с директорией
 noBackupFilesDir.
 
@@ -115,10 +115,10 @@ noBackupFilesDir.
 либо предоставить как singletone-зависимость в вашем DI-фреймворке.
 
 Для примера инициализации без какого-либо DI-фреймворка, вы можете посмотреть на
-реализацию класса App из [Navigation sample](sample-core-mvp).
+реализацию класса App из [Navigation sample](../sample-core-mvp).
 
 Для примера инициализации с использованием Dagger 2, вы можете посмотреть на
-реализаци класса App из [Navigation Surf sample](sample-standard).
+реализаци класса App из [Navigation surf sample](../sample-standard).
 
 ## Использование
 
