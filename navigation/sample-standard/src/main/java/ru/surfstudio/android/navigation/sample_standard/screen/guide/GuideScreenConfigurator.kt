@@ -10,13 +10,12 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.navigation.sample_standard.dagger.ui.ActivityComponent
 import ru.surfstudio.android.navigation.sample_standard.dagger.ui.configurator.FragmentScreenConfigurator
 import ru.surfstudio.android.navigation.sample_standard.dagger.ui.screen.ScreenModule
-import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule
 
 class GuideScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
 
     @PerScreen
-    @Component(dependencies = [DefaultActivityComponent::class],
+    @Component(dependencies = [ActivityComponent::class],
             modules = [DefaultFragmentScreenModule::class, GuideScreenModule::class])
     internal interface GuideFragmentScreenComponent
         : BindableScreenComponent<GuideFragmentView>
@@ -36,7 +35,7 @@ class GuideScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
             args: Bundle?
     ): ScreenComponent<*> {
         return DaggerGuideScreenConfigurator_GuideFragmentScreenComponent.builder()
-                .defaultActivityComponent(parentComponent)
+                .activityComponent(parentComponent)
                 .defaultFragmentScreenModule(fragmentScreenModule)
                 .guideScreenModule(GuideScreenModule())
                 .build()

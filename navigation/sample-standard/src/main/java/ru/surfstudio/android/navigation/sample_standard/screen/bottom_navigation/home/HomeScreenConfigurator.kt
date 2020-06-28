@@ -16,7 +16,7 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragment
 class HomeScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
 
     @PerScreen
-    @Component(dependencies = [DefaultActivityComponent::class],
+    @Component(dependencies = [ActivityComponent::class],
             modules = [DefaultFragmentScreenModule::class, HomeScreenModule::class])
     internal interface HomeFragmentScreenComponent
         : BindableScreenComponent<HomeFragment>
@@ -37,7 +37,7 @@ class HomeScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
             args: Bundle?
     ): ScreenComponent<*> {
         return DaggerHomeScreenConfigurator_HomeFragmentScreenComponent.builder()
-                .defaultActivityComponent(parentComponent)
+                .activityComponent(parentComponent)
                 .defaultFragmentScreenModule(fragmentScreenModule)
                 .homeScreenModule(HomeScreenModule())
                 .build()

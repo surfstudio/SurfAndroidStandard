@@ -16,7 +16,7 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragment
 class BottomNavScreenConfigurator(args: Bundle?) : FragmentScreenConfigurator(args) {
 
     @PerScreen
-    @Component(dependencies = [DefaultActivityComponent::class],
+    @Component(dependencies = [ActivityComponent::class],
             modules = [DefaultFragmentScreenModule::class, BottomNavigationScreenModule::class])
     internal interface BottomNavFragmentScreenComponent
         : BindableScreenComponent<BottomNavigationFragmentView>
@@ -36,7 +36,7 @@ class BottomNavScreenConfigurator(args: Bundle?) : FragmentScreenConfigurator(ar
             args: Bundle?
     ): ScreenComponent<*> {
         return DaggerBottomNavScreenConfigurator_BottomNavFragmentScreenComponent.builder()
-                .defaultActivityComponent(parentComponent)
+                .activityComponent(parentComponent)
                 .defaultFragmentScreenModule(fragmentScreenModule)
                 .bottomNavigationScreenModule(BottomNavigationScreenModule())
                 .build()
