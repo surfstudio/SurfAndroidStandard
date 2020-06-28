@@ -6,13 +6,13 @@
 
 Основные сущности:
 
-- [ActiveTabReopenedObservable](active-tab-obs) - observable, являющийся оберткой над событием повторного открытия
+- [ActiveTabReopenedObservable][active-tab-obs] - observable, являющийся оберткой над событием повторного открытия
 таба через TabFragmentNavigator.
 
-- [FragmentBackStackChangedObservable](backstack-obs) - observable, являющийся оберткой над событием изменения
+- [FragmentBackStackChangedObservable][backstack-obs] - observable, являющийся оберткой над событием изменения
 бекстека фрагмента.
 
-- [ListenForResultObservable](result-obs) - observable, являющийся оберткой над оповещением о результате работы экрана.
+- [ListenForResultObservable][result-obs] - observable, являющийся оберткой над оповещением о результате работы экрана.
 
 Также модуль содержит удобные экстеншны для подписки прямо на сущности экранов:
 
@@ -23,6 +23,7 @@
 
 ## Использование
 [Пример использования без архитектурных подходов](../sample/)
+
 [Пример использования Surf MVP + Dagger](../sample-standard/)
 
 ## Подключение
