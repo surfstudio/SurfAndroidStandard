@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.home.nested
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.home.nested
 
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State

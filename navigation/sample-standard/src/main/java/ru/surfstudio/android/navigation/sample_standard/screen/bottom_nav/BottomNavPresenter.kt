@@ -1,21 +1,19 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav
 
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.navigation.command.activity.FinishAffinity
 import ru.surfstudio.android.navigation.command.fragment.RemoveAll
 import ru.surfstudio.android.navigation.command.fragment.RemoveLast
 import ru.surfstudio.android.navigation.command.fragment.Replace
-import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand.Companion.ACTIVITY_NAVIGATION_TAG
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigatorInterface
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.sample_standard.screen.base.presenter.CommandExecutionPresenter
 import ru.surfstudio.android.navigation.scope.ScreenScopeNavigationProvider
-import ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.home.HomeFragmentRoute
-import ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.profile.ProfileRoute
+import ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.home.HomeRoute
+import ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.profile.ProfileRoute
 import javax.inject.Inject
 
 @PerScreen
@@ -40,7 +38,7 @@ class BottomNavPresenter @Inject constructor(
 
     private fun openTab(type: BottomNavTabType) {
         val route: FragmentRoute = when (type) {
-            BottomNavTabType.HOME -> HomeFragmentRoute()
+            BottomNavTabType.HOME -> HomeRoute()
             else -> ProfileRoute()
         }
         Replace(route).execute()

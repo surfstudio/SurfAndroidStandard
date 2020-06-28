@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.home.nested
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.home.nested
 
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency

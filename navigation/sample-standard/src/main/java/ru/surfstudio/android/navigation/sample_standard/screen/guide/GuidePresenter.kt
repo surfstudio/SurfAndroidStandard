@@ -6,7 +6,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
 import ru.surfstudio.android.navigation.sample_standard.screen.base.presenter.CommandExecutionPresenter
-import ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.BottomNavRoute
+import ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.BottomNavRoute
 import javax.inject.Inject
 
 @PerScreen

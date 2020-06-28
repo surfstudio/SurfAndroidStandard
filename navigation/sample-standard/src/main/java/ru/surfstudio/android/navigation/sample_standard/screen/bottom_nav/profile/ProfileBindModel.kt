@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.profile
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.profile
 
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel

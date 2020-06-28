@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.profile.logout
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.profile.logout
 
 import androidx.fragment.app.DialogFragment
 import ru.surfstudio.android.navigation.sample_standard.screen.base.dialog.simple.BaseSimpleDialogRoute

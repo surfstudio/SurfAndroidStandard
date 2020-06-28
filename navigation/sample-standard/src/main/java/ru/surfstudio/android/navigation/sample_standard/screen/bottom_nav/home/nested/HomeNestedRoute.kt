@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.home.nested
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.home.nested
 
 import android.os.Bundle
 import androidx.core.os.bundleOf

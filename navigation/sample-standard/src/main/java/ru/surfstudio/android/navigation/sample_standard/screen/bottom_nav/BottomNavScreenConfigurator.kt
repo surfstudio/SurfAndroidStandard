@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.profile
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav
 
 import android.os.Bundle
 import dagger.Component
@@ -12,22 +12,21 @@ import ru.surfstudio.android.navigation.sample_standard.di.ui.configurator.Fragm
 import ru.surfstudio.android.navigation.sample_standard.di.ui.screen.ScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule
 
-class ProfileScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
+class BottomNavScreenConfigurator(args: Bundle?) : FragmentScreenConfigurator(args) {
 
     @PerScreen
     @Component(dependencies = [ActivityComponent::class],
-            modules = [DefaultFragmentScreenModule::class, ProfileScreenModule::class])
-    internal interface ProfileFragmentScreenComponent
-        : BindableScreenComponent<ProfileFragmentView>
+            modules = [DefaultFragmentScreenModule::class, BottomNavigationScreenModule::class])
+    internal interface BottomNavFragmentScreenComponent
+        : BindableScreenComponent<BottomNavFragmentView>
 
     @Module
-    internal class ProfileScreenModule : ScreenModule() {
+    internal class BottomNavigationScreenModule : ScreenModule() {
 
         @Provides
         @PerScreen
-        fun providePresenters(presenter: ProfilePresenter): Any = presenter
+        fun providePresenters(presenter: BottomNavPresenter): Any = presenter
     }
-
 
     @Suppress("DEPRECATION")
     override fun createScreenComponent(
@@ -35,10 +34,10 @@ class ProfileScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args)
             fragmentScreenModule: DefaultFragmentScreenModule?,
             args: Bundle?
     ): ScreenComponent<*> {
-        return DaggerProfileScreenConfigurator_ProfileFragmentScreenComponent.builder()
+        return DaggerBottomNavScreenConfigurator_BottomNavFragmentScreenComponent.builder()
                 .activityComponent(parentComponent)
                 .defaultFragmentScreenModule(fragmentScreenModule)
-                .profileScreenModule(ProfileScreenModule())
+                .bottomNavigationScreenModule(BottomNavigationScreenModule())
                 .build()
     }
 }

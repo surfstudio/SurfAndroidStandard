@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.profile.settings
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.profile.settings
 
 import android.content.Context
 import android.content.Intent

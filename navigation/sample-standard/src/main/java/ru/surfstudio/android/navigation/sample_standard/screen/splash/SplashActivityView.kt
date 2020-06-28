@@ -7,7 +7,7 @@ class SplashActivityView : BaseRxActivityView() {
 
     override fun createConfigurator() = SplashScreenConfigurator(intent)
 
-    override fun getContentView(): Int = R.layout.activity_main
+    override fun getContentView(): Int = R.layout.activity_splash
 
     override fun getScreenName(): String = "Splash"
 }

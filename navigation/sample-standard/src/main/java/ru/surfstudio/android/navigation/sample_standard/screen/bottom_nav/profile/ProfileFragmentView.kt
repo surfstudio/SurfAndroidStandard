@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.profile
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater

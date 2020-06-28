@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav
 
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
 import ru.surfstudio.android.dagger.scope.PerScreen
