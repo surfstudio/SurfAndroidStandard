@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.view.clicks
+import kotlinx.android.synthetic.main.fragment_bottom_nav.*
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxFragmentView
 import ru.surfstudio.android.navigation.provider.container.FragmentNavigationContainer
 import ru.surfstudio.android.navigation.sample_standard.R
+import ru.surfstudio.android.navigation.sample_standard.utils.addOnBackPressedListener
 import javax.inject.Inject
 
 class BottomNavigationFragmentView : BaseRxFragmentView(), FragmentNavigationContainer {
@@ -23,7 +26,10 @@ class BottomNavigationFragmentView : BaseRxFragmentView(), FragmentNavigationCon
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
-
+        addOnBackPressedListener { bm.backPressed.accept() }
+        home_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomTabType.HOME) }
+        gallery_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomTabType.GALLERY) }
+        profile_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomTabType.PROFILE) }
     }
 
 }

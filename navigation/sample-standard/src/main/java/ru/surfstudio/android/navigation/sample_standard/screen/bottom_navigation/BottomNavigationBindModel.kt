@@ -7,6 +7,6 @@ import javax.inject.Inject
 @PerScreen
 class BottomNavigationBindModel @Inject constructor() {
 
-    val bottomNavClicked = Action<Unit>()
-    val sharedElementClicked = Action<Unit>()
+    val bottomNavClicked = Action<BottomTabType>()
+    val backPressed = Action<Unit>()
 }

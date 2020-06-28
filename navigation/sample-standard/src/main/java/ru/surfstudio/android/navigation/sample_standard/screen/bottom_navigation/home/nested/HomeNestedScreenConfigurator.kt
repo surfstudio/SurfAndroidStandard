@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.home
+package ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.home.nested
 
 import android.os.Bundle
 import dagger.Component
@@ -9,23 +9,24 @@ import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.navigation.sample_standard.dagger.ui.ActivityComponent
 import ru.surfstudio.android.navigation.sample_standard.dagger.ui.configurator.FragmentScreenConfigurator
+import ru.surfstudio.android.navigation.sample_standard.dagger.ui.screen.RouteScreenModule
 import ru.surfstudio.android.navigation.sample_standard.dagger.ui.screen.ScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule
 
-class HomeScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
+class HomeNestedScreenConfigurator(args: Bundle?) : FragmentScreenConfigurator(args) {
 
     @PerScreen
     @Component(dependencies = [ActivityComponent::class],
-            modules = [DefaultFragmentScreenModule::class, HomeScreenModule::class])
-    internal interface HomeFragmentScreenComponent
-        : BindableScreenComponent<HomeFragment>
+            modules = [DefaultFragmentScreenModule::class, HomeNestedScreenModule::class])
+    internal interface HomeNestedFragmentScreenComponent
+        : BindableScreenComponent<HomeNestedFragment>
 
     @Module
-    internal class HomeScreenModule : ScreenModule() {
+    internal class HomeNestedScreenModule(route: HomeNestedRoute) : RouteScreenModule<HomeNestedRoute>(route) {
 
         @Provides
         @PerScreen
-        fun providePresenters(presenter: HomePresenter): Any = presenter
+        fun providePresenters(presenter: HomeNestedPresenter): Any = presenter
     }
 
 
@@ -35,10 +36,10 @@ class HomeScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
             fragmentScreenModule: DefaultFragmentScreenModule?,
             args: Bundle?
     ): ScreenComponent<*> {
-        return DaggerHomeScreenConfigurator_HomeFragmentScreenComponent.builder()
+        return DaggerHomeNestedScreenConfigurator_HomeNestedFragmentScreenComponent.builder()
                 .activityComponent(parentComponent)
                 .defaultFragmentScreenModule(fragmentScreenModule)
-                .homeScreenModule(HomeScreenModule())
+                .homeNestedScreenModule(HomeNestedScreenModule(HomeNestedRoute(args)))
                 .build()
     }
 }
