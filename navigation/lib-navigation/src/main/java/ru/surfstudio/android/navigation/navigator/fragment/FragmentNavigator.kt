@@ -155,12 +155,13 @@ open class FragmentNavigator(
         notifyBackStackListeners()
     }
 
-    override fun removeAll() {
+    override fun removeAll(shouldRemoveLast: Boolean) {
         fragmentManager
                 .beginTransaction()
                 .apply {
                     val backStackSize = backStack.size
-                    repeat(backStackSize - 1) {
+                    val removalCount = if (shouldRemoveLast) backStackSize else backStackSize - 1
+                    repeat(removalCount) {
                         val entry = backStack.pop()
                         remove(entry.fragment)
                     }

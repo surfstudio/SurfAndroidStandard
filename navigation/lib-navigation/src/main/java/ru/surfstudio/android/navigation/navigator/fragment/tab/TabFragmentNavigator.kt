@@ -85,8 +85,8 @@ open class TabFragmentNavigator(
         activeNavigator.removeUntil(route, isInclusive)
     }
 
-    override fun removeAll() {
-        activeNavigator.removeAll()
+    override fun removeAll(shouldRemoveLast: Boolean) {
+        activeNavigator.removeAll(shouldRemoveLast)
     }
 
     override fun hide(route: FragmentRoute, animations: Animations) {

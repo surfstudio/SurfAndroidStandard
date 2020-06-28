@@ -35,7 +35,7 @@ interface FragmentNavigatorInterface {
 
     fun removeUntil(route: FragmentRoute, isInclusive: Boolean)
 
-    fun removeAll()
+    fun removeAll(shouldRemoveLast: Boolean)
 
     fun hide(route: FragmentRoute, animations: Animations = EmptyResourceAnimations)
 

@@ -36,7 +36,7 @@ open class FragmentCommandExecutor(
             is Remove -> navigator.remove(command.route, command.animations)
             is RemoveLast -> navigator.removeLast(command.animations)
             is RemoveUntil -> navigator.removeUntil(command.route, command.isInclusive)
-            is RemoveAll -> navigator.removeAll()
+            is RemoveAll -> navigator.removeAll(command.shouldRemoveLast)
         }
     }
 
