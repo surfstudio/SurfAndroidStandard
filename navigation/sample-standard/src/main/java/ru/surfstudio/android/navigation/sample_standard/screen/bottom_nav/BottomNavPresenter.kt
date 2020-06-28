@@ -1,5 +1,6 @@
 package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav
 
+import io.reactivex.disposables.Disposables
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -10,6 +11,7 @@ import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigation
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigatorInterface
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
+import ru.surfstudio.android.navigation.rx.extension.observeActiveTabReopened
 import ru.surfstudio.android.navigation.sample_standard.screen.base.presenter.CommandExecutionPresenter
 import ru.surfstudio.android.navigation.scope.ScreenScopeNavigationProvider
 import ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.home.HomeRoute
@@ -24,6 +26,8 @@ class BottomNavPresenter @Inject constructor(
         override val commandExecutor: NavigationCommandExecutor
 ) : BaseRxPresenter(basePresenterDependency), CommandExecutionPresenter {
 
+    var activeTabReopenDisposable = Disposables.disposed()
+
     override fun onFirstLoad() {
         openTab(BottomNavTabType.HOME)
         bm.backPressed bindTo ::onBackPressed
@@ -31,7 +35,7 @@ class BottomNavPresenter @Inject constructor(
     }
 
     override fun onLoad(viewRecreated: Boolean) {
-        getTabFragmentNavigator().setActiveTabReopenedListener {
+        activeTabReopenDisposable = subscribe(getTabFragmentNavigator().observeActiveTabReopened()) {
             RemoveAll(isTab = true).execute()
         }
     }

@@ -7,6 +7,6 @@ import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNaviga
 import ru.surfstudio.android.navigation.rx.ActiveTabReopenedObservable
 import ru.surfstudio.android.navigation.rx.FragmentBackStackChangedObservable
 
-fun TabFragmentNavigatorInterface.activeTabReopens(): Observable<String> {
+fun TabFragmentNavigatorInterface.observeActiveTabReopened(): Observable<String> {
     return ActiveTabReopenedObservable(this)
 }

@@ -5,6 +5,6 @@ import ru.surfstudio.android.navigation.backstack.fragment.FragmentBackStack
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
 import ru.surfstudio.android.navigation.rx.FragmentBackStackChangedObservable
 
-fun FragmentNavigatorInterface.backStackChanges(): Observable<FragmentBackStack> {
+fun FragmentNavigatorInterface.observeBackStackChanged(): Observable<FragmentBackStack> {
     return FragmentBackStackChangedObservable(this)
 }
