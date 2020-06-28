@@ -6,9 +6,11 @@ import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.navigation.executor.AppCommandExecutor
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
+import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.provider.FragmentProvider
-import ru.surfstudio.android.navigation.executor.screen.ScreenCommandExecutor
-import ru.surfstudio.android.navigation.sample_standard.screen.base.FragmentProviderImpl
+import ru.surfstudio.android.navigation.scope.ScreenScopeCommandExecutor
+import ru.surfstudio.android.navigation.sample_standard.screen.base.provider.FragmentProviderImpl
+import ru.surfstudio.android.navigation.scope.ScreenScopeNavigationProvider
 
 @Module
 open class ScreenModule {
@@ -25,6 +27,15 @@ open class ScreenModule {
             fragmentProvider: FragmentProvider,
             appCommandExecutor: AppCommandExecutor
     ): NavigationCommandExecutor {
-        return ScreenCommandExecutor(fragmentProvider, appCommandExecutor)
+        return ScreenScopeCommandExecutor(fragmentProvider, appCommandExecutor)
+    }
+
+    @Provides
+    @PerScreen
+    fun provideScreenNavigationProvider(
+            fragmentProvider: FragmentProvider,
+            activityNavigationProvider: ActivityNavigationProvider
+    ): ScreenScopeNavigationProvider {
+        return ScreenScopeNavigationProvider(fragmentProvider, activityNavigationProvider)
     }
 }

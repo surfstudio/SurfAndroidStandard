@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.base
+package ru.surfstudio.android.navigation.sample_standard.screen.base.provider
 
 import androidx.fragment.app.Fragment
 import ru.surfstudio.android.core.ui.scope.FragmentPersistentScope

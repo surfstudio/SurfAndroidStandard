@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.executor.screen
+package ru.surfstudio.android.navigation.scope
 
 import ru.surfstudio.android.navigation.command.NavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
@@ -12,10 +12,10 @@ import ru.surfstudio.android.navigation.provider.FragmentProvider
  * bound to current screen scope.
  *
  * For example, this particular executor automatically supplies all
- * [FragmentNavigationCommand] without sourceTag,  with tag, extracted from a current fragment.
+ * [FragmentNavigationCommand] without sourceTag, with tag, extracted from a current fragment.
  */
 //@PerScreen
-open class ScreenCommandExecutor(
+open class ScreenScopeCommandExecutor(
         private val fragmentProvider: FragmentProvider,
         private val appExecutor: CommandExecutor<NavigationCommand>
 ) : NavigationCommandExecutor {
