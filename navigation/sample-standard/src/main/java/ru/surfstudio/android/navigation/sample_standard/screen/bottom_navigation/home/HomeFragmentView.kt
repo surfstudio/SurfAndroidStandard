@@ -9,7 +9,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxFragmentView
 import ru.surfstudio.android.navigation.sample_standard.R
 import javax.inject.Inject
 
-class HomeFragment : BaseRxFragmentView() {
+class HomeFragmentView : BaseRxFragmentView() {
 
     @Inject
     lateinit var bm: HomeBindModel

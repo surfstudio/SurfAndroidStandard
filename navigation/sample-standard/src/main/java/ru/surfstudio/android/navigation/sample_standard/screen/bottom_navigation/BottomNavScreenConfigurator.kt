@@ -7,10 +7,9 @@ import dagger.Provides
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.ActivityComponent
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.configurator.FragmentScreenConfigurator
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.screen.ScreenModule
-import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
+import ru.surfstudio.android.navigation.sample_standard.di.ui.ActivityComponent
+import ru.surfstudio.android.navigation.sample_standard.di.ui.configurator.FragmentScreenConfigurator
+import ru.surfstudio.android.navigation.sample_standard.di.ui.screen.ScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule
 
 class BottomNavScreenConfigurator(args: Bundle?) : FragmentScreenConfigurator(args) {
@@ -19,14 +18,14 @@ class BottomNavScreenConfigurator(args: Bundle?) : FragmentScreenConfigurator(ar
     @Component(dependencies = [ActivityComponent::class],
             modules = [DefaultFragmentScreenModule::class, BottomNavigationScreenModule::class])
     internal interface BottomNavFragmentScreenComponent
-        : BindableScreenComponent<BottomNavigationFragmentView>
+        : BindableScreenComponent<BottomNavFragmentView>
 
     @Module
     internal class BottomNavigationScreenModule : ScreenModule() {
 
         @Provides
         @PerScreen
-        fun providePresenters(presenter: BottomNavigationPresenter): Any = presenter
+        fun providePresenters(presenter: BottomNavPresenter): Any = presenter
     }
 
     @Suppress("DEPRECATION")

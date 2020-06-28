@@ -13,7 +13,7 @@ class HomeNestedRoute(
 
     constructor(bundle: Bundle?) : this(bundle?.getInt(Route.EXTRA_FIRST) ?: 0)
 
-    override fun getScreenClass(): Class<out Fragment>? = HomeNestedFragment::class.java
+    override fun getScreenClass(): Class<out Fragment>? = HomeNestedFragmentView::class.java
 
     override fun prepareData(): Bundle = bundleOf(Route.EXTRA_FIRST to order)
 

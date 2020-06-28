@@ -8,7 +8,7 @@ import ru.surfstudio.android.navigation.sample_standard.R
 
 class SplashActivityView : BaseRxActivityView() {
 
-    override fun createConfigurator() = SplashConfigurator(intent)
+    override fun createConfigurator() = SplashScreenConfigurator(intent)
 
     override fun getContentView(): Int = R.layout.activity_main
 

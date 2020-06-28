@@ -5,8 +5,8 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 @PerScreen
-class BottomNavigationBindModel @Inject constructor() {
+class BottomNavBindModel @Inject constructor() {
 
-    val bottomNavClicked = Action<BottomTabType>()
+    val bottomNavClicked = Action<BottomNavTabType>()
     val backPressed = Action<Unit>()
 }

@@ -12,12 +12,12 @@ import ru.surfstudio.android.navigation.sample_standard.R
 import ru.surfstudio.android.navigation.sample_standard.utils.addOnBackPressedListener
 import javax.inject.Inject
 
-class BottomNavigationFragmentView : BaseRxFragmentView(), FragmentNavigationContainer {
+class BottomNavFragmentView : BaseRxFragmentView(), FragmentNavigationContainer {
 
     override val containerId: Int = R.id.bottom_nav_fragment_container
 
     @Inject
-    lateinit var bm: BottomNavigationBindModel
+    lateinit var bm: BottomNavBindModel
 
     override fun createConfigurator() = BottomNavScreenConfigurator(arguments)
 
@@ -27,9 +27,9 @@ class BottomNavigationFragmentView : BaseRxFragmentView(), FragmentNavigationCon
 
     override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
         addOnBackPressedListener { bm.backPressed.accept() }
-        home_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomTabType.HOME) }
-        gallery_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomTabType.GALLERY) }
-        profile_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomTabType.PROFILE) }
+        home_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomNavTabType.HOME) }
+        gallery_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomNavTabType.GALLERY) }
+        profile_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomNavTabType.PROFILE) }
     }
 
 }

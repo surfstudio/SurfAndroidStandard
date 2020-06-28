@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.dagger
+package ru.surfstudio.android.navigation.sample_standard.di
 
 import dagger.Component
 import ru.surfstudio.android.dagger.scope.PerApplication

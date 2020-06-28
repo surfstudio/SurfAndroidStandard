@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.dagger.ui.screen
+package ru.surfstudio.android.navigation.sample_standard.di.ui.screen
 
 import dagger.Module
 import dagger.Provides

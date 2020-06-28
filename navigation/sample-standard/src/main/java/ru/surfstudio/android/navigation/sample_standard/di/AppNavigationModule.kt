@@ -1,6 +1,5 @@
-package ru.surfstudio.android.navigation.sample_standard.dagger
+package ru.surfstudio.android.navigation.sample_standard.di
 
-import android.app.Application
 import android.content.Context
 import androidx.core.content.ContextCompat
 import dagger.Module
@@ -15,7 +14,6 @@ import ru.surfstudio.android.navigation.observer.storage.ScreenResultStorage
 import ru.surfstudio.android.navigation.observer.storage.file.FileScreenResultStorage
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
-import ru.surfstudio.android.navigation.sample_standard.App
 
 @Module
 class AppNavigationModule {

@@ -1,12 +1,11 @@
-package ru.surfstudio.android.navigation.sample_standard.dagger.ui.configurator
+package ru.surfstudio.android.navigation.sample_standard.di.ui.configurator
 
 import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator
 import ru.surfstudio.android.navigation.sample_standard.App
-import ru.surfstudio.android.navigation.sample_standard.dagger.AppComponent
-import ru.surfstudio.android.navigation.sample_standard.dagger.AppNavigationModule
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.ActivityComponent
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.ActivityNavigationModule
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.DaggerActivityComponent
+import ru.surfstudio.android.navigation.sample_standard.di.AppComponent
+import ru.surfstudio.android.navigation.sample_standard.di.ui.ActivityComponent
+import ru.surfstudio.android.navigation.sample_standard.di.ui.ActivityNavigationModule
+import ru.surfstudio.android.navigation.sample_standard.di.ui.DaggerActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule
 
 class ActivityConfigurator : BaseActivityConfigurator<ActivityComponent, AppComponent>() {

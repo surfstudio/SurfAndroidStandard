@@ -6,5 +6,5 @@ import ru.surfstudio.android.navigation.route.tab.TabRootRoute
 
 class HomeFragmentRoute: FragmentRoute(), TabRootRoute {
 
-    override fun getScreenClass(): Class<out Fragment>? = HomeFragment::class.java
+    override fun getScreenClass(): Class<out Fragment>? = HomeFragmentView::class.java
 }

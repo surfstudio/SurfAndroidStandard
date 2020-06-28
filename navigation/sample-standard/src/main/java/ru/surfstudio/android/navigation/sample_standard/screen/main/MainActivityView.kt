@@ -8,7 +8,7 @@ class MainActivityView : BaseRxActivityView(), FragmentNavigationContainer {
 
     override val containerId: Int = R.id.fragment_container
 
-    override fun createConfigurator() = MainConfigurator(intent)
+    override fun createConfigurator() = MainScreenConfigurator(intent)
 
     override fun getContentView(): Int = R.layout.activity_main
 

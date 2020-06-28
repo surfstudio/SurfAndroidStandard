@@ -4,7 +4,7 @@ import androidx.fragment.app.DialogFragment
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
 import ru.surfstudio.android.navigation.observer.command.EmitScreenResult
 import ru.surfstudio.android.navigation.sample_standard.App
-import ru.surfstudio.android.navigation.sample_standard.dagger.AppComponent
+import ru.surfstudio.android.navigation.sample_standard.di.AppComponent
 
 /**
  * Базовый простой диалог с поддержкой возвращения результата и навигации.

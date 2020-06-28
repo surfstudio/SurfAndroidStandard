@@ -5,8 +5,8 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
-import ru.surfstudio.android.navigation.sample_standard.screen.base.command.CommandExecutionPresenter
-import ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.BottomNavigationRoute
+import ru.surfstudio.android.navigation.sample_standard.screen.base.presenter.CommandExecutionPresenter
+import ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.BottomNavRoute
 import javax.inject.Inject
 
 @PerScreen
@@ -18,7 +18,7 @@ class GuidePresenter @Inject constructor(
 
     override fun onFirstLoad() {
         bm.bottomNavClicked.bindTo {
-            Replace(BottomNavigationRoute()).execute()
+            Replace(BottomNavRoute()).execute()
         }
     }
 }

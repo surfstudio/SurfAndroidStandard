@@ -10,21 +10,21 @@ import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigatorInterface
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
-import ru.surfstudio.android.navigation.sample_standard.screen.base.command.CommandExecutionPresenter
+import ru.surfstudio.android.navigation.sample_standard.screen.base.presenter.CommandExecutionPresenter
 import ru.surfstudio.android.navigation.scope.ScreenScopeNavigationProvider
 import ru.surfstudio.android.navigation.sample_standard.screen.bottom_navigation.home.HomeFragmentRoute
 import javax.inject.Inject
 
 @PerScreen
-class BottomNavigationPresenter @Inject constructor(
+class BottomNavPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        private val bm: BottomNavigationBindModel,
+        private val bm: BottomNavBindModel,
         private val screenNavigationProvider: ScreenScopeNavigationProvider,
         override val commandExecutor: NavigationCommandExecutor
 ) : BaseRxPresenter(basePresenterDependency), CommandExecutionPresenter {
 
     override fun onFirstLoad() {
-        openTab(BottomTabType.HOME)
+        openTab(BottomNavTabType.HOME)
         bm.backPressed bindTo ::onBackPressed
         bm.bottomNavClicked bindTo ::openTab
     }
@@ -35,9 +35,9 @@ class BottomNavigationPresenter @Inject constructor(
         }
     }
 
-    private fun openTab(type: BottomTabType) {
+    private fun openTab(type: BottomNavTabType) {
         val route: FragmentRoute = when (type) {
-            BottomTabType.HOME -> HomeFragmentRoute()
+            BottomNavTabType.HOME -> HomeFragmentRoute()
             else -> TODO()
         }
         Replace(route).execute()

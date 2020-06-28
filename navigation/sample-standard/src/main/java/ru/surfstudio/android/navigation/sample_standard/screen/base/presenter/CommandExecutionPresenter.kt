@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample_standard.screen.base.command
+package ru.surfstudio.android.navigation.sample_standard.screen.base.presenter
 
 import ru.surfstudio.android.navigation.command.NavigationCommand
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor

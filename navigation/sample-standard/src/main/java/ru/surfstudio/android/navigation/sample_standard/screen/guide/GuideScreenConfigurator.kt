@@ -7,9 +7,9 @@ import dagger.Provides
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.ActivityComponent
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.configurator.FragmentScreenConfigurator
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.screen.ScreenModule
+import ru.surfstudio.android.navigation.sample_standard.di.ui.ActivityComponent
+import ru.surfstudio.android.navigation.sample_standard.di.ui.configurator.FragmentScreenConfigurator
+import ru.surfstudio.android.navigation.sample_standard.di.ui.screen.ScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule
 
 class GuideScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {

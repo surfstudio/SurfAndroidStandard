@@ -7,9 +7,9 @@ import dagger.Provides
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.ActivityComponent
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.configurator.FragmentScreenConfigurator
-import ru.surfstudio.android.navigation.sample_standard.dagger.ui.screen.ScreenModule
+import ru.surfstudio.android.navigation.sample_standard.di.ui.ActivityComponent
+import ru.surfstudio.android.navigation.sample_standard.di.ui.configurator.FragmentScreenConfigurator
+import ru.surfstudio.android.navigation.sample_standard.di.ui.screen.ScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule
 
 class HomeScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
@@ -18,7 +18,7 @@ class HomeScreenConfigurator(args: Bundle?): FragmentScreenConfigurator(args) {
     @Component(dependencies = [ActivityComponent::class],
             modules = [DefaultFragmentScreenModule::class, HomeScreenModule::class])
     internal interface HomeFragmentScreenComponent
-        : BindableScreenComponent<HomeFragment>
+        : BindableScreenComponent<HomeFragmentView>
 
     @Module
     internal class HomeScreenModule : ScreenModule() {
