@@ -33,7 +33,7 @@ class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent
     override fun createScreenComponent(defaultActivityComponent: ActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
-        return DaggerMainConfigurator_MainScreenComponent.builder()
+        return DaggerMainScreenConfigurator_MainScreenComponent.builder()
                 .activityComponent(defaultActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)
                 .mainScreenModule(MainScreenModule())

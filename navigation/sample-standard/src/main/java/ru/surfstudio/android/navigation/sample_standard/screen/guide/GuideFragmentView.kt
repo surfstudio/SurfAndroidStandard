@@ -1,7 +1,6 @@
 package ru.surfstudio.android.navigation.sample_standard.screen.guide
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,6 @@ class GuideFragmentView : BaseRxFragmentView() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
         guide_bottom_nav_btn.clicks() bindTo {
-            Log.d("111111", "Bottom click")
             bm.bottomNavClicked.accept()
         }
         guide_shared_transition_btn.clicks() bindTo { bm.sharedElementClicked.accept() }

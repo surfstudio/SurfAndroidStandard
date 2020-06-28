@@ -28,7 +28,6 @@ class BottomNavFragmentView : BaseRxFragmentView(), FragmentNavigationContainer 
     override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
         addOnBackPressedListener { bm.backPressed.accept() }
         home_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomNavTabType.HOME) }
-        gallery_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomNavTabType.GALLERY) }
         profile_tab_btn.clicks().bindTo { bm.bottomNavClicked.accept(BottomNavTabType.PROFILE) }
     }
 

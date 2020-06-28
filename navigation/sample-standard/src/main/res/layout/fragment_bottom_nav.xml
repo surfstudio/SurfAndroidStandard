@@ -31,14 +31,6 @@
             android:text="Home" />
 
         <Button
-            android:id="@+id/gallery_tab_btn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="4dp"
-            android:layout_weight="1"
-            android:text="Gallery" />
-
-        <Button
             android:id="@+id/profile_tab_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"

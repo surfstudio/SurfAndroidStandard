@@ -33,7 +33,7 @@ class SplashScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(inte
     override fun createScreenComponent(defaultActivityComponent: ActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
-        return DaggerSplashConfigurator_SplashScreenComponent.builder()
+        return DaggerSplashScreenConfigurator_SplashScreenComponent.builder()
                 .activityComponent(defaultActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)
                 .splashScreenModule(SplashScreenModule())
