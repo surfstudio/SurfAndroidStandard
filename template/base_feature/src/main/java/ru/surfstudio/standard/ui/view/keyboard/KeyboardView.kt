@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.standard.ui.view.keyboard.KeyBoardConsts.createKeyBoard
 import ru.surfstudio.standard.ui.view.keyboard.controller.EmptyKeyController
 import ru.surfstudio.standard.ui.view.keyboard.controller.IconController
@@ -23,14 +22,17 @@ class KeyboardView @JvmOverloads constructor(
         defStyleAttrs: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttrs) {
 
-    private val easyAdapter = EasyAdapter().apply { isFirstInvisibleItemEnabled = true }
-
-    private val keyController = KeyController { /*todo */ }
-    private val emptyController = EmptyKeyController()
-    private val deleteController = IconController { /*todo*/ }
-
     var buttonLeft: Key? = null
     var buttonRight: Key? = null
+
+    var onKeyClick: (code: String) -> Unit = {}
+    var onDeleteClick = {}
+
+    private val easyAdapter = EasyAdapter().apply { isFirstInvisibleItemEnabled = true }
+
+    private val keyController = KeyController { onKeyClick(it) }
+    private val deleteController = IconController { onDeleteClick() }
+    private val emptyController = EmptyKeyController()
 
     init {
         layoutManager = GridLayoutManager(context, KEYBOARD_COLUMNS_COUNT)
