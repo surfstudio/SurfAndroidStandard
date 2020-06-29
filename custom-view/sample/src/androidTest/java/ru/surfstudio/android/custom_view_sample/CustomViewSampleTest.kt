@@ -1,12 +1,14 @@
 package ru.surfstudio.android.custom_view_sample
 
 import android.view.View
+import androidx.annotation.CallSuper
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import org.hamcrest.Matcher
+import org.junit.After
 import org.junit.Test
 import ru.surfstudio.android.custom.view.bottomsheet.BottomSheetView
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
@@ -23,8 +25,9 @@ class CustomViewSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.ja
         AnimationUtils.disableAnimations()
     }
 
-    override fun tearDown() {
-        super.tearDown()
+    @After
+    @CallSuper
+    fun tearDown() {
         AnimationUtils.enableAnimations()
     }
 
