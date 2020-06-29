@@ -14,6 +14,10 @@
     </declare-styleable>
 
     <declare-styleable name="KeyboardView">
+        <attr name="leftButtonText" format="string" />
+        <attr name="rightButtonText" format="string" />
+        <attr name="leftButtonIcon" format="reference" />
+        <attr name="rightButtonIcon" format="reference" />
         <attr name="android:textSize" />
         <attr name="android:textColor" />
         <attr name="keysFont" format="reference" />

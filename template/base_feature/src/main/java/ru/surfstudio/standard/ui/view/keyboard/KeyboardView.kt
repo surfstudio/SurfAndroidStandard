@@ -72,9 +72,28 @@ class KeyboardView @JvmOverloads constructor(
             if (textSize != KeyView.UNDEFINE_ATTR.toFloat()) {
                 keyController.textSize = textSize
             }
+
             val font = getResourceId(R.styleable.KeyboardView_keysFont, KeyView.UNDEFINE_ATTR)
-            if (font != KeyView.UNDEFINE_ATTR){
+            if (font != KeyView.UNDEFINE_ATTR) {
                 keyController.font = font
+            }
+
+            val leftButtonText = getString(R.styleable.KeyboardView_leftButtonText)
+            leftButtonText?.let {
+                buttonLeft = TextKey(leftButtonText)
+            }
+            val rightButtonText = getString(R.styleable.KeyboardView_rightButtonText)
+            rightButtonText?.let {
+                buttonRight = TextKey(rightButtonText)
+            }
+
+            val leftButtonIcon = getResourceId(R.styleable.KeyboardView_leftButtonIcon, KeyView.UNDEFINE_ATTR)
+            if (leftButtonIcon != KeyView.UNDEFINE_ATTR) {
+                buttonLeft = IconKey(leftButtonIcon)
+            }
+            val rightButtonIcon = getResourceId(R.styleable.KeyboardView_rightButtonIcon, KeyView.UNDEFINE_ATTR)
+            if (rightButtonIcon != KeyView.UNDEFINE_ATTR) {
+                buttonRight = IconKey(rightButtonIcon)
             }
 
         }.recycle()
