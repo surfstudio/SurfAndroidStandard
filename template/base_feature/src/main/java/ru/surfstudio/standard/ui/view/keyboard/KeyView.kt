@@ -28,7 +28,7 @@ class KeyView @JvmOverloads constructor(
         super.onDraw(canvas)
 
         when (key) {
-            is BaseTextKey -> draw(canvas, (key as BaseTextKey).text)
+            is BaseTextKey -> draw(canvas, (key as BaseTextKey).title)
             is BaseIconKey -> draw(canvas, (key as BaseIconKey).icon)
             //ignore EmptyKey
         }

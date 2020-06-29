@@ -22,38 +22,11 @@ object KeyBoardConsts {
 
     val emptyKey get() = EmptyKey()
 
-    val simpleKeyBoardItems: List<Key> = mutableListOf<Key>()
-            .apply {
+    fun createKeyBoard(leftButton: Key? = null, rightButton: Key? = null) =
+            mutableListOf<Key>().apply {
                 addAll(oneToNine)
-                add(emptyKey)
+                add(leftButton ?: emptyKey)
                 add(zeroTextKey)
-                add(emptyKey)
+                add(rightButton ?: emptyKey)
             }
-
-    fun createKeyBoarWithRightBtn(rightKey: Key): List<Key> =
-            mutableListOf<Key>()
-                    .apply {
-                        addAll(oneToNine)
-                        add(emptyKey)
-                        add(zeroTextKey)
-                        add(rightKey)
-                    }
-
-    fun createKeyBoarWithLeftBtn(leftKey: Key): List<Key> =
-            mutableListOf<Key>()
-                    .apply {
-                        addAll(oneToNine)
-                        add(leftKey)
-                        add(zeroTextKey)
-                        add(emptyKey)
-                    }
-
-    fun createKeyBoarWithLeftAndRightBtn(leftKey: Key, rightKey: Key): List<Key> =
-            mutableListOf<Key>()
-                    .apply {
-                        addAll(oneToNine)
-                        add(leftKey)
-                        add(zeroTextKey)
-                        add(rightKey)
-                    }
 }
