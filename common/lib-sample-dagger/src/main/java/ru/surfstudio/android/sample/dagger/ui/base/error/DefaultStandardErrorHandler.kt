@@ -9,11 +9,13 @@ import ru.surfstudio.android.sample.dagger.app.exceptions.NoInternetException
 import javax.inject.Inject
 
 /**
- * Стандартный обработчик ошибок, возникающих при работе с сервером
+ * Default error handler for network errors
+ * which will show messages with [MessageController] if an error occurs
  */
 @PerScreen
-open class DefaultStandardErrorHandler @Inject
-constructor(private val messageController: MessageController) : DefaultNetworkErrorHandler() {
+open class DefaultStandardErrorHandler @Inject constructor(
+        private val messageController: MessageController
+) : DefaultNetworkErrorHandler() {
 
     override fun handleNoInternetError(e: NoInternetException) {
         messageController.show(R.string.no_internet_connection_error_message)
