@@ -54,20 +54,8 @@ class KeyView @JvmOverloads constructor(
     private val contentPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val textPaint: Paint = TextPaint(Paint.ANTI_ALIAS_FLAG)
 
-    //todo необходимо парсить textAppearance.
     init {
-        with(context.obtainStyledAttributes(attrs, R.styleable.KeyView, defStyleAttrs, defStyleRes)) {
-            textColor = getColor(R.styleable.KeyView_textColor, Color.WHITE)
-
-            textSize = getDimension(R.styleable.KeyView_textSize, DEFAULT_TEXT_SIZE)
-
-            val fontRes = getResourceId(R.styleable.KeyView_font, UNDEFINE_ATTR)
-            if (fontRes != UNDEFINE_ATTR) {
-                font = ResourcesCompat.getFont(context, fontRes)
-            }
-
-            recycle()
-        }
+        initAttrs(attrs, defStyleAttrs, defStyleRes)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -103,6 +91,20 @@ class KeyView @JvmOverloads constructor(
                     (height.div(2) - icon.height.div(2)).toFloat(),
                     contentPaint
             )
+
+    private fun initAttrs(attrs: AttributeSet?, defStyleAttrs: Int, defStyleRes: Int) {
+        //todo необходимо парсить textAppearance.
+        context.obtainStyledAttributes(attrs, R.styleable.KeyView, defStyleAttrs, defStyleRes).apply {
+            textColor = getColor(R.styleable.KeyView_textColor, Color.WHITE)
+
+            textSize = getDimension(R.styleable.KeyView_textSize, DEFAULT_TEXT_SIZE)
+
+            val fontRes = getResourceId(R.styleable.KeyView_font, UNDEFINE_ATTR)
+            if (fontRes != UNDEFINE_ATTR) {
+                font = ResourcesCompat.getFont(context, fontRes)
+            }
+        }.recycle()
+    }
 
     companion object {
 
