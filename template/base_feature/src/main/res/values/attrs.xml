@@ -8,8 +8,8 @@
     </declare-styleable>
 
     <declare-styleable name="KeyView">
-        <attr name="textSize" format="dimension" />
-        <attr name="textColor" format="reference" />
+        <attr name="android:textSize" />
+        <attr name="android:textColor" />
         <attr name="font" format="reference" />
     </declare-styleable>
 

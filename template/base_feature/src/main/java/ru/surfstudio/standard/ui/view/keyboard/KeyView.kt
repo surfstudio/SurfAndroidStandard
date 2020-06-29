@@ -95,9 +95,9 @@ class KeyView @JvmOverloads constructor(
     private fun initAttrs(attrs: AttributeSet?, defStyleAttrs: Int, defStyleRes: Int) {
         //todo необходимо парсить textAppearance.
         context.obtainStyledAttributes(attrs, R.styleable.KeyView, defStyleAttrs, defStyleRes).apply {
-            textColor = getColor(R.styleable.KeyView_textColor, Color.WHITE)
+            textColor = getColor(R.styleable.KeyView_android_textColor, Color.WHITE)
 
-            textSize = getDimension(R.styleable.KeyView_textSize, DEFAULT_TEXT_SIZE)
+            textSize = getDimension(R.styleable.KeyView_android_textSize, DEFAULT_TEXT_SIZE)
 
             val fontRes = getResourceId(R.styleable.KeyView_font, UNDEFINE_ATTR)
             if (fontRes != UNDEFINE_ATTR) {

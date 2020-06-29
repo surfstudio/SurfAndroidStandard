@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ru.surfstudio.standard.ui.view.keyboard.KeyView
-    android:id="@+id/key_view"
+<ru.surfstudio.standard.ui.view.keyboard.KeyView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/KeyViewStyle"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    android:id="@+id/key_view" />
