@@ -46,7 +46,9 @@ open class FragmentNavigationProviderCallbacks(
         } else {
             activeFragments.find { getFragmentId(it).contains(sourceTag) }
         }
-        return obtainFragmentHolderRecursive(sourceFragment) ?: navigationHolders.values.first()
+        val navigationHolder = obtainFragmentHolderRecursive(sourceFragment)
+                ?: navigationHolders.values.firstOrNull()
+        return requireNotNull(navigationHolder) { NO_NAVIGATION_HOLDER_ERROR }
     }
 
     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
@@ -109,7 +111,7 @@ open class FragmentNavigationProviderCallbacks(
             savedInstanceState: Bundle?
     ) {
         val oldHolder = navigationHolders[id]
-        require(oldHolder == null) { "You must specify unique tag for each FragmentNavigationContainer!" }
+        require(oldHolder == null) { CONTAINER_TAG_IS_NOT_UNIQUE_ERROR }
         navigationHolders[id] = createHolder(id, containerId, fm, savedInstanceState)
     }
 
@@ -133,10 +135,20 @@ open class FragmentNavigationProviderCallbacks(
 
 
     private fun getFragmentId(fragment: Fragment): String {
-        return fragment.tag ?: error("Fragment tag must always be specified!")
+        return fragment.tag ?: error(NO_FRAGMENT_ID_ERROR)
     }
 
     private fun getContainerId(fragment: Fragment): Int? {
         return if (fragment is FragmentNavigationContainer) fragment.containerId else null
+    }
+
+    private companion object {
+        const val NO_NAVIGATION_HOLDER_ERROR =
+                "There's no navigation holders in FragmentNavigationProvider! " +
+                        "If your Activity is hosting fragments, " +
+                        "you should inherit it from FragmentNavigationContainer."
+
+        const val CONTAINER_TAG_IS_NOT_UNIQUE_ERROR = "You must specify unique tag for each FragmentNavigationContainer!"
+        const val NO_FRAGMENT_ID_ERROR = "Fragment tag must always be specified!"
     }
 }

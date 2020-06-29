@@ -4,8 +4,8 @@
 
 ## Предпосылки появления
 
-Разработанная в самом начале навигация через навигаторы показала себя несосотоятельной
-в сложных сценариях использования: она хорошо решала проалемы типового приложения с разделением на
+Изначально созданная навигация через навигаторы-обертки показала себя не с лучшей стороны
+в сложных сценариях использования: она хорошо решала проблемы типового приложения с разделением на
 фичи-activity, однако при попытках расширить и кастомизировать этот подход, разработчики
 сталкивались с необходимостью полной переработки навигаторов на собственных проектах.
 
@@ -27,65 +27,109 @@
 не опасаясь за то, что предыдущий экран еще не будет готов.
 1. Излишнее количество реализаций Route. В старом подходе навигации у Route огромное количество
 реализаций, многие из которых просто не нужны, и заставляют пользователя путаться при выборе.
-В текущей реализации базовых Route есть всего несколько, и они разделены по типам экранов: Activity, Fragment, Dialog и Widget.
+В текущей реализации базовых Route есть всего несколько, и они разделены по типам экранов:
+[ActivityRoute][aroute], [FragmentRoute][froute], [Dialog][droute] и [Widget][wroute].
 
 ## Общий принцип работы.
 
 Принцип работы модуля заключается в следующем:
 
-1. У каждого экрана есть точка входа: Route. Она содержит все входные данные, необходимые для запуска экрана,
-однозначно идентифицирует экран на основе этих параметров.
-1. Для каждого типа экрана существуют навигаторы (Activity, Fragment, Dialog, Widget),
-позволяющие выполнить запуск, закрытие и другие действия с экраном, основываясь на route.
+1. У каждого экрана есть точка входа: [Route][route]. Она содержит все входные данные, необходимые для запуска экрана,
+однозначно идентифицирует экран на основе этих параметров. Базовая реализация ([BaseRoute][baseroute])
+является базовым интерфейсом:
+    * getScreenClass, getScreenClassPath - извлечение класса экрана, по которому будет происходит запуск экрана.
+    * getTag - идентификация экрана
+    * prepareData - предоставление стартовых данных для открытия экрана.
+1. Для каждого типа экрана существуют навигаторы ([ActivityNavigator][anav], [FragmentNavigator][fnav], [DialogNavigator][dnav]),
+позволяющие выполнить открытие, закрытие и другие действия с экраном, основываясь на route.
 Навигаторы живут в скоупе экрана, умирают и пересоздаются вместе с ним.
 Если навигаторы содержат бекстек, он сохраняется и восстанавливается при смене конфигурации.
 1. Любое действие, производимое над экраном, заключается в класс Command. Команда содержит в себе Route,
 возможные анимации Animations, и другие опции для открытия экрана.
-1. Для того, чтобы направлять команды в нужные навигаторы, существуют CommandExecutor-сущности.
+1. Для того, чтобы направлять команды в нужные навигаторы, существуют [CommandExecutor][exec]-сущности.
 У каждого типа экрана есть свой Executor, и он ограничен пулом команд экрана, которые в него поступают.
 Все Executor'ы - это синглтоны, и живут столько же, сколько живет приложение.
-1. Все Executor'ы объединяются в один, общий Executor,
-который распределяет команды между ними и обеспечивает последовательное выполнение.
+1. Все Executor'ы объединяются в один, общий [AppCommandExecutor][appexec],
+который распределяет команды между экранными и обеспечивает последовательное выполнение.
 
 
 ## Сохранение состояния и dependency injection
 
 Данный модуль не привязан к стандартным скоупам core-ui, и не имеет зависимостей от DI-фреймворков.
 Сохранение состояния и привязка переменных к определенным экранам здесь реализована
-через ActivityLifecycleCallbacks и FragmentLifecycleCallbacks.
+через `ActivityLifecycleCallbacks` и `FragmentLifecycleCallbacks`.
 
-Все необходимые для Activity-навигации классы создаются в провайдерах: ActivityNavigationProvider,
-и его реализации ActivityNavigationProviderCallbacks.
-Здесь для каждой Activity в onCreate создаются ActivityNavigator, DialogNavigator, а также меняется активный в данный момент навигатор в зависимости от того,
+Все необходимые для Activity-навигации классы создаются в провайдерах: [ActivityNavigationProvider][aprov],
+и его реализации ActivityNavigationProviderCallbacks[aprovcal].
+Здесь для каждой Activity в onCreate создаются [ActivityNavigator][anav], [DialogNavigator][dnav], а также меняется активный в данный момент навигатор в зависимости от того,
 какая Activity в данный момент находится в состоянии Resumed.
 
-Все необходимые для Fragment-навигации классы создаются в провайдерах: FragmentNavigationProvider,
-и его реализации FragmentNavigationProviderCallbacks.
-Здесь для Fragment в onFragmentCreated создаются FragmentNavigator и TabFragmentNavigator,
-и происходит переключение между ними: извлечение нужного навигатора происходит по тегу фрагмента, с которым он ассоциирован.
+Все необходимые для `Fragment`-навигации классы создаются в провайдерах: FragmentNavigationProvider[fprov],
+и его реализации FragmentNavigationProviderCallbacks[fprovcal].
+Здесь для `Fragment` в onFragmentCreated создаются [FragmentNavigator][fnav] и TabFragmentNavigator[tfnav],
+а также происходит переключение между навигаторами разных фрагментов:
+извлечение нужного происходит по идентификатору (тегу) фрагмента, в котором навигатор был создан.
 
-Внимание! Fragment будет содержать навигаторы, только если он наследуется от FragmentNavigationContainer,
+**Внимание!** Fragment будет содержать навигаторы, только если он наследуется от FragmentNavigationContainer,
 то есть, в нем есть ViewGroup, внутри которого будут помещены дочерние фрагменты.
 
-Извлечение нужного навигатора производится через FragmentNavigationProvider.provide(sourceTag).
-SourceTag здесь - это тег фрагмента, который содержит навигацию.
-В механизме навигации через CommandExecutor, этот тег предоставляется через FragmentCommand.sourceTag.
+Извлечение нужного навигатора производится через `FragmentNavigationProvider.provide(sourceTag)`.
+`sourceTag` здесь - это тег фрагмента, который содержит навигацию.
+В механизме навигации через CommandExecutor, этот тег предоставляется через `FragmentCommand.sourceTag`.
 Если необходимо явно вызвать навигатор из Activity (SupportFragmentManager), в качестве SourceTag может быть передан
 ACTIVITY_NAVIGATION_TAG.
 
-Для того, чтобы постоянно не указывать sourceTag, существует ScreenScopeCommandExecutor,
+Для того, чтобы постоянно не указывать sourceTag, существует `ScreenScopeCommandExecutor`,
 который действует на основе FragmentProvider, извлекает фрагмент из текущего Dagger-скоупа, и снабжает им команду.
+
+## Команды
+
+Все команды [NavigationCommand][navcom] разделены по классам экранов:
+
+- [ActivityNavigationCommand][acom]
+    * [Start][startcom] - старт новой Activity
+    * [Finish][finishcom] - закрытие текущей открытой Activity.
+    * [FinishAffinity][finishacom] - закрытие текущего таска Activity.
+    * [Replace][replaceacom] - замена текущей Activity на другую (Finish + Start).
+- [FragmentNavigationCommand][fcom]
+    * [Add][addcom] - добавление фрагмента поверх текущего. Операция сохраняется в бекстек.
+    * [Replace][replacefcom] - замена текущего фрагмента новым. Операция сохраняется в бекстек.
+    * [ReplaceHard][replacehardcom] - замена текущего фрагмента новым с одновременным закрытием текущего. Аналогична двум операциям:
+    remove + add, и выполняется за одну транзакцию.
+    Если у нас был стек из фрагментов A, B и мы выполняем ReplaceHard(C), то новым стеком будет A, C.
+    * [Remove][removecom] - удаление фрагмента из контейнера. Операция невозвратная.
+    * [RemoveLast][removelastcom] - удаление фрагмента, располагающегося на вершине бекстека,
+    и показ предыдущего. Является обратной операцией к Add/Replace, и выполняет обратные анимации.
+    Чтобы выполнить эту команду для [TabFragmentNavigator][tfnav], необходимо явно указать параметр isTab=true.
+    * [RemoveUntil][removeuntilcom] - удаление фрагментов вплоть до указанного в команде.
+    * [RemoveAll][removeallcom] - очистка бекстека.
+    Возможна очистка всех фрагментов с сохранением последнего: необходимо явно указать параметр shouldRemoveLast=false.
+    Чтобы выполнить эту команду для [TabFragmentNavigator][tfnav], необходимо явно указать параметр isTab=true.
+- [DialogNavigationCommand][dcom]
+    * [Show][showcom] - показ диалога
+    * [Dismiss][dismisscom] - скрытие диалога
 
 ## Анимации
 
 Для того, чтобы осуществить какую-либо команду с анимацией, необходимо передать в параметр Animations
 вашу анимацию, которую сможет обработать навигатор.
-Стандартные навигаторы поддерживают обработку BaseResourceAnimations, SharedElementAnimations и
-SetAnimations, служащий контейнером для первых двух.
+Стандартные навигаторы поддерживают обработку [BaseResourceAnimations][resanim], [SharedElementAnimations][sharedanim] и
+SetAnimations[setanim], служащий контейнером для первых двух.
 
 Для того, чтобы применить одну базовую анимацию сразу для всех команд всего приложения,
-вы можете переопределить значения из класса DefaultAnimations. В нем содержатся анимации по-умолчанию
+вы можете переопределить значения из класса [DefaultAnimations][defanim]. В нем содержатся анимации по-умолчанию
 для каждого типа экрана.
+
+## Табы
+
+Модуль поддерживает навигацию по табам (BottomNavigation). Для того, чтобы ваш Route мог быть отображен в табе,
+его необходимо унаследовать от [TabRoute][tabroute].
+
+Чтобы Route был вершиной таба (первым элементом, который находится в табе, и единственным, который сохраняется при очистке стека),
+необходимо унаследовать его от [TabHeadRoute][tabheadroute].
+
+Механизм навигации по табам работает следующим образом:
+TODO: Расписать подробнее механизм навигации по табам.
 
 ## Подключение
 
@@ -150,3 +194,53 @@ noBackupFilesDir.
     * Если в качестве NavigationCommandExecutor вы используете ScreenScopeCommandExecutor, этот шаг можно опустить.
 1. Вызвать метод NavigationCommandExecutor.execute и передать в него команду Add(routeA, sourceTag),
 где routeA - route, созданный на первом шаге, sourceTag - тег экрана, созданный на 3 шаге.
+
+
+[route]: src/main/java/ru/surfstudio/android/navigation/route/Route.kt
+[baseroute]: src/main/java/ru/surfstudio/android/navigation/route/BaseRoute.kt
+[aroute]: src/main/java/ru/surfstudio/android/navigation/route/activity/ActivityRoute.kt
+[froute]: src/main/java/ru/surfstudio/android/navigation/route/fragment/FragmentRoute.kt
+[droute]: src/main/java/ru/surfstudio/android/navigation/route/dialog/DialogRoute.kt
+[wroute]: src/main/java/ru/surfstudio/android/navigation/route/widget/WidgetRoute.kt
+[tabroute]: src/main/java/ru/surfstudio/android/navigation/route/tab/TabRoute.kt
+[tabheadroute]: src/main/java/ru/surfstudio/android/navigation/route/tab/TabHeadRoute.kt
+
+[anav]: src/main/java/ru/surfstudio/android/navigation/navigator/activity/ActivityNavigator.kt
+[fnav]: src/main/java/ru/surfstudio/android/navigation/navigator/fragment/FragmentNavigator.kt
+[tfnav]: src/main/java/ru/surfstudio/android/navigation/navigator/fragment/tab/TabFragmentNavigator.kt
+[dnav]: src/main/java/ru/surfstudio/android/navigation/navigator/dialog/DialogNavigator.kt
+
+[exec]: src/main/java/ru/surfstudio/android/navigation/executor/CommandExecutor.kt
+[appexec]: src/main/java/ru/surfstudio/android/navigation/executor/AppCommandExecutor.kt
+
+[aprov]: src/main/java/ru/surfstudio/android/navigation/provider/ActivityNavigationProvider.kt
+[fprov]: src/main/java/ru/surfstudio/android/navigation/provider/FragmentNavigationProvider.kt
+[aprovcal]: src/main/java/ru/surfstudio/android/navigation/provider/callbacks/ActivityNavigationProviderCallbacks.kt
+[fprovcal]: src/main/java/ru/surfstudio/android/navigation/provider/callbacks/FragmentNavigationProviderCallbacks.kt
+
+
+[resanim]: src/main/java/ru/surfstudio/android/navigation/animation/resource/BaseResourceAnimations.kt
+[sharedanim]: src/main/java/ru/surfstudio/android/navigation/animation/shared/SharedElementAnimations.kt
+[setanim]: src/main/java/ru/surfstudio/android/navigation/animation/set/SetAnimations.kt
+[defanim]: src/main/java/ru/surfstudio/android/navigation/animation/DefaultAnimations.kt
+
+[navcom]: src/main/java/ru/surfstudio/android/navigation/command/NavigationCommand.kt
+
+[acom]: src/main/java/ru/surfstudio/android/navigation/command/activity/base/ActivityNavigationCommand.kt
+[startcom]: src/main/java/ru/surfstudio/android/navigation/command/activity/Start.kt
+[finishcom]: src/main/java/ru/surfstudio/android/navigation/command/activity/Finish.kt
+[finishacom]: src/main/java/ru/surfstudio/android/navigation/command/activity/FinishAffinity.kt
+[replaceacom]: src/main/java/ru/surfstudio/android/navigation/command/activity/Replace.kt
+
+[fcom]: src/main/java/ru/surfstudio/android/navigation/command/fragment/base/FragmentNavigationCommand.kt
+[addcom]: src/main/java/ru/surfstudio/android/navigation/command/fragment/Add.kt
+[replacefcom]: src/main/java/ru/surfstudio/android/navigation/command/fragment/Replace.kt
+[replacehardcom]: src/main/java/ru/surfstudio/android/navigation/command/fragment/ReplaceHard.kt
+[removecom]: src/main/java/ru/surfstudio/android/navigation/command/fragment/Remove.kt
+[removeuntilcom]: src/main/java/ru/surfstudio/android/navigation/command/fragment/RemoveUntil.kt
+[removelastcom]: src/main/java/ru/surfstudio/android/navigation/command/fragment/RemoveLast.kt
+[removeallcom]: src/main/java/ru/surfstudio/android/navigation/command/fragment/RemoveAll.kt
+
+[dcom]: src/main/java/ru/surfstudio/android/navigation/command/dialog/base/DialogNavigationCommand.kt
+[showcom]: src/main/java/ru/surfstudio/android/navigation/command/dialog/Show.kt
+[dismisscom]: src/main/java/ru/surfstudio/android/navigation/command/dialog/Dismiss.kt

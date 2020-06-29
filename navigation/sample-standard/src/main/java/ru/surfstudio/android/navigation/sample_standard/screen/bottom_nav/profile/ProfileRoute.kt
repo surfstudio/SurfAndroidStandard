@@ -2,8 +2,8 @@ package ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.profi
 
 import androidx.fragment.app.Fragment
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
-import ru.surfstudio.android.navigation.route.tab.TabRootRoute
+import ru.surfstudio.android.navigation.route.tab.TabHeadRoute
 
-class ProfileRoute : FragmentRoute(), TabRootRoute {
+class ProfileRoute : FragmentRoute(), TabHeadRoute {
     override fun getScreenClass(): Class<out Fragment>? = ProfileFragmentView::class.java
 }

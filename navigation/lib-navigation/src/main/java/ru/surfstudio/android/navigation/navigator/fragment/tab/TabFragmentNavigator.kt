@@ -14,7 +14,7 @@ import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntri
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntry
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostFragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.listener.ActiveTabReopenedListener
-import ru.surfstudio.android.navigation.route.tab.TabRootRoute
+import ru.surfstudio.android.navigation.route.tab.TabHeadRoute
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**
@@ -22,7 +22,7 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
  * Can be used in Bottom Navigation mechanism.
  *
  * It works with populating tabs lazily: you don't need to specify it's size or tabs at the initialization.
- * Instead of that, you must dynamically [add] routes with class [TabRootRoute] and the tabs will be switched automatically.
+ * Instead of that, you must dynamically [add] routes with class [TabHeadRoute] and the tabs will be switched automatically.
  *
  * Delegates all the methods of a [FragmentNavigatorInterface] to an active stack.
  */
@@ -54,16 +54,16 @@ open class TabFragmentNavigator(
     }
 
     override fun add(route: FragmentRoute, animations: Animations) {
-        if (route is TabRootRoute) {
-            openRoot(route)
+        if (route is TabHeadRoute) {
+            openHead(route)
         } else {
             activeNavigator.add(route, animations)
         }
     }
 
     override fun replace(route: FragmentRoute, animations: Animations) {
-        if (route is TabRootRoute) {
-            openRoot(route)
+        if (route is TabHeadRoute) {
+            openHead(route)
         } else {
             activeNavigator.replace(route, animations)
         }
@@ -131,9 +131,9 @@ open class TabFragmentNavigator(
     }
 
     /**
-     * Opens tab as a root.
+     * Opens tab as a head.
      */
-    fun openRoot(route: FragmentRoute) {
+    fun openHead(route: FragmentRoute) {
         if (hostEntries.tags.contains(route.getTag())) {
             openExistentTab(route.getTag())
         } else {
