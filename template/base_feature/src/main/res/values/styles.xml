@@ -31,16 +31,16 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">false</item>
+    </style>
 
-        <style name="KeyViewStyle">
-            <item name="android:layout_width">64dp</item>
-            <item name="android:layout_height">64dp</item>
-            <item name="android:layout_marginStart">18dp</item>
-            <item name="android:layout_marginEnd">18dp</item>
-            <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
-            <item name="textSize">32sp</item>
-            <item name="textColor">#ffffff</item>
-            <!--        <item name="font">@font/unicredit_regular</item> todo-->
-        </style>
+    <style name="KeyViewStyle">
+        <item name="android:layout_width">64dp</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:layout_marginStart">18dp</item>
+        <item name="android:layout_marginEnd">18dp</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="textSize">32sp</item>
+        <item name="textColor">?android:textColorPrimary</item>
+        <item name="font">@font/roboto_regular</item>
     </style>
 </resources>

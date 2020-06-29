@@ -1,11 +1,11 @@
-package ru.unicredit.android.ui.view.keyboard.controller
+package ru.surfstudio.standard.ui.view.keyboard.controller
 
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.item_key_view.view.*
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
-import ru.unicredit.android.base_feature.R
+import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.standard.ui.view.keyboard.keys.Key
 
 /**

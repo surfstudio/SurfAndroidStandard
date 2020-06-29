@@ -12,8 +12,11 @@ import ru.surfstudio.standard.ui.view.keyboard.keys.Key
  * View для отображения кнопки на кастомной калавиатуре. Умеет рисовать текст или иконку
  */
 class KeyView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttrs: Int = 0, defStyleRes: Int = R.style.KeyViewStyle)
-    : LableView(context, attrs, defStyleAttrs, defStyleRes) {
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttrs: Int = 0,
+        defStyleRes: Int = R.style.KeyViewStyle
+) : LableView(context, attrs, defStyleAttrs, defStyleRes) {
 
     var key: Key? = null
         set(value) {

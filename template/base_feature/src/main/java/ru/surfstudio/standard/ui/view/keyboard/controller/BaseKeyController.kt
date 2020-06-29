@@ -1,4 +1,4 @@
-package ru.unicredit.android.ui.view.keyboard.controller
+package ru.surfstudio.standard.ui.view.keyboard.controller
 
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.standard.ui.view.keyboard.keys.Key

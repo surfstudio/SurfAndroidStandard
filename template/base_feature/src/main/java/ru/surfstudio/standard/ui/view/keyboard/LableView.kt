@@ -21,7 +21,7 @@ open class LableView @JvmOverloads constructor(
         attrs: AttributeSet? = null,
         defStyleAttrs: Int = 0,
         defStyleRes: Int = 0
-) : View(context, attrs, defStyleAttrs/*, defStyleRes  todo*/) {
+) : View(context, attrs, defStyleAttrs, defStyleRes) {
 
     protected val contentPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     protected val textPaint: Paint = TextPaint(Paint.ANTI_ALIAS_FLAG)

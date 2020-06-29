@@ -1,8 +1,7 @@
-package ru.unicredit.android.ui.view.keyboard.controller
+package ru.surfstudio.standard.ui.view.keyboard.controller
 
 import android.view.ViewGroup
 import ru.surfstudio.standard.ui.view.keyboard.keys.TextKey
-import ru.unicredit.android.ui.view.keyboard.keys.TextKey
 
 /**
  * Контроллер для отображения кнопки с символом/текстом
