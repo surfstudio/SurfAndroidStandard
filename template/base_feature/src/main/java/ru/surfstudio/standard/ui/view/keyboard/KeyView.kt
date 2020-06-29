@@ -1,13 +1,17 @@
 package ru.surfstudio.standard.ui.view.keyboard
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import ru.surfstudio.android.template.base_feature.R
@@ -39,16 +43,19 @@ class KeyView @JvmOverloads constructor(
         }
 
     @ColorInt
-    var textColor: Int = Color.WHITE
+    var textColor: Int = DEFAULT_TEXT_COLOR
         set(value) {
             field = value
             textPaint.color = value
         }
 
-    var font: Typeface? = null
+    @FontRes
+    var font: Int = UNDEFINE_ATTR
         set(value) {
             field = value
-            textPaint.typeface = value
+            if (value != UNDEFINE_ATTR) {
+                textPaint.typeface = ResourcesCompat.getFont(context, value)
+            }
         }
 
     private val contentPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -93,22 +100,17 @@ class KeyView @JvmOverloads constructor(
             )
 
     private fun initAttrs(attrs: AttributeSet?, defStyleAttrs: Int, defStyleRes: Int) {
-        //todo необходимо парсить textAppearance.
         context.obtainStyledAttributes(attrs, R.styleable.KeyView, defStyleAttrs, defStyleRes).apply {
-            textColor = getColor(R.styleable.KeyView_android_textColor, Color.WHITE)
-
+            textColor = getColor(R.styleable.KeyView_android_textColor, DEFAULT_TEXT_COLOR)
             textSize = getDimension(R.styleable.KeyView_android_textSize, DEFAULT_TEXT_SIZE)
-
-            val fontRes = getResourceId(R.styleable.KeyView_font, UNDEFINE_ATTR)
-            if (fontRes != UNDEFINE_ATTR) {
-                font = ResourcesCompat.getFont(context, fontRes)
-            }
+            font = getResourceId(R.styleable.KeyView_font, UNDEFINE_ATTR)
         }.recycle()
     }
 
     companion object {
 
         const val DEFAULT_TEXT_SIZE = 14F
+        const val DEFAULT_TEXT_COLOR = Color.WHITE
         const val UNDEFINE_ATTR = -1
     }
 }
