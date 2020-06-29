@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.standard.ui.view.keyboard.KeyBoardConsts.createKeyBoard
+import ru.surfstudio.standard.ui.view.keyboard.CustomKeyboardUtils.createKeyBoard
 import ru.surfstudio.standard.ui.view.keyboard.controller.EmptyKeyController
 import ru.surfstudio.standard.ui.view.keyboard.controller.IconController
 import ru.surfstudio.standard.ui.view.keyboard.controller.KeyController
@@ -16,6 +16,9 @@ import ru.surfstudio.standard.ui.view.keyboard.keys.IconKey
 import ru.surfstudio.standard.ui.view.keyboard.keys.Key
 import ru.surfstudio.standard.ui.view.keyboard.keys.TextKey
 
+/**
+ * View клавиатуры
+ */
 class KeyboardView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,

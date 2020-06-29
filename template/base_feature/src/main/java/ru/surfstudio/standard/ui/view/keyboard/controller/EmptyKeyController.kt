@@ -16,5 +16,5 @@ class EmptyKeyController : BaseKeyController<EmptyKey, BaseKeyHolder<EmptyKey>>(
         return Holder(parent)
     }
 
-    inner class Holder(parent: ViewGroup) : BaseKeyHolder<EmptyKey>(parent)
+    class Holder(parent: ViewGroup) : BaseKeyHolder<EmptyKey>(parent)
 }

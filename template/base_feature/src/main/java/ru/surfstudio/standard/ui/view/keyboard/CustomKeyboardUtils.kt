@@ -4,7 +4,7 @@ import ru.surfstudio.standard.ui.view.keyboard.keys.EmptyKey
 import ru.surfstudio.standard.ui.view.keyboard.keys.Key
 import ru.surfstudio.standard.ui.view.keyboard.keys.TextKey
 
-object KeyBoardConsts {
+object CustomKeyboardUtils {
 
     private val oneToNine = listOf(
             TextKey("1"),
@@ -18,15 +18,13 @@ object KeyBoardConsts {
             TextKey("9")
     )
 
-    val zeroTextKey get() = TextKey("0")
-
-    val emptyKey get() = EmptyKey()
+    private val zeroTextKey get() = TextKey("0")
 
     fun createKeyBoard(leftButton: Key? = null, rightButton: Key? = null) =
             mutableListOf<Key>().apply {
                 addAll(oneToNine)
-                add(leftButton ?: emptyKey)
+                add(leftButton ?: EmptyKey())
                 add(zeroTextKey)
-                add(rightButton ?: emptyKey)
+                add(rightButton ?: EmptyKey())
             }
 }
