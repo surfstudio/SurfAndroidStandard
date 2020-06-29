@@ -13,10 +13,9 @@
         <attr name="font" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="KeyBoardView">
-        <attr name="verticalSpace" format="dimension" />
-        <attr name="horizontalSpace" format="dimension" />
-        <attr name="btn_width" format="dimension" />
-        <attr name="btn_height" format="dimension" />
+    <declare-styleable name="KeyboardView">
+        <attr name="android:textSize" />
+        <attr name="android:textColor" />
+        <attr name="keysFont" format="reference" />
     </declare-styleable>
 </resources>

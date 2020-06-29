@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.standard.ui.view.keyboard.CustomKeyboardUtils.createKeyBoard
 import ru.surfstudio.standard.ui.view.keyboard.controller.EmptyKeyController
 import ru.surfstudio.standard.ui.view.keyboard.controller.IconController
@@ -38,6 +39,7 @@ class KeyboardView @JvmOverloads constructor(
     private val emptyController = EmptyKeyController()
 
     init {
+        initAttrs(attrs)
         layoutManager = GridLayoutManager(context, KEYBOARD_COLUMNS_COUNT)
         overScrollMode = View.OVER_SCROLL_NEVER
         adapter = easyAdapter
@@ -57,6 +59,25 @@ class KeyboardView @JvmOverloads constructor(
                     }
                 }
         )
+    }
+
+    private fun initAttrs(attrs: AttributeSet?) {
+        context.obtainStyledAttributes(attrs, R.styleable.KeyboardView).apply {
+            val textColor = getColor(R.styleable.KeyboardView_android_textColor, KeyView.UNDEFINE_ATTR)
+            if (textColor != KeyView.UNDEFINE_ATTR) {
+                keyController.textColor = textColor
+            }
+
+            val textSize = getDimension(R.styleable.KeyboardView_android_textSize, KeyView.UNDEFINE_ATTR.toFloat())
+            if (textSize != KeyView.UNDEFINE_ATTR.toFloat()) {
+                keyController.textSize = textSize
+            }
+            val font = getResourceId(R.styleable.KeyboardView_keysFont, KeyView.UNDEFINE_ATTR)
+            if (font != KeyView.UNDEFINE_ATTR){
+                keyController.font = font
+            }
+
+        }.recycle()
     }
 
     companion object {
