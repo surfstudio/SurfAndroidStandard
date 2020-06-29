@@ -32,37 +32,42 @@ class KeyView @JvmOverloads constructor(
             invalidate()
         }
 
+    var textSize: Float = DEFAULT_TEXT_SIZE
+        set(value) {
+            field = value
+            textPaint.textSize = value
+        }
+
+    @ColorInt
+    var textColor: Int = Color.WHITE
+        set(value) {
+            field = value
+            textPaint.color = value
+        }
+
+    var font: Typeface? = null
+        set(value) {
+            field = value
+            textPaint.typeface = value
+        }
+
     private val contentPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val textPaint: Paint = TextPaint(Paint.ANTI_ALIAS_FLAG)
 
     //todo необходимо парсить textAppearance.
     init {
         with(context.obtainStyledAttributes(attrs, R.styleable.KeyView, defStyleAttrs, defStyleRes)) {
+            textColor = getColor(R.styleable.KeyView_textColor, Color.WHITE)
 
-            val textColor = getColor(R.styleable.KeyView_textColor, Color.WHITE)
-            setTextColor(textColor)
+            textSize = getDimension(R.styleable.KeyView_textSize, DEFAULT_TEXT_SIZE)
 
-            val textSize = getDimension(R.styleable.KeyView_textSize, 14f)
-            setTextSize(textSize)
-
-            val fontRes = getResourceId(R.styleable.KeyView_font, -1)//todo
-            if (fontRes != -1) {
-                setFont(ResourcesCompat.getFont(context, fontRes))
+            val fontRes = getResourceId(R.styleable.KeyView_font, UNDEFINE_ATTR)
+            if (fontRes != UNDEFINE_ATTR) {
+                font = ResourcesCompat.getFont(context, fontRes)
             }
+
             recycle()
         }
-    }
-
-    fun setTextSize(size: Float) {
-        textPaint.textSize = size
-    }
-
-    fun setFont(font: Typeface?) {
-        textPaint.typeface = font
-    }
-
-    fun setTextColor(@ColorInt color: Int) {
-        textPaint.color = color
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -98,4 +103,10 @@ class KeyView @JvmOverloads constructor(
                     (height.div(2) - icon.height.div(2)).toFloat(),
                     contentPaint
             )
+
+    companion object {
+
+        const val DEFAULT_TEXT_SIZE = 14F
+        const val UNDEFINE_ATTR = -1
+    }
 }
