@@ -7,7 +7,7 @@
         <attr name="postfixTextAppearance" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="LableView">
+    <declare-styleable name="KeyView">
         <attr name="textSize" format="dimension" />
         <attr name="textColor" format="reference" />
         <attr name="font" format="reference" />
