@@ -40,10 +40,12 @@ open class CarouselView<T> @JvmOverloads constructor(
 
     var centerItemChangedListener: (position: Int) -> Unit = {}
 
-    private var realItemsCount = 0
     private val easyAdapter: EasyAdapter = EasyAdapter()
     private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     private val rect = Rect()
+
+    var realItemsCount = 0
+        private set
 
     var centerItemPosition: Int = 0
         set(value) {
