@@ -1,10 +1,7 @@
 package ru.surfstudio.standard.ui.view.keyboard
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
@@ -112,17 +109,21 @@ class KeyView @JvmOverloads constructor(
         }
     }
 
-    private fun draw(canvas: Canvas, text: String, subtitle: String) {
-        with(text) {
-            val x = width.div(2) - titlePaint.measureText(this).div(2)
-            val y = height.div(2) - (titlePaint.descent() + titlePaint.ascent()).div(2)
-            canvas.drawText(this, x, y, titlePaint)
-        }
-        with(subtitle) {
-            val x = width.div(2) - subtitlePaint.measureText(this).div(2)
-            val y = height.div(2) - (subtitlePaint.descent() + subtitlePaint.ascent()).div(2)
-            canvas.drawText(this, x, y, subtitlePaint)
-        }
+    private fun draw(canvas: Canvas, title: String, subtitle: String) {
+        val subtitleBounds = Rect()
+        subtitlePaint.getTextBounds(subtitle, 0, subtitle.length, subtitleBounds)
+        val subtitleHeight = subtitleBounds.height()
+
+        val subtitleMargin = ViewUtil.convertDpToPx(context, DEFAULT_SUBTITLE_MARGIN) + subtitleHeight
+
+        val titleX = width.div(2) - titlePaint.measureText(title).div(2)
+        val titleY = height.div(2) - (titlePaint.descent() + titlePaint.ascent()).div(2)
+        canvas.drawText(title, titleX, titleY - subtitleMargin / 2, titlePaint)
+
+
+        val subtitleX = width.div(2) - subtitlePaint.measureText(subtitle).div(2)
+        val subtitleY = titleY
+        canvas.drawText(subtitle, subtitleX, subtitleY + subtitleMargin / 2, subtitlePaint)
     }
 
     private fun draw(canvas: Canvas, @DrawableRes icon: Int) {
@@ -164,10 +165,11 @@ class KeyView @JvmOverloads constructor(
 
     companion object {
 
-        const val DEFAULT_TITLE_SIZE = 38f//sp
-        const val DEFAULT_SUBTITLE_SIZE = 12F//sp
+        const val DEFAULT_TITLE_SIZE = 38f //sp
+        const val DEFAULT_SUBTITLE_SIZE = 12F //sp
         const val DEFAULT_TITLE_COLOR = Color.BLACK
         const val DEFAULT_SUBTITLE_COLOR = Color.BLACK
+        const val DEFAULT_SUBTITLE_MARGIN = 5f //dp
         const val UNDEFINE_ATTR = -1
     }
 }
