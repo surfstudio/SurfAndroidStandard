@@ -28,6 +28,8 @@ class KeyController(
     @FontRes
     var subtitleFont: Int? = null
 
+    var subtitleMargin: Float? = null
+
     var isShowLetters = false
 
     override fun getItemId(key: TextKey): String {
@@ -53,6 +55,8 @@ class KeyController(
             subtitleTextSize?.let { itemView.key_view.subtitleTextSize = it }
             subtitleTextColor?.let { itemView.key_view.subtitleColor = it }
             subtitleFont?.let { itemView.key_view.subtitleFont = it }
+
+            subtitleMargin?.let { itemView.key_view.subtitleMargin = it }
 
             itemView.key_view.isShowLetters = isShowLetters
         }

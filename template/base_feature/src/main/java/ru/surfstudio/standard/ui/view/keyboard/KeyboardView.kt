@@ -68,23 +68,6 @@ class KeyboardView @JvmOverloads constructor(
 
     private fun initAttrs(attrs: AttributeSet?) {
         context.obtainStyledAttributes(attrs, R.styleable.KeyboardView).apply {
-            keyController.isShowLetters = getBoolean(R.styleable.KeyboardView_isShowLetters, true)
-
-            keyController.titleTextColor = getColor(R.styleable.KeyboardView_titleTextColor, KeyView.DEFAULT_TITLE_COLOR)
-            keyController.subtitleTextColor = getColor(R.styleable.KeyboardView_subtitleTextColor, KeyView.DEFAULT_SUBTITLE_COLOR)
-
-            keyController.titleTextSize = getDimension(
-                    R.styleable.KeyboardView_titleTextSize,
-                    ViewUtil.convertDpToPx(context, KeyView.DEFAULT_TITLE_SIZE).toFloat()
-            )
-            keyController.subtitleTextSize = getDimension(
-                    R.styleable.KeyboardView_subtitleTextSize,
-                    ViewUtil.convertDpToPx(context, KeyView.DEFAULT_SUBTITLE_SIZE).toFloat()
-            )
-
-            keyController.titleFont = getResourceId(R.styleable.KeyboardView_titleFont, KeyView.UNDEFINE_ATTR)
-            keyController.subtitleFont = getResourceId(R.styleable.KeyboardView_subtitleFont, KeyView.UNDEFINE_ATTR)
-
             val leftButtonText = getString(R.styleable.KeyboardView_leftButtonText)
             leftButtonText?.let {
                 buttonLeft = TextKey(leftButtonText)
@@ -101,6 +84,30 @@ class KeyboardView @JvmOverloads constructor(
             val rightButtonIcon = getResourceId(R.styleable.KeyboardView_rightButtonIcon, KeyView.UNDEFINE_ATTR)
             if (rightButtonIcon != KeyView.UNDEFINE_ATTR) {
                 buttonRight = IconKey(rightButtonIcon)
+            }
+
+            keyController.apply {
+                isShowLetters = getBoolean(R.styleable.KeyboardView_isShowLetters, true)
+
+                titleTextColor = getColor(R.styleable.KeyboardView_titleTextColor, KeyView.DEFAULT_TITLE_COLOR)
+                subtitleTextColor = getColor(R.styleable.KeyboardView_subtitleTextColor, KeyView.DEFAULT_SUBTITLE_COLOR)
+
+                titleTextSize = getDimension(
+                        R.styleable.KeyboardView_titleTextSize,
+                        ViewUtil.convertDpToPx(context, KeyView.DEFAULT_TITLE_SIZE).toFloat()
+                )
+                subtitleTextSize = getDimension(
+                        R.styleable.KeyboardView_subtitleTextSize,
+                        ViewUtil.convertDpToPx(context, KeyView.DEFAULT_SUBTITLE_SIZE).toFloat()
+                )
+
+                titleFont = getResourceId(R.styleable.KeyboardView_titleFont, KeyView.UNDEFINE_ATTR)
+                subtitleFont = getResourceId(R.styleable.KeyboardView_subtitleFont, KeyView.UNDEFINE_ATTR)
+
+                subtitleMargin = getDimension(
+                        R.styleable.KeyboardView_subtitle_margin,
+                        ViewUtil.convertDpToPx(context, KeyView.DEFAULT_SUBTITLE_MARGIN).toFloat()
+                )
             }
         }.recycle()
     }

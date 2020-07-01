@@ -35,12 +35,14 @@ class KeyView @JvmOverloads constructor(
         set(value) {
             field = value
             titlePaint.textSize = value
+            invalidate()
         }
 
     var subtitleTextSize: Float = DEFAULT_SUBTITLE_SIZE
         set(value) {
             field = value
             subtitlePaint.textSize = value
+            invalidate()
         }
 
     @ColorInt
@@ -48,6 +50,7 @@ class KeyView @JvmOverloads constructor(
         set(value) {
             field = value
             titlePaint.color = value
+            invalidate()
         }
 
     @ColorInt
@@ -55,6 +58,7 @@ class KeyView @JvmOverloads constructor(
         set(value) {
             field = value
             subtitlePaint.color = value
+            invalidate()
         }
 
     @FontRes
@@ -63,6 +67,7 @@ class KeyView @JvmOverloads constructor(
             field = value
             if (value != UNDEFINE_ATTR) {
                 titlePaint.typeface = ResourcesCompat.getFont(context, value)
+                invalidate()
             }
         }
 
@@ -72,10 +77,17 @@ class KeyView @JvmOverloads constructor(
             field = value
             if (value != UNDEFINE_ATTR) {
                 subtitlePaint.typeface = ResourcesCompat.getFont(context, value)
+                invalidate()
             }
         }
 
-    var isShowLetters = true
+    var subtitleMargin = DEFAULT_SUBTITLE_MARGIN
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    var isShowLetters = true//todo
 
     private val contentPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val titlePaint: Paint = TextPaint(Paint.ANTI_ALIAS_FLAG)
@@ -110,20 +122,19 @@ class KeyView @JvmOverloads constructor(
     }
 
     private fun draw(canvas: Canvas, title: String, subtitle: String) {
-        val subtitleBounds = Rect()
-        subtitlePaint.getTextBounds(subtitle, 0, subtitle.length, subtitleBounds)
-        val subtitleHeight = subtitleBounds.height()
-
-        val subtitleMargin = ViewUtil.convertDpToPx(context, DEFAULT_SUBTITLE_MARGIN) + subtitleHeight
+        val subtitleHeight = Rect().apply {
+            subtitlePaint.getTextBounds(subtitle, 0, subtitle.length, this)
+        }.height()
+        val viewsMargin = (subtitleMargin + subtitleHeight) / 2
 
         val titleX = width.div(2) - titlePaint.measureText(title).div(2)
         val titleY = height.div(2) - (titlePaint.descent() + titlePaint.ascent()).div(2)
-        canvas.drawText(title, titleX, titleY - subtitleMargin / 2, titlePaint)
+        canvas.drawText(title, titleX, titleY - viewsMargin, titlePaint)
 
 
         val subtitleX = width.div(2) - subtitlePaint.measureText(subtitle).div(2)
         val subtitleY = titleY
-        canvas.drawText(subtitle, subtitleX, subtitleY + subtitleMargin / 2, subtitlePaint)
+        canvas.drawText(subtitle, subtitleX, subtitleY + viewsMargin, subtitlePaint)
     }
 
     private fun draw(canvas: Canvas, @DrawableRes icon: Int) {
@@ -160,16 +171,20 @@ class KeyView @JvmOverloads constructor(
                     ViewUtil.convertDpToPx(context, DEFAULT_TITLE_SIZE).toFloat()
             )
 
+            subtitleMargin = getDimension(
+                    R.styleable.KeyView_subtitle_margin,
+                    ViewUtil.convertDpToPx(context, DEFAULT_SUBTITLE_MARGIN).toFloat()
+            )
         }.recycle()
     }
 
     companion object {
 
-        const val DEFAULT_TITLE_SIZE = 38f //sp
-        const val DEFAULT_SUBTITLE_SIZE = 12F //sp
         const val DEFAULT_TITLE_COLOR = Color.BLACK
         const val DEFAULT_SUBTITLE_COLOR = Color.BLACK
-        const val DEFAULT_SUBTITLE_MARGIN = 5f //dp
+        const val DEFAULT_TITLE_SIZE = 38f //sp
+        const val DEFAULT_SUBTITLE_SIZE = 12f //sp
+        const val DEFAULT_SUBTITLE_MARGIN = 10f //dp
         const val UNDEFINE_ATTR = -1
     }
 }

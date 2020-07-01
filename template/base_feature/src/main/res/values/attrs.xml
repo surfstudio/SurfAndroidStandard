@@ -13,6 +13,7 @@
     <attr name="subtitleTextSize" format="dimension" />
     <attr name="titleTextColor" format="reference|color" />
     <attr name="subtitleTextColor" format="reference|color" />
+    <attr name="subtitle_margin" format="dimension" />
     <attr name="isShowLetters" format="boolean" />
 
     <declare-styleable name="KeyView">
@@ -22,6 +23,7 @@
         <attr name="subtitleTextSize" />
         <attr name="titleTextColor" />
         <attr name="subtitleTextColor" />
+        <attr name="subtitle_margin" />
         <attr name="isShowLetters" />
     </declare-styleable>
 
@@ -36,6 +38,7 @@
         <attr name="subtitleTextSize" />
         <attr name="titleTextColor" />
         <attr name="subtitleTextColor" />
+        <attr name="subtitle_margin" />
         <attr name="isShowLetters" />
     </declare-styleable>
 </resources>
