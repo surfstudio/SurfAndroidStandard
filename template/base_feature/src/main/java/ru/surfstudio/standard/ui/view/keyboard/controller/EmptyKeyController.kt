@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.ui.view.keyboard.controller
 
 import android.view.ViewGroup
-import ru.surfstudio.standard.ui.view.keyboard.keys.EmptyKey
+import ru.surfstudio.standard.ui.view.keyboard.EmptyKey
 
 /**
  * Контроллер для отображения пустого простарства на клавиатуре

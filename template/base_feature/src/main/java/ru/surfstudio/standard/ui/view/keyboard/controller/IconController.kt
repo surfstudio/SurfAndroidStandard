@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.ui.view.keyboard.controller
 
 import android.view.ViewGroup
-import ru.surfstudio.standard.ui.view.keyboard.keys.BaseIconKey
+import ru.surfstudio.standard.ui.view.keyboard.BaseIconKey
 
 /**
  * Контроллер для отображения кнопки с иконкой

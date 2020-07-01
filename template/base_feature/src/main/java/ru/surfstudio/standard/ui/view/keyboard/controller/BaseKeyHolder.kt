@@ -6,7 +6,7 @@ import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.item_key_view.view.*
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.template.base_feature.R
-import ru.surfstudio.standard.ui.view.keyboard.keys.Key
+import ru.surfstudio.standard.ui.view.keyboard.Key
 
 /**
  * Базовый ViewHolder для создания кнопки для кастомной клавиатуры.

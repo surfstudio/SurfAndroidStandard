@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.annotation.FontRes
 import kotlinx.android.synthetic.main.item_key_view.view.*
-import ru.surfstudio.standard.ui.view.keyboard.keys.TextKey
+import ru.surfstudio.standard.ui.view.keyboard.TextKey
 
 /**
  * Контроллер для отображения кнопки с символом/текстом
@@ -13,13 +13,22 @@ class KeyController(
         val onClick: (String) -> Unit
 ) : BaseKeyController<TextKey, BaseKeyHolder<TextKey>>() {
 
-    var textSize: Float? = null
+    var titleTextSize: Float? = null
+    var subtitleTextSize: Float? = null
 
     @ColorInt
-    var textColor: Int? = null
+    var titleTextColor: Int? = null
+
+    @ColorInt
+    var subtitleTextColor: Int? = null
 
     @FontRes
-    var font: Int? = null
+    var titleFont: Int? = null
+
+    @FontRes
+    var subtitleFont: Int? = null
+
+    var isShowLetters = false
 
     override fun getItemId(key: TextKey): String {
         return key.hashCode().toString()
@@ -37,9 +46,15 @@ class KeyController(
                 onClick(key.code)
             }
 
-            textColor?.let { itemView.key_view.textColor = it }
-            textSize?.let { itemView.key_view.textSize = it }
-            font?.let { itemView.key_view.font = it }
+            titleTextColor?.let { itemView.key_view.titleColor = it }
+            titleTextSize?.let { itemView.key_view.titleTextSize = it }
+            titleFont?.let { itemView.key_view.titleFont = it }
+
+            subtitleTextSize?.let { itemView.key_view.subtitleTextSize = it }
+            subtitleTextColor?.let { itemView.key_view.subtitleColor = it }
+            subtitleFont?.let { itemView.key_view.subtitleFont = it }
+
+            itemView.key_view.isShowLetters = isShowLetters
         }
     }
 }

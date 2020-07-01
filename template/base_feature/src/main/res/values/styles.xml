@@ -39,8 +39,12 @@
         <item name="android:layout_marginStart">18dp</item>
         <item name="android:layout_marginEnd">18dp</item>
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
-        <item name="android:textSize">32sp</item>
-        <item name="android:textColor">?android:textColorPrimary</item>
-        <item name="font">@font/roboto_regular</item>
+        <item name="titleTextSize">32sp</item>
+        <item name="subtitleTextSize">12sp</item>
+        <item name="titleTextColor">?android:textColorPrimary</item>
+        <item name="subtitleFont">@font/roboto_regular</item>
+        <item name="subtitleTextColor">?android:textColorPrimary</item>
+        <item name="titleFont">@font/roboto_regular</item>
+        <item name="isShowLetters">true</item>
     </style>
 </resources>

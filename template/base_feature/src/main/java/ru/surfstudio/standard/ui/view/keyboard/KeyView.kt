@@ -16,9 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.android.utilktx.ktx.convert.toBitmap
-import ru.surfstudio.standard.ui.view.keyboard.keys.BaseIconKey
-import ru.surfstudio.standard.ui.view.keyboard.keys.BaseTextKey
-import ru.surfstudio.standard.ui.view.keyboard.keys.Key
+import ru.surfstudio.android.utilktx.util.ViewUtil
 
 /**
  * View для рисования иконки на [Canvas]
@@ -36,30 +34,55 @@ class KeyView @JvmOverloads constructor(
             invalidate()
         }
 
-    var textSize: Float = DEFAULT_TEXT_SIZE
+    var titleTextSize: Float = DEFAULT_TITLE_SIZE
         set(value) {
             field = value
-            textPaint.textSize = value
+            titlePaint.textSize = value
+        }
+
+    var subtitleTextSize: Float = DEFAULT_SUBTITLE_SIZE
+        set(value) {
+            field = value
+            subtitlePaint.textSize = value
         }
 
     @ColorInt
-    var textColor: Int = DEFAULT_TEXT_COLOR
+    var titleColor: Int = DEFAULT_TITLE_COLOR
         set(value) {
             field = value
-            textPaint.color = value
+            titlePaint.color = value
+        }
+
+    @ColorInt
+    var subtitleColor: Int = DEFAULT_SUBTITLE_COLOR
+        set(value) {
+            field = value
+            subtitlePaint.color = value
         }
 
     @FontRes
-    var font: Int = UNDEFINE_ATTR
+    var titleFont: Int = UNDEFINE_ATTR
         set(value) {
             field = value
             if (value != UNDEFINE_ATTR) {
-                textPaint.typeface = ResourcesCompat.getFont(context, value)
+                titlePaint.typeface = ResourcesCompat.getFont(context, value)
             }
         }
 
+    @FontRes
+    var subtitleFont: Int = UNDEFINE_ATTR
+        set(value) {
+            field = value
+            if (value != UNDEFINE_ATTR) {
+                subtitlePaint.typeface = ResourcesCompat.getFont(context, value)
+            }
+        }
+
+    var isShowLetters = true
+
     private val contentPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val textPaint: Paint = TextPaint(Paint.ANTI_ALIAS_FLAG)
+    private val titlePaint: Paint = TextPaint(Paint.ANTI_ALIAS_FLAG)
+    private val subtitlePaint: Paint = TextPaint(Paint.ANTI_ALIAS_FLAG)
 
     init {
         initAttrs(attrs, defStyleAttrs, defStyleRes)
@@ -69,7 +92,13 @@ class KeyView @JvmOverloads constructor(
         super.onDraw(canvas)
 
         when (key) {
-            is BaseTextKey -> draw(canvas, (key as BaseTextKey).title)
+            is BaseTextKey -> {
+                if (isShowLetters) {
+                    draw(canvas, (key as BaseTextKey).title, (key as BaseTextKey).subtitle)
+                } else {
+                    draw(canvas, (key as BaseTextKey).title)
+                }
+            }
             is BaseIconKey -> draw(canvas, (key as BaseIconKey).icon)
             //ignore EmptyKey
         }
@@ -77,9 +106,22 @@ class KeyView @JvmOverloads constructor(
 
     private fun draw(canvas: Canvas, text: String) {
         with(text) {
-            val x = width.div(2) - textPaint.measureText(this).div(2)
-            val y = height.div(2) - (textPaint.descent() + textPaint.ascent()).div(2)
-            canvas.drawText(this, x, y, textPaint)
+            val x = width.div(2) - titlePaint.measureText(this).div(2)
+            val y = height.div(2) - (titlePaint.descent() + titlePaint.ascent()).div(2)
+            canvas.drawText(this, x, y, titlePaint)
+        }
+    }
+
+    private fun draw(canvas: Canvas, text: String, subtitle: String) {
+        with(text) {
+            val x = width.div(2) - titlePaint.measureText(this).div(2)
+            val y = height.div(2) - (titlePaint.descent() + titlePaint.ascent()).div(2)
+            canvas.drawText(this, x, y, titlePaint)
+        }
+        with(subtitle) {
+            val x = width.div(2) - subtitlePaint.measureText(this).div(2)
+            val y = height.div(2) - (subtitlePaint.descent() + subtitlePaint.ascent()).div(2)
+            canvas.drawText(this, x, y, subtitlePaint)
         }
     }
 
@@ -101,16 +143,31 @@ class KeyView @JvmOverloads constructor(
 
     private fun initAttrs(attrs: AttributeSet?, defStyleAttrs: Int, defStyleRes: Int) {
         context.obtainStyledAttributes(attrs, R.styleable.KeyView, defStyleAttrs, defStyleRes).apply {
-            textColor = getColor(R.styleable.KeyView_android_textColor, DEFAULT_TEXT_COLOR)
-            textSize = getDimension(R.styleable.KeyView_android_textSize, DEFAULT_TEXT_SIZE)
-            font = getResourceId(R.styleable.KeyView_font, UNDEFINE_ATTR)
+            isShowLetters = getBoolean(R.styleable.KeyView_isShowLetters, true)
+
+            titleFont = getResourceId(R.styleable.KeyView_titleFont, UNDEFINE_ATTR)
+            titleColor = getColor(R.styleable.KeyView_titleTextColor, DEFAULT_TITLE_COLOR)
+            titleTextSize = getDimension(
+                    R.styleable.KeyView_titleTextSize,
+                    ViewUtil.convertDpToPx(context, DEFAULT_TITLE_SIZE).toFloat()
+            )
+
+            subtitleFont = getResourceId(R.styleable.KeyView_subtitleFont, UNDEFINE_ATTR)
+            subtitleColor = getColor(R.styleable.KeyView_subtitleTextColor, DEFAULT_TITLE_COLOR)
+            subtitleTextSize = getDimension(
+                    R.styleable.KeyView_subtitleTextSize,
+                    ViewUtil.convertDpToPx(context, DEFAULT_TITLE_SIZE).toFloat()
+            )
+
         }.recycle()
     }
 
     companion object {
 
-        const val DEFAULT_TEXT_SIZE = 14F
-        const val DEFAULT_TEXT_COLOR = Color.WHITE
+        const val DEFAULT_TITLE_SIZE = 38f//sp
+        const val DEFAULT_SUBTITLE_SIZE = 12F//sp
+        const val DEFAULT_TITLE_COLOR = Color.BLACK
+        const val DEFAULT_SUBTITLE_COLOR = Color.BLACK
         const val UNDEFINE_ATTR = -1
     }
 }

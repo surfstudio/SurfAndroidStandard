@@ -8,14 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.base_feature.R
+import ru.surfstudio.android.utilktx.util.ViewUtil
 import ru.surfstudio.standard.ui.view.keyboard.CustomKeyboardUtils.createKeyBoard
 import ru.surfstudio.standard.ui.view.keyboard.controller.EmptyKeyController
 import ru.surfstudio.standard.ui.view.keyboard.controller.IconController
 import ru.surfstudio.standard.ui.view.keyboard.controller.KeyController
-import ru.surfstudio.standard.ui.view.keyboard.keys.EmptyKey
-import ru.surfstudio.standard.ui.view.keyboard.keys.IconKey
-import ru.surfstudio.standard.ui.view.keyboard.keys.Key
-import ru.surfstudio.standard.ui.view.keyboard.keys.TextKey
 
 /**
  * View клавиатуры
@@ -27,7 +24,15 @@ class KeyboardView @JvmOverloads constructor(
 ) : RecyclerView(context, attrs, defStyleAttrs) {
 
     var buttonLeft: Key? = null
+        set(value) {
+            field = value
+            create()
+        }
     var buttonRight: Key? = null
+        set(value) {
+            field = value
+            create()
+        }
 
     var onKeyClick: (code: String) -> Unit = {}
     var onDeleteClick = {}
@@ -63,20 +68,22 @@ class KeyboardView @JvmOverloads constructor(
 
     private fun initAttrs(attrs: AttributeSet?) {
         context.obtainStyledAttributes(attrs, R.styleable.KeyboardView).apply {
-            val textColor = getColor(R.styleable.KeyboardView_android_textColor, KeyView.UNDEFINE_ATTR)
-            if (textColor != KeyView.UNDEFINE_ATTR) {
-                keyController.textColor = textColor
-            }
+            keyController.isShowLetters = getBoolean(R.styleable.KeyboardView_isShowLetters, true)
 
-            val textSize = getDimension(R.styleable.KeyboardView_android_textSize, KeyView.UNDEFINE_ATTR.toFloat())
-            if (textSize != KeyView.UNDEFINE_ATTR.toFloat()) {
-                keyController.textSize = textSize
-            }
+            keyController.titleTextColor = getColor(R.styleable.KeyboardView_titleTextColor, KeyView.DEFAULT_TITLE_COLOR)
+            keyController.subtitleTextColor = getColor(R.styleable.KeyboardView_subtitleTextColor, KeyView.DEFAULT_SUBTITLE_COLOR)
 
-            val font = getResourceId(R.styleable.KeyboardView_keysFont, KeyView.UNDEFINE_ATTR)
-            if (font != KeyView.UNDEFINE_ATTR) {
-                keyController.font = font
-            }
+            keyController.titleTextSize = getDimension(
+                    R.styleable.KeyboardView_titleTextSize,
+                    ViewUtil.convertDpToPx(context, KeyView.DEFAULT_TITLE_SIZE).toFloat()
+            )
+            keyController.subtitleTextSize = getDimension(
+                    R.styleable.KeyboardView_subtitleTextSize,
+                    ViewUtil.convertDpToPx(context, KeyView.DEFAULT_SUBTITLE_SIZE).toFloat()
+            )
+
+            keyController.titleFont = getResourceId(R.styleable.KeyboardView_titleFont, KeyView.UNDEFINE_ATTR)
+            keyController.subtitleFont = getResourceId(R.styleable.KeyboardView_subtitleFont, KeyView.UNDEFINE_ATTR)
 
             val leftButtonText = getString(R.styleable.KeyboardView_leftButtonText)
             leftButtonText?.let {
@@ -95,7 +102,6 @@ class KeyboardView @JvmOverloads constructor(
             if (rightButtonIcon != KeyView.UNDEFINE_ATTR) {
                 buttonRight = IconKey(rightButtonIcon)
             }
-
         }.recycle()
     }
 

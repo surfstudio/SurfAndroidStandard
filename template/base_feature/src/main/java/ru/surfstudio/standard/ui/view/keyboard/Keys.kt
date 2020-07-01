@@ -1,6 +1,7 @@
-package ru.surfstudio.standard.ui.view.keyboard.keys
+package ru.surfstudio.standard.ui.view.keyboard
 
 import androidx.annotation.DrawableRes
+import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 
 /**
  * Кнопка на клавиатуре
@@ -27,6 +28,7 @@ abstract class BaseIconKey : Key {
 abstract class BaseTextKey : Key {
 
     abstract val title: String
+    abstract val subtitle: String
 }
 
 /**
@@ -39,5 +41,6 @@ data class IconKey(@DrawableRes override val icon: Int) : BaseIconKey()
  */
 data class TextKey(
         override val title: String,
+        override val subtitle: String = EMPTY_STRING,
         val code: String = title
 ) : BaseTextKey()
