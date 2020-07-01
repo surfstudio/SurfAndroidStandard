@@ -181,7 +181,7 @@ class KeyView @JvmOverloads constructor(
     companion object {
 
         const val DEFAULT_TITLE_COLOR = Color.BLACK
-        const val DEFAULT_SUBTITLE_COLOR = Color.BLACK
+        const val DEFAULT_SUBTITLE_COLOR = Color.GRAY
         const val DEFAULT_TITLE_SIZE = 38f //sp
         const val DEFAULT_SUBTITLE_SIZE = 12f //sp
         const val DEFAULT_SUBTITLE_MARGIN = 10f //dp
