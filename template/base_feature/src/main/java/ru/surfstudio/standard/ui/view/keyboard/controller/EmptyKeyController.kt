@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import ru.surfstudio.standard.ui.view.keyboard.EmptyKey
 
 /**
- * Контроллер для отображения пустого простарства на клавиатуре
+ * Контроллер для отображения пустого пространства на клавиатуре
  * todo удалить, если не требуется на проекте
  */
 class EmptyKeyController : BaseKeyController<EmptyKey, BaseKeyHolder<EmptyKey>>() {
