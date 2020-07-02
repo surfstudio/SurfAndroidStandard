@@ -5,6 +5,7 @@ import ru.surfstudio.standard.ui.view.keyboard.EmptyKey
 
 /**
  * Контроллер для отображения пустого простарства на клавиатуре
+ * todo удалить, если не требуется на проекте
  */
 class EmptyKeyController : BaseKeyController<EmptyKey, BaseKeyHolder<EmptyKey>>() {
 

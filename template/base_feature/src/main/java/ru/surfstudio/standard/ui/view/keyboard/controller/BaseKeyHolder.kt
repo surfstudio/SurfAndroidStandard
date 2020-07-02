@@ -10,6 +10,7 @@ import ru.surfstudio.standard.ui.view.keyboard.Key
 
 /**
  * Базовый ViewHolder для создания кнопки для кастомной клавиатуры.
+ * todo удалить, если не требуется на проекте
  */
 open class BaseKeyHolder<T : Key>(parent: ViewGroup, @LayoutRes layoutRes: Int = R.layout.item_key_view) : BindableViewHolder<T>(parent, layoutRes) {
 

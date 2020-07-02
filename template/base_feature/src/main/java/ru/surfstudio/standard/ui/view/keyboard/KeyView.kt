@@ -17,6 +17,7 @@ import ru.surfstudio.android.utilktx.util.ViewUtil
 
 /**
  * View для рисования иконки на [Canvas]
+ * todo удалить, если не требуется на проекте
  */
 class KeyView @JvmOverloads constructor(
         context: Context,

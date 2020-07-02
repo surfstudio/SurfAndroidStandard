@@ -3,6 +3,8 @@ package ru.surfstudio.standard.ui.view.keyboard
 import androidx.annotation.DrawableRes
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 
+//todo удалить, если не требуется на проекте
+
 /**
  * Кнопка на клавиатуре
  */

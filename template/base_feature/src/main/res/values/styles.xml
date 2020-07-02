@@ -33,6 +33,7 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <!-- todo удалить, если не требуется на проекте -->
     <style name="KeyViewStyle">
         <item name="android:layout_width">64dp</item>
         <item name="android:layout_height">64dp</item>

@@ -5,6 +5,7 @@ import ru.surfstudio.standard.ui.view.keyboard.BaseIconKey
 
 /**
  * Контроллер для отображения кнопки с иконкой
+ * todo удалить, если не требуется на проекте
  */
 class IconController(val onClick: () -> Unit) : BaseKeyController<BaseIconKey, BaseKeyHolder<BaseIconKey>>() {
 

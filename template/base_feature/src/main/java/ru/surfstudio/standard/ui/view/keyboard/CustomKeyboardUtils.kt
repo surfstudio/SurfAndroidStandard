@@ -1,5 +1,9 @@
 package ru.surfstudio.standard.ui.view.keyboard
 
+/**
+ * Утилиты для создания кастомной клавиатуры [KeyboardView]
+ * todo удалить, если не требуется на проекте
+ */
 object CustomKeyboardUtils {
 
     val oneToNine = listOf(

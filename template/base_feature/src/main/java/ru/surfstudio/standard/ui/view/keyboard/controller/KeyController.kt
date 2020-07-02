@@ -8,6 +8,7 @@ import ru.surfstudio.standard.ui.view.keyboard.TextKey
 
 /**
  * Контроллер для отображения кнопки с символом/текстом
+ * todo удалить, если не требуется на проекте
  */
 class KeyController(
         val onClick: (String) -> Unit
