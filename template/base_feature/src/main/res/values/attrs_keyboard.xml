@@ -9,9 +9,9 @@
     <attr name="titleTextColor" format="reference|color" />
     <attr name="subtitleTextColor" format="reference|color" />
     <attr name="subtitle_margin" format="dimension" />
-    <attr name="isShowLetters" format="boolean" />
 
     <declare-styleable name="KeyView">
+        <attr name="isSubtitleVisible" format="boolean" />
         <attr name="titleFont" />
         <attr name="subtitleFont" />
         <attr name="titleTextSize" />
@@ -19,7 +19,6 @@
         <attr name="titleTextColor" />
         <attr name="subtitleTextColor" />
         <attr name="subtitle_margin" />
-        <attr name="isShowLetters" />
     </declare-styleable>
 
     <declare-styleable name="KeyboardView">
@@ -27,6 +26,7 @@
         <attr name="rightButtonText" format="string" />
         <attr name="leftButtonIcon" format="reference" />
         <attr name="rightButtonIcon" format="reference" />
+        <attr name="isLettersVisible" format="boolean" />
         <attr name="titleFont" />
         <attr name="subtitleFont" />
         <attr name="titleTextSize" />
@@ -34,6 +34,5 @@
         <attr name="titleTextColor" />
         <attr name="subtitleTextColor" />
         <attr name="subtitle_margin" />
-        <attr name="isShowLetters" />
     </declare-styleable>
 </resources>

@@ -46,6 +46,6 @@
         <item name="subtitleFont">@font/roboto_regular</item>
         <item name="subtitleTextColor">?android:textColorPrimary</item>
         <item name="titleFont">@font/roboto_regular</item>
-        <item name="isShowLetters">true</item>
+        <item name="isLettersVisible">true</item>
     </style>
 </resources>

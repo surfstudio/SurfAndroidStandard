@@ -35,6 +35,13 @@ class KeyboardView @JvmOverloads constructor(
             create()
         }
 
+    var isLettersVisible = true
+        set(value) {
+            field = value
+            keyController.isSubtitleVisible = value
+            create()
+        }
+
     var onKeyClick: (code: String) -> Unit = {}
     var onDeleteClick = {}
 
@@ -88,7 +95,7 @@ class KeyboardView @JvmOverloads constructor(
             }
 
             keyController.apply {
-                isShowLetters = getBoolean(R.styleable.KeyboardView_isShowLetters, true)
+                isSubtitleVisible = getBoolean(R.styleable.KeyboardView_isLettersVisible, true)
 
                 titleTextColor = getColor(R.styleable.KeyboardView_titleTextColor, KeyView.DEFAULT_TITLE_COLOR)
                 subtitleTextColor = getColor(R.styleable.KeyboardView_subtitleTextColor, KeyView.DEFAULT_SUBTITLE_COLOR)

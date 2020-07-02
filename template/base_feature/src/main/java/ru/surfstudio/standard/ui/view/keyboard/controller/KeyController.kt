@@ -31,7 +31,7 @@ class KeyController(
 
     var subtitleMargin: Float? = null
 
-    var isShowLetters = false
+    var isSubtitleVisible = false
 
     override fun getItemId(key: TextKey): String {
         return key.hashCode().toString()
@@ -59,7 +59,7 @@ class KeyController(
 
             subtitleMargin?.let { itemView.key_view.subtitleMargin = it }
 
-            itemView.key_view.isShowLetters = isShowLetters
+            itemView.key_view.isSubtitleVisible = isSubtitleVisible
         }
     }
 }

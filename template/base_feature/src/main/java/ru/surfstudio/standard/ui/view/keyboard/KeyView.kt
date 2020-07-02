@@ -88,7 +88,11 @@ class KeyView @JvmOverloads constructor(
             invalidate()
         }
 
-    var isShowLetters = true//todo
+    var isSubtitleVisible = true
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     private val contentPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val titlePaint: Paint = TextPaint(Paint.ANTI_ALIAS_FLAG)
@@ -103,7 +107,7 @@ class KeyView @JvmOverloads constructor(
 
         when (key) {
             is BaseTextKey -> {
-                if (isShowLetters) {
+                if (isSubtitleVisible) {
                     draw(canvas, (key as BaseTextKey).title, (key as BaseTextKey).subtitle)
                 } else {
                     draw(canvas, (key as BaseTextKey).title)
@@ -156,7 +160,7 @@ class KeyView @JvmOverloads constructor(
 
     private fun initAttrs(attrs: AttributeSet?, defStyleAttrs: Int, defStyleRes: Int) {
         context.obtainStyledAttributes(attrs, R.styleable.KeyView, defStyleAttrs, defStyleRes).apply {
-            isShowLetters = getBoolean(R.styleable.KeyView_isShowLetters, true)
+            isSubtitleVisible = getBoolean(R.styleable.KeyView_isSubtitleVisible, true)
 
             titleFont = getResourceId(R.styleable.KeyView_titleFont, UNDEFINE_ATTR)
             titleColor = getColor(R.styleable.KeyView_titleTextColor, DEFAULT_TITLE_COLOR)
