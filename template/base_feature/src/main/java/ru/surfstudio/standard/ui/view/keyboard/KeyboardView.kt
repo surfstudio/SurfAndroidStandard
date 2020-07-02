@@ -94,9 +94,9 @@ class KeyboardView @JvmOverloads constructor(
                 buttonRight = IconKey(rightButtonIcon)
             }
 
-            keyController.apply {
-                isSubtitleVisible = getBoolean(R.styleable.KeyboardView_isLettersVisible, true)
+            isLettersVisible = getBoolean(R.styleable.KeyboardView_isLettersVisible, true)
 
+            keyController.apply {
                 titleTextColor = getColor(R.styleable.KeyboardView_titleTextColor, KeyView.DEFAULT_TITLE_COLOR)
                 subtitleTextColor = getColor(R.styleable.KeyboardView_subtitleTextColor, KeyView.DEFAULT_SUBTITLE_COLOR)
 
