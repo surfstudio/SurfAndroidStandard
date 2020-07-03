@@ -100,7 +100,13 @@ pipeline.stages = [
                     credentialsId: pipeline.repoCredentialsId
             )
             script.sh "git checkout -B $branchName origin/$branchName"
-            // тест 2
+
+            script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
+            if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
+                // throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
+            }
+            CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
+
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.SKIP_STAGE, false) {
@@ -124,7 +130,7 @@ pipeline.stages = [
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT, StageStrategy.SKIP_STAGE) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
-        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
+        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew incrementGlobalUnstableVersion")
         },
         pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN, StageStrategy.SKIP_STAGE) {
@@ -151,7 +157,7 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -186,7 +192,7 @@ pipeline.stages = [
             RepositoryUtil.setDefaultJenkinsGitUser(script)
 
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
-                    "$globalConfiguration.unstable_version $RepositoryUtil.VERSION_LABEL1\""
+                    "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
         pipeline.stage(MIRROR_COMPONENTS, StageStrategy.SKIP_STAGE) {
