@@ -100,7 +100,7 @@ pipeline.stages = [
                     credentialsId: pipeline.repoCredentialsId
             )
             script.sh "git checkout -B $branchName origin/$branchName"
-            // тест
+            // тест 2
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.SKIP_STAGE, false) {
