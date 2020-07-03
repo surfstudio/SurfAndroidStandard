@@ -130,10 +130,10 @@ pipeline.stages = [
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT, StageStrategy.SKIP_STAGE) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
-        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
             script.sh("./gradlew incrementGlobalUnstableVersion")
         },
-        pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
             script.sh("./gradlew generateProjectConfigurationVersionFileTask")
 
             def currentStandardVersion = script.readFile(projectConfigurationVersionFile)
@@ -142,13 +142,14 @@ pipeline.stages = [
                     script,
                     androidStandardTemplateConfigurationFile,
                     "androidStandardVersion",
-                    "'$currentStandardVersion'")
+                    "'$currentStandardVersion'"
+            )
         },
         pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION, StageStrategy.SKIP_STAGE) {
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
-        pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
         pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
