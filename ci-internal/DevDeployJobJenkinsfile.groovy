@@ -124,7 +124,7 @@ pipeline.stages = [
             globalVersion = globalConfiguration.version
 
             if (("dev/G-" + globalVersion) != branchName) {
-                script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
+                // script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
             }
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT, StageStrategy.SKIP_STAGE) {
