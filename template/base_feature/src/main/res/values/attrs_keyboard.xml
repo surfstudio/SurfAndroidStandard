@@ -26,7 +26,7 @@
         <attr name="rightButtonText" format="string" />
         <attr name="leftButtonIcon" format="reference" />
         <attr name="rightButtonIcon" format="reference" />
-        <attr name="isLettersVisible" format="boolean" />
+        <attr name="areLettersVisible" format="boolean" />
         <attr name="titleFont" />
         <attr name="subtitleFont" />
         <attr name="titleTextSize" />

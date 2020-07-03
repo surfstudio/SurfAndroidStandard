@@ -35,7 +35,7 @@ class KeyboardView @JvmOverloads constructor(
             create()
         }
 
-    var isLettersVisible = true
+    var areLettersVisible = true
         set(value) {
             field = value
             keyController.isSubtitleVisible = value
@@ -94,7 +94,7 @@ class KeyboardView @JvmOverloads constructor(
                 buttonRight = IconKey(rightButtonIcon)
             }
 
-            isLettersVisible = getBoolean(R.styleable.KeyboardView_isLettersVisible, true)
+            areLettersVisible = getBoolean(R.styleable.KeyboardView_areLettersVisible, true)
 
             keyController.apply {
                 titleTextColor = getColor(R.styleable.KeyboardView_titleTextColor, KeyView.DEFAULT_TITLE_COLOR)
