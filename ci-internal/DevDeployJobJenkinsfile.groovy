@@ -119,7 +119,7 @@ pipeline.stages = [
                 JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
             }
         },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             globalVersion = globalConfiguration.version
 
