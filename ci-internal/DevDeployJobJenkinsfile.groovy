@@ -148,7 +148,7 @@ pipeline.stages = [
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
-        pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
         pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
