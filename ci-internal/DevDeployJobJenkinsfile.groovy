@@ -99,7 +99,7 @@ pipeline.stages = [
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId
             )
-            script.sh "git checkout -B $branchName origin/$branchName"RepositoryUtil.saveCurrentGitCommitHash(script)
+            script.sh "git checkout -B $branchName origin/$branchName"
         },
         pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.SKIP_STAGE, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
