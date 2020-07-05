@@ -47,7 +47,7 @@ abstract class BaseCheckBintrayForReleaseTask : DefaultTask() {
         allTags?.groupBy { getArtifactName(it) }
                 ?.filter { it.key != null }
                 ?.map {
-                    it.value.find { tag -> getArtifactVersion(tag) == getMaxVersion(it.value) }
+                    it.value.find { tag -> getArtifactVersion(tag) == getMaxArtifactVersion(it.value) }
                             ?: EMPTY_STRING
                 }?.toList()
                 ?.also { safeAllTags ->
@@ -70,8 +70,7 @@ abstract class BaseCheckBintrayForReleaseTask : DefaultTask() {
                                 println("for $packageName componentName = $componentName checkoutTag = $checkoutTag")
 
                                 val stableVersion = if (isCheckoutTagForArtifact) {
-                                    // get stable version from the artifact's release tag
-                                    checkoutTag.split("/").last()
+                                    getArtifactVersion(checkoutTag)
                                 } else {
                                     // get stable version of the artifact for common tag
                                     CommandLineRunner.runCommandWithResult("$CHECKOUT_TAG_COMMAND/$checkoutTag", workingDir)
