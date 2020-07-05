@@ -203,7 +203,7 @@ open class TabFragmentNavigator(
         return this
     }
 
-    private fun obtainCurrentNavigator(): FragmentNavigatorInterface {
+    private fun obtainCurrentNavigator(): TabHostFragmentNavigator {
         val hostEntry = hostEntries.firstOrNull { it.tag == activeTabTag } ?: error(NO_HEAD_ERROR)
         return hostEntry.navigator
     }
