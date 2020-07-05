@@ -7,6 +7,5 @@ import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNaviga
  * Holder class that keeps all entities for fragment navigation process.
  */
 open class FragmentNavigationHolder(
-        val fragmentNavigator: FragmentNavigatorInterface,
-        val tabFragmentNavigator: TabFragmentNavigatorInterface
+        val fragmentNavigator: FragmentNavigatorInterface
 )

@@ -9,6 +9,12 @@ import ru.surfstudio.android.navigation.route.BaseRoute
 import ru.surfstudio.android.navigation.rx.base.disposable.BaseNavigationDisposable
 import java.io.Serializable
 
+/**
+ * Observable, that emits value when a screen result for [targetRoute]
+ * is passed into [screenResultObserver].
+ *
+ * It will add [ScreenResultListener] to a [screenResultObserver] on subscribe and remove it on dispose.
+ */
 class ListenForScreenResultObservable<T : Serializable, R>(
         private val screenResultObserver: ScreenResultObserver,
         private val targetRoute: R

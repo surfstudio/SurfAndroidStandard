@@ -2,4 +2,11 @@
 
 # Navigation
 
-This module contains instruments to provide command-based navigation.
+## Модули
+- [navigation](lib-navigation)
+- [navigation-observer](lib-navigation-observer)
+- [navigation-rx](lib-navigation-rx)
+
+## Примеры использования
+- [Navigation sample](sample-core-mvp)
+- [Navigation Surf sample](sample-standard)

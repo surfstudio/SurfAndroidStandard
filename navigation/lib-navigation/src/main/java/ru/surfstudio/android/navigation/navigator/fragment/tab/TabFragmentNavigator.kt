@@ -14,7 +14,7 @@ import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntri
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntry
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostFragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.listener.ActiveTabReopenedListener
-import ru.surfstudio.android.navigation.route.tab.TabRootRoute
+import ru.surfstudio.android.navigation.route.tab.TabHeadRoute
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**
@@ -22,7 +22,7 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
  * Can be used in Bottom Navigation mechanism.
  *
  * It works with populating tabs lazily: you don't need to specify it's size or tabs at the initialization.
- * Instead of that, you must dynamically [add] routes with class [TabRootRoute] and the tabs will be switched automatically.
+ * Instead of that, you must dynamically [add] routes with class [TabHeadRoute] and the tabs will be switched automatically.
  *
  * Delegates all the methods of a [FragmentNavigatorInterface] to an active stack.
  */
@@ -37,7 +37,7 @@ open class TabFragmentNavigator(
     private val hostEntries: TabHostEntries = TabHostEntries()
 
     private val activeNavigator
-        get() = hostEntries.first { it.tag == activeTabTag }.navigator
+        get() = obtainCurrentNavigator()
 
     private var activeTabReopenedListener: ActiveTabReopenedListener? = null
 
@@ -54,16 +54,16 @@ open class TabFragmentNavigator(
     }
 
     override fun add(route: FragmentRoute, animations: Animations) {
-        if (route is TabRootRoute) {
-            openRoot(route)
+        if (route is TabHeadRoute) {
+            openHead(route)
         } else {
             activeNavigator.add(route, animations)
         }
     }
 
     override fun replace(route: FragmentRoute, animations: Animations) {
-        if (route is TabRootRoute) {
-            openRoot(route)
+        if (route is TabHeadRoute) {
+            openHead(route)
         } else {
             activeNavigator.replace(route, animations)
         }
@@ -85,8 +85,8 @@ open class TabFragmentNavigator(
         activeNavigator.removeUntil(route, isInclusive)
     }
 
-    override fun removeAll() {
-        activeNavigator.removeAll()
+    override fun removeAll(shouldRemoveLast: Boolean) {
+        activeNavigator.removeAll(shouldRemoveLast)
     }
 
     override fun hide(route: FragmentRoute, animations: Animations) {
@@ -131,9 +131,9 @@ open class TabFragmentNavigator(
     }
 
     /**
-     * Opens tab as a root.
+     * Opens tab as a head.
      */
-    fun openRoot(route: FragmentRoute) {
+    fun openHead(route: FragmentRoute) {
         if (hostEntries.tags.contains(route.getTag())) {
             openExistentTab(route.getTag())
         } else {
@@ -203,8 +203,16 @@ open class TabFragmentNavigator(
         return this
     }
 
+    private fun obtainCurrentNavigator(): FragmentNavigatorInterface {
+        val hostEntry = hostEntries.firstOrNull { it.tag == activeTabTag } ?: error(NO_HEAD_ERROR)
+        return hostEntry.navigator
+    }
+
     companion object {
         const val EXTRA_HOST_TAGS = "host_tags"
         const val EXTRA_ACTIVE_TAG = "active_tag"
+
+        const val NO_HEAD_ERROR = "Your TabFragmentNavigator doesn't have head! " +
+                "You need to inherit your route from TabHeadRoute if it needs to be the main element in tab"
     }
 }

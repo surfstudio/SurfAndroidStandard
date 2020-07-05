@@ -8,7 +8,9 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 /**
  * Remove all screens above [route] in the stack.
  *
- * Can be supplied with [RemoveInclusive] option to remove the [route] along with a screens above.
+ * @param animations animations [Animations] used to specify navigation transition appearance
+ * @param sourceTag tag of a source screen, which will execute navigation command.
+ * @param isInclusive flag which determines if the [route] should be removed along with the screens above it.
  */
 data class RemoveUntil(
         override val route: FragmentRoute,

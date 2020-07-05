@@ -27,6 +27,8 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "core-mvp-binding")
     DependencyConfigurator.projectImplementation(project, "easyadapter")
     DependencyConfigurator.projectImplementation(project, "navigation")
+    DependencyConfigurator.projectImplementation(project, "navigation-observer")
+    DependencyConfigurator.projectImplementation(project, "navigation-rx")
     DependencyConfigurator.projectImplementation(project, "picture-provider")
 
     DependencyConfigurator.implementation(project, "androidx.recyclerview:recyclerview")
