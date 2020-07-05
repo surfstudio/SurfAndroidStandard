@@ -14,12 +14,12 @@ fun getMaxVersion(tags: List<String>) =
 
 fun getMaxVersion(versions: List<List<Int>>): List<Int> {
     val versionSize = versions.first().size
-    var filteredVersions = versions
+    var maxVersions = versions
     for (i in 0 until versionSize) {
-        val max = filteredVersions.map { it[i] }.max()
-        filteredVersions = filteredVersions.filter { it[i] == max }
+        val maxAtCurrentPosition = maxVersions.map { it[i] }.max()
+        maxVersions = maxVersions.filter { it[i] == maxAtCurrentPosition }
     }
-    return filteredVersions.first()
+    return maxVersions.first()
 }
 
 fun getArtifactVersionNumbers(tag: String) = getArtifactVersion(tag)
