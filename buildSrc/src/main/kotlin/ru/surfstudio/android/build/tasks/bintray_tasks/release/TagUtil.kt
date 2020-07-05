@@ -30,7 +30,7 @@ fun getArtifactName(tag: String): String? {
 fun getArtifactVersion(tag: String) = tag.split('/').last()
 
 /**
- * get version from the artifact's release tag as list number
+ * get version from the artifact's release tag as list numbers
  */
 fun getArtifactVersionNumbers(tag: String) = getArtifactVersion(tag)
         .split('.')
