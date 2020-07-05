@@ -122,8 +122,10 @@ SetAnimations[setanim], служащий контейнером для перв�
 
 ## Табы
 
-Модуль поддерживает навигацию по табам (BottomNavigation). Для того, чтобы ваш Route мог быть отображен в табе,
-его необходимо унаследовать от [TabRoute][tabroute].
+Модуль поддерживает навигацию по табам (BottomNavigation). Для того, чтобы ваш экран поддерживал навигацию по табам
+и работал через [TabFragmentNavigator][tfnav], вам необходимо явно указать, что контейнер для навигации - это
+[TabFragmentNavigationContainer][tfnavcontainer].
+После этого, навигация в этом контейнере будет автоматически осуществляться через табы (TabFragmentNavigator).
 
 Чтобы Route был вершиной таба (первым элементом, который находится в табе, и единственным, который сохраняется при очистке стека),
 необходимо унаследовать его от [TabHeadRoute][tabheadroute].
@@ -210,6 +212,7 @@ noBackupFilesDir.
 [fnav]: src/main/java/ru/surfstudio/android/navigation/navigator/fragment/FragmentNavigator.kt
 [tfnav]: src/main/java/ru/surfstudio/android/navigation/navigator/fragment/tab/TabFragmentNavigator.kt
 [fnavcontainer]: src/main/java/ru/surfstudio/android/navigation/provider/container/FragmentNavigationContainer.kt
+[tfnavcontainer]: src/main/java/ru/surfstudio/android/navigation/provider/container/TabFragmentNavigationContainer.kt
 [dnav]: src/main/java/ru/surfstudio/android/navigation/navigator/dialog/DialogNavigator.kt
 
 [exec]: src/main/java/ru/surfstudio/android/navigation/executor/CommandExecutor.kt

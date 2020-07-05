@@ -37,7 +37,7 @@ open class TabFragmentNavigator(
     private val hostEntries: TabHostEntries = TabHostEntries()
 
     private val activeNavigator
-        get() = hostEntries.first { it.tag == activeTabTag }.navigator
+        get() = obtainCurrentNavigator()
 
     private var activeTabReopenedListener: ActiveTabReopenedListener? = null
 
@@ -203,8 +203,16 @@ open class TabFragmentNavigator(
         return this
     }
 
+    private fun obtainCurrentNavigator(): FragmentNavigatorInterface {
+        val hostEntry = hostEntries.firstOrNull { it.tag == activeTabTag } ?: error(NO_HEAD_ERROR)
+        return hostEntry.navigator
+    }
+
     companion object {
         const val EXTRA_HOST_TAGS = "host_tags"
         const val EXTRA_ACTIVE_TAG = "active_tag"
+
+        const val NO_HEAD_ERROR = "Your TabFragmentNavigator doesn't have head! " +
+                "You need to inherit your route from TabHeadRoute if it needs to be the main element in tab"
     }
 }

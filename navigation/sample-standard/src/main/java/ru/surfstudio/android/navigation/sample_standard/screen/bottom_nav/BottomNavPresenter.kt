@@ -61,5 +61,6 @@ class BottomNavPresenter @Inject constructor(
     }
 
     private fun getTabFragmentNavigator(): TabFragmentNavigatorInterface =
-            screenNavigationProvider.getFragmentNavigationHolder().tabFragmentNavigator
+            screenNavigationProvider.getFragmentNavigationHolder()
+                    .fragmentNavigator as TabFragmentNavigatorInterface
 }

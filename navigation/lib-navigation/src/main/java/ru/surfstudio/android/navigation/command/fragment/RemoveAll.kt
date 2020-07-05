@@ -5,7 +5,6 @@ import ru.surfstudio.android.navigation.animation.DefaultAnimations
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.route.stub.StubFragmentRoute
-import ru.surfstudio.android.navigation.route.stub.StubTabFragmentRoute
 
 
 /**
@@ -24,5 +23,5 @@ data class RemoveAll(
         val isTab: Boolean = false
 ) : FragmentNavigationCommand {
 
-    override val route: FragmentRoute = if (isTab) StubTabFragmentRoute else StubFragmentRoute
+    override val route: FragmentRoute = StubFragmentRoute
 }
