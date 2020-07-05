@@ -1,5 +1,18 @@
 package ru.surfstudio.android.build.tasks.bintray_tasks.release
 
+import ru.surfstudio.android.build.utils.EMPTY_STRING
+
+/**
+ * get tags with max version
+ */
+fun getMaxVersionTags(tags: List<String>) =
+        tags.groupBy { getArtifactName(it) }
+                .filter { it.key != null }
+                .map {
+                    it.value.find { tag -> getArtifactVersion(tag) == getMaxArtifactVersion(it.value) }
+                            ?: EMPTY_STRING
+                }.toList()
+
 /**
  * get artifact name from the artifact's release tag
  */
@@ -12,12 +25,12 @@ fun getArtifactName(tag: String): String? {
 }
 
 /**
- * get stable version from the artifact's release tag
+ * get version from the artifact's release tag
  */
 fun getArtifactVersion(tag: String) = tag.split('/').last()
 
 /**
- * get stable version from the artifact's release tag as list number
+ * get version from the artifact's release tag as list number
  */
 fun getArtifactVersionNumbers(tag: String) = getArtifactVersion(tag)
         .split('.')
