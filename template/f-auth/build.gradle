@@ -1,6 +1,0 @@
-apply from: '../commonFeatureModule.gradle'
-
-dependencies {
-    implementation project(":i-auth")
-    implementation project(":i-session")
-}

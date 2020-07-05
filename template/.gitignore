@@ -4,7 +4,7 @@
 *.iml
 .gradle
 /local.properties
-/android-standard/androidStandard.properties
+/android_standard/androidStandard.properties
 .DS_Store
 /build
 */build

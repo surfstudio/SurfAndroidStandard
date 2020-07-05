@@ -4,21 +4,21 @@ include ":app",
         ":base",
         ":base_feature",
         ":domain",
-        ":i-initialization",
-        ":i-network",
-        ":i-session",
-        ":i-token",
-        ":i-auth",
-        ":i-push-notification",
-        ":f-auth",
-        ":f-main",
-        ":f-debug",
-        ":f-splash",
-        ":f-debug-no-op",
-        ':f-feed',
-        ':f-search',
-        ':f-profile',
-        ":small-test-utils"
+        ":i_initialization",
+        ":i_network",
+        ":i_session",
+        ":i_token",
+        ":i_auth",
+        ":i_push",
+        ":f_auth",
+        ":f_main",
+        ":f_debug",
+        ":f_splash",
+        ":f_debug_no_op",
+        ':f_feed',
+        ':f_search',
+        ':f_profile',
+        ":small_test_utils"
 
-apply from: 'android-standard/androidStandardSettings.gradle'
-apply from: '../buildSrc/buildCache.gradle'
+apply from: 'android_standard/androidStandardSettings.gradle'
+apply from: 'buildCache.gradle'

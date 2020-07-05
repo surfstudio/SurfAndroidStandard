@@ -19,8 +19,8 @@ android {
     defaultConfig {
         applicationId meta.applicationId
 
-        versionCode meta.versionCode
-        versionName meta.versionName
+        versionCode app.versionCode
+        versionName app.versionName
 
         //setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)") //todo uncomment for real app
 
@@ -29,13 +29,13 @@ android {
 }
 
 dependencies {
-    implementation project(":i-push-notification")
-    implementation project(":f-auth")
-    implementation project(":f-main")
-    implementation project(":f-splash")
-    implementation project(":f-search")
-    implementation project(":f-feed")
-    implementation project(":f-profile")
+    implementation project(":i_push")
+    implementation project(":f_auth")
+    implementation project(":f_main")
+    implementation project(":f_splash")
+    implementation project(":f_search")
+    implementation project(":f_feed")
+    implementation project(":f_profile")
 
     implementation lang.kotlinStdLib
     implementation lang.jetbrainsAnnotations

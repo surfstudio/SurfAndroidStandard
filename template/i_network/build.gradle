@@ -1,0 +1,10 @@
+apply from: '../commonInteractorModule.gradle'
+
+dependencies {
+    implementation project(":i_token")
+
+    api retrofit.core
+    api retrofit.converterGson
+    api retrofit.adapterRxJava2
+    api okHttp.loggingInterceptor
+}

@@ -1,0 +1,11 @@
+apply from: '../commonInteractorModule.gradle'
+apply from: '../unitTestConfiguration.gradle'
+
+dependencies {
+    releaseImplementation project(":f_debug_no_op")
+    debugImplementation project(":f_debug")
+    qaImplementation project(":f_debug")
+
+    implementation project(":i_network")
+    implementation project(":i_session")
+}

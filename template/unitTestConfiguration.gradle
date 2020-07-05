@@ -10,7 +10,7 @@ android {
 
 dependencies {
     testImplementation project(":base")
-    testImplementation project(":small-test-utils")
+    testImplementation project(":small_test_utils")
 
     testImplementation lang.annimonStream
     testImplementation test.junit

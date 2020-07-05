@@ -1,5 +1,0 @@
-apply from: '../commonInteractorModule.gradle'
-
-dependencies {
-    implementation project(":i-network")
-}

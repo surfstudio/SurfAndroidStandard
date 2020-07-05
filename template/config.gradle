@@ -26,12 +26,12 @@ ext {
             androidXEspressoContribVersion  : '3.2.0',              //http://bit.ly/2E0DdAq
             robolectricVersion              : '4.3.1',              //http://bit.ly/2xLRICR
             junitVersion                    : '4.13',               //https://goo.gl/hEcfw1
-            firebaseMessagingVersion        : '20.1.3',             //http://bit.ly/2Q81pGJ
-            firebaseAnalyticsVersion        : '17.2.3',             //http://bit.ly/2Q81pGJ
+            firebaseMessagingVersion        : '20.2.1',             //http://bit.ly/2Q81pGJ
+            firebaseAnalyticsVersion        : '17.4.3',             //http://bit.ly/2Q81pGJ
             firebaseCoreVersion             : '17.2.3',
             firebaseAppDistributionVersion  : '1.2.0',              //http://bit.ly/2Gc2qHh
-            firebaseCrashlyticsVersion      : '17.0.0-beta01',      //http://bit.ly/2RM7ec2
-            firebaseCrashlyticsGradleVersion: '2.0.0-beta01',       //http://bit.ly/2RM7ec2
+            firebaseCrashlyticsVersion      : '17.1.0',             //http://bit.ly/2RM7ec2
+            firebaseCrashlyticsGradleVersion: '2.2.0',              //http://bit.ly/2RM7ec2
             okHttpVersion                   : '4.4.1',              //https://vk.cc/7UFwTd
             retrofitVersion                 : '2.8.1',              //https://vk.cc/7UFxk3
             chuckVersion                    : '1.1.0',              //https://bit.ly/2qCecTE
@@ -45,7 +45,8 @@ ext {
             timberVersion                   : '4.7.1',              //http://bit.ly/2LWbLaY
             rxJava2DebugVersion             : '1.4.0',              //https://bit.ly/322Qzo7
             androidDebugToolsVersion        : '1.0',                //https://bit.ly/2QMKLfe
-            autoServiceVersion              : '1.0-rc4'             //https://bit.ly/2WsGYH4
+            autoServiceVersion              : '1.0-rc4',             //https://bit.ly/2WsGYH4
+            threetenabpVersion              : '1.4.4'               //https://bit.ly/3gqv5sn
     ]
 
     app = [
@@ -78,7 +79,8 @@ ext {
             appcompat       : "androidx.appcompat:appcompat:${versions.androidXVersion}",
             annotation      : "androidx.annotation:annotation:${versions.androidxAnnotationVersion}",
             multidex        : "androidx.multidex:multidex:${versions.multidexVersion}",
-            constraintLayout: "androidx.constraintlayout:constraintlayout:${versions.constraintLayoutVersion}"
+            constraintLayout: "androidx.constraintlayout:constraintlayout:${versions.constraintLayoutVersion}",
+            threeTenBackport: "com.jakewharton.threetenabp:threetenabp:${versions.threetenabpVersion}"
     ]
 
     firebase = [

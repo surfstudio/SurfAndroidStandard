@@ -7,16 +7,16 @@ dependencies {
     implementation androidX.multidex
 
     //debug
-    releaseImplementation project(":f-debug-no-op")
-    debugImplementation project(":f-debug")
-    qaImplementation project(":f-debug")
+    releaseImplementation project(":f_debug_no_op")
+    debugImplementation project(":f_debug")
+    qaImplementation project(":f_debug")
 
-    implementation project(":i-push-notification")
-    implementation project(":i-auth")
-    implementation project(":i-network")
-    implementation project(":i-token")
-    implementation project(":i-initialization")
-    implementation project(":i-session")
+    implementation project(":i_push")
+    implementation project(":i_auth")
+    implementation project(":i_network")
+    implementation project(":i_token")
+    implementation project(":i_initialization")
+    implementation project(":i_session")
 
     api rxBinding2.core
     api rxBinding2.kotlin
