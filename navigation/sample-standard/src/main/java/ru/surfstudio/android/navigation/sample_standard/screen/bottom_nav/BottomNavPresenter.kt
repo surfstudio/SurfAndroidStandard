@@ -36,7 +36,7 @@ class BottomNavPresenter @Inject constructor(
 
     override fun onLoad(viewRecreated: Boolean) {
         activeTabReopenDisposable = subscribe(getTabFragmentNavigator().observeActiveTabReopened()) {
-            RemoveAll(isTab = true).execute()
+            RemoveAll().execute()
         }
     }
 
@@ -50,7 +50,7 @@ class BottomNavPresenter @Inject constructor(
 
     private fun onBackPressed() {
         when {
-            hasTabsInStack() -> RemoveLast(isTab = true).execute()
+            hasTabsInStack() -> RemoveLast().execute()
             else -> RemoveLast(sourceTag = ACTIVITY_NAVIGATION_TAG).execute()
 
         }

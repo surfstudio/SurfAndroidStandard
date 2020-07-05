@@ -49,14 +49,14 @@ class MainFragment : Fragment(), TabFragmentNavigationContainer {
     private fun initActiveTabReopenedListener() {
         getTabNavigator()
                 .setActiveTabReopenedListener {
-                    App.navigator.execute(RemoveAll(sourceTag = tag!!, isTab = true))
+                    App.navigator.execute(RemoveAll(sourceTag = tag!!))
                 }
     }
 
     private fun initBackPressedListener() {
         addOnBackPressedListener {
             when {
-                hasTabsInStack() -> App.navigator.execute(RemoveLast(sourceTag = tag!!, isTab = true))
+                hasTabsInStack() -> App.navigator.execute(RemoveLast(sourceTag = tag!!))
                 else -> App.navigator.execute(Finish())
             }
         }
