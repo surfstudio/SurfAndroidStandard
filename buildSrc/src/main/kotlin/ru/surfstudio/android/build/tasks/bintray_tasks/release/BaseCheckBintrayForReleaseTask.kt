@@ -47,7 +47,8 @@ abstract class BaseCheckBintrayForReleaseTask : DefaultTask() {
         allTags?.groupBy { getArtifactName(it) }
                 ?.filter { it.key != null }
                 ?.map {
-                    it.value.find { tag -> tag.contains(getMaxVersion(it.value)) } ?: EMPTY_STRING
+                    it.value.find { tag -> getArtifactVersion(tag) == getMaxVersion(it.value) }
+                            ?: EMPTY_STRING
                 }?.toList()
                 ?.also { safeAllTags ->
                     Bintray.getAllPackages().forEach { packageName ->
