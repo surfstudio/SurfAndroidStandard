@@ -7,6 +7,7 @@ import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.bintray.Bintray
 import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner
 import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.JsonHelper
 import java.io.File
 
@@ -46,7 +47,7 @@ abstract class BaseCheckBintrayForReleaseTask : DefaultTask() {
         allTags?.groupBy { getArtifactName(it) }
                 ?.filter { it.key != null }
                 ?.map {
-                    it.value.find { tag -> tag.contains(getMaxVersion(it.value)) } ?: "fd"
+                    it.value.find { tag -> tag.contains(getMaxVersion(it.value)) } ?: EMPTY_STRING
                 }?.toList()
                 ?.also { safeAllTags ->
                     Bintray.getAllPackages().forEach { packageName ->
