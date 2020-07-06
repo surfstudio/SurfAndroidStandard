@@ -6,8 +6,6 @@ import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.i_network.network.transform
 import ru.surfstudio.standard.domain.login.KeyInfo
 import ru.surfstudio.standard.domain.login.LoginInfo
-import ru.surfstudio.standard.i_auth.request.LoginByCodeRequest
-import ru.surfstudio.standard.i_auth.request.LoginByPhoneRequest
 import ru.surfstudio.standard.i_network.service.BaseNetworkService
 import javax.inject.Inject
 
@@ -25,7 +23,7 @@ class AuthRepository @Inject constructor(
      * Отсылка номера телефона для получения кода авторизации
      */
     fun requestCode(phoneNumber: String): Single<KeyInfo> =
-            authApi.requestCode(LoginByPhoneRequest(phoneNumber))
+            authApi.requestCode()
                     .transform()
 
     /**
@@ -33,7 +31,7 @@ class AuthRepository @Inject constructor(
      */
     fun loginByCode(key: String, smsCode: String): Single<LoginInfo> {
         val code = String.format(CODE_FORMAT, key, smsCode)
-        return authApi.loginByCode(LoginByCodeRequest(code))
+        return authApi.loginByCode()
                 .transform()
     }
 

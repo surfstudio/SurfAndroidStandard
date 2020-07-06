@@ -1,4 +1,4 @@
-apply from: '../android-standard/androidStandardConfig.gradle'
+apply from: '../android_standard/androidStandardConfig.gradle'
 import groovy.json.JsonSlurper
 // Скрипт для включения модулей android-standard из локального репозитория в settings.gradle
 

@@ -5,7 +5,7 @@ import com.google.firebase.messaging.RemoteMessage
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.standard.application.app.di.AppInjector
-import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
+import ru.surfstudio.standard.i_push.storage.FcmStorage
 import javax.inject.Inject
 
 /**

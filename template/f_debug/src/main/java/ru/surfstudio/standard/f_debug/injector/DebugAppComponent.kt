@@ -14,7 +14,7 @@ import ru.surfstudio.standard.base.util.StringsProvider
 import ru.surfstudio.standard.f_debug.DebugInteractor
 import ru.surfstudio.standard.f_debug.injector.modules.DebugSharedPrefModule
 import ru.surfstudio.standard.f_debug.injector.ui.notification.DebugFcmModule
-import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
+import ru.surfstudio.standard.i_push.storage.FcmStorage
 import javax.inject.Named
 
 @PerApplication

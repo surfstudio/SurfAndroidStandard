@@ -6,6 +6,8 @@ dependencies {
     api firebase.analytics
     api firebase.messaging
 
+    implementation other.threeTenBackport
+
     gradle.ext.androidStandard.api(
             this,
             [

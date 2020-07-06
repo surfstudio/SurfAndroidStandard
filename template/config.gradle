@@ -45,8 +45,8 @@ ext {
             timberVersion                   : '4.7.1',              //http://bit.ly/2LWbLaY
             rxJava2DebugVersion             : '1.4.0',              //https://bit.ly/322Qzo7
             androidDebugToolsVersion        : '1.0',                //https://bit.ly/2QMKLfe
-            autoServiceVersion              : '1.0-rc4',             //https://bit.ly/2WsGYH4
-            threetenabpVersion              : '1.4.4'               //https://bit.ly/3gqv5sn
+            autoServiceVersion              : '1.0-rc4',            //https://bit.ly/2WsGYH4
+            threeTenBpVersion               : '1.2.4'               //http://bit.ly/37yT84N
     ]
 
     app = [
@@ -79,8 +79,7 @@ ext {
             appcompat       : "androidx.appcompat:appcompat:${versions.androidXVersion}",
             annotation      : "androidx.annotation:annotation:${versions.androidxAnnotationVersion}",
             multidex        : "androidx.multidex:multidex:${versions.multidexVersion}",
-            constraintLayout: "androidx.constraintlayout:constraintlayout:${versions.constraintLayoutVersion}",
-            threeTenBackport: "com.jakewharton.threetenabp:threetenabp:${versions.threetenabpVersion}"
+            constraintLayout: "androidx.constraintlayout:constraintlayout:${versions.constraintLayoutVersion}"
     ]
 
     firebase = [
@@ -143,5 +142,9 @@ ext {
     stetho = [
             core  : "com.facebook.stetho:stetho:${versions.stethoVersion}",
             okHttp: "com.facebook.stetho:stetho-okhttp3:${versions.stethoVersion}"
+    ]
+
+    other = [
+            threeTenBackport: "com.jakewharton.threetenabp:threetenabp:${versions.threeTenBpVersion}"
     ]
 }
