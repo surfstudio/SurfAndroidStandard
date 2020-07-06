@@ -8,7 +8,7 @@ package ru.surfstudio.standard.domain.metadata
  * @param currentPage текущая страница
  * @param perPage размер страницы
  */
-data class Metadata(
+data class MetaData(
 		val totalCount: Int = 0,
 		val pageCount: Int = 0,
 		val currentPage: Int = 0,
