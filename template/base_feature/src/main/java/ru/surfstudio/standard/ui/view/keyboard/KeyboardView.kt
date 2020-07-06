@@ -15,7 +15,7 @@ import ru.surfstudio.standard.ui.view.keyboard.controller.IconController
 import ru.surfstudio.standard.ui.view.keyboard.controller.KeyController
 
 /**
- * View клавиатуры
+ * Вью клавиатуры
  * todo удалить, если не требуется на проекте
  */
 class KeyboardView @JvmOverloads constructor(

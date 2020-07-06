@@ -16,7 +16,7 @@ import ru.surfstudio.android.utilktx.ktx.convert.toBitmap
 import ru.surfstudio.android.utilktx.util.ViewUtil
 
 /**
- * View для рисования иконки на [Canvas]
+ * Вью кнопки клавиатуры
  * todo удалить, если не требуется на проекте
  */
 class KeyView @JvmOverloads constructor(
