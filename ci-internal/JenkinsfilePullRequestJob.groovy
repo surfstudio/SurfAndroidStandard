@@ -253,7 +253,7 @@ pipeline.stages = [
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
                     "androidStandardDebugMode=true\n" +
-                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
+                    "skipSamplesBuild=true\" > template/android_standard/androidStandard.properties")
             /**
              * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
              * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
