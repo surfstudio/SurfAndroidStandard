@@ -270,7 +270,7 @@ def static initTriggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Gitlab',
-                    regexpFilterExpression: '^(origin\\/)?refs\\/heads\\/dev\\/G-(.*)$',
+                    regexpFilterExpression: '^(origin\\/)?refs\\/heads\\/dev\\/ANDDEP\\/G-(.*)$',
                     regexpFilterText: '$branchName'
             ),
             script.pollSCM('')
