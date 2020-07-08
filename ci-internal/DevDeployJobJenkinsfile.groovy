@@ -95,14 +95,17 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.stage(CHECKOUT) {
-            scmSkip(deleteBuild: true, skipPattern:'.*\\[skip ci\\].*')
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId
             )
             script.sh "git checkout -B $branchName origin/$branchName"
 
-            // тест
+            script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
+            if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
+                deleteDir()
+            }
+            CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.SKIP_STAGE, false) {
