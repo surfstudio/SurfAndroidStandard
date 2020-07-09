@@ -1,6 +1,9 @@
 apply from: '../commonModule.gradle'
 apply from: '../commonKaptModule.gradle'
 
+//the -ext postfix means that aspects from this module can be imported into other
+apply plugin: 'com.archinamon.aspectj-ext'
+
 dependencies {
     api project(":base")
 

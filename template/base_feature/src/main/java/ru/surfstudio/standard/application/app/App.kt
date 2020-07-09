@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.multidex.MultiDexApplication
 import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.github.anrwatchdog.ANRWatchDog
-import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
@@ -19,7 +18,7 @@ import ru.surfstudio.standard.application.app.di.AppInjector
 import ru.surfstudio.standard.base.logger.RemoteLogger
 import ru.surfstudio.standard.application.logger.strategies.remote.RemoteLoggerLoggingStrategy
 import ru.surfstudio.standard.application.logger.strategies.remote.FirebaseCrashlyticsRemoteLoggingStrategy
-import ru.surfstudio.standard.application.logger.strategies.remote.timber.TimberLoggingStrategy
+import ru.surfstudio.standard.application.logger.strategies.local.TimberLoggingStrategy
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
 
 class App : MultiDexApplication() {

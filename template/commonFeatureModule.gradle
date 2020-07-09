@@ -1,5 +1,12 @@
 apply from: '../commonModule.gradle'
 
+apply plugin: 'com.archinamon.aspectj'
+
+aspectj {
+    // include aspects from module
+    includeAspectsFromJar 'base_feature'
+}
+
 dependencies {
     implementation project(":base_feature")
 }

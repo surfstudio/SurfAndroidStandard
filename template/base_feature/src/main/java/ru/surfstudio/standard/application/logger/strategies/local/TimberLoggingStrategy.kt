@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.application.logger.strategies.remote.timber
+package ru.surfstudio.standard.application.logger.strategies.local
 
 import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 import timber.log.Timber

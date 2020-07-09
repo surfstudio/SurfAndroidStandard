@@ -84,3 +84,10 @@
 #cross feature fragments
 -keep interface ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment {*;}
 -keep class * implements ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
+
+#AspectJ
+-adaptclassstrings
+-keepattributes InnerClasses, EnclosingMethod, Signature, *Annotation*
+-keepnames @org.aspectj.lang.annotation.Aspect class * {
+    ajc* <methods>;
+}
