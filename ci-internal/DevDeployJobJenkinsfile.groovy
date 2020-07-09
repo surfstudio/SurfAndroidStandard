@@ -104,7 +104,7 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                scmSkip(deleteBuild: false, skipPattern:'.*\\[skip ci\\].*')
+                scmSkip(deleteBuild: true, skipPattern:'.*\\[skip ci\\].*')
             }
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
             RepositoryUtil.saveCurrentGitCommitHash(script)
