@@ -95,7 +95,7 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.stage(CHECKOUT) {
-            // тест
+            // тест 2
             scmSkip(deleteBuild: true, skipPattern:'.*\\[skip ci\\].*')
             script.git(
                     url: pipeline.repoUrl,
