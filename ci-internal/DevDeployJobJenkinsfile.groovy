@@ -95,7 +95,7 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.stage(CHECKOUT) {
-            // тест 1
+            // тест
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId
