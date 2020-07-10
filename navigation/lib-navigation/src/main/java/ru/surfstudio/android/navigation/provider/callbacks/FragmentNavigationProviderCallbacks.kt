@@ -7,12 +7,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
-import ru.surfstudio.android.navigation.provider.container.FragmentNavigationContainer
-import ru.surfstudio.android.navigation.provider.holder.FragmentNavigationHolder
-import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
+import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
+import ru.surfstudio.android.navigation.provider.container.FragmentNavigationContainer
 import ru.surfstudio.android.navigation.provider.container.TabFragmentNavigationContainer
+import ru.surfstudio.android.navigation.provider.holder.FragmentNavigationHolder
+import ru.surfstudio.android.navigation.route.Route
 
 /**
  * Fragment navigation entities provider.
@@ -115,6 +116,12 @@ open class FragmentNavigationProviderCallbacks(
         navigationHolders[id] = createHolder(id, container, fm, savedInstanceState)
     }
 
+    protected open fun getFragmentId(fragment: Fragment): String {
+        val tag = fragment.tag
+        val fragmentDataId = fragment.arguments?.getString(Route.EXTRA_SCREEN_ID)
+        return tag ?: fragmentDataId ?: error(NO_FRAGMENT_ID_ERROR)
+    }
+
     protected open fun createHolder(
             id: String,
             container: FragmentNavigationContainer,
@@ -142,10 +149,6 @@ open class FragmentNavigationProviderCallbacks(
     }
 
 
-    private fun getFragmentId(fragment: Fragment): String {
-        return fragment.tag ?: error(NO_FRAGMENT_ID_ERROR)
-    }
-
     private companion object {
         const val NO_NAVIGATION_HOLDER_ERROR =
                 "There's no navigation holders in FragmentNavigationProvider! " +
@@ -153,6 +156,8 @@ open class FragmentNavigationProviderCallbacks(
                         "you should inherit it from FragmentNavigationContainer."
 
         const val CONTAINER_TAG_IS_NOT_UNIQUE_ERROR = "You must specify unique tag for each FragmentNavigationContainer!"
-        const val NO_FRAGMENT_ID_ERROR = "Fragment tag must always be specified!"
+        const val NO_FRAGMENT_ID_ERROR = "Fragment id must always be specified! " +
+                "You need to assure that fragmentManager adds tag to fragment, " +
+                "or your FragmentRoute.getTag method is not null"
     }
 }

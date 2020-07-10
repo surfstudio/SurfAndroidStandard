@@ -50,7 +50,7 @@ open class FragmentNavigator(
     }
 
     override fun add(route: FragmentRoute, animations: Animations) {
-        val backStackTag = convertToBackStackTag(route.getTag())
+        val backStackTag = convertToBackStackTag(route.getId())
         val fragment = route.createFragment()
 
         fragmentManager.beginTransaction().apply {
@@ -60,7 +60,7 @@ open class FragmentNavigator(
                     FragmentBackStackEntry(
                             backStackTag,
                             fragment,
-                            Add(BackStackFragmentRoute(route.getTag()), animations)
+                            Add(BackStackFragmentRoute(route.getId()), animations)
                     )
             )
             commitNow()
@@ -69,7 +69,7 @@ open class FragmentNavigator(
 
 
     override fun replace(route: FragmentRoute, animations: Animations) {
-        val backStackTag = convertToBackStackTag(route.getTag())
+        val backStackTag = convertToBackStackTag(route.getId())
         val fragment = route.createFragment()
         val lastFragment = backStack.peekFragment()
 
@@ -81,7 +81,7 @@ open class FragmentNavigator(
                     FragmentBackStackEntry(
                             backStackTag,
                             fragment,
-                            Replace(BackStackFragmentRoute(route.getTag()), animations)
+                            Replace(BackStackFragmentRoute(route.getId()), animations)
                     )
             )
             commitNow()
@@ -89,7 +89,7 @@ open class FragmentNavigator(
     }
 
     override fun remove(route: FragmentRoute, animations: Animations) {
-        val fragment = findFragment(convertToBackStackTag(route.getTag())) ?: return
+        val fragment = findFragment(convertToBackStackTag(route.getId())) ?: return
 
         fragmentManager.beginTransaction()
                 .supplyWithAnimations(animations)
@@ -114,7 +114,7 @@ open class FragmentNavigator(
     }
 
     override fun replaceHard(route: FragmentRoute, animations: Animations) {
-        val backStackTag = convertToBackStackTag(route.getTag())
+        val backStackTag = convertToBackStackTag(route.getId())
         val fragment = route.createFragment()
 
         fragmentManager.beginTransaction().apply {
@@ -125,7 +125,7 @@ open class FragmentNavigator(
                     FragmentBackStackEntry(
                             backStackTag,
                             fragment,
-                            Replace(BackStackFragmentRoute(route.getTag()), animations)
+                            Replace(BackStackFragmentRoute(route.getId()), animations)
                     )
             )
             commitNow()
@@ -133,7 +133,7 @@ open class FragmentNavigator(
     }
 
     override fun removeUntil(route: FragmentRoute, isInclusive: Boolean) {
-        val backStackTag = convertToBackStackTag(route.getTag())
+        val backStackTag = convertToBackStackTag(route.getId())
         val entry = backStack.find(backStackTag) ?: return
         fragmentManager.beginTransaction()
                 .apply {
@@ -280,7 +280,7 @@ open class FragmentNavigator(
             shouldShow: Boolean,
             animationBundle: Animations
     ) {
-        val tag = convertToBackStackTag(route.getTag())
+        val tag = convertToBackStackTag(route.getId())
         val fragment = fragmentManager.findFragmentByTag(tag)
                 ?: return
 

@@ -134,15 +134,15 @@ open class TabFragmentNavigator(
      * Opens tab as a head.
      */
     fun openHead(route: FragmentRoute) {
-        if (hostEntries.tags.contains(route.getTag())) {
-            openExistentTab(route.getTag())
+        if (hostEntries.tags.contains(route.getId())) {
+            openExistentTab(route.getId())
         } else {
             addNewTab(route)
         }
     }
 
     private fun addNewTab(route: FragmentRoute) {
-        val routeTag = route.getTag()
+        val routeTag = route.getId()
         activeTabTag = routeTag
 
         val newNavigator = TabHostFragmentNavigator(fragmentManager, containerId, routeTag)

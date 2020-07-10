@@ -16,5 +16,5 @@ class HomeNestedRoute(
 
     override fun prepareData(): Bundle = bundleOf(Route.EXTRA_FIRST to order)
 
-    override fun getTag(): String = super.getTag() + order
+    override fun getId(): String = super.getId() + order
 }

@@ -75,5 +75,5 @@ open class ScreenResultBus(
         }
     }
 
-    protected open fun getRouteId(route: BaseRoute<*>): String = route.getTag()
+    protected open fun getRouteId(route: BaseRoute<*>): String = route.getId()
 }

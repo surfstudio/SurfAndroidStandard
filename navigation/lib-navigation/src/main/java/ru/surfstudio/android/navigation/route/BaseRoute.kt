@@ -34,9 +34,21 @@ abstract class BaseRoute<S> : Route {
     open fun prepareData(): Bundle = Bundle()
 
     /**
-     * Returns the screen tag which is used to uniquely identify the screen
+     * Returns the string which is used to uniquely identify the screen.
      */
-    open fun getTag(): String = requireScreenClass().canonicalName
+    open fun getId(): String = requireScreenClass().canonicalName
+
+    /**
+     * Inflates the data payload that will be passed to a screen during its initialization with
+     * screen identifier from [getId] method.
+     *
+     * This method can't be overwritten.
+     */
+    protected fun prepareDataWithId(): Bundle {
+        val dataBundle = prepareData()
+        dataBundle.putString(Route.EXTRA_SCREEN_ID, getId())
+        return dataBundle
+    }
 
     private fun requireScreenClassPath(): Class<out S>? {
         val classPath = getScreenClassPath()
