@@ -104,8 +104,9 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                Jenkins.instance.getItemByFullName(branchName).getNextBuildNumber()
-                scmSkip(deleteBuild: true, skipPattern:'.*\\[skip ci\\].*')
+                jobsToDelete = ["<JOB_TO_DELETE"]
+                deleteJob(Hudson.instance.items, jobsToDelete)
+                scmSkip(deleteBuild: false, skipPattern:'.*\\[skip ci\\].*')
             }
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
             RepositoryUtil.saveCurrentGitCommitHash(script)
@@ -343,4 +344,15 @@ def static withArtifactoryCredentials(script, body) {
 def static getGlobalConfiguration(script, projectConfigurationFile) {
     String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
     return new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+}
+
+def deleteJob(items, jobsToDelete) {
+    items.each { item ->
+        if (item.class.canonicalName != 'com.cloudbees.hudson.plugins.folder.Folder') {
+            if (jobsToDelete.contains(item.fullName)) {
+                manager.listener.logger.println(item.fullName)
+                item.delete()
+            }
+        }
+    }
 }
