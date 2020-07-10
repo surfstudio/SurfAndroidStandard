@@ -104,7 +104,7 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                Jenkins.instance.getItemByFullName("YourJobName").getNextBuildNumber()
+                Jenkins.instance.getItemByFullName(branchName).getNextBuildNumber()
                 scmSkip(deleteBuild: true, skipPattern:'.*\\[skip ci\\].*')
             }
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
