@@ -13,7 +13,8 @@ import ru.surfstudio.android.navigation.provider.callbacks.factory.FragmentNavig
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
 import ru.surfstudio.android.navigation.provider.callbacks.listener.OnHolderActiveListener
-import ru.surfstudio.android.navigation.route.activity.ActivityRoute.Companion.SCREEN_ID
+import ru.surfstudio.android.navigation.route.Route
+import ru.surfstudio.android.navigation.route.activity.getDataBundle
 
 /**
  * Activity navigation entities provider.
@@ -147,8 +148,9 @@ open class ActivityNavigationProviderCallbacks(
     protected open fun safeRequireActivityId(activity: Activity, onActivityReady: (id: String) -> Unit) {
         if (activity is AppCompatActivity) {
             val intent = activity.intent
+            val dataBundle = intent.getDataBundle()
             val screenId = when {
-                intent.hasExtra(SCREEN_ID) -> intent.getStringExtra(SCREEN_ID)
+                dataBundle != null -> dataBundle.getString(Route.EXTRA_SCREEN_ID)
                 intent.action == Intent.ACTION_MAIN -> LAUNCHER_ACTIVITY_ID
                 else -> return
             }

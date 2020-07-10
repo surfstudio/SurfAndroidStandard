@@ -6,7 +6,28 @@ import ru.surfstudio.android.navigation.animation.resource.BaseResourceAnimation
 import ru.surfstudio.android.navigation.animation.set.SetAnimations
 import ru.surfstudio.android.navigation.animation.shared.SharedElementAnimations
 
+/**
+ * Supplier, which is responsible for inflating [FragmentTransaction] with animations.
+ */
 open class FragmentAnimationSupplier {
+
+    /**
+     * Adds animations of a different types to a [FragmentTransaction].
+     */
+    open fun supplyWithAnimations(
+            transaction: FragmentTransaction,
+            animations: Animations
+    ): FragmentTransaction {
+        when (animations) {
+            is SetAnimations ->
+                animations.set.forEach { supplyWithAnimations(transaction, it) }
+            is BaseResourceAnimations ->
+                setResourceAnimations(transaction, animations, false)
+            is SharedElementAnimations ->
+                setSharedElementAnimations(transaction, animations)
+        }
+        return transaction
+    }
 
     /**
      * Add transition animations for [FragmentTransaction].
@@ -57,29 +78,13 @@ open class FragmentAnimationSupplier {
             transaction: FragmentTransaction,
             animations: SharedElementAnimations
     ): FragmentTransaction {
-        // Добавляем параметр только один раз, пока sharedElements не пустые
-        if (animations.sharedElements.isNotEmpty()) {
+        val sharedElements = animations.sharedElements
+        if (sharedElements.isNotEmpty()) {
             transaction.setReorderingAllowed(true)
-        }
-        animations.sharedElements.forEach { element ->
-            transaction.addSharedElement(element.sharedView, element.transitionName)
-        }
-        // Очищаем элементы, как только добавили в transaction
-        animations.sharedElements.clear()
-        return transaction
-    }
-
-    open fun supplyWithAnimations(
-            transaction: FragmentTransaction,
-            animations: Animations
-    ): FragmentTransaction {
-        when (animations) {
-            is SetAnimations ->
-                animations.set.forEach { supplyWithAnimations(transaction, it) }
-            is BaseResourceAnimations ->
-                setResourceAnimations(transaction, animations, false)
-            is SharedElementAnimations ->
-                setSharedElementAnimations(transaction, animations)
+            sharedElements.forEach { element ->
+                transaction.addSharedElement(element.sharedView, element.transitionName)
+            }
+            sharedElements.clear()
         }
         return transaction
     }

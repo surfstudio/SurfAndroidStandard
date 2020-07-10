@@ -14,5 +14,5 @@ class ImageRoute(val index: Int = 1) : FragmentRoute() {
 
     override fun prepareData(): Bundle = bundleOf(Route.EXTRA_FIRST to index)
 
-    override fun getTag(): String = super.getTag() + index
+    override fun getId(): String = super.getId() + index
 }

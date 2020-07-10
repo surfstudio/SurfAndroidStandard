@@ -5,6 +5,11 @@ import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigation
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.executor.CommandExecutor
 
+/**
+ * Command executor for [ActivityNavigationCommand]s.
+ *
+ * There should be single instance of this executor for an application.
+ */
 open class ActivityCommandExecutor(
         private val activityNavigationProvider: ActivityNavigationProvider
 ) : CommandExecutor<ActivityNavigationCommand> {

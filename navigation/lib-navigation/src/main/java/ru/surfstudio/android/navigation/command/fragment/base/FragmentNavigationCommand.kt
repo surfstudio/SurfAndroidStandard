@@ -11,7 +11,7 @@ interface FragmentNavigationCommand : NavigationCommand {
     /**
      * Route, that is used to:
      *
-     * * Identify fragment: [FragmentRoute.getTag]
+     * * Identify fragment: [FragmentRoute.getId]
      * * Create new fragment instance: [FragmentRoute.createFragment]
      */
     override val route: FragmentRoute

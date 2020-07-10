@@ -14,7 +14,6 @@ open class ActivityRoute : BaseRoute<AppCompatActivity>() {
 
     companion object {
         const val EXTRA_DATA_BUNDLE = "extra data bundle"
-        const val SCREEN_ID = "extra screen id"
     }
 
     /**
@@ -24,10 +23,7 @@ open class ActivityRoute : BaseRoute<AppCompatActivity>() {
      */
     open fun createIntent(context: Context): Intent {
         return Intent(context, requireScreenClass())
-                .apply {
-                    putExtra(SCREEN_ID, getTag())
-                    putExtra(EXTRA_DATA_BUNDLE, prepareData())
-                }
+                .apply { putExtra(EXTRA_DATA_BUNDLE, prepareDataWithId()) }
     }
 }
 

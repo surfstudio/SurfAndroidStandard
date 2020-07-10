@@ -42,7 +42,7 @@ class GalleryTabFragment : Fragment(), FragmentNavigationContainer {
     }
 
     private fun subscribeToBackStackChanges() {
-        val provider = App.provider.provide().fragmentNavigationProvider.provide(tag!!)
+        val provider = App.provider.provide().fragmentNavigationProvider.provide(tag)
         val backStackEntries = provider.fragmentNavigator.addBackStackChangeListener { currentPicture = it.size + 1 }
         Log.d("111111 Update pic", "backStacks$backStackEntries, manager=${childFragmentManager}")
     }

@@ -9,6 +9,7 @@ import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.executor.screen.activity.ActivityCommandExecutor
 import ru.surfstudio.android.navigation.executor.screen.dialog.DialogCommandExecutor
 import ru.surfstudio.android.navigation.executor.screen.fragment.FragmentCommandExecutor
+import java.util.*
 
 /**
  * Command executor, which is used to distribute commands between typed nested executors.
@@ -23,6 +24,7 @@ open class AppCommandExecutor(
 ) : NavigationCommandExecutor {
 
     protected val buffer = mutableListOf<NavigationCommand>()
+    protected val commandQueue: Queue<NavigationCommand> = LinkedList()
 
     override fun execute(command: NavigationCommand) {
         execute(listOf(command))
@@ -49,7 +51,7 @@ open class AppCommandExecutor(
     }
 
     /**
-     * Smart execution of a command query.
+     * Smart execution of a command queue.
      *
      * This method divides commands into sync and async, and executing them in blocking manner:
      *
@@ -79,7 +81,7 @@ open class AppCommandExecutor(
             val hasAsyncCommands = asyncCommands.isNotEmpty()
             val hasSyncCommands = syncCommands.isNotEmpty()
 
-            if (hasAsyncCommands) asyncCommands.forEach(::dispatchCommand)
+            if (hasAsyncCommands) queueCommands(asyncCommands)
 
             when {
                 hasAsyncCommands && hasSyncCommands -> postponeExecution(syncCommands)
@@ -92,8 +94,37 @@ open class AppCommandExecutor(
             val hasAsyncCommands = asyncCommands.isNotEmpty()
             val hasSyncCommands = syncCommands.isNotEmpty()
 
-            if (hasSyncCommands) syncCommands.forEach(::dispatchCommand)
+            if (hasSyncCommands) queueCommands(syncCommands)
             if (hasAsyncCommands) safeExecuteWithBuffer(asyncCommands)
+        }
+    }
+
+    /**
+     * Puts navigation commands in queue if current [commandQueue] is not empty,
+     * i.e if we're currently in process of executing commands.
+     *
+     * If the queue is empty, then we'll add new commands in queue,
+     * consistently execute and remove commands.
+     * Then we will check, if any pending commands are exists in queue.
+     * If there are any pending commands in queue,
+     * we remove them from queue and call this method again.
+     */
+    protected open fun queueCommands(commands: List<NavigationCommand>) {
+        if (commandQueue.isNotEmpty()) {
+            commandQueue.addAll(commands)
+        } else {
+            commandQueue.addAll(commands)
+
+            commands.forEach { command ->
+                dispatchCommand(command)
+                commandQueue.remove(command)
+            }
+
+            if (commandQueue.isNotEmpty()) {
+                val pendingCommands = LinkedList(commandQueue)
+                commandQueue.clear()
+                queueCommands(pendingCommands)
+            }
         }
     }
 

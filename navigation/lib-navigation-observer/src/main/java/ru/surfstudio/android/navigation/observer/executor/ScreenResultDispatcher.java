@@ -12,7 +12,7 @@ public class ScreenResultDispatcher {
     }
 
     public void dispatch(ScreenResultEmitter emitter, EmitScreenResult command) {
-        emitter.emit(command.getSourceRoute(), castTargetRoute(command.getRoute()), command.getResult());
+        emitter.emit(castTargetRoute(command.getRoute()), command.getResult());
     }
 
     private <T extends BaseRoute & ResultRoute> T castTargetRoute(BaseRoute route) {

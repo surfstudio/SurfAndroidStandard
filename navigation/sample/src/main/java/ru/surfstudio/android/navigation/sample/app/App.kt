@@ -29,10 +29,10 @@ class App : Application() {
     }
 
     private fun initExecutor(screenResultEmitter: ScreenResultEmitter) {
-        val callbacksSupplier = ActivityNavigationProviderCallbacks()
-        registerActivityLifecycleCallbacks(callbacksSupplier)
-        provider = callbacksSupplier
-        navigator = AppCommandExecutorWithResult(screenResultEmitter, callbacksSupplier)
+        val activityNavigationProvider = ActivityNavigationProviderCallbacks()
+        registerActivityLifecycleCallbacks(activityNavigationProvider)
+        provider = activityNavigationProvider
+        navigator = AppCommandExecutorWithResult(screenResultEmitter, activityNavigationProvider)
     }
 
     private fun initResultObserver() {

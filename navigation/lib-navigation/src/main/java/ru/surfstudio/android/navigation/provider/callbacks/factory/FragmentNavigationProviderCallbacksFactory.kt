@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.navigation.provider.callbacks.FragmentNavigationProviderCallbacks
 
 /**
- * Factory that creates [FragmentNavigationProviderCallbacks] with activity and its saved instance state.
+ * Factory that creates [FragmentNavigationProviderCallbacks] from parent activity and its saved instance state.
  */
 open class FragmentNavigationProviderCallbacksFactory {
 

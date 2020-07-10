@@ -10,13 +10,13 @@ import java.io.Serializable
  */
 interface ScreenResultStorage {
 
-    fun <T : Serializable> get(sourceId: String, targetId: String): ScreenResultInfo<T>?
+    fun <T : Serializable> get(targetId: String): ScreenResultInfo<T>?
 
     fun <T : Serializable> save(info: ScreenResultInfo<T>)
 
-    fun remove(sourceId: String, targetId: String)
+    fun remove(targetId: String)
 
-    fun contains(sourceId: String, targetId: String): Boolean
+    fun contains(targetId: String): Boolean
 
     fun clear()
 }

@@ -19,7 +19,6 @@ import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimatio
 class ProfileTabFragment : Fragment() {
 
 
-    private val sourceRoute = ProfileTabRoute()
     private val targetRoute = AboutRoute()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,7 +31,7 @@ class ProfileTabFragment : Fragment() {
         profile_about_app_btn.setOnClickListener { App.navigator.execute(Start(AboutRoute())) }
         profile_logout_btn.setOnClickListener { App.navigator.execute(ReplaceHard(AuthRoute(), FadeAnimations())) }
 
-        App.resultObserver.addListener(sourceRoute, targetRoute, ::showAppName)
+        App.resultObserver.addListener(targetRoute, ::showAppName)
     }
 
     private fun showAppName(name: String) {
@@ -40,7 +39,7 @@ class ProfileTabFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        App.resultObserver.removeListener(sourceRoute, targetRoute)
+        App.resultObserver.removeListener(targetRoute)
         super.onDestroyView()
     }
 }

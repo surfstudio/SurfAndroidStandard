@@ -8,14 +8,12 @@ import java.io.Serializable
 
 /**
  * Command that emits screen result.
- * @param sourceRoute [BaseRoute] of a screen, that is observing result
  * @param route target [BaseRoute] of a screen, that is emitting result
  * @param result result from the target screen.
  *
  * This command can be handled in [ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult].
  */
 class EmitScreenResult<T : Serializable, R>(
-        val sourceRoute: BaseRoute<*>,
         override val route: R,
         val result: T
 ) : NavigationCommand where R : BaseRoute<*>, R : ResultRoute<T> {

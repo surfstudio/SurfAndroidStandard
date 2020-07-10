@@ -13,12 +13,10 @@ interface ScreenResultEmitter {
     /**
      * Emit screen result
      *
-     * @param sourceRoute [BaseRoute] of a screen, that is observing result
      * @param targetRoute [BaseRoute] of a screen, that is emitting result
      * @param result result from the target screen
      */
     fun <T : Serializable, R> emit(
-            sourceRoute: BaseRoute<*>,
             targetRoute: R,
             result: T
     ) where R: BaseRoute<*>, R: ResultRoute<T>

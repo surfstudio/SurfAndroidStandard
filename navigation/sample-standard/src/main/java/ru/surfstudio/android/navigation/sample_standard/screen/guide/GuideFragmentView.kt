@@ -22,8 +22,10 @@ class GuideFragmentView : BaseRxFragmentView() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
-        guide_bottom_nav_btn.clicks() bindTo { bm.bottomNavClicked.accept() }
-        guide_bottom_nav_btn.clicks() bindTo { bm.sharedElementClicked.accept() }
+        guide_bottom_nav_btn.clicks() bindTo {
+            bm.bottomNavClicked.accept()
+        }
+        guide_shared_transition_btn.clicks() bindTo { bm.sharedElementClicked.accept() }
     }
 
 }

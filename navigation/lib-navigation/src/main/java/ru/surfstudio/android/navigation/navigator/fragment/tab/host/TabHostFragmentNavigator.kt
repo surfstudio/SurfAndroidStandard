@@ -4,7 +4,8 @@ import androidx.fragment.app.FragmentManager
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
 
 /**
- * Navigator that used in each host tab in [ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator] mechanism
+ * Navigator that used in each host tab in
+ * [ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator] mechanism.
  */
 class TabHostFragmentNavigator(
         fragmentManager: FragmentManager,

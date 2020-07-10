@@ -3,10 +3,13 @@ package ru.surfstudio.android.navigation.sample_standard
 import android.app.Activity
 import android.app.Application
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
+import ru.surfstudio.android.navigation.animation.DefaultAnimations
 import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
-import ru.surfstudio.android.navigation.sample_standard.dagger.AppComponent
-import ru.surfstudio.android.navigation.sample_standard.dagger.AppNavigationModule
-import ru.surfstudio.android.navigation.sample_standard.dagger.DaggerAppComponent
+import ru.surfstudio.android.navigation.sample_standard.di.AppComponent
+import ru.surfstudio.android.navigation.sample_standard.di.AppNavigationModule
+import ru.surfstudio.android.navigation.sample_standard.di.DaggerAppComponent
+import ru.surfstudio.android.navigation.sample_standard.utils.animations.FadeAnimations
+import ru.surfstudio.android.navigation.sample_standard.utils.animations.SlideAnimations
 import ru.surfstudio.android.sample.dagger.app.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 
@@ -20,6 +23,7 @@ class App : Application() {
         initInjector()
         registerActiveActivityListener()
         registerNavigationProviderCallbacks()
+        initAnimations()
     }
 
     private fun initInjector() {
@@ -47,4 +51,8 @@ class App : Application() {
         registerActivityLifecycleCallbacks(callbackProvider)
     }
 
+    private fun initAnimations() {
+        DefaultAnimations.fragment = SlideAnimations() //animations for all fragment changes
+        DefaultAnimations.tab = FadeAnimations() //animations for tab changes
+    }
 }

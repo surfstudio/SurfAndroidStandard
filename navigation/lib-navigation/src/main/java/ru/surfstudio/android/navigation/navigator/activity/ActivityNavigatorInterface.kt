@@ -16,4 +16,6 @@ interface ActivityNavigatorInterface {
     fun finish()
 
     fun finishAffinity()
+
+    fun canBeStarted(route: ActivityRoute): Boolean
 }

@@ -27,9 +27,9 @@ class AuthFragment : Fragment() {
             App.navigator.execute(
                     listOf(
                             ReplaceHard(mainRoute), //opens main screen
-                            Replace(galleryRoute, sourceTag = mainRoute.getTag()), //opens gallery tab in main
-                            Replace(ImageRoute(1), sourceTag = galleryRoute.getTag()), //opens first nested image in gallery
-                            Replace(ImageRoute(2), sourceTag = galleryRoute.getTag()) //opens second nested image in gallery
+                            Replace(galleryRoute, sourceTag = mainRoute.getId()), //opens gallery tab in main
+                            Replace(ImageRoute(1), sourceTag = galleryRoute.getId()), //opens first nested image in gallery
+                            Replace(ImageRoute(2), sourceTag = galleryRoute.getId()) //opens second nested image in gallery
                     )
             )
         }

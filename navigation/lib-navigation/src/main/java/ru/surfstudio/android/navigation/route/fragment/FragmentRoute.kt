@@ -13,6 +13,6 @@ open class FragmentRoute : BaseRoute<Fragment>() {
      */
     open fun createFragment(): Fragment {
         return requireScreenClass().newInstance()
-                .apply { arguments = prepareData() }
+                .apply { arguments = prepareDataWithId() }
     }
 }
