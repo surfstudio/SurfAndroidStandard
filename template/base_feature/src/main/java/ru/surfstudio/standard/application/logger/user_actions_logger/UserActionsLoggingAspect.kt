@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package ru.surfstudio.standard.application.logger
+package ru.surfstudio.standard.application.logger.user_actions_logger
 
 import android.view.View
 import io.reactivex.Observable
@@ -20,31 +20,16 @@ class UserActionsLoggingAspect {
      *  Default click handler
      */
     @Before("execution(void *.onClick(..)) && args(view)")
-    fun onClickAdvice(view: View) {
-        logClick(view)
-    }
+    fun onClickAdvice(view: View) = log(ViewClick(view).toString())
 
     /**
      * RxBinding click handler
      */
-    @Around("call(* *.clicks(..))")
-    fun onClickAdvice(joinPoint: ProceedingJoinPoint): Any {
-        val view = joinPoint.args[0] as View
+    @Around("call(io.reactivex.Observable com.jakewharton.rxbinding2.view.RxView.clicks(..)) && args(view)")
+    fun onClickAdvice(joinPoint: ProceedingJoinPoint, view: View): Any {
         return (joinPoint.proceed() as Observable<*>).doOnNext {
-            logClick(view)
+            log(ViewClick(view).toString())
         }
-    }
-
-    private fun logClick(view: View) {
-        val location = IntArray(2).apply {
-            view.getLocationOnScreen(this)
-        }
-
-        log(
-                "id: ${view.resources.getResourceEntryName(view.id)}\n" +
-                        "x: ${location[0]}\n" +
-                        "y: ${location[1]}\n"
-        )
     }
 
     private fun log(message: String) {
