@@ -374,7 +374,7 @@ class TitleSubtitleView @JvmOverloads constructor(
                 2 -> TextUtils.TruncateAt.MIDDLE
                 3 -> TextUtils.TruncateAt.END
                 4 -> TextUtils.TruncateAt.MARQUEE
-                else -> TextUtils.TruncateAt.END
+                else -> null
             }
 
     private fun getVisibilityFromResource(ta: TypedArray, index: Int): Int =
