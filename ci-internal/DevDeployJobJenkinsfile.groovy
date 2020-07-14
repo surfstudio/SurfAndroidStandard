@@ -95,7 +95,6 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.stage(CHECKOUT) {
-            // тест
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId
@@ -104,12 +103,13 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                scmSkip(deleteBuild: true, skipPattern:'.*\\[skip ci\\].*')
+                scmSkip(deleteBuild: true, skipPattern: '.*\\[skip ci\\].*')
             }
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
+
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
-        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.SKIP_STAGE, false) {
+        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
             def prevCommitHash = commitParents[0]
             script.sh("./gradlew WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}")
@@ -124,10 +124,10 @@ pipeline.stages = [
             globalVersion = globalConfiguration.version
 
             if (("dev/G-" + globalVersion) != branchName) {
-                // script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
+                script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
             }
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
@@ -145,20 +145,22 @@ pipeline.stages = [
                     "'$currentStandardVersion'"
             )
         },
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
-        pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
-        pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
+        pipeline.stage(UNIT_TEST) {
+            AndroidPipelineHelper.unitTestStageBodyAndroid(
+                    script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
+                    "app/build/reports/tests/testReleaseUnitTest/"
+            )
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -176,14 +178,14 @@ pipeline.stages = [
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
-        pipeline.stage(DEPLOY_MODULES, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                 }
             }
         },
-        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
             withArtifactoryCredentials(script) {
                 script.sh "./gradlew generateDataForPlugin"
                 script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
@@ -196,7 +198,7 @@ pipeline.stages = [
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
@@ -224,7 +226,7 @@ pipeline.finalizeBody = {
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
-    // JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
 }
 
 pipeline.run()
@@ -246,7 +248,8 @@ def static initDiscarder(script) {
                     artifactDaysToKeepStr: '3',
                     artifactNumToKeepStr: '10',
                     daysToKeepStr: '60',
-                    numToKeepStr: '200')
+                    numToKeepStr: '200'
+            )
     )
 }
 
@@ -254,7 +257,8 @@ def static initParameters(script) {
     return script.parameters([
             script.string(
                     name: "branchName",
-                    description: 'Ветка с исходным кодом')
+                    description: 'Ветка с исходным кодом'
+            )
     ])
 }
 
@@ -270,7 +274,7 @@ def static initTriggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Gitlab',
-                    regexpFilterExpression: '',
+                    regexpFilterExpression: '^(origin\\/)?refs\\/heads\\/dev\\/G-(.*)$',
                     regexpFilterText: '$branchName'
             ),
             script.pollSCM('')
@@ -294,7 +298,8 @@ def static getCommitHash(script, commit) {
 def static getPreviousRevisionWithVersionIncrement(script) {
     def commits = script.sh(
             returnStdout: true,
-            script: "git  --no-pager log --pretty=oneline -500 --graph")
+            script: "git  --no-pager log --pretty=oneline -500 --graph"
+    )
             .trim()
             .split("\n")
 
@@ -333,7 +338,8 @@ def static withArtifactoryCredentials(script, body) {
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password')
+                    passwordVariable: 'surf_maven_password'
+            )
     ]) {
         body()
     }
