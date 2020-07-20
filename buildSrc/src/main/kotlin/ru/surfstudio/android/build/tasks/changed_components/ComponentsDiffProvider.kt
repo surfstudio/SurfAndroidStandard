@@ -2,6 +2,7 @@ package ru.surfstudio.android.build.tasks.changed_components
 
 import ru.surfstudio.android.build.RELEASE_NOTES_FILE_NAME
 import ru.surfstudio.android.build.model.Component
+import ru.surfstudio.android.build.tasks.check_release_notes.CheckReleaseNotesChangedTask.Companion.SAMPLE_FILE_REGEX
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.BaseGitRepository
 import java.io.File
 
@@ -64,8 +65,12 @@ class ComponentsDiffProvider(
             }
             .toMap()
 
-    private fun isDiffHasComponent(diffResult: String, component: Component, ignoreReleaseNotesChanges: Boolean = false): Boolean {
+    private fun isDiffHasComponent(
+            diffResult: String,
+            component: Component,
+            ignoreReleaseNotesChanges: Boolean = false
+    ): Boolean {
         return diffResult.startsWith(component.directory)
-                && if (diffResult.endsWith(RELEASE_NOTES_FILE_NAME)) !ignoreReleaseNotesChanges else true
+                && if (diffResult.endsWith(RELEASE_NOTES_FILE_NAME) && diffResult.endsWith(SAMPLE_FILE_REGEX)) !ignoreReleaseNotesChanges else true
     }
 }
