@@ -32,8 +32,6 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
         val componentsChangeResults = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
 
-        println("ComponentsChangeResults:")
-        println(componentsChangeResults)
         if (componentsChangeResults.isNotEmpty()) {
             checkStableComponentsChanged(componentsChangeResults)
         }
@@ -42,8 +40,7 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
     private fun checkForFileChanges(currentRevision: String) {
         val componentsChangeFilesResults = ComponentsFilesChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents(ignoreReleaseNotesChanges = true)
-        println("ComponentsChangeFilesResults:")
-        println(componentsChangeFilesResults)
+
         if (componentsChangeFilesResults.isNotEmpty()) {
             checkStableComponentsChanged(componentsChangeFilesResults)
         }

@@ -76,8 +76,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
 
     private DiffResultDispatchListener diffResultDispatchListener;
 
-    // bruh
-
     /**
      * @see RecyclerView.Adapter#onAttachedToRecyclerView(RecyclerView)
      */
