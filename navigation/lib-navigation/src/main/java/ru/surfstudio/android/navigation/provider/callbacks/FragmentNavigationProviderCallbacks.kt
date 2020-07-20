@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
+import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand.Companion.ACTIVITY_NAVIGATION_TAG
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
 import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
@@ -31,25 +31,29 @@ open class FragmentNavigationProviderCallbacks(
     /**
      * Holders with fragment navigators for each [FragmentNavigationContainer]
      */
-    private val navigationHolders = hashMapOf<String, FragmentNavigationHolder>()
+    protected val navigationHolders = hashMapOf<String, FragmentNavigationHolder>()
 
     /**
      * List of active (created and not yet destroyed) fragments
      */
-    private val activeFragments = mutableListOf<Fragment>()
+    protected val activeFragments = mutableListOf<Fragment>()
 
     init {
         addZeroLevelHolder(activity, savedState)
     }
 
     override fun provide(sourceTag: String?): FragmentNavigationHolder {
-        val sourceFragment = if (sourceTag.isNullOrEmpty()) {
-            null
-        } else {
-            activeFragments.find { getFragmentId(it).contains(sourceTag) }
+        val zeroLevelHolder = navigationHolders[ACTIVITY_NAVIGATION_TAG]
+
+        val navigationHolder = when {
+            sourceTag == ACTIVITY_NAVIGATION_TAG -> zeroLevelHolder
+            sourceTag.isNullOrEmpty() -> zeroLevelHolder
+            else -> {
+                val sourceFragment = activeFragments.find { getFragmentId(it).contains(sourceTag) }
+                obtainFragmentHolderRecursive(sourceFragment) ?: zeroLevelHolder
+            }
+
         }
-        val navigationHolder = obtainFragmentHolderRecursive(sourceFragment)
-                ?: navigationHolders.values.firstOrNull()
         return requireNotNull(navigationHolder) { NO_NAVIGATION_HOLDER_ERROR }
     }
 
@@ -80,7 +84,7 @@ open class FragmentNavigationProviderCallbacks(
     }
 
     fun onActivitySaveState(outState: Bundle?) {
-        navigationHolders[FragmentNavigationCommand.ACTIVITY_NAVIGATION_TAG]?.run {
+        navigationHolders[ACTIVITY_NAVIGATION_TAG]?.run {
             fragmentNavigator.onSaveState(outState)
         }
     }
@@ -92,7 +96,7 @@ open class FragmentNavigationProviderCallbacks(
         if (activity !is FragmentNavigationContainer) return
 
         val fragmentManager = activity.supportFragmentManager
-        val id = FragmentNavigationCommand.ACTIVITY_NAVIGATION_TAG
+        val id = ACTIVITY_NAVIGATION_TAG
 
         addHolder(id, activity, fragmentManager, savedInstanceState)
     }
