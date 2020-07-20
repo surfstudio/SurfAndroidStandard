@@ -54,7 +54,6 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
     }
 
     private fun checkStableComponentsChanged(changeResultComponents: List<ComponentCheckResult>) {
-        changeResultComponents.forEach { println(it.componentName) }
         val components = changeResultComponents.filter {
             it.isComponentChanged && it.isComponentStable
         }
