@@ -10,8 +10,6 @@ import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 
 class CustomApp : MultiDexApplication() {
 
-    // bruh
-
     val activeActivityHolder = ActiveActivityHolder()
     var customAppComponent: CustomAppComponent? = null
 
