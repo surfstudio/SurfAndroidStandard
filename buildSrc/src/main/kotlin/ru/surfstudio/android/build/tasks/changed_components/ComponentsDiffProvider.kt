@@ -21,12 +21,12 @@ class ComponentsDiffProvider(
      *
      * @return list of pairs with components and corresponding diffs
      */
-    fun provideComponentsWithDiff(ignoreReleaseNotesChanges: Boolean = false): Map<Component, List<String>> {
+    fun provideComponentsWithDiff(ignoreNotLibFiles: Boolean = false): Map<Component, List<String>> {
         val diffResults = getDiffBetweenRevisions()
         return if (diffResults.isNullOrEmpty()) {
             emptyMap()
         } else {
-            createComponentsWithDiff(diffResults, components, ignoreReleaseNotesChanges)
+            createComponentsWithDiff(diffResults, components, ignoreNotLibFiles)
         }
     }
 
@@ -54,13 +54,13 @@ class ComponentsDiffProvider(
     private fun createComponentsWithDiff(
             diffResults: List<String>,
             components: List<Component>,
-            ignoreReleaseNotesChanges: Boolean = false
+            ignoreNotLibFiles: Boolean = false
     ) = components
             .filter { component ->
-                diffResults.any { isDiffHasComponent(it, component, ignoreReleaseNotesChanges) }
+                diffResults.any { isDiffHasComponent(it, component, ignoreNotLibFiles) }
             }
             .map { component ->
-                val componentsDiffs = diffResults.filter { isDiffHasComponent(it, component, ignoreReleaseNotesChanges) }
+                val componentsDiffs = diffResults.filter { isDiffHasComponent(it, component, ignoreNotLibFiles) }
                 component to componentsDiffs
             }
             .toMap()
@@ -68,9 +68,9 @@ class ComponentsDiffProvider(
     private fun isDiffHasComponent(
             diffResult: String,
             component: Component,
-            ignoreReleaseNotesChanges: Boolean = false
+            ignoreNotLibFiles: Boolean = false
     ): Boolean {
         return diffResult.startsWith(component.directory)
-                && if (diffResult.endsWith(RELEASE_NOTES_FILE_NAME) || diffResult.contains(SAMPLE_FILE_REGEX)) !ignoreReleaseNotesChanges else true
+                && if (diffResult.endsWith(RELEASE_NOTES_FILE_NAME) || diffResult.contains(SAMPLE_FILE_REGEX)) !ignoreNotLibFiles else true
     }
 }

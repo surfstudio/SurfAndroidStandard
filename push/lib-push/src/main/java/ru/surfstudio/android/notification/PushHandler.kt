@@ -24,8 +24,8 @@ import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleS
  * Интерфейс перехватчика пушей
  * Перехватывает сообщение и решает, по какой стратегии его обработать
  */
-interface
-PushHandler {
+// bruh
+interface PushHandler {
     /**
      * Перехват сообщения
      * @param context
