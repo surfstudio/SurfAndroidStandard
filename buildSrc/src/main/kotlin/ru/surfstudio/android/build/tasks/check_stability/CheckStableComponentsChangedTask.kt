@@ -67,11 +67,12 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
 
     private fun createOutputForChangedComponents(results: List<ComponentCheckResult>): String {
         return results.joinToString(separator = "/n") {
-            "${it.componentName}  ${it.reasonOfComponentChange.reason}"
+            "${it.componentName} ${it.reasonOfComponentChange.reason}"
         }
     }
 
     private fun fail(reason: String) {
-        throw GradleException(reason)
+        val message = "Make following components unstable to pass this stage:\n".plus(reason)
+        throw GradleException(message)
     }
 }
