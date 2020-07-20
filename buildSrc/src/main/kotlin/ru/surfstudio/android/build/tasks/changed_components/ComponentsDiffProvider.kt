@@ -70,7 +70,7 @@ class ComponentsDiffProvider(
             component: Component,
             ignoreReleaseNotesChanges: Boolean = false
     ): Boolean {
-        print(diffResult)
+        println(diffResult)
         return diffResult.startsWith(component.directory)
                 && if (diffResult.endsWith(RELEASE_NOTES_FILE_NAME) || diffResult.endsWith(SAMPLE_FILE_REGEX)) !ignoreReleaseNotesChanges else true
     }
