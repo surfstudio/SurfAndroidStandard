@@ -109,7 +109,7 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
-        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
+        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.SKIP_STAGE, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
             def prevCommitHash = commitParents[0]
             script.sh("./gradlew WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}")
@@ -119,7 +119,7 @@ pipeline.stages = [
                 JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
             }
         },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
+        pipeline.stage(CHECK_BRANCH_AND_VERSION, StageStrategy.SKIP_STAGE) {
             globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             globalVersion = globalConfiguration.version
 
@@ -127,13 +127,13 @@ pipeline.stages = [
                 script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
             }
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
+        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT, StageStrategy.SKIP_STAGE) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
-        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
+        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew incrementGlobalUnstableVersion")
         },
-        pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
+        pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew generateProjectConfigurationVersionFileTask")
 
             def currentStandardVersion = script.readFile(projectConfigurationVersionFile)
@@ -145,14 +145,14 @@ pipeline.stages = [
                     "'$currentStandardVersion'"
             )
         },
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
+        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION, StageStrategy.SKIP_STAGE) {
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
-        pipeline.stage(BUILD) {
+        pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
-        pipeline.stage(UNIT_TEST) {
+        pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(
                     script,
                     "testReleaseUnitTest",
@@ -160,7 +160,7 @@ pipeline.stages = [
                     "app/build/reports/tests/testReleaseUnitTest/"
             )
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -178,27 +178,27 @@ pipeline.stages = [
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
-        pipeline.stage(DEPLOY_MODULES) {
+        pipeline.stage(DEPLOY_MODULES, StageStrategy.SKIP_STAGE) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                 }
             }
         },
-        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
+        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN, StageStrategy.SKIP_STAGE) {
             withArtifactoryCredentials(script) {
                 script.sh "./gradlew generateDataForPlugin"
                 script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
             }
         },
-        pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(VERSION_PUSH, StageStrategy.SKIP_STAGE) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
 
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.SKIP_STAGE) {
             if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
@@ -216,6 +216,14 @@ pipeline.finalizeBody = {
     def success = Result.SUCCESS == pipeline.jobResult
     def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
+
+    script.sh("./gradlew updateBuildLinksForMainReadmeTask -PbuildUrl=${CommonUtil.getBuildUrlHtmlLink} -PisBuildSuccessful=${success} -PisBuildUnstable=${unstable}")
+    RepositoryUtil.setDefaultJenkinsGitUser(script)
+
+    script.sh "git commit -a -m \"Updating README documentation " +
+            "$RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+    RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+
     if (!success && !checkoutAborted) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
         if (unstable) {

@@ -1,7 +1,7 @@
 # Surf Android Standard
 
 [![Android Arsenal][android_arsenal_icon]][android_arsenal_link]
-[![Build Status][build_status_icon]][build_status_link]
+[![Build Status][build_icon]][build_status_link]
 [![License][license_icon]][license_link]
 [![Download][build_version_icon]][build_version_link]
 
@@ -62,7 +62,8 @@ dependencies {
 [components]: docs/components.md
 
 [build_status_link]: https://jenkins.surfstudio.ru/view/Projects/view/Android_Standard/job/Android_Standard_Dev_Deploy/
-[build_status_icon]: https://img.shields.io/badge/build-success-brightgreen
+[build_icon]: https://img.shields.io/badge/build-success-brightgreen
+
 [license_link]: http://www.apache.org/licenses/LICENSE-2.0
 [license_icon]: https://img.shields.io/badge/license-Apache%202-blue
 
