@@ -217,7 +217,7 @@ pipeline.finalizeBody = {
     def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
 
-    script.sh("./gradlew updateBuildLinksForMainReadmeTask -PbuildUrl=${CommonUtil.getBuildUrlHtmlLink} -PisBuildSuccessful=${success} -PisBuildUnstable=${unstable}")
+    script.sh("./gradlew updateBuildLinksForMainReadmeTask -PbuildUrl=${CommonUtil.getBuildUrlHtmlLink(script)} -PisBuildSuccessful=${success} -PisBuildUnstable=${unstable}")
     RepositoryUtil.setDefaultJenkinsGitUser(script)
 
     script.sh "git commit -a -m \"Updating README documentation " +
