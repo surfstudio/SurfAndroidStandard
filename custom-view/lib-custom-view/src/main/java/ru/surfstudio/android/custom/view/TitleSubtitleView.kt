@@ -224,6 +224,18 @@ class TitleSubtitleView @JvmOverloads constructor(
     }
 
     /**
+     * Устанавливает текст и тип текста заголовка
+     */
+    fun setTitleText(text: CharSequence, type: TextView.BufferType) =
+            titleView.setText(text, type)
+
+    /**
+     * Устанавливает текст и тип текста подзаголовка
+     */
+    fun setSubTitleText(text: CharSequence, type: TextView.BufferType) =
+            subTitleView.setText(text, type)
+
+    /**
      * Возвращает заголовок к дефолтному значению
      */
     fun resetTitleText() {

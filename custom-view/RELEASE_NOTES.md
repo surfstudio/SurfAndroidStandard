@@ -14,6 +14,7 @@
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 * Fixed lag when one type of state showed twice
 * ANDDEP-1090 Fixed default ellipsize mode on TitleSubtitleView
+* Added methods setTitleText(text, type) and setSubTitleText(text, type) for TitleSubtitleView
 ## 0.4.0
 ##### Custom-view
 * Fixed incorrect behavior of MaterialProgressBar on Android version 5 and below
