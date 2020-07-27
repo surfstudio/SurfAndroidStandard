@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ru.surfstudio.android.easyadapter.controller.BindableItemController;
 
-
 /**
  * {@link androidx.recyclerview.widget.RecyclerView.ViewHolder} with binding and displaying data support.
  * <p>

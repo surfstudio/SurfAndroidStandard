@@ -18,11 +18,8 @@ package ru.surfstudio.android.security.app
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.os.Handler
-import ru.surfstudio.android.filestorage.utils.AppDirectoriesProvider
-import java.io.File
 
 private const val CRASH_DELAY_MS = 1000L
-private const val CRASHLYTICS_LOGS_DIR = ".Fabric/com.crashlytics.sdk.android.crashlytics-core"
 
 /**
  * Object with different checks for release application.
@@ -42,13 +39,6 @@ object ReleaseAppChecker {
                 crash()
             }
         }
-    }
-
-    /**
-     * Function for removing Crashlitycs logs
-     */
-    fun clearCrashlyticsLogs(context: Context) {
-        File(AppDirectoriesProvider.provideBackupStorageDir(context), CRASHLYTICS_LOGS_DIR).deleteRecursively()
     }
 
     private fun hasDebuggableFlags(context: Context): Boolean =
