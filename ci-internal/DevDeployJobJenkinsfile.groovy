@@ -1,5 +1,5 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
-// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-3.0.0-SNAPSHOT')
+// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import groovy.json.JsonSlurper
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
@@ -24,7 +24,7 @@ def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
-def CHECK_ANDROID_STANDARD_TEMPLATE = 'Check Android Standard Template'
+def UPDATE_TEMPLATE_VERSION_PLUGIN = 'Update Template Version Plugin'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
@@ -34,6 +34,8 @@ def MIRROR_COMPONENTS = 'Mirror Components'
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def androidStandardTemplateName = "android-standard-template"
 def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
+def androidStandardTemplateConfigurationFile = "template/config.gradle"
+def projectConfigurationVersionFile = "buildSrc/build/tmp/projectVersion.txt"
 def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
 def idChatAndroidSlack = "CFSF53SJ1"
 
@@ -41,6 +43,7 @@ def idChatAndroidSlack = "CFSF53SJ1"
 def branchName = ""
 def globalVersion = "<unknown>"
 def buildDescription = ""
+def globalConfiguration = ""
 
 //other config
 
@@ -63,10 +66,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -77,10 +80,11 @@ pipeline.initializeBody = {
     //Выбираем значения веток из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
     //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName_0') {
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName') {
         value -> branchName = value
     }
 
+    branchName = branchName.replace("refs/heads/", "")
     if (branchName.contains("origin/")) {
         branchName = branchName.replace("origin/", "")
     }
@@ -99,7 +103,7 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
+                scmSkip(deleteBuild: true, skipPattern: '.*\\[skip ci\\].*')
             }
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
@@ -108,7 +112,7 @@ pipeline.stages = [
         pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
             def prevCommitHash = commitParents[0]
-            script.sh("./gradlew writeToFileReleaseNotesDiff -PrevisionToCompare=${prevCommitHash}")
+            script.sh("./gradlew WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}")
             String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
             if (releaseNotesChanges.trim() != "") {
                 releaseNotesChanges = "Android Standard changes:\n$releaseNotesChanges"
@@ -116,8 +120,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
+            globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             globalVersion = globalConfiguration.version
 
             if (("dev/G-" + globalVersion) != branchName) {
@@ -130,6 +133,18 @@ pipeline.stages = [
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
             script.sh("./gradlew incrementGlobalUnstableVersion")
         },
+        pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
+            script.sh("./gradlew generateProjectConfigurationVersionFileTask")
+
+            def currentStandardVersion = script.readFile(projectConfigurationVersionFile)
+
+            AndroidUtil.changeGradleVariable(
+                    script,
+                    androidStandardTemplateConfigurationFile,
+                    "androidStandardVersion",
+                    "'$currentStandardVersion'"
+            )
+        },
         pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
@@ -138,12 +153,14 @@ pipeline.stages = [
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
         pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
+            AndroidPipelineHelper.unitTestStageBodyAndroid(
+                    script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
+                    "app/build/reports/tests/testReleaseUnitTest/"
+            )
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -164,7 +181,7 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchiveComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                 }
             }
         },
@@ -176,8 +193,6 @@ pipeline.stages = [
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
@@ -199,23 +214,26 @@ pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
+    def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
     if (!success && !checkoutAborted) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        if (unstable) {
+            message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+        } else {
+            message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        }
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
-
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
 }
 
 pipeline.run()
 
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
-
-def static List<Object> initProperties(ScmPipeline ctx) {
+static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
             initDiscarder(script),
@@ -230,15 +248,17 @@ def static initDiscarder(script) {
                     artifactDaysToKeepStr: '3',
                     artifactNumToKeepStr: '10',
                     daysToKeepStr: '60',
-                    numToKeepStr: '200')
+                    numToKeepStr: '200'
+            )
     )
 }
 
 def static initParameters(script) {
     return script.parameters([
             script.string(
-                    name: "branchName_0",
-                    description: 'Ветка с исходным кодом')
+                    name: "branchName",
+                    description: 'Ветка с исходным кодом'
+            )
     ])
 }
 
@@ -248,20 +268,20 @@ def static initTriggers(script) {
                     genericVariables: [
                             [
                                     key  : "branchName",
-                                    value: '$.push.changes[?(@.new.type == "branch")].new.name'
+                                    value: '$.ref'
                             ]
                     ],
                     printContributedVariables: true,
                     printPostContent: true,
-                    causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?dev\\/G-(.*)$',
-                    regexpFilterText: '$branchName_0'
+                    causeString: 'Triggered by Gitlab',
+                    regexpFilterExpression: '^(origin\\/)?refs\\/heads\\/dev\\/G-(.*)$',
+                    regexpFilterText: '$branchName'
             ),
             script.pollSCM('')
     ])
 }
 
-// ============================================= ↑↑↑  END JOB PROPERTIES CONFIGURATION ↑↑↑  ==========================================
+// ============================================== ↑↑↑  END JOB PROPERTIES CONFIGURATION ↑↑↑  ==========================================
 
 // ============ Utils =================
 
@@ -278,7 +298,8 @@ def static getCommitHash(script, commit) {
 def static getPreviousRevisionWithVersionIncrement(script) {
     def commits = script.sh(
             returnStdout: true,
-            script: "git  --no-pager log --pretty=oneline -500 --graph")
+            script: "git  --no-pager log --pretty=oneline -500 --graph"
+    )
             .trim()
             .split("\n")
 
@@ -317,8 +338,14 @@ def static withArtifactoryCredentials(script, body) {
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password')
+                    passwordVariable: 'surf_maven_password'
+            )
     ]) {
         body()
     }
+}
+
+def static getGlobalConfiguration(script, projectConfigurationFile) {
+    String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+    return new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 }

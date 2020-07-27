@@ -1,8 +1,15 @@
-[Главная страница репозитория](../docs/main.md)
-
-[TOC]
+[Главная страница репозитория](/docs/main.md)
 
 # Core MVI Implementations
+
+- [Базовые реализации](#базовые-реализации)
+  - [ScreenEventHub](#screeneventhub)
+  - [BaseMiddleware](#basemiddleware)
+  - [BaseMapMiddleware](#basemapmiddleware)
+  - [NavigationMiddleware](#navigationmiddleware)
+  - [EventTransformerList](#eventtransformerlist)
+  - [Screen Binder](#screen-binder)
+
 Этот модуль содержит самые базовые реализации mvi-сущностей, которые могут 
 либо сразу использоваться, либо расширяться на проектах. 
 
@@ -32,7 +39,7 @@ Middleware, инкапсулирющий в себе логику трансфо
 # Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru)
 необходимо, чтобы корневой `build.gradle` файл проекта был сконфигурирован так,
-как описано [здесь](https://bitbucket.org/surfstudio/android-standard/overview).
+как описано [здесь](https://gitlab.com/surfstudio/projects/standard/android-standard/-/blob/HEAD/README.md).
 
 Для подключения модуля через Gradle:
 ```

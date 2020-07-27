@@ -11,8 +11,9 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @PerScreen
-internal class PaginationListPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                           private val repository: FirstDataRepository
+internal class PaginationListPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val repository: FirstDataRepository
 ) : BasePresenter<PaginationListActivityView>(basePresenterDependency) {
 
     private val sm: PaginationListScreenModel = PaginationListScreenModel()
@@ -29,7 +30,7 @@ internal class PaginationListPresenter @Inject constructor(basePresenterDependen
     private fun loadData() {
         subscribeIoHandleError(getDataByPage()
                 .delay(getDelay(), TimeUnit.MILLISECONDS)
-                .timeout(1000L, TimeUnit.MILLISECONDS), //в целях демонстрации
+                .timeout(1000L, TimeUnit.MILLISECONDS), // delay for loading demonstration
                 {
                     with(sm) {
                         pageList.merge(it)
@@ -44,7 +45,7 @@ internal class PaginationListPresenter @Inject constructor(basePresenterDependen
                 })
     }
 
-    //демонстрация ошибки
+    // error demonstration
     private fun getDelay() =
             if (sm.pageList.nextPage > FirstDataRepository.ERROR_PAGE_NUMBER) {
                 Long.MAX_VALUE
@@ -54,9 +55,6 @@ internal class PaginationListPresenter @Inject constructor(basePresenterDependen
 
     fun loadMore() = loadData()
 
-    /**
-     * Вариант загрузки по номеру страницы
-     */
     private fun getDataByPage(): Observable<DataList<FirstData>> {
         return repository.getDataByPage(sm.pageList.nextPage)
     }

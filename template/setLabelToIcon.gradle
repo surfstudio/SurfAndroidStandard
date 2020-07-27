@@ -24,7 +24,7 @@ tasks.whenTaskAdded { Task task ->
         if (task.name.contains("merge${Utils.capitalize(buildVariant)}Resources")) {
             task.dependsOn(changeIcon)
             changeIcon.doFirst {
-                new IconService(buildVariant, versionName, logger).change()
+                new IconService(buildVariant, app.versionName, logger).change()
                 android.sourceSets.findByName(buildVariant).res.srcDir(
                         new File("${project.buildDir}/$IconService.GENERATED_PATH/$buildVariant/res")
                 )
@@ -46,7 +46,7 @@ class IconService {
     public final static GENERATED_PATH = "generated/iconlauncher"
 
     private final static BUILD_GENERATED_PATH = "build/$GENERATED_PATH"
-    private final static APP_INJECTOR_DIR_NAME = "app-injector"
+    private final static APP_DIR_NAME = "app"
     private final static TEMPLATE_DIR_NAME = "template"
     private final static RES_PATH = "src/main/res/"
     private final static MANIFEST_PATH = "src/main/AndroidManifest.xml"
@@ -64,7 +64,7 @@ class IconService {
     private final static QA_BUILD_VARIANT = "qa"
     private final static VECTOR_ICON_SUFFIX = "_ic_lnr"
 
-    private File appInjectorDir = null
+    private File appDir = null
     private File overlayImage = null
     private File variantDir = null
 
@@ -82,9 +82,9 @@ class IconService {
      * Start process to change launcher icon
      */
     void change() {
-        appInjectorDir = getAppInjectorDir()
-        if (appInjectorDir == null) {
-            logger.debug("app-injector directory not found")
+        appDir = getAppDir()
+        if (appDir == null) {
+            logger.debug("app directory not found")
             return
         }
 
@@ -112,10 +112,10 @@ class IconService {
      * @param iconPath - launcher icon path
      */
     private void processIcon(IconPath iconPath) {
-        File resDir = new File("${appInjectorDir.path}/${RES_PATH}")
+        File resDir = new File("${appDir.path}/${RES_PATH}")
         if (!resDir.exists()) return
 
-        variantDir = new File("${appInjectorDir.path}/$BUILD_GENERATED_PATH/$buildVariant")
+        variantDir = new File("${appDir.path}/$BUILD_GENERATED_PATH/$buildVariant")
         File variantResDir = new File("${variantDir.path}/res")
 
         overlayImage = generateOverlayImage(variantResDir)
@@ -301,14 +301,6 @@ class IconService {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         Graphics2D g2d = img.createGraphics()
         Font font = new Font("Arial", Font.PLAIN, 28)
-        FontMetrics fm = g2d.getFontMetrics()
-
-        g2d.setFont(font)
-
-        g2d.dispose()
-
-        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
-        g2d = img.createGraphics()
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY)
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
         g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY)
@@ -318,7 +310,7 @@ class IconService {
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
         g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
         g2d.setFont(font)
-        fm = g2d.getFontMetrics()
+        FontMetrics fm = g2d.getFontMetrics()
 
         int startIndex = 0
         for (int i = 0; i < versionName.length(); i++) {
@@ -362,15 +354,15 @@ class IconService {
     }
 
     /**
-     * Find app-injector directory
+     * Find app directory
      *
-     * @return app-injector directory
+     * @return app directory
      */
-    static File getAppInjectorDir() {
-        File appInjector = new File("./${APP_INJECTOR_DIR_NAME}")
+    static File getAppDir() {
+        File appInjector = new File("./${APP_DIR_NAME}")
         if (appInjector.exists()) return appInjector
 
-        appInjector = new File("./${TEMPLATE_DIR_NAME}/${APP_INJECTOR_DIR_NAME}")
+        appInjector = new File("./${TEMPLATE_DIR_NAME}/${APP_DIR_NAME}")
         if (appInjector.exists()) return appInjector
 
         return null
@@ -382,7 +374,7 @@ class IconService {
      * @return icon
      */
     private Icon getIcon() {
-        File manifestFile = new File("${appInjectorDir.path}/$MANIFEST_PATH")
+        File manifestFile = new File("${appDir.path}/$MANIFEST_PATH")
         if (!manifestFile.exists()) return null
 
         GPathResult manifestXml = new XmlSlurper().parse(manifestFile)
@@ -459,8 +451,10 @@ class IconService {
     }
 
     private void copyFile(File fileFrom, File fileTo) {
-        createFile(fileTo)
-        Files.copy(fileFrom.toPath(), fileTo.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        File absFileFrom = fileFrom.absoluteFile
+        File absFileTo = fileTo.absoluteFile
+        createFile(absFileTo)
+        Files.copy(absFileFrom.toPath(), absFileTo.toPath(), StandardCopyOption.REPLACE_EXISTING)
     }
 
     private String createVectorIconName(File icon) {

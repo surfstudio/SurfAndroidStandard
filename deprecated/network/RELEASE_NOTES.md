@@ -1,9 +1,13 @@
-[TOC]
 # Deprecated Release Notes
+
+- [0.5.0-alpha](#050-alpha)
+- [0.2.1](#021)
+- [0.2.0](#020)
+
 ## 0.5.0-alpha
-* ANDDEP-671 Add Any.toObservable() extension method
 ##### Network
-* TODO
+* ANDDEP-671 Add Any.toObservable() extension method
+* ANDDEP-982 OkHttp library migration: `3.12.0 -> 4.4.1`;
 ## 0.2.1
 ##### Network
 * ANDDEP-194 BaseCallAdapterFactory added the ability to repeat a failed request through a method available in the ancestor of the class

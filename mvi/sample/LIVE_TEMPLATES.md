@@ -31,4 +31,4 @@
 
 * `providedep` - Provide Dependencies. Генерация кода для модуля в конфигураторе: provide-метод для ScreenEventHub и provide-метод для ScreenBinder.
 
-[templates_dir]: /templates
+[templates_dir]: /android-studio-settings/templates

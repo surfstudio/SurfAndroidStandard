@@ -17,12 +17,10 @@ internal class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenCon
     @PerScreen
     @Component(dependencies = [DefaultActivityComponent::class],
             modules = [DefaultActivityScreenModule::class, MainScreenModule::class])
-    internal interface MainScreenComponent
-        : ScreenComponent<MainActivityView>
+    internal interface MainScreenComponent : ScreenComponent<MainActivityView>
 
     @Module
-    internal class MainScreenModule(route: MainActivityRoute)
-        : DefaultCustomScreenModule<MainActivityRoute>(route)
+    internal class MainScreenModule
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
@@ -30,7 +28,7 @@ internal class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenCon
         return DaggerMainScreenConfigurator_MainScreenComponent.builder()
                 .defaultActivityComponent(defaultActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)
-                .mainScreenModule(MainScreenModule(MainActivityRoute()))
+                .mainScreenModule(MainScreenModule())
                 .build()
     }
 }
