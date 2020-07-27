@@ -1,6 +1,4 @@
-[Главная страница репозитория](../docs/main.md)
-
-[TOC]
+[Главная страница репозитория](/docs/main.md)
 
 # MVP dialog
 
@@ -11,9 +9,9 @@
 Предоставляет 2 парадигмы работы с диалогами:
 
 1. Диалог как часть родительского вью, события диалога в этом случае
-получает презентер родительского вью (см [`CoreSimpleDialogFragment`][#coresimpledialogfragment])
+получает презентер родительского вью (см [`CoreSimpleDialogFragment`](#coresimpledialogfragment))
 2. Диалог с собственным презентером, родительский презентер в этом случае
-может получить событие с диалога через RxBus (см [`CoreDialogFragmentView`][#coredialogfragmentview])
+может получить событие с диалога через RxBus (см [`CoreDialogFragmentView`](#coredialogfragmentview))
 
 # Использование
 [Пример использования](../sample-mvp-dialog/)
@@ -63,7 +61,7 @@ Gradle:
 BottomSheetDialog с собственным презентером.
 
 # Навигация
-Общая информация по навигации - [здесь][../docs/ui/navigation.md].
+Общая информация по навигации - [здесь](/docs/ui/navigation.md).
 
 Открытие диалогов осуществляется из презентера через [**DialogNavigator**][nav].
 

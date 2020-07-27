@@ -22,7 +22,6 @@ import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForA
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import javax.inject.Named
 
-
 @Module(includes = [DefaultErrorHandlerModule::class])
 class DefaultActivityScreenModule(private val activityViewPersistentScope: ActivityViewPersistentScope) : DefaultScreenModule() {
 
@@ -46,17 +45,21 @@ class DefaultActivityScreenModule(private val activityViewPersistentScope: Activ
 
     @Provides
     @PerScreen
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    internal fun provideActivityNavigator(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
-                                          activityNavigator: ActivityNavigator,
-                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-                                          activityProvider: ActivityProvider): PermissionManager {
+    internal fun providePermissionManager(
+            eventDelegateManager: ScreenEventDelegateManager,
+            activityNavigator: ActivityNavigator,
+            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+            activityProvider: ActivityProvider
+    ): PermissionManager {
         return PermissionManagerForActivity(
                 eventDelegateManager,
                 activityNavigator,

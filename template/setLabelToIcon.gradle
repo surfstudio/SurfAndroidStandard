@@ -24,7 +24,7 @@ tasks.whenTaskAdded { Task task ->
         if (task.name.contains("merge${Utils.capitalize(buildVariant)}Resources")) {
             task.dependsOn(changeIcon)
             changeIcon.doFirst {
-                new IconService(buildVariant, versionName, logger).change()
+                new IconService(buildVariant, app.versionName, logger).change()
                 android.sourceSets.findByName(buildVariant).res.srcDir(
                         new File("${project.buildDir}/$IconService.GENERATED_PATH/$buildVariant/res")
                 )

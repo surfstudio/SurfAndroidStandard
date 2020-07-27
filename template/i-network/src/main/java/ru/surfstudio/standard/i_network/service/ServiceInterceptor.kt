@@ -19,11 +19,11 @@ class ServiceInterceptor @Inject constructor(private val tokenStorage: TokenStor
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
 
-        if (originalRequest.headers().get(HEADER_AUTH_KEY) != null) {
+        if (originalRequest.headers[HEADER_AUTH_KEY] != null) {
             return chain.proceed(originalRequest)
         }
 
-        val headersBuilder = originalRequest.headers().newBuilder()
+        val headersBuilder = originalRequest.headers.newBuilder()
                 .add(HEADER_AUTH_KEY, tokenStorage.token)
 
         val request = originalRequest.newBuilder()

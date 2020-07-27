@@ -16,16 +16,12 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycler.animator
 
-import ru.surfstudio.android.easyadapter.animator.BaseItemAnimator
+import ru.surfstudio.android.recycler.extension.animator.ViewHolderItemAnimator
 
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
  */
-open class StandardItemAnimator : BaseItemAnimator() {
-    private val ADD_DURATION: Long = 200
-    private val REMOVE_DURATION: Long = 350
-    private val MOVE_DURATION: Long = 350
-    private val CHANGE_DURATION: Long = 200
+open class StandardItemAnimator : ViewHolderItemAnimator() {
 
     init {
         addDuration = ADD_DURATION
@@ -33,5 +29,12 @@ open class StandardItemAnimator : BaseItemAnimator() {
         moveDuration = MOVE_DURATION
         changeDuration = CHANGE_DURATION
         supportsChangeAnimations = false
+    }
+
+    companion object {
+        private const val ADD_DURATION: Long = 200
+        private const val REMOVE_DURATION: Long = 350
+        private const val MOVE_DURATION: Long = 350
+        private const val CHANGE_DURATION: Long = 200
     }
 }
