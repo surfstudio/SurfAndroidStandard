@@ -17,6 +17,8 @@ package ru.surfstudio.android.core.ui.navigation.fragment.tabfragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -51,6 +53,7 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
     private val EXTRA_CURRENT_FRAGMENT: String = TabFragmentNavigator::class.toString() + "CURRENT_FRAGMENT_TAG"
     private val EXTRA_FRAGMENT_STACK: String = TabFragmentNavigator::class.toString() + "FRAGMENT_STACK"
 
+    private val mainThreadHandler = Handler(Looper.getMainLooper())
     private val fragmentNavigator: FragmentNavigator = FragmentNavigator(activityProvider)
 
     private var activeTabTag: String? = null
@@ -160,10 +163,12 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
      * Добавляет фрагмент в стек активного таба
      */
     private fun addToStack(route: FragmentRoute) {
-        val fragment = route.createFragment()
+        mainThreadHandler.post {
+            val fragment = route.createFragment()
 
-        replace(fragment, route.tag)
-        activeStack.push(fragment)
+            replace(fragment, route.tag)
+            activeStack.push(fragment)
+        }
     }
 
     /**
@@ -224,7 +229,6 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
     private fun replace(fragment: Fragment,
                         routeTag: String?,
                         transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
-        fragmentManager.executePendingTransactions()
 
         val fragmentTransaction = fragmentManager.beginTransaction()
         detachAll(fragmentTransaction)
