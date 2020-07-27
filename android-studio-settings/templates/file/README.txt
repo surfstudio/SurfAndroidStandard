@@ -1,2 +1,2 @@
-Скопируйте папку surf в папку <android-studio-folder>/plugins/android/lib/templates.
-Шаблоны работают в студии 3.0 и выше.
+Скопируйте папку surf в папку <android-studio-folder>/plugins/android/lib/templates. Если папки нет, убедитесь, что используете Android Studio, скачанную с офф. сайта.
+Шаблоны работают в Android Studio 3.0 и выше.

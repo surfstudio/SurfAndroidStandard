@@ -1,15 +1,14 @@
 // Основная конфигурация для Android
 
 apply from: '../config.gradle'
-def config = extensions.getByName("ext")
 
 android {
-    compileSdkVersion config["compileSdkVersion"]
-    buildToolsVersion config["buildToolsVersion"]
+    compileSdkVersion meta.compileSdkVersion
+    buildToolsVersion versions.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion config["minSdkVersion"]
-        targetSdkVersion config["targetSdkVersion"]
+        minSdkVersion meta.minSdkVersion
+        targetSdkVersion meta.targetSdkVersion
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -22,6 +21,10 @@ android {
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 

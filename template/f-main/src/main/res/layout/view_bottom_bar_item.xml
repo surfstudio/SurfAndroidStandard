@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/bottom_bar_item_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginTop="8dp"
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@drawable/ic_android" />
+
+        <View
+            android:id="@+id/bottom_bar_item_badge"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/colorAccent"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/bottom_bar_item_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
+            android:gravity="center"
+            android:minWidth="18dp"
+            android:textAppearance="@style/Text.Regular.12.PrimaryColor"
+            android:visibility="gone"
+            tools:text="10"
+            tools:visibility="visible" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/bottom_bar_item_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/Text.Regular.12.SecondaryColor"
+        tools:text="Платежи" />
+
+</merge>

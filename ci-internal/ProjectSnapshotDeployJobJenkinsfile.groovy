@@ -1,16 +1,13 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
-// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-3.0.0-SNAPSHOT')
+// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
+import ru.surfstudio.ci.*
+import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
-import ru.surfstudio.ci.JarvisUtil
-import ru.surfstudio.ci.CommonUtil
-import ru.surfstudio.ci.RepositoryUtil
+import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.AndroidUtil
-import ru.surfstudio.ci.Result
-import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
 
@@ -19,6 +16,7 @@ import ru.surfstudio.ci.utils.android.config.AvdConfig
 // Stage names
 
 def CHECKOUT = 'Checkout'
+def NOTIFY_ABOUT_NEW_RELEASE_NOTES = 'Notify About New Release Notes'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
 def CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT = 'Check Configuration is project snapshot'
 def INCREMENT_PROJECT_SNAPSHOT_VERSION = 'Increment Project Snapshot Version'
@@ -32,6 +30,8 @@ def VERSION_PUSH = 'Version Push'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
+def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
+def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 
 //vars
 def branchName = ""
@@ -59,10 +59,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -73,16 +73,17 @@ pipeline.initializeBody = {
     //Выбираем значения веток из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
     //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName_0') {
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName') {
         value -> branchName = value
     }
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'useBintrayDeploy') {
-        value -> useBintrayDeploy = value
+        value -> useBintrayDeploy = Boolean.valueOf(value)
     }
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'skipIncrementVersion') {
-        value -> skipIncrementVersion = value
+        value -> skipIncrementVersion = Boolean.valueOf(value)
     }
 
+    branchName = branchName.replace("refs/heads/", "")
     if (branchName.contains("origin/")) {
         branchName = branchName.replace("origin/", "")
     }
@@ -102,10 +103,31 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
+                scmSkip(deleteBuild: true, skipPattern: '.*\\[skip ci\\].*')
             }
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
+        },
+        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
+            def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
+            def prevCommitHash = commitParents[0]
+            script.sh("./gradlew WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}")
+            String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
+
+            if (releaseNotesChanges.trim() != "") {
+                boolean isAddedNoBackwardCompatibility = releaseNotesChanges.split("\n")
+                        .any {
+                            it.contains(":heavy_plus_sign:") && it.contains("NO BACKWARD COMPATIBILITY")
+                        }
+
+                def messageTitle = "Snapshot branch _${branchName}_ has changed"
+                if (isAddedNoBackwardCompatibility) {
+                    messageTitle += " *without backward compatibility*:warning:"
+                }
+
+                releaseNotesChanges = "$messageTitle\n$releaseNotesChanges"
+                JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidStandardSlack, "slack", true)
+            }
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
@@ -130,10 +152,12 @@ pipeline.stages = [
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
         pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
+            AndroidPipelineHelper.unitTestStageBodyAndroid(
+                    script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
+                    "app/build/reports/tests/testReleaseUnitTest/"
+            )
         },
         pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
@@ -156,7 +180,7 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    script.sh "./gradlew clean uploadArchives -PdeployOnlyIfNotExist=true"
                     if (useBintrayDeploy) {
                         /**
                          * We can not use parameter -PdeployOnlyIfNotExist
@@ -164,7 +188,7 @@ pipeline.stages = [
                          * otherwise deploy to Bintray will never be executed
                          * after successful deploy to artifactory
                          */
-                        script.sh "./gradlew distributeArtifactsToBintray -PonlyUnstable=true"
+                        script.sh "./gradlew distributeArtifactsToBintray"
                     }
                 }
             }
@@ -211,7 +235,7 @@ pipeline.finalizeBody = {
                     "Необходимо заменить последние версии артефактов в Bintray на стабильные"
         }
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
 }
 
 pipeline.run()
@@ -233,20 +257,22 @@ def static initBuildDiscarder(script) {
                     artifactDaysToKeepStr: '3',
                     artifactNumToKeepStr: '10',
                     daysToKeepStr: '60',
-                    numToKeepStr: '200')
+                    numToKeepStr: '200'
+            )
     )
 }
 
 def static initParameters(script) {
     return script.parameters([
             script.string(
-                    name: "branchName_0",
+                    name: "branchName",
                     description: 'Ветка с исходным кодом'
             ),
             script.booleanParam(
                     defaultValue: false,
                     name: "useBintrayDeploy",
-                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory'
+                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory.\n' +
+                            'Необходимо перед передачей проекта заказчику'
             ),
             script.booleanParam(
                     defaultValue: false,
@@ -262,14 +288,14 @@ def static initTriggers(script) {
                     genericVariables: [
                             [
                                     key  : "branchName",
-                                    value: '$.push.changes[?(@.new.type == "branch")].new.name'
+                                    value: '$.ref'
                             ]
                     ],
                     printContributedVariables: true,
                     printPostContent: true,
-                    causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?project-snapshot\\/(.*)$',
-                    regexpFilterText: '$branchName_0'
+                    causeString: 'Triggered by Gitlab',
+                    regexpFilterExpression: '^(origin\\/)?refs\\/heads\\/project-snapshot\\/(.*)$',
+                    regexpFilterText: '$branchName'
             ),
             script.pollSCM('')
     ])
@@ -283,7 +309,8 @@ def static withArtifactoryCredentials(script, body) {
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password')
+                    passwordVariable: 'surf_maven_password'
+            )
     ]) {
         body()
     }

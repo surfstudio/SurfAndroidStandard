@@ -1,14 +1,14 @@
 package ru.surfstudio.android.sample.dagger.ui.base.dagger.screen;
 
-
 import dagger.Module;
 import dagger.Provides;
 import ru.surfstudio.android.core.ui.navigation.Route;
 import ru.surfstudio.android.dagger.scope.PerScreen;
 
 /**
- * базовый класс для дополнительного модуля конкретного экрана (обычно используется для поставки
- * параметров, переданных на экран при старте в презентер, в этом случае параметры передаются, обернутые в Route)
+ * Base class for additional screen module.
+ * Used to provide initial params to a presenter on screen start.
+ * Such params are wrapped in [Route].
  *
  * @param <R>
  */
