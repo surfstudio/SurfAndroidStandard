@@ -8,6 +8,7 @@
 * Add additional Route Extra parameters
 * Added method to 'FragmentNavigator' for checking that fragment already exists in back stack
 * Added method to 'FragmentNavigator' for creating new fragment or get fragment from back stack and show him
+* Fix TabFragmentNavigator.kt, a transaction for replace must be executed at the end of the main thread queue
 ## 0.4.0
 ##### Core-ui
 * Added the ability to set text for the buttons of the standard dialog for switching to settings.
