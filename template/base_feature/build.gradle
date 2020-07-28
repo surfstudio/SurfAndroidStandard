@@ -25,8 +25,6 @@ dependencies {
     api rxBinding2.kotlin
     api rxBinding2.appcompatV7
 
-    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
-
     api(firebase.crashlytics) {
         transitive = true
     }
@@ -34,9 +32,4 @@ dependencies {
     implementation debug.anrWatchDog
     implementation debug.timber
     implementation debug.rxJava2Debug
-}
-
-aspectj {
-    debugInfo true
-    includeJar 'rxbinding'
 }
