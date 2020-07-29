@@ -23,7 +23,7 @@ def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not
 def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
 def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
-def CHECK_LICENSE_ADDED = 'Check License Added '
+def CHECK_LICENSE_ADDED = 'Check License Added'
 def CHECKS_RESULT = 'All Checks Result'
 
 def RELEASE_NOTES_DIFF = 'Release notes diff'
@@ -225,8 +225,7 @@ pipeline.stages = [
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-		pipeline.stage(CHECK_LICENSE_ADDED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh "chmod 755 ci-internal/auto-add-license/add_license.sh"
+        pipeline.stage(CHECK_LICENSE_ADDED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh "./ci-internal/auto-add-license/add_license.sh"
         },
         pipeline.stage(CHECKS_RESULT) {
@@ -238,7 +237,8 @@ pipeline.stages = [
                     CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
                     CHECK_RELEASE_NOTES_VALID,
-                    CHECK_RELEASE_NOTES_CHANGED
+                    CHECK_RELEASE_NOTES_CHANGED,
+                    CHECK_LICENSE_ADDED
             ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
