@@ -226,7 +226,7 @@ pipeline.stages = [
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
 		pipeline.stage(CHECK_LICENSE_ADDED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh "./auto-add-license/add_license.sh"
+            script.sh "./ci-internal/auto-add-license/add_license.sh"
         },
         pipeline.stage(CHECKS_RESULT) {
             script.sh "rm -rf $TEMP_FOLDER_NAME"
