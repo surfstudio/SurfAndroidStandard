@@ -132,7 +132,7 @@ pipeline.stages = [
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT, StageStrategy.SKIP_STAGE) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
-        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
             script.sh("./gradlew incrementGlobalUnstableVersion")
         },
         pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN, StageStrategy.SKIP_STAGE) {
@@ -147,7 +147,7 @@ pipeline.stages = [
                     "'$currentStandardVersion'"
             )
         },
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
+        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION, StageStrategy.SKIP_STAGE) {
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
