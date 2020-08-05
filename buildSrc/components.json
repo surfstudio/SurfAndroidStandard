@@ -1558,6 +1558,70 @@
     "mirror_repo": ""
   },
   {
+    "id": "navigation",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "navigation",
+    "libs": [
+      {
+        "name": "navigation",
+        "dir": "lib-navigation",
+        "artifact_name": "navigation",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "navigation-observer",
+        "dir": "lib-navigation-observer",
+        "artifact_name": "navigation-observer",
+        "android_standard_dependencies": [
+          {
+            "name": "navigation",
+            "type": "api"
+          }
+        ]
+      },
+      {
+        "name": "navigation-rx",
+        "dir": "lib-navigation-rx",
+        "artifact_name": "navigation-rx",
+        "android_standard_dependencies": [
+          {
+            "name": "navigation",
+            "type": "api"
+          },
+          {
+            "name": "navigation-observer",
+            "type": "api"
+          }
+        ],
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "navigation-sample",
+        "dir": "sample"
+      },
+      {
+        "name": "navigation-sample-standard",
+        "dir": "sample-standard"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "picture-provider",
     "version": "0.5.0",
     "unstable_version": 5,
