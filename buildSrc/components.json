@@ -1560,7 +1560,7 @@
   {
     "id": "navigation",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1573,12 +1573,14 @@
             "name": "androidx.appcompat:appcompat",
             "type": "implementation"
           }
-        ]
+        ],
+        "android_standard_dependencies": []
       },
       {
         "name": "navigation-observer",
         "dir": "lib-navigation-observer",
         "artifact_name": "navigation-observer",
+        "third_party_dependencies": [],
         "android_standard_dependencies": [
           {
             "name": "navigation",
@@ -1590,6 +1592,12 @@
         "name": "navigation-rx",
         "dir": "lib-navigation-rx",
         "artifact_name": "navigation-rx",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          }
+        ],
         "android_standard_dependencies": [
           {
             "name": "navigation",
@@ -1597,12 +1605,6 @@
           },
           {
             "name": "navigation-observer",
-            "type": "api"
-          }
-        ],
-        "third_party_dependencies": [
-          {
-            "name": "io.reactivex.rxjava2:rxjava",
             "type": "api"
           }
         ]
