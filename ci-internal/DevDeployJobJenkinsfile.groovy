@@ -119,12 +119,12 @@ pipeline.stages = [
                 JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
             }
         },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             globalVersion = globalConfiguration.version
 
             if (("dev/G-" + globalVersion) != branchName) {
-                script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
+                // script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
             }
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT, StageStrategy.SKIP_STAGE) {
@@ -191,7 +191,7 @@ pipeline.stages = [
                 script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
             }
         },
-        pipeline.stage(VERSION_PUSH, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(VERSION_PUSH) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
 
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
@@ -216,13 +216,6 @@ pipeline.finalizeBody = {
     def success = Result.SUCCESS == pipeline.jobResult
     def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
-
-    script.sh("./gradlew updateBuildLinksForMainReadmeTask -PbuildUrl=${CommonUtil.getBuildUrlHtmlLink(script)} -PisBuildSuccessful=${success} -PisBuildUnstable=${unstable}")
-    RepositoryUtil.setDefaultJenkinsGitUser(script)
-
-    script.sh "git commit -a -m \"Updating README documentation " +
-            "$RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-    RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
 
     if (!success && !checkoutAborted) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)

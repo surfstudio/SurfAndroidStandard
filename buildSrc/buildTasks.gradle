@@ -94,5 +94,3 @@ task writeToFileReleaseNotesDiff(type: WriteToFileReleaseNotesDiff)
 task checkBintrayStableVersionsTask(type: CheckBintrayStableVersionsTask)
 
 task checkTagsForReleaseArtifactsTask(type: CheckTagsForReleaseArtifactsTask)
-
-task updateBuildLinksForMainReadmeTask (type: UpdateBuildLinksForMainReadmeTask)
