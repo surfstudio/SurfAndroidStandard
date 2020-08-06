@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_chat_recycler.*
 import kotlinx.android.synthetic.main.activity_recycler.*
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.sticky.StickyHeaderDecor
 import ru.surfstudio.android.easyadapter.EasyAdapter
@@ -29,12 +30,12 @@ class ChatActivityView : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recycler)
+        setContentView(R.layout.activity_chat_recycler)
         init()
     }
 
     private fun init() {
-        recycler_view.apply {
+        chat_rv.apply {
             layoutManager = LinearLayoutManager(this@ChatActivityView)
             adapter = easyAdapter
         }
@@ -45,7 +46,7 @@ class ChatActivityView : AppCompatActivity() {
                 .offset(chatController.viewType() to ChatDecorOffset())
                 .build()
 
-        recycler_view.addItemDecoration(decorator)
+        chat_rv.addItemDecoration(decorator)
 
         val items = ItemList.create()
 
