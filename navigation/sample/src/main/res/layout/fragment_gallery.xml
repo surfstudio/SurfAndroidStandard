@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_purple">
+
+    <FrameLayout
+        android:id="@+id/gallery_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="160dp" />
+
+    <Button
+        android:id="@+id/gallery_prev_image_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="72dp"
+        android:text="Prev image" />
+
+    <Button
+        android:id="@+id/gallery_next_image_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:text="Next image" />
+
+</FrameLayout>
