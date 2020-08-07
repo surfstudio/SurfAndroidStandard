@@ -40,7 +40,8 @@ import ru.surfstudio.android.logger.Logger
 import java.util.*
 
 /**
- * Навигатор для фрагментов в табах
+ * Навигатор для
+ * фрагментов в табах
  */
 open class TabFragmentNavigator(val activityProvider: ActivityProvider,
                                 eventDelegateManager: ScreenEventDelegateManager)
