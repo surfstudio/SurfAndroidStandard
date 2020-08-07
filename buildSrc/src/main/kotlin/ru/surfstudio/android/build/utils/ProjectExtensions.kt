@@ -27,9 +27,9 @@ fun <T> Project.readProperty(name: String, defValue: T): T {
     try {
         return property(name) as? T ?: defValue
     } catch (e: MissingPropertyException) {
-        //Missing property
+        // Missing property
     } catch (e: UnknownProjectException) {
-        //Missing property
+        // Missing property
     }
     return defValue
 }
