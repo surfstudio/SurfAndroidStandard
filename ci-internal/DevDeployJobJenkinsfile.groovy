@@ -101,7 +101,7 @@ pipeline.stages = [
             )
             script.sh "git checkout -B $branchName origin/$branchName"
 
-            // тест очередной
+            // тест очередной снова
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
