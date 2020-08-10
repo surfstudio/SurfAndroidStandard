@@ -118,7 +118,7 @@ pipeline.finalizeBody = {
     } else {
         message = "Зеркалирование компонентов из ветки '${branchName}' успешно выполнено. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
+    // JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
 }
 
 pipeline.run()
