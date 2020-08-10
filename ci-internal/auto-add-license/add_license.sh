@@ -1,6 +1,6 @@
 #!/bin/bash
 
-### Copy LICENSE to all flutter packages if necessary.
+### Copy LICENSE to all android packages if necessary.
 ### must be run from root of repository
 ### region FUNC
 
