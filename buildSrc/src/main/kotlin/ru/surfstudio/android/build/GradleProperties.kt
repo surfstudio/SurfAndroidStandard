@@ -90,19 +90,4 @@ object GradleProperties {
      * Override existed artifacts
      */
     const val OVERRIDE_EXISTED = "overrideExisted"
-
-    /**
-     * Build url
-     */
-    const val BUILD_URL = "buildUrl"
-
-    /**
-     * Is build successful
-     */
-    const val IS_BUILD_SUCCESSFUL = "isBuildSuccessful"
-
-    /**
-     * Is build unstable
-     */
-    const val IS_BUILD_UNSTABLE = "isBuildUnstable"
 }
