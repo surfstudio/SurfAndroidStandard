@@ -86,7 +86,7 @@ pipeline.stages = [
                                 withGithubCredentials(script) {
                                     script.sh "./gradlew deployToMirror -Pcomponent=${component.id} " +
                                             "-Pcommit=$lastCommit -PmirrorUrl=${component.mirror_repo} " +
-                                            "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
+                                            "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT --stacktrace"
                                 }
                             }
                     )
