@@ -276,7 +276,7 @@ class GitTree(
                                     .let(::tryResolveBranchConflict)
 
                     if (branchNameNames.size != 1) {
-                        throw ManyBranchesFoundException(it.value.shortMessage, branchNameNames)
+                        throw ManyBranchesFoundException(it.value.encodingName, branchNameNames)
                     }
                     CommitWithBranch(it.value, branch = branchNameNames[0])
                 }
