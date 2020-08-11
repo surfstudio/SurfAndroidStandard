@@ -5,10 +5,7 @@ import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import org.gradle.api.GradleException
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.GitNodeNotFoundException
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.ManyBranchesFoundException
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.MirrorCommitNotFoundByStandardHashException
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.NoEndsDefineException
+import ru.surfstudio.android.build.exceptions.deploy_to_mirror.*
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.GitTree.NodeState.*
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
@@ -275,9 +272,6 @@ class GitTree(
                                     .extractBranchNames()
                                     .let(::tryResolveBranchConflict)
 
-                    if (branchNameNames.size != 1) {
-                        throw ManyBranchesFoundException(it.value.encodingName, branchNameNames)
-                    }
                     CommitWithBranch(it.value, branch = branchNameNames[0])
                 }
                 .toSet()
