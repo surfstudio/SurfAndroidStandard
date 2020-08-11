@@ -16,8 +16,8 @@ def ASSEMBLE_COMPONENT = 'Assemble Component'
 //constants
 def MIRROR_FOLDER = "_mirror"
 def STANDARD_REPO_FOLDER = "temp"
-def DEPTH_LIMIT = 150
-def SEARCH_LIMIT = 150
+def DEPTH_LIMIT = 100
+def SEARCH_LIMIT = 100
 
 //vars
 def branchName = ""

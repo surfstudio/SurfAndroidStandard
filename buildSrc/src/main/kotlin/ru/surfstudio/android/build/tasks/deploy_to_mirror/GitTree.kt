@@ -306,7 +306,10 @@ class GitTree(
                             true
                         }
                     }
-                    .all { it }
+                    .all {
+                        println("Is ${branchNames[0]} merged into ${branchNames[1]}? $it")
+                        it
+                    }
         }
     }
 
