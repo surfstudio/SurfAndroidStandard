@@ -276,7 +276,7 @@ class GitTree(
                                     .let(::tryResolveBranchConflict)
 
                     if (branchNameNames.size != 1) {
-                        throw ManyBranchesFoundException(it.value.name, branchNameNames)
+                        throw ManyBranchesFoundException(it.value.shortMessage, branchNameNames)
                     }
                     CommitWithBranch(it.value, branch = branchNameNames[0])
                 }
@@ -306,10 +306,7 @@ class GitTree(
                             true
                         }
                     }
-                    .all {
-                        println("Is ${branchNames[0]} merged into ${branchNames[1]}? $it")
-                        it
-                    }
+                    .all { it }
         }
     }
 
