@@ -103,10 +103,11 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
+                scmSkip(deleteBuild: true, skipPattern: '.*\\[skip ci\\].*')
             }
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
+            RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
         pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
@@ -152,10 +153,12 @@ pipeline.stages = [
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
         pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
+            AndroidPipelineHelper.unitTestStageBodyAndroid(
+                    script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
+                    "app/build/reports/tests/testReleaseUnitTest/"
+            )
         },
         pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
@@ -178,7 +181,7 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    script.sh "./gradlew clean uploadArchives -PdeployOnlyIfNotExist=true"
                     if (useBintrayDeploy) {
                         /**
                          * We can not use parameter -PdeployOnlyIfNotExist
@@ -186,7 +189,7 @@ pipeline.stages = [
                          * otherwise deploy to Bintray will never be executed
                          * after successful deploy to artifactory
                          */
-                        script.sh "./gradlew distributeArtifactsToBintray -PonlyUnstable=true"
+                        script.sh "./gradlew distributeArtifactsToBintray"
                     }
                 }
             }
@@ -255,7 +258,8 @@ def static initBuildDiscarder(script) {
                     artifactDaysToKeepStr: '3',
                     artifactNumToKeepStr: '10',
                     daysToKeepStr: '60',
-                    numToKeepStr: '200')
+                    numToKeepStr: '200'
+            )
     )
 }
 
@@ -306,7 +310,8 @@ def static withArtifactoryCredentials(script, body) {
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password')
+                    passwordVariable: 'surf_maven_password'
+            )
     ]) {
         body()
     }

@@ -872,7 +872,7 @@
   {
     "id": "custom-view",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 8,
     "stable": false,
     "dir": "custom-view",
     "libs": [
@@ -1020,7 +1020,7 @@
   },
   {
     "id": "easyadapter",
-    "version": "1.1.0",
+    "version": "2.0.0",
     "unstable_version": 0,
     "stable": true,
     "dir": "easyadapter",
@@ -1560,7 +1560,7 @@
   {
     "id": "navigation",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1572,13 +1572,19 @@
           {
             "name": "androidx.appcompat:appcompat",
             "type": "implementation"
+          },
+          {
+            "name": "androidx.lifecycle:lifecycle-runtime-ktx",
+            "type": "implementation"
           }
-        ]
+        ],
+        "android_standard_dependencies": []
       },
       {
         "name": "navigation-observer",
         "dir": "lib-navigation-observer",
         "artifact_name": "navigation-observer",
+        "third_party_dependencies": [],
         "android_standard_dependencies": [
           {
             "name": "navigation",
@@ -1590,6 +1596,12 @@
         "name": "navigation-rx",
         "dir": "lib-navigation-rx",
         "artifact_name": "navigation-rx",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          }
+        ],
         "android_standard_dependencies": [
           {
             "name": "navigation",
@@ -1597,12 +1609,6 @@
           },
           {
             "name": "navigation-observer",
-            "type": "api"
-          }
-        ],
-        "third_party_dependencies": [
-          {
-            "name": "io.reactivex.rxjava2:rxjava",
             "type": "api"
           }
         ]
@@ -1768,9 +1774,9 @@
   },
   {
     "id": "recycler-decorator",
-    "version": "0.5.0",
-    "unstable_version": 6,
-    "stable": false,
+    "version": "1.0.0",
+    "unstable_version": 0,
+    "stable": true,
     "dir": "recycler-decorator",
     "libs": [
       {
@@ -2081,7 +2087,7 @@
   {
     "id": "android-studio-settings",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "android-studio-settings",
     "libs": [],
