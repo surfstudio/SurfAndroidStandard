@@ -20,12 +20,13 @@ import android.content.Context
 import android.content.Intent
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.ui.PushClickProvider
+import java.io.Serializable
 
 const val NOTIFICATION_DATA = "notification_data"
 internal const val NOTIFICATION_GROUP_ID = "notification_group_id"
 internal const val EVENT_TYPE = "event_type"
 
-internal enum class Event {
+internal enum class Event : Serializable {
     OPEN, DISMISS
 }
 
