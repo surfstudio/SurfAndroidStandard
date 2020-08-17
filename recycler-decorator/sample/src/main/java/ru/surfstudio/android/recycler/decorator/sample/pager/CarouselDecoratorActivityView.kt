@@ -15,13 +15,15 @@ import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.R
-import ru.surfstudio.android.recycler.decorator.sample.pager.controllers.LinePagerIndicatorDecoration
+import ru.surfstudio.android.recycler.decorator.sample.pager.controllers.GradientBackgroundDecoration
+import ru.surfstudio.android.recycler.decorator.sample.pager.controllers.SlideLinePagerIndicatorDecoration
+import ru.surfstudio.android.recycler.decorator.sample.pager.controllers.ScaleLinePageIndicatorDecoration
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class CarouselDecoratorActivityView : AppCompatActivity() {
 
-    private val easyAdapter = EasyAdapter()
+    private val lineEasyAdapter = EasyAdapter()
 
     private val controller = Controller(R.layout.item_controller_pager)
 
@@ -33,26 +35,39 @@ class CarouselDecoratorActivityView : AppCompatActivity() {
 
 
     private fun init() {
-        pager_rv.apply {
+        pager_line_rv.apply {
             layoutManager = LinearLayoutManager(this@CarouselDecoratorActivityView, RecyclerView.HORIZONTAL, false)
-            adapter = easyAdapter.apply { isFirstInvisibleItemEnabled = false }
-            PagerSnapHelper().attachToRecyclerView(pager_rv)
+            adapter = lineEasyAdapter.apply { isFirstInvisibleItemEnabled = false }
+            PagerSnapHelper().attachToRecyclerView(pager_line_rv)
+        }
+
+        pager_scale_line_rv.apply {
+            layoutManager = LinearLayoutManager(this@CarouselDecoratorActivityView, RecyclerView.HORIZONTAL, false)
+            adapter = lineEasyAdapter.apply { isFirstInvisibleItemEnabled = false }
+            PagerSnapHelper().attachToRecyclerView(pager_scale_line_rv)
         }
 
         val roundViewHoldersGroupDrawer = RoundViewHoldersGroupDrawer(8.toPx.toFloat())
 
         val simpleOffsetDrawer2 = SimpleOffsetDrawer(
-            left = 16.toPx,
-            right = 16.toPx
+                left = 16.toPx,
+                right = 16.toPx
         )
 
-        val decorator2 = Decorator.Builder()
-            .underlay(roundViewHoldersGroupDrawer)
-            .overlay(LinePagerIndicatorDecoration())
-            .offset(simpleOffsetDrawer2)
-            .build()
+        val decoratorLine = Decorator.Builder()
+                .underlay(roundViewHoldersGroupDrawer)
+                .overlay(SlideLinePagerIndicatorDecoration())
+                .offset(simpleOffsetDrawer2)
+                .build()
 
-        pager_rv.addItemDecoration(decorator2)
+        pager_line_rv.addItemDecoration(decoratorLine)
+
+        val decoratorScaleLine = Decorator.Builder()
+                .overlay(GradientBackgroundDecoration())
+                .overlay((ScaleLinePageIndicatorDecoration(5)))
+                .offset(simpleOffsetDrawer2)
+                .build()
+        pager_scale_line_rv.addItemDecoration(decoratorScaleLine)
 
         val itemList = ItemList.create()
 
@@ -60,6 +75,6 @@ class CarouselDecoratorActivityView : AppCompatActivity() {
             itemList.add(controller)
         }
 
-        easyAdapter.setItems(itemList)
+        lineEasyAdapter.setItems(itemList)
     }
 }

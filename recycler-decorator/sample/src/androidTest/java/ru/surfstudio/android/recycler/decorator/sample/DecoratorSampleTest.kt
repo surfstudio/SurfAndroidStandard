@@ -28,6 +28,6 @@ class DecoratorSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::c
     @Test
     fun testPagerSample() {
         performClick(R.id.pager_decor_btn)
-        RecyclerViewUtils.scrollToBottom(R.id.pager_rv)
+        RecyclerViewUtils.scrollToBottom(R.id.pager_line_rv)
     }
 }
