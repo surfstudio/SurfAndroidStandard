@@ -6,6 +6,7 @@
 ## 0.5.0-alpha
 ##### Filestorage
 * ANDDEP-687 Changed "com.google.code.gson:gson" dependency from "api" to "implementation" type
+* Add JsonTypeConverter
 ## 0.3.0
 ##### Filestorage
 * Added utilities to get different folders [`AppDirectoriesProvider`](lib-filestorage/src/main/java/ru/surfstudio/android/filestorage/utils/AppDirectoriesProvider.kt)
