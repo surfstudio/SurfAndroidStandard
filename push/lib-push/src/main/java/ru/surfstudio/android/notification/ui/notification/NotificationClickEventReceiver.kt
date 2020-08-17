@@ -20,14 +20,21 @@ import android.content.Context
 import android.content.Intent
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.ui.PushClickProvider
-import java.io.Serializable
 
 const val NOTIFICATION_DATA = "notification_data"
 internal const val NOTIFICATION_GROUP_ID = "notification_group_id"
-internal const val EVENT_TYPE = "event_type"
+internal const val EVENT_TYPE_ORDINAL = "event_type"
 
-internal enum class Event : Serializable {
-    OPEN, DISMISS
+internal enum class Event {
+    OPEN, DISMISS;
+
+    companion object {
+
+        /** Получить [Event] по порядковому номеру. */
+        fun getByOrdinal(ordinal: Int): Event {
+            return values().getOrNull(ordinal) ?: DISMISS
+        }
+    }
 }
 
 /**
@@ -37,7 +44,9 @@ internal enum class Event : Serializable {
 class NotificationClickEventReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val event = intent.getSerializableExtra(EVENT_TYPE) as Event
+        val event = intent
+            .getIntExtra(EVENT_TYPE_ORDINAL, Event.DISMISS.ordinal)
+            .let(Event.Companion::getByOrdinal)
 
         when(event) {
             Event.OPEN -> handleNotificationOpen(context, intent)
