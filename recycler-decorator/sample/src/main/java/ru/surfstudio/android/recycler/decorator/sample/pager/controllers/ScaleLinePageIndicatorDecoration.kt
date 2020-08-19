@@ -8,6 +8,7 @@ import androidx.annotation.ColorInt
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 import kotlin.math.abs
@@ -19,7 +20,7 @@ const val MIN_SHOW_INDICATOR_VALUE = 1
  * Индикатор имеет вид линии, которая изменяет свою длину для активного и неактивного состояний
  * Можно использовать с ViewPager2 и RecyclerView с PagerSnapHelper
  *
- * @property itemsCount число элементов в списке. Для бесконечного списка/карусели должно быть реальным числом элементов
+ * @property hasInfiniteScroll есть ли у вью бесконечный скролл
  * @property widthInactive длина неактивного индикатора
  * @property widthActive длина активного индикатора
  * @property paddingBetween отступ между индикаторами
@@ -32,7 +33,7 @@ const val MIN_SHOW_INDICATOR_VALUE = 1
  * @property colorActive цвет неактивного индикатора
  */
 class ScaleLinePageIndicatorDecoration(
-        private val itemsCount: Int,
+        private val hasInfiniteScroll: Boolean = true,
         private val widthInactive: Int = 8.toPx,
         private val widthActive: Int = 32.toPx,
         private val paddingBetween: Int = 16.toPx,
@@ -62,6 +63,13 @@ class ScaleLinePageIndicatorDecoration(
             recyclerView: RecyclerView,
             state: RecyclerView.State
     ) {
+        val adapter = recyclerView.adapter as EasyAdapter
+        val itemsCount = if (hasInfiniteScroll) {
+            adapter.itemCount / EasyAdapter.INFINITE_SCROLL_LOOPS_COUNT
+        } else {
+            adapter.itemCount
+        }
+
         if (itemsCount <= MIN_SHOW_INDICATOR_VALUE) {
             return
         }
@@ -103,15 +111,15 @@ class ScaleLinePageIndicatorDecoration(
             canvas: Canvas,
             indicatorStartX: Float,
             indicatorPosY: Float,
-            itemCount: Int,
+            itemsCount: Int,
             activePosition: Int,
             progress: Float
     ) {
         val diff = indicatorDiff * progress
         var start = indicatorStartX
-        for (index in 0 until itemCount) {
-            val indicatorWidth = calculateIndicatorWidth(index, activePosition, diff)
-            indicatorPaint.color = calculateColor(index, activePosition, progress)
+        for (index in 0 until itemsCount) {
+            val indicatorWidth = calculateIndicatorWidth(index, activePosition, itemsCount, diff)
+            indicatorPaint.color = calculateColor(index, activePosition, itemsCount, progress)
             canvas.drawLine(
                     start,
                     indicatorPosY,
@@ -123,7 +131,7 @@ class ScaleLinePageIndicatorDecoration(
         }
     }
 
-    private fun calculateIndicatorWidth(index: Int, activePosition: Int, diff: Float): Float {
+    private fun calculateIndicatorWidth(index: Int, activePosition: Int, itemsCount: Int, diff: Float): Float {
         return when (index) {
             activePosition % itemsCount -> {
                 widthActive - diff
@@ -138,7 +146,7 @@ class ScaleLinePageIndicatorDecoration(
     }
 
     @ColorInt
-    private fun calculateColor(index: Int, activePosition: Int, progress: Float): Int {
+    private fun calculateColor(index: Int, activePosition: Int, itemsCount: Int, progress: Float): Int {
         return when (index) {
             activePosition % itemsCount -> {
                 colorEvaluator.evaluate(

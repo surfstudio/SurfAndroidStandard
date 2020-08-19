@@ -64,10 +64,11 @@ class CarouselDecoratorActivityView : AppCompatActivity() {
 
         val decoratorScaleLine = Decorator.Builder()
                 .overlay(GradientBackgroundDecoration())
-                .overlay((ScaleLinePageIndicatorDecoration(5)))
+                .overlay((ScaleLinePageIndicatorDecoration()))
                 .offset(simpleOffsetDrawer2)
                 .build()
         pager_scale_line_rv.addItemDecoration(decoratorScaleLine)
+        lineEasyAdapter.setInfiniteScroll(true)
 
         val itemList = ItemList.create()
 
