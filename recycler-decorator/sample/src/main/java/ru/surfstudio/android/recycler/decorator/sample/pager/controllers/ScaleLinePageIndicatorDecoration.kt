@@ -27,7 +27,7 @@ const val MIN_SHOW_INDICATOR_VALUE = 1
  * @property isRound края индикатора загруленные или нет
  * @property align выравнивание индикатора (слева/справа/по центру)
  * @property paddingBottom отступ индикаторов снизу
- * @property paddingLeftRight отступ индикаторов слева и справа
+ * @property paddingHorizontal отступ индикаторов слева и справа
  * @property colorActive цвет активного индикатора
  * @property colorActive цвет неактивного индикатора
  */
@@ -40,7 +40,7 @@ class ScaleLinePageIndicatorDecoration(
         private val isRound: Boolean = false,
         private val align: IndicatorAlign = IndicatorAlign.LEFT,
         private val paddingBottom: Int = 32.toPx,
-        private val paddingLeftRight: Int = 32.toPx,
+        private val paddingHorizontal: Int = 32.toPx,
         @ColorInt val colorActive: Int = -0x1,
         @ColorInt val colorInactive: Int = 0x66FFFFFF
 ) : Decorator.RecyclerViewDecor {
@@ -48,6 +48,7 @@ class ScaleLinePageIndicatorDecoration(
     private val indicatorPaint = Paint()
     private val colorEvaluator = ArgbEvaluator()
     private val indicatorDiff = widthActive - widthInactive
+    private val rect = Rect()
 
     init {
         indicatorPaint.strokeCap = if (isRound) Paint.Cap.ROUND else Paint.Cap.SQUARE
@@ -69,9 +70,9 @@ class ScaleLinePageIndicatorDecoration(
         val paddingBetweenItems = (itemsCount - 1) * paddingBetween
         val indicatorTotalWidth = totalLength + paddingBetweenItems
         val indicatorStartX = when (align) {
-            IndicatorAlign.LEFT -> paddingLeftRight.toFloat()
+            IndicatorAlign.LEFT -> paddingHorizontal.toFloat()
             IndicatorAlign.CENTER -> (recyclerView.width - indicatorTotalWidth) / 2f
-            IndicatorAlign.RIGHT -> recyclerView.width - indicatorTotalWidth - paddingLeftRight.toFloat()
+            IndicatorAlign.RIGHT -> recyclerView.width - indicatorTotalWidth - paddingHorizontal.toFloat()
         }
 
         val indicatorPosY = recyclerView.height - indicatorHeight / 2f - paddingBottom
@@ -86,7 +87,6 @@ class ScaleLinePageIndicatorDecoration(
         if (activePosition == RecyclerView.NO_POSITION) {
             return
         }
-        val rect = Rect()
         recyclerView.getDecoratedBoundsWithMargins(recyclerView[0], rect)
         val progress = abs(rect.left.toFloat() / rect.width())
         drawIndicators(
