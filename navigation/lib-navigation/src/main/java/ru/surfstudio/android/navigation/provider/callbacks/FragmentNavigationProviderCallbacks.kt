@@ -92,7 +92,7 @@ open class FragmentNavigationProviderCallbacks(
     /**
      * Добавление холдера на 0-ой уровень, т.е. на уровень Activity, которая управляет фрагментами.
      */
-    private fun addZeroLevelHolder(activity: FragmentActivity, savedInstanceState: Bundle?) {
+    protected open fun addZeroLevelHolder(activity: FragmentActivity, savedInstanceState: Bundle?) {
         if (activity !is FragmentNavigationContainer) return
 
         val fragmentManager = activity.supportFragmentManager
@@ -109,7 +109,7 @@ open class FragmentNavigationProviderCallbacks(
      * @param fm manager that will be used in navigators to execute commands
      * @param savedInstanceState state that is used to restore backstack
      */
-    private fun addHolder(
+    protected open fun addHolder(
             id: String,
             container: FragmentNavigationContainer,
             fm: FragmentManager,
@@ -145,7 +145,7 @@ open class FragmentNavigationProviderCallbacks(
         return FragmentNavigationHolder(fragmentNavigator)
     }
 
-    private fun obtainFragmentHolderRecursive(fragment: Fragment?): FragmentNavigationHolder? {
+    protected open fun obtainFragmentHolderRecursive(fragment: Fragment?): FragmentNavigationHolder? {
         if (fragment == null) return null
         val id = getFragmentId(fragment)
         val fragmentHolder = navigationHolders[id]

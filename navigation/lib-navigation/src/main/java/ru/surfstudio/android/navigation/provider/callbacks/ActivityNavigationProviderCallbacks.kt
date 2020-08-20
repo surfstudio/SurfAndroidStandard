@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
@@ -32,9 +34,10 @@ open class ActivityNavigationProviderCallbacks(
 ) : Application.ActivityLifecycleCallbacks, ActivityNavigationProvider {
 
 
-    private val navigatorHolders = hashMapOf<String, ActivityNavigationHolder>()
-    private var currentHolder: ActivityNavigationHolder? = null
-    private var onHolderActiveListenerSingle: OnHolderActiveListener? = null
+    protected val navigatorHolders = hashMapOf<String, ActivityNavigationHolder>()
+    protected var currentHolder: ActivityNavigationHolder? = null
+    protected val handler = Handler(Looper.getMainLooper())
+    protected var holderActiveListenerSingle: OnHolderActiveListener? = null
 
     override fun provide(): ActivityNavigationHolder {
         return currentHolder ?: error("Navigation holder is empty. You have no visible activity.")
@@ -49,11 +52,11 @@ open class ActivityNavigationProviderCallbacks(
     }
 
     override fun setOnHolderActiveListenerSingle(listener: OnHolderActiveListener) {
-        onHolderActiveListenerSingle = listener
+        holderActiveListenerSingle = listener
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        safeRequireActivityId(activity) { id ->
+        safeRequireActivityId(activity) { _, id ->
             val newHolder = createHolder(id, activity, savedInstanceState)
             navigatorHolders[id] = newHolder
             if (savedInstanceState != null) {
@@ -67,16 +70,22 @@ open class ActivityNavigationProviderCallbacks(
     }
 
     override fun onActivityResumed(activity: Activity) {
-        safeRequireActivityId(activity) { id ->
-            val currentHolder = navigatorHolders[id]
-            this.currentHolder = currentHolder
-            onHolderActiveListenerSingle?.invoke(currentHolder ?: return@safeRequireActivityId)
-            onHolderActiveListenerSingle = null
+        safeRequireActivityId(activity) { appCompatActivity, id ->
+            val hasFragments = appCompatActivity.supportFragmentManager.fragments.isNotEmpty()
+            if (hasFragments) {
+                // Updates current holder only after activity is successfully moved in resumed state.
+                // If we will try to call this block directly from [onActivityResumed],
+                // we will face IllegalState exception due to fragmentManager will be executing pending actions.
+                // So, we're just waiting until it executes all actions, and then updating holder status.
+                handler.post { updateCurrentHolder(id) }
+            } else {
+                updateCurrentHolder(id)
+            }
         }
     }
 
     override fun onActivityPaused(activity: Activity) {
-        safeRequireActivityId(activity) { id ->
+        safeRequireActivityId(activity) { _, id ->
             val currentHolder = navigatorHolders[id]
             if (this.currentHolder == currentHolder) {
                 this.currentHolder = null
@@ -85,7 +94,7 @@ open class ActivityNavigationProviderCallbacks(
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
-        safeRequireActivityId(activity) { id ->
+        safeRequireActivityId(activity) { _, id ->
             val provider = navigatorHolders[id]?.fragmentNavigationProvider
             val callbacksProvider = provider as? FragmentNavigationProviderCallbacks
             callbacksProvider?.onActivitySaveState(outState)
@@ -100,15 +109,15 @@ open class ActivityNavigationProviderCallbacks(
         destroyHolder(activity)
     }
 
-    private fun destroyHolder(activity: Activity) {
-        safeRequireActivityId(activity) { id ->
+    protected fun destroyHolder(activity: Activity) {
+        safeRequireActivityId(activity) { _, id ->
             val fragmentNavigationProvider = navigatorHolders[id]?.fragmentNavigationProvider
             unregisterFragmentNavigationProvider(activity, fragmentNavigationProvider)
             navigatorHolders.remove(id)
         }
     }
 
-    private fun registerFragmentNavigationProvider(
+    protected fun registerFragmentNavigationProvider(
             activity: Activity,
             fragmentNavigationProvider: FragmentNavigationProvider
     ) {
@@ -118,7 +127,7 @@ open class ActivityNavigationProviderCallbacks(
         fragmentManager.registerFragmentLifecycleCallbacks(fragmentNavigationProvider, true)
     }
 
-    private fun unregisterFragmentNavigationProvider(
+    protected fun unregisterFragmentNavigationProvider(
             activity: Activity,
             fragmentNavigationProvider: FragmentNavigationProvider?
     ) {
@@ -145,7 +154,16 @@ open class ActivityNavigationProviderCallbacks(
         )
     }
 
-    protected open fun safeRequireActivityId(activity: Activity, onActivityReady: (id: String) -> Unit) {
+    protected open fun updateCurrentHolder(id: String) {
+        val newHolder = navigatorHolders[id]
+        currentHolder = newHolder
+        if (newHolder != null) {
+            holderActiveListenerSingle?.invoke(newHolder)
+            holderActiveListenerSingle = null
+        }
+    }
+
+    protected open fun safeRequireActivityId(activity: Activity, onActivityReady: (activity: AppCompatActivity, id: String) -> Unit) {
         if (activity is AppCompatActivity) {
             val intent = activity.intent
             val dataBundle = intent.getDataBundle()
@@ -154,7 +172,7 @@ open class ActivityNavigationProviderCallbacks(
                 intent.action == Intent.ACTION_MAIN -> LAUNCHER_ACTIVITY_ID
                 else -> return
             }
-            onActivityReady(screenId)
+            onActivityReady(activity, screenId)
         }
     }
 
