@@ -10,7 +10,7 @@
 ##### Easyadapter
 * TODO
 ##### Easyadapter Pagination
-* TODO
+* Removed check for PaginationState.isVisible in setItems method. Now, paginationFooterController is always adding to adapter.
 ## 2.0.0
 ##### Easyadapter
 * ANDDEP-646 - Improved EasyAdapter. In BaseItem added next and previous links to items, adapterPosition, position in ItemList.

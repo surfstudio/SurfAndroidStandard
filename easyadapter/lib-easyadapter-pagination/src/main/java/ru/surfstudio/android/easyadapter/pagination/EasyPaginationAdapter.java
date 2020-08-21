@@ -69,9 +69,7 @@ public class EasyPaginationAdapter extends EasyAdapter {
     public void setItems(@NonNull ItemList items, @NonNull PaginationState state) {
         blockShowMoreEvent = state != PaginationState.READY;
         paginationFooterController.setState(state);
-        if (state.isVisible()) {
-            items.add(paginationFooterController);
-        }
+        items.add(paginationFooterController);
         super.setItems(items);
     }
 
