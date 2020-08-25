@@ -1560,7 +1560,7 @@
   {
     "id": "navigation",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1571,6 +1571,10 @@
         "third_party_dependencies": [
           {
             "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.lifecycle:lifecycle-runtime-ktx",
             "type": "implementation"
           }
         ],
