@@ -71,11 +71,10 @@ open class FragmentNavigator(
     override fun replace(route: FragmentRoute, animations: Animations) {
         val backStackTag = convertToBackStackTag(route.getId())
         val fragment = route.createFragment()
-        val lastFragment = backStack.peekFragment()
 
         fragmentManager.beginTransaction().apply {
             supplyWithAnimations(animations)
-            lastFragment?.let(::detach) //detach fragment if not null
+            findLastAttachedFragments().forEach { detach(it) }
             add(containerId, fragment, backStackTag)
             addToBackStack(
                     FragmentBackStackEntry(
@@ -96,9 +95,6 @@ open class FragmentNavigator(
                 .remove(fragment)
                 .commit()
     }
-
-    private fun findFragment(backStackTag: String): Fragment? =
-            backStack.findFragment(backStackTag)
 
     override fun removeLast(animations: Animations) {
         fragmentManager.beginTransaction().run {
@@ -130,6 +126,7 @@ open class FragmentNavigator(
             )
             commitNow()
         }
+        notifyBackStackListeners()
     }
 
     override fun removeUntil(route: FragmentRoute, isInclusive: Boolean) {
@@ -227,6 +224,32 @@ open class FragmentNavigator(
     }
 
     /**
+     * Finds fragment by its [backStackTag]
+     */
+    protected open fun findFragment(backStackTag: String): Fragment? =
+            backStack.findFragment(backStackTag)
+
+    /**
+     * Finds last attached fragments from backStack.
+     *
+     * We're iterating from end to start of backstack and add all fragments that can be attached.
+     * To determine, when we will stop iteration, we're looking on fragment's entry command:
+     * if it is Add command, we will add fragment and continue, if it is Replace/ReplaceHard -
+     * we will add fragment and stop iteration mechanism.
+     */
+    protected open fun findLastAttachedFragments(): List<Fragment> {
+        val fragments = mutableListOf<Fragment>()
+        var position = backStack.lastIndex
+        var entry: FragmentBackStackEntry? = backStack.getOrNull(position) ?: return emptyList()
+        do {
+            fragments.add(entry!!.fragment)
+            position--
+            entry = backStack.getOrNull(position)
+        } while (entry != null && entry.command is Add)
+        return fragments.reversed()
+    }
+
+    /**
      * Add animations to a reverse operations.
      */
     protected open fun setupReverseAnimations(
@@ -254,28 +277,25 @@ open class FragmentNavigator(
     /**
      * Perform operation opposite to ordinary [replace]
      */
-    private fun setupReverseReplace(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
-        val lastFragment = backStack.peekFragment()
+    protected open fun setupReverseReplace(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
         transaction.remove(entry.fragment)
-        transaction.attach(lastFragment ?: return)
-        notifyBackStackListeners()
+        findLastAttachedFragments().forEach { transaction.attach(it) }
     }
 
     /**
      * Perform operation opposite to ordinary [add].
      */
-    private fun setupReverseAdd(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
+    protected open fun setupReverseAdd(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
         transaction.remove(entry.fragment)
-        notifyBackStackListeners()
     }
 
-    private fun FragmentTransaction.supplyWithAnimations(
+    protected fun FragmentTransaction.supplyWithAnimations(
             animations: Animations
     ): FragmentTransaction {
         return animationSupplier.supplyWithAnimations(this, animations)
     }
 
-    private fun toggleVisibility(
+    protected fun toggleVisibility(
             route: FragmentRoute,
             shouldShow: Boolean,
             animationBundle: Animations
@@ -292,18 +312,18 @@ open class FragmentNavigator(
                 }
     }
 
-    private fun addToBackStack(entry: FragmentBackStackEntry) {
+    protected fun addToBackStack(entry: FragmentBackStackEntry) {
         backStack.push(entry)
         notifyBackStackListeners()
     }
 
-    private fun notifyBackStackListeners() {
+    protected fun notifyBackStackListeners() {
         val stackCopy = backStack.copy()
         backStackChangedListeners.forEach { it.invoke(stackCopy) }
     }
 
     companion object {
-        private const val BACK_STACK_KEY = "FragmentNavigator container %d"
+        protected const val BACK_STACK_KEY = "FragmentNavigator container %d"
         const val ROUTE_TAG_DELIMITER = "-"
     }
 }
