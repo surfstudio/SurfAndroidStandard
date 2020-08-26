@@ -129,7 +129,7 @@ open class FragmentNavigator(
         notifyBackStackListeners()
     }
 
-    override fun removeUntil(route: FragmentRoute, isInclusive: Boolean) {
+    override fun removeUntil(route: FragmentRoute, animations: Animations, isInclusive: Boolean) {
         val backStackTag = convertToBackStackTag(route.getId())
         val entry = backStack.find(backStackTag) ?: return
         fragmentManager.beginTransaction()
@@ -145,14 +145,17 @@ open class FragmentNavigator(
                     if (isInclusive) {
                         remove(lastBackStackEntry.fragment)
                     }
-                    // добавляем
-                    backStack.peekFragment()?.let(::attach)
+                    // добавляем видимые фрагменты
+                    findLastVisibleEntries().forEach { entry ->
+                        setupReverseAnimations(this, entry.command, animations)
+                        attach(entry.fragment)
+                    }
                 }
                 .commitNow()
         notifyBackStackListeners()
     }
 
-    override fun removeAll(shouldRemoveLast: Boolean) {
+    override fun removeAll(animations: Animations, shouldRemoveLast: Boolean) {
         fragmentManager
                 .beginTransaction()
                 .apply {
@@ -162,7 +165,11 @@ open class FragmentNavigator(
                         val entry = backStack.pop()
                         remove(entry.fragment)
                     }
-                    backStack.peekFragment()?.let(::attach)
+                    //Добавляем последний видимый фрагмент (если есть)
+                    findLastVisibleEntries().forEach { entry ->
+                        setupReverseAnimations(this, entry.command, animations)
+                        attach(entry.fragment)
+                    }
                 }
                 .commitNow()
         notifyBackStackListeners()
@@ -237,16 +244,27 @@ open class FragmentNavigator(
      *
      * So, we're attaching all fragments until the command is not [Add].
      */
-    open fun findLastVisibleFragments(): List<Fragment> {
-        val activeStackSize = backStack.size
-        val fragmentsToAttach = mutableListOf<Fragment>()
-        var i = 0
+    open fun findLastVisibleFragments(): List<Fragment> =
+            findLastVisibleEntries().map { it.fragment }
+
+    /**
+     * Extracts entries from backStack with fragments which needs to be attached to a view.
+     *
+     * We cant just extract last visible fragment because several fragments can be visible if we
+     * add them by using [Add] navigation command.
+     *
+     * So, we're attaching all entries until the command is not [Add].
+     */
+    open fun findLastVisibleEntries(): List<FragmentBackStackEntry> {
+        val entries = mutableListOf<FragmentBackStackEntry>()
+        var index = backStack.lastIndex
+        var entry: FragmentBackStackEntry? = backStack.getOrNull(index) ?: return emptyList()
         do {
-            i++
-            val index = activeStackSize - i
-            fragmentsToAttach.add(backStack[index].fragment)
-        } while (backStack[index].command is Add)
-        return fragmentsToAttach.reversed()
+            entries.add(entry!!)
+            index--
+            entry = backStack.getOrNull(index)
+        } while (entry != null && entry.command is Add)
+        return entries.reversed()
     }
 
     /**

@@ -79,12 +79,12 @@ open class TabFragmentNavigator(
         activeNavigator.removeLast(animations)
     }
 
-    override fun removeUntil(route: FragmentRoute, isInclusive: Boolean) {
-        activeNavigator.removeUntil(route, isInclusive)
+    override fun removeUntil(route: FragmentRoute, animations: Animations, isInclusive: Boolean) {
+        activeNavigator.removeUntil(route, animations, isInclusive)
     }
 
-    override fun removeAll(shouldRemoveLast: Boolean) {
-        activeNavigator.removeAll(shouldRemoveLast)
+    override fun removeAll(animations: Animations, shouldRemoveLast: Boolean) {
+        activeNavigator.removeAll(animations, shouldRemoveLast)
     }
 
     override fun hide(route: FragmentRoute, animations: Animations) {
