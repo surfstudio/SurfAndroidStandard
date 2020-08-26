@@ -74,7 +74,7 @@ open class FragmentNavigator(
 
         fragmentManager.beginTransaction().apply {
             supplyWithAnimations(animations)
-            findLastAttachedFragments().forEach { detach(it) }
+            findLastVisibleFragments().forEach { detach(it) }
             add(containerId, fragment, backStackTag)
             addToBackStack(
                     FragmentBackStackEntry(
@@ -230,23 +230,23 @@ open class FragmentNavigator(
             backStack.findFragment(backStackTag)
 
     /**
-     * Finds last attached fragments from backStack.
+     * Extracts fragments from backStack which needs to be attached to a view.
      *
-     * We're iterating from end to start of backstack and add all fragments that can be attached.
-     * To determine, when we will stop iteration, we're looking on fragment's entry command:
-     * if it is Add command, we will add fragment and continue, if it is Replace/ReplaceHard -
-     * we will add fragment and stop iteration mechanism.
+     * We cant just extract last visible fragment because several fragments can be visible if we
+     * add them by using [Add] navigation command.
+     *
+     * So, we're attaching all fragments until the command is not [Add].
      */
-    protected open fun findLastAttachedFragments(): List<Fragment> {
-        val fragments = mutableListOf<Fragment>()
-        var position = backStack.lastIndex
-        var entry: FragmentBackStackEntry? = backStack.getOrNull(position) ?: return emptyList()
+    open fun findLastVisibleFragments(): List<Fragment> {
+        val activeStackSize = backStack.size
+        val fragmentsToAttach = mutableListOf<Fragment>()
+        var i = 0
         do {
-            fragments.add(entry!!.fragment)
-            position--
-            entry = backStack.getOrNull(position)
-        } while (entry != null && entry.command is Add)
-        return fragments.reversed()
+            i++
+            val index = activeStackSize - i
+            fragmentsToAttach.add(backStack[index].fragment)
+        } while (backStack[index].command is Add)
+        return fragmentsToAttach.reversed()
     }
 
     /**
@@ -279,7 +279,7 @@ open class FragmentNavigator(
      */
     protected open fun setupReverseReplace(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
         transaction.remove(entry.fragment)
-        findLastAttachedFragments().forEach { transaction.attach(it) }
+        findLastVisibleFragments().forEach { transaction.attach(it) }
     }
 
     /**
