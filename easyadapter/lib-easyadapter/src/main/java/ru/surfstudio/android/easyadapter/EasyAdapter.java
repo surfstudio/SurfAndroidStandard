@@ -31,18 +31,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import ru.surfstudio.android.easyadapter.controller.BaseItemController;
+import ru.surfstudio.android.easyadapter.controller.BindableItemController;
+import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
 import ru.surfstudio.android.easyadapter.diff.DefaultDiffer;
 import ru.surfstudio.android.easyadapter.diff.async.ApplyLatestAsyncDiffer;
 import ru.surfstudio.android.easyadapter.diff.async.AsyncDiffStrategy;
+import ru.surfstudio.android.easyadapter.diff.async.QueueAllAsyncDiffer;
 import ru.surfstudio.android.easyadapter.diff.async.base.AsyncDiffer;
 import ru.surfstudio.android.easyadapter.diff.base.Differ;
 import ru.surfstudio.android.easyadapter.diff.base.data.DiffCalculationBundle;
 import ru.surfstudio.android.easyadapter.diff.base.data.DiffResultBundle;
-import ru.surfstudio.android.easyadapter.diff.async.QueueAllAsyncDiffer;
-
-import ru.surfstudio.android.easyadapter.controller.BaseItemController;
-import ru.surfstudio.android.easyadapter.controller.BindableItemController;
-import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
 import ru.surfstudio.android.easyadapter.diff.listener.DiffResultDispatchListener;
 import ru.surfstudio.android.easyadapter.holder.BaseViewHolder;
 import ru.surfstudio.android.easyadapter.item.BaseItem;
@@ -119,7 +118,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
         int position = getListPosition(holder.getAdapterPosition());
-        if (position != RecyclerView.NO_POSITION) {
+        if (position != RecyclerView.NO_POSITION && items.size() > position) {
             BaseItem item = items.get(position);
             item.getItemController().unbind(holder, item);
         }

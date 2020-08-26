@@ -8,7 +8,7 @@
 
 ## 2.1.0-alpha
 ##### Easyadapter
-* TODO
+* Fixed IndexOutOfBounds when extracting item in EasyAdapter.onViewRecycled method.
 ##### Easyadapter Pagination
 * Removed check for PaginationState.isVisible in setItems method. Now, paginationFooterController is always adding to adapter.
 ## 2.0.0
