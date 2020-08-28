@@ -10,7 +10,7 @@ class DecoratorSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::c
     @Test
     fun testChatSample() {
         performClick(R.id.chat_btn)
-        RecyclerViewUtils.scrollToBottom(R.id.recycler_view)
+        RecyclerViewUtils.scrollToBottom(R.id.chat_rv)
     }
 
     @Test
@@ -28,6 +28,6 @@ class DecoratorSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::c
     @Test
     fun testPagerSample() {
         performClick(R.id.pager_decor_btn)
-        RecyclerViewUtils.scrollToBottom(R.id.pager_rv)
+        RecyclerViewUtils.scrollToBottom(R.id.pager_line_rv)
     }
 }
