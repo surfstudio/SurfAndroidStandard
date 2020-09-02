@@ -15,20 +15,21 @@
 */
 package ru.surfstudio.android.core.mvi.impls.ui.middleware
 
-import io.reactivex.Completable
-import io.reactivex.Maybe
 import io.reactivex.Observable
-import io.reactivex.Single
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.factory.EventFactory
+import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEvent
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.BaseDslRxMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.LifecycleMiddleware
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
+import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderHandleError
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderIo
 import ru.surfstudio.android.core.mvp.binding.rx.request.Request
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
+import ru.surfstudio.android.core.ui.state.LifecycleStage
+import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.toObservable
@@ -47,19 +48,38 @@ abstract class BaseMiddleware<T : Event>(
 
     override val schedulersProvider: SchedulersProvider = baseMiddlewareDependency.schedulersProvider
     override val errorHandler: ErrorHandler = baseMiddlewareDependency.errorHandler
+    protected val screenState: ScreenState = baseMiddlewareDependency.screenState
+
+    /**
+     * Заморозка событий до момента наступления resumed-состояния экрана
+     *
+     * @param eventStream список событий экрана
+     * @param onResumeObservableCreator - лямбда, лениво создающая observable,
+     * который будет выполняться в при достижении resumed-состояния.
+     *
+     * @return [Observable]<[T]>
+     */
+    protected fun <T : Event> freezeUntilResume(
+            eventStream: Observable<T>,
+            onResumeObservableCreator: () -> Observable<out T>
+    ): Observable<out T> {
+        val currentStage = screenState.lifecycleStage
+        return if (currentStage == LifecycleStage.RESUMED) {
+            onResumeObservableCreator()
+        } else {
+            eventStream
+                    .filterIsInstance<LifecycleEvent>()
+                    .takeUntil { it.stage == LifecycleStage.RESUMED }
+                    .takeLast(1)
+                    .flatMap { onResumeObservableCreator() }
+        }
+    }
+
 
     protected fun <T> Observable<T>.ignoreErrors() = onErrorResumeNext { error: Throwable ->
         Logger.e(error) //логгируем ошибку, чтобы хотя бы знать, где она произошла
         Observable.empty()
     }
-
-    protected fun <E> Observable<E>.ioHandleError() = io().handleError()
-
-    protected fun <E> Single<E>.ioHandleError() = io().handleError()
-
-    protected fun <E> Maybe<E>.ioHandleError() = io().handleError()
-
-    protected fun Completable.ioHandleError() = io().handleError()
 
     /**
      * Трансформация [Observable]<[Request]<[T]>> Observable с событием с данными.
