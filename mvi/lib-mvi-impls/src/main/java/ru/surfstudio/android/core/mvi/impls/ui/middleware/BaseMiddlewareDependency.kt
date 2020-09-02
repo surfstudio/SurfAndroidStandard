@@ -16,7 +16,7 @@
 package ru.surfstudio.android.core.mvi.impls.ui.middleware
 
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
@@ -24,5 +24,6 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
  */
 class BaseMiddlewareDependency(
         val schedulersProvider: SchedulersProvider,
-        val errorHandler: ErrorHandler
+        val errorHandler: ErrorHandler,
+        val screenState: ScreenState
 )
