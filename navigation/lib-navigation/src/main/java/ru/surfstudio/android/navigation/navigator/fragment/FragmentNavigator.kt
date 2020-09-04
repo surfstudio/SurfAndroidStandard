@@ -135,15 +135,12 @@ open class FragmentNavigator(
         fragmentManager.beginTransaction()
                 .apply {
 
-                    var lastBackStackEntry: FragmentBackStackEntry = backStack.pop()
-
-                    while (lastBackStackEntry != entry) {
-                        remove(lastBackStackEntry.fragment)
-                        lastBackStackEntry = backStack.pop()
+                    while (backStack.peek() != entry) {
+                        remove(backStack.pop().fragment)
                     }
 
                     if (isInclusive) {
-                        remove(lastBackStackEntry.fragment)
+                        remove(backStack.pop().fragment)
                     }
                     // add all visible fragments
                     findLastVisibleEntries().forEach { entry ->
