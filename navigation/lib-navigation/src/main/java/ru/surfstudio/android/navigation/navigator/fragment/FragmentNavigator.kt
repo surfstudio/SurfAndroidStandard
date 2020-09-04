@@ -142,7 +142,7 @@ open class FragmentNavigator(
                     if (isInclusive) {
                         remove(backStack.pop().fragment)
                     }
-                    // добавляем видимые фрагменты
+                    // add all visible fragments
                     findLastVisibleEntries().forEach { entry ->
                         setupReverseAnimations(this, entry.command, animations)
                         attach(entry.fragment)
@@ -162,7 +162,7 @@ open class FragmentNavigator(
                         val entry = backStack.pop()
                         remove(entry.fragment)
                     }
-                    //Добавляем последний видимый фрагмент (если есть)
+                    //add last visible fragment (if it exists)
                     findLastVisibleEntries().forEach { entry ->
                         setupReverseAnimations(this, entry.command, animations)
                         attach(entry.fragment)
