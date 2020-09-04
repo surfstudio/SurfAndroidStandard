@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
+import android.graphics.RectF
 import androidx.annotation.ColorInt
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,22 +26,23 @@ const val MIN_SHOW_INDICATOR_VALUE = 1
  * @property widthActive длина активного индикатора
  * @property paddingBetween отступ между индикаторами
  * @property indicatorHeight высота индикатора
- * @property isRound края индикатора загруленные или нет
+ * @property indicatorRadius радиус индикаторов для отрисовки закругленных углов. Если ноль, будут отрисованы прямоугольные индикаторы
  * @property align выравнивание индикатора (слева/справа/по центру)
- * @property paddingBottom отступ индикаторов снизу
+ * @property paddingBottom отступ индикаторов снизу от границ внутри(!) вью. По умолчанию индикатор рисуется поверх элементов ресайклер/вьюпейджер
+ * Внимание, если необходимо, чтобы индикатор рисовался не поверх элементов, необходимо использовать офсет декоратор, а данный параметр оставить нулем!
  * @property paddingHorizontal отступ индикаторов слева и справа
  * @property colorActive цвет активного индикатора
  * @property colorActive цвет неактивного индикатора
  */
 class ScaleLinePageIndicatorDecoration(
-        private val hasInfiniteScroll: Boolean = true,
+        private val hasInfiniteScroll: Boolean = false,
         private val widthInactive: Int = 8.toPx,
         private val widthActive: Int = 32.toPx,
         private val paddingBetween: Int = 16.toPx,
         private val indicatorHeight: Int = 8.toPx,
-        private val isRound: Boolean = false,
+        private val indicatorRadius: Int = 0.toPx,
         private val align: IndicatorAlign = IndicatorAlign.LEFT,
-        private val paddingBottom: Int = 32.toPx,
+        private val paddingBottom: Int = 0.toPx,
         private val paddingHorizontal: Int = 32.toPx,
         @ColorInt val colorActive: Int = -0x1,
         @ColorInt val colorInactive: Int = 0x66FFFFFF
@@ -52,9 +54,6 @@ class ScaleLinePageIndicatorDecoration(
     private val rect = Rect()
 
     init {
-        indicatorPaint.strokeCap = if (isRound) Paint.Cap.ROUND else Paint.Cap.SQUARE
-        indicatorPaint.style = Paint.Style.STROKE
-        indicatorPaint.strokeWidth = indicatorHeight.toFloat()
         indicatorPaint.isAntiAlias = true
     }
 
@@ -83,7 +82,7 @@ class ScaleLinePageIndicatorDecoration(
             IndicatorAlign.RIGHT -> recyclerView.width - indicatorTotalWidth - paddingHorizontal.toFloat()
         }
 
-        val indicatorPosY = recyclerView.height - indicatorHeight / 2f - paddingBottom
+        val indicatorPosY = recyclerView.height - paddingBottom.toFloat()
 
         val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
         val firstVisibleItemPosition = layoutManager?.findFirstVisibleItemPosition()
@@ -109,25 +108,20 @@ class ScaleLinePageIndicatorDecoration(
 
     private fun drawIndicators(
             canvas: Canvas,
-            indicatorStartX: Float,
-            indicatorPosY: Float,
+            startX: Float,
+            startY: Float,
             itemsCount: Int,
             activePosition: Int,
             progress: Float
     ) {
         val diff = indicatorDiff * progress
-        var start = indicatorStartX
+        var currentStartX = startX
         for (index in 0 until itemsCount) {
             val indicatorWidth = calculateIndicatorWidth(index, activePosition, itemsCount, diff)
             indicatorPaint.color = calculateColor(index, activePosition, itemsCount, progress)
-            canvas.drawLine(
-                    start,
-                    indicatorPosY,
-                    start + indicatorWidth,
-                    indicatorPosY,
-                    indicatorPaint
-            )
-            start += (indicatorWidth + paddingBetween)
+            val rect = RectF(currentStartX, startY, currentStartX + indicatorWidth, startY - indicatorHeight)
+            canvas.drawRoundRect(rect, indicatorRadius.toFloat(), indicatorRadius.toFloat(), indicatorPaint)
+            currentStartX += (indicatorWidth + paddingBetween)
         }
     }
 
