@@ -2,6 +2,7 @@ package ru.surfstudio.android.navigation.navigator.fragment.tab
 
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
 import ru.surfstudio.android.navigation.navigator.fragment.tab.listener.ActiveTabReopenedListener
+import ru.surfstudio.android.navigation.navigator.fragment.tab.listener.TabHeadChangedListener
 import ru.surfstudio.android.navigation.route.tab.TabHeadRoute
 
 /**
@@ -18,4 +19,8 @@ interface TabFragmentNavigatorInterface : FragmentNavigatorInterface {
     val tabCount: Int
 
     fun setActiveTabReopenedListener(listener: ActiveTabReopenedListener?)
+
+    fun addTabHeadChangedListener(listener: TabHeadChangedListener)
+
+    fun removeTabHeadChangedListener(listener: TabHeadChangedListener)
 }

@@ -12,6 +12,7 @@ import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntri
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntry
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostFragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.listener.ActiveTabReopenedListener
+import ru.surfstudio.android.navigation.navigator.fragment.tab.listener.TabHeadChangedListener
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.route.tab.TabHeadRoute
 
@@ -38,6 +39,7 @@ open class TabFragmentNavigator(
         get() = obtainCurrentNavigator()
 
     private var activeTabReopenedListener: ActiveTabReopenedListener? = null
+    private val tabHeadChangedListeners: MutableList<TabHeadChangedListener> = mutableListOf()
 
     override val backStackEntryCount: Int
         get() = activeNavigator.backStackEntryCount
@@ -128,6 +130,14 @@ open class TabFragmentNavigator(
         activeTabReopenedListener = listener
     }
 
+    override fun addTabHeadChangedListener(listener: TabHeadChangedListener) {
+        tabHeadChangedListeners.add(listener)
+    }
+
+    override fun removeTabHeadChangedListener(listener: TabHeadChangedListener) {
+        tabHeadChangedListeners.add(listener)
+    }
+
     /**
      * Opens tab as a head.
      */
@@ -137,6 +147,7 @@ open class TabFragmentNavigator(
         } else {
             addNewTab(route)
         }
+        tabHeadChangedListeners.forEach { it.invoke(route) }
     }
 
     protected open fun addNewTab(route: FragmentRoute) {

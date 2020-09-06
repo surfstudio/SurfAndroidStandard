@@ -7,3 +7,4 @@
 * Fragment manager crash fix updated for Xiaomi on Android 9
 * ANDDEP-1110 Add removeAll and removeUntil fragment animations
 * Fix RemoveUntil command execution for single removal
+* Add methods to listen for changes of tab head in TabFragmentNavigator
