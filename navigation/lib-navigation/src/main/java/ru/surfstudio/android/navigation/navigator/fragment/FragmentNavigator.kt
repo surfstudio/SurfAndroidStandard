@@ -134,6 +134,7 @@ open class FragmentNavigator(
         val entry = backStack.find(backStackTag) ?: return
         fragmentManager.beginTransaction()
                 .apply {
+                    setupReverseAnimations(this, backStack.peek().command, animations)
 
                     while (backStack.peek() != entry) {
                         remove(backStack.pop().fragment)
@@ -143,30 +144,27 @@ open class FragmentNavigator(
                         remove(backStack.pop().fragment)
                     }
                     // add all visible fragments
-                    findLastVisibleEntries().forEach { entry ->
-                        setupReverseAnimations(this, entry.command, animations)
-                        attach(entry.fragment)
-                    }
+                    findLastVisibleEntries().forEach { entry -> attach(entry.fragment) }
                 }
                 .commitNow()
         notifyBackStackListeners()
     }
 
     override fun removeAll(animations: Animations, shouldRemoveLast: Boolean) {
+        val backStackSize = backStack.size
+        if (backStackSize == 0) return
         fragmentManager
                 .beginTransaction()
                 .apply {
-                    val backStackSize = backStack.size
                     val removalCount = if (shouldRemoveLast) backStackSize else backStackSize - 1
+                    setupReverseAnimations(this, backStack.peek().command, animations)
+
                     repeat(removalCount) {
                         val entry = backStack.pop()
                         remove(entry.fragment)
                     }
                     //add last visible fragment (if it exists)
-                    findLastVisibleEntries().forEach { entry ->
-                        setupReverseAnimations(this, entry.command, animations)
-                        attach(entry.fragment)
-                    }
+                    findLastVisibleEntries().forEach { entry -> attach(entry.fragment) }
                 }
                 .commitNow()
         notifyBackStackListeners()
