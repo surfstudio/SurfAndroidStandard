@@ -176,6 +176,5 @@ Reactor и StateHolder в этом процессе не участвуют.
         data class Navigation(override var events: List<NavigationEvent> = listOf()) : NavigationComposition, MainEvent()
     }    
     
-    
 [compreadme]: composition.md
 [navreadme]: navigation.md
