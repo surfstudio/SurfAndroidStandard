@@ -134,15 +134,18 @@ open class FragmentNavigator(
         val entry = backStack.find(backStackTag) ?: return
         fragmentManager.beginTransaction()
                 .apply {
-                    setupReverseAnimations(this, backStack.peek().command, animations)
+                    val entriesToRemove = mutableListOf<FragmentBackStackEntry>()
 
                     while (backStack.peek() != entry) {
-                        remove(backStack.pop().fragment)
+                        entriesToRemove.add(backStack.pop())
                     }
 
                     if (isInclusive) {
-                        remove(backStack.pop().fragment)
+                        entriesToRemove.add(backStack.pop())
                     }
+
+                    removeEntriesWithinTransaction(this, entriesToRemove, animations)
+
                     // add all visible fragments
                     findLastVisibleEntries().forEach { entry -> attach(entry.fragment) }
                 }
@@ -157,12 +160,12 @@ open class FragmentNavigator(
                 .beginTransaction()
                 .apply {
                     val removalCount = if (shouldRemoveLast) backStackSize else backStackSize - 1
-                    setupReverseAnimations(this, backStack.peek().command, animations)
-
+                    val entriesToRemove = mutableListOf<FragmentBackStackEntry>()
                     repeat(removalCount) {
-                        val entry = backStack.pop()
-                        remove(entry.fragment)
+                        entriesToRemove.add(backStack.pop())
                     }
+
+                    removeEntriesWithinTransaction(this, entriesToRemove, animations)
                     //add last visible fragment (if it exists)
                     findLastVisibleEntries().forEach { entry -> attach(entry.fragment) }
                 }
@@ -211,6 +214,28 @@ open class FragmentNavigator(
      */
     override fun removeBackStackChangeListener(listener: FragmentBackStackChangedListener) {
         backStackChangedListeners.remove(listener)
+    }
+
+    /**
+     * Removes bunch of [FragmentBackStackEntry] within single transaction.
+     *
+     * @param transaction transaction which is used to remove entries
+     * @param entries entries to remove
+     * @param animations animations, which are used to animate entries removal. If none set,
+     * the last entry's animations will be used. For example, you have backStack with fragments A, B, C,
+     * and you want to remove them all. Then they will be placed in entries list in backward way: C, B, A,
+     * and the A's fragment animation will be used when they all be removed.
+     * This will activity's stack removal animation, when whole bunch of items is removed with an animation
+     * of first added item.
+     */
+    protected open fun removeEntriesWithinTransaction(
+            transaction: FragmentTransaction,
+            entries: List<FragmentBackStackEntry>,
+            animations: Animations
+    ) {
+        if (entries.isEmpty()) return
+        setupReverseAnimations(transaction, entries.last().command, animations)
+        entries.forEach { transaction.remove(it.fragment) }
     }
 
     protected open fun convertToBackStackTag(routeTag: String): String {
