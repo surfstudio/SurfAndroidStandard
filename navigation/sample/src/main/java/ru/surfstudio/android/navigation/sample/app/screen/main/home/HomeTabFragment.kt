@@ -10,6 +10,7 @@ import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.main.home.nested.HomeNestedRoute
+import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
 
 class HomeTabFragment : Fragment() {
 
