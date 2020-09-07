@@ -10,12 +10,10 @@ import ru.surfstudio.android.easyadapter.sample.ui.screen.multitype.MultitypeLis
 import ru.surfstudio.android.easyadapter.sample.ui.screen.pagination.PaginationListActivityRoute
 import javax.inject.Inject
 
-/**
- * Презентер главного экрана
- */
 @PerScreen
-internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 private val activityNavigator: ActivityNavigator
+internal class MainPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val activityNavigator: ActivityNavigator
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val sm: MainScreenModel = MainScreenModel()

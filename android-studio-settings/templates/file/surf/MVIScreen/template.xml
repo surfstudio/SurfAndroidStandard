@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<template
+    format="4"
+    revision="1"
+    name="MVIScreen"
+    description="Creates all necessary files for a MVI-based screen.">
+
+    <category value="Surf"/>
+
+    <parameter
+        id="screenName"
+        name="Имя экрана (без окончания)"
+        type="string"
+        constraints="nonempty"/>
+
+    <parameter
+        id="screenType"
+        name="Тип экрана"
+        type="enum"
+        default="activity">
+        <option id="activity">Activity</option>
+        <option id="fragment">Fragment</option>
+    </parameter>
+
+    <parameter
+        id="layoutName"
+        name="Имя файла XML разметки"
+        type="string"
+        constraints="layout|unique|nonempty"
+        suggest="${classToResource(screenType)}_${classToResource(screenName)}"/>
+
+    <parameter
+        id="mviType"
+        name="Тип MVI-подхода"
+        type="enum"
+        default="react">
+        <option id="react">React</option>
+        <option id="reduce">Reduce</option>
+    </parameter>
+
+    <parameter
+        id="isMergedStateHolder"
+        name="StateHolder в одном файле вместе с Reactor/Reducer"
+        type="boolean"
+        default="true">
+    </parameter>
+
+    <parameter
+        id="shouldAddNavigationMiddleware"
+        name="Обработка событий навигации"
+        type="boolean"
+        default="false">
+    </parameter>
+
+    <globals file="globals.xml.ftl"/>
+
+    <execute file="recipe.xml.ftl"/>
+
+</template>

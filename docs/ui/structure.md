@@ -1,8 +1,10 @@
 [Главная](../main.md)
 
-[TOC]
-
 # Структура UI-слоя
+
+- [Структура слоя](#структура-слоя)
+- [Структура пакетов/модулей](#структура-пакетовмодулей)
+
 
 Ядром UI-слоя приложения является [core-mvp][mvp]. Данный модуль предоставляет набор
 базовых классов для построения MVP.
@@ -53,10 +55,10 @@
 
 Используется [многомодульная архитектура][multi].
 
-[presenter]: ../../core-mvp/docs/presenter.md
-[view]: ../../core-mvp/docs/view.md
-[sm]: ../../core-mvp/docs/screen_model.md
-[multi]: ../common/multimodule/detail.md
-[mvp]: ../../core-mvp/README.md
-[configurator]: ../../core-mvp/docs/configurator.md
+[presenter]: ../../mvp/lib-core-mvp/docs/presenter.md
+[view]: ../../mvp/lib-core-mvp/docs/view.md
+[sm]: ../../mvp/lib-core-mvp/docs/screen_model.md
+[multi]: ../common/multimodule/multimodules.md
+[mvp]: ../../mvp/lib-core-mvp/README.md
+[configurator]: ../../mvp/lib-core-mvp/docs/configurator.md
 [nav]: navigation.md

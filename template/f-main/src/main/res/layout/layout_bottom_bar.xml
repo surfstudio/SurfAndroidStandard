@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:orientation="horizontal"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <ru.surfstudio.standard.f_main.view.BottomBarItemView
+        android:id="@+id/bottom_bar_feed_btn"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?selectableItemBackgroundBorderless"
+        app:item_icon="@drawable/ic_android"
+        app:item_labelText="@string/bottom_bar_feed" />
+
+    <ru.surfstudio.standard.f_main.view.BottomBarItemView
+        android:id="@+id/bottom_bar_search_btn"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?selectableItemBackgroundBorderless"
+        app:item_icon="@drawable/ic_android"
+        app:item_labelText="@string/bottom_bar_search" />
+
+    <ru.surfstudio.standard.f_main.view.BottomBarItemView
+        android:id="@+id/bottom_bar_profile_btn"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?selectableItemBackgroundBorderless"
+        app:item_icon="@drawable/ic_android"
+        app:item_labelText="@string/bottom_bar_profile" />
+
+</merge>

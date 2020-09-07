@@ -32,6 +32,9 @@ class MainActivity : AppCompatActivity() {
                 x--
             }
         }
+        open_shadow_screen_btn.setOnClickListener {
+            startActivity(Intent(this, ShadowLayoutActivity::class.java))
+        }
         open_tv_screen_btn.setOnClickListener {
             startActivity(Intent(this, TitleSubtitleViewDemoActivity::class.java))
         }
