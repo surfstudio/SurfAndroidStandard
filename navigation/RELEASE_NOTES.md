@@ -9,3 +9,5 @@
 * Fix RemoveUntil command execution for single removal
 * Add methods to listen for changes of tab head in TabFragmentNavigator
 * Update removeUntil and removeAll animations: now they inherit animations from the first fragment of the removing bunch.
+* Update ActivityNavigationProviderCallbacks logic: now it uses onCreate for freshly created activities
+to set current holder and holderListener

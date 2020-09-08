@@ -59,7 +59,9 @@ open class ActivityNavigationProviderCallbacks(
         safeRequireActivityId(activity) { _, id ->
             val newHolder = createHolder(id, activity, savedInstanceState)
             navigatorHolders[id] = newHolder
-            if (savedInstanceState != null) {
+            if (savedInstanceState == null) {
+                updateCurrentHolder(id)
+            } else {
                 currentHolder = newHolder
             }
         }
