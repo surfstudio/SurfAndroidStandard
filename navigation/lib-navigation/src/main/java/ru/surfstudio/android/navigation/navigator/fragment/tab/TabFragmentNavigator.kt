@@ -1,21 +1,20 @@
 package ru.surfstudio.android.navigation.navigator.fragment.tab
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.DefaultAnimations
 import ru.surfstudio.android.navigation.animation.utils.FragmentAnimationSupplier
-import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.backstack.fragment.listener.FragmentBackStackChangedListener
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntries
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntry
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostFragmentNavigator
 import ru.surfstudio.android.navigation.navigator.fragment.tab.listener.ActiveTabReopenedListener
-import ru.surfstudio.android.navigation.route.tab.TabHeadRoute
+import ru.surfstudio.android.navigation.navigator.fragment.tab.listener.TabHeadChangedListener
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
+import ru.surfstudio.android.navigation.route.tab.TabHeadRoute
 
 /**
  * Navigator which supports tabs with their own stacks.
@@ -40,6 +39,7 @@ open class TabFragmentNavigator(
         get() = obtainCurrentNavigator()
 
     private var activeTabReopenedListener: ActiveTabReopenedListener? = null
+    private val tabHeadChangedListeners: MutableList<TabHeadChangedListener> = mutableListOf()
 
     override val backStackEntryCount: Int
         get() = activeNavigator.backStackEntryCount
@@ -81,12 +81,12 @@ open class TabFragmentNavigator(
         activeNavigator.removeLast(animations)
     }
 
-    override fun removeUntil(route: FragmentRoute, isInclusive: Boolean) {
-        activeNavigator.removeUntil(route, isInclusive)
+    override fun removeUntil(route: FragmentRoute, animations: Animations, isInclusive: Boolean) {
+        activeNavigator.removeUntil(route, animations, isInclusive)
     }
 
-    override fun removeAll(shouldRemoveLast: Boolean) {
-        activeNavigator.removeAll(shouldRemoveLast)
+    override fun removeAll(animations: Animations, shouldRemoveLast: Boolean) {
+        activeNavigator.removeAll(animations, shouldRemoveLast)
     }
 
     override fun hide(route: FragmentRoute, animations: Animations) {
@@ -130,6 +130,14 @@ open class TabFragmentNavigator(
         activeTabReopenedListener = listener
     }
 
+    override fun addTabHeadChangedListener(listener: TabHeadChangedListener) {
+        tabHeadChangedListeners.add(listener)
+    }
+
+    override fun removeTabHeadChangedListener(listener: TabHeadChangedListener) {
+        tabHeadChangedListeners.add(listener)
+    }
+
     /**
      * Opens tab as a head.
      */
@@ -139,9 +147,10 @@ open class TabFragmentNavigator(
         } else {
             addNewTab(route)
         }
+        tabHeadChangedListeners.forEach { it.invoke(route) }
     }
 
-    private fun addNewTab(route: FragmentRoute) {
+    protected open fun addNewTab(route: FragmentRoute) {
         val routeTag = route.getId()
         activeTabTag = routeTag
 
@@ -156,7 +165,7 @@ open class TabFragmentNavigator(
         newNavigator.replace(route, DefaultAnimations.tab)
     }
 
-    private fun openExistentTab(routeTag: String) {
+    protected open fun openExistentTab(routeTag: String) {
         if (activeTabTag == routeTag) {
             activeTabReopenedListener?.invoke(routeTag)
         } else {
@@ -164,34 +173,14 @@ open class TabFragmentNavigator(
         }
     }
 
-    private fun attachExistentTab(routeTag: String) {
+    protected open fun attachExistentTab(routeTag: String) {
         activeTabTag = routeTag
         fragmentManager.beginTransaction().apply {
             animationSupplier.supplyWithAnimations(this, DefaultAnimations.tab)
             detachVisibleTabs()
-            extractFragmentsToAttach().forEach { attach(it) }
+            activeNavigator.findLastVisibleFragments().forEach { attach(it) }
             commitNow()
         }
-    }
-
-    /**
-     * Извлечение из бекстека фрагментов, которые необходимо присоединить к отображению.
-     *
-     * Просто извлечь последний видимый не получится,
-     * так как фрагменты могут быть добавлены с помощью операции [Add],
-     * и тогда нам необходимо приаттачить все фрагменты до первого, у которого вызвана операция [Replace]
-     */
-    private fun extractFragmentsToAttach(): List<Fragment> {
-        val activeStack = activeNavigator.obtainBackStack()
-        val activeStackSize = activeStack.size
-        val fragmentsToAttach = mutableListOf<Fragment>()
-        var i = 0
-        do {
-            i++
-            val index = activeStackSize - i
-            fragmentsToAttach.add(activeStack[index].fragment)
-        } while (activeStack[index].command !is Replace)
-        return fragmentsToAttach.reversed()
     }
 
     private fun FragmentTransaction.detachVisibleTabs(): FragmentTransaction {
