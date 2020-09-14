@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="32dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Черная кнопка GPay с тенью"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/black_gpay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="black_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Черная кнопка GPay плоская"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/black_flat_gpay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="black_flat_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Белая кнопка GPay с тенью"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/white_gpay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="white_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Белая кнопка GPay плоская"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/white_flat_gpay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="white_flat_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Черная кнопка GPay с тенью и надписью"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/black_gpay_titled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="black_buy_with_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Черная кнопка GPay плоская с надписью"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/black_flat_gpay_titled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="black_flat_buy_with_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Белая кнопка GPay с тенью и падписью"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/white_gpay_titled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="white_buy_with_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Белая кнопка GPay плоская с надписью"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/white_flat_gpay_titled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="white_flat_buy_with_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Черная кнопка GPay с тенью, выключенная"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/black_gpay_disabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="black_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Черная кнопка GPay плоская, выключенная"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/black_flat_gpay_disabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="black_flat_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Белая кнопка GPay с тенью, выключенная"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/white_gpay_disabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="white_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Белая кнопка GPay плоская, выключенная"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/white_flat_gpay_disabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="white_flat_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Черная кнопка GPay с тенью и надписью, выключенная"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/black_gpay_titled_disabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="black_buy_with_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Черная кнопка GPay плоская с надписью, выключенная"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/black_flat_gpay_titled_disabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="black_flat_buy_with_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Белая кнопка GPay с тенью и падписью, выключенная"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/white_gpay_titled_disabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="white_buy_with_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Белая кнопка GPay плоская с надписью, выключенная"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/white_flat_gpay_titled_disabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpbStyle="white_flat_buy_with_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Белая кнопка GPay плоская, уменьшенный текст"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/white_flat_gpay_scaled_down"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpcTextHeightPercent="0.4"
+            app:gpbStyle="white_flat_buy_with_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Белая кнопка GPay плоская, увеличенный текст"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/white_flat_gpay_scaled_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpcTextHeightPercent="0.6"
+            app:gpbStyle="white_flat_buy_with_gpay" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Белая кнопка GPay плоская, максимально большой текст"
+            tools:ignore="HardcodedText" />
+
+        <ru.surfstudio.android.google_pay_button.GooglePayButton
+            android:id="@+id/white_flat_gpay_scaled_max"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:gpcTextHeightPercent="1"
+            app:gpbStyle="white_flat_buy_with_gpay" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

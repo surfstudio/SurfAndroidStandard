@@ -1131,6 +1131,44 @@
     "mirror_repo": ""
   },
   {
+    "id": "google-pay-button",
+    "version": "0.5.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "google-pay-button",
+    "libs": [
+      {
+        "name": "google-pay-button",
+        "dir": "lib-google-pay-button",
+        "artifact_name": "google-pay-button",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.constraintlayout:constraintlayout",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "google-pay-button-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "imageloader",
     "version": "0.5.0",
     "unstable_version": 8,
