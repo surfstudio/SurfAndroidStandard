@@ -14,7 +14,6 @@
         android:id="@id/google_pay_button_text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:contentDescription="@string/content_description"
         android:duplicateParentState="true"
         android:padding="4sp"
         android:scaleType="fitCenter"
@@ -26,7 +25,6 @@
     <ImageView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:contentDescription="@string/content_description"
         android:duplicateParentState="true"
         android:scaleType="fitXY"
         android:src="@drawable/google_pay_button_overlay"
