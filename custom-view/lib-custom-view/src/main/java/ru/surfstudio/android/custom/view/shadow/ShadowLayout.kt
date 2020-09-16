@@ -17,11 +17,9 @@ package ru.surfstudio.android.custom.view.shadow
 
 import android.content.Context
 import android.graphics.*
-import android.os.Build
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
@@ -78,12 +76,19 @@ open class ShadowLayout @JvmOverloads constructor(
 
     private var shadowCreationDisposable = Disposables.disposed()
 
+    /**
+     * Enable or disable drawing of shadow.
+     * Use case: sometime when view is disabled you don't need to draw shadow.
+     */
     var shouldDrawShadow: Boolean = true
         set(value) {
             field = value
             redrawShadow()
         }
 
+    /**
+     * Shadow alpha in percents.
+     */
     var shadowAlphaPercent: Int = DEFAULT_ALPHA_PERCENT
         set(value) {
             field = value
@@ -91,6 +96,10 @@ open class ShadowLayout @JvmOverloads constructor(
             invalidate()
         }
 
+    /**
+     * Color of the shadow.
+     * Use case: sometimes you want draw shadow of the white background view.
+     */
     @ColorInt
     var shadowColor: Int? = null
         set(value) {
