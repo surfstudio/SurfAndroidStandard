@@ -18,7 +18,6 @@ package ru.surfstudio.android.datalistpagecount.domain.datalist;
 
 import androidx.annotation.NonNull;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,6 +28,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import ru.surfstudio.android.datalistbase.BaseDataList;
+import ru.surfstudio.android.datalistbase.IncompatibleRangesException;
 import ru.surfstudio.android.logger.Logger;
 
 /**
@@ -38,7 +39,7 @@ import ru.surfstudio.android.logger.Logger;
  *
  * @param <T> Item
  */
-public class DataList<T> implements List<T>, Serializable {
+public class DataList<T> implements BaseDataList<T> {
 
     public static final int UNSPECIFIED_PAGE = -1;
     public static final int UNSPECIFIED_PAGE_SIZE = -1;
@@ -57,11 +58,6 @@ public class DataList<T> implements List<T>, Serializable {
     private int totalPagesCount;
 
     private ArrayList<T> data;
-
-    @FunctionalInterface
-    public interface MapFunc<R, T> {
-        R call(T item);
-    }
 
     /**
      * Создает dataList, начиная с некоторой страницы
@@ -130,7 +126,6 @@ public class DataList<T> implements List<T>, Serializable {
         return emptyWithTotalCount(UNSPECIFIED_TOTAL_ITEMS_COUNT, UNSPECIFIED_TOTAL_PAGES_COUNT);
     }
 
-
     /**
      * Создает пустой DataList
      *
@@ -144,18 +139,19 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * Слияние двух DataList
-     *
-     * @param inputDataList DataList для слияния с текущим
-     * @return текущий экземпляр
+     * {@inheritDoc}
      */
-    public DataList<T> merge(DataList<T> inputDataList) {
+    @Override
+    public DataList<T> merge(BaseDataList<T> data) {
+        if (!(data instanceof DataList)) {
+            throw new IllegalArgumentException("Cannot merge datalist tpe of " + data.getClass() + " to " + this.getClass());
+        }
+        DataList<T> inputDataList = (DataList<T>) data;
         if (this.startPage != UNSPECIFIED_PAGE
                 && inputDataList.startPage != UNSPECIFIED_PAGE
                 && this.pageSize != inputDataList.pageSize) {
             throw new IllegalArgumentException("pageSize for merging DataList must be same");
         }
-        int lastSize = this.data.size();
         Map<Integer, List<T>> originalPagesData = split();
         Map<Integer, List<T>> inputPagesData = inputDataList.split();
         SortedMap<Integer, List<T>> resultPagesData = new TreeMap<>();
@@ -194,37 +190,33 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * разделяет данные на блоки по страницам
-     *
-     * @return
+     * Не поддерживается
      */
-    private Map<Integer, List<T>> split() {
-        Map<Integer, List<T>> result = new HashMap<>();
-        for (int i = startPage; i < startPage + numPages; i++) {
-            int startItemIndex = (i - startPage) * pageSize;
-            int itemsRemained = data.size() - startItemIndex;
-            int endItemIndex = startItemIndex +
-                    (itemsRemained < pageSize ? itemsRemained : pageSize);
-            if (itemsRemained <= 0) break;
-
-            result.put(i, data.subList(startItemIndex, endItemIndex));
-        }
-        return result;
+    @Override
+    public <R> BaseDataList<T> merge(BaseDataList<T> data, MapFunc<R, T> distinctPredicate) {
+        throw new UnsupportedOperationException();
     }
 
     /**
-     * Преобразует dataList одного типа в dataList другого типа
-     *
-     * @param mapFunc функция преобразования
-     * @param <R>     тип данных нового списка
-     * @return DataList с элементами типа R
+     * {@inheritDoc}
      */
+    @Override
     public <R> DataList<R> transform(MapFunc<R, T> mapFunc) {
-        List<R> resultData = new ArrayList<R>();
+        List<R> resultData = new ArrayList<>();
         for (T item : this) {
             resultData.add(mapFunc.call(item));
         }
         return new DataList<>(resultData, startPage, numPages, pageSize, this.totalItemsCount, this.totalPagesCount);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canGetMore() {
+        return startPage == UNSPECIFIED_PAGE
+                || (data.size() == (numPages - startPage + 1) * pageSize
+                && totalPagesCount != numPages);
     }
 
     /**
@@ -267,17 +259,6 @@ public class DataList<T> implements List<T>, Serializable {
      */
     public int getTotalPagesCount() {
         return totalPagesCount;
-    }
-
-    /**
-     * Проверка возможности дозагрузки данных
-     *
-     * @return
-     */
-    public boolean canGetMore() {
-        return startPage == UNSPECIFIED_PAGE
-                || (data.size() == (numPages - startPage + 1) * pageSize
-                && totalPagesCount != numPages);
     }
 
     @Override
@@ -438,5 +419,24 @@ public class DataList<T> implements List<T>, Serializable {
                 ", totalPagesCount=" + totalPagesCount +
                 ", data=" + data +
                 '}';
+    }
+
+    /**
+     * разделяет данные на блоки по страницам
+     *
+     * @return
+     */
+    private Map<Integer, List<T>> split() {
+        Map<Integer, List<T>> result = new HashMap<>();
+        for (int i = startPage; i < startPage + numPages; i++) {
+            int startItemIndex = (i - startPage) * pageSize;
+            int itemsRemained = data.size() - startItemIndex;
+            int endItemIndex = startItemIndex +
+                    (itemsRemained < pageSize ? itemsRemained : pageSize);
+            if (itemsRemained <= 0) break;
+
+            result.put(i, data.subList(startItemIndex, endItemIndex));
+        }
+        return result;
     }
 }

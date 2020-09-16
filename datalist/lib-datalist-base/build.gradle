@@ -1,0 +1,2 @@
+apply from: "$rootDir/buildSrc/baseDeployBuild.gradle"
+

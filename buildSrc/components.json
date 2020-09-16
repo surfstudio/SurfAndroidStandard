@@ -985,6 +985,10 @@
           {
             "name": "rx-extension",
             "type": "implementation"
+          },
+          {
+            "name": "datalist-base",
+            "type": "api"
           }
         ]
       },
@@ -1010,8 +1014,17 @@
           {
             "name": "rx-extension",
             "type": "implementation"
+          },
+          {
+            "name": "datalist-base",
+            "type": "api"
           }
         ]
+      },
+      {
+        "name": "datalist-base",
+        "dir": "lib-datalist-base",
+        "artifact_name": "datalist-page-count"
       }
     ],
     "samples": [],
