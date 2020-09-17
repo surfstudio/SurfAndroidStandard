@@ -3,6 +3,9 @@ package ${packageName}
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.core.mvi.impls.ui.reducer.BaseReducer
 import ru.surfstudio.android.core.mvi.impls.ui.reactor.BaseReactorDependency
+<#if isMergedStateHolder>
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
+</#if>
 import javax.inject.Inject
 import ${packageName}.${eventClassName}.*
 

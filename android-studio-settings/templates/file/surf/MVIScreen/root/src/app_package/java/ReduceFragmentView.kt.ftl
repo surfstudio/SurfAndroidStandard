@@ -5,25 +5,21 @@ import androidx.core.os.bundleOf
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.surfstudio.android.core.mvi.event.hub.owner.SingleHubOwner
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
-import ru.surfstudio.android.core.mvi.ui.${reactViewParentClassName}
+import ru.surfstudio.android.core.mvi.impls.ui.view.${reduceViewParentClassName}
 import ${packageName}.di.${configuratorClassName}
-import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
 <#if applicationPackage??>
 import ${applicationPackage}.R
 </#if>
 import javax.inject.Inject
 
-internal class ${viewClassName} : ${reactViewParentClassName}(),
-    CrossFeatureFragment,
-    SingleHubOwner<${eventClassName}> {
+internal class ${viewClassName} : ${reduceViewParentClassName}<${stateClassName}, ${eventClassName}>() {
 
     @Inject
     override lateinit var hub: ScreenEventHub<${eventClassName}>
 
     @Inject
-    lateinit var sh: ${stateHolderClassName}
+    override lateinit var sh: ${stateHolderClassName}
 
     override fun getScreenName() = "${viewClassName}"
 
@@ -35,16 +31,11 @@ internal class ${viewClassName} : ${reactViewParentClassName}(),
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.${layoutName}, container, false)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
-        initViews()
-        bind()
+    override fun render(state: ${stateClassName}) {
+        TODO("Not yet implemented")
     }
 
-    private fun initViews() {
-        /* do nothing */
-    }
-
-    private fun bind() {
-        /* do nothing */
+    override fun initViews() {
+        TODO("Not yet implemented")
     }
 }

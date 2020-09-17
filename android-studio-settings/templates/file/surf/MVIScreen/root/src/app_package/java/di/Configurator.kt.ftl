@@ -43,14 +43,14 @@ import ${applicationPackage}.ui.screen.${parentScreenModule}
 /**
  * Конфигуратор [${viewClassName}].
  */
-class ${configuratorClassName}(${args}: ${argsType}) : ${configuratorParentClassName}(${args}) {
+internal class ${configuratorClassName}(${args}: ${argsType}) : ${configuratorParentClassName}(${args}) {
 
     @PerScreen
     @Component(
             dependencies = [ActivityComponent::class],
             modules = [${parentScreenModule}::class, ${screenModuleClassName}::class]
     )
-    interface ${screenComponentClassName} : BindableScreenComponent<${viewClassName}>
+    internal interface ${screenComponentClassName} : BindableScreenComponent<${viewClassName}>
 
     @Module
     internal class ${screenModuleClassName}(route: ${routeClassName}) :

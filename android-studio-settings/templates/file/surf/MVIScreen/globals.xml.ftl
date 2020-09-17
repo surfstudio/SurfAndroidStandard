@@ -9,7 +9,8 @@
     <global id="capitalizedScreenType" value="${screenType?cap_first}"/>
 
     <global id="viewClassName" value="${screenName?cap_first}${screenType?cap_first}View"/>
-    <global id="viewParentClassName" value="BaseReact${screenType?cap_first}View"/>
+    <global id="reactViewParentClassName" value="BaseReact${screenType?cap_first}View"/>
+    <global id="reduceViewParentClassName" value="BaseMvi${screenType?cap_first}View"/>
     <global id="eventClassName" value="${screenName?cap_first}Event"/>
     <global id="stateHolderClassName" value="${screenName?cap_first}StateHolder"/>
     <global id="stateClassName" value="${screenName?cap_first}State"/>

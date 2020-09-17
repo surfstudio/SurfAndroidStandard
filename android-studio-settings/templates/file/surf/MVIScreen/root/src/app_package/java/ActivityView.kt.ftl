@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import ru.surfstudio.android.core.mvi.event.hub.owner.SingleHubOwner
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
-import ru.surfstudio.android.core.mvi.ui.${viewParentClassName}
+import ru.surfstudio.android.core.mvi.ui.${reactViewParentClassName}
 import ${packageName}.di.${configuratorClassName}
 <#if applicationPackage??>
 import ${applicationPackage}.R
 </#if>
 import javax.inject.Inject
 
-internal class ${viewClassName} : ${viewParentClassName}(),
+internal class ${viewClassName} : ${reactViewParentClassName}(),
     SingleHubOwner<${eventClassName}> {
 
     @Inject

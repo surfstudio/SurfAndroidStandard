@@ -7,10 +7,14 @@
     
     <instantiate from="res/layout/view.xml.ftl" to="${resOut}/layout/${layoutName}.xml"/>
 
-    <#if screenType=='activity'>
-        <instantiate from="src/app_package/java/ActivityView.kt.ftl" to="${srcOut}/${viewClassName}.kt"/>
+    <#if screenType=='activity' && mviType=='react'>
+            <instantiate from="src/app_package/java/ActivityView.kt.ftl" to="${srcOut}/${viewClassName}.kt"/>
+    <#elseif screenType=='activity' && mviType=='reduce'>
+            <instantiate from="src/app_package/java/ReduceActivityView.kt.ftl" to="${srcOut}/${viewClassName}.kt"/>
+    <#elseif screenType=='fragment' && mviType=='react'>
+            <instantiate from="src/app_package/java/FragmentView.kt.ftl" to="${srcOut}/${viewClassName}.kt"/>
     <#else>
-        <instantiate from="src/app_package/java/FragmentView.kt.ftl" to="${srcOut}/${viewClassName}.kt"/>
+            <instantiate from="src/app_package/java/ReduceFragmentView.kt.ftl" to="${srcOut}/${viewClassName}.kt"/>
     </#if>
 
     <instantiate from="src/app_package/java/di/Configurator.kt.ftl" to="${srcOut}/di/${configuratorClassName}.kt"/>
