@@ -15,12 +15,14 @@
  */
 package ru.surfstudio.standard.i_network.network;
 
+import ru.surfstudio.standard.i_network.network.response.BaseResponse;
+
 /**
  * Интерфейс, указывающий что объект может быть трансформирован в объект типа T
  *
  * @param <T>
  */
 @Deprecated
-public interface Transformable<T> {
+public interface Transformable<T> extends BaseResponce {
     T transform();
 }
