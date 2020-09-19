@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="shadowButtonStyle" format="reference" />
+
+    <!-- Конфигурируемая кнопка с тенью. -->
+    <declare-styleable name="ShadowButton">
+        <attr name="buttonText" format="string" />
+        <attr name="buttonStyle" />
+        <attr name="android:enabled" />
+    </declare-styleable>
+</resources>

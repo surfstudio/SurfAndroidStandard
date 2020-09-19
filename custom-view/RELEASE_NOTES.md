@@ -8,6 +8,7 @@
 
 ## 0.5.0-alpha
 ##### Custom-view
+* ANDDEP-1119 added shadowColor to shadowLayout, added ShadowButton to sample
 * ANDDEP-998 ShadowLayout was moved to the custom-view module
 * ANDDEP-687 Added "com.google.android.material:material" dependency with "implementation" type
 * ANDDEP-468 Added functionality for setting title/subtitle drawables programmatically
