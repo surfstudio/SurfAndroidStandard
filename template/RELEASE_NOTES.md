@@ -52,6 +52,9 @@
 * ANDDEP-1049 Added `permission` and `core-navigation` dependencies to template.
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 * Fixed fast switching states between NONE and other
+* ANDDEP-1112 Fixed method name typo
+* ANDDEP-1112 Fixed access modifier in `SafeConverterFactory.Function`
+* ANDDEP-1112 Fixed generic type in `CompletableSafeConverter`
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
