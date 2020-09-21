@@ -52,6 +52,7 @@
 * ANDDEP-1049 Added `permission` and `core-navigation` dependencies to template.
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 * Fixed fast switching states between NONE and other
+* ANDDEP-1109 Added new obfuscation rule and TODO in [`proguard-rules.pro`](proguard-rules.pro)
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
