@@ -2,4 +2,5 @@
 <resources>
     <color name="titleColor">@android:color/black</color>
     <color name="subtitleColor">@android:color/darker_gray</color>
+    <color name="white">@android:color/white</color>
 </resources>
