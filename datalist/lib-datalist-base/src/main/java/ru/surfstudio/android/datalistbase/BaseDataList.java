@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *
+ * Base interface for DataLists.
  */
 public interface BaseDataList<T> extends List<T>, Serializable {
 

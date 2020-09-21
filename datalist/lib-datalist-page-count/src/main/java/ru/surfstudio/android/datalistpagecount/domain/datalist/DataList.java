@@ -144,7 +144,7 @@ public class DataList<T> implements BaseDataList<T> {
     @Override
     public DataList<T> merge(BaseDataList<T> data) {
         if (!(data instanceof DataList)) {
-            throw new IllegalArgumentException("Cannot merge datalist tpe of " + data.getClass() + " to " + this.getClass());
+            throw new IllegalArgumentException("Cannot merge datalist type of " + data.getClass() + " to " + this.getClass());
         }
         DataList<T> inputDataList = (DataList<T>) data;
         if (this.startPage != UNSPECIFIED_PAGE

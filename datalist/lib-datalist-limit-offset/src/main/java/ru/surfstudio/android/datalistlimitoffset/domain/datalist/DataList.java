@@ -74,7 +74,7 @@ public class DataList<T> implements BaseDataList<T> {
     @Override
     public DataList<T> merge(BaseDataList<T> data) {
         if (!(data instanceof DataList)) {
-            throw new IllegalArgumentException("Cannot merge datalist tpe of " + data.getClass() + " to " + this.getClass());
+            throw new IllegalArgumentException("Cannot merge datalist type of " + data.getClass() + " to " + this.getClass());
         }
         DataList<T> inputDataList = (DataList<T>) data;
         boolean reverse = inputDataList.offset < this.offset;
@@ -131,7 +131,7 @@ public class DataList<T> implements BaseDataList<T> {
     @Override
     public <R> DataList<T> merge(BaseDataList<T> data, MapFunc<R, T> distinctPredicate) {
         if (!(data instanceof DataList)) {
-            throw new IllegalArgumentException("Cannot merge datalist tpe of " + data.getClass() + " to " + this.getClass());
+            throw new IllegalArgumentException("Cannot merge datalist type of " + data.getClass() + " to " + this.getClass());
         }
         DataList<T> inputDataList = (DataList<T>) data;
         boolean reverse = inputDataList.offset < this.offset;
