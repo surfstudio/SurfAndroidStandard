@@ -52,6 +52,7 @@
 * ANDDEP-1049 Added `permission` and `core-navigation` dependencies to template.
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 * Fixed fast switching states between NONE and other
+* ANDDEP-1111 Added class inheritance: `Transformable` extends `BaseResponse`
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
