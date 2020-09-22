@@ -19,13 +19,12 @@ enum class PermissionStatus(val isGranted: Boolean) {
 
     /**
      * При предыдущем запросе в разрешении было отказано и выбрана опция "Don't ask again".
+     * Также данный флаг может быть получен, если пользователь выбрал запрашивать только One time permissions
      */
-    DENIED_FOREVER(false),
+    DENIED_FOREVER_OR_ONE_TIME_PERMISSION(false),
 
     /**
      * Разрешение ещё не запрашивалось.
      */
-    NOT_REQUESTED(false),
-
-    DENIED_BY_SYSTEM(false)
+    NOT_REQUESTED(false)
 }
