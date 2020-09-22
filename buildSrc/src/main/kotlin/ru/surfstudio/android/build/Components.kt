@@ -4,6 +4,7 @@ import org.gradle.api.GradleException
 import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundForStandardDependencyException
 import ru.surfstudio.android.build.exceptions.library.LibraryNotFoundException
 import ru.surfstudio.android.build.model.Component
+import ru.surfstudio.android.build.model.dependency.AndroidStandardDependency
 import ru.surfstudio.android.build.model.dependency.Dependency
 import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.model.module.Library
@@ -97,13 +98,10 @@ object Components {
      * Get standard artifact names by library name
      */
     @JvmStatic
-    fun getAndroidStandardDependencies(libraryName: String): List<Library> {
-        val libs = value.flatMap { it.libraries }
-        val standardDepNames = libs.find { it.name == libraryName }
-                ?.androidStandardDependencies
-                ?.map(Dependency::name) ?: return emptyList()
-        return libs.filter { standardDepNames.contains(it.name) }
-    }
+    fun getAndroidStandardDependencies(libraryName: String): List<AndroidStandardDependency> =
+            value.flatMap { it.libraries }
+                    .find { it.name == libraryName }
+                    ?.androidStandardDependencies ?: emptyList()
 
     /**
      * Get component stability by module name
