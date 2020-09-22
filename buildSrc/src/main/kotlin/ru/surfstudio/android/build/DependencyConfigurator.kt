@@ -189,9 +189,9 @@ object DependencyConfigurator {
     private fun addAndroidStandardDependencies(project: Project, dependencies: List<Dependency>) {
         dependencies.forEach {
             if (!isProjectIncluded(project, it.name)) {
-                addDependency(project, IMPLEMENTATION_DEP_TYPE, getDependencyArtifactoryName(it.name))
+                addDependency(project, it.type, getDependencyArtifactoryName(it.name))
             } else {
-                addDependency(project, IMPLEMENTATION_DEP_TYPE, project.rootProject.project(":${it.name}"))
+                addDependency(project, it.type, project.rootProject.project(":${it.name}"))
             }
         }
     }

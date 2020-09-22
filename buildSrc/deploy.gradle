@@ -76,13 +76,14 @@ ext.configureDeploy = { context ->
                     pom.project {
                         dependencies {
                             Components.getAndroidStandardDependencies(project.name).each {
-                                def depArtifactName = it.getArtifactName()
+                                def depArtifactName = it.getName()
                                 def depArtifactVersion = Components.getModuleVersion(it.getName())
+                                def depArtifactScope = it.type
                                 dependency {
                                     groupId artifactGroupId
                                     artifactId depArtifactName
                                     version depArtifactVersion
-                                    scope "compile"
+                                    scope depArtifactScope
                                 }
                             }
                         }
