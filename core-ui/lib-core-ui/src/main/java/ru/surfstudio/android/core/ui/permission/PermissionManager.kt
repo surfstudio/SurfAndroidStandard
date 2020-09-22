@@ -156,7 +156,7 @@ abstract class PermissionManager(
     private fun tryOneTimePermissionRequest(
             permissionRequest: PermissionRequest
     ): Single<Boolean> = performPermissionRequestByDialog(permissionRequest).flatMap {
-        //Данное условте определит, если в настройках указанно, что у нас только одноразовое разрешение
+        //Данное условие определит, если в настройках указанно, что у нас только одноразовое разрешение
         if (it || (!it && shouldShowRequestPermissionRationale(permissionRequest))) {
             Single.just(it)
         } else {
