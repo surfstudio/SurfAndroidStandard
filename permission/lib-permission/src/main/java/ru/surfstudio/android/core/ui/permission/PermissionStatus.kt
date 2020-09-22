@@ -25,5 +25,7 @@ enum class PermissionStatus(val isGranted: Boolean) {
     /**
      * Разрешение ещё не запрашивалось.
      */
-    NOT_REQUESTED(false)
+    NOT_REQUESTED(false),
+
+    DENIED_BY_SYSTEM(false)
 }
