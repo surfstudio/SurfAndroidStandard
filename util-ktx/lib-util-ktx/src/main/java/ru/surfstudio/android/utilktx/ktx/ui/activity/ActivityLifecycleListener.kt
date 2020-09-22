@@ -33,31 +33,31 @@ open class ActivityLifecycleListener(
         private val onActivitySaveInstanceState: ((activity: Activity?, savedInstanceState: Bundle?) -> Unit)? = null
 ) : Application.ActivityLifecycleCallbacks {
 
-    override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         onActivityCreated?.invoke(activity, savedInstanceState)
     }
 
-    override fun onActivityStarted(activity: Activity?) {
+    override fun onActivityStarted(activity: Activity) {
         onActivityStarted?.invoke(activity)
     }
 
-    override fun onActivityResumed(activity: Activity?) {
+    override fun onActivityResumed(activity: Activity) {
         onActivityResumed?.invoke(activity)
     }
 
-    override fun onActivityPaused(activity: Activity?) {
+    override fun onActivityPaused(activity: Activity) {
         onActivityPaused?.invoke(activity)
     }
 
-    override fun onActivityStopped(activity: Activity?) {
+    override fun onActivityStopped(activity: Activity) {
         onActivityStopped?.invoke(activity)
     }
 
-    override fun onActivityDestroyed(activity: Activity?) {
+    override fun onActivityDestroyed(activity: Activity) {
         onActivityDestroyed?.invoke(activity)
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         onActivitySaveInstanceState?.invoke(activity, outState)
     }
 }

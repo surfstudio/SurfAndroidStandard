@@ -16,6 +16,9 @@
 package ru.surfstudio.android.core.ui.permission
 
 import android.content.SharedPreferences
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
@@ -36,6 +39,8 @@ import ru.surfstudio.android.core.ui.permission.exceptions.SettingsRationalIsNot
 import ru.surfstudio.android.core.ui.permission.screens.default_permission_rational.DefaultPermissionRationalRoute
 import ru.surfstudio.android.core.ui.permission.screens.settings_rational.DefaultSettingsRationalRoute
 import java.io.Serializable
+
+private const val IS_GRANTED_PREFIX_KEY = "is granted "
 
 /**
  * Класс для проверки и запросов разрешений.
@@ -76,13 +81,34 @@ abstract class PermissionManager(
      *
      * @return Статус разрешения [PermissionStatus].
      */
-    fun check(permissionRequest: PermissionRequest): PermissionStatus =
-            when {
-                isPermissionRequestGranted(permissionRequest) -> PermissionStatus.GRANTED
-                !isPermissionRequestRequested(permissionRequest) -> PermissionStatus.NOT_REQUESTED
-                isPermissionRequestDenied(permissionRequest) -> PermissionStatus.DENIED
-                else -> PermissionStatus.DENIED_FOREVER
-            }
+    fun check(permissionRequest: PermissionRequest): PermissionStatus {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            checkForBeforeRVersion(permissionRequest)
+        } else {
+            checkForRVersion(permissionRequest)
+        }
+    }
+
+
+    private fun checkForBeforeRVersion(permissionRequest: PermissionRequest): PermissionStatus {
+        log("checkForBeforeRVersion")
+        return when {
+            isPermissionRequestGranted(permissionRequest) -> PermissionStatus.GRANTED
+            !isPermissionRequestRequested(permissionRequest) -> PermissionStatus.NOT_REQUESTED
+            isPermissionRequestDenied(permissionRequest) -> PermissionStatus.DENIED
+            else -> PermissionStatus.DENIED_FOREVER
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    private fun checkForRVersion(permissionRequest: PermissionRequest): PermissionStatus {
+        log("checkForRVersion")
+        return if (isPermissionRequestDeniedBySystem(permissionRequest)) {
+            PermissionStatus.DENIED_BY_SYSTEM
+        } else {
+            checkForBeforeRVersion(permissionRequest)
+        }
+    }
 
     /**
      * Запросить разрешение.
@@ -94,6 +120,8 @@ abstract class PermissionManager(
     fun request(permissionRequest: PermissionRequest): Single<Boolean> {
         val permissionRequestStatus = check(permissionRequest)
 
+        log("request $permissionRequestStatus")
+
         if (permissionRequestStatus.isGranted) {
             return Single.just(true)
         }
@@ -101,7 +129,12 @@ abstract class PermissionManager(
         return showPermissionRequestRationalIfNeeded(permissionRequest)
                 .toSingleDefault(false)
                 .flatMap { performPermissionRequestByDialogOrSettings(permissionRequest, permissionRequestStatus) }
-                .doOnSuccess { setPermissionRequestIsRequested(permissionRequest) }
+                .doOnSuccess {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        setPermissionRequestIsGranted(permissionRequest, it)
+                    }
+                    setPermissionRequestIsRequested(permissionRequest)
+                }
     }
 
     private fun isAllResultsAreGranted(grantResults: IntArray): Boolean =
@@ -113,13 +146,33 @@ abstract class PermissionManager(
                     .permissions
                     .all { permission -> isPermissionGranted(permission) }
 
-    private fun isPermissionRequestDenied(permissionRequest: PermissionRequest): Boolean =
-            shouldShowRequestPermissionRationale(permissionRequest)
+    private fun isPermissionRequestDenied(permissionRequest: PermissionRequest): Boolean {
+        val result = shouldShowRequestPermissionRationale(permissionRequest)
+        log("isPermissionRequestDenied $result")
+        return result
+    }
 
-    private fun isPermissionRequestRequested(permissionRequest: PermissionRequest): Boolean =
-            permissionRequest
-                    .permissions
-                    .all { permission -> isPermissionRequested(permission) }
+    private fun isPermissionRequestDeniedBySystem(permissionRequest: PermissionRequest): Boolean {
+        val result = !isPermissionRequestGranted(permissionRequest) && isPermissionRequestWasGranted(permissionRequest)
+        log("isPermissionRequestDeniedBySystem $result")
+        return result
+    }
+
+    private fun isPermissionRequestRequested(permissionRequest: PermissionRequest): Boolean {
+        val result = permissionRequest
+                .permissions
+                .all { permission -> isPermissionRequested(permission) }
+        log("isPermissionRequestRequested $result")
+        return result
+    }
+
+    private fun isPermissionRequestWasGranted(permissionRequest: PermissionRequest): Boolean {
+        val result = permissionRequest
+                .permissions
+                .all { permission -> isPermissionWasGranted(permission) }
+        log("isPermissionRequestWasGranted $result")
+        return result
+    }
 
     private fun showPermissionRequestRationalIfNeeded(permissionRequest: PermissionRequest): Completable =
             if (needToShowPermissionRequestRational(permissionRequest)) {
@@ -135,7 +188,13 @@ abstract class PermissionManager(
             when {
                 permissionStatus != PermissionStatus.DENIED_FOREVER ->
                     performPermissionRequestByDialog(permissionRequest)
-                permissionRequest.showSettingsRational -> performPermissionRequestBySettings(permissionRequest)
+                permissionRequest.showSettingsRational -> performPermissionRequestByDialog(permissionRequest).flatMap {
+                    if (it || (!it && shouldShowRequestPermissionRationale(permissionRequest))) {
+                        Single.just(it)
+                    } else {
+                        performPermissionRequestBySettings(permissionRequest)
+                    }
+                }
                 else -> Single.just(false)
             }
 
@@ -144,15 +203,27 @@ abstract class PermissionManager(
                     .permissions
                     .forEach { permission -> setPermissionIsRequested(permission) }
 
-    private fun isPermissionGranted(permission: String): Boolean =
-            ContextCompat.checkSelfPermission(activityProvider.get(), permission) == PERMISSION_GRANTED
-
-    private fun shouldShowRequestPermissionRationale(permissionRequest: PermissionRequest): Boolean =
+    private fun setPermissionRequestIsGranted(permissionRequest: PermissionRequest, isGranted: Boolean) =
             permissionRequest
                     .permissions
-                    .any { permission -> shouldShowPermissionRationale(permission) }
+                    .forEach { permission -> setPermissionIsGranted(permission, isGranted) }
+
+    private fun isPermissionGranted(permission: String): Boolean {
+        val result = ContextCompat.checkSelfPermission(activityProvider.get(), permission) == PERMISSION_GRANTED
+        log("isPermissionGranted $result")
+        return result
+    }
+
+    private fun shouldShowRequestPermissionRationale(permissionRequest: PermissionRequest): Boolean {
+        return permissionRequest
+                .permissions
+                .any { permission -> shouldShowPermissionRationale(permission) }
+    }
 
     private fun isPermissionRequested(permission: String) = sharedPreferences.getBoolean(permission, false)
+
+    private fun isPermissionWasGranted(permission: String) =
+            sharedPreferences.getBoolean("$IS_GRANTED_PREFIX_KEY $permission", false)
 
     private fun needToShowPermissionRequestRational(permissionRequest: PermissionRequest): Boolean =
             permissionRequest.showPermissionsRational && shouldShowRequestPermissionRationale(permissionRequest)
@@ -199,6 +270,12 @@ abstract class PermissionManager(
                     .putBoolean(permission, true)
                     .apply()
 
+    private fun setPermissionIsGranted(permission: String, isGranted: Boolean) =
+            sharedPreferences
+                    .edit()
+                    .putBoolean("$IS_GRANTED_PREFIX_KEY $permission", isGranted)
+                    .apply()
+
     /**
      * Проверить, следует ли показывать пользователю объяснение, для чего нужен запрашиваемый Permission.
      *
@@ -217,4 +294,8 @@ abstract class PermissionManager(
                     .firstElement()
                     .flatMapCompletable { Completable.complete() }
                     .doOnSubscribe { activityNavigator.startForResult(route) }
+
+    private fun log(value: String) {
+        Log.d("Permission request %s", value)
+    }
 }

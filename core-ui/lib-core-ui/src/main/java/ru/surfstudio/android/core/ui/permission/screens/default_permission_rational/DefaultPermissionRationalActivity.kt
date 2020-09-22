@@ -12,7 +12,7 @@ import ru.surfstudio.android.core.ui.navigation.Route
 class DefaultPermissionRationalActivity : AppCompatActivity() {
 
     private val permissionsRationalStr: String
-        get() = intent.getStringExtra(Route.EXTRA_FIRST)
+        get() = intent.getStringExtra(Route.EXTRA_FIRST) ?: ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

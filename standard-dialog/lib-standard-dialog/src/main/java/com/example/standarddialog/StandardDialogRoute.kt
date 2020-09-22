@@ -35,16 +35,16 @@ class StandardDialogRoute(var title: String = "",
                           var isCancelable: Boolean = true,
                           val dialogTag: String) : DialogWithParamsRoute() {
 
-    constructor(bundle: Bundle) : this(bundle.getString(Route.EXTRA_FIRST),
-            bundle.getString(Route.EXTRA_SECOND),
-            bundle.getString(Route.EXTRA_THIRD),
-            bundle.getString(Route.EXTRA_FOURTH),
+    constructor(bundle: Bundle) : this(bundle.getString(Route.EXTRA_FIRST, ""),
+            bundle.getString(Route.EXTRA_SECOND, ""),
+            bundle.getString(Route.EXTRA_THIRD, ""),
+            bundle.getString(Route.EXTRA_FOURTH, ""),
             bundle.getInt(Route.EXTRA_FIFTH),
             bundle.getInt(Route.EXTRA_SIXTH),
             bundle.getInt(Route.EXTRA_SEVEN),
             bundle.getInt(Route.EXTRA_EIGHT),
             bundle.getBoolean(Route.EXTRA_NINE),
-            bundle.getString(Route.EXTRA_TEN))
+            bundle.getString(Route.EXTRA_TEN, ""))
 
     override fun getFragmentClass() = StandardDialog::class.java
 
