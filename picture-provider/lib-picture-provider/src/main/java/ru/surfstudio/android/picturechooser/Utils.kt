@@ -71,12 +71,13 @@ internal fun <T : Serializable> parseMultipleResultIntent(
         parseUris: (uris: ArrayList<Uri>) -> ArrayList<T>
 ): ArrayList<T>? {
     val clipData = intent?.clipData
+    val data = intent?.data
     return when {
         intent == null -> null
         clipData != null -> with(clipData) {
-            parseUris((0 until (this.itemCount)).mapTo(ArrayList()) { getItemAt(it).uri })
+            parseUris((0 until (itemCount)).mapTo(ArrayList()) { getItemAt(it).uri })
         }
-        intent.data != null -> parseUris(arrayListOf((intent.data!!)))
+        data != null -> parseUris(arrayListOf((data)))
         else -> null
     }
 }
