@@ -149,7 +149,11 @@ abstract class PermissionManager(
     ): Single<Boolean> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         tryOneTimePermissionRequest(permissionRequest)
     } else {
-        performPermissionRequestBySettings(permissionRequest)
+        if (permissionRequest.showSettingsRational) {
+            performPermissionRequestBySettings(permissionRequest)
+        } else {
+            Single.just(false)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
