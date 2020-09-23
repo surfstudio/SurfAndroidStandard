@@ -67,9 +67,14 @@ object GradleProperties {
     const val COMMIT = "commit"
 
     /**
-     * Mirror url
+     * Mirror dir
      */
     const val MIRROR_DIR = "mirrorDir"
+
+    /**
+     * Mirror url
+     */
+    const val MIRROR_URL = "mirrorUrl"
 
     /**
      * Depth of standard repository git tree to get commits

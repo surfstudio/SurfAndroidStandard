@@ -14,7 +14,7 @@ import ru.surfstudio.android.sample.common.R
 import ru.surfstudio.android.sample.common.ui.base.loadstate.EmptyLoadState
 
 /**
- * Представление состояния EmptyLoadStat, с картинкой, тайтлом, сабтайтлом и кнопкой
+ * Presentation of EmptyLoadState with a picture, title, subtitle and button
  */
 class EmptyLoadStatePresentation(private val placeHolder: PlaceHolderViewContainer) :
         SimpleLoadStatePresentation<EmptyLoadState>() {

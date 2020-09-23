@@ -3,9 +3,12 @@ package ru.surfstudio.standard.f_main.di
 import android.content.Intent
 import dagger.Component
 import dagger.Module
+import dagger.Provides
+import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.f_main.MainActivityView
+import ru.surfstudio.standard.f_main.MainPresenter
 import ru.surfstudio.standard.ui.activity.di.ActivityComponent
 import ru.surfstudio.standard.ui.activity.di.ActivityScreenConfigurator
 import ru.surfstudio.standard.ui.navigation.MainActivityRoute
@@ -20,11 +23,17 @@ class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent
     @PerScreen
     @Component(dependencies = [ActivityComponent::class],
             modules = [ActivityScreenModule::class, MainScreenModule::class])
-    interface MainScreenComponent
-        : ScreenComponent<MainActivityView>
+    interface MainScreenComponent : BindableScreenComponent<MainActivityView>
 
     @Module
-    internal class MainScreenModule(route: MainActivityRoute) : CustomScreenModule<MainActivityRoute>(route)
+    internal class MainScreenModule(route: MainActivityRoute) :
+            CustomScreenModule<MainActivityRoute>(route) {
+
+        @Provides
+        @PerScreen
+        fun provideMainPresenter(presenter: MainPresenter) = Any()
+
+    }
 
     @Suppress("DEPRECATION")
     override fun createScreenComponent(parentComponent: ActivityComponent,

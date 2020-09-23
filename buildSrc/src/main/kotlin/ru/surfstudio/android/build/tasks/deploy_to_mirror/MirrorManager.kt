@@ -1,16 +1,22 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
-import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
+import org.gradle.api.GradleException
+import ru.surfstudio.android.build.COMMON_COMPONENT_NAME
+import ru.surfstudio.android.build.GradlePropertiesManager
+import ru.surfstudio.android.build.MIRROR_PROPERTIES_FILE_PATH
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
+import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
-import ru.surfstudio.android.build.utils.*
+import ru.surfstudio.android.build.utils.EMPTY_STRING
+import ru.surfstudio.android.build.utils.extractBranchNames
+import ru.surfstudio.android.build.utils.standardHash
 
-private const val HEAD = "HEAD"
+private const val GET_MAIN_BRANCH_COMMAND = "git symbolic-ref refs/remotes/origin/HEAD"
 
 /**
  * Class for mirroring android standard to mirror repository
@@ -24,23 +30,43 @@ class MirrorManager(
         private val mirrorDepthLimit: Int
 ) {
 
+    private val mirrorDir = mirrorRepository.repositoryPath
+    private val standardDir = standardRepository.repositoryPath
+
     private val gitTree = GitTree(standardRepository, mirrorRepository)
 
-    private val diffManager = GitDiffManager(
-            standardRepository.repositoryPath.path,
-            mirrorRepository
-    )
-
     private val filesToMirror = listOf(
+            ".gitignore",
             "build.gradle",
             "gradle.properties",
+            "gradlew",
+            "gradlew.bat",
             "settings.gradle"
     )
-    private val foldersToMirror = listOf(
+    private val foldersToMirror = mutableListOf(
             componentDirectory,
             "buildSrc",
-            "common"
+            "gradle"
     )
+    private val uniqueMirrorFiles = listOf(
+            ".git",
+            "README.md",
+            MIRROR_PROPERTIES_FILE_PATH
+    )
+
+    private var latestMirrorCommit: RevCommit? = null
+
+    init {
+        GradlePropertiesManager.loadProperty(
+                propertiesFileName = "${mirrorDir.name}/$MIRROR_PROPERTIES_FILE_PATH",
+                propertyName = COMMON_COMPONENT_NAME,
+                required = false
+        )?.apply {
+            if (isNotEmpty()) {
+                foldersToMirror.add(this)
+            }
+        }
+    }
 
     /**
      * Mirrors standard repository to mirror repository.
@@ -54,15 +80,28 @@ class MirrorManager(
         val rootCommit = standardCommits.find { it.name == rootCommitHash }
                 ?: throw RevCommitNotFoundException(rootCommitHash)
 
-        val mirrorCommits: Set<RevCommit> = mirrorRepository.getAllBranches()
-                .flatMap { mirrorRepository.getAllCommits(it.objectId.name, mirrorDepthLimit) }
-                .filter { it.mirrorStandardHash.isNotEmpty() }
-                .toSet()
+        val mainBranchFullName = CommandLineRunner.runCommandWithResult(
+                command = GET_MAIN_BRANCH_COMMAND,
+                workingDir = mirrorRepository.repositoryPath
+        )?.trim()
 
-        gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
-        applyGitTreeToMirror()
-        setBranches()
-        mirrorRepository.push()
+        if (mainBranchFullName != null) {
+            val mainBranch = mirrorRepository.getAllBranches()
+                    .first { it.name == mainBranchFullName }
+
+            val mirrorCommits: Set<RevCommit> = mirrorRepository.getAllCommits(
+                    mainBranch.objectId.name, mirrorDepthLimit)
+                    .toSet()
+
+            latestMirrorCommit = mirrorCommits.maxBy { it.commitTime }
+            gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
+            applyGitTreeToMirror()
+            setBranches()
+            mirrorRepository.push()
+        } else {
+            throw GradleException("Can't get main branch " +
+                    "for repo ${mirrorRepository.repositoryName}")
+        }
     }
 
     private fun setBranches() {
@@ -86,26 +125,13 @@ class MirrorManager(
      */
     private fun applyGitTreeToMirror() {
         gitTree.standardRepositoryCommitsForMirror.forEach { commit ->
+            println("${commit.commit.standardHash} ${commit.type} ${commit.commit.shortMessage}")
             (when (commit.type) {
-                CommitType.SIMPLE -> commit(commit)
-                CommitType.MERGE -> merge(commit)
-                CommitType.MIRROR_START_POINT -> createMirrorStartCommit(commit)
+                CommitType.SIMPLE, CommitType.MERGE -> commit(commit)
+                CommitType.MIRROR_START_POINT -> latestMirrorCommit
                 else -> null
             })?.let { commit.tags.forEach { tag -> mirrorRepository.tag(it, tag) } }
         }
-    }
-
-    /**
-     * creates start commit of git tree in mirror repository
-     *
-     * @param commit start commit
-     */
-    private fun createMirrorStartCommit(commit: CommitWithBranch): RevCommit {
-        val mirrorCommit = gitTree.getStartMirrorCommitByStandardHash(commit.commit.standardHash)
-        mirrorRepository.reset(mirrorCommit.commit)
-        mirrorRepository.checkoutBranch(mirrorCommit.branch)
-        commit.mirrorCommitHash = mirrorCommit.commit.name
-        return mirrorCommit.commit
     }
 
     /**
@@ -116,13 +142,36 @@ class MirrorManager(
      * @param commit commit to apply
      */
     private fun commit(commit: CommitWithBranch): RevCommit? {
+        // for old branches a line could contain an old [version] commit
+        if (gitTree.shouldSkipCommit(commit.commit)) {
+            return null
+        }
+
         standardRepository.reset(commit.commit)
-
-        val changes = standardRepository.getChanges(commit.commit).filter(::shouldMirror)
-        if (changes.isEmpty()) return null
-
         checkoutMirrorBranchForCommit(commit)
-        applyChanges(changes)
+
+        // remove files in mirror repo to owerwrite them afterwards
+        mirrorDir.listFiles()?.filter {
+            !uniqueMirrorFiles.contains(it.name)
+        }?.forEach {
+            it.deleteRecursively()
+        }
+
+        // copy standard files to mirror repo using given commit revision
+        standardDir.listFiles()?.filter {
+            filesToMirror.contains(it.name) || foldersToMirror.contains(it.name)
+        }?.forEach {
+            CommandLineRunner.runCommandWithResult(
+                    command = "cp -r ../${standardDir.name}/${it.name} .",
+                    workingDir = mirrorDir
+            )
+        }
+
+        if (mirrorRepository.status().isClean) {
+            return null
+        }
+
+        mirrorRepository.add()
         val newCommit = mirrorRepository.commit(commit.commit)
         commit.mirrorCommitHash = newCommit?.name ?: EMPTY_STRING
         commit.type = CommitType.COMMITED
@@ -130,96 +179,20 @@ class MirrorManager(
     }
 
     /**
-     * handles checkout right branch for new commit
+     * handles checkout right branch for a new commit
      *
      * @param commit commit
      */
     private fun checkoutMirrorBranchForCommit(commit: CommitWithBranch) {
         with(mirrorRepository) {
-            val parent = gitTree.getParent(commit)
-            if (parent.mirrorCommitHash.isNotEmpty()) {
-                checkoutCommit(parent.mirrorCommitHash)
-            }
-            checkoutBranch(commit.branch)
-        }
-    }
-
-    /**
-     * creates merge commit by getting merge parents for commit
-     * and merging them.
-     * In case of conflicts just copies file from standard repository to mirror repository
-     *
-     * @param commit commit to apply
-     */
-    private fun merge(commit: CommitWithBranch): RevCommit? {
-        standardRepository.reset(commit.commit)
-
-        val mainBranch = commit.branch
-        val secondBranch = gitTree.getMergeParents(commit)
-                .map(CommitWithBranch::branch)
-                .firstOrNull { it != mainBranch }
-                ?: return null
-
-        if (!mirrorRepository.isBranchExists(mainBranch) || !mirrorRepository.isBranchExists(secondBranch)) return null
-
-        mirrorRepository.checkoutBranch(mainBranch)
-        val conflicts = mirrorRepository.merge(secondBranch)
-        conflicts.forEach {
-            val filePath = it.replaceFirst("${mirrorRepository.repositoryPath.path}/", EMPTY_STRING)
-            diffManager.modify(filePath)
-        }
-
-        val newCommit = mirrorRepository.commit(commit.commit)
-        commit.mirrorCommitHash = newCommit?.name ?: EMPTY_STRING
-        commit.type = CommitType.COMMITED
-        return newCommit
-    }
-
-    /**
-     * apply changes to mirror repository
-     *
-     * @param changes list of changes to apply
-     */
-    private fun applyChanges(changes: List<DiffEntry>) {
-        changes.forEach {
-            when (it.type) {
-                DiffEntry.ChangeType.ADD -> diffManager.add(it)
-                DiffEntry.ChangeType.COPY -> diffManager.copy(it)
-                DiffEntry.ChangeType.DELETE -> diffManager.delete(it)
-                DiffEntry.ChangeType.MODIFY -> diffManager.modify(it)
-                DiffEntry.ChangeType.RENAME -> diffManager.rename(it)
+            gitTree.getParent(commit)?.also { safeParent ->
+                if (safeParent.mirrorCommitHash.isNotEmpty()) {
+                    checkoutCommit(safeParent.mirrorCommitHash)
+                }
+                if (commit.branch.isNotEmpty()) {
+                    checkoutBranch(commit.branch)
+                }
             }
         }
-    }
-
-    /**
-     * check if should apply specified change to mirror repository
-     *
-     * @param diffEntry change to check
-     *
-     * @return true if specified change should be included in commit
-     */
-    private fun shouldMirror(diffEntry: DiffEntry): Boolean {
-        val newPath = diffEntry.newPath.substringBeforeLast("/")
-        val oldPath = diffEntry.oldPath.substringBeforeLast("/")
-
-        return when (diffEntry.type) {
-            DiffEntry.ChangeType.ADD -> checkPathMirroring(newPath)
-            DiffEntry.ChangeType.COPY -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
-            DiffEntry.ChangeType.DELETE -> checkPathMirroring(oldPath)
-            DiffEntry.ChangeType.MODIFY -> checkPathMirroring(oldPath)
-            DiffEntry.ChangeType.RENAME -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
-        }
-    }
-
-    /**
-     * checks if this path is for specified objects to mirror
-     *
-     * @param path path to file
-     *
-     * @return true if changed file is contained in [filesToMirror] or [foldersToMirror]
-     */
-    private fun checkPathMirroring(path: String): Boolean {
-        return filesToMirror.contains(path) || foldersToMirror.any { path.startsWith(it) }
     }
 }

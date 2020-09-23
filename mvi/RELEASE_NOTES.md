@@ -1,7 +1,10 @@
-[TOC]
 # Core-mvi Release Notes
+
+- [0.5.0-alpha](#050-alpha)
+
 ## 0.5.0-alpha
 ##### Core-mvi
+* ANDDEP-1008 License added
 * ANDDEP-671 Core mvi refactor, add comments
 * ANDDEP-671 Add navigation middleware, add dsl
 * Divide Mvi Core and Mvi Implementation
@@ -21,3 +24,19 @@ even if stream contains events from UI, which should be reacted directly.
 * Add additional schemes to docs
 * Remove listenForResult extension for EventTransformerList + listenForResult from NavigationMiddleware
 * Fixed StandardReactDialogView negative button nullability
+* ANDDEP-928 Remove Timber dependencies
+* **NO BACKWARD COMPATIBILITY** ANDDEP-997 Renamed RequestEvent.type to RequestEvent.request.
+Replaced RxMiddleware.asRequestEvent `Event` parameter with `EventFactory`.
+* ANDDEP-968 `RequestEvent.kt`: added fields `isLoading`, `hasData`, `hasError`;
+* ANDDEP-1046 Fixed output events observing mechanism in CompositionTransformer: 
+now event composition mechanism supports middlewares that can only produces output events.
+* ANDDEP-1048 Fixing wrong docs links and docs structure
+##### Mvi-mapper
+* ANDDEP-968 **NEW** `RequestMapper.kt`: class for managing requests;
+* ANDDEP-968 **NEW** `RequestMapperLambdas.kt`: file that holds typealiases for `RequestMapper`;
+* ANDDEP-1048 Fixing wrong docs links and docs structure
+##### Mvi-impls
+* ANDDEP-969 Added base classes: `BaseReactor` and `BaseReducer`;
+* **NO BACKWARD COMPATIBILITY** ANDDEP-1049 Package for `BaseActivityResultDelegate`,`SupportOnActivityResultRoute` and `CrossFeatureSupportOnActivityResultRoute` is changed 
+from `ru.surfstudio.android.core.ui.event.result` to:  `ru.surfstudio.android.core.ui.navigation.event.result`
+* ANDDEP-1048 Fixing wrong docs links and docs structure
