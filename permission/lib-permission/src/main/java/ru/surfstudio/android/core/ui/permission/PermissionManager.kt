@@ -141,28 +141,18 @@ abstract class PermissionManager(
             when {
                 permissionStatus != PermissionStatus.DENIED_FOREVER_OR_ONE_TIME_PERMISSION ->
                     performPermissionRequestByDialog(permissionRequest)
-                else -> checkOneTimePermissionAndGoToSettingIfDeniedForever(permissionRequest)
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> tryOneTimePermissionRequest(permissionRequest)
+                permissionRequest.showSettingsRational -> performPermissionRequestBySettings(permissionRequest)
+                else -> Single.just(false)
             }
-
-    private fun checkOneTimePermissionAndGoToSettingIfDeniedForever(
-            permissionRequest: PermissionRequest
-    ): Single<Boolean> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        tryOneTimePermissionRequest(permissionRequest)
-    } else {
-        if (permissionRequest.showSettingsRational) {
-            performPermissionRequestBySettings(permissionRequest)
-        } else {
-            Single.just(false)
-        }
-    }
 
     @RequiresApi(Build.VERSION_CODES.R)
     private fun tryOneTimePermissionRequest(
             permissionRequest: PermissionRequest
-    ): Single<Boolean> = performPermissionRequestByDialog(permissionRequest).flatMap {
+    ): Single<Boolean> = performPermissionRequestByDialog(permissionRequest).flatMap { isGranted ->
         //Данное условие определит, если в настройках указанно, что у нас только одноразовое разрешение
-        if (it || (!it && shouldShowRequestPermissionRationale(permissionRequest))) {
-            Single.just(it)
+        if (isGranted || (!isGranted && shouldShowRequestPermissionRationale(permissionRequest))) {
+            Single.just(isGranted)
         } else {
             if (permissionRequest.showSettingsRational) {
                 performPermissionRequestBySettings(permissionRequest)
