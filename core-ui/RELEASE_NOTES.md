@@ -6,6 +6,7 @@
 * Fix logging screen names
 * Fix extra name for settingsNegativeButtonStr in DefaultSettingsRationalActivity
 * Add additional Route Extra parameters
+* Added android 11 support for PermissionManager (one-time permission handling)
 ## 0.4.0
 ##### Core-ui
 * Added the ability to set text for the buttons of the standard dialog for switching to settings.
