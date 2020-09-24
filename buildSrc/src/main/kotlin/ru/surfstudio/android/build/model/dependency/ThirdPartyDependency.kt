@@ -8,4 +8,8 @@ import ru.surfstudio.android.build.utils.EMPTY_STRING
 data class ThirdPartyDependency(
         override val name: String = EMPTY_STRING,
         override val type: String = EMPTY_STRING
-) : Dependency(name, type)
+) : Dependency(name, type) {
+
+    val artifactGroupId = name.substringBefore(':')
+    val artifactName = name.substringAfter(':')
+}

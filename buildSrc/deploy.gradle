@@ -9,6 +9,7 @@ apply plugin: 'maven'
 // Function for configuration of dependencies of current android-standard module.
 // Context of current module is passed in parameters.
 
+final IMPLEMENTATION_DEP_TYPE = "implementation"
 def trueValue = "true"
 
 ext.configureDeploy = { context ->
@@ -88,12 +89,25 @@ ext.configureDeploy = { context ->
                             }
                         }
                     }
-                    //This code deletes "implementation project("...") dependencies from pom file"
-                    pom.whenConfigured {
-                        p ->
-                            p.dependencies = p.dependencies.findAll {
-                                dep -> dep.groupId != rootDir.name
+                    pom.whenConfigured { p ->
+                        // Deletes "implementation project("...") dependencies from pom file"
+                        p.dependencies = p.dependencies.findAll {
+                            dep -> dep.groupId != rootDir.name
+                        }
+
+                        // Replaces the third-party dependencies scope in the pom file
+                        // to the type specified in the file components.json
+                        Components.getThirdPartyDependencies(project.name).each { thirdPartyDependency ->
+                            p.dependencies = p.dependencies.each {
+                                if (it.groupId == thirdPartyDependency.artifactGroupId
+                                        && it.artifactId == thirdPartyDependency.artifactName
+                                ) {
+                                    it.scope = thirdPartyDependency.type
+                                } else {
+                                    it.scope = IMPLEMENTATION_DEP_TYPE
+                                }
                             }
+                        }
                     }
                 } // repositories.mavenDeployer
             }
