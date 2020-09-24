@@ -28,11 +28,17 @@ open class ScreenNavigator(
      */
     open fun open(route: Route) {
         when (route) {
-            is SupportOnActivityResultRoute<*> -> openForResult(route)
             is ActivityRoute -> openActivity(route)
             is DialogRoute -> openDialog(route)
             is FragmentRoute -> openFragment(route)
         }
+    }
+
+    /**
+     * Open screen with [Route] for result
+     */
+    open fun openForResult(route: SupportOnActivityResultRoute<*>) {
+        openActivityForResult(route)
     }
 
     /**
@@ -85,7 +91,7 @@ open class ScreenNavigator(
         return activityNavigator.observeResult(routeClass)
     }
 
-    protected open fun openForResult(route: SupportOnActivityResultRoute<*>) {
+    protected open fun openActivityForResult(route: SupportOnActivityResultRoute<*>) {
         activityNavigator.startForResult(route)
     }
 

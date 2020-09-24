@@ -3,6 +3,7 @@ package ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.close.*
+import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition.OpenScreenForResult
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.open.OpenScreenEvent
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
@@ -23,7 +24,11 @@ interface NavigationMiddlewareInterface<T : Event> : RxMiddleware<T> {
      * Opens the screen when [OpenScreenEvent] appears on eventStream.
      */
     fun openScreenByEvent(event: OpenScreenEvent) {
-        screenNavigator.open(event.route)
+        if (event is OpenScreenForResult<*>) {
+            screenNavigator.openForResult(event.route)
+        } else {
+            screenNavigator.open(event.route)
+        }
     }
 
     /**

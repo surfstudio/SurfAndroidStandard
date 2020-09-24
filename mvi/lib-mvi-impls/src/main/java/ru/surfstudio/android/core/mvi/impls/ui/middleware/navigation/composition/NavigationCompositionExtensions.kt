@@ -15,6 +15,15 @@ fun <T : NavigationComposition> T.open(route: Route): T =
         this.apply { events = listOf(OpenScreen(route)) }
 
 /**
+ * Opens next screen for result
+ *
+ * @param route screen route
+ */
+fun <T : NavigationComposition, R : Serializable> T.openForResult(
+        route: SupportOnActivityResultRoute<R>
+): T = this.apply { events = listOf(OpenScreenForResult(route)) }
+
+/**
  * Closes current activity
  */
 fun <T : NavigationComposition> T.close(): T =
