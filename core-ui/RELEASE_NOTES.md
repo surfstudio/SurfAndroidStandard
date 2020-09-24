@@ -12,6 +12,7 @@
 * Fix logging screen names
 * Fix extra name for settingsNegativeButtonStr in DefaultSettingsRationalActivity
 * Add additional Route Extra parameters
+* Added android 11 support for PermissionManager (one-time permission handling)
 * ANDDEP-985 Fix screen names logging
 * ANDDEP-1049
     * **NO BACKWARD COMPATIBILITY** All classes responsible for navigation migrated from `core-ui` to `core-navigation`.
