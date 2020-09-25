@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.core.ui.navigation.customtabs
 
+import android.app.Activity
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
@@ -22,27 +23,24 @@ import androidx.annotation.ColorRes
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import ru.surfstudio.android.core.ui.navigation.Navigator
-import ru.surfstudio.android.core.ui.navigation.R
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
 
 /**
  * Класс для навигации через Chrome Custom Tabs.
  */
-class CustomTabsNavigator(private val activityProvider: ActivityProvider): Navigator {
+class CustomTabsNavigator(private val activity: Activity) : Navigator {
 
     /**
      * Открыть url в Custom Chrome Tabs. Если не получилось - то в любом другом браузере.
      */
     fun openLink(route: OpenUrlRoute) {
-        activityProvider.get() ?: return //фикс редкого падения на Meizu
         val linkUri = buildUri(route.url)
         val customTabsIntent = buildCustomTabsIntent(route.toolbarColorId, route.secondaryToolbarColorId)
 
         try {
-            customTabsIntent.launchUrl(activityProvider.get(), linkUri)
+            customTabsIntent.launchUrl(activity, linkUri)
         } catch (e: Throwable) {
             val browserIntent = Intent(ACTION_VIEW, linkUri)
-            activityProvider.get().startActivity(browserIntent)
+            activity.startActivity(browserIntent)
         }
     }
 
@@ -55,10 +53,9 @@ class CustomTabsNavigator(private val activityProvider: ActivityProvider): Navig
     }
 
     private fun buildCustomTabsIntent(@ColorRes toolbarColorId: Int, @ColorRes secondaryToolbarColorId: Int): CustomTabsIntent {
-        val context = activityProvider.get()
         return CustomTabsIntent.Builder()
-                .setToolbarColor(ContextCompat.getColor(context, toolbarColorId))
-                .setSecondaryToolbarColor(ContextCompat.getColor(context, secondaryToolbarColorId))
+                .setToolbarColor(ContextCompat.getColor(activity, toolbarColorId))
+                .setSecondaryToolbarColor(ContextCompat.getColor(activity, secondaryToolbarColorId))
                 .build()
     }
 }

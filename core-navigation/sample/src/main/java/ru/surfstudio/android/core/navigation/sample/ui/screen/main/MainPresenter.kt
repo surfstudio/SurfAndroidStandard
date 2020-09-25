@@ -34,6 +34,6 @@ internal class MainPresenter @Inject constructor(
     }
 
     fun openLink(link: String) {
-        customTabsNavigator.openLink(OpenUrlRoute(link/*, R.color.colorPrimary, R.color.colorAccent*/))
+        customTabsNavigator.openLink(OpenUrlRoute(link))
     }
 }
