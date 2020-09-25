@@ -15,7 +15,7 @@ class AppMigrationStorageImpl : AppMigrationStorage {
 
     companion object {
 
-        private const val MIGRATION_FOR_EACH = -1
+        private const val MIGRATION_FOR_EACH = -1L
         private val MIGRATIONS = arrayOf(
                 //вызывается для каждого обновления
                 object : AppMigration(MIGRATION_FOR_EACH) {

@@ -54,6 +54,7 @@
 * Fixed fast switching states between NONE and other
 * ANDDEP-1109 Added new obfuscation rule and TODO in [`proguard-rules.pro`](proguard-rules.pro)
 * ANDDEP-1111 Added class inheritance: `Transformable` extends `BaseResponse`
+* ANDDEP-1126 Fixed MigrationModule.kt, get version code from packageInfo.
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
