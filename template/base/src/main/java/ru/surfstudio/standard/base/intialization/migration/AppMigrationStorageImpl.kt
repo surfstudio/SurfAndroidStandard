@@ -20,7 +20,7 @@ class AppMigrationStorageImpl : AppMigrationStorage {
                 //вызывается для каждого обновления
                 object : AppMigration(MIGRATION_FOR_EACH) {
 
-                    override fun execute(oldVer: Int, newVer: Int) {
+                    override fun execute(oldVer: Long, newVer: Long) {
                         Logger.d("Executing app migration for each update")
                         apply() //нет проверки версий
                     }
@@ -30,7 +30,7 @@ class AppMigrationStorageImpl : AppMigrationStorage {
                     }
                 },
 
-                object : AppMigration(2) {
+                object : AppMigration(2L) {
                     override fun apply() {
                         //здесь должен быть код миграции на версию 2
                     }
