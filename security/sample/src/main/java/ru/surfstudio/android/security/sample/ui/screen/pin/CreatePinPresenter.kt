@@ -111,6 +111,9 @@ class CreatePinPresenter @Inject constructor(
                 //ошибка производителя
                 view.showMessage(message)
             }
+            else -> {
+                view.showMessage(message)
+            }
         }
     }
 
