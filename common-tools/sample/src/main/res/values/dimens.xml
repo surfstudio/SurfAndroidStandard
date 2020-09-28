@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="imageItemHeight">200dp</dimen>
+    <dimen name="colorItemHeight">56dp</dimen>
+    <dimen name="spaceItemHeight">50dp</dimen>
+</resources>

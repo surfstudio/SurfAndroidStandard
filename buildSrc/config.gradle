@@ -43,6 +43,7 @@ ext {
             "androidx.core:core"                               : "1.2.0",        //https://bit.ly/2yYY82h
             "androidx.core:core-ktx"                           : "1.2.0",        //http://bit.ly/2qY7ffW
             "androidx.constraintlayout:constraintlayout"       : "2.0.0-beta4",  //http://bit.ly/2S1WoNg
+            "androidx.palette:palette-ktx"                     : "1.0.0",        //https://bit.ly/30afhnJ
             "androidx.appcompat:appcompat"                     : "1.1.0",        //http://bit.ly/2zjueqh
             "androidx.lifecycle:lifecycle-runtime-ktx"         : "2.2.0",        //https://bit.ly/3anEaR2
             "androidx.multidex:multidex"                       : "2.0.1",        //http://bit.ly/2r6uX9G
