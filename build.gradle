@@ -52,3 +52,5 @@ buildScan {
     termsOfServiceAgree = 'yes'
     allowUntrustedServer = true
 }
+
+apply from: "buildSrc/ktFormatter.gradle"
