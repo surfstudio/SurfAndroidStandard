@@ -26,6 +26,9 @@ ext.configureDeploy = { context ->
         }
 
         def artifactName = Components.getArtifactName(project.name)
+        def artifactDescription = Components.getArtifactDescription(project.name)
+        def artifactUrl = Components.getArtifactUrl(project.name)
+
         if (!artifactName.trim()) {
             throw new GradleException("artifactName for ${project.name} can not be blank for deploy")
         }
@@ -74,6 +77,23 @@ ext.configureDeploy = { context ->
                     pom.version = artifactVersion
 
                     pom.project {
+                        name artifactName
+                        description artifactDescription
+                        url artifactUrl
+
+                        licenses {
+                            license {
+                                name license.name
+                                url license.url
+                            }
+                        }
+
+                        scm {
+                            connection scm.connection
+                            developerConnection scm.developerConnection
+                            url scm.url
+                        }
+
                         dependencies {
                             Components.getAndroidStandardDependencies(project.name).each {
                                 def depArtifactName = it.getArtifactName()
