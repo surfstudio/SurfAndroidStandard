@@ -29,17 +29,6 @@ ext {
     debugVersionNameSuffix = ".debug"
     qaVersionNameSuffix = ".qa"
 
-    license = {
-        name "The Apache License, Version 2.0"
-        url "http://www.apache.org/licenses/LICENSE-2.0"
-    }
-
-    scm = {
-        connection "scm:git:git@github.com:surfstudio/SurfAndroidStandard.git"
-        developerConnection "scm:git:ssh://github.com:surfstudio/SurfAndroidStandard.git"
-        url "https://github.com/surfstudio/SurfAndroidStandard"
-    }
-
     gradlePluginVersion = '3.6.1'               //https://bit.ly/2NXD4Pe
     buildToolsVersion = "29.0.3"                //https://bit.ly/2DNmq3Y
     googleServicesVersion = '4.3.3'             //https://bit.ly/2Q5FCge

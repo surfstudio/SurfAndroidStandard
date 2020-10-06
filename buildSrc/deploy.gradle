@@ -11,6 +11,15 @@ apply plugin: 'maven'
 
 def trueValue = "true"
 
+// license data for pom.xml
+def licenseName = "The Apache License, Version 2.0"
+def licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0"
+
+// scm data for pom.xml
+def scmConnection = "scm:git:git@github.com:surfstudio/SurfAndroidStandard.git"
+def scmDeveloperConnection = "scm:git:ssh://github.com:surfstudio/SurfAndroidStandard.git"
+def scmUrl = "https://github.com/surfstudio/SurfAndroidStandard"
+
 ext.configureDeploy = { context ->
     // define function for deploy of current module to artifactory
     context.afterEvaluate {
@@ -83,15 +92,15 @@ ext.configureDeploy = { context ->
 
                         licenses {
                             license {
-                                name license.name
-                                url license.url
+                                name licenseName
+                                url licenseUrl
                             }
                         }
 
                         scm {
-                            connection scm.connection
-                            developerConnection scm.developerConnection
-                            url scm.url
+                            connection scmConnection
+                            developerConnection scmDeveloperConnection
+                            url scmUrl
                         }
 
                         dependencies {
