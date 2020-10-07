@@ -9,7 +9,6 @@ import ru.surfstudio.android.build.tasks.changed_components.ProjectConfiguration
 
 /**
  * Task for creating project configuration information json file
- *
  */
 open class CreateProjectConfigurationTask : DefaultTask() {
 
