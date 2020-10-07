@@ -28,6 +28,7 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat.getDrawable
+import ru.surfstudio.android.logger.Logger
 
 private const val DEFAULT_MAX_LINES: Int = 1
 
@@ -221,6 +222,18 @@ class TitleSubtitleView @JvmOverloads constructor(
         addViews()
         applyAttrs(attributeSet)
     }
+
+    /**
+     * Устанавливает текст и тип текста заголовка
+     */
+    fun setTitleText(text: CharSequence, type: TextView.BufferType) =
+            titleView.setText(text, type)
+
+    /**
+     * Устанавливает текст и тип текста подзаголовка
+     */
+    fun setSubTitleText(text: CharSequence, type: TextView.BufferType) =
+            subTitleView.setText(text, type)
 
     /**
      * Возвращает заголовок к дефолтному значению

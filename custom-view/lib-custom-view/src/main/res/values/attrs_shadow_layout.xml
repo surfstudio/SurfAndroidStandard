@@ -12,5 +12,6 @@
         <!-- Defines whether the shadow will be computed in a separate thread.
              This property is set to false by default. -->
         <attr name="isAsync" format="boolean" />
+        <attr name="shadowColor" format="color|reference" />
     </declare-styleable>
 </resources>

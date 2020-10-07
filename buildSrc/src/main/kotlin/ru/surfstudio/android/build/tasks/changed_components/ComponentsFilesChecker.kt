@@ -21,9 +21,9 @@ class ComponentsFilesChecker(
      *
      * @return information about changes for every component
      */
-    fun getChangeInformationForComponents(ignoreReleaseNotesChanges: Boolean = false): List<ComponentCheckResult> {
+    fun getChangeInformationForComponents(ignoreNotLibFiles: Boolean = false): List<ComponentCheckResult> {
         val currentComponents = Components.value
-        val componentsWithDiff = ComponentsDiffProvider(currentRevision, revisionToCompare, currentComponents).provideComponentsWithDiff(ignoreReleaseNotesChanges)
+        val componentsWithDiff = ComponentsDiffProvider(currentRevision, revisionToCompare, currentComponents).provideComponentsWithDiff(ignoreNotLibFiles)
         return if (componentsWithDiff.isNullOrEmpty()) {
             generateAllComponentsNotChangedResults(currentComponents)
         } else {
