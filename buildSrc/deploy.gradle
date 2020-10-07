@@ -4,10 +4,18 @@ import ru.surfstudio.android.build.artifactory.Artifactory
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 
 apply from: "$rootDir/buildSrc/config.gradle"
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 // Function for configuration of dependencies of current android-standard module.
 // Context of current module is passed in parameters.
+
+/**
+ * HOW TO PUSH ARTIFACTS TO BINTRAY:
+ * ./gradlew publishMavenReleasePublicationToExternalRepository
+ * ./gradlew distributeArtifactsToBintray
+ *
+ * More info: https://bit.ly/30G6OZT
+ */
 
 def trueValue = "true"
 
@@ -32,28 +40,11 @@ ext.configureDeploy = { context ->
 
         // add java source to artifacts for release in JCenter !!! REQUIRED
         task sourcesJar(type: Jar) {
-            classifier = 'sources'
             from android.sourceSets.main.java.srcDirs
         }
 
-        artifacts {
-            archives sourcesJar
-        }
-
-        def artifactName = Components.getArtifactName(project.name)
-        def artifactDescription = Components.getArtifactDescription(project.name)
-        def artifactUrl = Components.getArtifactUrl(project.name)
-
-        if (!artifactName.trim()) {
-            throw new GradleException("artifactName for ${project.name} can not be blank for deploy")
-        }
-
-        uploadArchives {
-            // WARNING! It is normal for uploadArchives to be called during configuration of modules
-            // without actual deploy. But if the task contains additional logic which throws exception,
-            // the task will fail during any other gradle task.
-            // To avoid this, add doFirst, so uploadArchives will not be called during configuration of modules.
-            // See http://bit.ly/39vFtMj and http://bit.ly/3avuzq0
+        // checking task properties before start publishing
+        task checkProperties {
             doFirst {
                 // If -Pcomponent set, deploy only its artifacts
                 if (project.hasProperty(GradleProperties.COMPONENT)) {
@@ -74,73 +65,94 @@ ext.configureDeploy = { context ->
                             && Artifactory.isLibraryAlreadyDeployed(project.name)
                     ) return
                 }
+            }
+        }
 
-                repositories.mavenDeployer {
-                    repository(url: ArtifactoryConfig.DEPLOY_URL) {
-                        authentication(
-                                userName: ArtifactoryConfig.USER_NAME,
-                                password: ArtifactoryConfig.PASSWORD
-                        )
+        def artifactName = Components.getArtifactName(project.name)
+        def artifactGroupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
+        def artifactVersion = Components.getModuleVersion(project.name)
+        def artifactDescription = Components.getArtifactDescription(project.name)
+        def artifactUrl = Components.getArtifactUrl(project.name)
+
+        if (!artifactName.trim()) {
+            throw new GradleException("artifactName for ${project.name} can not be blank for deploy")
+        }
+
+        publishing {
+            publications {
+                mavenRelease(MavenPublication) {
+
+                    // If -Pcomponent set, deploy only its artifacts
+                    if (project.hasProperty(GradleProperties.COMPONENT)) {
+                        def componentName = project.property(GradleProperties.COMPONENT)
+                        if (!Components.isLibraryFromComponent(project.name, componentName)) return
                     }
 
-                    def artifactGroupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
-                    def artifactVersion = Components.getModuleVersion(project.name)
-                    println "uploadAcrhives $artifactName $artifactVersion"
+                    // If -PonlyUnstable=true deploy only unstable artifacts
+                    if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {
+                        if (project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == trueValue
+                                && Components.getComponentStability(project.name)
+                        ) return
+                    }
 
-                    pom.groupId = artifactGroupId
-                    pom.artifactId = artifactName
-                    pom.version = artifactVersion
+                    // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
+                    if (project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST)) {
+                        if (project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == trueValue
+                                && Artifactory.isLibraryAlreadyDeployed(project.name)
+                        ) return
+                    }
 
-                    pom.project {
-                        name artifactName
-                        description artifactDescription
-                        url artifactUrl
+                    groupId = artifactGroupId
+                    artifactId = artifactName
+                    version = artifactVersion
+
+                    from components.release
+
+                    pom {
+                        name = artifactName
+                        description = artifactDescription
+                        url = artifactUrl
 
                         licenses {
                             license {
-                                name licenseName
-                                url licenseUrl
+                                name = licenseName
+                                url = licenseUrl
                             }
                         }
 
                         scm {
-                            connection scmConnection
-                            developerConnection scmDeveloperConnection
-                            url scmUrl
+                            connection = scmConnection
+                            developerConnection = scmDeveloperConnection
+                            url = scmUrl
                         }
 
                         developers {
                             developer {
-                                name developerName
-                                email developerMail
-                                organization developerOrganization
-                                organizationUrl developerOrganizationUrl
+                                name = developerName
+                                email = developerMail
+                                organization = developerOrganization
+                                organizationUrl = developerOrganizationUrl
                             }
                         }
+                    }   // pom
 
-                        dependencies {
-                            Components.getAndroidStandardDependencies(project.name).each {
-                                def depArtifactName = it.getArtifactName()
-                                def depArtifactVersion = Components.getModuleVersion(it.getName())
-                                dependency {
-                                    groupId artifactGroupId
-                                    artifactId depArtifactName
-                                    version depArtifactVersion
-                                    scope "compile"
-                                }
-                            }
-                        }
+                    artifact sourcesJar {
+                        classifier = "sources"
                     }
-                    //This code deletes "implementation project("...") dependencies from pom file"
-                    pom.whenConfigured {
-                        p ->
-                            p.dependencies = p.dependencies.findAll {
-                                dep -> dep.groupId != rootDir.name
-                            }
+                }   // maven
+            }   // publications
+
+            repositories {
+                maven {
+                    name = "External"
+                    url = ArtifactoryConfig.DEPLOY_URL
+                    credentials {
+                        username ArtifactoryConfig.USER_NAME
+                        password ArtifactoryConfig.PASSWORD
                     }
-                } // repositories.mavenDeployer
-            }
-        } // uploadArchives
+                }   // maven
+            }   // repositories
+        }   // publishing
 
         task distributeArtifactsToBintray {
             // WARNING! This is very important to use doFirst here
@@ -164,6 +176,6 @@ ext.configureDeploy = { context ->
 
                 Artifactory.distributeArtifactToBintray(overrideExisted, artifactName)
             }
-        } // distributeArtifactsToBintray
+        }   // distributeArtifactsToBintray
     }
 }
