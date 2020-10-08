@@ -8,6 +8,7 @@ import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.resource.BaseResourceAnimations
 import ru.surfstudio.android.navigation.animation.set.SetAnimations
 import ru.surfstudio.android.navigation.animation.shared.SharedElementAnimations
+import ru.surfstudio.android.navigation.animation.styled.StyledAnimations
 
 /**
  * Supplier which is responsible for inflating Activity transition with animations.
@@ -38,6 +39,8 @@ open class ActivityAnimationSupplier {
                 setSharedElementAnimations(activity, options, animations)
             is BaseResourceAnimations ->
                 setResourceAnimations(activity, options, animations)
+            is StyledAnimations ->
+                setStyledAnimations(activity, options, animations)
             else -> null
         }
     }
@@ -87,5 +90,23 @@ open class ActivityAnimationSupplier {
         val nonNullOptions = options ?: Bundle()
         nonNullOptions.putAll(resourceAnimations.toBundle())
         return nonNullOptions
+    }
+
+    /**
+     * Add [StyledAnimations] to activity window style.
+     *
+     * @param activity activity which will execute transition
+     * @param options bundle with activity transition options
+     * @param animations bundle with animations
+     *
+     * @return [Bundle] options with animations
+     */
+    fun setStyledAnimations(
+            activity: Activity,
+            options: Bundle?,
+            animations: StyledAnimations
+    ): Bundle? {
+        activity.window.setWindowAnimations(animations.style)
+        return options ?: Bundle()
     }
 }

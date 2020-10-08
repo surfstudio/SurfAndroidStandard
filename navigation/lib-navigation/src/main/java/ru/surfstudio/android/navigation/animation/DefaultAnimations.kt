@@ -32,11 +32,8 @@ object DefaultAnimations {
     /**
      * Animations to be executed for each
      * [ru.surfstudio.android.navigation.command.dialog.base.DialogNavigationCommand].
-     *
-     * Warning! Dialog animations are not yet implemented.
      */
-    @Deprecated("Dialog animations are not yet implemented.")
-    var dialog: Animations = NoResourceAnimations
+    var dialog: Animations = EmptyResourceAnimations
 
     /**
      * Animations to be executed for each WidgetNavigationCommand

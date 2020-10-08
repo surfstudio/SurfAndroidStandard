@@ -5,6 +5,7 @@ import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.resource.BaseResourceAnimations
 import ru.surfstudio.android.navigation.animation.set.SetAnimations
 import ru.surfstudio.android.navigation.animation.shared.SharedElementAnimations
+import ru.surfstudio.android.navigation.animation.styled.StyledAnimations
 
 /**
  * Supplier, which is responsible for inflating [FragmentTransaction] with animations.
@@ -25,6 +26,9 @@ open class FragmentAnimationSupplier {
                 setResourceAnimations(transaction, animations, false)
             is SharedElementAnimations ->
                 setSharedElementAnimations(transaction, animations)
+            is StyledAnimations ->
+                throw UnsupportedOperationException("StyledAnimations is only for activities & dialogs")
+
         }
         return transaction
     }

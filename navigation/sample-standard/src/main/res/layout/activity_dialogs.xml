@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/guide_bottom_nav_btn"
+        android:id="@+id/dialogs_default_btn"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
-        android:text="Bottom navigation sample" />
+        android:text="Default animation" />
 
     <Button
-        android:id="@+id/guide_shared_transition_btn"
+        android:id="@+id/dialogs_fade_btn"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
-        android:text="Shared transition sample" />
+        android:text="Fade animation" />
 
     <Button
-        android:id="@+id/guide_dialogs_btn"
+        android:id="@+id/dialogs_slide_btn"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
-        android:text="Dialogs sample" />
+        android:text="Slide animation" />
 
 </LinearLayout>

@@ -9,4 +9,5 @@ class GuideBindModel @Inject constructor() {
 
     val bottomNavClicked = Action<Unit>()
     val sharedElementClicked = Action<Unit>()
+    val dialogsClicked = Action<Unit>()
 }

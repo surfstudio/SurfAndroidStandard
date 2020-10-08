@@ -26,6 +26,7 @@ class GuideFragmentView : BaseRxFragmentView() {
             bm.bottomNavClicked.accept()
         }
         guide_shared_transition_btn.clicks() bindTo { bm.sharedElementClicked.accept() }
+        guide_dialogs_btn.clicks() bindTo { bm.dialogsClicked.accept() }
     }
 
 }

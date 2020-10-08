@@ -43,6 +43,10 @@
             android:name=".screen.main.MainActivityView"
             android:label="Main Activity" />
 
+        <activity
+            android:name=".screen.dialogs.DialogsActivityView"
+            android:label="Dialogs Activity" />
+
     </application>
 
 </manifest>

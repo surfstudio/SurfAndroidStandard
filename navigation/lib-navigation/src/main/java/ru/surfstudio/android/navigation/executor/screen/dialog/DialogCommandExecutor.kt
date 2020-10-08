@@ -22,8 +22,8 @@ open class DialogCommandExecutor(
 
     override fun execute(command: DialogNavigationCommand) {
         when (command) {
-            is Show -> dialogNavigator.show(command.route)
-            is Dismiss -> dialogNavigator.dismiss(command.route)
+            is Show -> dialogNavigator.show(command.route, command.animations)
+            is Dismiss -> dialogNavigator.dismiss(command.route, command.animations)
         }
     }
 
