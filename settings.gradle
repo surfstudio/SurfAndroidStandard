@@ -17,20 +17,24 @@ gradleEnterprise {
     }
 }
 
-/** TODO исправить
- * include ':android-standard-version-plugin'
- *
- * import ru.surfstudio.android.build.Initializator
- * import ru.surfstudio.android.build.Components
- * import ru.surfstudio.android.build.model.module.Module
- *
- * def currentBuildDirectory = gradle.startParameter.currentDir.path
- *
- * Initializator.init(currentBuildDirectory)
- * Components.getModules().forEach { Module module ->
- *     include module.getGradleModuleName()
- *     project(module.getGradleModuleName()).projectDir = new File(module.directoryPath)
- * }
- *
- * apply from: 'buildSrc/buildCache.gradle'
- */
+import groovy.json.JsonSlurper
+
+include ':android-standard-version-plugin'
+
+def componentsJson = file("./buildSrc/components.json")
+def parsedJson = new JsonSlurper().parseText(componentsJson.text)
+
+parsedJson.forEach { component ->
+    component.libs.forEach { lib ->
+        def moduleName =  ":${lib.name}"
+        include moduleName
+        project(moduleName).projectDir = new File("${component.dir}/${lib.dir}")
+    }
+    component.samples.forEach { sample ->
+        def moduleName =  ":${sample.name}"
+        include moduleName
+        project(moduleName).projectDir = new File("${component.dir}/${sample.dir}")
+    }
+}
+
+apply from: 'buildSrc/buildCache.gradle'
