@@ -7,5 +7,5 @@ import ru.surfstudio.android.build.utils.EMPTY_STRING
  */
 open class Dependency(
         open val name: String = EMPTY_STRING,
-        open val type: String = EMPTY_STRING
+        open val type: DependencyType = DependencyType.IMPLEMENTATION
 )

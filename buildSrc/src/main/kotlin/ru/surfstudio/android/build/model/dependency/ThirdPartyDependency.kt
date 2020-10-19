@@ -7,7 +7,7 @@ import ru.surfstudio.android.build.utils.EMPTY_STRING
  */
 data class ThirdPartyDependency(
         override val name: String = EMPTY_STRING,
-        override val type: String = EMPTY_STRING
+        override val type: DependencyType = DependencyType.IMPLEMENTATION
 ) : Dependency(name, type) {
 
     val artifactGroupId = name.substringBefore(':')

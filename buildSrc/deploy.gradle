@@ -9,7 +9,7 @@ apply plugin: 'maven'
 // Function for configuration of dependencies of current android-standard module.
 // Context of current module is passed in parameters.
 
-final IMPLEMENTATION_DEP_TYPE = "implementation"
+final COMPILE_DEP_TYPE = "compile"
 def trueValue = "true"
 
 ext.configureDeploy = { context ->
@@ -66,11 +66,11 @@ ext.configureDeploy = { context ->
                         )
                     }
 
-                    def artifactGroupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
+                    def androidStandardArtifactGroupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
                     def artifactVersion = Components.getModuleVersion(project.name)
                     println "uploadAcrhives $artifactName $artifactVersion"
 
-                    pom.groupId = artifactGroupId
+                    pom.groupId = androidStandardArtifactGroupId
                     pom.artifactId = artifactName
                     pom.version = artifactVersion
 
@@ -79,12 +79,15 @@ ext.configureDeploy = { context ->
                             Components.getAndroidStandardDependencies(project.name).each {
                                 def depArtifactName = it.getName()
                                 def depArtifactVersion = Components.getModuleVersion(it.getName())
-                                def depArtifactScope = it.type
+                                def depArtifactScope = it.type.mavenType
+                                def isOptional = !it.type.isTransitive
+
                                 dependency {
-                                    groupId artifactGroupId
+                                    groupId androidStandardArtifactGroupId
                                     artifactId depArtifactName
                                     version depArtifactVersion
                                     scope depArtifactScope
+                                    optional isOptional
                                 }
                             }
                         }
@@ -97,14 +100,19 @@ ext.configureDeploy = { context ->
 
                         // Replaces the third-party dependencies scope in the pom file
                         // to the type specified in the file components.json
-                        Components.getThirdPartyDependencies(project.name).each { thirdPartyDependency ->
-                            p.dependencies = p.dependencies.each {
-                                if (it.groupId == thirdPartyDependency.artifactGroupId
-                                        && it.artifactId == thirdPartyDependency.artifactName
-                                ) {
-                                    it.scope = thirdPartyDependency.type
+                        def thirdPartyDependencies = Components.getThirdPartyDependencies(project.name)
+                        p.dependencies.each { dependency ->
+                            if (dependency.groupId != androidStandardArtifactGroupId) {
+                                def thirdPartyDependency = thirdPartyDependencies.find {
+                                    dependency.groupId == it.artifactGroupId && dependency.artifactId == it.artifactName
+                                }
+
+                                if (thirdPartyDependency != null) {
+                                    dependency.scope = thirdPartyDependency.type.mavenType
+                                    dependency.optional = !thirdPartyDependency.type.isTransitive
                                 } else {
-                                    it.scope = IMPLEMENTATION_DEP_TYPE
+                                    dependency.scope = COMPILE_DEP_TYPE
+                                    dependency.optional = true
                                 }
                             }
                         }
