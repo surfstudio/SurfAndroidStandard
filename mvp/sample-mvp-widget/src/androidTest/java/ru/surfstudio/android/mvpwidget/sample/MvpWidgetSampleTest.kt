@@ -1,5 +1,8 @@
 package ru.surfstudio.android.mvpwidget.sample
 
+import androidx.annotation.CallSuper
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.sample.common.test.ElapsedTimeIdlingResource
@@ -7,6 +10,18 @@ import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.*
 
 class MvpWidgetSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
+
+    override fun setUp() {
+        super.setUp()
+        AnimationUtils.grantScaleAnimationPermission()
+        AnimationUtils.disableAnimations()
+    }
+
+    @After
+    @CallSuper
+    fun tearDown() {
+        AnimationUtils.enableAnimations()
+    }
 
     @Test
     fun testOpenFragment() {

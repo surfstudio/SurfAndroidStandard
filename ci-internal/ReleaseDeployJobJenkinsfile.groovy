@@ -16,7 +16,7 @@ import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 //Pipeline for deploy snapshot artifacts
 
-// Stage names
+// Stage names
 
 def CHECKOUT = 'Checkout'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
@@ -94,7 +94,6 @@ pipeline.initializeBody = {
 
     buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
-
 }
 
 pipeline.stages = [
@@ -107,11 +106,12 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
+                scmSkip(deleteBuild: true, skipPattern: '.*\\[skip ci\\].*')
             }
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
+            RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             //release/<component>/<version>
@@ -176,10 +176,12 @@ pipeline.stages = [
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
         pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
+            AndroidPipelineHelper.unitTestStageBodyAndroid(
+                    script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
+                    "app/build/reports/tests/testReleaseUnitTest/"
+            )
         },
         pipeline.stage(INSTRUMENTATION_TEST) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
@@ -234,17 +236,20 @@ pipeline.finalizeBody = {
     def success = Result.SUCCESS == pipeline.jobResult
     def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
-    if (!success && !checkoutAborted) {
-        def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        if (unstable) {
-            message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+    if (!checkoutAborted) {
+        if (!success) {
+            def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
+            if (unstable) {
+                message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+            } else {
+                message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+            }
         } else {
-            message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+            message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
         }
-    } else {
-        message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
+
+        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
 }
 
 pipeline.run()
@@ -266,7 +271,8 @@ def static initBuildDiscarder(script) {
                     artifactDaysToKeepStr: '3',
                     artifactNumToKeepStr: '10',
                     daysToKeepStr: '60',
-                    numToKeepStr: '200')
+                    numToKeepStr: '200'
+            )
     )
 }
 
@@ -274,7 +280,8 @@ def static initParameters(script) {
     return script.parameters([
             script.string(
                     name: "branchName",
-                    description: 'Ветка с исходным кодом')
+                    description: 'Ветка с исходным кодом'
+            )
     ])
 }
 
@@ -295,7 +302,8 @@ def static getCommitHash(script, commit) {
 def static getPreviousRevisionWithVersionIncrement(script) {
     def commits = script.sh(
             returnStdout: true,
-            script: "git  --no-pager log --pretty=oneline -500 --graph")
+            script: "git  --no-pager log --pretty=oneline -500 --graph"
+    )
             .trim()
             .split("\n")
 
@@ -334,7 +342,8 @@ def static withArtifactoryCredentials(script, body) {
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password')
+                    passwordVariable: 'surf_maven_password'
+            )
     ]) {
         body()
     }
@@ -345,7 +354,8 @@ def static withBintrayCredentials(script, body) {
             script.usernamePassword(
                     credentialsId: "Bintray_Deploy_Credentials",
                     usernameVariable: 'surf_bintray_username',
-                    passwordVariable: 'surf_bintray_api_key')
+                    passwordVariable: 'surf_bintray_api_key'
+            )
     ]) {
         body()
     }
