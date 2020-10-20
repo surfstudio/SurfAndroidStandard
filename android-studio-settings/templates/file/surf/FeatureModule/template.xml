@@ -9,7 +9,7 @@
 
     <parameter
         id="featureModuleNameWithoutPrefix"
-        name="Имя модуля без префикса &quot;f_&quot;"
+        name="Имя модуля без префикса &quot;f_&quot;. Внимание, обновлять settings.gradle нужно вручную. Временное решение, связанное с багом студии 4.0"
         type="string"
         constraints="module|nonempty"/>
 

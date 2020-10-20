@@ -85,7 +85,7 @@
   {
     "id": "animations",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "animations",
     "libs": [
@@ -872,7 +872,7 @@
   {
     "id": "custom-view",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 9,
     "stable": false,
     "dir": "custom-view",
     "libs": [
@@ -1458,7 +1458,7 @@
   {
     "id": "network",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 9,
     "stable": false,
     "dir": "deprecated/network",
     "libs": [
@@ -1552,6 +1552,76 @@
       {
         "name": "network-sample",
         "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "navigation",
+    "version": "0.5.0",
+    "unstable_version": 5,
+    "stable": false,
+    "dir": "navigation",
+    "libs": [
+      {
+        "name": "navigation",
+        "dir": "lib-navigation",
+        "artifact_name": "navigation",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.lifecycle:lifecycle-runtime-ktx",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      },
+      {
+        "name": "navigation-observer",
+        "dir": "lib-navigation-observer",
+        "artifact_name": "navigation-observer",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": [
+          {
+            "name": "navigation",
+            "type": "api"
+          }
+        ]
+      },
+      {
+        "name": "navigation-rx",
+        "dir": "lib-navigation-rx",
+        "artifact_name": "navigation-rx",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "navigation",
+            "type": "api"
+          },
+          {
+            "name": "navigation-observer",
+            "type": "api"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "navigation-sample",
+        "dir": "sample"
+      },
+      {
+        "name": "navigation-sample-standard",
+        "dir": "sample-standard"
       }
     ],
     "has_mirror": false,
@@ -1995,7 +2065,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 31,
+    "unstable_version": 32,
     "stable": false,
     "dir": "template",
     "libs": [],
@@ -2017,7 +2087,7 @@
   {
     "id": "android-studio-settings",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "android-studio-settings",
     "libs": [],
