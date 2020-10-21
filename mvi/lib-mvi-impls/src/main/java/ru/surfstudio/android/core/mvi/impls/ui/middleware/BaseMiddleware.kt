@@ -15,7 +15,10 @@
 */
 package ru.surfstudio.android.core.mvi.impls.ui.middleware
 
+import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.factory.EventFactory
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.BaseDslRxMiddleware
@@ -44,16 +47,25 @@ abstract class BaseMiddleware<T : Event>(
         LifecycleMiddleware<T>,
         LifecycleFreezeMiddleware<T>,
         PersistentCheckLifecycleMiddleware<T>,
-        RxBuilderIo {
+        RxBuilderIo,
+        RxBuilderHandleError {
 
     override val schedulersProvider: SchedulersProvider = baseMiddlewareDependency.schedulersProvider
-    open val errorHandler: ErrorHandler = baseMiddlewareDependency.errorHandler
+    override val errorHandler: ErrorHandler = baseMiddlewareDependency.errorHandler
     override val screenState: ScreenState = baseMiddlewareDependency.screenState
 
     protected fun <T> Observable<T>.ignoreErrors() = onErrorResumeNext { error: Throwable ->
         Logger.e(error) //логгируем ошибку, чтобы хотя бы знать, где она произошла
         Observable.empty()
     }
+
+    protected fun <E> Observable<E>.ioHandleError() = io().handleError()
+
+    protected fun <E> Single<E>.ioHandleError() = io().handleError()
+
+    protected fun <E> Maybe<E>.ioHandleError() = io().handleError()
+
+    protected fun Completable.ioHandleError() = io().handleError()
 
     /**
      * Трансформация [Observable]<[Request]<[T]>> Observable с событием с данными.
