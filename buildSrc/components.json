@@ -872,7 +872,7 @@
   {
     "id": "custom-view",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 9,
     "stable": false,
     "dir": "custom-view",
     "libs": [
@@ -1458,7 +1458,7 @@
   {
     "id": "network",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 9,
     "stable": false,
     "dir": "deprecated/network",
     "libs": [
@@ -2065,7 +2065,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 31,
+    "unstable_version": 32,
     "stable": false,
     "dir": "template",
     "libs": [],

@@ -55,6 +55,8 @@
 * ANDDEP-1112 Fixed method name typo
 * ANDDEP-1112 Fixed access modifier in `SafeConverterFactory.Function`
 * ANDDEP-1112 Fixed generic type in `CompletableSafeConverter`
+* ANDDEP-1109 Added new obfuscation rule and TODO in [`proguard-rules.pro`](proguard-rules.pro)
+* ANDDEP-1111 Added class inheritance: `Transformable` extends `BaseResponse`
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template

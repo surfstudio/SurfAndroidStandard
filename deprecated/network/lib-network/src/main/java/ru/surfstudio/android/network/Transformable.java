@@ -15,12 +15,14 @@
  */
 package ru.surfstudio.android.network;
 
+import ru.surfstudio.android.network.response.BaseResponse;
+
 /**
  * Интерфейс, указывающий что объект может быть трансформирован в объект типа T
  *
  * @param <T>
  */
 @Deprecated
-public interface Transformable<T> {
+public interface Transformable<T> extends BaseResponse {
     T transform();
 }

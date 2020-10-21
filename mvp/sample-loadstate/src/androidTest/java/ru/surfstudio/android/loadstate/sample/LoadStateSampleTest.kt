@@ -44,6 +44,7 @@ class LoadStateSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::c
         performClick(R.id.activity_main_stubs_btn)
         checkIfActivityIsVisible(RendererWithStubsDemoActivityView::class.java)
         performClick(R.id.main_loading_btn, R.id.none_btn, R.id.error_btn, R.id.retry_btn)
+        Thread.sleep(100)
         checkIfToastIsVisible(R.string.retry_toast_msg)
     }
 
