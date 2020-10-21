@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 
-class LinePagerIndicatorDecoration : Decorator.RecyclerViewDecor {
+class SlideLinePagerIndicatorDecoration : Decorator.RecyclerViewDecor {
 
     private val colorActive = -0x1
     private val colorInactive = 0x66FFFFFF

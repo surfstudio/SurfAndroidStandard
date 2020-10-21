@@ -14,7 +14,8 @@ class ComponentCheckResult private constructor(
         val componentName: String,
         val isComponentStable: Boolean,
         val isComponentChanged: Boolean,
-        val reasonOfComponentChange: ComponentChangeReason) {
+        val reasonOfComponentChange: ComponentChangeReason
+) {
 
     companion object {
 
