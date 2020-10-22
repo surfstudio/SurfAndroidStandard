@@ -9,13 +9,9 @@ import ru.surfstudio.standard.ui.view.keyboard.EmptyKey
  */
 class EmptyKeyController : BaseKeyController<EmptyKey, BaseKeyHolder<EmptyKey>>() {
 
-    override fun getItemId(key: EmptyKey): String {
-        return key.toString()
-    }
+    override fun getItemId(key: EmptyKey) = key.toString()
 
-    override fun createViewHolder(parent: ViewGroup): BaseKeyHolder<EmptyKey> {
-        return Holder(parent)
-    }
+    override fun createViewHolder(parent: ViewGroup) = Holder(parent)
 
     class Holder(parent: ViewGroup) : BaseKeyHolder<EmptyKey>(parent)
 }

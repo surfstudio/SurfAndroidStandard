@@ -16,33 +16,19 @@ interface Key
 class EmptyKey : Key
 
 /**
- * Базовый класс изображения на клавиатуре
- */
-abstract class BaseIconKey : Key {
-
-    @get:DrawableRes
-    abstract val icon: Int
-}
-
-/**
- * Базовый класс кнопки с текстом на клавиатуре
- */
-abstract class BaseTextKey : Key {
-
-    abstract val title: String
-    abstract val subtitle: String
-}
-
-/**
  * Класс изображения на клавиатуре
  */
-data class IconKey(@DrawableRes override val icon: Int) : BaseIconKey()
+data class IconKey(
+        @DrawableRes val icon: Int,
+        val onClickListener: () -> Unit
+) : Key
 
 /**
  * Кнопка с текстом на клавиатуре
  */
 data class TextKey(
-        override val title: String,
-        override val subtitle: String = EMPTY_STRING,
-        val code: String = title
-) : BaseTextKey()
+        val title: String,
+        val subtitle: String = EMPTY_STRING,
+        val code: String = title,
+        val onClickListener: (code:String) -> Unit
+) : Key

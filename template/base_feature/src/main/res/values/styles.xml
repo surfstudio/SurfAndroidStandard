@@ -32,20 +32,4 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
-
-    <!-- todo удалить, если не требуется на проекте -->
-    <style name="KeyViewStyle">
-        <item name="android:layout_width">64dp</item>
-        <item name="android:layout_height">64dp</item>
-        <item name="android:layout_marginStart">18dp</item>
-        <item name="android:layout_marginEnd">18dp</item>
-        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
-        <item name="titleTextSize">32sp</item>
-        <item name="subtitleTextSize">12sp</item>
-        <item name="titleTextColor">?android:textColorPrimary</item>
-        <item name="subtitleFont">@font/roboto_regular</item>
-        <item name="subtitleTextColor">?android:textColorPrimary</item>
-        <item name="titleFont">@font/roboto_regular</item>
-        <item name="areLettersVisible">true</item>
-    </style>
 </resources>

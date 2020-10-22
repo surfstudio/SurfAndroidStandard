@@ -3,7 +3,6 @@ package ru.surfstudio.standard.ui.view.keyboard.controller
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.annotation.FontRes
-import kotlinx.android.synthetic.main.item_key_view.view.*
 import ru.surfstudio.standard.ui.view.keyboard.TextKey
 
 /**
@@ -11,55 +10,38 @@ import ru.surfstudio.standard.ui.view.keyboard.TextKey
  * todo удалить, если не требуется на проекте
  */
 class KeyController(
-        val onClick: (String) -> Unit
+        var titleTextSize: Float,
+        var subtitleTextSize: Float,
+        @ColorInt var titleTextColor: Int,
+        @ColorInt var subtitleTextColor: Int,
+        @FontRes var titleFont: Int,
+        @FontRes var subtitleFont: Int,
+        var subtitleMargin: Float,
+        var isSubtitleVisible: Boolean = true
 ) : BaseKeyController<TextKey, BaseKeyHolder<TextKey>>() {
 
-    var titleTextSize: Float? = null
-    var subtitleTextSize: Float? = null
+    override fun getItemId(key: TextKey) = "${key.hashCode()}${isSubtitleVisible.hashCode()}"
 
-    @ColorInt
-    var titleTextColor: Int? = null
-
-    @ColorInt
-    var subtitleTextColor: Int? = null
-
-    @FontRes
-    var titleFont: Int? = null
-
-    @FontRes
-    var subtitleFont: Int? = null
-
-    var subtitleMargin: Float? = null
-
-    var isSubtitleVisible = false
-
-    override fun getItemId(key: TextKey): String {
-        return key.hashCode().toString()
-    }
-
-    override fun createViewHolder(parent: ViewGroup): BaseKeyHolder<TextKey> {
-        return Holder(parent)
-    }
+    override fun createViewHolder(parent: ViewGroup) = Holder(parent)
 
     inner class Holder(parent: ViewGroup) : BaseKeyHolder<TextKey>(parent) {
 
         override fun bind(key: TextKey) {
             super.bind(key)
             itemView.setOnClickListener {
-                onClick(key.code)
+                key.onClickListener(key.code)
             }
 
-            titleTextColor?.let { itemView.key_view.titleColor = it }
-            titleTextSize?.let { itemView.key_view.titleTextSize = it }
-            titleFont?.let { itemView.key_view.titleFont = it }
+            keyView.titleColor = titleTextColor
+            keyView.titleTextSize = titleTextSize
+            keyView.titleFont = titleFont
 
-            subtitleTextSize?.let { itemView.key_view.subtitleTextSize = it }
-            subtitleTextColor?.let { itemView.key_view.subtitleColor = it }
-            subtitleFont?.let { itemView.key_view.subtitleFont = it }
+            keyView.subtitleTextSize = subtitleTextSize
+            keyView.subtitleColor = subtitleTextColor
+            keyView.subtitleFont = subtitleFont
+            keyView.subtitleMargin = subtitleMargin
 
-            subtitleMargin?.let { itemView.key_view.subtitleMargin = it }
-
-            itemView.key_view.isSubtitleVisible = isSubtitleVisible
+            keyView.isSubtitleVisible = isSubtitleVisible
         }
     }
 }

@@ -11,9 +11,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.android.utilktx.ktx.convert.toBitmap
-import ru.surfstudio.android.utilktx.util.ViewUtil
 
 /**
  * Вью кнопки клавиатуры
@@ -27,23 +25,17 @@ class KeyView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttrs, defStyleRes) {
 
     var key: Key? = null
-        set(value) {
-            field = value
-            invalidate()
-        }
 
-    var titleTextSize: Float = DEFAULT_TITLE_SIZE
+    var titleTextSize: Float = DEFAULT_TITLE_SIZE_SP
         set(value) {
             field = value
             titlePaint.textSize = value
-            invalidate()
         }
 
-    var subtitleTextSize: Float = DEFAULT_SUBTITLE_SIZE
+    var subtitleTextSize: Float = DEFAULT_SUBTITLE_SIZE_SP
         set(value) {
             field = value
             subtitlePaint.textSize = value
-            invalidate()
         }
 
     @ColorInt
@@ -51,7 +43,6 @@ class KeyView @JvmOverloads constructor(
         set(value) {
             field = value
             titlePaint.color = value
-            invalidate()
         }
 
     @ColorInt
@@ -59,7 +50,6 @@ class KeyView @JvmOverloads constructor(
         set(value) {
             field = value
             subtitlePaint.color = value
-            invalidate()
         }
 
     @FontRes
@@ -68,7 +58,6 @@ class KeyView @JvmOverloads constructor(
             field = value
             if (value != UNDEFINE_ATTR) {
                 titlePaint.typeface = ResourcesCompat.getFont(context, value)
-                invalidate()
             }
         }
 
@@ -78,42 +67,28 @@ class KeyView @JvmOverloads constructor(
             field = value
             if (value != UNDEFINE_ATTR) {
                 subtitlePaint.typeface = ResourcesCompat.getFont(context, value)
-                invalidate()
             }
         }
 
-    var subtitleMargin = DEFAULT_SUBTITLE_MARGIN
-        set(value) {
-            field = value
-            invalidate()
-        }
-
+    var subtitleMargin = DEFAULT_SUBTITLE_MARGIN_DP
     var isSubtitleVisible = true
-        set(value) {
-            field = value
-            invalidate()
-        }
 
     private val contentPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val titlePaint: Paint = TextPaint(Paint.ANTI_ALIAS_FLAG)
     private val subtitlePaint: Paint = TextPaint(Paint.ANTI_ALIAS_FLAG)
 
-    init {
-        initAttrs(attrs, defStyleAttrs, defStyleRes)
-    }
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         when (key) {
-            is BaseTextKey -> {
+            is TextKey -> {
                 if (isSubtitleVisible) {
-                    draw(canvas, (key as BaseTextKey).title, (key as BaseTextKey).subtitle)
+                    draw(canvas, (key as TextKey).title, (key as TextKey).subtitle)
                 } else {
-                    draw(canvas, (key as BaseTextKey).title)
+                    draw(canvas, (key as TextKey).title)
                 }
             }
-            is BaseIconKey -> draw(canvas, (key as BaseIconKey).icon)
+            is IconKey -> draw(canvas, (key as IconKey).icon)
             //ignore EmptyKey
         }
     }
@@ -158,38 +133,13 @@ class KeyView @JvmOverloads constructor(
                     contentPaint
             )
 
-    private fun initAttrs(attrs: AttributeSet?, defStyleAttrs: Int, defStyleRes: Int) {
-        context.obtainStyledAttributes(attrs, R.styleable.KeyView, defStyleAttrs, defStyleRes).apply {
-            isSubtitleVisible = getBoolean(R.styleable.KeyView_isSubtitleVisible, true)
-
-            titleFont = getResourceId(R.styleable.KeyView_titleFont, UNDEFINE_ATTR)
-            titleColor = getColor(R.styleable.KeyView_titleTextColor, DEFAULT_TITLE_COLOR)
-            titleTextSize = getDimension(
-                    R.styleable.KeyView_titleTextSize,
-                    ViewUtil.convertDpToPx(context, DEFAULT_TITLE_SIZE).toFloat()
-            )
-
-            subtitleFont = getResourceId(R.styleable.KeyView_subtitleFont, UNDEFINE_ATTR)
-            subtitleColor = getColor(R.styleable.KeyView_subtitleTextColor, DEFAULT_TITLE_COLOR)
-            subtitleTextSize = getDimension(
-                    R.styleable.KeyView_subtitleTextSize,
-                    ViewUtil.convertDpToPx(context, DEFAULT_TITLE_SIZE).toFloat()
-            )
-
-            subtitleMargin = getDimension(
-                    R.styleable.KeyView_subtitle_margin,
-                    ViewUtil.convertDpToPx(context, DEFAULT_SUBTITLE_MARGIN).toFloat()
-            )
-        }.recycle()
-    }
-
     companion object {
 
         const val DEFAULT_TITLE_COLOR = Color.BLACK
         const val DEFAULT_SUBTITLE_COLOR = Color.GRAY
-        const val DEFAULT_TITLE_SIZE = 38f //sp
-        const val DEFAULT_SUBTITLE_SIZE = 12f //sp
-        const val DEFAULT_SUBTITLE_MARGIN = 10f //dp
+        const val DEFAULT_TITLE_SIZE_SP = 38f
+        const val DEFAULT_SUBTITLE_SIZE_SP = 12f
+        const val DEFAULT_SUBTITLE_MARGIN_DP = 10f
         const val UNDEFINE_ATTR = -1
     }
 }
