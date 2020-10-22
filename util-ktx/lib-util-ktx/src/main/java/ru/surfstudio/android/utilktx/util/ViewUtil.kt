@@ -25,14 +25,26 @@ import ru.surfstudio.android.utilktx.ktx.ui.view.removeUnderline
  * Утилитные методы для работы с вью
  */
 object ViewUtil {
+
     /**
      * Конвертация dp в пиксели
      */
     fun convertDpToPx(context: Context, dp: Float): Int {
         return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp,
-            context.getDisplayMetrics()
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                context.getDisplayMetrics()
+        ).toInt()
+    }
+
+    /**
+     * Конвертация sp в пиксели
+     */
+    fun convertSpToPx(context: Context, sp: Float): Int {
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                sp,
+                context.getDisplayMetrics()
         ).toInt()
     }
 
@@ -41,14 +53,21 @@ object ViewUtil {
      */
     fun convertPxToDp(context: Context, px: Int): Float {
         return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_PX,
-            px.toFloat(),
-            context.getDisplayMetrics()
+                TypedValue.COMPLEX_UNIT_PX,
+                px.toFloat(),
+                context.getDisplayMetrics()
         )
     }
 
     /**
-     * Убирает подчеркивание нескольких EditText , если они дисэйблятся все вместе
+     * Конвертация пиксели в sp
+     */
+    fun convertPxToSp(context: Context, px: Float): Float {
+        return px / context.getDisplayMetrics().scaledDensity
+    }
+
+    /**
+     * Убирает подчеркивание нескольких EditText, если они дисэйблятся все вместе
      *
      * @param shouldDisabled - флаг отключения
      * @param eds            - varargs с EditText
@@ -58,5 +77,4 @@ object ViewUtil {
             ed.removeUnderline(shouldDisabled)
         }
     }
-
 }
