@@ -31,7 +31,7 @@ object ConfigInfoProvider {
 
     fun incrementUnstableVersion() {
         val newCounter = globalConfigInfo.unstableVersion + 1
-        System.out.println("New global version unstable counter: $newCounter")
+        println("New global version unstable counter: $newCounter")
         val newConfigInfo = globalConfigInfo.copy(unstableVersion = newCounter)
         JsonHelper.write(ConfigInfoJson(newConfigInfo), configInfoJsonFile)
         this.globalConfigInfo = newConfigInfo //fix reuse process with old config info for next tasks
@@ -39,11 +39,14 @@ object ConfigInfoProvider {
 
     fun incrementProjectSnapshotVersion() {
         val newCounter = globalConfigInfo.projectSnapshotVersion + 1
-        System.out.println("New project snapshot version counter: $newCounter")
+        println("New project snapshot version counter: $newCounter")
         val newConfigInfo = globalConfigInfo.copy(projectSnapshotVersion = newCounter)
         JsonHelper.write(ConfigInfoJson(newConfigInfo), configInfoJsonFile)
         this.globalConfigInfo = newConfigInfo //fix reuse process with old config info for next tasks
     }
+
+    @JvmStatic
+    fun getVersion() = globalConfigInfo.version
 
     private fun parseProjectConfigInfoJson(): GlobalConfigInfo {
         return GsonBuilder().create()
@@ -52,7 +55,4 @@ object ConfigInfoProvider {
     }
 
     private fun openConfigInfoFile() = File(currentDirectory + CONFIG_INFO_JSON_FILE_PATH)
-
-    @JvmStatic
-    private fun getVersion() = globalConfigInfo.version
 }

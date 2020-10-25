@@ -10,6 +10,11 @@ interface Loading {
 }
 
 /**
+ * Состояние загрузки, используемое для кейсов, в которых важен сам факт осуществления загрузки.
+ * */
+data class SimpleLoading(override val isLoading: Boolean) : Loading
+
+/**
  * Состояние загрузки, когда на экране нет контента
  */
 class MainLoading(override val isLoading: Boolean) : Loading

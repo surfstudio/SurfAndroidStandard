@@ -4,19 +4,20 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "com.google.gms:google-services:$googleServicesVersion"
-        classpath "io.fabric.tools:gradle:$fabricVersion"
-        classpath "com.akaita.android:easylauncher:$easyLauncherVersion"
-        classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
-        classpath "ru.surfstudio.android:version-plugin:$androidStandardVersion"
+        classpath "com.android.tools.build:gradle:${versions.gradlePluginVersion}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlinVersion}"
+        classpath "com.google.gms:google-services:${versions.googleServicesVersion}"
+        classpath "com.google.firebase:firebase-appdistribution-gradle:${versions.firebaseAppDistributionVersion}"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:${versions.firebaseCrashlyticsGradleVersion}"
+        classpath "com.gradle:build-scan-plugin:${versions.buildScanPluginVersion}"
+        if (!gradle.ext.androidStandard.debugEnabled) {
+            classpath "ru.surfstudio.android:version-plugin:${versions.androidStandardVersion}"
+        }
     }
 }
 
@@ -24,7 +25,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
         maven { url "https://artifactory.surfstudio.ru/artifactory/libs-release-local" }
         maven { url "https://dl.bintray.com/terrakok/terramaven" }
         maven { url 'https://jitpack.io' }
@@ -36,3 +36,5 @@ task clean(type: Delete) {
 }
 
 apply from: "scripts/dependenciesModules.gradle"
+apply from: "scripts/ktFormatter.gradle"
+apply from: "androidStandardPlugin.gradle"

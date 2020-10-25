@@ -30,7 +30,7 @@ import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorageContainer;
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.logger.LogConstants;
-import ru.surfstudio.android.logger.RemoteLogger;
+import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
@@ -52,29 +52,55 @@ public class SimpleDialogDelegate {
         this.dialogFragment = simpleDialog;
     }
 
-    public <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope) {
-        show(parentActivityViewPersistentScope.getScreenState().getActivity().getSupportFragmentManager(),
-                ScreenType.ACTIVITY,
-                parentActivityViewPersistentScope.getScopeId());
+    public <A extends ActivityViewPersistentScope> void show(
+            A parentActivityViewPersistentScope,
+            String tag
+    ) {
+        FragmentActivity activity = parentActivityViewPersistentScope.getScreenState().getActivity();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        String parentScopeId = parentActivityViewPersistentScope.getScopeId();
+
+        show(fragmentManager, ScreenType.ACTIVITY, parentScopeId, tag);
     }
 
-    public <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope) {
-        show(parentFragmentViewPersistentScope.getScreenState().getFragment().getFragmentManager(),
-                ScreenType.FRAGMENT,
-                parentFragmentViewPersistentScope.getScopeId());
+    public <F extends FragmentViewPersistentScope> void show(
+            F parentFragmentViewPersistentScope,
+            String tag
+    ) {
+        FragmentActivity activity = parentFragmentViewPersistentScope
+                .getScreenState()
+                .getFragment()
+                .requireActivity();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        String parentScopeId = parentFragmentViewPersistentScope.getScopeId();
+
+        show(fragmentManager, ScreenType.FRAGMENT, parentScopeId, tag);
     }
 
-    public <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope) {
-        show(((FragmentActivity) parentWidgetViewPersistentScope.getScreenState().getWidget().getContext())
-                        .getSupportFragmentManager(),
-                ScreenType.WIDGET,
-                parentWidgetViewPersistentScope.getScopeId());
+    public <W extends WidgetViewPersistentScope> void show(
+            W parentWidgetViewPersistentScope,
+            String tag
+    ) {
+        FragmentActivity activity = (FragmentActivity) parentWidgetViewPersistentScope
+                .getScreenState()
+                .getWidget()
+                .getContext();
+
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        String parentScopeId = parentWidgetViewPersistentScope.getScopeId();
+
+        show(fragmentManager, ScreenType.WIDGET, parentScopeId, tag);
     }
 
-    protected void show(FragmentManager fragmentManager, ScreenType parentType, String parentName) {
+    protected void show(
+            FragmentManager fragmentManager,
+            ScreenType parentType,
+            String parentName,
+            String tag
+    ) {
         this.parentScopeId = parentName;
         this.parentType = parentType;
-        dialogFragment.show(fragmentManager, simpleDialog.getName());
+        dialogFragment.show(fragmentManager, tag);
     }
 
     public <T> T getScreenComponent(Class<T> componentClass) {
@@ -97,10 +123,10 @@ public class SimpleDialogDelegate {
     }
 
     public void onResume() {
-        RemoteLogger.logMessage(String.format(LogConstants.LOG_DIALOG_RESUME_FORMAT, simpleDialog.getName()));
+        Logger.d(String.format(LogConstants.LOG_DIALOG_RESUME_FORMAT, simpleDialog.getName()));
     }
 
     public void onPause() {
-        RemoteLogger.logMessage(String.format(LogConstants.LOG_DIALOG_PAUSE_FORMAT, simpleDialog.getName()));
+        Logger.d(String.format(LogConstants.LOG_DIALOG_PAUSE_FORMAT, simpleDialog.getName()));
     }
 }

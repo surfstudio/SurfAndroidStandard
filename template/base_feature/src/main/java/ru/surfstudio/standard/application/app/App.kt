@@ -4,23 +4,22 @@ import android.content.Context
 import android.content.Intent
 import androidx.multidex.MultiDexApplication
 import com.akaita.java.rxjava2debug.RxJava2Debug
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.core.CrashlyticsCore
 import com.github.anrwatchdog.ANRWatchDog
-import io.fabric.sdk.android.Fabric
+import com.google.firebase.FirebaseApp
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.logger.RemoteLogger
-import ru.surfstudio.android.logger.logging_strategies.impl.remote_logger.RemoteLoggerLoggingStrategy
-import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy
-import ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics.CrashlyticsRemoteLoggingStrategy
 import ru.surfstudio.android.notification.ui.PushClickProvider
 import ru.surfstudio.android.notification.ui.PushEventListener
 import ru.surfstudio.android.template.base_feature.BuildConfig
 import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.android.utilktx.ktx.ui.activity.ActivityLifecycleListener
 import ru.surfstudio.standard.application.app.di.AppInjector
+import ru.surfstudio.standard.base.logger.RemoteLogger
+import ru.surfstudio.standard.application.logger.strategies.remote.RemoteLoggerLoggingStrategy
+import ru.surfstudio.standard.application.logger.strategies.remote.FirebaseCrashlyticsRemoteLoggingStrategy
+import ru.surfstudio.standard.application.logger.strategies.remote.timber.TimberLoggingStrategy
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
 
 class App : MultiDexApplication() {
@@ -37,29 +36,13 @@ class App : MultiDexApplication() {
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
         DebugAppInjector.initInjector(this, activeActivityHolder)
-        if (DebugAppInjector.debugInteractor.mustNotInitializeApp()) {
-            // работает LeakCanary, ненужно ничего инициализировать
-            return
-        }
 
-        initFabric()
+        //initFirebaseCrashlytics() todo uncoment for a real app
         initPushEventListener()
         initRxJava2Debug()
 
         DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
     }
-
-    private fun initFabric() {
-        Fabric.with(this, *getFabricKits())
-    }
-
-    private fun getFabricKits() = arrayOf(
-            Crashlytics.Builder()
-                    .core(CrashlyticsCore.Builder()
-                            .disabled(BuildConfig.DEBUG)
-                            .build())
-                    .build()
-    )
 
     /**
      * отслеживает ANR и отправляет в крашлитикс
@@ -73,7 +56,7 @@ class App : MultiDexApplication() {
     private fun initLog() {
         Logger.addLoggingStrategy(TimberLoggingStrategy())
         Logger.addLoggingStrategy(RemoteLoggerLoggingStrategy())
-        RemoteLogger.addRemoteLoggingStrategy(CrashlyticsRemoteLoggingStrategy())
+        RemoteLogger.addRemoteLoggingStrategy(FirebaseCrashlyticsRemoteLoggingStrategy())
     }
 
     private fun initRxJava2Debug() {
@@ -95,6 +78,12 @@ class App : MultiDexApplication() {
                 )
         )
     }
+
+    private fun initFirebaseCrashlytics() {
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(isNotDebug())
+    }
+
+    private fun isNotDebug() = !BuildConfig.BUILD_TYPE.contains("debug")
 
     private fun initPushEventListener() {
         PushClickProvider.pushEventListener = object : PushEventListener {

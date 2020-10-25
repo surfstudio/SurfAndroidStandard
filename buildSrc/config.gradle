@@ -18,7 +18,6 @@ ext {
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
 
-    defaultVersionName = '0.4.0-SNAPSHOT'
     moduleVersionCode = 20
     projectPostfix = ""
     projectVersion = -1
@@ -30,68 +29,66 @@ ext {
     debugVersionNameSuffix = ".debug"
     qaVersionNameSuffix = ".qa"
 
-    gradlePluginVersion = '3.2.1'               //https://bit.ly/2NXD4Pe
-    buildToolsVersion = "28.0.3"                //https://bit.ly/2DNmq3Y
-    googleServicesVersion = '4.2.0'             //https://bit.ly/2Q5FCge
-    buildScanPluginVersion = '2.0.2'             //https://goo.gl/coZHFo
-    fabricVersion = "1.26.1"                    //https://bit.ly/2OOly00
+    gradlePluginVersion = '3.6.1'               //https://bit.ly/2NXD4Pe
+    buildToolsVersion = "29.0.3"                //https://bit.ly/2DNmq3Y
+    googleServicesVersion = '4.3.3'             //https://bit.ly/2Q5FCge
+    buildScanPluginVersion = '2.4.2'            //https://goo.gl/coZHFo
 
     libraryVersions = [
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk7"           : "1.3.20",       //https://goo.gl/2Epeje
-            "org.jetbrains.kotlin:kotlin-gradle-plugin"         : "1.3.20",       //https://goo.gl/2Epeje
-            "org.jetbrains.anko:anko-common"                    : "0.10.8",       //https://goo.gl/XGJGR7
-            "androidx.annotation:annotation"                    : "1.0.1",        //http://bit.ly/2P3QBVO
-            "com.annimon:stream"                                : "1.2.1",        //https://bit.ly/2Ke0nlQ
-            "com.google.firebase:firebase-core"                 : "16.0.5",       //http://bit.ly/2Q81pGJ
-            "com.jakewharton.timber:timber"                     : "4.7.1",        //http://bit.ly/2LWbLaY
-            "com.crashlytics.sdk.android:crashlytics"           : "2.9.6",        //http://bit.ly/2v5mXbp
-            "io.reactivex.rxjava2:rxjava"                       : "2.2.3",        //https://goo.gl/uzna2x
-            "io.reactivex.rxjava2:rxandroid"                    : "2.1.0",        //https://goo.gl/3Kd3iP
-            "androidx.recyclerview:recyclerview"                : "1.0.0",        //https://bit.ly/33s8ohH
-            "androidx.core:core-ktx"                            : "1.0.1",        //http://bit.ly/2qY7ffW
-            "com.google.android.material:material"              : "1.0.0",        //http://bit.ly/2KAAq1y
-            "com.google.android.play:core"                      : "1.3.6",        //http://bit.ly/2Hod1T1
-            "com.agna.ferro:ferro-rx"                           : "2.0.0",        //https://goo.gl/6ir26N
-            "junit:junit"                                       : "4.12",         //https://goo.gl/hEcfw1
-            "org.powermock:powermock-module-junit4"             : "1.7.4",        //https://goo.gl/hEcfw1
-            "org.powermock:powermock-module-junit4-rule"        : "1.7.4",        //https://goo.gl/hEcfw1
-            "org.powermock:powermock-api-mockito2"              : "1.7.4",        //https://goo.gl/hEcfw1
-            "org.powermock:powermock-classloading-xstream"      : "1.7.4",        //https://goo.gl/hEcfw1
-            "androidx.test:runner"                              : "1.1.0",        //http://bit.ly/2ztEfBo
-            "androidx.test.espresso:espresso-core"              : "3.1.0",        //http://bit.ly/2DNc0AA
-            "androidx.test:core"                                : "1.0.0",        //http://bit.ly/2P1yKi1
-            "androidx.test.ext:junit"                           : "1.0.0",        //http://bit.ly/2zC6UV1
-            "androidx.test.espresso:espresso-contrib"           : "3.1.0",        //http://bit.ly/2DNc0AA
-            "androidx.test.espresso:espresso-intents"           : "3.1.0",        //http://bit.ly/2DNc0AA
-            "androidx.test.uiautomator:uiautomator"             : "2.2.0",        //http://bit.ly/2ORotVQ
-            "com.google.dagger:dagger"                          : "2.21",         //https://vk.cc/7UFvQo
-            "com.google.dagger:dagger-compiler"                 : "2.21",         //https://vk.cc/7UFvQo
-            "javax.inject:javax.inject"                         : "1",            //https://goo.gl/cM9Kcd
-            "androidx.constraintlayout:constraintlayout"        : "2.0.0-alpha3", //http://bit.ly/2S1WoNg
-            "androidx.appcompat:appcompat"                      : "1.0.2",        //http://bit.ly/2zjueqh
-            "com.google.code.gson:gson"                         : "2.8.5",        //https://vk.cc/7UFvbd
-            "com.squareup.retrofit2:retrofit"                   : "2.5.0",        //https://vk.cc/7UFxk3
-            "com.squareup.retrofit2:converter-gson"             : "2.5.0",        //https://vk.cc/7UFxk3
-            "com.squareup.retrofit2:adapter-rxjava2"            : "2.5.0",        //https://vk.cc/7UFxk3
-            "com.squareup.okhttp3:logging-interceptor"          : "3.12.0",       //https://vk.cc/7UFwTd
-            "androidx.multidex:multidex"                        : "2.0.0",        //https://vk.cc/7UFwTd
-            "com.github.anrwatchdog:anrwatchdog"                : "1.3.0",        //http://bit.ly/2NZvjZc
-            "com.jakewharton.rxrelay2:rxrelay"                  : "2.1.0",        //https://goo.gl/E643M0
-            "com.jakewharton.rxbinding2:rxbinding-appcompat-v7" : "2.2.0",        //https://goo.gl/KQ5Vga
-            "com.jakewharton.rxbinding2:rxbinding"              : "2.2.0",        //https://goo.gl/KQ5Vga
-            "com.jakewharton.rxbinding2:rxbinding-kotlin"       : "2.2.0",        //https://goo.gl/KQ5Vga
-            "org.mockito:mockito-core"                          : "2.8.9",       //https://goo.gl/KQ5Vga
-            "me.zhanghai.android.materialprogressbar:library"   : "1.6.0",        //http://bit.ly/2vrzQvE
-            "com.wang.avi:library"                              : "2.1.3",        //http://bit.ly/2NVrDaI
-            "com.github.bumptech.glide:glide"                   : "4.8.0",        //http://bit.ly/2Q7Fa41
-            "com.google.android.gms:play-services-location"     : "16.0.0",       //http://bit.ly/2CulYrn
-            "androidx.exifinterface:exifinterface"              : "1.0.0",        //http://bit.ly/2DPqlw6
-            "io.reactivex.rxjava2:rxkotlin"                     : "2.3.0",
-            "com.google.firebase:firebase-messaging"            : "17.3.4",       //http://bit.ly/2Q81pGJ
-            "androidx.core:core"                                : "1.0.2",        //https://bit.ly/2yYY82h
-            "com.caverock:androidsvg-aar"                       : "1.3",          //https://bit.ly/2Pcb4fi
-            "io.supercharge:shimmerlayout"                      : "2.1.0",        //https://bit.ly/2Pcb4fi
-            "ru.surfstudio.android:camera-view"                 : "1.0.1",
-            "com.google.firebase:firebase-iid"                  : "17.0.4"
+            "org.jetbrains.kotlin:kotlin-stdlib-jdk8"          : "1.3.71",       //https://goo.gl/2Epeje
+            "org.jetbrains.kotlin:kotlin-gradle-plugin"        : "1.3.71",       //https://goo.gl/2Epeje
+            "org.jetbrains.anko:anko-common"                   : "0.10.8",       //https://goo.gl/XGJGR7
+            "androidx.annotation:annotation"                   : "1.1.0",        //http://bit.ly/2P3QBVO
+            "androidx.recyclerview:recyclerview"               : "1.1.0",        //https://bit.ly/33s8ohH
+            "androidx.core:core"                               : "1.2.0",        //https://bit.ly/2yYY82h
+            "androidx.core:core-ktx"                           : "1.2.0",        //http://bit.ly/2qY7ffW
+            "androidx.constraintlayout:constraintlayout"       : "2.0.0-beta4",  //http://bit.ly/2S1WoNg
+            "androidx.appcompat:appcompat"                     : "1.1.0",        //http://bit.ly/2zjueqh
+            "androidx.lifecycle:lifecycle-runtime-ktx"         : "2.2.0",        //https://bit.ly/3anEaR2
+            "androidx.multidex:multidex"                       : "2.0.1",        //http://bit.ly/2r6uX9G
+            "androidx.exifinterface:exifinterface"             : "1.1.0",        //http://bit.ly/2DPqlw6
+            "androidx.asynclayoutinflater:asynclayoutinflater" : "1.0.0",        //https://bit.ly/39rzXcW
+            "androidx.test:runner"                             : "1.2.0",        //http://bit.ly/2ztEfBo
+            "androidx.test.espresso:espresso-core"             : "3.2.0",        //http://bit.ly/2DNc0AA
+            "androidx.test:core"                               : "1.2.0",        //http://bit.ly/2P1yKi1
+            "androidx.test.ext:junit"                          : "1.1.1",        //http://bit.ly/2zC6UV1
+            "androidx.test.espresso:espresso-contrib"          : "3.2.0",        //http://bit.ly/2DNc0AA
+            "androidx.test.espresso:espresso-intents"          : "3.2.0",        //http://bit.ly/2DNc0AA
+            "androidx.test.uiautomator:uiautomator"            : "2.2.0",        //http://bit.ly/2ORotVQ
+            "io.reactivex.rxjava2:rxjava"                      : "2.2.19",       //https://goo.gl/uzna2x
+            "io.reactivex.rxjava2:rxandroid"                   : "2.1.1",        //https://goo.gl/3Kd3iP
+            "io.reactivex.rxjava2:rxkotlin"                    : "2.4.0",        //https://bit.ly/2yaZ7zn
+            "com.jakewharton.rxrelay2:rxrelay"                 : "2.1.1",        //https://goo.gl/E643M0
+            "com.jakewharton.rxbinding2:rxbinding-appcompat-v7": "2.2.0",        //https://goo.gl/KQ5Vga
+            "com.jakewharton.rxbinding2:rxbinding"             : "2.2.0",        //https://goo.gl/KQ5Vga
+            "com.jakewharton.rxbinding2:rxbinding-kotlin"      : "2.2.0",        //https://goo.gl/KQ5Vga
+            "javax.inject:javax.inject"                        : "1",            //https://goo.gl/cM9Kcd
+            "com.google.dagger:dagger"                         : "2.27",         //https://vk.cc/7UFvQo
+            "com.google.dagger:dagger-compiler"                : "2.27",         //https://vk.cc/7UFvQo
+            "com.google.code.gson:gson"                        : "2.8.6",        //https://vk.cc/7UFvbd
+            "com.google.android.gms:play-services-location"    : "17.0.0",       //http://bit.ly/2CulYrn
+            "com.google.firebase:firebase-messaging"           : "20.1.3",       //http://bit.ly/2Q81pGJ
+            "com.google.firebase:firebase-analytics"           : "17.2.3",       //http://bit.ly/2Q81pGJ
+            "com.google.android.material:material"             : "1.0.0",        //http://bit.ly/2KAAq1y
+            "com.google.android.play:core"                     : "1.7.1",        //http://bit.ly/2Hod1T1
+            "com.github.bumptech.glide:glide"                  : "4.11.0",       //http://bit.ly/2Q7Fa41
+            "com.squareup.retrofit2:retrofit"                  : "2.8.1",        //https://vk.cc/7UFxk3
+            "com.squareup.retrofit2:converter-gson"            : "2.8.1",        //https://vk.cc/7UFxk3
+            "com.squareup.retrofit2:adapter-rxjava2"           : "2.8.1",        //https://vk.cc/7UFxk3
+            "com.squareup.okhttp3:logging-interceptor"         : "4.4.1",        //https://vk.cc/7UFwTd
+            "junit:junit"                                      : "4.13",         //https://goo.gl/hEcfw1
+            "org.mockito:mockito-core"                         : "3.3.3",        //https://bit.ly/3bw7XGe
+            "org.powermock:powermock-classloading-xstream"     : "2.0.7",        //https://goo.gl/hEcfw1
+            "org.powermock:powermock-module-junit4"            : "2.0.7",        //https://goo.gl/hEcfw1
+            "org.powermock:powermock-module-junit4-rule"       : "2.0.7",        //https://goo.gl/hEcfw1
+            "org.powermock:powermock-api-mockito2"             : "2.0.7",        //https://goo.gl/hEcfw1
+            "com.annimon:stream"                               : "1.2.1",        //https://bit.ly/2Ke0nlQ
+            "com.github.anrwatchdog:anrwatchdog"               : "1.4.0",        //http://bit.ly/2NZvjZc
+            "me.zhanghai.android.materialprogressbar:library"  : "1.6.1",        //http://bit.ly/2vrzQvE
+            "com.wang.avi:library"                             : "2.1.3",        //http://bit.ly/2NVrDaI
+            "com.caverock:androidsvg-aar"                      : "1.4",          //https://bit.ly/2Pcb4fi
+            "io.supercharge:shimmerlayout"                     : "2.1.0",        //https://bit.ly/2Pcb4fi
+            "ru.surfstudio.android:camera-view"                : "1.0.1",
+            "com.agna.ferro:ferro-rx"                          : "2.0.0"         //https://goo.gl/6ir26N
     ]
 }

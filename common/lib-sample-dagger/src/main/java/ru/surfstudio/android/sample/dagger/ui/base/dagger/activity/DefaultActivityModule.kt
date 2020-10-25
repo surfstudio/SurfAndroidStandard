@@ -24,14 +24,12 @@ import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import javax.inject.Named
 
 /**
- * Модуль для dagger Activity Component
- * поставляет ряд сущностей, например навигаторы, причем они находятся в @PerActivity scope
- * и не пробрасываются в дочерние scope, эти обьекты могут быть использованы без презентера,
- * например открытие необходимого фрагмента с помощью FragmentNavigator из активити контейнера.
- * Эти обьекты могут также использоваться внутри дополнительных обектов со специфической логикой,
- * принадлежащих скоупу @PerScreen
+ * Module for Dagger Activity Component.
+ * Provides entities for @PerActivity scope which are not provided in child scopes.
+ * These entities could be used without Presenter,
+ * for example, opening a fragment using FragmentNavigator from activity container.
+ * These entities also could be used in other objects from @PerScreen scope
  */
-
 @Module
 class DefaultActivityModule(private val persistentScope: ActivityPersistentScope) {
 
@@ -61,8 +59,10 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
 
     @Provides
     @PerActivity
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    internal fun provideActivityNavigator(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 
@@ -74,10 +74,12 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
 
     @Provides
     @PerActivity
-    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
-                                          activityNavigator: ActivityNavigator,
-                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-                                          activityProvider: ActivityProvider): PermissionManager {
+    internal fun providePermissionManager(
+            eventDelegateManager: ScreenEventDelegateManager,
+            activityNavigator: ActivityNavigator,
+            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+            activityProvider: ActivityProvider
+    ): PermissionManager {
         return PermissionManagerForActivity(
                 eventDelegateManager,
                 activityNavigator,
@@ -112,10 +114,12 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
 
     @Provides
     @PerActivity
-    internal fun providePictureProvider(context: Context,
-                                        activityNavigator: ActivityNavigator,
-                                        activityProvider: ActivityProvider,
-                                        ppChecker: PicturePermissionChecker): PictureProvider {
+    internal fun providePictureProvider(
+            context: Context,
+            activityNavigator: ActivityNavigator,
+            activityProvider: ActivityProvider,
+            ppChecker: PicturePermissionChecker
+    ): PictureProvider {
         return PictureProvider(context, activityNavigator, activityProvider, ppChecker)
     }
 }

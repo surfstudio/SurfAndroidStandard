@@ -1,8 +1,11 @@
 [Главная](../main.md)
 
-[TOC]
-
 # Обнаружение утечек памяти
+
+- [Memory Monitor](#memory-monitor)
+- [HPROF Viewer and Analyzer](#hprof-viewer-and-analyzer)
+- [Анализ данных](#анализ-данных)
+
 
 [Хорошая презентация на тему][pres]
 

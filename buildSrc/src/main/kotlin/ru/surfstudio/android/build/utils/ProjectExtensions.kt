@@ -5,9 +5,9 @@ import org.gradle.api.Project
 import org.gradle.api.UnknownProjectException
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
-import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
-import ru.surfstudio.android.build.exceptions.ComponentPropertyNotFoundException
-import ru.surfstudio.android.build.exceptions.PropertyNotDefineException
+import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundException
+import ru.surfstudio.android.build.exceptions.component.ComponentPropertyNotFoundException
+import ru.surfstudio.android.build.exceptions.property.PropertyNotDefineException
 import ru.surfstudio.android.build.model.Component
 
 /**
@@ -27,9 +27,9 @@ fun <T> Project.readProperty(name: String, defValue: T): T {
     try {
         return property(name) as? T ?: defValue
     } catch (e: MissingPropertyException) {
-        //Missing property
+        // Missing property
     } catch (e: UnknownProjectException) {
-        //Missing property
+        // Missing property
     }
     return defValue
 }

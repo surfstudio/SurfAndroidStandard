@@ -25,5 +25,9 @@ data class Component(
     /**
      * Get components module
      */
-    fun getModules(): List<Module> = libraries + samples
+    fun getModules(skipSamples: Boolean = false): List<Module> =
+            if (skipSamples)
+                libraries
+            else
+                libraries + samples
 }

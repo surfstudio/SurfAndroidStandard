@@ -19,6 +19,10 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 import ru.surfstudio.android.easyadapter.EasyAdapter;
 import ru.surfstudio.android.easyadapter.ItemList;
 import ru.surfstudio.android.easyadapter.item.BaseItem;
@@ -36,6 +40,8 @@ public abstract class BaseItemController<H extends RecyclerView.ViewHolder, I ex
 
     public static final long NO_ID = RecyclerView.NO_ID;
 
+    private final static Map<Class<? extends BaseItemController>, Integer> viewTypeIdsMap = new HashMap<>();
+
     /**
      * Bind base item to holder
      *
@@ -47,31 +53,61 @@ public abstract class BaseItemController<H extends RecyclerView.ViewHolder, I ex
     /**
      * Create holder inside parent
      *
-     * @param parent parent, to which holder will attach
+     * @param parent parent which holder will attach to
      */
     public abstract H createViewHolder(ViewGroup parent);
 
+    /**
+     * Calls when view, which is bounded to holder, is no longer active
+     */
+    public void unbind(H holder, I item) {
+        // do nothing
+    }
+
     public int viewType() {
-        return getClass().getCanonicalName().hashCode();
+        return getTypeHashCode();
     }
 
     /**
      * Get the unique id for item.
-     * Method is used for automatically call notify... methods, see {@link EasyAdapter}.
+     * Method is used for automatically call notify... methods
+     * to define if the items are the same, see {@link EasyAdapter}.
      *
      * @param item item
      * @return unique id retrieved from item
      */
-    public String getItemId(I item) {
-        return String.valueOf(NO_ID);
-    }
+    public abstract Object getItemId(I item);
 
     /**
      * Get the item hashcode.
-     * Method is used for automatically call notify... methods, see {@link EasyAdapter}
+     * Method is used for automatically call notify... methods
+     * to define if the item's content is the same, see {@link EasyAdapter}
      *
      * @param item item
      * @return hashcode of the item
      */
-    public abstract String getItemHash(I item);
+    public abstract Object getItemHash(I item);
+
+    /**
+     * @return hash code for this {@link BaseItemController} type
+     */
+    protected int getTypeHashCode() {
+        final Class<? extends BaseItemController> clazz = getClass();
+        Integer id = viewTypeIdsMap.get(clazz);
+        if (id == null) {
+            id = new Random().nextInt();
+            boolean hasId = false;
+            for (Map.Entry<Class<? extends BaseItemController>, Integer> e : viewTypeIdsMap.entrySet()) {
+                if (id.equals(e.getValue())) {
+                    hasId = true;
+                    break;
+                }
+            }
+            if (hasId) {
+                return getTypeHashCode();
+            }
+            viewTypeIdsMap.put(clazz, id);
+        }
+        return id;
+    }
 }

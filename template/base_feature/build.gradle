@@ -4,11 +4,7 @@ apply from: '../commonKaptModule.gradle'
 dependencies {
     api project(":base")
 
-    api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
-        transitive = true
-    }
-
-    implementation "androidx.multidex:multidex:$multidexVersion"
+    implementation androidX.multidex
 
     //debug
     releaseImplementation project(":f-debug-no-op")
@@ -22,15 +18,15 @@ dependencies {
     implementation project(":i-initialization")
     implementation project(":i-session")
 
-    api "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
-    api "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBinding2Version"
-    api "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBinding2Version"
+    api rxBinding2.core
+    api rxBinding2.kotlin
+    api rxBinding2.appcompatV7
 
-    implementation("com.google.firebase:firebase-messaging:$firebaseMessagingVersion") {
-        exclude group: "com.google.firebase", module: "firebase-iid"
+    api(firebase.crashlytics) {
+        transitive = true
     }
 
-    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
-
-    implementation "com.akaita.java:rxjava2-debug:$rxJava2DebugVersion"
+    implementation debug.anrWatchDog
+    implementation debug.timber
+    implementation debug.rxJava2Debug
 }

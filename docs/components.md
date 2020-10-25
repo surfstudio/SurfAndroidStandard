@@ -23,9 +23,9 @@
 1. [Connection](../connection/) :  
 Библиотека [connection](../connection/lib-connection/) - предоставляет набор классов для работы с состоянитем сети.  
 
-1. [Core-mvi](../core-mvi/) :  
-Библиотека [core-mvi](../core-mvi/lib-core-mvi/) - расширение core-ui с поддержкой MVI-архитектурного подхода.  
-[Пример использования](../core-mvi/sample/)
+1. [Core-mvi](../mvi/) :  
+Библиотека [core-mvi](../mvi/lib-mvi-core/) - расширение core-ui с поддержкой MVI-архитектурного подхода.  
+[Пример использования](../mvi/sample/)
 
 1. [Core-mvp-binding](../core-mvp-binding/) :  
 Библиотека [core-mvp-binding](../core-mvp-binding/lib-core-mvp-binding/) - расширение core-mvp с поддержкой DataBinding.  

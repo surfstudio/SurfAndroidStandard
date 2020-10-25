@@ -1,8 +1,9 @@
 [Ридми модуля](../README.md)
 
-[TOC]
-
 # Конфигураторы экранов
+
+- [Что должен содержать](#что-должен-содержать)
+- [Основные базовые классы](#основные-базовые-классы)
 
 ### Что должен содержать
 
@@ -37,6 +38,6 @@ ActivityViewModule(FragmentViewModule) и другие модули,
 [bfvc]:../src/main/java/ru/surfstudio/android/core/mvp/configurator/BaseFragmentViewConfigurator.java
 [sc]:../src/main/java/ru/surfstudio/android/core/mvp/configurator/ScreenComponent.java
 [vc]: ../src/main/java/ru/surfstudio/android/core/mvp/configurator/ViewConfigurator.java
-[di]: ../../docs/common/di.md
-[core-ui]: ../../core-ui/README.md
-[nav]: ../../docs/ui/navigation.md
+[di]: ../../../docs/common/di.md
+[core-ui]: ../../../core-ui/README.md
+[nav]: ../../../docs/ui/navigation.md

@@ -13,16 +13,24 @@
         android:text="@string/show_multitype_list_btn_text" />
 
     <Button
-        android:id="@+id/show_paginationable_list"
+        android:id="@+id/show_simple_paginationable_list_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
-        android:text="@string/show_paginationable_list_btn_text" />
+        android:text="@string/show_simple_paginationable_list_btn_text" />
 
     <Button
-        android:id="@+id/show_async_inflate_list"
+        android:id="@+id/show_async_inflate_list_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
         android:text="@string/show_async_inflate_list_btn_text" />
+
+    <Button
+        android:id="@+id/show_async_diff_list_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/show_async_diff_list_btn_text" />
+
 </LinearLayout>

@@ -36,7 +36,7 @@ class MessagingService : FirebaseMessagingService() {
         //todo отправить новый токен на сервер для получения push-уведомлений
     }
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         Logger.i("Получено push-уведомление: " +
                 "title = [${remoteMessage?.notification?.title}], " +

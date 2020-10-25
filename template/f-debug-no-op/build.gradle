@@ -1,7 +1,5 @@
 apply from: '../commonModule.gradle'
 
-apply plugin: 'ru.surfstudio.android'
-
 dependencies {
     gradle.ext.androidStandard.api(
             this,
@@ -37,5 +35,5 @@ dependencies {
                     "rxbus"]
     )
 
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation retrofit.core
 }
