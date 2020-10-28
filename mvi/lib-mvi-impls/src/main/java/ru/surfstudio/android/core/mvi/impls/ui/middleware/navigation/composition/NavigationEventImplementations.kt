@@ -17,9 +17,9 @@ package ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.compositio
 
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.close.*
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.open.OpenScreenEvent
-import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.android.core.ui.navigation.ScreenResult
+import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
 import ru.surfstudio.android.mvp.dialog.navigation.route.DialogRoute
 import java.io.Serializable
