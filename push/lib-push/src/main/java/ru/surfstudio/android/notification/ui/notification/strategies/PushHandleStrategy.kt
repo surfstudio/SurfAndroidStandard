@@ -156,7 +156,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
             body: String
     ) {
 
-        pendingIntent = preparePendingIntent(context, title, group?.id)
+        pendingIntent = preparePendingIntent(context, uniqueId, group?.id)
         channel = makeNotificationChannel(context, title)
         notificationBuilder = makeNotificationBuilder(context, title, body)
         groupSummaryNotificationBuilder = makeGroupSummaryNotificationBuilder(context, title, body)
@@ -186,7 +186,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
             body: String
     ) {
 
-        pendingIntent = preparePendingIntent(context, title, -1)
+        pendingIntent = preparePendingIntent(context, title.hashCode(), -1)
         notificationBuilder = makeNotificationBuilder(context, title, body)
         channel = makeNotificationChannel(context, title)
         pushNotificationsListener.onNewPushNotification(typeData)
@@ -218,13 +218,13 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
     /**
      * Интент в соответствии с необходимыми действиями
      */
-    private fun preparePendingIntent(context: Context, title: String, groupId: Int?): PendingIntent {
+    private fun preparePendingIntent(context: Context, uniqueId: Int, groupId: Int?): PendingIntent {
         val intent = Intent(context, NotificationClickEventReceiver::class.java)
         intent.putExtra(NOTIFICATION_DATA, typeData)
         intent.putExtra(EVENT_TYPE, Event.OPEN)
         intent.putExtra(NOTIFICATION_GROUP_ID, groupId ?: 0)
         return PendingIntent.getBroadcast(context.applicationContext,
-                title.hashCode(), intent, PendingIntent.FLAG_ONE_SHOT)
+                uniqueId, intent, PendingIntent.FLAG_ONE_SHOT)
     }
 
     private fun makeDeleteIntent(context: Context, groupId: Int?): PendingIntent {
