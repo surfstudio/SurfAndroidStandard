@@ -11,7 +11,7 @@
   from "api" to "implementation" type
 * ANDDEP-1038 Add `AnimatableViewHolder` and `ViewHolderItemAnimator`
 * ANDDEP-1048 Fixing wrong docs links and docs structure
-* ANDEEP-1062 added methods to convert sp to px and vice versa
+* ANDEEP-1062 added extension methods to convert sp to px and vice versa
 ## 0.4.0
 ##### Recycler-extension
 * ANDDEP-266 DividerItemDecorator Update
