@@ -146,11 +146,9 @@ class StickyItemPositioner(
                 safeDetachFooter()
                 lastFooterBoundPosition = INVALID_POSITION
             } else {
-                if (currentFooterViewHolder == null) {
-                    lastFooterBoundPosition = footerPositionToShow
-                    val viewHolder = viewRetriever?.getViewHolderForPosition(footerPositionToShow)
-                    attachFooter(viewHolder, footerPositionToShow)
-                }
+                lastFooterBoundPosition = footerPositionToShow
+                val viewHolder = viewRetriever?.getViewHolderForPosition(footerPositionToShow)
+                attachFooter(viewHolder, footerPositionToShow)
             }
         } else if (checkMargins) {
             /*
