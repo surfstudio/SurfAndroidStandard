@@ -10,8 +10,8 @@ tasks.register<ValidateCrossFeatureRoutesTask>("validateCrossFeatureRoutesTask")
                 file.name.contains("Dialog")
     }
 
-    // TODO: изменить на true, если используется новая навигация
-    isNewNavigationUsed = false
+    // TODO: изменить на true, если используется последняя навигация
+    useTheMostRecentNavigation = false
 }
 
 tasks.whenTaskAdded {
@@ -21,7 +21,7 @@ tasks.whenTaskAdded {
 
 /**
  * Task performs `CrossFeatureRoute's` validation. Check's following conditions:
- * 1. Route have valid `targetClassPath` or `getScreenClassPath` depending on [isNewNavigationUsed];
+ * 1. Route have valid `targetClassPath` or `getScreenClassPath` depending on [useTheMostRecentNavigation];
  * 2. Target view (`Fragment` or `Dialog`) of `CrossFeatureRoute` implements `CrossFeatureFragment` interface?;
  *
  * **Note**: supported only `.kt` source files parsing.
@@ -31,7 +31,7 @@ tasks.whenTaskAdded {
  * * [ignoredDirectories];
  * * [routeFilterCondition];
  * * [viewFilterCondition];
- * * [isNewNavigationUsed].
+ * * [useTheMostRecentNavigation].
  * */
 open class ValidateCrossFeatureRoutesTask : DefaultTask() {
 
@@ -58,7 +58,7 @@ open class ValidateCrossFeatureRoutesTask : DefaultTask() {
     /**
      *  Validate new navigation routes.
      * */
-    var isNewNavigationUsed: Boolean = false
+    var useTheMostRecentNavigation: Boolean = false
 
     @TaskAction
     fun validate() {
@@ -100,8 +100,8 @@ open class ValidateCrossFeatureRoutesTask : DefaultTask() {
 
     private fun getRouteParser(): BaseRouteParser {
         return when {
-            isNewNavigationUsed -> NewNavigationRouteParser(logger)
-            else -> CrossFeatureRouteParser(logger)
+            useTheMostRecentNavigation -> ScreenPathBasedRouteParser(logger)
+            else -> TargetPathBasedRouteParser(logger)
         }
     }
 }
@@ -339,10 +339,10 @@ private class CrossFeatureViewParser(logger: Logger?) : KClassParser(logger) {
     }
 }
 
-private class CrossFeatureRouteParser(logger: Logger?) :
+private class TargetPathBasedRouteParser(logger: Logger?) :
         BaseRouteParser(logger, "fun targetClassPath()")
 
-private class NewNavigationRouteParser(logger: Logger?) :
+private class ScreenPathBasedRouteParser(logger: Logger?) :
         BaseRouteParser(logger, "fun getScreenClassPath()")
 
 private abstract class BaseRouteParser(
