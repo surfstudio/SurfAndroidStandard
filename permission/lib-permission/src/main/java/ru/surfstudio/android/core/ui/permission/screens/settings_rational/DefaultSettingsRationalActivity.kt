@@ -17,7 +17,7 @@ private const val SETTINGS_REQUEST_CODE = 1005
 class DefaultSettingsRationalActivity : AppCompatActivity() {
 
     private val settingsRationalStr: String
-        get() = intent.getStringExtra(Route.EXTRA_FIRST)
+        get() = intent.getStringExtra(Route.EXTRA_FIRST) ?: ""
 
     private val settingsPositiveButtonStr: String
         get() = intent.getStringExtra(Route.EXTRA_SECOND)
