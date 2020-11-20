@@ -57,11 +57,7 @@ internal fun <T : Serializable> parseSingleResultIntent(
         intent: Intent?,
         parseUri: (uri: Uri) -> T
 ): T? {
-    return if (intent != null && intent.data != null) {
-        parseUri(intent.data)
-    } else {
-        null
-    }
+    return intent?.data?.let(parseUri)
 }
 
 /**
@@ -74,12 +70,14 @@ internal fun <T : Serializable> parseMultipleResultIntent(
         intent: Intent?,
         parseUris: (uris: ArrayList<Uri>) -> ArrayList<T>
 ): ArrayList<T>? {
+    val clipData = intent?.clipData
+    val data = intent?.data
     return when {
         intent == null -> null
-        intent.clipData != null -> with(intent.clipData) {
-            parseUris((0 until itemCount).mapTo(ArrayList()) { getItemAt(it).uri })
+        clipData != null -> with(clipData) {
+            parseUris((0 until (itemCount)).mapTo(ArrayList()) { getItemAt(it).uri })
         }
-        intent.data != null -> parseUris(arrayListOf((intent.data)))
+        data != null -> parseUris(arrayListOf((data)))
         else -> null
     }
 }
@@ -127,14 +125,14 @@ fun Uri.getRealPath(activity: Activity, tempFileName: String = DEFAULT_TEMP_FILE
     val cursor = activity.applicationContext.contentResolver
             .query(this, projection, null, null, null)
     if (cursor == null) {
-        result = this.path
+        result = this.path ?: ""
     } else {
         cursor.moveToFirst()
         val idx = cursor.getColumnIndexOrThrow(column)
         result = if (idx > -1) {
             cursor.getString(idx) ?: createTempBitmap(activity, tempFileName)
         } else {
-            this.path
+            this.path ?: ""
         }
         cursor.close()
     }

@@ -245,7 +245,7 @@ class PictureProvider (
                             null,
                             null,
                             MediaStore.MediaColumns.DATE_ADDED + " DESC")
-                    .apply {
+                    ?.apply {
                         val columnIndexData = getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
                         val columnIndexWidth = getColumnIndex(MediaStore.MediaColumns.WIDTH)
                         val columnIndexHeight = getColumnIndex(MediaStore.MediaColumns.HEIGHT)

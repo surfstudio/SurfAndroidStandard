@@ -364,7 +364,7 @@ open class TabFragmentNavigator(val activityProvider: Provider<AppCompatActivity
 
                 Logger.i("TabFragmentNavigator restoreFromBundle after restore map = $fragmentMap")
 
-                val savedCurrentTabTag = savedInstanceState.getString(EXTRA_CURRENT_TAB_TAG)
+                val savedCurrentTabTag = savedInstanceState.getString(EXTRA_CURRENT_TAB_TAG) ?: ""
                 showExistent(savedCurrentTabTag)
 
                 true
