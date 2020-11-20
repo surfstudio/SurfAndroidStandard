@@ -1,6 +1,17 @@
-[TOC]
 # Easy-adapter Release Notes
-## 1.1.0-alpha
+
+- [2.1.0-alpha](#210-alpha)
+- [2.0.0](#200)
+- [1.0.0](#100)
+- [0.3.0](#030)
+- [0.2.1](#021)
+
+## 2.1.0-alpha
+##### Easyadapter
+* TODO
+##### Easyadapter Pagination
+* TODO
+## 2.0.0
 ##### Easyadapter
 * ANDDEP-646 - Improved EasyAdapter. In BaseItem added next and previous links to items, adapterPosition, position in ItemList.
 * ANDDEP-795 - Fixed the appear of the invisible item in all rows except first in case of using GridLayoutManager
@@ -16,7 +27,7 @@
   getItemHash to Object for BaseItemController; getItemId became
   abstract
 * ANDDEP-1017 Added DiffResultListener invoked after the DiffResult calculation
-* **NO BACKWARD COMPATIBILITY** ANDDEP-1038
+* ANDDEP-1038 **NO BACKWARD COMPATIBILITY**
   * Move `BasePaginationableAdapter` to easyadapter-pagination module
     and rename to `EasyPaginationAdapter`
   * Move `PaginationState` to easyadapter-pagination
@@ -26,7 +37,11 @@
   * Make `EasyPaginationAdapter` not abstract
   * Add `shouldShowMoreElements` for `EasyPaginationAdapter` in order to
     implement custom logic for showing more elements trigger
-
+* ANDDEP-1044 **NO BACKWARD COMPATIBILITY**
+  * Remove animations methods from `BaseViewHolder` to interface `AnimatableViewHolder`
+  * Move `AnimatableViewHolder` and `BaseItemAnimator` to
+    `recycler-extension` module
+  * Rename `BaseItemAnimator` to `ViewHolderItemAnimator`
 ##### Easyadapter Pagination
 * ANDDEP-1038 Add easyadapter-pagination module
 ## 1.0.0

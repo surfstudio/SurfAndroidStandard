@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 /**
  * /**
  * {@link androidx.recyclerview.widget.RecyclerView.ViewHolder} with binding and displaying data support for two blocks of data.
