@@ -18,8 +18,7 @@ package ru.surfstudio.android.core.mvp.presenter;
 import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.core.mvp.error.ErrorHandler;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator;
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator;
+import ru.surfstudio.android.core.ui.navigation.IActivityNavigator;
 import ru.surfstudio.android.core.ui.state.ScreenState;
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider;
 

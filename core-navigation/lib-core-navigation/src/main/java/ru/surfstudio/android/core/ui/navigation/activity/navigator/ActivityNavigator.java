@@ -43,6 +43,7 @@ import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnComple
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate;
 import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeDelegate;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
+import ru.surfstudio.android.core.ui.navigation.IActivityNavigator;
 import ru.surfstudio.android.core.ui.navigation.event.result.BaseActivityResultDelegate;
 import ru.surfstudio.android.core.ui.navigation.event.result.CrossFeatureSupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute;

@@ -25,7 +25,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import io.reactivex.Observable
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.IActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.logger.Logger

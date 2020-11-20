@@ -19,7 +19,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Observable
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.IActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.provider.Provider
 

@@ -25,7 +25,7 @@ import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultDelegate
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.IActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.permission.exceptions.PermissionsRationalIsNotProvidedException
 import ru.surfstudio.android.core.ui.permission.exceptions.SettingsRationalIsNotProvidedException

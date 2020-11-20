@@ -20,7 +20,7 @@ import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Observable
 import io.reactivex.Single
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.IActivityNavigator
 import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.picturechooser.exceptions.NoPermissionException
 

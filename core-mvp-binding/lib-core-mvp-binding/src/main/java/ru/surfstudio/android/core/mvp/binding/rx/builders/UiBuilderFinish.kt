@@ -1,6 +1,6 @@
 package ru.surfstudio.android.core.mvp.binding.rx.builders
 
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.IActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.IActivityNavigator
 
 /**
  * Интерфейс builder'а для UI с поддержкой закрытия экрана при отсутствии интернета.

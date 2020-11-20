@@ -1,12 +1,11 @@
-package ru.surfstudio.android.core.ui.navigation.activity.navigator;
+package ru.surfstudio.android.core.ui.navigation;
 
 import java.io.Serializable;
 
 import io.reactivex.Observable;
-import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
-import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute;
+import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute;
 
 /**
  * Common interface for ActivityNavigator for backward compatability
