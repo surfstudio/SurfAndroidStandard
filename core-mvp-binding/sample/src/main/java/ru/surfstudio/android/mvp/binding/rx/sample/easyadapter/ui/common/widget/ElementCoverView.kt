@@ -26,13 +26,13 @@ import ru.surfstudio.android.core.mvp.binding.sample.R
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
  */
-class ElementCoverView(context: Context?, attrs: AttributeSet?) : FrameLayout(context, attrs) {
+class ElementCoverView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
 
     private val identifierTv: TextView
 
     init {
         View.inflate(context, R.layout.element_view_layout, this)
-        identifierTv = findViewById<TextView>(R.id.identifier_tv)
+        identifierTv = findViewById(R.id.identifier_tv)
     }
 
     fun render(id: String) {

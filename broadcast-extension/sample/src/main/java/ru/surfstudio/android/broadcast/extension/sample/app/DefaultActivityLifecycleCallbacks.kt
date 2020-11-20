@@ -44,7 +44,7 @@ open class DefaultActivityLifecycleCallbacks : Application.ActivityLifecycleCall
         //do nothing
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {
         //do nothing
     }
 
