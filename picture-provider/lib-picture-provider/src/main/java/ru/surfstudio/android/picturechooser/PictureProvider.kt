@@ -40,6 +40,13 @@ class PictureProvider (
      *  Запускает сторонее приложение камеры для получения изображения.
      *  @return Single Uri изображения и угол поворота.
      */
+    @Deprecated(
+            message = "This method is deprecated, because openCameraAndTakePhoto use " +
+                    "Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) " +
+                    "for root directory for new picture, but after 29 api " +
+                    "getExternalStoragePublicDirectory not working",
+            replaceWith = ReplaceWith(expression = "openCameraAndTakePhotoUri")
+    )
     fun openCameraAndTakePhoto(noPermissionAction: () -> Unit = {}): Single<CameraResult> {
         return checkPermissionAndPerform(
                 cameraStoragePermissionChecker.checkCameraStoragePermission(),
@@ -50,7 +57,7 @@ class PictureProvider (
 
     /**
      *  Запускает сторонее приложение камеры для получения изображения.
-     *  @return Single Uri изображения и угол поворота.
+     *  @return Single Uri изображения
      */
     fun openCameraAndTakePhotoUri(noPermissionAction: () -> Unit = {}): Single<UriWrapper> {
         return checkPermissionAndPerform(
