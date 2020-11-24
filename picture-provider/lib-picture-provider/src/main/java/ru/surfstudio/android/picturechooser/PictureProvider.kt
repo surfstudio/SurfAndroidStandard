@@ -48,6 +48,18 @@ class PictureProvider (
         )
     }
 
+    /**
+     *  Запускает сторонее приложение камеры для получения изображения.
+     *  @return Single Uri изображения и угол поворота.
+     */
+    fun openCameraAndTakePhotoUri(noPermissionAction: () -> Unit = {}): Single<UriWrapper> {
+        return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkCameraStoragePermission(),
+                { cameraIntentHelper.startCameraWithUriResult() },
+                noPermissionAction
+        )
+    }
+
     //region Функции для выбора одного изображения из галереи
     /**
      *  Запускает сторонее приложение галереи для получения изображения.
