@@ -9,15 +9,22 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Интерфейс для предоставления расположения фотографии
+ * Интерфейс для предоставления расположения нового изображения
  */
 interface PictureDestinationProvider {
+    /**
+     * @return [Uri], который будет представлять расположение нового изображения
+     */
     fun providePictureDestination(): Uri
 }
 
-open class PictureUriProvider(
+/**
+ * Реализация [PictureDestinationProvider], которая в качестве места расположения нового изображения
+ * будет использовать [MediaStore.Images.Media.EXTERNAL_CONTENT_URI]
+ */
+open class ExternalStorageUriProvider(
         private val activityProvider: ActivityProvider,
-        private val pictureNameGenerator: PictureNameGenerator = PictureNameGenerator()
+        private val pictureNameGenerator: PictureNameGenerator = SimplePictureNameGenerator()
 ): PictureDestinationProvider {
 
     private val currentActivity get() = activityProvider.get()
@@ -30,6 +37,9 @@ open class PictureUriProvider(
         ) ?: error("Failed generate image uri for new photo")
     }
 
+    /**
+     * @return [ContentValues] для создания [Uri] для нового изображения
+     */
     @CallSuper
     protected open fun createContentValues(): ContentValues {
         return ContentValues().apply {
@@ -39,11 +49,21 @@ open class PictureUriProvider(
     }
 }
 
-class PictureNameGenerator {
+/**
+ * Интерфейс для генерации имени нового изображения
+ */
+interface PictureNameGenerator {
     /**
-     * @return имя для фото
+     * @return имя нового изображения
      */
-    open fun generatePictureName(): String {
+    fun generatePictureName(): String
+}
+
+class SimplePictureNameGenerator: PictureNameGenerator {
+    /**
+     * @return имя нового изображения в формате IMG_yyyyMMdd_HHmmss_SSS.jpg
+     */
+    override fun generatePictureName(): String {
         val date = Date()
         date.time = System.currentTimeMillis() + Random().nextInt(1000) + 1
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss_SSS", Locale.US).format(date)

@@ -42,12 +42,19 @@ import java.util.*
 open class CameraPictureProvider(
         private val activityNavigator: ActivityNavigator,
         private val activityProvider: ActivityProvider,
-        private val destinationProvider: PictureDestinationProvider = PictureUriProvider(activityProvider)
+        private val destinationProvider: PictureDestinationProvider = ExternalStorageUriProvider(activityProvider)
 ) {
 
     private val currentActivity get() = activityProvider.get()
 
-    @Deprecated(message = "", replaceWith = ReplaceWith(expression = ""))
+    @Deprecated(
+            message = "This method is deprecated, because startCameraIntent use " +
+                    "Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) " +
+                    "for root directory for new picture, but after 29 api " +
+                    "getExternalStoragePublicDirectory not working",
+            replaceWith = ReplaceWith(expression = "startCameraWithUriResult"),
+            level = DeprecationLevel.WARNING
+    )
     fun startCameraIntent(): Observable<CameraResult> {
         val image = generatePicturePath()
         val route = CameraRoute(image)
