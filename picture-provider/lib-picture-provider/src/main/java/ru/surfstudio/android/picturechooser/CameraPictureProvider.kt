@@ -15,15 +15,12 @@
  */
 package ru.surfstudio.android.picturechooser
 
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.annotation.CallSuper
-import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import io.reactivex.Observable
@@ -45,7 +42,7 @@ import java.util.*
 open class CameraPictureProvider(
         private val activityNavigator: ActivityNavigator,
         private val activityProvider: ActivityProvider,
-        private val fileGenerator: PictureDestinationGenerator = CompatCameraPictureProviderDestinationGenerator(activityProvider)
+        private val destinationProvider: PictureDestinationProvider = PictureUriProvider(activityProvider)
 ) {
 
     private val currentActivity get() = activityProvider.get()
@@ -80,7 +77,7 @@ open class CameraPictureProvider(
      * Открывает экран камеры, результатом которой будет [UriWrapper]
      */
     fun startCameraWithUriResult(): Observable<UriWrapper> {
-        val imageUri = fileGenerator.generatePictureUri()
+        val imageUri = destinationProvider.providePictureDestination()
         val route = CameraRoute(imageUri)
         val resultObservable = activityNavigator.observeResult<ResultData>(route).flatMap {
             if (it.isSuccess) {
@@ -89,7 +86,7 @@ open class CameraPictureProvider(
                 Observable.error(ActionInterruptedException())
             }
         }
-        activityNavigator.start(route)
+        activityNavigator.startForResult(route)
         return resultObservable
     }
 
@@ -213,149 +210,3 @@ open class CameraPictureProvider(
 }
 
 data class CameraResult(val photoUrl: String, val rotation: Int)
-
-interface PictureDestinationGenerator {
-    fun generatePictureUri(): Uri
-}
-
-class CompatCameraPictureProviderDestinationGenerator(
-        private val uriGenerator: PictureUriGenerator,
-        private val fileGenerator: PictureFileGenerator
-): PictureDestinationGenerator {
-
-    constructor(activityProvider: ActivityProvider): this(
-            uriGenerator = PictureUriGenerator(activityProvider),
-            fileGenerator = PictureFileGenerator(activityProvider)
-    )
-
-    override fun generatePictureUri(): Uri {
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            fileGenerator.generatePictureUri()
-        } else {
-            uriGenerator.generatePictureUri()
-        }
-    }
-}
-
-open class PictureUriGenerator(
-        private val activityProvider: ActivityProvider,
-        private val pictureNameGenerator: PictureNameGenerator = PictureNameGenerator()
-): PictureDestinationGenerator {
-
-    private val currentActivity get() = activityProvider.get()
-
-//    @RequiresApi(Build.VERSION_CODES.Q)
-    override fun generatePictureUri(): Uri {
-        val values = createContentValues()
-        return currentActivity.contentResolver.insert(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                values
-        ) ?: error("Failed generate image uri for new photo")
-    }
-
-    @CallSuper
-    protected open fun createContentValues(): ContentValues {
-        return ContentValues().apply {
-            val pictureName = pictureNameGenerator.generatePictureName()
-            put(MediaStore.Images.Media.TITLE, pictureName)
-        }
-    }
-}
-
-open class PictureFileGenerator(
-        private val activityProvider: ActivityProvider,
-        private val pictureNameGenerator: PictureNameGenerator = PictureNameGenerator()
-): PictureDestinationGenerator {
-
-    private val currentActivity get() = activityProvider.get()
-
-    override fun generatePictureUri(): Uri {
-        val pictureFile = generatePictureFile()
-        return if (Build.VERSION.SDK_INT >= 24) {
-            FileProvider.getUriForFile(
-                    currentActivity,
-                    currentActivity.applicationContext.packageName + ".provider",
-                    pictureFile
-            )
-        } else {
-            Uri.fromFile(pictureFile)
-        }
-    }
-
-    /**
-     * Создает [File], который будет использоваться для сохранения фото
-     */
-    fun generatePictureFile(): File {
-        val pictureDir = getAlbumDir()
-        val pictureName = generatePictureName()
-        return File(pictureDir, pictureName)
-    }
-
-    /**
-     * @return имя для фото
-     */
-    protected open fun generatePictureName(): String {
-        return pictureNameGenerator.generatePictureName()
-    }
-
-    /**
-     * @return [File], который будет указывать на директорию, где будет сохранено фото
-     */
-    private fun getAlbumDir(): File {
-        val baseAlbumDir = getBaseAlbumDir()
-        if (checkExternalBaseAlbumDir(baseAlbumDir)) {
-            val albumName = getAlbumName()
-            return File(baseAlbumDir, albumName).also {
-                makeExternalBaseAlbumDirIfNotExists(it)
-            }
-        } else {
-            throw ExternalStorageException("External storage is not mounted READ/WRITE.")
-        }
-    }
-
-    /**
-     * @return путь до внешнего хранилища в файловой системе андройда
-     */
-    protected open fun getBaseAlbumDir(): File {
-        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-    }
-
-    private fun checkExternalBaseAlbumDir(externalBaseAlbumDir: File): Boolean {
-        return Environment.MEDIA_MOUNTED == if (
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-        ) {
-            Environment.getExternalStorageState(externalBaseAlbumDir)
-        } else {
-            Environment.getExternalStorageState()
-        }
-    }
-
-    private fun makeExternalBaseAlbumDirIfNotExists(externalBaseAlbumDir: File) {
-        if (!externalBaseAlbumDir.mkdirs()) {
-            if (!externalBaseAlbumDir.exists()) {
-                throw ExternalStorageException("Failed to create directory")
-            }
-        }
-    }
-
-    /**
-     * @return имя для директории, в которой будет хранится фото относительно [getAlbumDir]
-     */
-    protected open fun getAlbumName(): String {
-        val packageManager = currentActivity.packageManager
-        val appInfo = currentActivity.applicationInfo
-        return packageManager.getApplicationLabel(appInfo).toString()
-    }
-}
-
-class PictureNameGenerator {
-    /**
-     * @return имя для фото
-     */
-    open fun generatePictureName(): String {
-        val date = Date()
-        date.time = System.currentTimeMillis() + Random().nextInt(1000) + 1
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss_SSS", Locale.US).format(date)
-        return "IMG_$timeStamp.jpg"
-    }
-}
