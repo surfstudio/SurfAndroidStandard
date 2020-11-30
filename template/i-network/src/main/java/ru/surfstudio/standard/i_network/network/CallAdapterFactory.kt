@@ -19,7 +19,7 @@ class CallAdapterFactory : BaseCallAdapterFactory() {
 
     override fun <R> onHttpException(e: HttpException, call: Call<R>): Observable<R> {
         val response = e.response()?.raw()
-        val url = response?.request?.url?.toString() ?: EMPTY_STRING
+        val url = response?.request()?.url()?.toString() ?: EMPTY_STRING
 
         val httpError: HttpProtocolException = when (e.code()) {
             HttpCodes.CODE_400 -> getApiException(e, url)
