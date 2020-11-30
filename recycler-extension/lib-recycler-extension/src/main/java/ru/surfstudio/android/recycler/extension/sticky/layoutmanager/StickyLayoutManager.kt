@@ -207,7 +207,6 @@ class StickyLayoutManager(
 
     private fun cacheHeaderPositions() {
         headerPositions.clear()
-        footerPositions.clear()
         val adapterData = headerHandler?.getAdapterData()
         if (adapterData == null) {
             positioner.setStickyPositions(headerPositions, footerPositions)
