@@ -28,6 +28,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.picturechooser.destination.*
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import ru.surfstudio.android.picturechooser.exceptions.ExternalStorageException
 import java.io.File
@@ -39,10 +40,17 @@ import java.util.*
 /**
  *  Позволяет получить данные с камеры стороннего приложения
  */
-open class CameraPictureProvider(
+class CameraPictureProvider(
         private val activityNavigator: ActivityNavigator,
         private val activityProvider: ActivityProvider,
-        private val destinationProvider: PictureDestinationProvider = ExternalStorageUriProvider(activityProvider)
+        private val destinationProvider: PictureDestinationProvider = ContentResolverUriProvider(
+                contentResolver = activityProvider.get().applicationContext.contentResolver,
+                pictureTableProvider = object : PictureTableProvider {
+                    override fun providePictureTable(): Uri {
+                        return MediaStore.Images.Media.INTERNAL_CONTENT_URI
+                    }
+                }
+        )
 ) {
 
     private val currentActivity get() = activityProvider.get()
@@ -81,10 +89,11 @@ open class CameraPictureProvider(
     }
 
     /**
-     * Открывает экран камеры, результатом которой будет [UriWrapper]
+     * Открывает экран камеры, результатом которой будет [UriWrapper], содержащий [Uri], указывающий
+     * на запись в таблице с информацией о новом изображении
      */
     fun startCameraWithUriResult(): Observable<UriWrapper> {
-        val imageUri = destinationProvider.providePictureDestination()
+        val imageUri = destinationProvider.provideDestination()
         val route = CameraRoute(imageUri)
         val resultObservable = activityNavigator.observeResult<ResultData>(route).flatMap {
             if (it.isSuccess) {
@@ -92,6 +101,8 @@ open class CameraPictureProvider(
             } else {
                 Observable.error(ActionInterruptedException())
             }
+        }.doOnError {
+            destinationProvider.deleteDestination(imageUri)
         }
         activityNavigator.startForResult(route)
         return resultObservable
