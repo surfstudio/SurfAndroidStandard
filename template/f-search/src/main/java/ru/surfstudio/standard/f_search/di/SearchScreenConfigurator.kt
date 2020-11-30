@@ -11,9 +11,9 @@ import ru.surfstudio.standard.f_search.SearchFragmentView
 import ru.surfstudio.standard.f_search.SearchPresenter
 import ru.surfstudio.standard.ui.activity.di.ActivityComponent
 import ru.surfstudio.standard.ui.activity.di.FragmentScreenConfigurator
-import ru.surfstudio.standard.ui.navigation.SearchFragmentRoute
-import ru.surfstudio.standard.ui.screen.CustomScreenModule
-import ru.surfstudio.standard.ui.screen.FragmentScreenModule
+import ru.surfstudio.standard.ui.navigation.routes.SearchFragmentRoute
+import ru.surfstudio.standard.ui.screen_modules.CustomScreenModule
+import ru.surfstudio.standard.ui.screen_modules.FragmentScreenModule
 
 class SearchScreenConfigurator : FragmentScreenConfigurator(Bundle.EMPTY) {
 

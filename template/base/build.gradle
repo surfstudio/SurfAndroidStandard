@@ -40,7 +40,12 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"
+                    "rxbus",
+                    "mvi-core",
+                    "mvi-impls",
+                    "mvi-mapper",
+                    "navigation",
+                    "navigation-rx",
             ]
     )
 }

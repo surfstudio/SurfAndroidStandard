@@ -8,9 +8,9 @@ import retrofit2.HttpException
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
+import ru.surfstudio.standard.i_network.error.*
 import ru.surfstudio.standard.i_network.network.calladapter.BaseCallAdapterFactory
 import ru.surfstudio.standard.i_network.network.error.HttpCodes
-import ru.surfstudio.standard.i_network.error.*
 import java.io.IOException
 import kotlin.reflect.KClass
 
@@ -50,7 +50,7 @@ class CallAdapterFactory : BaseCallAdapterFactory() {
     }
 
     private fun getByCode(response: ServerErrorResponse?, e: HttpException, url: String): HttpProtocolException =
-            when (ApiErrorType.getByCode(response?.code)) {
+            when (ApiErrorType.getBy(response?.code)) {
                 ApiErrorType.UNKNOWN -> throw IllegalStateException("Некорректный код ошибки от сервера")
             }
 }
