@@ -27,6 +27,7 @@ import ru.surfstudio.android.core.ui.navigation.ActivityRouteInterface;
  *
  * @param <T> тип данных результата, переданного в Intent
  */
+@Deprecated
 public interface SupportOnActivityResultRoute<T extends Serializable> extends ActivityRouteInterface {
     String EXTRA_RESULT = "extra_result";
 

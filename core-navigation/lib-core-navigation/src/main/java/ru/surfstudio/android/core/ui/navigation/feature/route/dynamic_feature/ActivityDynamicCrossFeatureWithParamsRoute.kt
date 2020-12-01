@@ -30,6 +30,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
  * @see [DynamicCrossFeatureRoute]
  * @see [ActivityDynamicCrossFeatureRoute]
  */
+@Deprecated("Используйте новую навигацию")
 abstract class ActivityDynamicCrossFeatureWithParamsRoute : ActivityDynamicCrossFeatureRoute {
 
     constructor() {

@@ -18,5 +18,6 @@ package ru.surfstudio.android.core.ui.navigation;
 /**
  * базовый интерфейс навигатора
  */
+@Deprecated
 public interface Navigator {
 }

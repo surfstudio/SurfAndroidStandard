@@ -28,6 +28,7 @@ import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatu
  *
  * Read more: [https://developer.android.com/studio/projects/dynamic-delivery]
  */
+@Deprecated("Используйте новую навигацию")
 interface DynamicCrossFeatureRoute : CrossFeatureRoute {
 
     /**

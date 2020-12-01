@@ -22,6 +22,7 @@ package ru.surfstudio.android.core.ui.navigation.feature.installer
  * * installation status changing event (with subtypes) [InstallationStateEvent];
  * * installation startup failure (with subtypes) [StartupFailure];
  */
+@Deprecated("Используйте новую навигацию")
 sealed class SplitFeatureEvent {
 
     /**

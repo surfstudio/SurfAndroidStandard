@@ -5,4 +5,5 @@ package ru.surfstudio.android.core.ui.navigation.feature.route.feature
  * This interface is using for ProGuard settings to avoid obfuscation of names of these fragments,
  * otherwise navigation will not work correctly.
  */
+@Deprecated("Используйте новую навигацию")
 interface CrossFeatureFragment

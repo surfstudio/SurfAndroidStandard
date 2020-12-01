@@ -22,6 +22,7 @@ import java.io.Serializable;
  *
  * @param <T> Intent data type
  */
+@Deprecated
 public interface CrossFeatureSupportOnActivityResultRoute<T extends Serializable> extends SupportOnActivityResultRoute<T> {
     //empty
 }

@@ -32,6 +32,7 @@ import java.io.Serializable
  * @see [CrossFeatureRoute]
  * @see [ActivityCrossFeatureRoute]
  */
+@Deprecated("Используйте новую навигацию")
 abstract class ActivityCrossFeatureWithParamsAndResultRoute<T : Serializable> :
         ActivityCrossFeatureWithResultRoute<T> {
 

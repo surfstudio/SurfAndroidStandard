@@ -24,6 +24,7 @@ import android.os.Bundle;
  * See: {@link Route}.
  * <br><br>
  */
+@Deprecated
 public interface FragmentRouteInterface extends Route {
 
     /**

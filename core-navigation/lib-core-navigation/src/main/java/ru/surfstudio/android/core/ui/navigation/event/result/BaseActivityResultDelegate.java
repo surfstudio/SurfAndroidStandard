@@ -35,6 +35,7 @@ import ru.surfstudio.android.logger.Logger;
 /**
  * базовый класс делегата, позволяющий регистрировать обработчики на событие onActivityResult
  */
+@Deprecated
 public class BaseActivityResultDelegate implements ActivityResultDelegate {
     private Map<Integer, ActivityResultRegistration> activityResultSubjects = new HashMap<>();
 

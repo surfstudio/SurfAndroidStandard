@@ -26,6 +26,7 @@ import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityRe
  *
  * @param <T> тип результата
  */
+@Deprecated
 public abstract class ActivityWithResultRoute<T extends Serializable> extends ActivityRoute
         implements SupportOnActivityResultRoute<T> {
 

@@ -28,6 +28,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
  * глобальный навигатор для перехода по экранам не имея доступ
  * к контексту активити (из слоя Interactor)
  */
+@Deprecated
 public class GlobalNavigator implements Navigator {
     private final Context context;
     private final ActiveActivityHolder activityHolder;

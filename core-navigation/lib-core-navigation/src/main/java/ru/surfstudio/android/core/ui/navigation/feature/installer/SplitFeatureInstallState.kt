@@ -5,6 +5,7 @@ package ru.surfstudio.android.core.ui.navigation.feature.installer
  *
  * @param installEvent Dynamic Feature installation event
  */
+@Deprecated("Используйте новую навигацию")
 data class SplitFeatureInstallState(
         var installEvent: SplitFeatureEvent? = null
 ) {

@@ -33,6 +33,7 @@ import java.io.Serializable
  * @see [DynamicCrossFeatureRoute]
  * @see [ActivityDynamicCrossFeatureRoute]
  */
+@Deprecated("Используйте новую навигацию")
 abstract class ActivityDynamicCrossFeatureWithResultRoute<T : Serializable> :
         ActivityDynamicCrossFeatureRoute(),
         CrossFeatureSupportOnActivityResultRoute<T> {
