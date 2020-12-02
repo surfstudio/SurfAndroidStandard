@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_main.*
 import ru.rivegauche.app.f_main.bar.MainBarState
 import ru.rivegauche.app.f_main.bar.MainBarStateHolder
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
 import ru.surfstudio.android.navigation.provider.container.TabFragmentNavigationContainer
 import ru.surfstudio.android.template.f_main.R
+import ru.surfstudio.android.template.f_main.databinding.FragmentMainBinding
 import ru.surfstudio.standard.f_main.bar.MainBarEvent.TabSelected
 import ru.surfstudio.standard.f_main.bar.di.MainBarScreenConfigurator
 import ru.surfstudio.standard.f_main.view.BottomBarView
@@ -31,12 +31,21 @@ internal class MainBarFragmentView : BaseMviFragmentView<MainBarState, MainBarEv
     @Inject
     override lateinit var sh: MainBarStateHolder
 
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
+
     override fun createConfigurator() = MainBarScreenConfigurator(arguments)
 
     override val containerId: Int = R.id.fragment_container
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        _binding = FragmentMainBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun getScreenName(): String = "MainBarFragmentView"
@@ -46,10 +55,10 @@ internal class MainBarFragmentView : BaseMviFragmentView<MainBarState, MainBarEv
     }
 
     override fun render(state: MainBarState) {
-        main_bottom_bar.performIfChanged(state.selectedTab, BottomBarView::updateSelection)
+        binding.mainBottomBar.performIfChanged(state.selectedTab, BottomBarView::updateSelection)
     }
 
     private fun initListeners() {
-        main_bottom_bar.tabSelectedAction = { TabSelected(it).emit() }
+        binding.mainBottomBar.tabSelectedAction = { TabSelected(it).emit() }
     }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
+import ru.surfstudio.standard.f_feed.databinding.FragmentFeedBinding
 import ru.surfstudio.standard.f_feed.di.FeedScreenConfigurator
 import ru.surfstudio.standard.ui.mvi.view.BaseMviFragmentView
 import javax.inject.Inject
@@ -18,13 +19,24 @@ internal class FeedFragmentView : BaseMviFragmentView<FeedState, FeedEvent>(), C
     @Inject
     override lateinit var sh: FeedScreenStateHolder
 
+    private var _binding: FragmentFeedBinding? = null
+    private val binding get() = _binding!!
+
     override fun createConfigurator() = FeedScreenConfigurator(arguments)
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_feed, container, false)
+    ): View? {
+        _binding = FragmentFeedBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     override fun render(state: FeedState) {
     }

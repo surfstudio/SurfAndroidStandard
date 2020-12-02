@@ -18,11 +18,14 @@ package ru.surfstudio.android.core.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewbinding.ViewBinding;
 
 import ru.surfstudio.android.core.ui.delegate.activity.ActivityDelegate;
 import ru.surfstudio.android.core.ui.delegate.factory.ScreenDelegateFactoryContainer;
@@ -60,7 +63,7 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
         super.onCreate(savedInstanceState);
 
         onPreCreate(savedInstanceState);
-        setContentView(getContentView());
+        setContentView(getContentRootView(getLayoutInflater()));
         activityDelegate.onCreate(savedInstanceState, null);
     }
 
@@ -73,10 +76,35 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     }
 
     /**
+     * @return contentView using View Binding or layout resource
+     */
+    protected View getContentRootView(LayoutInflater inflater) {
+        ViewBinding binding = getViewBinding(inflater);
+        if (binding != null) {
+            return binding.getRoot();
+        } else {
+            int contentViewId = getContentView();
+            inflater.inflate(contentViewId, null, false);
+            return inflater.inflate(contentViewId, null, false);
+        }
+    }
+
+    /**
+     * Override this method, when you use ViewBindings
+     *
+     * @return ViewBinding of the screen
+     */
+    protected ViewBinding getViewBinding(LayoutInflater inflater) {
+        return null;
+    }
+
+    /**
      * @return layout resource of the screen
      */
     @LayoutRes
-    abstract protected int getContentView();
+    protected int getContentView() {
+        return -1;
+    }
 
     /**
      * Called before Presenter is bound to the View and content view is created
