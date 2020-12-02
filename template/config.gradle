@@ -11,7 +11,7 @@ ext {
     meta = [
             minSdkVersion         : 21,
             targetSdkVersion      : 28,
-            compileSdkVersion     : 30,
+            compileSdkVersion     : 28,
             debugVersionNameSuffix: ".debug",
             qaVersionNameSuffix   : ".qa"
     ]

@@ -21,7 +21,7 @@ import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 
 /**
- * Класс, предоставляющий строки из ресурсов по id
+ * Класс, предоставляющий ресурсы по id
  */
 class ResourceProvider constructor(var context: Context) {
 
