@@ -1,6 +1,3 @@
-<#assign screenType ="<#if fragment>Fragment<#else>Activity</#if>>
-<#assign routeParentClassName ="${screenType?cap_first}<#if crossFeature>CrossFeature</#if><#if needToGenerateParams && needToGenerateResult>WithParamsAndResult<#elseif needToGenerateParams>WithParams<#elseif needToGenerateParams>WithResult</#if>Route">
-
 package ${packageName}
 
 <#if useNewNavigation>
