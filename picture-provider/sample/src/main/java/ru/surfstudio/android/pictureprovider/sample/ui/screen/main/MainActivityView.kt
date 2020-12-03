@@ -29,6 +29,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
 
         camera_btn.setOnClickListener { presenter.openCamera() }
+        camera_uri_btn.setOnClickListener { presenter.openCameraUri() }
         gallery_btn.setOnClickListener { presenter.openGallerySingle() }
         gallery_m_btn.setOnClickListener { presenter.openGalleryMultiple() }
         chooser_btn.setOnClickListener { presenter.openChooserSingle() }

@@ -1,5 +1,6 @@
 package ru.surfstudio.android.pictureprovider.sample.ui.screen.main
 
+import android.content.Context
 import io.reactivex.Single
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -20,7 +21,8 @@ internal class MainPresenter @Inject constructor(
         stringsProvider: StringsProvider,
         private val picturePermissionChecker: PicturePermissionChecker,
         private val photoProvider: PictureProvider,
-        private val messageController: MessageController
+        private val messageController: MessageController,
+        private val context: Context
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val sm: MainScreenModel = MainScreenModel()
@@ -33,6 +35,8 @@ internal class MainPresenter @Inject constructor(
     }
 
     fun openCamera() = performAction(photoProvider.openCameraAndTakePhoto())
+
+    fun openCameraUri() = performAction(photoProvider.openCameraAndTakePhotoUri())
 
     fun openGallerySingle() = performAction(photoProvider.openGalleryAndGetPhotoUriWrapper())
 
