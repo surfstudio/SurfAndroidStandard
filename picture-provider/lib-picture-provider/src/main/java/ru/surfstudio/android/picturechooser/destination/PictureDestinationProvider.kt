@@ -2,35 +2,36 @@ package ru.surfstudio.android.picturechooser.destination
 
 import android.content.ContentResolver
 import android.content.ContentValues
-import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.CallSuper
 import androidx.annotation.RequiresApi
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.picturechooser.exceptions.ExternalStorageException
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Интерфейс для предоставления расположения нового изображения
+ * Интерфейс для генерации [Uri]
  */
 interface PictureDestinationProvider {
     /**
-     * @return content [Uri], который будет указывать на данные о фото в таблице
+     * @return [Uri] изображения
      */
     fun provideDestination(): Uri
 
+    /**
+     * Метод удаления [uri]
+     */
     fun deleteDestination(uri: Uri)
 }
 
 /**
- * Реализация [PictureDestinationProvider], которая будет предоставлять [Uri] нового изображения в
- * таблице, предоставляемой через [PictureTableProvider] и с параметрами, генерируемыми через
- * [PictureContentValuesGenerator]
+ * Реализация [PictureDestinationProvider] для генерации [Uri] с помощью [contentResolver]
+ * Таблица определяется через [pictureTableProvider]
+ * Значения для столбцов задаются через [contentValuesGenerator]
  */
 class ContentResolverUriProvider(
         private val contentResolver: ContentResolver,
@@ -39,10 +40,9 @@ class ContentResolverUriProvider(
 ): PictureDestinationProvider {
 
     override fun provideDestination(): Uri {
-        val values = createContentValues()
         return contentResolver.insert(
                 pictureTableProvider.providePictureTable(),
-                values
+                contentValuesGenerator.generateContentValues()
         ) ?: error("Failed generate image uri for new photo")
     }
 
@@ -51,14 +51,6 @@ class ContentResolverUriProvider(
         if (countOfDeletionRows <= 0) {
             error("Uri $uri delete failed")
         }
-    }
-
-    /**
-     * @return [ContentValues] для создания [Uri] для нового изображения
-     */
-    @CallSuper
-    private fun createContentValues(): ContentValues {
-        return contentValuesGenerator.generateContentValues()
     }
 }
 
@@ -153,14 +145,6 @@ class AbsolutePathContentValuesGenerator(
             return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         }
     }
-
-    class ExternalPictureBaseDirectoryProvider(
-            private val context: Context
-    ): PictureBaseDirectoryProvider {
-        override fun provideBaseDirectory(): File {
-            return context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) ?: error("Failed get external files dir picture")
-        }
-    }
 }
 
 /**
@@ -181,7 +165,7 @@ interface PictureNameGenerator {
 }
 
 /**
- * Интерфейс для генерации относительного пути до директории изображения
+ * Интерфейс для генерации относительного пути до нового изображения
  */
 interface PictureFolderGenerator {
     /**

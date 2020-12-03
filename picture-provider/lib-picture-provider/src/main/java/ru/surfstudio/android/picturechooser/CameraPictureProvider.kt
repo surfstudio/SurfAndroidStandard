@@ -28,7 +28,8 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.picturechooser.destination.*
+import ru.surfstudio.android.picturechooser.destination.ContentResolverUriProvider
+import ru.surfstudio.android.picturechooser.destination.PictureDestinationProvider
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import ru.surfstudio.android.picturechooser.exceptions.ExternalStorageException
 import java.io.File
@@ -44,12 +45,7 @@ class CameraPictureProvider(
         private val activityNavigator: ActivityNavigator,
         private val activityProvider: ActivityProvider,
         private val destinationProvider: PictureDestinationProvider = ContentResolverUriProvider(
-                contentResolver = activityProvider.get().applicationContext.contentResolver,
-                pictureTableProvider = object : PictureTableProvider {
-                    override fun providePictureTable(): Uri {
-                        return MediaStore.Images.Media.INTERNAL_CONTENT_URI
-                    }
-                }
+                contentResolver = activityProvider.get().contentResolver
         )
 ) {
 
