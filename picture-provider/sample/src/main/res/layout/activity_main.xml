@@ -58,5 +58,23 @@
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
             android:text="@string/chooser_save_btn_text" />
+
+        <Button
+            android:id="@+id/camera_uri_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chooser_save_btn"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:text="@string/camera_btn_text" />
+
+        <ImageView
+            android:id="@+id/example_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/camera_uri_btn"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp" />
     </RelativeLayout>
 </ScrollView>
