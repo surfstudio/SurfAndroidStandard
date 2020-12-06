@@ -9,6 +9,9 @@ import androidx.annotation.CallSuper
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import java.io.Serializable
 
+/**
+ * Базовый класс для создания маршрута экрана камеры
+ */
 open class BaseCameraRoute(val imageUri: Uri): ActivityWithResultRoute<ResultData>() {
 
     @CallSuper
@@ -19,6 +22,9 @@ open class BaseCameraRoute(val imageUri: Uri): ActivityWithResultRoute<ResultDat
     }
 }
 
+/**
+ * Старая реалзиация [BaseCameraRoute]
+ */
 class CameraRoute(
         imageUri: Uri,
         private val chooserTitle: String
