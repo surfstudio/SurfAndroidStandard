@@ -21,12 +21,13 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.picturechooser.destination.PictureDestinationProvider
 import ru.surfstudio.android.picturechooser.exceptions.NoPermissionException
 
 /**
  * Поставляет изображения находящиеся на устройстве или с камеры.
  */
-class PictureProvider (
+class PictureProvider(
         val context: Context,
         activityNavigator: ActivityNavigator,
         activityProvider: ActivityProvider,
@@ -59,10 +60,14 @@ class PictureProvider (
      *  Запускает сторонее приложение камеры для получения изображения.
      *  @return Single Uri изображения
      */
-    fun openCameraAndTakePhotoUri(noPermissionAction: () -> Unit = {}): Single<UriWrapper> {
+    fun openCameraAndTakePhotoUri(
+            noPermissionAction: () -> Unit = {},
+            destinationProvider: PictureDestinationProvider,
+            cameraRouteFactory: BaseCameraRouteFactory
+    ): Single<UriWrapper> {
         return checkPermissionAndPerform(
                 cameraStoragePermissionChecker.checkCameraStoragePermission(),
-                { cameraIntentHelper.startCameraWithUriResult() },
+                { cameraIntentHelper.startCameraWithUriResult(destinationProvider, cameraRouteFactory) },
                 noPermissionAction
         )
     }
