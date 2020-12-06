@@ -15,25 +15,18 @@
  */
 package ru.surfstudio.android.picturechooser
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
-import android.provider.MediaStore
-import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.picturechooser.destination.ContentResolverUriProvider
 import ru.surfstudio.android.picturechooser.destination.PictureDestinationProvider
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import ru.surfstudio.android.picturechooser.exceptions.ExternalStorageException
 import java.io.File
-import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,10 +36,7 @@ import java.util.*
  */
 class CameraPictureProvider(
         private val activityNavigator: ActivityNavigator,
-        private val activityProvider: ActivityProvider,
-        private val destinationProvider: PictureDestinationProvider = ContentResolverUriProvider(
-                contentResolver = activityProvider.get().contentResolver
-        )
+        private val activityProvider: ActivityProvider
 ) {
 
     private val currentActivity get() = activityProvider.get()
@@ -61,7 +51,11 @@ class CameraPictureProvider(
     )
     fun startCameraIntent(): Observable<CameraResult> {
         val image = generatePicturePath()
-        val route = CameraRoute(image)
+        val cameraRouteFactory = OldFileCameraRouteFactory(
+                context = currentActivity.applicationContext,
+                authority = currentActivity.packageName + ".provider"
+        )
+        val route = cameraRouteFactory.create(image)
 
         val result = activityNavigator.observeResult<ResultData>(route)
                 .flatMap { result ->
@@ -88,9 +82,12 @@ class CameraPictureProvider(
      * Открывает экран камеры, результатом которой будет [UriWrapper], содержащий [Uri], указывающий
      * на запись в таблице с информацией о новом изображении
      */
-    fun startCameraWithUriResult(): Observable<UriWrapper> {
+    fun startCameraWithUriResult(
+            destinationProvider: PictureDestinationProvider,
+            cameraRouteFactory: BaseCameraRouteFactory
+    ): Observable<UriWrapper> {
         val imageUri = destinationProvider.provideDestination()
-        val route = CameraRoute(imageUri)
+        val route = cameraRouteFactory.create(imageUri)
         val resultObservable = activityNavigator.observeResult<ResultData>(route).flatMap {
             if (it.isSuccess) {
                 Observable.just(UriWrapper(imageUri))
@@ -188,39 +185,6 @@ class CameraPictureProvider(
         val appInfo = currentActivity.applicationInfo
         return packageManager.getApplicationLabel(appInfo).toString()
     }
-
-    private inner class CameraRoute(val imageUri: Uri) : ActivityWithResultRoute<ResultData>() {
-
-        constructor(imageFile: File): this(
-                imageFile.let {
-                    if (Build.VERSION.SDK_INT >= 24) {
-                        FileProvider.getUriForFile(
-                                currentActivity,
-                                currentActivity.applicationContext.packageName + ".provider",
-                                imageFile
-                        )
-                    } else {
-                        Uri.fromFile(imageFile)
-                    }
-                }
-        )
-
-        override fun prepareIntent(context: Context?): Intent {
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
-                putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-                if (Build.VERSION.SDK_INT >= 24) {
-                    addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                }
-            }
-            return Intent.createChooser(
-                    takePictureIntent,
-                    currentActivity.getString(R.string.choose_app)
-            )
-        }
-    }
-
-    private data class ResultData(val photoPath: String) : Serializable
 }
 
 data class CameraResult(val photoUrl: String, val rotation: Int)

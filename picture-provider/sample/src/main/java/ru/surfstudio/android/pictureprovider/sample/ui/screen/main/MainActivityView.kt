@@ -1,5 +1,6 @@
 package ru.surfstudio.android.pictureprovider.sample.ui.screen.main
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.IdRes
@@ -37,11 +38,20 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         chooser_save_btn.setOnClickListener { presenter.openChooserAndSavePhoto() }
     }
 
-    override fun renderInternal(sm: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {
+        val photoUri = sm.photoUri
+        if (photoUri != null) {
+            showImage(photoUri)
+        }
+    }
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
 
     override fun getScreenName(): String = "MainActivity"
+
+    private fun showImage(photoUri: Uri) {
+        example_iv.setImageURI(photoUri)
+    }
 }
