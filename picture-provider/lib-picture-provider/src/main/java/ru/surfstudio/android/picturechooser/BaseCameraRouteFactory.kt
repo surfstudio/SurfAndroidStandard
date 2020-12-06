@@ -6,6 +6,9 @@ import android.os.Build
 import androidx.core.content.FileProvider
 import java.io.File
 
+/**
+ * Фабрика для создания [BaseCameraRoute]
+ */
 interface BaseCameraRouteFactory {
     fun create(uri: Uri): BaseCameraRoute
 
@@ -16,6 +19,9 @@ interface BaseCameraRouteFactory {
     }
 }
 
+/**
+ * Реализация [BaseCameraRouteFactory] для создания [CameraRoute]
+ */
 class CameraRouteFactory(
         private val chooserTitle: String
 ) : BaseCameraRouteFactory {
@@ -25,6 +31,9 @@ class CameraRouteFactory(
     }
 }
 
+/**
+ * Реализация [BaseCameraRouteFactory] для создания [CameraRoute] с помощью [File]
+ */
 internal class OldFileCameraRouteFactory(
         private val context: Context,
         private val authority: String,
