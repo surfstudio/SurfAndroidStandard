@@ -22,7 +22,7 @@ interface BaseCameraRouteFactory {
 /**
  * Реализация [BaseCameraRouteFactory] для создания [CameraRoute]
  */
-internal class CameraRouteFactory(
+class CameraRouteFactory(
         private val chooserTitle: String
 ) : BaseCameraRouteFactory {
 
