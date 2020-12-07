@@ -510,6 +510,10 @@
           {
             "name": "rx-extension",
             "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
           }
         ]
       },
