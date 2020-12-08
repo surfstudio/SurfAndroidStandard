@@ -6,20 +6,25 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
-internal class SplashState()
+/**
+ * todo Класс публичный для работы инструментальных тестов
+ */
+class SplashState()
 
 /**
  * State Holder [SplashActivityView]
+ * todo Класс публичный для работы инструментальных тестов
  */
 @PerScreen
-internal class SplashScreenStateHolder @Inject constructor(
+class SplashScreenStateHolder @Inject constructor(
 ) : State<SplashState>(SplashState())
 
 /**
  * Reducer [SplashActivityView]
+ * todo Класс публичный для работы инструментальных тестов
  */
 @PerScreen
-internal class SplashReducer @Inject constructor(
+class SplashReducer @Inject constructor(
         dependency: BaseReactorDependency
 ) : BaseReducer<SplashEvent, SplashState>(dependency) {
 

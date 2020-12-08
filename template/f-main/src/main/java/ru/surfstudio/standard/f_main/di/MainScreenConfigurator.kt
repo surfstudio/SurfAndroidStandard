@@ -22,8 +22,9 @@ import ru.surfstudio.standard.ui.screen_modules.CustomScreenModule
 
 /**
  * Конфигуратор главного экрана
+ * todo Класс публичный для работы инструментальных тестов
  */
-internal class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
+class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
 
     @PerScreen
     @Component(dependencies = [ActivityComponent::class],
