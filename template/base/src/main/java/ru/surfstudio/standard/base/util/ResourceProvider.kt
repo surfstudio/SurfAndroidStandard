@@ -16,9 +16,8 @@
 package ru.surfstudio.standard.base.util
 
 import android.content.Context
-import androidx.annotation.ArrayRes
-import androidx.annotation.PluralsRes
-import androidx.annotation.StringRes
+import android.graphics.drawable.Drawable
+import androidx.annotation.*
 
 /**
  * Класс, предоставляющий ресурсы по id
@@ -43,5 +42,13 @@ class ResourceProvider constructor(var context: Context) {
 
     fun getStringList(@ArrayRes id: Int): List<String> {
         return context.resources.getStringArray(id).toList()
+    }
+
+    fun getDrawable(@DrawableRes drawableRes: Int): Drawable? {
+        return context.getDrawable(drawableRes)
+    }
+
+    fun getDimen(@DimenRes dimenRes: Int): Int {
+        return context.resources.getDimensionPixelOffset(dimenRes)
     }
 }

@@ -23,7 +23,7 @@ import ru.surfstudio.standard.ui.screen_modules.CustomScreenModule
 import ru.surfstudio.standard.ui.screen_modules.FragmentScreenModule
 
 /**
- * Конфигуратор экрана логина [MainBarFragmentView]
+ * [MainBarFragmentView]
  */
 internal class MainBarScreenConfigurator(arguments: Bundle?) : FragmentScreenConfigurator(arguments) {
 
