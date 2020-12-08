@@ -20,7 +20,6 @@ import android.content.Intent;
 /**
  * см {@link ActivityRoute}
  */
-@Deprecated
 public abstract class ActivityWithParamsRoute extends ActivityRoute {
 
     public ActivityWithParamsRoute() {

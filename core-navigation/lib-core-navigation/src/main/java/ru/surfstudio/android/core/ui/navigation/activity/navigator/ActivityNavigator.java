@@ -67,7 +67,6 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider;
  * Конфликт может возникнуть при открытии одинаковых экранов из, например, кастомной вью с
  * презентером и родительской активити вью
  */
-@Deprecated
 public abstract class ActivityNavigator extends BaseActivityResultDelegate
         implements Navigator, NewIntentDelegate, OnCompletelyDestroyDelegate, OnResumeDelegate, OnPauseDelegate {
 

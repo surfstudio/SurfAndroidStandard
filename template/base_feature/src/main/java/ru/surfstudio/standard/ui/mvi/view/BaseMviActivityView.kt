@@ -28,6 +28,12 @@ abstract class BaseMviActivityView<S, E : Event> : BaseReactActivityView(), Sing
             viewRecreated: Boolean
     ) {
         initViews()
+        bind()
+    }
+
+    @CallSuper
+    protected open fun bind() {
         sh bindTo ::render
     }
+
 }

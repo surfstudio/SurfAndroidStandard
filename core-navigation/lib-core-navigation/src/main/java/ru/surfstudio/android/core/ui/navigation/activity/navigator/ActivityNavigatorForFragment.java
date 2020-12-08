@@ -29,7 +29,6 @@ import ru.surfstudio.android.core.ui.provider.FragmentProvider;
 /**
  * ActivityNavigator working in Fragment.
  */
-@Deprecated
 public class ActivityNavigatorForFragment extends ActivityNavigator {
 
     private FragmentProvider fragmentProvider;

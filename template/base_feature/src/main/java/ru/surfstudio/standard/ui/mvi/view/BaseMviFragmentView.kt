@@ -23,6 +23,11 @@ abstract class BaseMviFragmentView<S, E : Event> : BaseReactFragmentView(), Sing
     @CallSuper
     override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
         initViews()
+        bind()
+    }
+
+    @CallSuper
+    protected open fun bind() {
         sh bindTo ::render
     }
 }

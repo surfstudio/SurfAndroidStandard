@@ -6,6 +6,7 @@ import ru.surfstudio.android.core.mvi.impls.event.hub.dependency.ScreenEventHubD
 import ru.surfstudio.android.core.mvi.impls.event.hub.logging.EventLogger
 import ru.surfstudio.android.core.mvi.impls.ui.binder.ScreenBinderDependency
 import ru.surfstudio.android.core.mvi.impls.ui.freezer.EmptySubscriptionFreezer
+import ru.surfstudio.android.core.mvi.impls.ui.freezer.LifecycleSubscriptionFreezer
 import ru.surfstudio.android.core.mvi.impls.ui.freezer.SubscriptionFreezer
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.state.ScreenState
@@ -17,6 +18,14 @@ import ru.surfstudio.standard.ui.mvi.logger.DebugEventLogger
  */
 @Module
 class EventHubModule {
+
+    @PerScreen
+    @Provides
+    internal fun provideLifecycleSubscriptionFreezer(
+            eventDelegateManager: ScreenEventDelegateManager
+    ): LifecycleSubscriptionFreezer {
+        return LifecycleSubscriptionFreezer(eventDelegateManager)
+    }
 
     @PerScreen
     @Provides

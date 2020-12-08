@@ -25,7 +25,6 @@ import ru.surfstudio.android.core.ui.navigation.Route
  * For using it just override [targetClassPath] method and specify full classpath of the target
  * feature starting point (e.g. activity).
  */
-@Deprecated("Используйте новую навигацию")
 interface CrossFeatureRoute : Route {
 
     /**

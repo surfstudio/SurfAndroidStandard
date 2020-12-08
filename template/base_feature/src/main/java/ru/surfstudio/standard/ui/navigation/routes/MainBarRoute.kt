@@ -3,7 +3,7 @@ package ru.surfstudio.standard.ui.navigation.routes
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**
- * Роут экрана входа в аккаунт по логину и паролю
+ * Роут главного экрана с табами
  */
 class MainBarRoute : FragmentRoute() {
 

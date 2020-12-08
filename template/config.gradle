@@ -11,7 +11,7 @@ ext {
     meta = [
             minSdkVersion         : 21,
             targetSdkVersion      : 28,
-            compileSdkVersion     : 30,
+            compileSdkVersion     : 28,
             debugVersionNameSuffix: ".debug",
             qaVersionNameSuffix   : ".qa"
     ]
@@ -25,7 +25,6 @@ ext {
             kotlinVersion                   : '1.3.71',             //https://goo.gl/2Epeje
             annimonStreamVersion            : '1.2.1',              //https://bit.ly/2Ke0nlQ,
             jetbrainsAnnotationsVersion     : '19.0.0',             //http://bit.ly/2NYf6Dt
-            multidexVersion                 : '2.0.1',              //http://bit.ly/2KenzA7
             constraintLayoutVersion         : '2.0.0-beta4',        //http://bit.ly/2S1WoNg
             ktlintPluginVersion             : '2.3.2',              //https://bit.ly/2YLc3n8
             daggerVersion                   : '2.27',               //https://vk.cc/7UFvQo
