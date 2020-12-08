@@ -28,7 +28,6 @@ import ru.surfstudio.android.logger.Logger
  * @see [ActivityRoute]
  * @see [CrossFeatureRoute]
  */
-@Deprecated("Используйте новую навигацию")
 abstract class ActivityCrossFeatureRoute :
         ActivityRoute(),
         CrossFeatureRoute {

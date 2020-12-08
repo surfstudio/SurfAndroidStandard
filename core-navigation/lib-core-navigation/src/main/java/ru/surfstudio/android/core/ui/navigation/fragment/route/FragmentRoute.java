@@ -23,7 +23,6 @@ import ru.surfstudio.android.core.ui.navigation.Route;
  * базовый маршрут для открытия фрагмента
  * см {@link Route}
  */
-@Deprecated
 public abstract class FragmentRoute implements Route {
 
     protected abstract Class<? extends Fragment> getFragmentClass();

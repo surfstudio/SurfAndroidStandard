@@ -39,7 +39,6 @@ import static android.app.FragmentTransaction.TRANSIT_NONE;
 /**
  * позволяет осуществлять навигацияю между фрагментами
  */
-@Deprecated
 public class FragmentNavigator implements Navigator {
     protected final ActivityProvider activityProvider;
 

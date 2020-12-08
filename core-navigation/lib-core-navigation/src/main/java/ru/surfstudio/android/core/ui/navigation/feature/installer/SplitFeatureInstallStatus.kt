@@ -5,7 +5,6 @@ package ru.surfstudio.android.core.ui.navigation.feature.installer
  *
  * [IN_PROGRESS] value is possible during navigation to Dynamic Feature only.
  */
-@Deprecated("Используйте новую навигацию")
 enum class SplitFeatureInstallStatus {
     SUCCESS,
     IN_PROGRESS,

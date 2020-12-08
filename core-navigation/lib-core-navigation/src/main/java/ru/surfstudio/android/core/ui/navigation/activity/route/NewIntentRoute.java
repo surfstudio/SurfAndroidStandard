@@ -24,7 +24,6 @@ import ru.surfstudio.android.core.ui.navigation.Route;
  * разпаковывает Intent с данными, пришедший в событие onNewIntent
  * Этот интерфейс может реализовывать {@link ActivityRoute}
  */
-@Deprecated
 public interface NewIntentRoute extends Route {
 
     /**

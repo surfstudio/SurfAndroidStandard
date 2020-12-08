@@ -29,7 +29,6 @@ import androidx.core.app.ActivityOptionsCompat;
  * See: {@link Route}.
  * <br><br>
  */
-@Deprecated
 public interface ActivityRouteInterface extends Route {
 
     /**

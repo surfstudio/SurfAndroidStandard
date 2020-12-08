@@ -24,7 +24,6 @@ import java.io.Serializable;
  *
  * @param <T> тип результата
  */
-@Deprecated
 public abstract class ActivityWithParamsAndResultRoute<T extends Serializable> extends ActivityWithResultRoute<T> {
 
     public ActivityWithParamsAndResultRoute() {

@@ -38,7 +38,6 @@ package ru.surfstudio.android.core.ui.navigation;
  * <br><br>
  * (see: {@link ActivityRouteInterface}, {@link FragmentRouteInterface})
  */
-@Deprecated
 public interface Route {
     String EXTRA_FIRST = "EXTRA_FIRST";
     String EXTRA_SECOND = "EXTRA_SECOND";

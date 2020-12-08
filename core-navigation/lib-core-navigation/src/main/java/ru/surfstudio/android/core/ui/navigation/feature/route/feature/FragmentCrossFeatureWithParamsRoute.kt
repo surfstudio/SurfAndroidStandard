@@ -25,7 +25,6 @@ import ru.surfstudio.android.core.ui.navigation.FragmentRouteInterface
  * @see [FragmentCrossFeatureRoute]
  * @see [FragmentRouteInterface]
  */
-@Deprecated("Используйте новую навигацию")
 abstract class FragmentCrossFeatureWithParamsRoute : FragmentCrossFeatureRoute, FragmentRouteInterface {
 
     constructor() {

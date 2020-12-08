@@ -25,7 +25,6 @@ import ru.surfstudio.android.logger.Logger
  * @see [FragmentRoute]
  * @see [CrossFeatureRoute]
  */
-@Deprecated("Используйте новую навигацию")
 abstract class FragmentCrossFeatureRoute : CrossFeatureRoute, FragmentRoute() {
 
     @Suppress("UNCHECKED_CAST")

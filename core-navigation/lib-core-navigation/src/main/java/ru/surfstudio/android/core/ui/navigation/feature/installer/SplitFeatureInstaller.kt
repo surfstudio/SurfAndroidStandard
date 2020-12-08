@@ -12,7 +12,6 @@ import io.reactivex.subjects.BehaviorSubject
 /**
  * Dynamic Feature install manager.
  */
-@Deprecated("Используйте новую навигацию")
 class SplitFeatureInstaller(
         applicationContext: Context
 ) {

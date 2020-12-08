@@ -42,15 +42,15 @@ import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnComple
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate;
 import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeDelegate;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
-import ru.surfstudio.android.core.ui.navigation.event.result.BaseActivityResultDelegate;
-import ru.surfstudio.android.core.ui.navigation.event.result.CrossFeatureSupportOnActivityResultRoute;
-import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.ActivityRouteInterface;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.NewIntentRoute;
+import ru.surfstudio.android.core.ui.navigation.event.result.BaseActivityResultDelegate;
+import ru.surfstudio.android.core.ui.navigation.event.result.CrossFeatureSupportOnActivityResultRoute;
+import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureEvent;
 import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstallState;
 import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstallStatus;
@@ -67,7 +67,6 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider;
  * Конфликт может возникнуть при открытии одинаковых экранов из, например, кастомной вью с
  * презентером и родительской активити вью
  */
-@Deprecated
 public abstract class ActivityNavigator extends BaseActivityResultDelegate
         implements Navigator, NewIntentDelegate, OnCompletelyDestroyDelegate, OnResumeDelegate, OnPauseDelegate {
 

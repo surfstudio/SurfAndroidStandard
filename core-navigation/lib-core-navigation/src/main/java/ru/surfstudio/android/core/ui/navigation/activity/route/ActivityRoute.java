@@ -29,7 +29,6 @@ import ru.surfstudio.android.core.ui.navigation.Route;
  * см {@link Route}
  */
 @SuppressWarnings("squid:S1610")
-@Deprecated
 public abstract class ActivityRoute implements ActivityRouteInterface {
 
     @Override

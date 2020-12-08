@@ -25,7 +25,6 @@ import ru.surfstudio.android.core.ui.navigation.Route;
 /**
  * см {@link Route}
  */
-@Deprecated
 public abstract class FragmentWithParamsRoute extends FragmentRoute implements FragmentRouteInterface {
 
     public FragmentWithParamsRoute() {

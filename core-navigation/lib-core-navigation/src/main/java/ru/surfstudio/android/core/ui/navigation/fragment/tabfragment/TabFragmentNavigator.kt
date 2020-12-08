@@ -40,7 +40,6 @@ import java.util.*
 /**
  * Навигатор для фрагментов в табах
  */
-@Deprecated("Используйте новую навигацию")
 open class TabFragmentNavigator(val activityProvider: ActivityProvider,
                                 eventDelegateManager: ScreenEventDelegateManager)
     : Navigator,
