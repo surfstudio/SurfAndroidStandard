@@ -10,8 +10,9 @@ import javax.inject.Inject
 
 /**
  * Вью главного экрана
+ * todo Класс публичный для работы инструментальных тестов
  */
-internal class MainActivityView : BaseMviActivityView<MainState, MainEvent>(), FragmentNavigationContainer {
+class MainActivityView : BaseMviActivityView<MainState, MainEvent>(), FragmentNavigationContainer {
 
     @Inject
     override lateinit var hub: ScreenEventHub<MainEvent>

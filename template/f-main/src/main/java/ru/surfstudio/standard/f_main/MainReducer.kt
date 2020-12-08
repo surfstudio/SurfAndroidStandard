@@ -6,20 +6,23 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
-internal class MainState()
+//todo Класс публичный для работы инструментальных тестов
+class MainState()
 
 /**
  * State Holder [MainActivityView]
+ * todo Класс публичный для работы инструментальных тестов
  */
 @PerScreen
-internal class MainScreenStateHolder @Inject constructor(
+class MainScreenStateHolder @Inject constructor(
 ) : State<MainState>(MainState())
 
 /**
  * Reducer [MainActivityView]
+ * todo Класс публичный для работы инструментальных тестов
  */
 @PerScreen
-internal class MainReducer @Inject constructor(
+class MainReducer @Inject constructor(
         dependency: BaseReactorDependency
 ) : BaseReducer<MainEvent, MainState>(dependency) {
 
