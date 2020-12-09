@@ -9,18 +9,15 @@ import ru.surfstudio.standard.f_splash.di.SplashScreenConfigurator
 import ru.surfstudio.standard.ui.mvi.view.BaseMviActivityView
 import javax.inject.Inject
 
-/**
- * todo Класс публичный для работы инструментальных тестов
- */
-class SplashActivityView : BaseMviActivityView<SplashState, SplashEvent>(), PushHandlingActivity {
+internal class SplashActivityView : BaseMviActivityView<SplashState, SplashEvent>(), PushHandlingActivity {
 
-   @Inject
-   override lateinit var hub: ScreenEventHub<SplashEvent>
+    @Inject
+    override lateinit var hub: ScreenEventHub<SplashEvent>
 
-   @Inject
-   override lateinit var sh: SplashScreenStateHolder
+    @Inject
+    override lateinit var sh: SplashScreenStateHolder
 
-   private lateinit var binding: ActivitySplashBinding
+    private lateinit var binding: ActivitySplashBinding
 
     override fun getScreenName(): String = "SplashActivityView"
 
