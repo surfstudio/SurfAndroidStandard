@@ -10,7 +10,7 @@ dependencies {
     implementation di.dagger
     kapt di.daggerKapt
 
-    implementation rxBinding2.core
+    implementation rxBinding4.core
 
     implementation debug.processPhoenix
     implementation debug.androidDebugTools

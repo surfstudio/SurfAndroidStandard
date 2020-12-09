@@ -5,7 +5,7 @@ import android.content.Intent
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
 import ru.surfstudio.standard.application.app.di.AppComponent
 import ru.surfstudio.standard.application.app.di.AppInjector
-import ru.surfstudio.standard.ui.screen.ActivityScreenModule
+import ru.surfstudio.standard.ui.screen_modules.ActivityScreenModule
 
 /**
  * Базовый конфигуратор для экрана, основанного на [Activity]
