@@ -58,7 +58,7 @@ internal class ${viewClassName} : <#if (reduce)> BaseMviActivityView<${stateClas
         /* do nothing */
     }
 
-    override fun render(state: BlankState) {
+    override fun render(state: ${stateClassName}) {
         /* do nothing */
     }
 </#if>

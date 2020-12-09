@@ -64,7 +64,7 @@ internal class ${viewClassName} :<#if (reduce)> BaseMviFragmentView<${stateClass
         /* do nothing */
     }
 
-    override fun render(state: BlankState) {
+    override fun render(state: ${stateClassName}) {
         /* do nothing */
     }
 </#if>

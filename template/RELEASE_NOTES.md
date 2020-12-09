@@ -55,6 +55,8 @@
 * ANDDEP-1109 Added new obfuscation rule and TODO in [`proguard-rules.pro`](proguard-rules.pro)
 * ANDDEP-1111 Added class inheritance: `Transformable` extends `BaseResponse`
 * ANDDEP-1099 Added new navigation validation support
+* ANDDEP-1137 There is no support for FreeMarker templates in AndroidStudio 4.1, so file templates were modified in order to use them with Geminio library. Geminio compatible file templates are added to project template.
+
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
