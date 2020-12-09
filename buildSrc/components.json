@@ -407,7 +407,7 @@
   {
     "id": "converter-gson",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "deprecated/converter-gson",
     "libs": [
@@ -1560,7 +1560,7 @@
   {
     "id": "navigation",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -2065,7 +2065,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 35,
+    "unstable_version": 36,
     "stable": false,
     "dir": "template",
     "libs": [],
