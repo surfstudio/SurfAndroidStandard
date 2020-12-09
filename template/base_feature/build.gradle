@@ -4,8 +4,6 @@ apply from: '../commonKaptModule.gradle'
 dependencies {
     api project(":base")
 
-    implementation androidX.multidex
-
     //debug
     releaseImplementation project(":f-debug-no-op")
     debugImplementation project(":f-debug")
@@ -18,9 +16,8 @@ dependencies {
     implementation project(":i-initialization")
     implementation project(":i-session")
 
-    api rxBinding2.core
-    api rxBinding2.kotlin
-    api rxBinding2.appcompatV7
+    api rxBinding4.core
+    api rxBinding4.material
 
     api(firebase.crashlytics) {
         transitive = true

@@ -26,7 +26,7 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.ui.error.ErrorHandlerModule
-import ru.surfstudio.standard.ui.screen.ScreenModule
+import ru.surfstudio.standard.ui.screen_modules.ScreenModule
 import javax.inject.Named
 
 private const val PARENT_TYPE_DAGGER_NAME = "parent_type"

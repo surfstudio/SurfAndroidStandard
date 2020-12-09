@@ -55,6 +55,7 @@
 * ANDDEP-1109 Added new obfuscation rule and TODO in [`proguard-rules.pro`](proguard-rules.pro)
 * ANDDEP-1111 Added class inheritance: `Transformable` extends `BaseResponse`
 * ANDDEP-1099 Added new navigation validation support
+* ANDDEP-1136 Architecture changed to MVI
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
