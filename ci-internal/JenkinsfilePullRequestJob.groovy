@@ -266,7 +266,7 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-
+        //TODO не работает после переезда на MVI
         pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.SKIP_STAGE) {
             script.dir("template") {
                 AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
@@ -281,7 +281,7 @@ pipeline.stages = [
                                 true,
                                 0
                         ),
-                       "Template Instrumentation Test"
+                        "Template Instrumentation Test"
                 )
             }
         },
