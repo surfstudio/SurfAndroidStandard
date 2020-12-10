@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
+import ru.surfstudio.android.core.ui.view_binding.viewBinding
 import ru.surfstudio.standard.f_feed.databinding.FragmentFeedBinding
 import ru.surfstudio.standard.f_feed.di.FeedScreenConfigurator
 import ru.surfstudio.standard.ui.mvi.view.BaseMviFragmentView
-import ru.surfstudio.standard.ui.util.view_binding.viewBinding
 import javax.inject.Inject
 
 internal class FeedFragmentView : BaseMviFragmentView<FeedState, FeedEvent>(), CrossFeatureFragment {

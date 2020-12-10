@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.ui.util.view_binding
+package ru.surfstudio.android.core.ui.view_binding
 
 import android.view.View
 import androidx.annotation.IdRes

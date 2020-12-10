@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_main.*
 import ru.rivegauche.app.f_main.bar.MainBarState
 import ru.rivegauche.app.f_main.bar.MainBarStateHolder
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
+import ru.surfstudio.android.core.ui.view_binding.viewBinding
 import ru.surfstudio.android.navigation.provider.container.TabFragmentNavigationContainer
 import ru.surfstudio.android.template.f_main.R
 import ru.surfstudio.android.template.f_main.databinding.FragmentMainBinding
@@ -17,7 +17,6 @@ import ru.surfstudio.standard.f_main.bar.di.MainBarScreenConfigurator
 import ru.surfstudio.standard.f_main.view.BottomBarView
 import ru.surfstudio.standard.ui.mvi.view.BaseMviFragmentView
 import ru.surfstudio.standard.ui.util.performIfChanged
-import ru.surfstudio.standard.ui.util.view_binding.viewBinding
 import javax.inject.Inject
 
 /**
