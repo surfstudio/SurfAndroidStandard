@@ -63,7 +63,7 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
         super.onCreate(savedInstanceState);
 
         onPreCreate(savedInstanceState);
-        setContentView(getContentRootView(getLayoutInflater()));
+        setContentView(getContentView());
         activityDelegate.onCreate(savedInstanceState, null);
     }
 
@@ -76,35 +76,17 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     }
 
     /**
-     * @return contentView using View Binding or layout resource
+     * @return activity rootView
      */
-    protected View getContentRootView(LayoutInflater inflater) {
-        ViewBinding binding = getViewBinding(inflater);
-        if (binding != null) {
-            return binding.getRoot();
-        } else {
-            int contentViewId = getContentView();
-            inflater.inflate(contentViewId, null, false);
-            return inflater.inflate(contentViewId, null, false);
-        }
-    }
-
-    /**
-     * Override this method, when you use ViewBindings
-     *
-     * @return ViewBinding of the screen
-     */
-    protected ViewBinding getViewBinding(LayoutInflater inflater) {
-        return null;
+    protected View getRootView() {
+        return this.findViewById(android.R.id.content).getRootView();
     }
 
     /**
      * @return layout resource of the screen
      */
     @LayoutRes
-    protected int getContentView() {
-        return -1;
-    }
+    abstract protected int getContentView();
 
     /**
      * Called before Presenter is bound to the View and content view is created

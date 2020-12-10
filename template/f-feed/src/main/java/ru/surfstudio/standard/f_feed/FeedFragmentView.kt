@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatu
 import ru.surfstudio.standard.f_feed.databinding.FragmentFeedBinding
 import ru.surfstudio.standard.f_feed.di.FeedScreenConfigurator
 import ru.surfstudio.standard.ui.mvi.view.BaseMviFragmentView
+import ru.surfstudio.standard.ui.util.view_binding.viewBinding
 import javax.inject.Inject
 
 internal class FeedFragmentView : BaseMviFragmentView<FeedState, FeedEvent>(), CrossFeatureFragment {
@@ -19,8 +20,7 @@ internal class FeedFragmentView : BaseMviFragmentView<FeedState, FeedEvent>(), C
     @Inject
     override lateinit var sh: FeedScreenStateHolder
 
-    private var _binding: FragmentFeedBinding? = null
-    private val binding get() = _binding!!
+    private val binding by viewBinding(FragmentFeedBinding::bind)
 
     override fun createConfigurator() = FeedScreenConfigurator(arguments)
 
@@ -29,13 +29,7 @@ internal class FeedFragmentView : BaseMviFragmentView<FeedState, FeedEvent>(), C
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFeedBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        return inflater.inflate(R.layout.fragment_feed, container, false)
     }
 
     override fun render(state: FeedState) {

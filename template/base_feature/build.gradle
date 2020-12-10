@@ -26,4 +26,6 @@ dependencies {
     implementation debug.anrWatchDog
     implementation debug.timber
     implementation debug.rxJava2Debug
+    api architectureComponents.lifecycle
+    api architectureComponents.lifecycleAnnotationProcessor
 }
