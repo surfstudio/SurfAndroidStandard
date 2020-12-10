@@ -8,6 +8,7 @@ import ru.surfstudio.android.template.f_main.R
 import ru.surfstudio.android.template.f_main.databinding.ActivityMainBinding
 import ru.surfstudio.standard.f_main.di.MainScreenConfigurator
 import ru.surfstudio.standard.ui.mvi.view.BaseMviActivityView
+import ru.surfstudio.standard.ui.util.view_binding.viewBinding
 import javax.inject.Inject
 
 /**
@@ -21,18 +22,14 @@ internal class MainActivityView : BaseMviActivityView<MainState, MainEvent>(), F
     @Inject
     override lateinit var sh: MainScreenStateHolder
 
-    private lateinit var binding: ActivityMainBinding
+    private val binding by viewBinding(ActivityMainBinding::bind) { rootView }
 
     override fun getScreenName(): String = "MainActivityView"
 
+    override fun getContentView(): Int = R.layout.activity_main
+
     override val containerId: Int
         get() = R.id.main_fragment_container
-
-    override fun getViewBinding(inflater: LayoutInflater): ViewBinding {
-        binding = ActivityMainBinding.inflate(inflater)
-        return binding
-    }
-
 
     override fun createConfigurator() = MainScreenConfigurator(intent)
 

@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.standard.f_search.databinding.FragmentSearchBinding
 import ru.surfstudio.standard.f_search.di.SearchScreenConfigurator
 import ru.surfstudio.standard.ui.mvi.view.BaseMviFragmentView
+import ru.surfstudio.standard.ui.util.view_binding.viewBinding
 import javax.inject.Inject
 
 /**
@@ -21,8 +23,8 @@ internal class SearchFragmentView : BaseMviFragmentView<SearchState, SearchEvent
 
     @Inject
     override lateinit var sh: SearchScreenStateHolder
-    private var _binding: FragmentSearchBinding? = null
-    private val binding get() = _binding!!
+
+    private val binding by viewBinding(FragmentSearchBinding::bind)
 
     override fun createConfigurator() = SearchScreenConfigurator(arguments)
 
@@ -31,13 +33,7 @@ internal class SearchFragmentView : BaseMviFragmentView<SearchState, SearchEvent
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSearchBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
     override fun render(state: SearchState) {

@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatu
 import ru.surfstudio.standard.f_profile.databinding.FragmentProfileBinding
 import ru.surfstudio.standard.f_profile.di.ProfileScreenConfigurator
 import ru.surfstudio.standard.ui.mvi.view.BaseMviFragmentView
+import ru.surfstudio.standard.ui.util.view_binding.viewBinding
 import javax.inject.Inject
 
 /**
@@ -22,8 +23,7 @@ internal class ProfileFragmentView : BaseMviFragmentView<ProfileState, ProfileEv
     @Inject
     override lateinit var sh: ProfileScreenStateHolder
 
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
+    private val binding by viewBinding(FragmentProfileBinding::bind)
 
     override fun createConfigurator() = ProfileScreenConfigurator(arguments)
 
@@ -32,13 +32,7 @@ internal class ProfileFragmentView : BaseMviFragmentView<ProfileState, ProfileEv
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentProfileBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun initViews() {
