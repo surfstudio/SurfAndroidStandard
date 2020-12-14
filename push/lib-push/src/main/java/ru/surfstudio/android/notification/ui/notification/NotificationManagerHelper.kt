@@ -58,11 +58,9 @@ object NotificationManagerHelper {
                 cancelSummary = true
             }
         }
-
+        notificationManager.cancel(notificationId)
         if (cancelSummary) {
             notificationManager.cancel(groupId)
-        } else {
-            notificationManager.cancel(notificationId)
         }
 
         NotificationGroupHelper.clearSavedNotificationsForGroup(context, groupId)

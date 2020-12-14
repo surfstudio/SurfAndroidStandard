@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.multidex.MultiDexApplication
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.ui.PushClickProvider
 import ru.surfstudio.android.notification.ui.PushEventListener
 import ru.surfstudio.android.sample.dagger.app.DefaultActivityLifecycleCallbacks
@@ -55,11 +54,15 @@ class CustomApp : MultiDexApplication() {
     private fun initPushEventListener() {
         PushClickProvider.pushEventListener = object : PushEventListener {
             override fun pushDismissListener(context: Context, intent: Intent) {
-                Logger.i("Push notification dismissed")
+                //todo
             }
 
             override fun pushOpenListener(context: Context, intent: Intent) {
-                Logger.i("Push notification open")
+                //todo
+            }
+
+            override fun customActionListener(context: Context, intent: Intent) {
+                //todo
             }
         }
     }
