@@ -56,6 +56,7 @@
 * ANDDEP-1111 Added class inheritance: `Transformable` extends `BaseResponse`
 * ANDDEP-1099 Added new navigation validation support
 * ANDDEP-1136 Architecture changed to MVI
+* ANDDEP-1138 Added supporting View Binding
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
