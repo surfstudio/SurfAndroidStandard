@@ -192,6 +192,7 @@ public class DataList<T> implements BaseDataList<T> {
     /**
      * Не поддерживается
      */
+    @Deprecated
     @Override
     public <R> BaseDataList<T> merge(BaseDataList<T> data, MapFunc<R, T> distinctPredicate) {
         throw new UnsupportedOperationException();

@@ -1024,7 +1024,7 @@
       {
         "name": "datalist-base",
         "dir": "lib-datalist-base",
-        "artifact_name": "datalist-page-count"
+        "artifact_name": "datalist-base"
       }
     ],
     "samples": [],
