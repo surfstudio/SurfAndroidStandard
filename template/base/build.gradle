@@ -10,6 +10,8 @@ dependencies {
             this,
             [
                     "activity-holder",
+                    "core-navigation",
+                    "navigation-observer",
                     "core-ui",
                     "core-mvp",
                     "core-mvp-binding",
@@ -19,6 +21,7 @@ dependencies {
                     "easyadapter-pagination",
                     "analytics",
                     "firebase-analytics",
+                    "permission",
                     "push",
                     "dagger-scope",
                     "logger",
@@ -38,7 +41,12 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"
+                    "rxbus",
+                    "mvi-core",
+                    "mvi-impls",
+                    "mvi-mapper",
+                    "navigation",
+                    "navigation-rx",
             ]
     )
 }

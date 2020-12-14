@@ -10,11 +10,7 @@ import ru.surfstudio.android.easyadapter.sample.R
 import ru.surfstudio.android.easyadapter.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import javax.inject.Inject
 
-/**
- * Вью главного экрана
- */
 class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
-    override fun getScreenName(): String = "MainActivity"
 
     @Inject
     internal lateinit var presenter: MainPresenter
@@ -22,9 +18,13 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     @IdRes
     override fun getContentView(): Int = R.layout.activity_main
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
+    override fun getScreenName(): String = "MainActivity"
+
+    override fun onCreate(
+            savedInstanceState: Bundle?,
+            persistentState: PersistableBundle?,
+            viewRecreated: Boolean
+    ) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         show_multitype_list_btn.setOnClickListener { presenter.showMultitypeList() }
         show_simple_paginationable_list_btn.setOnClickListener { presenter.showPagintationList() }

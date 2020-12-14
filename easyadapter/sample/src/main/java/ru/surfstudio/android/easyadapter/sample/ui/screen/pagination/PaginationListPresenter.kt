@@ -30,7 +30,7 @@ internal class PaginationListPresenter @Inject constructor(
     private fun loadData() {
         subscribeIoHandleError(getDataByPage()
                 .delay(getDelay(), TimeUnit.MILLISECONDS)
-                .timeout(1000L, TimeUnit.MILLISECONDS), //в целях демонстрации
+                .timeout(1000L, TimeUnit.MILLISECONDS), // delay for loading demonstration
                 {
                     with(sm) {
                         pageList.merge(it)
@@ -45,7 +45,7 @@ internal class PaginationListPresenter @Inject constructor(
                 })
     }
 
-    //демонстрация ошибки
+    // error demonstration
     private fun getDelay() =
             if (sm.pageList.nextPage > FirstDataRepository.ERROR_PAGE_NUMBER) {
                 Long.MAX_VALUE
@@ -55,9 +55,6 @@ internal class PaginationListPresenter @Inject constructor(
 
     fun loadMore() = loadData()
 
-    /**
-     * Вариант загрузки по номеру страницы
-     */
     private fun getDataByPage(): Observable<DataList<FirstData>> {
         return repository.getDataByPage(sm.pageList.nextPage)
     }

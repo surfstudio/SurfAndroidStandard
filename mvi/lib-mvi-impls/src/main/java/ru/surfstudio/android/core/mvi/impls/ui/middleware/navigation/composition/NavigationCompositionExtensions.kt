@@ -15,7 +15,7 @@
 */
 package ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition
 
-import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
+import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
 import ru.surfstudio.android.mvp.dialog.navigation.route.DialogRoute
@@ -28,6 +28,15 @@ import java.io.Serializable
  */
 fun <T : NavigationComposition> T.open(route: Route): T =
         this.apply { events = listOf(OpenScreen(route)) }
+
+/**
+ * Opens next screen for result
+ *
+ * @param route screen route
+ */
+fun <T : NavigationComposition, R : Serializable> T.openForResult(
+        route: SupportOnActivityResultRoute<R>
+): T = this.apply { events = listOf(OpenScreenForResult(route)) }
 
 /**
  * Closes current activity

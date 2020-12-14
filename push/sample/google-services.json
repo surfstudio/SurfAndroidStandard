@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "409964717347",
+    "firebase_url": "https://androidstandard-push-sample.firebaseio.com",
+    "project_id": "androidstandard-push-sample",
+    "storage_bucket": "androidstandard-push-sample.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:409964717347:android:6772bcb7a97e5d56941896",
+        "android_client_info": {
+          "package_name": "ru.surfstudio.android.push.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "409964717347-k95s4tiakj7amhpfoekp7u9ed54q5evo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjPrO1qwktgH9RKZSEil-UFaxMZUZeYx0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "409964717347-k95s4tiakj7amhpfoekp7u9ed54q5evo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

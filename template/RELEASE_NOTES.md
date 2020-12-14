@@ -1,7 +1,12 @@
-[TOC]
 # Template Release Notes
+
+- [0.5.0-alpha](#050-alpha)
+- [0.4.0](#040)
+- [0.3.0](#030)
+
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1040 fixed template build stage
 * ANDDEP-46 Added default BottomBarView implementation
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type to f-debug
 * ANDDEP-687 Added "com.google.dagger:dagger" dependency with "implementation" type to f-debug
@@ -42,7 +47,21 @@
 * ANDDEP-1038 Remove `PaginationableAdapter` and add
   `PaginationFooterItemController` instead for using
   `easyadapter-pagination` module
+* ANDDEP-1057 Update androidStandardVersion
+* ANDDEP-1039 Removed extra .gitignore and proguard-rules.pro files
+* ANDDEP-1049 Added `permission` and `core-navigation` dependencies to template.
+* ANDDEP-1048 Fixing wrong docs links and docs structure
+* Fixed fast switching states between NONE and other
+* ANDDEP-1112 Fixed method name typo
+* ANDDEP-1112 Fixed access modifier in `SafeConverterFactory.Function`
+* ANDDEP-1112 Fixed generic type in `CompletableSafeConverter`
+* ANDDEP-1109 Added new obfuscation rule and TODO in [`proguard-rules.pro`](proguard-rules.pro)
+* ANDDEP-1111 Added class inheritance: `Transformable` extends `BaseResponse`
+* ANDDEP-1099 Added new navigation validation support
+* ANDDEP-1136 Architecture changed to MVI
+* ANDDEP-1137 There is no support for FreeMarker templates in AndroidStudio 4.1, so file templates were modified in order to use them with Geminio library. Geminio compatible file templates are added to project template.
 * ANDDEP-930 Added handling custom notification actions
+
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template

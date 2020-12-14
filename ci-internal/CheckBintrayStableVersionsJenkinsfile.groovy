@@ -1,9 +1,9 @@
 @Library('surf-lib@version-3.0.0-SNAPSHOT')
 // https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import ru.surfstudio.ci.*
-import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
+import ru.surfstudio.ci.stage.StageStrategy
 
 //Pipeline for deploy snapshot artifacts
 
@@ -72,10 +72,12 @@ pipeline.stages = [
 
 pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
+    def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
     def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
+
     if (!success && !checkoutAborted) {
         def errorReasons = "из ветки '${branchName}' ${unsuccessReasons} ${jenkinsLink}"
         if (unstable) {
