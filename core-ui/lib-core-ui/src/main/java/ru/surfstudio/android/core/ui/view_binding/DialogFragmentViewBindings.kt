@@ -18,7 +18,7 @@ private class DialogFragmentViewBindingProperty<F : DialogFragment, T : ViewBind
 /**
  * Create new [ViewBinding] associated with the [DialogFragment]
  */
-public fun <F : DialogFragment, T : ViewBinding> DialogFragment.dialogViewBinding(
+fun <F : DialogFragment, T : ViewBinding> DialogFragment.dialogViewBinding(
         viewBinder: (F) -> T
 ): ViewBindingProperty<F, T> {
     return DialogFragmentViewBindingProperty(viewBinder)
@@ -29,7 +29,7 @@ public fun <F : DialogFragment, T : ViewBinding> DialogFragment.dialogViewBindin
  *
  * @param vbFactory Function that create new instance of [ViewBinding]. `MyViewBinding::bind` can be used
  */
-public inline fun <F : DialogFragment, T : ViewBinding> DialogFragment.dialogViewBinding(
+inline fun <F : DialogFragment, T : ViewBinding> DialogFragment.dialogViewBinding(
         crossinline vbFactory: (View) -> T,
         crossinline viewProvider: (F) -> View
 ): ViewBindingProperty<F, T> {
@@ -43,7 +43,7 @@ public inline fun <F : DialogFragment, T : ViewBinding> DialogFragment.dialogVie
  * @param viewBindingRootId Id of the root view from your custom view
  */
 @Suppress("unused")
-public inline fun <T : ViewBinding> DialogFragment.dialogViewBinding(
+inline fun <T : ViewBinding> DialogFragment.dialogViewBinding(
         crossinline vbFactory: (View) -> T,
         @IdRes viewBindingRootId: Int
 ): ViewBindingProperty<DialogFragment, T> {

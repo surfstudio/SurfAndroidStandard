@@ -18,7 +18,7 @@ private class FragmentViewBindingProperty<F : Fragment, T : ViewBinding>(
  * @param vbFactory Function that create new instance of [ViewBinding]. `MyViewBinding::bind` can be used
  * @param viewBindingRootId Root view's id that will be used as root for the view binding
  */
-public inline fun <T : ViewBinding> Fragment.viewBinding(
+inline fun <T : ViewBinding> Fragment.viewBinding(
         crossinline vbFactory: (View) -> T,
         @IdRes viewBindingRootId: Int
 ): ViewBindingProperty<Fragment, T> {
@@ -31,7 +31,7 @@ public inline fun <T : ViewBinding> Fragment.viewBinding(
  * @param vbFactory Function that create new instance of [ViewBinding]. `MyViewBinding::bind` can be used
  * @param viewProvider Provide a [View] from the Fragment. By default call [Fragment.requireView]
  */
-public inline fun <F : Fragment, T : ViewBinding> Fragment.viewBinding(
+inline fun <F : Fragment, T : ViewBinding> Fragment.viewBinding(
         crossinline vbFactory: (View) -> T,
         crossinline viewProvider: (F) -> View = Fragment::requireView
 ): ViewBindingProperty<F, T> {
@@ -41,6 +41,6 @@ public inline fun <F : Fragment, T : ViewBinding> Fragment.viewBinding(
 /**
  * Create new [ViewBinding] associated with the [Fragment]
  */
-public fun <F : Fragment, T : ViewBinding> Fragment.viewBinding(viewBinder: (F) -> T): ViewBindingProperty<F, T> {
+fun <F : Fragment, T : ViewBinding> Fragment.viewBinding(viewBinder: (F) -> T): ViewBindingProperty<F, T> {
     return FragmentViewBindingProperty(viewBinder)
 }
