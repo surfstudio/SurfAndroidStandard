@@ -21,6 +21,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.Transformation
@@ -130,7 +131,7 @@ data class ImageResourceManager(
         }
 
         return Glide.with(context)
-                .load(imageResId)
+                .load(ContextCompat.getDrawable(context, imageResId))
                 .apply(RequestOptions()
                         .applyTransformations(transformations)
                 )

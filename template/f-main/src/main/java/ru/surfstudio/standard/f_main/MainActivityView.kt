@@ -1,46 +1,37 @@
 package ru.surfstudio.standard.f_main
 
-import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
-import kotlinx.android.synthetic.main.activity_main.*
-import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
-import ru.surfstudio.android.core.ui.FragmentContainer
+import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
+import ru.surfstudio.android.navigation.provider.container.FragmentNavigationContainer
 import ru.surfstudio.android.template.f_main.R
 import ru.surfstudio.standard.f_main.di.MainScreenConfigurator
+import ru.surfstudio.standard.ui.mvi.view.BaseMviActivityView
 import javax.inject.Inject
 
 /**
  * Вью главного экрана
  */
-class MainActivityView : BaseRxActivityView(), FragmentContainer {
+internal class MainActivityView : BaseMviActivityView<MainState, MainEvent>(), FragmentNavigationContainer {
 
     @Inject
-    lateinit var bm: MainBindModel
+    override lateinit var hub: ScreenEventHub<MainEvent>
 
-    override fun createConfigurator() = MainScreenConfigurator(intent)
+    @Inject
+    override lateinit var sh: MainScreenStateHolder
+
+    override fun getScreenName(): String = "MainActivityView"
+
+    override val containerId: Int
+        get() = R.id.main_fragment_container
 
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_main
 
-    override fun getContentContainerViewId() = R.id.main_fragment_container
+    override fun createConfigurator() = MainScreenConfigurator(intent)
 
-    override fun onCreate(
-            savedInstanceState: Bundle?,
-            persistentState: PersistableBundle?,
-            viewRecreated: Boolean
-    ) {
-        initViews()
-        initListeners()
+    override fun initViews() {
     }
 
-    override fun getScreenName(): String = "MainActivityView"
-
-    private fun initViews() {
-        bm.tabTypeState.bindTo(main_bottom_bar::updateSelection)
-    }
-
-    private fun initListeners() {
-        main_bottom_bar.tabSelectedAction = { bm.tabSelectedAction.accept(it) }
+    override fun render(state: MainState) {
     }
 }

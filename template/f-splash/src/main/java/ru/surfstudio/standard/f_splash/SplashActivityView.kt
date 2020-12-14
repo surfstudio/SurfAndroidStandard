@@ -1,24 +1,29 @@
 package ru.surfstudio.standard.f_splash
 
-import androidx.annotation.LayoutRes
-import ru.surfstudio.android.core.mvp.activity.CoreActivityView
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 import ru.surfstudio.android.template.f_splash.R
 import ru.surfstudio.standard.f_splash.di.SplashScreenConfigurator
+import ru.surfstudio.standard.ui.mvi.view.BaseMviActivityView
 import javax.inject.Inject
 
-class SplashActivityView : CoreActivityView(), PushHandlingActivity {
+internal class SplashActivityView : BaseMviActivityView<SplashState, SplashEvent>(), PushHandlingActivity {
 
     @Inject
-    internal lateinit var presenter: SplashPresenter
+    override lateinit var hub: ScreenEventHub<SplashEvent>
 
-    @LayoutRes
+    @Inject
+    override lateinit var sh: SplashScreenStateHolder
+
+    override fun getScreenName(): String = "SplashActivityView"
+
     override fun getContentView(): Int = R.layout.activity_splash
-
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator() = SplashScreenConfigurator(intent)
 
-    override fun getScreenName(): String = "splash"
+    override fun render(state: SplashState) {
+    }
+
+    override fun initViews() {
+    }
 }
