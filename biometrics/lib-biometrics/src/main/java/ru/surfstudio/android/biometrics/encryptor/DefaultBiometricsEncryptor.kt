@@ -8,10 +8,10 @@ import java.security.Key
 import javax.crypto.Cipher
 
 /**
- * Шифровальщик с помощью клча биометрии.
+ * Cipher with biometric key.
  *
- * @param key ключ от [BiometricsKeyCreator]
- * @param cipherTransformation алгоритм шифрования
+ * @param key key from [BiometricsKeyCreator]
+ * @param cipherTransformation transformation algorithm
  */
 class DefaultBiometricsEncryptor(
     key: Key,

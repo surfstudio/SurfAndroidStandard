@@ -34,7 +34,7 @@ class BiometricsService @Inject constructor(
      * @param data information to encrypt
      * @param screen screen where scanner dialog opening. Should be on of FragmentActivity or Fragment
      */
-    fun <T> setBiometrics(
+    fun <T> encryptByBiometrics(
         data: String,
         screen: T
     ): Single<String> {
@@ -48,10 +48,10 @@ class BiometricsService @Inject constructor(
      * Starts process for scanning biometrics. On success scanning returns decrypted [encryptedData].
      * Should be called on main thread.
      *
-     * @param encryptedData encrypted data which returned from [setBiometrics] method.
+     * @param encryptedData encrypted data which returned from [encryptByBiometrics] method.
      * @param screen screen where scanner dialog opening. Should be on of FragmentActivity or Fragment
      */
-    fun <T> checkBiometrics(
+    fun <T> decryptByBiometrics(
         encryptedData: String,
         screen: T
     ): Single<String> {
@@ -110,9 +110,9 @@ class BiometricsService @Inject constructor(
             emitter.onSuccess(keyCreator.getSecretKey(shouldCreateKey))
         }
 
-        override fun onError(fingerPrintException: Exception) {
-            emitter.onError(fingerPrintException)
-            Logger.e(fingerPrintException, fingerPrintException.message.toString())
+        override fun onError(biometricsException: Exception) {
+            emitter.onError(biometricsException)
+            Logger.e(biometricsException, biometricsException.message.toString())
         }
     }
 }

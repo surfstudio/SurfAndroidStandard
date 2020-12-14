@@ -4,8 +4,8 @@ import ru.surfstudio.android.security.crypto.KeyEncryptor
 import java.security.Key
 
 /**
- * Фабрика класса шифрования.
- * Для быстрой инициализации можно использовать [DefaultBiometricsEncryptor]
+ * Encryptor class Factory
+ * For fast initialization you can use [DefaultBiometricsEncryptor]
  */
 interface BiometricsEncryptorFactory {
     fun getEncyptor(key: Key): KeyEncryptor<Key>

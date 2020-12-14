@@ -9,10 +9,11 @@ import java.security.KeyStore
 import javax.crypto.KeyGenerator
 
 /**
- * Класс для создания защишенного ключа для биометрии.
+ * Class for creating secured key for biometrics.
  *
  * @param shouldInvalidatedByEnrollment нужно ли инвалидировать при изменении состава биометрии
- * @param keyAlgorithm алгоритм шифрования
+ * @param shouldInvalidatedByEnrollment if true, saved key will be invalidated on new biometrics enrollment
+ * @param keyAlgorithm name of the encrypt algorithm
  */
 class BiometricsKeyCreator(
     private val shouldInvalidatedByEnrollment: Boolean = true,

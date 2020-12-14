@@ -7,5 +7,5 @@ internal interface BiometricsListener {
 
     fun onSuccess()
 
-    fun onError(fingerPrintException: Exception)
+    fun onError(biometricsException: Exception)
 }

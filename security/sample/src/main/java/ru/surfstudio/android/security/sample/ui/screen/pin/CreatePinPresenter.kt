@@ -49,7 +49,7 @@ class CreatePinPresenter @Inject constructor(
 
     fun encryptPin(pin: String) {
         biometricsDisposable.dispose()
-        biometricsDisposable = subscribe(biometricsService.setBiometrics(pin, view),
+        biometricsDisposable = subscribe(biometricsService.encryptByBiometrics(pin, view),
             {
                 view.render(screenModel.apply { encryptedPin = it })
             }, ::handleBiometricsError)
@@ -57,7 +57,7 @@ class CreatePinPresenter @Inject constructor(
 
     fun decryptPin(encryptedData: String) {
         biometricsDisposable.dispose()
-        biometricsDisposable = subscribe(biometricsService.checkBiometrics(encryptedData, view),
+        biometricsDisposable = subscribe(biometricsService.decryptByBiometrics(encryptedData, view),
             {
                 view.showMessage(it)
             },

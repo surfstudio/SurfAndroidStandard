@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2020-present, SurfStudio LLC, Akhbor Akhrorov.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.biometrics
 
 import android.annotation.SuppressLint
@@ -23,9 +38,9 @@ internal class BiometricsCallback(
     private val biometricsManager: BiometricManager = BiometricManager.from(context)
     private var biometricsListener: BiometricsListener? = null
 
-    override fun onAuthenticationError(errMsgId: Int, errString: CharSequence) {
+    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
         if (!selfCancelled) {
-            val fingerprintException: Exception = when (errMsgId) {
+            val fingerprintException: Exception = when (errorCode) {
                 BiometricConstants.ERROR_HW_UNAVAILABLE -> HardwareUnavailableException(errString)
                 BiometricConstants.ERROR_UNABLE_TO_PROCESS,
                 BiometricConstants.ERROR_NO_SPACE -> NoSpaceLeftException(errString)
@@ -37,9 +52,7 @@ internal class BiometricsCallback(
                 BiometricConstants.ERROR_LOCKOUT_PERMANENT -> LockoutPermanentException(errString)
                 BiometricConstants.ERROR_NO_BIOMETRICS -> NoBiometricsRegisteredException(errString)
                 BiometricConstants.ERROR_HW_NOT_PRESENT -> HardwareNotFoundException(errString)
-                BiometricConstants.ERROR_NEGATIVE_BUTTON -> NegativeButtonException(
-                    errString
-                )
+                BiometricConstants.ERROR_NEGATIVE_BUTTON -> NegativeButtonException(errString)
                 BiometricConstants.ERROR_NO_DEVICE_CREDENTIAL -> NoDeviceCredential(errString)
                 else -> BiometricsException(errString)
             }
