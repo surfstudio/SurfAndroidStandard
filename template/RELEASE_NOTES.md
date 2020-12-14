@@ -52,10 +52,14 @@
 * ANDDEP-1049 Added `permission` and `core-navigation` dependencies to template.
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 * Fixed fast switching states between NONE and other
+* ANDDEP-1112 Fixed method name typo
+* ANDDEP-1112 Fixed access modifier in `SafeConverterFactory.Function`
+* ANDDEP-1112 Fixed generic type in `CompletableSafeConverter`
 * ANDDEP-1109 Added new obfuscation rule and TODO in [`proguard-rules.pro`](proguard-rules.pro)
 * ANDDEP-1111 Added class inheritance: `Transformable` extends `BaseResponse`
 * ANDDEP-1099 Added new navigation validation support
 * ANDDEP-1136 Architecture changed to MVI
+* ANDDEP-1137 There is no support for FreeMarker templates in AndroidStudio 4.1, so file templates were modified in order to use them with Geminio library. Geminio compatible file templates are added to project template.
 * ANDDEP-1138 Added supporting View Binding
 ## 0.4.0
 ##### Template

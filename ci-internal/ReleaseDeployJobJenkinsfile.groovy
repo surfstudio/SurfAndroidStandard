@@ -183,7 +183,7 @@ pipeline.stages = [
                     "app/build/reports/tests/testReleaseUnitTest/"
             )
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
