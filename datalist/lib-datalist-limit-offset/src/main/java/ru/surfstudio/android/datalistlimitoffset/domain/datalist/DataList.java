@@ -19,7 +19,6 @@ package ru.surfstudio.android.datalistlimitoffset.domain.datalist;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,6 +27,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 
+import ru.surfstudio.android.datalistbase.BaseDataList;
+import ru.surfstudio.android.datalistbase.IncompatibleRangesException;
+
 /**
  * List для работы с пагинацией
  * Механизм limit-offset
@@ -35,7 +37,7 @@ import java.util.ListIterator;
  *
  * @param <T> Item
  */
-public class DataList<T> implements List<T>, Serializable {
+public class DataList<T> implements BaseDataList<T> {
 
     //количество элементов в списке
     private int limit;
@@ -45,10 +47,6 @@ public class DataList<T> implements List<T>, Serializable {
     private int totalCount;
 
     private ArrayList<T> data;
-
-    public interface MapFunc<R, T> {
-        R call(T item);
-    }
 
     public static <T> DataList<T> empty() {
         return new DataList(new ArrayList<>(), 0, 0, 0);
@@ -71,31 +69,55 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * Слияние двух DataList
-     *
-     * @param data DataList для слияния с текущим
-     * @return текущий экземпляр
+     * {@inheritDoc}
      */
-    public DataList<T> merge(DataList<T> data) {
-        boolean reverse = data.offset < this.offset;
-        ArrayList<T> merged = tryMerge(reverse ? data : this, reverse ? this : data);
+    @Override
+    public DataList<T> merge(BaseDataList<T> data) {
+        if (!(data instanceof DataList)) {
+            throw new IllegalArgumentException("Cannot merge datalist type of " + data.getClass() + " to " + this.getClass());
+        }
+        DataList<T> inputDataList = (DataList<T>) data;
+        boolean reverse = inputDataList.offset < this.offset;
+        ArrayList<T> merged = tryMerge(reverse ? inputDataList : this, reverse ? this : inputDataList);
         if (merged == null) {
             //Отрезки данных не совпадают, слияние не возможно
             throw new IncompatibleRangesException("incorrect data range");
         }
         this.data.clear();
         this.data.addAll(merged);
-        if (this.offset < data.offset) { //загрузка вниз, как обычно
-            this.limit = data.offset + data.limit - this.offset;
-        } else if (this.offset == data.offset) { //коллизия?
-            this.limit = data.limit;
+        if (this.offset < inputDataList.offset) { //загрузка вниз, как обычно
+            this.limit = inputDataList.offset + inputDataList.limit - this.offset;
+        } else if (this.offset == inputDataList.offset) { //коллизия?
+            this.limit = inputDataList.limit;
         } else { // загрузка вверх
-            this.offset = data.offset;
+            this.offset = inputDataList.offset;
             this.limit = size();
         }
 
-        this.totalCount = data.totalCount;
+        this.totalCount = inputDataList.totalCount;
         return this;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <R> DataList<R> transform(MapFunc<R, T> mapFunc) {
+        List<R> resultData = new ArrayList<>();
+        for (T item : this) {
+            resultData.add(mapFunc.call(item));
+        }
+
+        return new DataList<>(resultData, limit, offset, totalCount);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canGetMore() {
+        return totalCount > limit + offset;
     }
 
     /**
@@ -106,9 +128,14 @@ public class DataList<T> implements List<T>, Serializable {
      * @param distinctPredicate предикат, по которому происходит удаление дублируемых элементов
      * @return текущий экземпляр
      */
-    public <R> DataList<T> merge(DataList<T> data, MapFunc<R, T> distinctPredicate) {
-        boolean reverse = data.offset < this.offset;
-        ArrayList<T> merged = tryMerge(reverse ? data : this, reverse ? this : data);
+    @Override
+    public <R> DataList<T> merge(BaseDataList<T> data, MapFunc<R, T> distinctPredicate) {
+        if (!(data instanceof DataList)) {
+            throw new IllegalArgumentException("Cannot merge datalist type of " + data.getClass() + " to " + this.getClass());
+        }
+        DataList<T> inputDataList = (DataList<T>) data;
+        boolean reverse = inputDataList.offset < this.offset;
+        ArrayList<T> merged = tryMerge(reverse ? inputDataList : this, reverse ? this : inputDataList);
         if (merged == null) {
             //Отрезки данных не совпадают, слияние не возможно
             throw new IncompatibleRangesException("incorrect data range");
@@ -117,33 +144,17 @@ public class DataList<T> implements List<T>, Serializable {
         ArrayList<T> filtered = distinctByLast(merged, distinctPredicate);
         this.data.clear();
         this.data.addAll(filtered);
-        if (this.offset < data.offset) { //загрузка вниз, как обычно
-            this.limit = data.offset + data.limit - this.offset;
-        } else if (this.offset == data.offset) { //коллизия?
-            this.limit = data.limit;
+        if (this.offset < inputDataList.offset) { //загрузка вниз, как обычно
+            this.limit = inputDataList.offset + inputDataList.limit - this.offset;
+        } else if (this.offset == inputDataList.offset) { //коллизия?
+            this.limit = inputDataList.limit;
         } else { // загрузка вверх
-            this.offset = data.offset;
+            this.offset = inputDataList.offset;
             this.limit = size();
         }
 
-        this.totalCount = data.totalCount;
+        this.totalCount = inputDataList.totalCount;
         return this;
-    }
-
-    /**
-     * Преобразует dataList одного типа в dataList другого типа
-     *
-     * @param mapFunc функция преобразования
-     * @param <R>     тип данных нового списка
-     * @return DataList с элементами типа R
-     */
-    public <R> DataList<R> transform(MapFunc<R, T> mapFunc) {
-        List<R> resultData = new ArrayList<>();
-        for (T item : this) {
-            resultData.add(mapFunc.call(item));
-        }
-
-        return new DataList<>(resultData, limit, offset, totalCount);
     }
 
     /**
@@ -163,31 +174,6 @@ public class DataList<T> implements List<T>, Serializable {
 
     public int getTotalCount() {
         return totalCount;
-    }
-
-    /**
-     * Проверка возможности дозагрузки данных
-     *
-     * @return
-     */
-    public boolean canGetMore() {
-        return totalCount > limit + offset;
-    }
-
-    @Nullable
-    private ArrayList<T> tryMerge(DataList<T> to, DataList<T> from) {
-        if ((to.offset + to.limit) >= from.offset) {
-            return merge(to.data, from.data, from.offset - to.offset);
-        }
-
-        return null;
-    }
-
-    private ArrayList<T> merge(ArrayList<T> to, ArrayList<T> from, int start) {
-        ArrayList<T> result = new ArrayList<>();
-        result.addAll(start < to.size() ? to.subList(0, start) : to);
-        result.addAll(from);
-        return result;
     }
 
     @Override
@@ -359,5 +345,21 @@ public class DataList<T> implements List<T>, Serializable {
         }
 
         return new ArrayList<>(resultSet.values());
+    }
+
+    @Nullable
+    private ArrayList<T> tryMerge(DataList<T> to, DataList<T> from) {
+        if ((to.offset + to.limit) >= from.offset) {
+            return merge(to.data, from.data, from.offset - to.offset);
+        }
+
+        return null;
+    }
+
+    private ArrayList<T> merge(ArrayList<T> to, ArrayList<T> from, int start) {
+        ArrayList<T> result = new ArrayList<>();
+        result.addAll(start < to.size() ? to.subList(0, start) : to);
+        result.addAll(from);
+        return result;
     }
 }

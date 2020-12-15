@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.datalistlimitoffset.domain.datalist;
+package ru.surfstudio.android.datalistbase;
 
 /**
  * несовместимые блоки данных
