@@ -41,17 +41,9 @@ object NotificationManagerHelper {
 
         if (SdkUtils.isAtLeastNougat() && groupId != 0) {
             val statusBarNotifications = notificationManager.activeNotifications
-            var groupKey: String? = null
-            for (statusBarNotification in statusBarNotifications) {
-                if (notificationId == statusBarNotification.id) {
-                    groupKey = statusBarNotification.groupKey
-                    break
-                }
-            }
+            val groupKey = statusBarNotifications.firstOrNull { it.id == notificationId }?.groupKey
             val notificationsCountInGroup = statusBarNotifications.count { it.groupKey == groupKey }
-            if (notificationsCountInGroup == NOTIFICATION_WITH_SUMMARY_COUNT) {
-                cancelSummary = true
-            }
+            cancelSummary = notificationsCountInGroup == NOTIFICATION_WITH_SUMMARY_COUNT
         }
         notificationManager.cancel(notificationId)
         if (cancelSummary) {
