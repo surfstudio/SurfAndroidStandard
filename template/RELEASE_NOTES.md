@@ -61,7 +61,7 @@
 * ANDDEP-1136 Architecture changed to MVI
 * ANDDEP-1137 There is no support for FreeMarker templates in AndroidStudio 4.1, so file templates were modified in order to use them with Geminio library. Geminio compatible file templates are added to project template.
 * ANDDEP-1126 Fixed MigrationModule.kt, get version code from packageInfo.
-
+* ANDDEP-1138 Added supporting View Binding
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template

@@ -742,6 +742,14 @@
           {
             "name": "androidx.appcompat:appcompat",
             "type": "implementation"
+          },
+          {
+            "name": "androidx.lifecycle:lifecycle-common-java8",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.lifecycle:lifecycle-runtime-ktx",
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [

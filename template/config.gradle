@@ -58,7 +58,8 @@ ext {
             timberVersion                   : '4.7.1',              //http://bit.ly/2LWbLaY
             rxJava2DebugVersion             : '1.4.0',              //https://bit.ly/322Qzo7
             androidDebugToolsVersion        : '1.0',                //https://bit.ly/2QMKLfe
-            autoServiceVersion              : '1.0-rc4'             //https://bit.ly/2WsGYH4
+            autoServiceVersion              : '1.0-rc4',            //https://bit.ly/2WsGYH4
+            lifecycleVersion                : '2.2.0'               //https://bit.ly/36Z0Re9
     ]
 
 
@@ -139,5 +140,10 @@ ext {
     stetho = [
             core  : "com.facebook.stetho:stetho:${versions.stethoVersion}",
             okHttp: "com.facebook.stetho:stetho-okhttp3:${versions.stethoVersion}"
+    ]
+
+    architectureComponents = [
+            lifecycle: "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycleVersion}",
+            lifecycleAnnotationProcessor: "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycleVersion}"
     ]
 }
