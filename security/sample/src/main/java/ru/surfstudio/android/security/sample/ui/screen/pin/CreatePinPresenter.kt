@@ -3,6 +3,7 @@ package ru.surfstudio.android.security.sample.ui.screen.pin
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposables
 import ru.surfstudio.android.biometrics.BiometricsService
+import ru.surfstudio.android.biometrics.PromptInfo
 import ru.surfstudio.android.biometrics.error.*
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -48,16 +49,26 @@ class CreatePinPresenter @Inject constructor(
     }
 
     fun encryptPin(pin: String) {
+        val promptInfo = PromptInfo(
+            title = stringsProvider.getString(R.string.biometric_dialog_confirmation_title),
+            subtitle = stringsProvider.getString(R.string.biometric_dialog_subtitle),
+            negativeButtonText = stringsProvider.getString(R.string.biometric_dialog_cancel)
+        )
         biometricsDisposable.dispose()
-        biometricsDisposable = subscribe(biometricsService.encryptByBiometrics(pin, view),
+        biometricsDisposable = subscribe(biometricsService.encryptByBiometrics(pin, view, promptInfo),
             {
                 view.render(screenModel.apply { encryptedPin = it })
             }, ::handleBiometricsError)
     }
 
     fun decryptPin(encryptedData: String) {
+        val promptInfo = PromptInfo(
+            title = stringsProvider.getString(R.string.biometric_dialog_activation_title),
+            subtitle = stringsProvider.getString(R.string.biometric_dialog_subtitle),
+            negativeButtonText = stringsProvider.getString(R.string.biometric_dialog_cancel)
+        )
         biometricsDisposable.dispose()
-        biometricsDisposable = subscribe(biometricsService.decryptByBiometrics(encryptedData, view),
+        biometricsDisposable = subscribe(biometricsService.decryptByBiometrics(encryptedData, view, promptInfo),
             {
                 view.showMessage(it)
             },

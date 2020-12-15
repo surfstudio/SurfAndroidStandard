@@ -74,14 +74,15 @@ internal class BiometricsCallback(
     @SuppressLint("MissingPermission")
     fun <T> initFingerprintListener(
         biometricsListener: BiometricsListener,
-        screen: T
+        screen: T,
+        promptInfo: PromptInfo
     ) {
         this.biometricsListener = biometricsListener
 
         val info = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(context.getString(R.string.biometric_dialog_title))
-            .setSubtitle(context.getString(R.string.biometric_dialog_subtitle))
-            .setNegativeButtonText(context.getString(R.string.biometric_dialog_cancel))
+            .setTitle(promptInfo.title)
+            .setSubtitle(promptInfo.subtitle)
+            .setNegativeButtonText(promptInfo.negativeButtonText)
             .build()
 
         biometricPrompt = when (screen) {

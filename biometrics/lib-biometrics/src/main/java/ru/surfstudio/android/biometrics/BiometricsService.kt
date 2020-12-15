@@ -33,12 +33,14 @@ class BiometricsService @Inject constructor(
      *
      * @param data information to encrypt
      * @param screen screen where scanner dialog opening. Should be on of FragmentActivity or Fragment
+     * @param promptInfo info to show biometric dialog
      */
     fun <T> encryptByBiometrics(
         data: String,
-        screen: T
+        screen: T,
+        promptInfo: PromptInfo
     ): Single<String> {
-        return observeBiometrics(true, screen)
+        return observeBiometrics(true, screen, promptInfo)
             .observeOn(schedulersProvider.worker())
             .map { handleSetBiometricsResult(it, data) }
             .subscribeOn(schedulersProvider.main())
@@ -50,12 +52,14 @@ class BiometricsService @Inject constructor(
      *
      * @param encryptedData encrypted data which returned from [encryptByBiometrics] method.
      * @param screen screen where scanner dialog opening. Should be on of FragmentActivity or Fragment
+     * @param promptInfo info to show biometric dialog
      */
     fun <T> decryptByBiometrics(
         encryptedData: String,
-        screen: T
+        screen: T,
+        promptInfo: PromptInfo
     ): Single<String> {
-        return observeBiometrics(false, screen)
+        return observeBiometrics(false, screen, promptInfo)
             .observeOn(schedulersProvider.worker())
             .map { handleCheckBiometricsResult(it, encryptedData) }
             .subscribeOn(schedulersProvider.main())
@@ -88,12 +92,14 @@ class BiometricsService @Inject constructor(
 
     private fun <T> observeBiometrics(
         createKey: Boolean = true,
-        screen: T
+        screen: T,
+        promptInfo: PromptInfo
     ): Single<Key> {
         return Single.create { emitter ->
             biometricsCallback.initFingerprintListener(
                 BiometricListenerImpl(emitter, createKey),
-                screen
+                screen,
+                promptInfo
             )
             emitter.setCancellable {
                 biometricsCallback.stopListening()

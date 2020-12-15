@@ -12,4 +12,8 @@
     <string name="pin_created_message">New pin created</string>
     <string name="security_error">Security error</string>
     <string name="empty_string"></string>
+    <string name="biometric_dialog_confirmation_title">Confirm by biometrics</string>
+    <string name="biometric_dialog_activation_title">Activation biometrics</string>
+    <string name="biometric_dialog_subtitle">To enter the application using your biometrics, you need to confirm it.</string>
+    <string name="biometric_dialog_cancel">Cancel</string>
 </resources>
