@@ -23,13 +23,23 @@ import ru.surfstudio.android.logger.Logger;
  */
 public abstract class AppMigration {
 
-    private final int baseVersion;
+    private final long baseVersion;
 
+    @Deprecated
     public AppMigration(int value) {
         baseVersion = value;
     }
 
+    public AppMigration(long value) {
+        baseVersion = value;
+    }
+
+    @Deprecated
     public void execute(int oldVer, int newVer) {
+        execute((long) oldVer, (long) newVer);
+    }
+
+    public void execute(long oldVer, long newVer) {
         if (oldVer < baseVersion && baseVersion <= newVer) {
             Logger.d("Executing app migration, baseVersion = " + baseVersion);
             apply();
@@ -38,7 +48,7 @@ public abstract class AppMigration {
 
     protected abstract void apply();
 
-    public int getBaseVersion() {
+    public long getBaseVersion() {
         return baseVersion;
     }
 }
