@@ -34,6 +34,7 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "rxbus")
     DependencyConfigurator.projectImplementation(project, "datalist-page-count")
     DependencyConfigurator.projectImplementation(project, "datalist-limit-offset")
+    DependencyConfigurator.projectImplementation(project, "datalist-base")
     DependencyConfigurator.projectImplementation(project, "imageloader")
 
     DependencyConfigurator.implementation(project, "androidx.recyclerview:recyclerview")
