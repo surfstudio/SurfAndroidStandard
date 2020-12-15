@@ -35,7 +35,7 @@ object NotificationManagerHelper {
      */
     fun cancel(context: Context, groupId: Int, notificationId: Int) {
         val notificationManager = context
-                .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         var cancelSummary = false
 
@@ -48,13 +48,8 @@ object NotificationManagerHelper {
                     break
                 }
             }
-            var counter = 0
-            for (statusBarNotification in statusBarNotifications) {
-                if (statusBarNotification.groupKey == groupKey) {
-                    counter++
-                }
-            }
-            if (counter == 2) {
+            val notificationsCountInGroup = statusBarNotifications.count { it.groupKey == groupKey }
+            if (notificationsCountInGroup == NOTIFICATION_WITH_SUMMARY_COUNT) {
                 cancelSummary = true
             }
         }
@@ -65,4 +60,6 @@ object NotificationManagerHelper {
 
         NotificationGroupHelper.clearSavedNotificationsForGroup(context, groupId)
     }
+
+    private const val NOTIFICATION_WITH_SUMMARY_COUNT = 2
 }
