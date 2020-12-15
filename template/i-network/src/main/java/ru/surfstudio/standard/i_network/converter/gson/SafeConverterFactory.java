@@ -50,7 +50,7 @@ public class SafeConverterFactory {
         return result;
     }
 
-    public void putSafeConvertor(@NonNull Class clazz, @NonNull Function<TypeToken, SafeConverter> converter) {
+    public void putSafeConverter(@NonNull Class clazz, @NonNull Function<TypeToken, SafeConverter> converter) {
         safeConverterCreators.put(clazz, converter);
     }
 
@@ -64,7 +64,7 @@ public class SafeConverterFactory {
         return null;
     }
 
-    private interface Function<T, R> {
+    public interface Function<T, R> {
         R apply(T value);
     }
 }
