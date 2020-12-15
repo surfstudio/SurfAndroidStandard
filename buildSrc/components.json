@@ -118,7 +118,7 @@
   {
     "id": "app-migration",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "app-migration",
     "libs": [
@@ -963,7 +963,7 @@
   {
     "id": "datalist",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "datalist",
     "libs": [
@@ -1024,7 +1024,9 @@
       {
         "name": "datalist-base",
         "dir": "lib-datalist-base",
-        "artifact_name": "datalist-base"
+        "artifact_name": "datalist-base",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": []
       }
     ],
     "samples": [],
@@ -2078,7 +2080,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 36,
+    "unstable_version": 37,
     "stable": false,
     "dir": "template",
     "libs": [],
