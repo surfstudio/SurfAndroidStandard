@@ -9,7 +9,6 @@ android {
         //todo настроить типы сборки
         debug {
             signingConfig signingConfigs.test
-            multiDexEnabled true
             minifyEnabled false
             debuggable = true
             applicationIdSuffix meta.debugVersionNameSuffix
@@ -17,7 +16,6 @@ android {
         }
         qa {
             signingConfig signingConfigs.test
-            multiDexEnabled true
             minifyEnabled true
             debuggable = true
             applicationIdSuffix meta.qaVersionNameSuffix
