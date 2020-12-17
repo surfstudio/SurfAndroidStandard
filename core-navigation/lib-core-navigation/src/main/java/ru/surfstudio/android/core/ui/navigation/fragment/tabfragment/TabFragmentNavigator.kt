@@ -297,10 +297,12 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
     }
 
     override fun onBackPressed(): Boolean {
-        if (activeStack.size <= 1) {
-            onBackPressEventSubject.onNext(OnBackPressedEvent())
-        } else {
-            popStack()
+        mainThreadHandler.post {
+            if (activeStack.size <= 1) {
+                onBackPressEventSubject.onNext(OnBackPressedEvent())
+            } else {
+                popStack()
+            }
         }
 
         return true
