@@ -1822,6 +1822,7 @@
         "name": "recycler-decorator-easyadapter",
         "dir": "lib-recycler-decorator-easyadapter",
         "artifact_name": "recycler-decorator-easyadapter",
+        "stable": false,
         "third_party_dependencies": [
           {
             "name": "androidx.recyclerview:recyclerview",
