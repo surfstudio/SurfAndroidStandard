@@ -14,3 +14,4 @@
 * fix gradle config for recycler-decorator-easyadapter
 * Fix readme
 * ANDDEP-1048 Fixing wrong docs links and docs structure
+* Fixed crash on updating to empty list
