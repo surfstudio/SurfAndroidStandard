@@ -1,17 +1,17 @@
 package ru.surfstudio.android.push.sample.ui.common.notification.strategies.simple
 
 import android.app.Activity
-import ru.surfstudio.android.push.sample.R
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.media.AudioManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.ui.notification.strategies.SimpleAbstractPushHandleStrategy
+import ru.surfstudio.android.push.sample.R
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import kotlin.math.absoluteValue
 
@@ -48,7 +48,7 @@ abstract class BaseSimplePushStrategy<out T : BaseNotificationTypeData<*>>
     override fun makeNotificationBuilder(context: Context, title: String, body: String): NotificationCompat.Builder? {
 
         return NotificationCompat.Builder(context, context.getString(channelId))
-                .setDefaults(0)
+            .setDefaults(Notification.DEFAULT_SOUND)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setSmallIcon(icon)
@@ -61,14 +61,14 @@ abstract class BaseSimplePushStrategy<out T : BaseNotificationTypeData<*>>
 
     override fun makeNotificationChannel(context: Context, title: String): NotificationChannel? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                    context.getString(channelId),
-                    context.getString(channelName), //Название канала обязательно не пустое
-                    NotificationManager.IMPORTANCE_HIGH
-            )
-            channel.enableLights(true)
-            channel.enableVibration(true)
-            channel
+            NotificationChannel(
+                context.getString(channelId),
+                context.getString(channelName), //Название канала обязательно не пустое
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                enableLights(true)
+                enableVibration(true)
+            }
         } else {
             null
         }

@@ -20,15 +20,17 @@ import android.content.Context
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
 /**
- * Отменяет уведомление заданной notificationId и при необходимости очищает суммарное уведомление.
+ * Отменяет уведомление по заданному notificationId и при необходимости очищает суммарное уведомление.
  *
- * Если нужно программно отменить уведомление, то нужно использовать данный класс а не вывать
+ * Если нужно программно отменить уведомление, то нужно использовать данный класс а не вызвать
  * [NotificationManager.cancel] напрямую.
  */
 object NotificationManagerHelper {
 
+    private const val NOTIFICATION_WITH_SUMMARY_COUNT = 2
+
     /**
-     * Отменяет уведомление по заданной notificationId
+     * Отменяет уведомление по заданному notificationId и groupId
      *
      * @param groupId идентификатор группы
      * @param notificationId идентификатор уведомления
@@ -37,21 +39,19 @@ object NotificationManagerHelper {
         val notificationManager = context
             .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        var cancelSummary = false
+        var shouldCancelSummary = false
 
         if (SdkUtils.isAtLeastNougat() && groupId != 0) {
             val statusBarNotifications = notificationManager.activeNotifications
             val groupKey = statusBarNotifications.firstOrNull { it.id == notificationId }?.groupKey
-            val notificationsCountInGroup = statusBarNotifications.count { it.groupKey == groupKey }
-            cancelSummary = notificationsCountInGroup == NOTIFICATION_WITH_SUMMARY_COUNT
+            val groupSize = statusBarNotifications.count { it.groupKey == groupKey }
+            shouldCancelSummary = groupSize == NOTIFICATION_WITH_SUMMARY_COUNT
         }
         notificationManager.cancel(notificationId)
-        if (cancelSummary) {
+        if (shouldCancelSummary) {
             notificationManager.cancel(groupId)
         }
 
         NotificationGroupHelper.clearSavedNotificationsForGroup(context, groupId)
     }
-
-    private const val NOTIFICATION_WITH_SUMMARY_COUNT = 2
 }
