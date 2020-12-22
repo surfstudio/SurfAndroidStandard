@@ -1,12 +1,12 @@
 package ru.surfstudio.standard.f_debug.fcm
 
-import ru.surfstudio.standard.base.util.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
 import ru.surfstudio.android.template.f_debug.R
+import ru.surfstudio.standard.base.util.ResourceProvider
+import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
 import javax.inject.Inject
 
 /**
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @PerScreen
 class FcmDebugPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        private val stringsProvider: StringsProvider,
+        private val resourceProvider: ResourceProvider,
         private val fcmStorage: FcmStorage
 ) : BasePresenter<FcmDebugActivityView>(basePresenterDependency) {
 
@@ -40,7 +40,7 @@ class FcmDebugPresenter @Inject constructor(
     fun copyFcmToken() {
         sm.fcmToken?.let {
             view.copyFcmToken()
-            view.showMessage(stringsProvider.getString(R.string.debug_fcm_copied_message))
+            view.showMessage(resourceProvider.getString(R.string.debug_fcm_copied_message))
             logFcmToken()
         }
     }

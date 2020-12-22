@@ -89,6 +89,7 @@ ext {
             "com.caverock:androidsvg-aar"                      : "1.4",          //https://bit.ly/2Pcb4fi
             "io.supercharge:shimmerlayout"                     : "2.1.0",        //https://bit.ly/2Pcb4fi
             "ru.surfstudio.android:camera-view"                : "1.0.1",
-            "com.agna.ferro:ferro-rx"                          : "2.0.0"         //https://goo.gl/6ir26N
+            "com.agna.ferro:ferro-rx"                          : "2.0.0",        //https://goo.gl/6ir26N
+            "androidx.lifecycle:lifecycle-common-java8"        : "2.2.0"         //https://bit.ly/36Z0Re9
     ]
 }
