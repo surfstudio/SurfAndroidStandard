@@ -22,7 +22,6 @@ import ru.surfstudio.standard.i_network.network.response.BaseResponse;
  *
  * @param <T>
  */
-@Deprecated
 public interface Transformable<T> extends BaseResponse {
     T transform();
 }
