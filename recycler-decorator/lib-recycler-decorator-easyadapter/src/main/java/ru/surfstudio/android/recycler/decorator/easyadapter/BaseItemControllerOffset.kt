@@ -28,11 +28,14 @@ import ru.surfstudio.android.recycler.decorator.Decorator
  */
 @Suppress("UNCHECKED_CAST")
 class BaseItemControllerOffset<I : BaseItem<out RecyclerView.ViewHolder>>(
-        private val baseViewHolderOffset: BaseViewHolderOffset<I>
+    private val baseViewHolderOffset: BaseViewHolderOffset<I>
 ) : Decorator.OffsetDecor {
 
     override fun getItemOffsets(outRect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
         val itemPosition = recyclerView.getChildAdapterPosition(view)
+        if (itemPosition == -1) {
+            return
+        }
 
         val adapter = recyclerView.adapter as EasyAdapter
 
