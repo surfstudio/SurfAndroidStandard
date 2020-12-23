@@ -6,9 +6,13 @@ import dagger.Provides
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.filestorage.utils.AppDirectoriesProvider
 import ru.surfstudio.android.navigation.executor.AppCommandExecutor
+import ru.surfstudio.android.navigation.executor.screen.activity.ActivityCommandExecutor
+import ru.surfstudio.android.navigation.executor.screen.dialog.DialogCommandExecutor
+import ru.surfstudio.android.navigation.executor.screen.fragment.FragmentCommandExecutor
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.bus.ScreenResultBus
+import ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult
 import ru.surfstudio.android.navigation.observer.storage.ScreenResultStorage
 import ru.surfstudio.android.navigation.observer.storage.file.FileScreenResultStorage
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
@@ -47,9 +51,16 @@ class NavigationModule {
     @Provides
     @PerApplication
     fun provideAppCommandExecutor(
+            screenResultEmitter: ScreenResultEmitter,
             activityNavigationProvider: ActivityNavigationProvider
     ): AppCommandExecutor {
-        return AppCommandExecutor(activityNavigationProvider)
+        return AppCommandExecutorWithResult(
+                screenResultEmitter,
+                activityNavigationProvider,
+                ActivityCommandExecutor(activityNavigationProvider),
+                FragmentCommandExecutor(activityNavigationProvider),
+                DialogCommandExecutor(activityNavigationProvider)
+        )
     }
 
     @Provides
