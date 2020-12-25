@@ -32,16 +32,20 @@ def MIRROR_COMPONENT_NAME = 'surf.mirrorComponentName'
 def SKIP_SAMPLES_BUILD_PROPERTY_NAME = 'skipSamplesBuild'
 
 // initialize reading properties files
-Properties mirrorProperties = new Properties()
-mirrorProperties.load(file(MIRROR_PROPERTIES_FILE).newDataInputStream())
-
-Properties androidStandardProperties = new Properties()
-androidStandardProperties.load(file(ANDROID_STANDARD_PROPERTIES_FILE).newDataInputStream())
-
-// get properties from the files
-def mirrorComponentName = mirrorProperties.getProperty(MIRROR_COMPONENT_NAME)
-def commonComponentName = mirrorProperties.getProperty(COMMON_COMPONENT_NAME)
-def skipSamples = androidStandardProperties.getProperty(SKIP_SAMPLES_BUILD_PROPERTY_NAME)
+def mirrorComponentName = ""
+def commonComponentName = ""
+if (file(MIRROR_PROPERTIES_FILE).exists()) {
+    Properties mirrorProperties = new Properties()
+    mirrorProperties.load(file(MIRROR_PROPERTIES_FILE).newDataInputStream())
+    mirrorComponentName = mirrorProperties.getProperty(MIRROR_COMPONENT_NAME)
+    commonComponentName = mirrorProperties.getProperty(COMMON_COMPONENT_NAME)
+}
+def skipSamples = "false"
+if (file(ANDROID_STANDARD_PROPERTIES_FILE).exists()) {
+    Properties androidStandardProperties = new Properties()
+    androidStandardProperties.load(file(ANDROID_STANDARD_PROPERTIES_FILE).newDataInputStream())
+    skipSamples = androidStandardProperties.getProperty(SKIP_SAMPLES_BUILD_PROPERTY_NAME)
+}
 
 /**
  * Includes components in project
@@ -50,10 +54,12 @@ def skipSamples = androidStandardProperties.getProperty(SKIP_SAMPLES_BUILD_PROPE
  */
 def includeComponents(components) {
     components.forEach { component ->
-        component.libs.forEach { lib ->
-            def moduleName =  ":${lib.name}"
-            include moduleName
-            project(moduleName).projectDir = new File("${component.dir}/${lib.dir}")
+        if (component != null && component.libs != null) {
+            component.libs.forEach { lib ->
+                def moduleName = ":${lib.name}"
+                include moduleName
+                project(moduleName).projectDir = new File("${component.dir}/${lib.dir}")
+            }
         }
     }
 }
@@ -88,14 +94,14 @@ if (mirrorComponentName == "") {
 
 parsedJson.forEach { component ->
     component.libs.forEach { lib ->
-        def moduleName =  ":${lib.name}"
+        def moduleName = ":${lib.name}"
         include moduleName
         project(moduleName).projectDir = new File("${component.dir}/${lib.dir}")
     }
 
     if (skipSamples != "true") {
         component.samples.forEach { sample ->
-            def moduleName =  ":${sample.name}"
+            def moduleName = ":${sample.name}"
             include moduleName
             project(moduleName).projectDir = new File("${component.dir}/${sample.dir}")
         }
