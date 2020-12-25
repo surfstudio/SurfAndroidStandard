@@ -1,6 +1,7 @@
 package ru.surfstudio.android.biometrics
 
 import android.content.Context
+import androidx.annotation.MainThread
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import ru.surfstudio.android.biometrics.encryptor.BiometricsEncryptorFactory
@@ -35,6 +36,7 @@ class BiometricsService @Inject constructor(
      * @param screen screen where scanner dialog opening. Should be on of FragmentActivity or Fragment
      * @param promptInfo info to show biometric dialog
      */
+    @MainThread
     fun <T> encryptByBiometrics(
         data: String,
         screen: T,
@@ -54,6 +56,7 @@ class BiometricsService @Inject constructor(
      * @param screen screen where scanner dialog opening. Should be on of FragmentActivity or Fragment
      * @param promptInfo info to show biometric dialog
      */
+    @MainThread
     fun <T> decryptByBiometrics(
         encryptedData: String,
         screen: T,
@@ -90,6 +93,7 @@ class BiometricsService @Inject constructor(
         return String(encryptorFactory.getEncyptor(key).decrypt(encryptedData.toByteArray()))
     }
 
+    @MainThread
     private fun <T> observeBiometrics(
         createKey: Boolean = true,
         screen: T,
