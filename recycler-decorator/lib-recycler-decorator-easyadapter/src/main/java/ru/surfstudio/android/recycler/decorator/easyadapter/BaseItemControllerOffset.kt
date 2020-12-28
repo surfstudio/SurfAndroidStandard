@@ -18,6 +18,7 @@ package ru.surfstudio.android.recycler.decorator.easyadapter
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.item.BaseItem
 import ru.surfstudio.android.easyadapter.item.NoDataItem
@@ -33,7 +34,7 @@ class BaseItemControllerOffset<I : BaseItem<out RecyclerView.ViewHolder>>(
 
     override fun getItemOffsets(outRect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
         val itemPosition = recyclerView.getChildAdapterPosition(view)
-        if (itemPosition == -1) {
+        if (itemPosition == NO_POSITION) {
             return
         }
 

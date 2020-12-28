@@ -18,6 +18,7 @@ package ru.surfstudio.android.recycler.decorator.easyadapter
 import android.graphics.Canvas
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.item.BaseItem
 import ru.surfstudio.android.easyadapter.item.NoDataItem
@@ -34,7 +35,7 @@ class BaseItemControllerDecoration<I : BaseItem<out RecyclerView.ViewHolder>>(
     override fun draw(canvas: Canvas, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
 
         val adapterPosition = recyclerView.getChildAdapterPosition(view)
-        if (adapterPosition == -1) {
+        if (adapterPosition == NO_POSITION) {
             return
         }
 
