@@ -1,6 +1,6 @@
 # Recycler-decorator Release Notes
 
-- [1.1.0-alpha](#110-alpha)
+- [1.0.1-alpha](#101-alpha)
 - [1.0.0](#100)
 
 ## 1.0.1-alpha
