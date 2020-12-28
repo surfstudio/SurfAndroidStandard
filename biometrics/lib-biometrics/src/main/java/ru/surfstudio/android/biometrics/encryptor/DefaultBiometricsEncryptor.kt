@@ -8,7 +8,7 @@ import java.security.Key
 import javax.crypto.Cipher
 
 /**
- * Cipher with biometric key.
+ * Encryptor with biometric key.
  *
  * @param key key from [BiometricsKeyCreator]
  * @param cipherTransformation transformation algorithm

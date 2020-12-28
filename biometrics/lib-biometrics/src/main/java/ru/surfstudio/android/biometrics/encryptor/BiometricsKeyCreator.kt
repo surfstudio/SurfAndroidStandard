@@ -11,7 +11,6 @@ import javax.crypto.KeyGenerator
 /**
  * Class for creating secured key for biometrics.
  *
- * @param shouldInvalidatedByEnrollment нужно ли инвалидировать при изменении состава биометрии
  * @param shouldInvalidatedByEnrollment if true, saved key will be invalidated on new biometrics enrollment
  * @param keyAlgorithm name of the encrypt algorithm
  */

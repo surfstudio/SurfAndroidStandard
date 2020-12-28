@@ -1,5 +1,5 @@
 # Biometrics
-Used to implementing biometrics scanner
+Used to implement biometrics scanner
 
 # Using
 #### Base classes:
