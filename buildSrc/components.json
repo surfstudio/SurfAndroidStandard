@@ -1799,7 +1799,7 @@
     "id": "recycler-decorator",
     "version": "1.0.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "recycler-decorator",
     "libs": [
       {
@@ -1822,7 +1822,6 @@
         "name": "recycler-decorator-easyadapter",
         "dir": "lib-recycler-decorator-easyadapter",
         "artifact_name": "recycler-decorator-easyadapter",
-        "stable": false,
         "third_party_dependencies": [
           {
             "name": "androidx.recyclerview:recyclerview",
