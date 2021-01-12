@@ -27,7 +27,7 @@ open class FragmentAnimationSupplier {
             is SharedElementAnimations ->
                 setSharedElementAnimations(transaction, animations)
             is StyledAnimations ->
-                throw UnsupportedOperationException("StyledAnimations is only for activities & dialogs")
+                throw UnsupportedOperationException("StyledAnimations is only for dialogs")
 
         }
         return transaction

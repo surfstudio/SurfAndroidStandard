@@ -40,7 +40,7 @@ open class ActivityAnimationSupplier {
             is BaseResourceAnimations ->
                 setResourceAnimations(activity, options, animations)
             is StyledAnimations ->
-                setStyledAnimations(activity, options, animations)
+                throw UnsupportedOperationException("StyledAnimations is only for dialogs")
             else -> null
         }
     }
@@ -54,11 +54,11 @@ open class ActivityAnimationSupplier {
      *
      * @return [Bundle] options with animations
      */
-    fun setResourceAnimations(
+    private fun setResourceAnimations(
             context: Context,
             options: Bundle?,
             animations: BaseResourceAnimations
-    ): Bundle? {
+    ): Bundle {
         val resourceAnimations = ActivityOptionsCompat.makeCustomAnimation(
                 context,
                 animations.enterAnimation,
@@ -78,11 +78,11 @@ open class ActivityAnimationSupplier {
      *
      * @return [Bundle] options with animations
      */
-    fun setSharedElementAnimations(
+    private fun setSharedElementAnimations(
             activity: Activity,
             options: Bundle?,
             animations: SharedElementAnimations
-    ): Bundle? {
+    ): Bundle {
         val sharedElements = animations.sharedElements
                 .map { androidx.core.util.Pair(it.sharedView, it.transitionName) }
         val resourceAnimations =
@@ -90,23 +90,5 @@ open class ActivityAnimationSupplier {
         val nonNullOptions = options ?: Bundle()
         nonNullOptions.putAll(resourceAnimations.toBundle())
         return nonNullOptions
-    }
-
-    /**
-     * Add [StyledAnimations] to activity window style.
-     *
-     * @param activity activity which will execute transition
-     * @param options bundle with activity transition options
-     * @param animations bundle with animations
-     *
-     * @return [Bundle] options with animations
-     */
-    fun setStyledAnimations(
-            activity: Activity,
-            options: Bundle?,
-            animations: StyledAnimations
-    ): Bundle? {
-        activity.window.setWindowAnimations(animations.style)
-        return options ?: Bundle()
     }
 }

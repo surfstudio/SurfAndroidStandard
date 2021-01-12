@@ -8,7 +8,7 @@ import ru.surfstudio.android.navigation.route.dialog.DialogRoute
 
 class DialogNavigator(val activity: AppCompatActivity) : DialogNavigatorInterface {
 
-    protected open var animationSupplier = DialogAnimationSupplier()
+    private var animationSupplier = DialogAnimationSupplier()
 
     override fun show(route: DialogRoute, animations: Animations) {
         val tag = route.getId()

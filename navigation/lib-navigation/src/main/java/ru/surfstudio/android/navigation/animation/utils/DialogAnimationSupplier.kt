@@ -16,9 +16,8 @@ open class DialogAnimationSupplier {
      * @param animations animations object, only [StyledAnimations] support
      */
     fun supplyWithAnimations(dialog: DialogFragment, animations: Animations) {
-        when (animations) {
-            is StyledAnimations -> setResourceAnimations(dialog, animations)
-            else -> Unit
+        if (animations is StyledAnimations) {
+            setResourceAnimations(dialog, animations)
         }
     }
 

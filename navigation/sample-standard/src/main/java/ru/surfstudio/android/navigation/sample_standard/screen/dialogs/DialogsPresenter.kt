@@ -7,15 +7,16 @@ import ru.surfstudio.android.navigation.animation.styled.StyledAnimations
 import ru.surfstudio.android.navigation.command.dialog.Show
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
 import ru.surfstudio.android.navigation.sample_standard.R
+import ru.surfstudio.android.navigation.sample_standard.screen.base.presenter.CommandExecutionPresenter
 import ru.surfstudio.android.navigation.sample_standard.screen.dialogs.amazing.AmazingDialogRoute
 import javax.inject.Inject
 
 @PerScreen
 class DialogsPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        private val executor: NavigationCommandExecutor,
-        private val bm: DialogsBindModel
-) : BaseRxPresenter(basePresenterDependency) {
+        private val bm: DialogsBindModel,
+        override val commandExecutor: NavigationCommandExecutor
+) : BaseRxPresenter(basePresenterDependency), CommandExecutionPresenter {
 
     override fun onFirstLoad() {
         bm.openDialogButtonClicked bindTo { openDialog() }
@@ -24,14 +25,14 @@ class DialogsPresenter @Inject constructor(
     }
 
     private fun openDialog() {
-        executor.execute(Show(AmazingDialogRoute()))
+        Show(AmazingDialogRoute()).execute()
     }
 
     private fun openDialogWithFade() {
-        executor.execute(Show(AmazingDialogRoute(), StyledAnimations(R.style.FadeDialogAnimation)))
+        Show(AmazingDialogRoute(), StyledAnimations(R.style.FadeDialogAnimation)).execute()
     }
 
     private fun openDialogWithSlide() {
-        executor.execute(Show(AmazingDialogRoute(), StyledAnimations(R.style.SlideDialogAnimation)))
+        Show(AmazingDialogRoute(), StyledAnimations(R.style.SlideDialogAnimation)).execute()
     }
 }
