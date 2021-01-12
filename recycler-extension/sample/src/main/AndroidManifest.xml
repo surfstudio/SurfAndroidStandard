@@ -19,6 +19,7 @@
         <activity android:name=".screen.StickyRecyclerActivity" />
         <activity android:name=".screen.CarouselActivity" />
         <activity android:name=".screen.SlidingItemsActivity" />
+        <activity android:name=".screen.SnapHelpersActivity" />
     </application>
 
 </manifest>

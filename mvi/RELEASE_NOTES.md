@@ -40,3 +40,4 @@ now event composition mechanism supports middlewares that can only produces outp
 * **NO BACKWARD COMPATIBILITY** ANDDEP-1049 Package for `BaseActivityResultDelegate`,`SupportOnActivityResultRoute` and `CrossFeatureSupportOnActivityResultRoute` is changed 
 from `ru.surfstudio.android.core.ui.event.result` to:  `ru.surfstudio.android.core.ui.navigation.event.result`
 * ANDDEP-1048 Fixing wrong docs links and docs structure
+* **NO BACKWARD COMPATIBILITY** ANDDEP-1124 Added `OpenScreenForResult` event that allows to start Activity for result explicitly. From this build using `OpenScreen` event doesn't start Activity for result

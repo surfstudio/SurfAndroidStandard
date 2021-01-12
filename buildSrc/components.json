@@ -118,7 +118,7 @@
   {
     "id": "app-migration",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "app-migration",
     "libs": [
@@ -407,7 +407,7 @@
   {
     "id": "converter-gson",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "deprecated/converter-gson",
     "libs": [
@@ -472,7 +472,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 27,
+    "unstable_version": 28,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -710,7 +710,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 10,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -741,6 +741,14 @@
           },
           {
             "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.lifecycle:lifecycle-common-java8",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.lifecycle:lifecycle-runtime-ktx",
             "type": "implementation"
           }
         ],
@@ -963,7 +971,7 @@
   {
     "id": "datalist",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "datalist",
     "libs": [
@@ -985,6 +993,10 @@
           {
             "name": "rx-extension",
             "type": "implementation"
+          },
+          {
+            "name": "datalist-base",
+            "type": "api"
           }
         ]
       },
@@ -1010,8 +1022,19 @@
           {
             "name": "rx-extension",
             "type": "implementation"
+          },
+          {
+            "name": "datalist-base",
+            "type": "api"
           }
         ]
+      },
+      {
+        "name": "datalist-base",
+        "dir": "lib-datalist-base",
+        "artifact_name": "datalist-base",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": []
       }
     ],
     "samples": [],
@@ -1133,7 +1156,7 @@
   {
     "id": "imageloader",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 9,
     "stable": false,
     "dir": "imageloader",
     "libs": [
@@ -1560,7 +1583,7 @@
   {
     "id": "navigation",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1729,7 +1752,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 8,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -2065,7 +2088,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 32,
+    "unstable_version": 38,
     "stable": false,
     "dir": "template",
     "libs": [],
@@ -2087,7 +2110,7 @@
   {
     "id": "android-studio-settings",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "android-studio-settings",
     "libs": [],

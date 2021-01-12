@@ -7,7 +7,7 @@ import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGr
 import ru.surfstudio.android.notification.ui.notification.strategies.SimpleAbstractPushHandleStrategy
 import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.standard.application.notification.type.NotificationTypeData
-import ru.surfstudio.standard.ui.navigation.MainActivityRoute
+import ru.surfstudio.standard.ui.navigation.routes.MainActivityRoute
 
 /**
  * Базовая стратегия обработки push-уведомления
@@ -34,7 +34,7 @@ class BasePushHandleStrategy : SimpleAbstractPushHandleStrategy<NotificationType
 
     //todo исправить из нужд приложения
     override fun coldStartIntent(context: Context): Intent? =
-            MainActivityRoute().prepareIntent(context)
+            MainActivityRoute().createIntent(context)
 
     override fun handlePushInActivity(activity: Activity) = false
 }
