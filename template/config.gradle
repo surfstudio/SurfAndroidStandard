@@ -37,7 +37,6 @@ ext {
             androidXEspressoCoreVersion     : '3.2.0',              //http://bit.ly/2DNc0AA
             androidXEspressoIntentsVersion  : '3.2.0',              //http://bit.ly/2SikuDT
             androidXEspressoContribVersion  : '3.2.0',              //http://bit.ly/2E0DdAq
-            androidMaterialVerison          : "1.2.1",              //http://bit.ly/2KAAq1y
             robolectricVersion              : '4.3.1',              //http://bit.ly/2xLRICR
             junitVersion                    : '4.13',               //https://goo.gl/hEcfw1
             firebaseMessagingVersion        : '20.1.3',             //http://bit.ly/2Q81pGJ
@@ -80,10 +79,6 @@ ext {
             appcompat       : "androidx.appcompat:appcompat:${versions.androidXVersion}",
             annotation      : "androidx.annotation:annotation:${versions.androidxAnnotationVersion}",
             constraintLayout: "androidx.constraintlayout:constraintlayout:${versions.constraintLayoutVersion}"
-    ]
-
-    design = [
-            androidMaterial: "com.google.android.material:material:${versions.androidMaterialVerison}"
     ]
 
     firebase = [
