@@ -3,99 +3,73 @@ package ru.surfstudio.standard.ui.dialog.simple
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import androidx.annotation.ColorRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.impls.ui.dialog.standard.EMPTY_RES
-import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
-import ru.surfstudio.android.template.base_feature.R
+import ru.surfstudio.android.navigation.observer.ScreenResultObserver
+import ru.surfstudio.android.navigation.rx.extension.observeScreenResult
+import ru.surfstudio.standard.ui.dialog.base.BaseSimpleDialogView
+import ru.surfstudio.standard.ui.dialog.base.SimpleResult
 
 /**
- * Вью простого диалога с заголовком, сообщением, позитивной и негативной кнопкой
- *
- * Живет в родительском dagger-scope и содержит в себе родительский EventHub
- * для отсылки событий закрытия и нажатия на кнопки.
- *
- * Для добавления этого диалога на экран, необходимо унаследовать родительский компонент от [SimpleEventHubDialogComponent]
+ * Диалог позволяющий получить [SimpleResult]
+ * Для получения результата использовать [observeScreenResult] у [ScreenResultObserver]
  */
-class SimpleDialogView<E : Event> : CoreSimpleDialogFragment() {
+class SimpleDialogView : BaseSimpleDialogView() {
 
-    override fun getName(): String = "SimpleDialogView"
+    override lateinit var route: SimpleDialogRoute
 
-    private lateinit var hub: ScreenEventHub<E>
-    private lateinit var route: SimpleDialogRoute<E>
-
-    private var positiveButtonEvent: E? = null
-    private var negativeButtonEvent: E? = null
-    private var dismissEvent: E? = null
-
-    @Suppress("UNCHECKED_CAST")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // todo fix typo exception (PersistentScopeStorage.java:67)
-        hub = getScreenComponent(SimpleEventHubDialogComponent::class.java).screenHub() as ScreenEventHub<E>
-        route = SimpleDialogRoute(arguments!!)
-
-        isCancelable = route.isCancelable
-
-        positiveButtonEvent = route.positiveButtonEvent
-        negativeButtonEvent = route.negativeButtonEvent
-        dismissEvent = route.dismissEvent
-    }
+    lateinit var title: String
+    lateinit var message: String
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val title = if (route.titleRes != EMPTY_RES) {
-            getString(route.titleRes)
-        } else {
-            route.title
-        }
-        val message = if (route.messageRes != EMPTY_RES) {
-            getString(route.messageRes)
-        } else {
-            route.message
-        }
-        val positiveButtonText = if (route.positiveBtnTextRes != EMPTY_RES) {
-            route.positiveBtnTextRes
-        } else {
-            R.string.simple_dialog_ok
-        }
-        val negativeButtonText = if (route.negativeBtnTextRes != EMPTY_RES) {
-            route.negativeBtnTextRes
-        } else {
-            R.string.simple_dialog_cancel
-        }
-        return MaterialAlertDialogBuilder(requireContext())
+        route = SimpleDialogRoute(requireArguments())
+        isCancelable = route.isCancelable
+
+        title = if (route.titleRes != EMPTY_RES) getString(route.titleRes) else route.title
+        message = if (route.messageRes != EMPTY_RES) getString(route.messageRes) else route.message
+
+        return AlertDialog.Builder(requireContext())
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton(positiveButtonText, positiveListener)
-                .apply {
-                    if (route.isNegativeButtonVisible) {
-                        setNegativeButton(negativeButtonText, negativeListener)
-                    }
-                }
+                .setPositiveButtonSafe()
+                .setNegativeButtonSafe()
                 .create()
                 .apply {
-                    // красим кнопку только когда диалог будет показан
-                    // потому что до этого момента кнопка может быть не создана
+                    // paint button only after the dialog is shown
                     setOnShowListener {
-                        val color = ContextCompat.getColor(requireContext(), route.positiveBtnColorRes)
-                        getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(color)
+                        setButtonColorSafe(AlertDialog.BUTTON_POSITIVE, route.positiveBtnColorRes)
+                        setButtonColorSafe(AlertDialog.BUTTON_NEGATIVE, route.negativeBtnColorRes)
                     }
                 }
     }
 
-    private val positiveListener = DialogInterface.OnClickListener { _, _ ->
-        positiveButtonEvent?.let { hub.emit(it) }
+    private fun AlertDialog.Builder.setPositiveButtonSafe(): AlertDialog.Builder {
+        val textResId: Int = route.positiveBtnTextRes
+        val resultListener = createResultListener(SimpleResult.POSITIVE)
+        return if (textResId != EMPTY_RES) setPositiveButton(textResId, resultListener) else this
     }
 
-    private val negativeListener = DialogInterface.OnClickListener { _, _ ->
-        negativeButtonEvent?.let { hub.emit(it) }
+    private fun AlertDialog.Builder.setNegativeButtonSafe(): AlertDialog.Builder {
+        val textResId: Int = route.negativeBtnTextRes
+        val resultListener = createResultListener(SimpleResult.NEGATIVE)
+        return if (textResId != EMPTY_RES) setNegativeButton(textResId, resultListener) else this
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        dismissEvent?.let { hub.emit(it) }
-        super.onDismiss(dialog)
+    private fun AlertDialog.setButtonColorSafe(buttonType: Int, @ColorRes colorResId: Int) {
+        if (colorResId != EMPTY_RES) {
+            val color = ContextCompat.getColor(context, colorResId)
+            getButton(buttonType)?.apply {
+                setTextColor(color)
+                isAllCaps = false
+            }
+        }
+    }
+
+    private fun createResultListener(result: SimpleResult): DialogInterface.OnClickListener {
+        return DialogInterface.OnClickListener { _, _ ->
+            closeWithResult(result)
+        }
     }
 }
