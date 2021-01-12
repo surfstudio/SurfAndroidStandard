@@ -8,6 +8,8 @@ import ru.surfstudio.standard.ui.mvi.navigation.event.NavCommandsEvent
 
 internal sealed class FeedEvent : Event {
 
+    object OpenDialog: FeedEvent()
+
     data class Navigation(override var event: NavCommandsEvent = NavCommandsEvent()) : NavCommandsComposition, FeedEvent()
     data class Lifecycle(override var stage: LifecycleStage) : FeedEvent(), LifecycleEvent
 }

@@ -16,6 +16,8 @@ dependencies {
     implementation project(":i-initialization")
     implementation project(":i-session")
 
+    api design.androidMaterial
+
     api rxBinding4.core
     api rxBinding4.material
 

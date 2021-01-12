@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.view.clicks
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
 import ru.surfstudio.android.core.ui.view_binding.viewBinding
@@ -36,5 +37,6 @@ internal class FeedFragmentView : BaseMviFragmentView<FeedState, FeedEvent>(), C
     }
 
     override fun initViews() {
+        binding.feedBtn.clicks().emit(FeedEvent.OpenDialog)
     }
 }

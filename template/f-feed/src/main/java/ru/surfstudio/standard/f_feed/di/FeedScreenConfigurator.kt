@@ -14,6 +14,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.f_feed.*
 import ru.surfstudio.standard.ui.activity.di.ActivityComponent
 import ru.surfstudio.standard.ui.activity.di.FragmentScreenConfigurator
+import ru.surfstudio.standard.ui.dialog.simple.SimpleEventHubDialogComponent
 import ru.surfstudio.standard.ui.navigation.routes.FeedFragmentRoute
 import ru.surfstudio.standard.ui.screen_modules.CustomScreenModule
 import ru.surfstudio.standard.ui.screen_modules.FragmentScreenModule
@@ -28,7 +29,7 @@ internal class FeedScreenConfigurator(arguments: Bundle?) : FragmentScreenConfig
             dependencies = [ActivityComponent::class],
             modules = [FragmentScreenModule::class, FeedScreenModule::class]
     )
-    internal interface FeedScreenComponent : BindableScreenComponent<FeedFragmentView>
+    internal interface FeedScreenComponent : BindableScreenComponent<FeedFragmentView>, SimpleEventHubDialogComponent<FeedEvent>
 
     @Module
     internal class FeedScreenModule(route: FeedFragmentRoute) : CustomScreenModule<FeedFragmentRoute>(route) {
@@ -37,7 +38,7 @@ internal class FeedScreenConfigurator(arguments: Bundle?) : FragmentScreenConfig
         @PerScreen
         fun provideEventHub(
                 screenEventHubDependency: ScreenEventHubDependency
-        ) = ScreenEventHub<FeedEvent>(screenEventHubDependency, FeedEvent::Lifecycle)
+        )= ScreenEventHub<FeedEvent>(screenEventHubDependency, FeedEvent::Lifecycle)
 
         @Provides
         @PerScreen
