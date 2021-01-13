@@ -84,7 +84,7 @@ fun <T : NavCommandsComposition> T.start(
 }
 
 /**
- * Открытие активити с результатом
+ * Открытие системной активити с результатом
  */
 fun <T : NavCommandsComposition> NavigationEventBuilder<T>.startForSystemResult(route: SystemActivityResultRoute<*>): NavigationEventBuilder<T> =
         add(
