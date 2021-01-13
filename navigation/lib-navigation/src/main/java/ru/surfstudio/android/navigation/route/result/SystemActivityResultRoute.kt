@@ -22,7 +22,7 @@ abstract class SystemActivityResultRoute<T : Serializable> : ActivityRoute(), Re
         return "${this.javaClass.name}${screenId.hashCode()}"
     }
 
-    fun getRequestCode(): Int {
+    open fun getRequestCode(): Int {
         return Math.abs(this.javaClass.canonicalName!!.hashCode() % MAX_REQUEST_CODE)
     }
 }
