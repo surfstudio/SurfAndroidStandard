@@ -11,7 +11,7 @@ import ru.surfstudio.android.imageloader.ImageLoader
 
 class MainActivity : AppCompatActivity() {
 
-    private val IMAGE_URL = "https://www.besthealthmag.ca/wp-content/uploads/sites/16/2012/04/your-g-spot.jpg"
+    private val IMAGE_URL = "https://imgs.xkcd.com/comics/regular_expressions.png"
 
     private lateinit var imageView: ImageView
     private lateinit var transformButton: Button
