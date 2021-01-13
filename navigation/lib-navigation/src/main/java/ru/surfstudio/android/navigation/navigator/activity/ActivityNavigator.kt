@@ -17,10 +17,17 @@ open class ActivityNavigator(val activity: AppCompatActivity) : ActivityNavigato
         activity.startActivity(route.createIntent(activity), optionsWithAnimations)
     }
 
-    override fun startForResult(route: SystemActivityResultRoute<*>, animations: Animations, activityOptions: Bundle?) {
-        val optionsWithAnimations =
-                animationSupplier.supplyWithAnimations(activity, activityOptions, animations)
-        activity.startActivityForResult(route.createIntent(activity), route.getRequestCode(), optionsWithAnimations)
+    override fun startForResult(
+            route: SystemActivityResultRoute<*>,
+            animations: Animations,
+            activityOptions: Bundle?
+    ) {
+        val optionsWithAnimations = animationSupplier.supplyWithAnimations(activity, activityOptions, animations)
+        activity.startActivityForResult(
+                route.createIntent(activity),
+                route.getRequestCode(),
+                optionsWithAnimations
+        )
     }
 
     override fun replace(route: ActivityRoute, animations: Animations, activityOptions: Bundle?) {

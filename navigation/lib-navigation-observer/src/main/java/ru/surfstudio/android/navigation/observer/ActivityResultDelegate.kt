@@ -26,7 +26,11 @@ class ActivityResultDelegate(
         }
     }
 
-    private fun emitActivityResult(route: SystemActivityResultRoute<ActivityResultData<Serializable>>, resultCode: Int, data: Intent?) {
+    private fun emitActivityResult(
+            route: SystemActivityResultRoute<ActivityResultData<Serializable>>,
+            resultCode: Int,
+            data: Intent?
+    ) {
         val result = ActivityResultData(
                 resultCode == Activity.RESULT_OK,
                 route.parseResultIntent(data)
