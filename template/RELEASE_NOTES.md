@@ -63,6 +63,7 @@
 * ANDDEP-1126 Fixed MigrationModule.kt, get version code from packageInfo.
 * ANDDEP-1138 Added supporting View Binding
 * ANDDEP-1144 Fix navigation
+* ANDDEP-1135 Added [`SimpleDialogView`](base_feature/src/main/java/ru/surfstudio/standard/ui/dialog/simple/SimpleDialogView.kt) & easy sample to it
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
