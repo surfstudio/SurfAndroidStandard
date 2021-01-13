@@ -3,7 +3,7 @@ package ru.surfstudio.android.navigation.navigator.activity
 import android.os.Bundle
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute
-import ru.surfstudio.android.navigation.route.result.ActivityResultRoute
+import ru.surfstudio.android.navigation.route.result.SystemActivityResultRoute
 
 /**
  *  Base interface for an activity navigator.
@@ -12,7 +12,7 @@ interface ActivityNavigatorInterface {
 
     fun start(route: ActivityRoute, animations: Animations, activityOptions: Bundle?)
 
-    fun startForResult(route: ActivityResultRoute<*>, animations: Animations, activityOptions: Bundle?)
+    fun startForResult(route: SystemActivityResultRoute<*>, animations: Animations, activityOptions: Bundle?)
 
     fun replace(route: ActivityRoute, animations: Animations, activityOptions: Bundle?)
 

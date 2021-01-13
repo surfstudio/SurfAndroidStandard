@@ -4,13 +4,13 @@ import android.os.Bundle
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.DefaultAnimations
 import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigationCommand
-import ru.surfstudio.android.navigation.route.result.ActivityResultRoute
+import ru.surfstudio.android.navigation.route.result.SystemActivityResultRoute
 
 /**
- * Starts new activity screen for result
+ * Starts new system activity screen for result
  */
-data class StartForResult(
-        override val route: ActivityResultRoute<*>,
+data class StartForSystemResult(
+        override val route: SystemActivityResultRoute<*>,
         override val animations: Animations = DefaultAnimations.activity,
         val activityOptions: Bundle? = null
 ) : ActivityNavigationCommand

@@ -18,7 +18,7 @@ open class ActivityCommandExecutor(
         val navigator = activityNavigationProvider.provide().activityNavigator
         when (command) {
             is Start -> navigator.start(command.route, command.animations, command.activityOptions)
-            is StartForResult -> navigator.startForResult(command.route, command.animations, command.activityOptions)
+            is StartForSystemResult -> navigator.startForResult(command.route, command.animations, command.activityOptions)
             is Replace -> navigator.replace(command.route, command.animations, command.activityOptions)
             is Finish -> navigator.finish()
             is FinishAffinity -> navigator.finishAffinity()

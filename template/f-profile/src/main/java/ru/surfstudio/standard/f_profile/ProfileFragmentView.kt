@@ -36,9 +36,6 @@ internal class ProfileFragmentView : BaseMviFragmentView<ProfileState, ProfileEv
     }
 
     override fun initViews() {
-        binding.test.setOnClickListener {
-            ProfileEvent.Search.emit()
-        }
     }
 
     override fun render(state: ProfileState) {

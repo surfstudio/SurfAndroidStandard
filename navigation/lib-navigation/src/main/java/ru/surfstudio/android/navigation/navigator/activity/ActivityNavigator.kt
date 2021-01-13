@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.utils.ActivityAnimationSupplier
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute
-import ru.surfstudio.android.navigation.route.result.ActivityResultRoute
+import ru.surfstudio.android.navigation.route.result.SystemActivityResultRoute
 
 open class ActivityNavigator(val activity: AppCompatActivity) : ActivityNavigatorInterface {
 
@@ -17,7 +17,7 @@ open class ActivityNavigator(val activity: AppCompatActivity) : ActivityNavigato
         activity.startActivity(route.createIntent(activity), optionsWithAnimations)
     }
 
-    override fun startForResult(route: ActivityResultRoute<*>, animations: Animations, activityOptions: Bundle?) {
+    override fun startForResult(route: SystemActivityResultRoute<*>, animations: Animations, activityOptions: Bundle?) {
         val optionsWithAnimations =
                 animationSupplier.supplyWithAnimations(activity, activityOptions, animations)
         activity.startActivityForResult(route.createIntent(activity), route.getRequestCode(), optionsWithAnimations)
