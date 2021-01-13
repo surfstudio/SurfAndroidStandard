@@ -118,6 +118,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Указание графического ресурса, отображаемого в качестве плейсхолдера
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
+     * @param shouldTransformPreview необходимо ли применять трансформации исходника к превью
      */
     override fun preview(@DrawableRes drawableResId: Int, shouldTransformPreview: Boolean) =
             apply {
@@ -129,6 +130,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Указание графического ресурса, отображаемого в случае ошибки загрузки
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
+     * @param shouldTransformError необходимо ли применять трансформации исходника к превью
      */
     override fun error(@DrawableRes drawableResId: Int, shouldTransformError: Boolean) =
             apply {
@@ -401,6 +403,8 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?, imageSource: ImageSource?) -> Unit)? = null,
             onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
     ) {
+        this.imageTargetManager.targetView = view
+
         buildRequest().into(
                 if (view is ImageView) {
                     getDrawableImageViewTargetObject(view, onErrorLambda, onCompleteLambda, onClearMemoryLambda)
