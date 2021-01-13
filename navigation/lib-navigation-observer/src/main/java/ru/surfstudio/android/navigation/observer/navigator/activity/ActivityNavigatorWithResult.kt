@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
+import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
 import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
 import java.io.Serializable
 
@@ -21,20 +22,14 @@ open class ActivityNavigatorWithResult(
     init {
         launcher = (activity as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val data = resultRegistration?.route?.parseResultIntent(result.resultCode, result.data)
-            data?.let { resultRegistration?.callback?.onActivityResult(data) }
+            data?.let { resultRegistration?.callback?.invoke(data) }
             resultRegistration = null
         }
     }
 
-    /**
-     * Registers callback for onActivityResult
-     *
-     * @param route route of screen which should handle the result
-     * @param callback callback which will be called on activity result
-    </T> */
     override fun <T : Serializable> callbackResult(
             route: ActivityWithResultRoute<T>,
-            callback: ActivityNavigatorWithResultInterface.ResultCallback<T>
+            callback: ScreenResultListener<T>
     ) {
         resultRegistration = ActivityResultRegistration(
                 route,
@@ -42,11 +37,6 @@ open class ActivityNavigatorWithResult(
         ) as ActivityResultRegistration<Serializable>
     }
 
-    /**
-     * Launch a new activity for result.
-     *
-     * @param route navigation route
-     */
     override fun startForResult(route: ActivityWithResultRoute<*>, animations: Animations, activityOptions: Bundle?) {
         check(isCallbackRegistered()) {
             "You mus register callback by method ActivityNavigatorWithResult#callbackResult before starting activity"
@@ -62,6 +52,6 @@ open class ActivityNavigatorWithResult(
 
     private class ActivityResultRegistration<T : Serializable>(
             val route: ActivityWithResultRoute<T>,
-            val callback: ActivityNavigatorWithResultInterface.ResultCallback<T>
+            val callback: ScreenResultListener<T>
     )
 }

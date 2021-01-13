@@ -7,6 +7,10 @@ import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigation
 import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
 import java.io.Serializable
 
+/**
+ * Navigation command to start screen for result.
+ * Used to start system screens.
+ */
 class StartForResult<T : Serializable, R>(
         override val route: R,
         override val animations: Animations = DefaultAnimations.activity,
