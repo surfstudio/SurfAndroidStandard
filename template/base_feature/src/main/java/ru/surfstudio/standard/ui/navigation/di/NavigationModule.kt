@@ -9,6 +9,7 @@ import ru.surfstudio.android.navigation.executor.AppCommandExecutor
 import ru.surfstudio.android.navigation.executor.screen.activity.ActivityCommandExecutor
 import ru.surfstudio.android.navigation.executor.screen.dialog.DialogCommandExecutor
 import ru.surfstudio.android.navigation.executor.screen.fragment.FragmentCommandExecutor
+import ru.surfstudio.android.navigation.observer.ActivityResultDelegate
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.bus.ScreenResultBus
@@ -73,5 +74,14 @@ class NavigationModule {
     @PerApplication
     fun provideScreenResultEmitter(screenResultBus: ScreenResultBus): ScreenResultEmitter {
         return screenResultBus
+    }
+
+    @Provides
+    @PerApplication
+    fun provideActivityResultDelegate(screenResultBus: ScreenResultBus, appCommandExecutor: AppCommandExecutor): ActivityResultDelegate {
+        return ActivityResultDelegate(
+                screenResultBus,
+                appCommandExecutor
+        )
     }
 }

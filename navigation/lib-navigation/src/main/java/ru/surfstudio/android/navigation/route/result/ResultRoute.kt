@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.observer.route
+package ru.surfstudio.android.navigation.route.result
 
 import java.io.Serializable
 

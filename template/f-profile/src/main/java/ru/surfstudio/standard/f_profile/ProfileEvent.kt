@@ -10,4 +10,7 @@ internal sealed class ProfileEvent : Event {
 
     data class Navigation(override var event: NavCommandsEvent = NavCommandsEvent()) : NavCommandsComposition, ProfileEvent()
     data class Lifecycle(override var stage: LifecycleStage) : ProfileEvent(), LifecycleEvent
+
+    object Search : ProfileEvent()
+    object SkipEvent : ProfileEvent()
 }

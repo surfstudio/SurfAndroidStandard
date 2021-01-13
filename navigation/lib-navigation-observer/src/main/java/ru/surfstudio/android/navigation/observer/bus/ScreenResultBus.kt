@@ -2,10 +2,10 @@ package ru.surfstudio.android.navigation.observer.bus
 
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
-import ru.surfstudio.android.navigation.observer.route.ResultRoute
 import ru.surfstudio.android.navigation.observer.storage.ScreenResultInfo
 import ru.surfstudio.android.navigation.observer.storage.ScreenResultStorage
 import ru.surfstudio.android.navigation.route.BaseRoute
+import ru.surfstudio.android.navigation.route.result.ResultRoute
 import java.io.Serializable
 
 /**
@@ -18,7 +18,13 @@ open class ScreenResultBus(
         private val screenResultStorage: ScreenResultStorage
 ) : ScreenResultEmitter, ScreenResultObserver {
 
-    private val listeners = mutableListOf<ScreenResultListenerInfo<Serializable>>()
+    private val listeners = mutableListOf<ScreenResultListenerInfo<Serializable, BaseRoute<*>>>()
+
+    override fun getObservedRoutes(): List<BaseRoute<*>> {
+        return listeners.map {
+            it.targetRoute
+        }.toList()
+    }
 
     override fun <T : Serializable, R> addListener(
             targetRoute: R,
@@ -27,23 +33,28 @@ open class ScreenResultBus(
         val targetId = getRouteId(targetRoute)
 
         checkStorageForResult(targetId, listener)
-        addListenerInfo(targetId, listener)
+        addListenerInfo(targetRoute, listener)
     }
 
     override fun <R> removeListener(
             targetRoute: R
     ) where R : BaseRoute<*>, R : ResultRoute<*> {
         val targetId = getRouteId(targetRoute)
-        listeners.removeAll { it.targetId == targetId }
+        listeners.removeAll { resultListenerInfo ->
+            getRouteId(resultListenerInfo.targetRoute) == targetId
+        }
     }
 
     override fun <T : Serializable, R> emit(
             targetRoute: R,
             result: T
-    ) where R: BaseRoute<*>, R: ResultRoute<T> {
+    ) where R : BaseRoute<*>, R : ResultRoute<T> {
         val targetId = getRouteId(targetRoute)
 
-        val matchingObservers = listeners.filter { it.targetId == targetId }
+        val matchingObservers = listeners.filter { resultListenerInfo ->
+            getRouteId(resultListenerInfo.targetRoute) == targetId
+        }
+
         if (matchingObservers.isNotEmpty()) {
             matchingObservers.forEach { it.listener(result) }
         } else { //no observers, but result emitted
@@ -64,13 +75,15 @@ open class ScreenResultBus(
         }
     }
 
-    private fun <T : Serializable> addListenerInfo(
-            targetId: String,
+    private fun <T : Serializable, R> addListenerInfo(
+            targetRoute: R,
             listener: (T) -> Unit
-    ) {
-        val alreadyHasListener = listeners.any { it.targetId == targetId }
+    ) where R : BaseRoute<*>, R : ResultRoute<T> {
+        val alreadyHasListener = listeners.any { resultListenerInfo ->
+            getRouteId(resultListenerInfo.targetRoute) == getRouteId(targetRoute)
+        }
         if (!alreadyHasListener) {
-            val listenerInfo = ScreenResultListenerInfo(targetId, listener as (Serializable) -> Unit)
+            val listenerInfo = ScreenResultListenerInfo<Serializable, BaseRoute<*>>(targetRoute, listener as (Serializable) -> Unit)
             listeners.add(listenerInfo)
         }
     }

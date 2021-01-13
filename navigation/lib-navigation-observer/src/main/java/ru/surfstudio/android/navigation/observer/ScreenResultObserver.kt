@@ -1,8 +1,8 @@
 package ru.surfstudio.android.navigation.observer
 
 import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
-import ru.surfstudio.android.navigation.observer.route.ResultRoute
 import ru.surfstudio.android.navigation.route.BaseRoute
+import ru.surfstudio.android.navigation.route.result.ResultRoute
 import java.io.Serializable
 
 /**

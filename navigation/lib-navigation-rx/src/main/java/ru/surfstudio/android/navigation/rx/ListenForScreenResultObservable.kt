@@ -4,8 +4,8 @@ import io.reactivex.Observable
 import io.reactivex.Observer
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
-import ru.surfstudio.android.navigation.observer.route.ResultRoute
 import ru.surfstudio.android.navigation.route.BaseRoute
+import ru.surfstudio.android.navigation.route.result.ResultRoute
 import ru.surfstudio.android.navigation.rx.base.disposable.BaseNavigationDisposable
 import java.io.Serializable
 

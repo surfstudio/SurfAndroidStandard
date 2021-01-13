@@ -7,15 +7,17 @@ import ru.surfstudio.android.navigation.command.NavigationCommand
 import ru.surfstudio.android.navigation.command.activity.Finish
 import ru.surfstudio.android.navigation.command.activity.FinishAffinity
 import ru.surfstudio.android.navigation.command.activity.Start
+import ru.surfstudio.android.navigation.command.activity.StartForResult
 import ru.surfstudio.android.navigation.command.dialog.Dismiss
 import ru.surfstudio.android.navigation.command.dialog.Show
 import ru.surfstudio.android.navigation.command.fragment.*
 import ru.surfstudio.android.navigation.observer.command.EmitScreenResult
-import ru.surfstudio.android.navigation.observer.route.ResultRoute
 import ru.surfstudio.android.navigation.route.BaseRoute
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 import ru.surfstudio.android.navigation.route.dialog.DialogRoute
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
+import ru.surfstudio.android.navigation.route.result.ActivityResultRoute
+import ru.surfstudio.android.navigation.route.result.ResultRoute
 import ru.surfstudio.standard.ui.mvi.navigation.builder.NavigationEventBuilder
 import ru.surfstudio.standard.ui.mvi.navigation.event.NavCommandsComposition
 import ru.surfstudio.standard.ui.mvi.navigation.event.NavCommandsEvent
@@ -79,6 +81,22 @@ fun <T : NavCommandsComposition> T.start(
         animations: Animations = DefaultAnimations.activity
 ): T {
     return createSingleCommandComposition(Start(route, animations))
+}
+
+/**
+ * Открытие активити с результатом
+ */
+fun <T : NavCommandsComposition> NavigationEventBuilder<T>.startForResult(route: ActivityResultRoute<*>): NavigationEventBuilder<T> =
+        add(
+                StartForResult(route)
+        )
+
+/** см [NavigationEventBuilder.startForResult] */
+fun <T : NavCommandsComposition> T.startForResult(
+        route: ActivityResultRoute<*>,
+        animations: Animations = DefaultAnimations.activity
+): T {
+    return createSingleCommandComposition(StartForResult(route, animations))
 }
 
 /**

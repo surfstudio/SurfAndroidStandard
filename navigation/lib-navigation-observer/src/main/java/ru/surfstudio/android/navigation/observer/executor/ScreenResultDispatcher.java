@@ -2,8 +2,8 @@ package ru.surfstudio.android.navigation.observer.executor;
 
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter;
 import ru.surfstudio.android.navigation.observer.command.EmitScreenResult;
-import ru.surfstudio.android.navigation.observer.route.ResultRoute;
 import ru.surfstudio.android.navigation.route.BaseRoute;
+import ru.surfstudio.android.navigation.route.result.ResultRoute;
 
 public class ScreenResultDispatcher {
 
