@@ -1,6 +1,7 @@
 package ru.surfstudio.android.imageloader_sample
 
 import android.graphics.PorterDuff
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var gifImageView: ImageView
     private lateinit var gifButton: Button
+
+    private lateinit var videoImageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,9 @@ class MainActivity : AppCompatActivity() {
         gifImageView = find(R.id.imageloader_sample_gif_iv)
         gifButton = find(R.id.image_loader_sample_gif_btn)
         loadGifImage()
+
+        videoImageView = find(R.id.imageloader_video_iv)
+        loadVideoPreview()
     }
 
     private fun loadOriginalImage() {
@@ -90,6 +96,16 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 })
+    }
+
+    private fun loadVideoPreview() {
+        val video = Uri.parse("android.resource://$packageName/${R.raw.video}")
+        ImageLoader
+                .with(this)
+                .uri(video)
+                .centerCrop()
+                .frame(20L)
+                .into(videoImageView)
     }
 
     private fun loadSvgImage(svgImageUrl: String) {
