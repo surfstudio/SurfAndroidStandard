@@ -64,6 +64,7 @@
 * ANDDEP-1138 Added supporting View Binding
 * ANDDEP-1144 Fix navigation
 * ANDDEP-1141 Added Firebase BoM dependency
+* Fix event generation
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
