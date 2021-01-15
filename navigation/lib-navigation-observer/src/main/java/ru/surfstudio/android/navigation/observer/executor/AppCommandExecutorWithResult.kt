@@ -8,10 +8,8 @@ import ru.surfstudio.android.navigation.executor.screen.fragment.FragmentCommand
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.command.EmitScreenResult
 import ru.surfstudio.android.navigation.observer.command.StartForResult
-import ru.surfstudio.android.navigation.observer.navigator.activity.ActivityNavigatorWithResultInterface
-import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
+import ru.surfstudio.android.navigation.observer.executor.screen.activity.ActivityCommandWithResultExecutor
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
-import java.io.Serializable
 
 /**
  * [AppCommandExecutor] implementation, that supports [EmitScreenResult] and [StartForResult] commands execution.
@@ -19,7 +17,7 @@ import java.io.Serializable
 open class AppCommandExecutorWithResult(
         protected val screenResultEmitter: ScreenResultEmitter,
         activityNavigationProvider: ActivityNavigationProvider,
-        activityCommandExecutor: ActivityCommandExecutor = ActivityCommandExecutor(activityNavigationProvider),
+        activityCommandExecutor: ActivityCommandExecutor = ActivityCommandWithResultExecutor(activityNavigationProvider, screenResultEmitter),
         fragmentCommandExecutor: FragmentCommandExecutor = FragmentCommandExecutor(activityNavigationProvider),
         dialogCommandExecutor: DialogCommandExecutor = DialogCommandExecutor(activityNavigationProvider)
 ) : AppCommandExecutor(activityNavigationProvider, activityCommandExecutor, fragmentCommandExecutor, dialogCommandExecutor) {
@@ -31,27 +29,9 @@ open class AppCommandExecutorWithResult(
             is EmitScreenResult<*, *> -> {
                 screenResultDispatcher.dispatch(screenResultEmitter, command)
             }
-            is StartForResult<*, *> -> {
-                val castedCommand = command as StartForResult<Serializable, ActivityWithResultRoute<Serializable>>
-                listenForResult(castedCommand)
-                startForResult(castedCommand)
-            }
             else -> {
                 super.dispatchCommand(command)
             }
         }
-    }
-
-    private fun <T : Serializable, R : ActivityWithResultRoute<T>> listenForResult(command: StartForResult<T, R>) {
-        (activityNavigationProvider.provide().activityNavigator as ActivityNavigatorWithResultInterface)
-                .callbackResult(command.route) { data ->
-                    val resultCommand = EmitScreenResult(command.route, data)
-                    screenResultDispatcher.dispatch(screenResultEmitter, resultCommand)
-                }
-    }
-
-    private fun <T : Serializable, R : ActivityWithResultRoute<T>> startForResult(command: StartForResult<T, R>) {
-        (activityNavigationProvider.provide().activityNavigator as ActivityNavigatorWithResultInterface)
-                .startForResult(command.route, command.animations, command.activityOptions)
     }
 }

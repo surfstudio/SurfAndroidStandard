@@ -1619,6 +1619,14 @@
           {
             "name": "androidx.activity:activity-ktx",
             "type": "api"
+          },
+          {
+            "name": "androidx.fragment:fragment",
+            "type": "api"
+          },
+          {
+            "name": "androidx.fragment:fragment-ktx",
+            "type": "api"
           }
         ],
         "android_standard_dependencies": [
