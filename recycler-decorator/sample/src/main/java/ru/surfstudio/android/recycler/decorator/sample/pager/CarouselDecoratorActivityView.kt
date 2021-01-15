@@ -68,7 +68,7 @@ class CarouselDecoratorActivityView : AppCompatActivity() {
                 .offset(simpleOffsetDrawer2)
                 .build()
         pager_scale_line_rv.addItemDecoration(decoratorScaleLine)
-        lineEasyAdapter.setInfiniteScroll(true)
+        lineEasyAdapter.setInfiniteScroll(false)
 
         val itemList = ItemList.create()
 
