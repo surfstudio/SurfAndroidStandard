@@ -13,6 +13,9 @@ internal sealed class ${eventClassName}: Event {
 
     data class Lifecycle(override var stage: LifecycleStage): ${eventClassName}(), LifecycleEvent
     data class Navigation(
-        override var events: List<NavigationEvent> = listOf()
-    ) : ${eventClassName}(), NavigationComposition
+        override var event: NavCommandsEvent = NavCommandsEvent()
+    ) : ${eventClassName}(), NavCommandsComposition
+
+     override var event: NavCommandsEvent = NavCommandsEvent()
+        ) : ${eventClassName}(), NavCommandsComposition
 }
