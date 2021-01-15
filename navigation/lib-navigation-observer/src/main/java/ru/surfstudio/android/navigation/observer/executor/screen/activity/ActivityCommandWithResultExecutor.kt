@@ -32,8 +32,8 @@ class ActivityCommandWithResultExecutor(
     private fun <T : Serializable, R : ActivityWithResultRoute<T>> listenForResult(command: StartForResult<T, R>) {
         (activityNavigationProvider.provide().activityNavigator as ActivityNavigatorWithResultInterface)
                 .callbackResult(command.route) { data ->
-                    val resultCommand = EmitScreenResult(command.route, data)
-                    screenResultDispatcher.dispatch(screenResultEmitter, resultCommand)
+                    val emitResultCommand = EmitScreenResult(command.route, data)
+                    screenResultDispatcher.dispatch(screenResultEmitter, emitResultCommand)
                 }
     }
 

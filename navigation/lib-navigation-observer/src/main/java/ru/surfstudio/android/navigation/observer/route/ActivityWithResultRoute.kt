@@ -8,7 +8,7 @@ import java.io.Serializable
  * Route for activity with result [ActivityRoute]
  * You should use this route when launching system screens.
  *
- * @param <T> тип результата
+ * @param <T> type of the result returned from activity
  */
 abstract class ActivityWithResultRoute<T : Serializable> : ActivityRoute(), ResultRoute<T> {
 

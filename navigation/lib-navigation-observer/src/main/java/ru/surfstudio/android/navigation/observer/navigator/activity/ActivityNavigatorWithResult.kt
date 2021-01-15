@@ -39,7 +39,7 @@ open class ActivityNavigatorWithResult(
 
     override fun startForResult(route: ActivityWithResultRoute<*>, animations: Animations, activityOptions: Bundle?) {
         check(isCallbackRegistered()) {
-            "You mus register callback by method ActivityNavigatorWithResult#callbackResult before starting activity"
+            "You must register callback by method ActivityNavigatorWithResult#callbackResult before starting activity"
         }
         val intent: Intent = route.createIntent(activity)
         //todo ActivityAnimationSupplier must return ActivityOptionsCompat to launch activity with animations
