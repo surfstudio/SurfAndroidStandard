@@ -13,6 +13,7 @@ import ru.surfstudio.android.imageloader.ImageLoader
 class MainActivity : AppCompatActivity() {
 
     private val IMAGE_URL = "https://www.besthealthmag.ca/wp-content/uploads/sites/16/2012/04/your-g-spot.jpg"
+    private val VIDEO_URL = "https://static.rendez-vous.ru/files/catalog_videos/472/2513472.mp4"
 
     private lateinit var imageView: ImageView
     private lateinit var transformButton: Button
@@ -99,12 +100,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadVideoPreview() {
-        val video = Uri.parse("android.resource://$packageName/${R.raw.video}")
         ImageLoader
                 .with(this)
-                .uri(video)
+                .url(VIDEO_URL)
                 .centerCrop()
-                .frame(20L)
+                .frame(0L)
                 .into(videoImageView)
     }
 
