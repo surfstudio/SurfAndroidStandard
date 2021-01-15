@@ -22,40 +22,38 @@ const val MIN_SHOW_INDICATOR_VALUE = 1
  * Можно использовать с ViewPager2 и RecyclerView с PagerSnapHelper
  *
  * @property hasInfiniteScroll есть ли у вью бесконечный скролл
+ * @property verticalAlign расположение индиактора (снизу/сверху)
+ * @property horizontalAlign выравнивание индикатора (слева/справа/по центру)
  * @property widthInactive длина неактивного индикатора
  * @property widthActive длина активного индикатора
  * @property paddingBetween отступ между индикаторами
  * @property indicatorHeight высота индикатора
+ * @property paddingHorizontal отступ индикаторов слева и справа
  * @property indicatorRadius радиус индикаторов для отрисовки закругленных углов. Если ноль, будут отрисованы прямоугольные индикаторы
- * @property align выравнивание индикатора (слева/справа/по центру)
  * @property paddingBottom отступ индикаторов снизу от границ внутри(!) вью. По умолчанию индикатор рисуется поверх элементов ресайклер/вьюпейджер
  * Внимание, если необходимо, чтобы индикатор рисовался не поверх элементов, необходимо использовать офсет декоратор, а данный параметр оставить нулем!
- * @property paddingHorizontal отступ индикаторов слева и справа
  * @property colorActive цвет активного индикатора
- * @property colorActive цвет неактивного индикатора
+ * @property colorInactive цвет неактивного индикатора
  */
 class ScaleLinePageIndicatorDecoration(
         private val hasInfiniteScroll: Boolean = false,
+        private val verticalAlign: VerticalAlign = VerticalAlign.BOTTOM,
+        private val horizontalAlign: HorizontalAlign = HorizontalAlign.CENTER,
         private val widthInactive: Int = 8.toPx,
         private val widthActive: Int = 32.toPx,
         private val paddingBetween: Int = 16.toPx,
         private val indicatorHeight: Int = 8.toPx,
         private val indicatorRadius: Int = 0.toPx,
-        private val align: IndicatorAlign = IndicatorAlign.LEFT,
         private val paddingBottom: Int = 0.toPx,
         private val paddingHorizontal: Int = 32.toPx,
         @ColorInt val colorActive: Int = -0x1,
         @ColorInt val colorInactive: Int = 0x66FFFFFF
 ) : Decorator.RecyclerViewDecor {
 
-    private val indicatorPaint = Paint()
+    private val indicatorPaint = Paint().apply { isAntiAlias = true }
     private val colorEvaluator = ArgbEvaluator()
     private val indicatorDiff = widthActive - widthInactive
     private val rect = Rect()
-
-    init {
-        indicatorPaint.isAntiAlias = true
-    }
 
     override fun draw(
             canvas: Canvas,
@@ -76,13 +74,16 @@ class ScaleLinePageIndicatorDecoration(
         val totalLength = widthInactive * (itemsCount - 1) + widthActive
         val paddingBetweenItems = (itemsCount - 1) * paddingBetween
         val indicatorTotalWidth = totalLength + paddingBetweenItems
-        val indicatorStartX = when (align) {
-            IndicatorAlign.LEFT -> paddingHorizontal.toFloat()
-            IndicatorAlign.CENTER -> (recyclerView.width - indicatorTotalWidth) / 2f
-            IndicatorAlign.RIGHT -> recyclerView.width - indicatorTotalWidth - paddingHorizontal.toFloat()
+        val indicatorStartX = when (horizontalAlign) {
+            HorizontalAlign.LEFT -> paddingHorizontal.toFloat()
+            HorizontalAlign.CENTER -> (recyclerView.width - indicatorTotalWidth) / 2f
+            HorizontalAlign.RIGHT -> recyclerView.width - indicatorTotalWidth - paddingHorizontal.toFloat()
         }
 
-        val indicatorPosY = recyclerView.height - paddingBottom.toFloat()
+        val indicatorPosY = when (verticalAlign) {
+            VerticalAlign.BOTTOM -> recyclerView.height - paddingBottom.toFloat()
+            VerticalAlign.TOP -> 0f
+        }
 
         val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
         val firstVisibleItemPosition = layoutManager?.findFirstVisibleItemPosition()
@@ -102,7 +103,8 @@ class ScaleLinePageIndicatorDecoration(
                 indicatorPosY,
                 itemsCount,
                 activePosition,
-                progress
+                progress,
+                verticalAlign
         )
     }
 
@@ -112,14 +114,19 @@ class ScaleLinePageIndicatorDecoration(
             startY: Float,
             itemsCount: Int,
             activePosition: Int,
-            progress: Float
+            progress: Float,
+            verticalAlign: VerticalAlign
     ) {
         val diff = indicatorDiff * progress
         var currentStartX = startX
         for (index in 0 until itemsCount) {
             val indicatorWidth = calculateIndicatorWidth(index, activePosition, itemsCount, diff)
             indicatorPaint.color = calculateColor(index, activePosition, itemsCount, progress)
-            val rect = RectF(currentStartX, startY, currentStartX + indicatorWidth, startY - indicatorHeight)
+            val bottom = when (verticalAlign) {
+                VerticalAlign.BOTTOM -> startY - indicatorHeight
+                VerticalAlign.TOP -> startY + indicatorHeight
+            }
+            val rect = RectF(currentStartX, startY, currentStartX + indicatorWidth, bottom)
             canvas.drawRoundRect(rect, indicatorRadius.toFloat(), indicatorRadius.toFloat(), indicatorPaint)
             currentStartX += (indicatorWidth + paddingBetween)
         }
@@ -166,6 +173,13 @@ class ScaleLinePageIndicatorDecoration(
 /**
  * Выравнивание индикаторов во вью
  */
-enum class IndicatorAlign {
+enum class HorizontalAlign {
     LEFT, CENTER, RIGHT
+}
+
+/**
+ * Расположение индикаторов в списке
+ */
+enum class VerticalAlign {
+    TOP, BOTTOM
 }

@@ -64,7 +64,7 @@ class CarouselDecoratorActivityView : AppCompatActivity() {
 
         val decoratorScaleLine = Decorator.Builder()
                 .overlay(GradientBackgroundDecoration())
-                .overlay((ScaleLinePageIndicatorDecoration()))
+                .overlay(ScaleLinePageIndicatorDecoration())
                 .offset(simpleOffsetDrawer2)
                 .build()
         pager_scale_line_rv.addItemDecoration(decoratorScaleLine)
