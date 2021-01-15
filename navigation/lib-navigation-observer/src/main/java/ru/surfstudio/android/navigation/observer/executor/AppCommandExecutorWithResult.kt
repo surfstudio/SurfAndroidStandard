@@ -7,7 +7,7 @@ import ru.surfstudio.android.navigation.executor.screen.dialog.DialogCommandExec
 import ru.surfstudio.android.navigation.executor.screen.fragment.FragmentCommandExecutor
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.command.EmitScreenResult
-import ru.surfstudio.android.navigation.observer.command.StartForResult
+import ru.surfstudio.android.navigation.observer.command.activity.StartForResult
 import ru.surfstudio.android.navigation.observer.executor.screen.activity.ActivityCommandWithResultExecutor
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 

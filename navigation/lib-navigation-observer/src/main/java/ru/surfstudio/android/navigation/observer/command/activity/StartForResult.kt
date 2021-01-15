@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.observer.command
+package ru.surfstudio.android.navigation.observer.command.activity
 
 import android.os.Bundle
 import ru.surfstudio.android.navigation.animation.Animations

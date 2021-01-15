@@ -4,7 +4,7 @@ import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigation
 import ru.surfstudio.android.navigation.executor.screen.activity.ActivityCommandExecutor
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.command.EmitScreenResult
-import ru.surfstudio.android.navigation.observer.command.StartForResult
+import ru.surfstudio.android.navigation.observer.command.activity.StartForResult
 import ru.surfstudio.android.navigation.observer.executor.ScreenResultDispatcher
 import ru.surfstudio.android.navigation.observer.navigator.activity.ActivityNavigatorWithResultInterface
 import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute

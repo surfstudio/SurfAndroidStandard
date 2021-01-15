@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_profile.*
 import ru.surfstudio.android.navigation.command.activity.Start
 import ru.surfstudio.android.navigation.command.fragment.ReplaceHard
-import ru.surfstudio.android.navigation.observer.command.StartForResult
+import ru.surfstudio.android.navigation.observer.command.activity.StartForResult
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.auth.AuthRoute
