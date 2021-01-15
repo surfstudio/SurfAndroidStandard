@@ -15,7 +15,4 @@ internal sealed class ${eventClassName}: Event {
     data class Navigation(
         override var event: NavCommandsEvent = NavCommandsEvent()
     ) : ${eventClassName}(), NavCommandsComposition
-
-     override var event: NavCommandsEvent = NavCommandsEvent()
-        ) : ${eventClassName}(), NavCommandsComposition
 }
