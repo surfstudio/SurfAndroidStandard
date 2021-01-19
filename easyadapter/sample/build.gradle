@@ -27,6 +27,7 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "easyadapter")
     DependencyConfigurator.projectImplementation(project, "easyadapter-pagination")
     DependencyConfigurator.projectImplementation(project, "picture-provider")
+    DependencyConfigurator.projectImplementation(project, "datalist-base")
     DependencyConfigurator.projectImplementation(project, "datalist-limit-offset")
     DependencyConfigurator.projectImplementation(project, "datalist-page-count")
 

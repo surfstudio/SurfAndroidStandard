@@ -118,7 +118,7 @@
   {
     "id": "app-migration",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "app-migration",
     "libs": [
@@ -149,6 +149,59 @@
         "dir": "sample"
       }
     ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "biometrics",
+    "version": "0.5.0",
+    "unstable_version": 2,
+    "stable": false,
+    "dir": "biometrics",
+    "libs": [
+      {
+        "name": "biometrics",
+        "dir": "lib-biometrics",
+        "artifact_name": "biometrics",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.biometric:biometric",
+            "type": "implementation"
+          },
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          },
+          {
+            "name": "com.google.dagger:dagger",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "security",
+            "type": "api"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "filestorage",
+            "type": "api"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -710,7 +763,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 10,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -741,6 +794,14 @@
           },
           {
             "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.lifecycle:lifecycle-common-java8",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.lifecycle:lifecycle-runtime-ktx",
             "type": "implementation"
           }
         ],
@@ -963,7 +1024,7 @@
   {
     "id": "datalist",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "datalist",
     "libs": [
@@ -985,6 +1046,10 @@
           {
             "name": "rx-extension",
             "type": "implementation"
+          },
+          {
+            "name": "datalist-base",
+            "type": "api"
           }
         ]
       },
@@ -1010,8 +1075,19 @@
           {
             "name": "rx-extension",
             "type": "implementation"
+          },
+          {
+            "name": "datalist-base",
+            "type": "api"
           }
         ]
+      },
+      {
+        "name": "datalist-base",
+        "dir": "lib-datalist-base",
+        "artifact_name": "datalist-base",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": []
       }
     ],
     "samples": [],
@@ -1774,9 +1850,9 @@
   },
   {
     "id": "recycler-decorator",
-    "version": "1.0.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "1.0.1",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "recycler-decorator",
     "libs": [
       {
@@ -1890,7 +1966,7 @@
   {
     "id": "security",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 9,
     "stable": false,
     "dir": "security",
     "libs": [
@@ -2065,7 +2141,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 36,
+    "unstable_version": 40,
     "stable": false,
     "dir": "template",
     "libs": [],

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_create_pin.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -34,7 +35,8 @@ class CreatePinActivityView : BaseRenderableActivityView<CreatePinScreenModel>()
     }
 
     override fun renderInternal(screenModel: CreatePinScreenModel) {
-        enter_pin_et.text.clear()
+        encrypt_pin_by_biometrics.isVisible = screenModel.isBiometricsAvailable
+        encrypted_pin_et.setText(screenModel.encryptedPin)
     }
 
     override fun getScreenName(): String = "session"
@@ -42,6 +44,8 @@ class CreatePinActivityView : BaseRenderableActivityView<CreatePinScreenModel>()
     private fun initListeners() {
         enter_pin_btn.setOnClickListener { presenter.submitPin(getPin()) }
         get_api_key_btn.setOnClickListener { presenter.getApiKey(getPin()) }
+        encrypt_pin_by_biometrics.setOnClickListener { presenter.encryptPin(getPin()) }
+        decrypt_pin_btn.setOnClickListener { presenter.decryptPin(encrypted_pin_et.text.toString()) }
     }
 
     private fun getPin(): String = enter_pin_et.text.toString()
