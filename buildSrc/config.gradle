@@ -48,6 +48,7 @@ ext {
             "androidx.multidex:multidex"                       : "2.0.1",        //http://bit.ly/2r6uX9G
             "androidx.exifinterface:exifinterface"             : "1.1.0",        //http://bit.ly/2DPqlw6
             "androidx.asynclayoutinflater:asynclayoutinflater" : "1.0.0",        //https://bit.ly/39rzXcW
+            "androidx.biometric:biometric"                     : "1.0.1",        //https://bit.ly/34Rat7U
             "androidx.test:runner"                             : "1.2.0",        //http://bit.ly/2ztEfBo
             "androidx.test.espresso:espresso-core"             : "3.2.0",        //http://bit.ly/2DNc0AA
             "androidx.test:core"                               : "1.2.0",        //http://bit.ly/2P1yKi1
