@@ -153,6 +153,59 @@
     "mirror_repo": ""
   },
   {
+    "id": "biometrics",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "biometrics",
+    "libs": [
+      {
+        "name": "biometrics",
+        "dir": "lib-biometrics",
+        "artifact_name": "biometrics",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.biometric:biometric",
+            "type": "implementation"
+          },
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          },
+          {
+            "name": "com.google.dagger:dagger",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "security",
+            "type": "api"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "filestorage",
+            "type": "api"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "broadcast-extension",
     "version": "0.5.0",
     "unstable_version": 5,
