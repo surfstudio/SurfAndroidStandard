@@ -17,6 +17,6 @@ internal class RoundBlackGooglePayButton @JvmOverloads constructor(
     )
 
     init {
-        readAttrs(attrs)
+        initializeInternal(attrs)
     }
 }

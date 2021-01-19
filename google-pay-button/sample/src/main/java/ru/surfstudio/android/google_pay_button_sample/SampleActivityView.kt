@@ -10,7 +10,7 @@ import ru.surfstudio.android.google_pay_button.GooglePayButton
 import ru.surfstudio.android.utilktx.util.ViewUtil
 import kotlin.random.Random
 
-internal class GooglePayButtonSampleActivityView : AppCompatActivity(R.layout.sample_activity_google_pay_button) {
+internal class SampleActivityView : AppCompatActivity(R.layout.sample_activity_google_pay_button) {
 
     private val randomizer = Random(System.currentTimeMillis())
 
@@ -46,7 +46,7 @@ internal class GooglePayButtonSampleActivityView : AppCompatActivity(R.layout.sa
         val isRoundBlack = isBlack && randomizer.nextBoolean()
 
         val titleText = StringBuilder().apply {
-            append(if (isRoundBlack) "Round " else "Default ")
+            append(if (isRoundBlack) "Custom round " else "Default ")
             append(if (isEnabled) "enabled " else "disabled ")
             append(styleToTitleMap[style].orEmpty())
         }

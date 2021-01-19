@@ -12,6 +12,6 @@ internal class DefaultGooglePayButton @JvmOverloads constructor(
 ) : GooglePayButton(context,  attrs, defStyleAttr){
 
     init {
-        readAttrs(attrs)
+        initializeInternal(attrs)
     }
 }

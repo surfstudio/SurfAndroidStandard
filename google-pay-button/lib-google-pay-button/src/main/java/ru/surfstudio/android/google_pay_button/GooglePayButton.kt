@@ -11,45 +11,32 @@ import androidx.core.view.updateLayoutParams
 /**
  * Reusable and styleable Google Pay button.
  *
- * Should be inflated only through layout file.
+ * To use and customize this button you should implement your own project implementation of this button,
+ * setup some [backgroundOverrideDrawableResources] and [contentOverrideDrawableResources] if necessary,
+ * and at the end call [initializeInternal] method in the constructor.
  *
- * **For view customisation use attributes described below**.
+ * You can change [GooglePayButton.Style] in the runtime with [setStyle] method which will recreate
+ * and reconfigure views to fit new style well.
  *
- * ####
- *
- * ### **`gpbTextHeightPercent`**:
- *
- * **Description**: Height of GPay text in percentage of height.
- *
- * **Possible values**: any value in range from `0.0` to `1.0`.
- *
- * **Default**: `0.5`.
- *
- * ####
- *
- * ### **`gpbStyle`**:
- *
- * **Description**: Visual style of this button created by official Google Guidelines.
- *
- * **Possible values**: `black_gpay`, `black_buy_with_gpay`, `black_flat_gpay`,
- * `black_flat_buy_with_gpay`, `white_gpay`, `white_buy_with_gpay`,
- * `white_flat_gpay`, `white_flat_buy_with_gpay`.
- *
- * **Default**: `black_gpay`.
+ * Also you can change content scale by [setContentScale] at the runtime as well.
  * */
-@Deprecated("update doc")
 abstract class GooglePayButton @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
+    /** Map of "style to drawable resource" which allow developer to override background of the concrete style. */
     protected open var backgroundOverrideDrawableResources: Map<Style, Int> = emptyMap()
+
+    /** Map of "style to drawable resource" which allow developer to override content of the concrete style. */
     protected open var contentOverrideDrawableResources: Map<Style, Int> = emptyMap()
 
+    /** Current applied style of this button. */
     protected var currentStyle: Style? = null
         private set
 
+    /** Scale of the content drawable of this button. */
     protected var contentScale: Float = DEFAULT_CONTENT_SCALE
         private set
 
@@ -116,7 +103,12 @@ abstract class GooglePayButton @JvmOverloads constructor(
         setContentScaleInternal()
     }
 
-    protected fun readAttrs(attrs: AttributeSet?) {
+    /**
+     * Read attributes, (re-)create views and apply previous available view configuration.
+     *
+     * **Should be called from constructor of child.**
+     * */
+    protected fun initializeInternal(attrs: AttributeSet?) {
         context.withStyledAttributes(attrs, R.styleable.GooglePayButton) {
             val contentScale = getFloat(R.styleable.GooglePayButton_gpbContentScale, DEFAULT_CONTENT_SCALE)
             val style = getInteger(R.styleable.GooglePayButton_gpbStyle, Style.BLACK_LOGO.ordinal)
