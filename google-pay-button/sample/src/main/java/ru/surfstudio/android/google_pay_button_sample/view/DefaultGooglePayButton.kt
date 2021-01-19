@@ -1,4 +1,4 @@
-package ru.surfstudio.android.google_pay_button_sample
+package ru.surfstudio.android.google_pay_button_sample.view
 
 import android.content.Context
 import android.util.AttributeSet

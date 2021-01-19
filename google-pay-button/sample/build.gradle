@@ -10,4 +10,5 @@ android {
 
 dependencies {
     DependencyConfigurator.projectImplementation(project, "google-pay-button")
+    DependencyConfigurator.projectImplementation(project, "sample-common")
 }

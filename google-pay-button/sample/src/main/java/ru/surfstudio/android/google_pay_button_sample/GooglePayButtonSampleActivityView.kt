@@ -7,10 +7,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.sample_activity_google_pay_button.*
 import ru.surfstudio.android.google_pay_button.GooglePayButton
+import ru.surfstudio.android.google_pay_button_sample.view.DefaultGooglePayButton
+import ru.surfstudio.android.google_pay_button_sample.view.RoundBlackGooglePayButton
 import ru.surfstudio.android.utilktx.util.ViewUtil
 import kotlin.random.Random
 
-internal class SampleActivityView : AppCompatActivity(R.layout.sample_activity_google_pay_button) {
+internal class GooglePayButtonSampleActivityView : AppCompatActivity(R.layout.sample_activity_google_pay_button) {
 
     private val randomizer = Random(System.currentTimeMillis())
 

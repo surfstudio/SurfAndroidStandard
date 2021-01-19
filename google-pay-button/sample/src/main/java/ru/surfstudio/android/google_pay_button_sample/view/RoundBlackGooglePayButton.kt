@@ -1,8 +1,9 @@
-package ru.surfstudio.android.google_pay_button_sample
+package ru.surfstudio.android.google_pay_button_sample.view
 
 import android.content.Context
 import android.util.AttributeSet
 import ru.surfstudio.android.google_pay_button.GooglePayButton
+import ru.surfstudio.android.google_pay_button_sample.R
 
 /** Custom project implementation of black [GooglePayButton] with round corners. */
 internal class RoundBlackGooglePayButton @JvmOverloads constructor(
