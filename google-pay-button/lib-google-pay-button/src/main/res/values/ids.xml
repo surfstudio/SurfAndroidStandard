@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="google_pay_button" type="id" />
-    <item name="google_pay_button_text" type="id" />
+    <item name="google_pay_button_view" type="id" />
+    <item name="google_pay_button_text_view" type="id" />
 </resources>

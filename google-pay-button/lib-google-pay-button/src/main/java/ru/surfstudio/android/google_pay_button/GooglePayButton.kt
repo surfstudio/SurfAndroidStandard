@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.withStyledAttributes
 import androidx.core.view.updateLayoutParams
 
 /**
@@ -16,7 +17,7 @@ import androidx.core.view.updateLayoutParams
  *
  * ####
  *
- * ### **`gpcTextHeightPercent`**:
+ * ### **`gpbTextHeightPercent`**:
  *
  * **Description**: Height of GPay text in percentage of height.
  *
@@ -36,94 +37,200 @@ import androidx.core.view.updateLayoutParams
  *
  * **Default**: `black_gpay`.
  * */
+@Deprecated("update doc")
 class GooglePayButton @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private val gpayButton: View
-    private val gpayButtonText: View
+    protected var currentStyle: Style? = null
+        private set
+
+    protected var contentScale: Float = DEFAULT_CONTENT_SCALE
+        private set
+
+    private var isEnabledInternal: Boolean = true
+    private var isClickableInternal: Boolean = true
+    private var isFocusedInternal: Boolean = false
+    private var isFocusableInternal: Boolean = true
+    private var onClickListenerInternal: OnClickListener? = null
+
+    private var googlePayButtonView: View? = null
+    private var googlePayButtonTextView: View? = null
 
     init {
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.GooglePayButton)
-        val buttonStyle = ta.getInteger(
-                R.styleable.GooglePayButton_gpbStyle,
-                Style.BLACK_GPAY.ordinal
-        ).let(Style.Companion::getByOrdinal)
-        val textHeightPercent = ta.getFloat(
-                R.styleable.GooglePayButton_gpcTextHeightPercent,
-                DEFAULT_HEIGHT_PERCENTAGE
-        )
-        ta.recycle()
-
-        val layoutResId = when (buttonStyle) {
-            Style.BLACK_GPAY -> R.layout.google_pay_button_black
-            Style.BLACK_BUY_WITH_GPAY -> R.layout.google_pay_button_black_buy_with_gpay
-            Style.BLACK_FLAT_GPAY -> R.layout.google_pay_button_black_flat
-            Style.BLACK_FLAT_BUY_WITH_GPAY -> R.layout.google_pay_button_black_flat_buy_with_gpay
-            Style.WHITE_GPAY -> R.layout.google_pay_button_white
-            Style.WHITE_BUTTON_WITH_GPAY -> R.layout.google_pay_button_white_buy_with_gpay
-            Style.WHITE_FLAT_GPAY -> R.layout.google_pay_button_white_flat
-            Style.WHITE_FLAT_BUY_WITH_GPAY -> R.layout.google_pay_button_white_flat_buy_with_gpay
-        }
-        inflate(context, layoutResId, this)
-        gpayButton = findViewById(R.id.google_pay_button)
-        gpayButtonText = findViewById(R.id.google_pay_button_text)
-        gpayButtonText.updateLayoutParams<ConstraintLayout.LayoutParams> {
-            matchConstraintPercentHeight = textHeightPercent
-        }
+        readAttrs(attrs)
     }
 
     override fun isEnabled(): Boolean {
-        return gpayButton.isEnabled
+        return isEnabledInternal
     }
 
     override fun isClickable(): Boolean {
-        return gpayButton.isClickable
+        return isClickableInternal
     }
 
     override fun isFocused(): Boolean {
-        return gpayButton.isFocused
+        return isFocusedInternal
     }
 
     override fun setOnClickListener(listener: OnClickListener?) {
-        gpayButton.setOnClickListener(listener)
+        onClickListenerInternal = listener
+        setOnClickListenerInternal()
     }
 
     override fun setEnabled(isEnabled: Boolean) {
-        gpayButton.isEnabled = isEnabled
+        isEnabledInternal = isEnabled
+        setIsEnabledInternal()
     }
 
     override fun setClickable(isClickable: Boolean) {
-        gpayButton.isClickable = isClickable
+        isClickableInternal = isClickable
+        setClickableInternal()
     }
 
     override fun setFocusable(isFocusable: Boolean) {
-        gpayButton.isFocusable = isFocusable
+        isFocusableInternal = isFocusable
+        setFocusableInternal()
+    }
+
+    /** Set [Style] of this button. Recreate if necessary and apply previous view configuration. */
+    fun setStyle(style: Style) {
+        if (style != currentStyle) {
+            inflateWithStyle(style)
+        }
+        setOnClickListenerInternal()
+        setIsEnabledInternal()
+        setClickableInternal()
+        setFocusableInternal()
+        setContentScaleInternal()
+    }
+
+    /** Set scale of the content inside button (logotype or text).  */
+    fun setContentScale(scale: Float = DEFAULT_CONTENT_SCALE) {
+        contentScale = try {
+            scale / 2f
+        } catch (error: ArithmeticException) {
+            DEFAULT_CONTENT_SCALE
+        }
+        setContentScaleInternal()
+    }
+
+    protected fun readAttrs(attrs: AttributeSet?) {
+        context.withStyledAttributes(attrs, R.styleable.GooglePayButton) {
+            val contentScale = getFloat(R.styleable.GooglePayButton_gpbContentScale, DEFAULT_CONTENT_SCALE)
+            val style = getInteger(R.styleable.GooglePayButton_gpbStyle, Style.BLACK_LOGO.ordinal)
+                    .let { Style.getByOrdinal(it) }
+            setContentScale(contentScale)
+            setStyle(style)
+        }
+    }
+
+    private fun inflateWithStyle(style: Style) {
+        googlePayButtonTextView = null
+        googlePayButtonView = null
+        removeAllViews()
+        val layoutResId = when (style) {
+            Style.BLACK_LOGO -> R.layout.google_pay_button_black_logo
+            Style.BLACK_TEXT -> R.layout.google_pay_button_black_text
+            Style.BLACK_FLAT_LOGO -> R.layout.google_pay_button_black_flat_logo
+            Style.BLACK_FLAT_TEXT -> R.layout.google_pay_button_black_flat_text
+            Style.WHITE_LOGO -> R.layout.google_pay_button_white_logo
+            Style.WHITE_TEXT -> R.layout.google_pay_button_white_text
+            Style.WHITE_FLAT_LOGO -> R.layout.google_pay_button_white_flat_logo
+            Style.WHITE_FLAT_TEXT -> R.layout.google_pay_button_white_flat_text
+        }
+        inflate(context, layoutResId, this)
+        googlePayButtonView = findViewById(R.id.google_pay_button_view)
+        googlePayButtonTextView = findViewById(R.id.google_pay_button_text_view)
+    }
+
+    private fun setOnClickListenerInternal() {
+        googlePayButtonView?.setOnClickListener(onClickListenerInternal)
+    }
+
+    private fun setIsEnabledInternal() {
+        googlePayButtonView?.isEnabled = isEnabledInternal
+    }
+
+    private fun setClickableInternal() {
+        googlePayButtonView?.isClickable = isClickableInternal
+    }
+
+    private fun setFocusableInternal() {
+        googlePayButtonView?.isFocusable = isFocusableInternal
+    }
+
+    private fun setContentScaleInternal() {
+        googlePayButtonTextView?.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            matchConstraintPercentHeight = contentScale
+        }
     }
 
     /** Visual style of [GooglePayButton]. */
     enum class Style {
-        BLACK_GPAY,
-        BLACK_BUY_WITH_GPAY,
-        BLACK_FLAT_GPAY,
-        BLACK_FLAT_BUY_WITH_GPAY,
-        WHITE_GPAY,
-        WHITE_BUTTON_WITH_GPAY,
-        WHITE_FLAT_GPAY,
-        WHITE_FLAT_BUY_WITH_GPAY;
+
+        /**
+         * Black button with "GPay" logotype,
+         * corresponds to the [R.layout.google_pay_button_black_logo] layout.
+         * */
+        BLACK_LOGO,
+
+        /**
+         * Black button with "Buy with GPay" text,
+         * corresponds to the [R.layout.google_pay_button_black_text] layout.
+         * */
+        BLACK_TEXT,
+
+        /**
+         * Black flat button with "GPay" logotype,
+         * corresponds to the [R.layout.google_pay_button_black_flat_logo] layout.
+         * */
+        BLACK_FLAT_LOGO,
+
+        /**
+         * Black flat button with "Buy with GPay" text,
+         * corresponds to the [R.layout.google_pay_button_black_flat_text] layout.
+         * */
+        BLACK_FLAT_TEXT,
+
+        /**
+         * White button with "GPay" logotype,
+         * corresponds to the [R.layout.google_pay_button_white_logo] layout.
+         * */
+        WHITE_LOGO,
+
+        /**
+         * White button with "Buy with GPay" text,
+         * corresponds to the [R.layout.google_pay_button_white_text] layout.
+         * */
+        WHITE_TEXT,
+
+        /**
+         * White flat button with "GPay" logotype,
+         * corresponds to the [R.layout.google_pay_button_white_flat_logo] layout.
+         * */
+        WHITE_FLAT_LOGO,
+
+        /**
+         * White flat button with "Buy with GPay" text,
+         * corresponds to the [R.layout.google_pay_button_white_flat_text] layout.
+         * */
+        WHITE_FLAT_TEXT;
 
         companion object {
 
-            /** Get [Style] by it's ordinal. Fallback is [BLACK_GPAY]. */
-            fun getByOrdinal(ordinal: Int): Style {
-                return values().getOrNull(ordinal) ?: BLACK_GPAY
+            /** Get [Style] by it's ordinal, if not found -- [fallback] returned. */
+            fun getByOrdinal(ordinal: Int, fallback: Style = BLACK_LOGO): Style {
+                return values().getOrNull(ordinal) ?: fallback
             }
         }
     }
 
-    private companion object {
-        const val DEFAULT_HEIGHT_PERCENTAGE = 0.5f
+    companion object {
+
+        /** Default scale of the content (text or logotype) inside button. */
+        const val DEFAULT_CONTENT_SCALE = 1f
     }
 }

@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@id/google_pay_button"
+    android:id="@id/google_pay_button_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/google_pay_button_background_white"
+    android:background="@drawable/google_pay_button_background_black_flat"
     android:clickable="true"
     android:contentDescription="@string/buy_with_google_pay_button_content_description"
     android:focusable="true"
     android:minHeight="48sp">
 
     <ImageView
-        android:id="@id/google_pay_button_text"
+        android:id="@id/google_pay_button_text_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_gravity="center"
         android:duplicateParentState="true"
         android:padding="4sp"
         android:scaleType="fitCenter"
-        android:src="@drawable/google_pay_button_content_white_buy_with_gpay"
+        android:src="@drawable/google_pay_button_content_black_buy_with_gpay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_percent="0.5"
         app:layout_constraintTop_toTopOf="parent" />

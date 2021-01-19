@@ -2,8 +2,8 @@
 <resources>
     <!-- Reusable and styleable Google Pay button. -->
     <declare-styleable name="GooglePayButton">
-        <!-- Value from 0.0 to 1.0. Default: 0.5. Setup height of GPay text in percentage of height. -->
-        <attr name="gpcTextHeightPercent" format="float" />
+        <!-- Set scale of the content inside button (logotype or text). Default is 1. -->
+        <attr name="gpbContentScale" format="float" />
         <attr name="gpbStyle" format="enum">
             <enum name="black_gpay" value="0" />
             <enum name="black_buy_with_gpay" value="1" />

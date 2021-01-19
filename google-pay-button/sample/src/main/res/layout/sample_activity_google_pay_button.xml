@@ -264,7 +264,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:gpcTextHeightPercent="0.4"
+            app:gpbContentScale="0.5"
             app:gpbStyle="white_flat_buy_with_gpay" />
 
         <TextView
@@ -280,7 +280,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:gpcTextHeightPercent="0.6"
+            app:gpbContentScale="1.5"
             app:gpbStyle="white_flat_buy_with_gpay" />
 
         <TextView
@@ -296,7 +296,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:gpcTextHeightPercent="1"
+            app:gpbContentScale="2"
             app:gpbStyle="white_flat_buy_with_gpay" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
