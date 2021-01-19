@@ -2,8 +2,8 @@ package ru.surfstudio.android.google_pay_button
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.updateLayoutParams
@@ -38,11 +38,14 @@ import androidx.core.view.updateLayoutParams
  * **Default**: `black_gpay`.
  * */
 @Deprecated("update doc")
-class GooglePayButton @JvmOverloads constructor(
+abstract class GooglePayButton @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
+
+    protected open var backgroundOverrideDrawableResources: Map<Style, Int> = emptyMap()
+    protected open var contentOverrideDrawableResources: Map<Style, Int> = emptyMap()
 
     protected var currentStyle: Style? = null
         private set
@@ -56,12 +59,8 @@ class GooglePayButton @JvmOverloads constructor(
     private var isFocusableInternal: Boolean = true
     private var onClickListenerInternal: OnClickListener? = null
 
-    private var googlePayButtonView: View? = null
-    private var googlePayButtonTextView: View? = null
-
-    init {
-        readAttrs(attrs)
-    }
+    private var googlePayButtonView: ConstraintLayout? = null
+    private var googlePayButtonContentView: ImageView? = null
 
     override fun isEnabled(): Boolean {
         return isEnabledInternal
@@ -128,7 +127,7 @@ class GooglePayButton @JvmOverloads constructor(
     }
 
     private fun inflateWithStyle(style: Style) {
-        googlePayButtonTextView = null
+        googlePayButtonContentView = null
         googlePayButtonView = null
         removeAllViews()
         val layoutResId = when (style) {
@@ -143,7 +142,13 @@ class GooglePayButton @JvmOverloads constructor(
         }
         inflate(context, layoutResId, this)
         googlePayButtonView = findViewById(R.id.google_pay_button_view)
-        googlePayButtonTextView = findViewById(R.id.google_pay_button_text_view)
+        googlePayButtonContentView = findViewById(R.id.google_pay_button_content_view)
+        backgroundOverrideDrawableResources[style]?.let { backgroundOverride ->
+            googlePayButtonView?.setBackgroundResource(backgroundOverride)
+        }
+        contentOverrideDrawableResources[style]?.let { contentOverride ->
+            googlePayButtonContentView?.setImageResource(contentOverride)
+        }
     }
 
     private fun setOnClickListenerInternal() {
@@ -163,7 +168,7 @@ class GooglePayButton @JvmOverloads constructor(
     }
 
     private fun setContentScaleInternal() {
-        googlePayButtonTextView?.updateLayoutParams<ConstraintLayout.LayoutParams> {
+        googlePayButtonContentView?.updateLayoutParams<ConstraintLayout.LayoutParams> {
             matchConstraintPercentHeight = contentScale
         }
     }

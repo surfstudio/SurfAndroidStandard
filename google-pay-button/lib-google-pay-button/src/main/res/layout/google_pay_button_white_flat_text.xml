@@ -11,7 +11,7 @@
     android:minHeight="48sp">
 
     <ImageView
-        android:id="@id/google_pay_button_text_view"
+        android:id="@id/google_pay_button_content_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
