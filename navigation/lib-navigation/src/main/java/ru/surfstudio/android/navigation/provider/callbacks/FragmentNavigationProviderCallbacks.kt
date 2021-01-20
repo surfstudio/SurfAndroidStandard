@@ -58,16 +58,18 @@ open class FragmentNavigationProviderCallbacks(
     }
 
     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
-        Log.d("111111 Create", "Fragment=$f, Manager=$fm")
+        Log.d("Create", "Fragment=$f, Manager=$fm")
 
         val id = getFragmentId(f)
         val hasFragmentWithSameId = activeFragments.any { getFragmentId(it) == id }
-        if (hasFragmentWithSameId) error("You must specify unique tag for each fragment! Tag=$id")
+        if (hasFragmentWithSameId) {
+            Log.e("Create", "You must specify unique tag for each fragment! Tag=$id")
+        } else {
+            activeFragments.add(f)
 
-        activeFragments.add(f)
-
-        if (f !is FragmentNavigationContainer) return
-        addHolder(id, f, f.childFragmentManager, savedInstanceState)
+            if (f !is FragmentNavigationContainer) return
+            addHolder(id, f, f.childFragmentManager, savedInstanceState)
+        }
     }
 
     override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) {
