@@ -16,6 +16,8 @@
 package ru.surfstudio.android.core.ui.navigation.fragment;
 
 
+import androidx.annotation.AnimRes;
+import androidx.annotation.AnimatorRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
@@ -53,12 +55,25 @@ public class FragmentNavigator implements Navigator {
     }
 
     public void add(FragmentRoute route, boolean stackable, @Transit int transition) {
+        add(route, stackable, transition, 0, 0);
+    }
+
+    public void add(
+            FragmentRoute route,
+            boolean stackable,
+            @Transit int transition,
+            @AnimatorRes @AnimRes int enter,
+            @AnimatorRes @AnimRes int exit
+    ) {
         int viewContainerId = getViewContainerIdOrThrow();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.executePendingTransactions();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(viewContainerId, route.createFragment(), route.getTag());
+        if (enter != 0 && exit != 0) {
+            fragmentTransaction.setCustomAnimations(enter, exit);
+        }
         fragmentTransaction.setTransition(transition);
         if (stackable) {
             fragmentTransaction.addToBackStack(route.getTag());
@@ -86,6 +101,19 @@ public class FragmentNavigator implements Navigator {
      * @return возвращает {@code true} если фрагмент был удален успешно
      */
     public boolean remove(FragmentRoute route, @Transit int transition) {
+        return remove(route, transition, 0, 0);
+    }
+
+
+    /**
+     * @return возвращает {@code true} если фрагмент был удален успешно
+     */
+    public boolean remove(
+            FragmentRoute route,
+            @Transit int transition,
+            @AnimatorRes @AnimRes int enter,
+            @AnimatorRes @AnimRes int exit
+    ) {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.executePendingTransactions();
 
@@ -94,11 +122,13 @@ public class FragmentNavigator implements Navigator {
             return false;
         }
 
-        fragmentManager.beginTransaction()
-                .setTransition(transition)
-                .remove(fragment)
-                .commit();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                .setTransition(transition);
 
+        if (enter != 0 && exit != 0) {
+            fragmentTransaction = fragmentTransaction.setCustomAnimations(enter, exit);
+        }
+        fragmentTransaction.remove(fragment).commit();
         return true;
     }
 
@@ -195,6 +225,10 @@ public class FragmentNavigator implements Navigator {
 
         return fragmentManager.popBackStackImmediate(fragmentManager.getBackStackEntryAt(backStackCount - 1).getName(),
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    public boolean isBackStackEmpty() {
+        return getFragmentManager().getBackStackEntryCount() == 0;
     }
 
     protected FragmentManager getFragmentManager() {
