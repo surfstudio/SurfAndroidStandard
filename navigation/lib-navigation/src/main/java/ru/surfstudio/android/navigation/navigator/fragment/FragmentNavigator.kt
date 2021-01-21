@@ -191,6 +191,7 @@ open class FragmentNavigator(
         }
     }
 
+    @Synchronized
     private fun runTransaction(action: () -> Unit) {
         if (!isTransactionActive) {
             isTransactionActive = true
