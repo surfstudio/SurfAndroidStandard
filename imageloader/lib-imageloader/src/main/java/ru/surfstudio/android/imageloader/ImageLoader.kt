@@ -28,10 +28,12 @@ import androidx.annotation.WorkerThread
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
@@ -43,6 +45,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
 import ru.surfstudio.android.imageloader.data.*
 import ru.surfstudio.android.imageloader.transformations.BlurTransformation.BlurBundle
+import ru.surfstudio.android.imageloader.transformations.CropTransformation
 import ru.surfstudio.android.imageloader.transformations.MaskTransformation.OverlayBundle
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
@@ -205,6 +208,22 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun centerCrop(isCrop: Boolean) =
             apply { this.imageTransformationsManager.isCenterCrop = isCrop }
 
+    override fun customCrop(isCustomCrop: Boolean, cropType: CropTransformation.CropType) =
+            also {
+                imageTransformationsManager.cropBundle =
+                        CropTransformation.CropBundle(
+                                isCustomCrop,
+                                this.imageTransformationsManager.imageSizeManager.maxWidth,
+                                this.imageTransformationsManager.imageSizeManager.maxHeight,
+                                cropType
+                        )
+            }
+
+    override fun filterBitmapOnScale(isFilterBitmapOnScale: Boolean): ImageLoaderInterface =
+            apply {
+                imageTransformationsManager.isFilterBitmapOnScale = isFilterBitmapOnScale
+            }
+
     /**
      * Преобразование прямоугольного изображения в круглое.
      *
@@ -350,6 +369,32 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             }
         }
         return result
+    }
+
+    override fun loadGif(imageView: ImageView, onAnimationStart: () -> Unit) {
+        val requestOptions = RequestOptions()
+                .format(DecodeFormat.PREFER_RGB_565)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+
+        Glide.with(context)
+                .asGif()
+                .load(imageResourceManager.toLoad())
+                .apply(requestOptions)
+                .into(object : CustomViewTarget<ImageView, GifDrawable>(imageView) {
+                    override fun onLoadFailed(errorDrawable: Drawable?) {
+                        onAnimationStart.invoke()
+                    }
+
+                    override fun onResourceCleared(placeholder: Drawable?) { /* do nothing */
+                    }
+
+                    override fun onResourceReady(resource: GifDrawable, transition: Transition<in GifDrawable>?) {
+                        resource.setLoopCount(1)
+                        imageView.setImageDrawable(resource)
+                        resource.start()
+                        onAnimationStart.invoke()
+                    }
+                })
     }
 
     /**
