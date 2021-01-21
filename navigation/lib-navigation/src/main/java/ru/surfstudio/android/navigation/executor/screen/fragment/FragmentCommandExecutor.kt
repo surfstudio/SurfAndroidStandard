@@ -29,7 +29,7 @@ open class FragmentCommandExecutor(
             is Replace -> navigator.replace(command.route, command.animations)
             is ReplaceHard -> navigator.replaceHard(command.route, command.animations)
             is Remove -> navigator.remove(command.route, command.animations)
-            is RemoveLast -> navigator.removeLast(command.animations)
+            is RemoveLast -> navigator.removeLast(command.route, command.animations)
             is RemoveUntil -> navigator.removeUntil(command.route, command.animations, command.isInclusive)
             is RemoveAll -> navigator.removeAll(command.animations, command.shouldRemoveLast)
         }
