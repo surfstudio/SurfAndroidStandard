@@ -37,7 +37,9 @@ data class ImageTransformationsManager(
         var overlayBundle: OverlayBundle = OverlayBundle(),
         var isDownsampled: Boolean = false,
         var sizeMultiplier: Float = 1f,
-        var tileBundle: TileBundle = TileBundle()
+        var tileBundle: TileBundle = TileBundle(),
+        var cropBundle: CropTransformation.CropBundle = CropTransformation.CropBundle(),
+        var isFilterBitmapOnScale: Boolean = false
 ) {
 
     private var transformations = arrayListOf<Transformation<Bitmap>>()   //список всех применяемых трансформаций
@@ -50,7 +52,7 @@ data class ImageTransformationsManager(
                     .apply {
                         clear()
                         if (imageSizeManager.isMaxHeightSetUp() || imageSizeManager.isMaxWidthSetUp())
-                            add(SizeTransformation(imageSizeManager = imageSizeManager))
+                            add(SizeTransformation(filterOnScale = isFilterBitmapOnScale, imageSizeManager = imageSizeManager))
                         if (tileBundle.isTiled)
                             add(TileTransformation(tileBundle))
                         if (isCenterCrop) add(CenterCropTransformation())
@@ -61,5 +63,7 @@ data class ImageTransformationsManager(
                             add(BlurTransformation(blurBundle))
                         if (overlayBundle.isOverlay)
                             add(MaskTransformation(overlayBundle))
+                        if (cropBundle.isCustomCrop)
+                            add(CropTransformation(cropBundle))
                     }
 }

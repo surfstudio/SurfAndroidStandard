@@ -20,11 +20,13 @@ import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
 import ru.surfstudio.android.imageloader.data.CacheStrategy
 import ru.surfstudio.android.imageloader.data.ImageSource
+import ru.surfstudio.android.imageloader.transformations.CropTransformation
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.util.BlurStrategy
 
@@ -135,6 +137,27 @@ interface ImageLoaderInterface {
      * @param isCrop флаг активации трансформации
      */
     fun centerCrop(isCrop: Boolean = true): ImageLoaderInterface
+
+
+    /**
+     * Масштабирование изображения по размеру виджета с возможностью задать сторону, где нужно обрезать
+     *
+     * @param isCustomCrop флаг активации трансформации
+     * @param width максимальная ширина изображения
+     * @param height максимальная высота изображения
+     * @param cropType сторона, где нужно обрезать
+     */
+    fun customCrop(isCustomCrop: Boolean = true,
+                   cropType: CropTransformation.CropType = CropTransformation.CropType.CENTER
+    ): ImageLoaderInterface
+
+    /**
+     *
+     * Фильтровать ли изображения при масштабировании
+     *
+     * @param isFilterBitmapOnScale флаг активации фильтрации
+     */
+    fun filterBitmapOnScale(isFilterBitmapOnScale: Boolean = true): ImageLoaderInterface
 
     /**
      * Преобразование прямоугольного изображения в круглое.
@@ -262,4 +285,12 @@ interface ImageLoaderInterface {
      */
     @WorkerThread
     fun get(): Bitmap?
+
+
+    /**
+     * Загрузка gif изображения
+     *
+     * @param onAnimationStart действие при старте анимации
+     */
+    fun loadGif(imageView: ImageView, onAnimationStart: () -> Unit)
 }
