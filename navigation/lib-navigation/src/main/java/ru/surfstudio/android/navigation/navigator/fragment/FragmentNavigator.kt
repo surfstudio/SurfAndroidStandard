@@ -49,136 +49,166 @@ open class FragmentNavigator(
         onRestoreState(savedState)
     }
 
-    override fun add(route: FragmentRoute, animations: Animations) {
-        val backStackTag = convertToBackStackTag(route.getId())
-        val fragment = route.createFragment()
+    private var isTransactionActive = false
 
-        fragmentManager.beginTransaction().apply {
-            supplyWithAnimations(animations)
-            add(containerId, fragment, backStackTag)
-            addToBackStack(
-                    FragmentBackStackEntry(
-                            backStackTag,
-                            fragment,
-                            Add(BackStackFragmentRoute(route.getId()), animations)
-                    )
-            )
-            commitNow()
+    override fun add(route: FragmentRoute, animations: Animations) {
+        runTransaction {
+            val backStackTag = convertToBackStackTag(route.getId())
+            val fragment = route.createFragment()
+
+            fragmentManager.beginTransaction().apply {
+                supplyWithAnimations(animations)
+                add(containerId, fragment, backStackTag)
+                addToBackStack(
+                        FragmentBackStackEntry(
+                                backStackTag,
+                                fragment,
+                                Add(BackStackFragmentRoute(route.getId()), animations)
+                        )
+                )
+                commitNow()
+            }
         }
     }
 
-
     override fun replace(route: FragmentRoute, animations: Animations) {
-        val backStackTag = convertToBackStackTag(route.getId())
-        val fragment = route.createFragment()
+        runTransaction {
+            val backStackTag = convertToBackStackTag(route.getId())
+            val fragment = route.createFragment()
 
-        fragmentManager.beginTransaction().apply {
-            supplyWithAnimations(animations)
-            findLastVisibleFragments().forEach { detach(it) }
-            add(containerId, fragment, backStackTag)
-            addToBackStack(
-                    FragmentBackStackEntry(
-                            backStackTag,
-                            fragment,
-                            Replace(BackStackFragmentRoute(route.getId()), animations)
-                    )
-            )
-            commitNow()
+            fragmentManager.beginTransaction().apply {
+                supplyWithAnimations(animations)
+                findLastVisibleFragments().forEach { detach(it) }
+                add(containerId, fragment, backStackTag)
+                addToBackStack(
+                        FragmentBackStackEntry(
+                                backStackTag,
+                                fragment,
+                                Replace(BackStackFragmentRoute(route.getId()), animations)
+                        )
+                )
+                commitNow()
+            }
         }
     }
 
     override fun remove(route: FragmentRoute, animations: Animations) {
-        val fragment = findFragment(convertToBackStackTag(route.getId())) ?: return
+        runTransaction {
+            val fragment = findFragment(convertToBackStackTag(route.getId()))
+                    ?: return@runTransaction
 
-        fragmentManager.beginTransaction()
-                .supplyWithAnimations(animations)
-                .remove(fragment)
-                .commit()
+            fragmentManager.beginTransaction()
+                    .supplyWithAnimations(animations)
+                    .remove(fragment)
+                    .commit()
+        }
     }
 
     override fun removeLast(animations: Animations) {
-        fragmentManager.beginTransaction().run {
-            val entry = backStack.pop()
-            setupReverseAnimations(this, entry.command, animations)
-            when (entry.command) {
-                is Add -> setupReverseAdd(this, entry)
-                is Replace -> setupReverseReplace(this, entry)
+        runTransaction {
+            val backStackSize = backStack.size
+            if (backStackSize == 0) return@runTransaction
+            fragmentManager.beginTransaction().run {
+                val entry = backStack.pop()
+                setupReverseAnimations(this, entry.command, animations)
+                when (entry.command) {
+                    is Add -> setupReverseAdd(this, entry)
+                    is Replace -> setupReverseReplace(this, entry)
+                }
+                commitNow()
             }
-            commitNow()
+            notifyBackStackListeners()
         }
-        notifyBackStackListeners()
     }
 
     override fun replaceHard(route: FragmentRoute, animations: Animations) {
-        val backStackTag = convertToBackStackTag(route.getId())
-        val fragment = route.createFragment()
+        runTransaction {
+            val backStackTag = convertToBackStackTag(route.getId())
+            val fragment = route.createFragment()
 
-        fragmentManager.beginTransaction().apply {
-            supplyWithAnimations(animations)
-            remove(backStack.pop().fragment)
-            add(containerId, fragment, backStackTag)
-            addToBackStack(
-                    FragmentBackStackEntry(
-                            backStackTag,
-                            fragment,
-                            Replace(BackStackFragmentRoute(route.getId()), animations)
-                    )
-            )
-            commitNow()
+            fragmentManager.beginTransaction().apply {
+                supplyWithAnimations(animations)
+                remove(backStack.pop().fragment)
+                add(containerId, fragment, backStackTag)
+                addToBackStack(
+                        FragmentBackStackEntry(
+                                backStackTag,
+                                fragment,
+                                Replace(BackStackFragmentRoute(route.getId()), animations)
+                        )
+                )
+                commitNow()
+            }
+            notifyBackStackListeners()
         }
-        notifyBackStackListeners()
     }
 
     override fun removeUntil(route: FragmentRoute, animations: Animations, isInclusive: Boolean) {
-        val backStackTag = convertToBackStackTag(route.getId())
-        val entry = backStack.find(backStackTag) ?: return
-        fragmentManager.beginTransaction()
-                .apply {
-                    val entriesToRemove = mutableListOf<FragmentBackStackEntry>()
+        runTransaction {
+            val backStackTag = convertToBackStackTag(route.getId())
+            val entry = backStack.find(backStackTag) ?: return@runTransaction
+            fragmentManager.beginTransaction()
+                    .apply {
+                        val entriesToRemove = mutableListOf<FragmentBackStackEntry>()
 
-                    while (backStack.peek() != entry) {
-                        entriesToRemove.add(backStack.pop())
+                        while (backStack.peek() != entry) {
+                            entriesToRemove.add(backStack.pop())
+                        }
+
+                        if (isInclusive) {
+                            entriesToRemove.add(backStack.pop())
+                        }
+
+                        removeEntriesWithinTransaction(this, entriesToRemove, animations)
+
+                        // add all visible fragments
+                        findLastVisibleEntries().forEach { entry -> attach(entry.fragment) }
                     }
-
-                    if (isInclusive) {
-                        entriesToRemove.add(backStack.pop())
-                    }
-
-                    removeEntriesWithinTransaction(this, entriesToRemove, animations)
-
-                    // add all visible fragments
-                    findLastVisibleEntries().forEach { entry -> attach(entry.fragment) }
-                }
-                .commitNow()
-        notifyBackStackListeners()
+                    .commitNow()
+            notifyBackStackListeners()
+        }
     }
 
     override fun removeAll(animations: Animations, shouldRemoveLast: Boolean) {
-        val backStackSize = backStack.size
-        if (backStackSize == 0) return
-        fragmentManager
-                .beginTransaction()
-                .apply {
-                    val removalCount = if (shouldRemoveLast) backStackSize else backStackSize - 1
-                    val entriesToRemove = mutableListOf<FragmentBackStackEntry>()
-                    repeat(removalCount) {
-                        entriesToRemove.add(backStack.pop())
-                    }
+        runTransaction {
+            val backStackSize = backStack.size
+            if (backStackSize == 0) return@runTransaction
+            fragmentManager
+                    .beginTransaction()
+                    .apply {
+                        val removalCount = if (shouldRemoveLast) backStackSize else backStackSize - 1
+                        val entriesToRemove = mutableListOf<FragmentBackStackEntry>()
+                        repeat(removalCount) {
+                            entriesToRemove.add(backStack.pop())
+                        }
 
-                    removeEntriesWithinTransaction(this, entriesToRemove, animations)
-                    //add last visible fragment (if it exists)
-                    findLastVisibleEntries().forEach { entry -> attach(entry.fragment) }
-                }
-                .commitNow()
-        notifyBackStackListeners()
+                        removeEntriesWithinTransaction(this, entriesToRemove, animations)
+                        //add last visible fragment (if it exists)
+                        findLastVisibleEntries().forEach { entry -> attach(entry.fragment) }
+                    }
+                    .commitNow()
+            notifyBackStackListeners()
+        }
+    }
+
+    private fun runTransaction(action: () -> Unit) {
+        if (!isTransactionActive) {
+            isTransactionActive = true
+            action()
+        }
+        isTransactionActive = false
     }
 
     override fun show(route: FragmentRoute, animations: Animations) {
-        toggleVisibility(route, true, animations)
+        runTransaction {
+            toggleVisibility(route, true, animations)
+        }
     }
 
     override fun hide(route: FragmentRoute, animations: Animations) {
-        toggleVisibility(route, false, animations)
+        runTransaction {
+            toggleVisibility(route, false, animations)
+        }
     }
 
     override fun onSaveState(outState: Bundle?) {
