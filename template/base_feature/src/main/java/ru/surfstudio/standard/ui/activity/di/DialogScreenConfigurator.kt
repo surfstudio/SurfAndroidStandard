@@ -4,7 +4,7 @@ import android.os.Bundle
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator
 import ru.surfstudio.android.core.ui.activity.CoreActivityInterface
 import ru.surfstudio.android.mvp.dialog.complex.CoreDialogFragmentView
-import ru.surfstudio.standard.ui.screen.FragmentScreenModule
+import ru.surfstudio.standard.ui.screen_modules.FragmentScreenModule
 
 abstract class DialogScreenConfigurator(
         args: Bundle

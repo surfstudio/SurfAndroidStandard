@@ -1,0 +1,63 @@
+requiredParams:
+  name: CustomView
+  description: Creates all necessary files for a MVI-based screen.
+
+optionalParams:
+  revision: 1
+  category: Surf
+  formFactor: mobile
+  constraints:
+    - kotlin
+  screens:
+    - menu_entry
+  minApi: 7
+  minBuildApi: 8
+
+widgets:
+  - stringParameter:
+      id: customViewClassName
+      name: Имя класса
+      help: The view class name
+      constraints:
+        - unique
+        - class
+        - nonempty
+      default: MyCustomView
+
+  - stringParameter:
+      id: parentViewClassName
+      name: Родительская View
+      help: The view's parent class name
+      constraints:
+        - class
+        - nonempty
+      default: FrameLayout
+
+  - booleanParameter:
+      id: needToGenerateLayout
+      name: Добавить XML разметку
+      help: add XML file
+      default: false
+
+  - stringParameter:
+      id: layoutName
+      name: Имя файла XML разметки
+      help: XML file name
+      constraints:
+        - layout
+        - unique
+        - nonempty
+      default: layout_${customViewClassName.classToResource()}
+      suggest: layout_${customViewClassName.classToResource()}
+      visibility: ${needToGenerateLayout}
+
+recipe:
+  - predicate:
+      validIf: ${needToGenerateLayout}
+      commands:
+        - instantiate:
+            from: /root/res/layout/custom_view.xml.ftl
+            to: ${resOut}/layout/${layoutName}.xml
+  - instantiateAndOpen:
+      from: /root/src/app_package/java/CustomView.kt.ftl
+      to: ${srcOut}/${customViewClassName}.kt

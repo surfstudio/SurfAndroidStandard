@@ -2,6 +2,7 @@ apply from: '../commonModule.gradle'
 
 dependencies {
     api project(":domain")
+    api platform(firebase.bom)
     api firebase.core //todo might be removed for real project
     api firebase.analytics
     api firebase.messaging
@@ -10,8 +11,9 @@ dependencies {
             this,
             [
                     "activity-holder",
-                    "core-ui",
                     "core-navigation",
+                    "navigation-observer",
+                    "core-ui",
                     "core-mvp",
                     "core-mvp-binding",
                     "mvp-dialog",
@@ -40,7 +42,12 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"
+                    "rxbus",
+                    "mvi-core",
+                    "mvi-impls",
+                    "mvi-mapper",
+                    "navigation",
+                    "navigation-rx",
             ]
     )
 }
