@@ -4,10 +4,10 @@ import android.os.Bundle
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentView
 import ru.surfstudio.android.core.ui.activity.CoreActivityInterface
-import ru.surfstudio.standard.ui.screen.FragmentScreenModule
+import ru.surfstudio.standard.ui.screen_modules.FragmentScreenModule
 
 abstract class FragmentScreenConfigurator(
-        args: Bundle
+        args: Bundle?
 ) : BaseFragmentViewConfigurator<ActivityComponent, FragmentScreenModule>(args) {
 
     override fun getFragmentScreenModule(): FragmentScreenModule {

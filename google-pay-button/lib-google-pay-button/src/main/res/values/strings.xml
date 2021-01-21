@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="google_pay_button_content_description" translatable="false">Google Pay</string>
+    <string name="buy_with_google_pay_button_content_description" translatable="false">Buy with Google Pay</string>
+</resources>

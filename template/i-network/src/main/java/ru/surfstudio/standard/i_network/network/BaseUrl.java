@@ -21,7 +21,6 @@ import androidx.annotation.Nullable;
 /**
  * Класс для описания базовой части Url сервера api
  */
-@Deprecated
 public class BaseUrl {
     private static final String START_SLASH = "^/";
     private static final String END_SLASH = "/$";

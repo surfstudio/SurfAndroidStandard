@@ -19,6 +19,7 @@
     * **NO BACKWARD COMPATIBILITY** All classes responsible for permissions migrated from `core-ui` to `permission`
     If your app depends on permission handling mechanisms from `core-ui`, add `permission` module in its gradle dependencies as well.
 * ANDDEP-1048 Fixing wrong docs links and docs structure
+* ANDDEP-1138 Added supporting View Binding
 * Added android 11 support for PermissionManager (one-time permission handling)
 ## 0.4.0
 ##### Core-ui

@@ -41,7 +41,7 @@ now event composition mechanism supports middlewares that can only produces outp
 * **NO BACKWARD COMPATIBILITY** ANDDEP-1049 Package for `BaseActivityResultDelegate`,`SupportOnActivityResultRoute` and `CrossFeatureSupportOnActivityResultRoute` is changed 
 from `ru.surfstudio.android.core.ui.event.result` to:  `ru.surfstudio.android.core.ui.navigation.event.result`
 * ANDDEP-1048 Fixing wrong docs links and docs structure
-* **NO BACKWARD COMPATIBILITY** Removed ioHandleError() methods and RxBuilderHandleError dependency from BaseMiddleware. Use reducer to handleError instead.
+* **NO BACKWARD COMPATIBILITY** ANDDEP-1124 Added `OpenScreenForResult` event that allows to start Activity for result explicitly. From this build using `OpenScreen` event doesn't start Activity for result
 * **NO BACKWARD COMPATIBILITY** ScreenState added to BaseMiddlwareDependency. Do not forget to add it to dependencies in your ScreenModule.provideBaseMiddlewareDependency method.
 * Added LifecycleFreezeMiddleware: it freezes certain observable until the screen doesn't moved in desired lifecycleStage. This middleware is connected to BaseMiddleware by default.
-* Added PersistentCheckLifecycleMiddleware: it uses screenState to determine whether view was recreated, or entire screen was recreated after process death, and modifies Lifecycle functions by adding additional information to it. This middleware is connected to BaseMiddleware by default/
+* Added PersistentCheckLifecycleMiddleware: it uses screenState to determine whether view was recreated, or entire screen was recreated after process death, and modifies Lifecycle functions by adding additional information to it. This middleware is connected to BaseMiddleware by default

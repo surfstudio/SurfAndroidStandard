@@ -18,11 +18,14 @@ package ru.surfstudio.android.core.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewbinding.ViewBinding;
 
 import ru.surfstudio.android.core.ui.delegate.activity.ActivityDelegate;
 import ru.surfstudio.android.core.ui.delegate.factory.ScreenDelegateFactoryContainer;
@@ -70,6 +73,13 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
                          boolean viewRecreated) {
 
         //empty
+    }
+
+    /**
+     * @return activity rootView
+     */
+    protected View getRootView() {
+        return this.findViewById(android.R.id.content).getRootView();
     }
 
     /**

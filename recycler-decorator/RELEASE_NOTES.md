@@ -1,10 +1,11 @@
 # Recycler-decorator Release Notes
 
-- [1.1.0-alpha](#110-alpha)
+- [1.0.1-alpha](#101-alpha)
 - [1.0.0](#100)
 
-## 1.1.0-alpha
+## 1.0.1-alpha
 ##### Recycler-decorator
+* Fixed crash on updating to empty list
 * TODO
 ## 1.0.0
 ##### Recycler-decorator
