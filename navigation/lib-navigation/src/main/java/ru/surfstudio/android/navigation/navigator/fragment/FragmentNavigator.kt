@@ -97,6 +97,8 @@ open class FragmentNavigator(
     }
 
     override fun removeLast(animations: Animations) {
+        val backStackSize = backStack.size
+        if (backStackSize == 0) return
         fragmentManager.beginTransaction().run {
             val entry = backStack.pop()
             setupReverseAnimations(this, entry.command, animations)
