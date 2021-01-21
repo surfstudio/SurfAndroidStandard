@@ -23,6 +23,7 @@ import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.ui.binder.error.EventHubChainException
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
+import ru.surfstudio.android.logger.Logger
 
 /**
  * Класс, который связывает все сущности скопа экрана в одну и производит подписку
@@ -88,11 +89,13 @@ interface RxBinder {
     /**
      * Поведение при получении ошибки в подписке на [EventHub]
      *
-     * Переопределив этот метод можно логгировать, выбрасывать, или игнорировать ошибки.
+     * По умолчанию ошибка логгируется и затем выбрасывается.
+     * Переопределив этот метод, можно игнорировать ошибки.
      *
      * @param throwable ошибка, возникшая в цепочке событий.
      */
     fun onError(throwable: Throwable) {
+        Logger.e(throwable)
         throw EventHubChainException(throwable)
     }
 }

@@ -16,9 +16,11 @@
 package ru.surfstudio.android.filestorage.storage
 
 import ru.surfstudio.android.filestorage.converter.JsonConverter
+import ru.surfstudio.android.filestorage.converter.JsonTypeConverter
 import ru.surfstudio.android.filestorage.encryptor.Encryptor
 import ru.surfstudio.android.filestorage.naming.NamingProcessor
 import ru.surfstudio.android.filestorage.processor.FileProcessor
+import java.lang.reflect.Type
 
 /**
  * Базовый класс для кэширования моделей в формате json
@@ -29,6 +31,13 @@ open class BaseJsonFileStorage<T> : BaseFileStorage<T> {
                 namingProcessor: NamingProcessor,
                 classType: Class<T>)
             : super(fileProcessor, namingProcessor, JsonConverter<T>(classType))
+
+    constructor(
+            fileProcessor: FileProcessor,
+            namingProcessor: NamingProcessor,
+            typeOfT: Type
+    ) :
+            super(fileProcessor, namingProcessor, JsonTypeConverter<T>(typeOfT))
 
     constructor(fileProcessor: FileProcessor,
                 namingProcessor: NamingProcessor,
