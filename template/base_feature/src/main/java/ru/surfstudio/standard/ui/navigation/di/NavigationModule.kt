@@ -57,7 +57,7 @@ class NavigationModule {
         return AppCommandExecutorWithResult(
                 screenResultEmitter,
                 activityNavigationProvider,
-                ActivityCommandWithResultExecutor(activityNavigationProvider),
+                ActivityCommandWithResultExecutor(activityNavigationProvider, screenResultEmitter),
                 FragmentCommandExecutor(activityNavigationProvider),
                 DialogCommandExecutor(activityNavigationProvider)
         )
