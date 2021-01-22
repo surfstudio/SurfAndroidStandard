@@ -12,8 +12,13 @@ import java.io.Serializable
  */
 abstract class ActivityWithResultRoute<T : Serializable> : ActivityRoute(), ResultRoute<T> {
 
+    /**
+     * Screen identifier, used to avoid collisions
+     */
+    abstract val screenId: String
+
     override fun getId(): String {
-        return this.javaClass.canonicalName
+        return "${this.javaClass.canonicalName}$screenId"
     }
 
     /**

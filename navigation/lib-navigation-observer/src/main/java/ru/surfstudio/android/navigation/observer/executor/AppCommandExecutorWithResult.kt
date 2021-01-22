@@ -2,7 +2,6 @@ package ru.surfstudio.android.navigation.observer.executor
 
 import ru.surfstudio.android.navigation.command.NavigationCommand
 import ru.surfstudio.android.navigation.executor.AppCommandExecutor
-import ru.surfstudio.android.navigation.executor.screen.activity.ActivityCommandExecutor
 import ru.surfstudio.android.navigation.executor.screen.dialog.DialogCommandExecutor
 import ru.surfstudio.android.navigation.executor.screen.fragment.FragmentCommandExecutor
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
@@ -17,7 +16,7 @@ import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 open class AppCommandExecutorWithResult(
         protected val screenResultEmitter: ScreenResultEmitter,
         activityNavigationProvider: ActivityNavigationProvider,
-        activityCommandExecutor: ActivityCommandExecutor = ActivityCommandWithResultExecutor(activityNavigationProvider, screenResultEmitter),
+        activityCommandExecutor: ActivityCommandWithResultExecutor = ActivityCommandWithResultExecutor(activityNavigationProvider, screenResultEmitter),
         fragmentCommandExecutor: FragmentCommandExecutor = FragmentCommandExecutor(activityNavigationProvider),
         dialogCommandExecutor: DialogCommandExecutor = DialogCommandExecutor(activityNavigationProvider)
 ) : AppCommandExecutor(activityNavigationProvider, activityCommandExecutor, fragmentCommandExecutor, dialogCommandExecutor) {

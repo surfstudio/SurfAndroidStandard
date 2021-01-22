@@ -17,7 +17,10 @@ class ActivityCommandWithResultExecutor(
 ) : ActivityCommandExecutor(activityNavigationProvider) {
 
     private val screenResultDispatcher = ScreenResultDispatcher()
+    private val navigatorWithResult: ActivityNavigatorWithResultInterface
+        get() = activityNavigationProvider.provide().activityNavigator as ActivityNavigatorWithResultInterface
 
+    @Suppress("UNCHECKED_CAST")
     override fun execute(command: ActivityNavigationCommand) {
         when (command) {
             is StartForResult<*, *> -> {
@@ -30,15 +33,13 @@ class ActivityCommandWithResultExecutor(
     }
 
     private fun <T : Serializable, R : ActivityWithResultRoute<T>> listenForResult(command: StartForResult<T, R>) {
-        (activityNavigationProvider.provide().activityNavigator as ActivityNavigatorWithResultInterface)
-                .callbackResult(command.route) { data ->
-                    val emitResultCommand = EmitScreenResult(command.route, data)
-                    screenResultDispatcher.dispatch(screenResultEmitter, emitResultCommand)
-                }
+        navigatorWithResult.callbackResult(command.route) { data ->
+            val emitResultCommand = EmitScreenResult(command.route, data)
+            screenResultDispatcher.dispatch(screenResultEmitter, emitResultCommand)
+        }
     }
 
     private fun <T : Serializable, R : ActivityWithResultRoute<T>> startForResult(command: StartForResult<T, R>) {
-        (activityNavigationProvider.provide().activityNavigator as ActivityNavigatorWithResultInterface)
-                .startForResult(command.route, command.animations, command.activityOptions)
+        navigatorWithResult.startForResult(command.route, command.animations, command.activityOptions)
     }
 }

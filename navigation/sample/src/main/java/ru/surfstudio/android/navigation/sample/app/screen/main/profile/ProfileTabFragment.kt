@@ -21,9 +21,9 @@ import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimatio
 
 class ProfileTabFragment : Fragment() {
 
-
+    private val screenId = "ProfileTabFragment"
     private val targetRoute = AboutRoute()
-    private val cameraRoute = CameraRoute()
+    private val cameraRoute = CameraRoute(screenId = screenId)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
@@ -34,7 +34,17 @@ class ProfileTabFragment : Fragment() {
         profile_settings_btn.setOnClickListener { App.navigator.execute(Start(ApplicationSettingsRoute())) }
         profile_about_app_btn.setOnClickListener { App.navigator.execute(Start(AboutRoute())) }
         profile_logout_btn.setOnClickListener { App.navigator.execute(ReplaceHard(AuthRoute(), FadeAnimations())) }
-        profile_attach_photo_btn.setOnClickListener { App.navigator.execute(StartForResult(CameraRoute("Select photo for profile", CameraHelper(requireContext()).generatePhotoPath()))) }
+        profile_attach_photo_btn.setOnClickListener {
+            App.navigator.execute(
+                    StartForResult(
+                            CameraRoute(
+                                    screenId = screenId,
+                                    chooserTitle = "Select photo for profile",
+                                    takenPhotoFile = CameraHelper(requireContext()).generatePhotoPath()
+                            )
+                    )
+            )
+        }
 
         App.resultObserver.addListener(targetRoute, ::showAppName)
         App.resultObserver.addListener(cameraRoute, ::showResult)

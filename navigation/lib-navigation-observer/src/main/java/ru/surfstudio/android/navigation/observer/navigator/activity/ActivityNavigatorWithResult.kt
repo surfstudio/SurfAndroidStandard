@@ -27,6 +27,7 @@ open class ActivityNavigatorWithResult(
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : Serializable> callbackResult(
             route: ActivityWithResultRoute<T>,
             callback: ScreenResultListener<T>

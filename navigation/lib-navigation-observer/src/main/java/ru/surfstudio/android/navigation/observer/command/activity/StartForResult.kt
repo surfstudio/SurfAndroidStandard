@@ -9,7 +9,7 @@ import java.io.Serializable
 
 /**
  * Navigation command to start screen for result.
- * Used to start system screens.
+ * Used to start system screens or screens which doesn't support EmitScreenResult commands.
  */
 class StartForResult<T : Serializable, R>(
         override val route: R,
