@@ -17,7 +17,7 @@ ext {
     ]
 
     versions = [
-            androidStandardVersion          : '0.5.0-alpha.163',    //версия version-plugin
+            androidStandardVersion          : '0.5.0-alpha.167',    //версия version-plugin
             gradlePluginVersion             : '3.6.1',              //https://bit.ly/2NXD4Pe
             buildToolsVersion               : '29.0.3',             //https://bit.ly/2DNmq3Y
             googleServicesVersion           : '4.3.3',              //https://bit.ly/2Q5FCge
@@ -39,11 +39,8 @@ ext {
             androidXEspressoContribVersion  : '3.2.0',              //http://bit.ly/2E0DdAq
             robolectricVersion              : '4.3.1',              //http://bit.ly/2xLRICR
             junitVersion                    : '4.13',               //https://goo.gl/hEcfw1
-            firebaseMessagingVersion        : '20.1.3',             //http://bit.ly/2Q81pGJ
-            firebaseAnalyticsVersion        : '17.2.3',             //http://bit.ly/2Q81pGJ
-            firebaseCoreVersion             : '17.2.3',
+            firebaseBom                     : '26.2.0',             //https://bit.ly/3bxSngK
             firebaseAppDistributionVersion  : '1.2.0',              //http://bit.ly/2Gc2qHh
-            firebaseCrashlyticsVersion      : '17.0.0-beta01',      //http://bit.ly/2RM7ec2
             firebaseCrashlyticsGradleVersion: '2.0.0-beta01',       //http://bit.ly/2RM7ec2
             okHttpVersion                   : '4.4.1',              //https://vk.cc/7UFwTd
             retrofitVersion                 : '2.8.1',              //https://vk.cc/7UFxk3
@@ -82,10 +79,11 @@ ext {
     ]
 
     firebase = [
-            messaging  : "com.google.firebase:firebase-messaging:${versions.firebaseMessagingVersion}",
-            analytics  : "com.google.firebase:firebase-analytics:${versions.firebaseAnalyticsVersion}",
-            core       : "com.google.firebase:firebase-core:${versions.firebaseCoreVersion}",
-            crashlytics: "com.google.firebase:firebase-crashlytics:${versions.firebaseCrashlyticsVersion}"
+            bom        : "com.google.firebase:firebase-bom:${versions.firebaseBom}",
+            messaging  : "com.google.firebase:firebase-messaging",
+            analytics  : "com.google.firebase:firebase-analytics",
+            core       : "com.google.firebase:firebase-core",
+            crashlytics: "com.google.firebase:firebase-crashlytics"
     ]
 
     okHttp = [

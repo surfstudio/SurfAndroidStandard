@@ -153,6 +153,59 @@
     "mirror_repo": ""
   },
   {
+    "id": "biometrics",
+    "version": "0.5.0",
+    "unstable_version": 2,
+    "stable": false,
+    "dir": "biometrics",
+    "libs": [
+      {
+        "name": "biometrics",
+        "dir": "lib-biometrics",
+        "artifact_name": "biometrics",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.biometric:biometric",
+            "type": "implementation"
+          },
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          },
+          {
+            "name": "com.google.dagger:dagger",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "security",
+            "type": "api"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "filestorage",
+            "type": "api"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "broadcast-extension",
     "version": "0.5.0",
     "unstable_version": 5,
@@ -1154,6 +1207,44 @@
     "mirror_repo": ""
   },
   {
+    "id": "google-pay-button",
+    "version": "0.5.0",
+    "unstable_version": 2,
+    "stable": false,
+    "dir": "google-pay-button",
+    "libs": [
+      {
+        "name": "google-pay-button",
+        "dir": "lib-google-pay-button",
+        "artifact_name": "google-pay-button",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.constraintlayout:constraintlayout",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "google-pay-button-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "imageloader",
     "version": "0.5.0",
     "unstable_version": 9,
@@ -1728,7 +1819,7 @@
   {
     "id": "push",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "push",
     "libs": [
@@ -1818,9 +1909,9 @@
   },
   {
     "id": "recycler-decorator",
-    "version": "1.0.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "1.0.1",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "recycler-decorator",
     "libs": [
       {
@@ -1934,7 +2025,7 @@
   {
     "id": "security",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 9,
     "stable": false,
     "dir": "security",
     "libs": [
@@ -2109,7 +2200,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 38,
+    "unstable_version": 41,
     "stable": false,
     "dir": "template",
     "libs": [],
