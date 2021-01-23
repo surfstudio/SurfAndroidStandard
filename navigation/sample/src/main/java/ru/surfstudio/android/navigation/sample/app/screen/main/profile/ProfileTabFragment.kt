@@ -23,7 +23,7 @@ class ProfileTabFragment : Fragment() {
 
     private val screenId = "ProfileTabFragment"
     private val targetRoute = AboutRoute()
-    private val cameraRoute = CameraRoute(screenId = screenId)
+    private val cameraRoute = CameraRoute(uniqueId = screenId)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
@@ -38,7 +38,7 @@ class ProfileTabFragment : Fragment() {
             App.navigator.execute(
                     StartForResult(
                             CameraRoute(
-                                    screenId = screenId,
+                                    uniqueId = screenId,
                                     chooserTitle = "Select photo for profile",
                                     takenPhotoFile = CameraHelper(requireContext()).generatePhotoPath()
                             )

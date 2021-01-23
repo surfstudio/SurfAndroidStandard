@@ -13,12 +13,13 @@ import java.io.Serializable
 abstract class ActivityWithResultRoute<T : Serializable> : ActivityRoute(), ResultRoute<T> {
 
     /**
-     * Screen identifier, used to avoid collisions
+     * Screen identifier, used to avoid collisions where one result can be returned to many subscribers.
+     * Result of the activity will be returned only to subscribers which uniqueId is the same.
      */
-    abstract val screenId: String
+    abstract val uniqueId: String
 
     override fun getId(): String {
-        return "${this.javaClass.canonicalName}$screenId"
+        return "${this.javaClass.canonicalName}$uniqueId"
     }
 
     /**

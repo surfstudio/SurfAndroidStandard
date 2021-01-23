@@ -12,7 +12,7 @@ import ru.surfstudio.android.utilktx.util.SdkUtils
 import java.io.File
 
 class CameraRoute(
-        override val screenId: String,
+        override val uniqueId: String,
         private val chooserTitle: String = EMPTY_STRING,
         private val takenPhotoFile: File = File(EMPTY_STRING)
 ) : ActivityWithResultRoute<Boolean>() {
