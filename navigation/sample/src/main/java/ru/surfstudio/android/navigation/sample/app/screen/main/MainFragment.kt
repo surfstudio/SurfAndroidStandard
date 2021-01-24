@@ -56,7 +56,9 @@ class MainFragment : Fragment(), TabFragmentNavigationContainer {
     private fun initBackPressedListener() {
         addOnBackPressedListener {
             when {
-                hasTabsInStack() -> App.navigator.execute(RemoveLast(sourceTag = tag!!))
+                hasTabsInStack() -> App.navigator.execute(
+                        RemoveLast(route = GalleryTabRoute(), sourceTag = tag!!)
+                )
                 else -> App.navigator.execute(Finish())
             }
         }

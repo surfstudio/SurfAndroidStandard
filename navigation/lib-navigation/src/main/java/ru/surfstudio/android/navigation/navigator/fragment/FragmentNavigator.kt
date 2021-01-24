@@ -90,10 +90,11 @@ open class FragmentNavigator(
     override fun remove(route: FragmentRoute, animations: Animations) {
         val fragment = findFragment(convertToBackStackTag(route.getId())) ?: return
 
-        fragmentManager.beginTransaction()
-                .supplyWithAnimations(animations)
-                .remove(fragment)
-                .commit()
+        fragmentManager.beginTransaction().run {
+            supplyWithAnimations(animations)
+            remove(fragment)
+            commit()
+        }
     }
 
     override fun removeLast(route: FragmentRoute, animations: Animations) {

@@ -38,7 +38,7 @@ class GalleryTabFragment : Fragment(), FragmentNavigationContainer {
     }
 
     private fun removePicture() {
-        App.navigator.execute(RemoveLast(sourceTag = tag!!))
+        App.navigator.execute(RemoveLast(route = GalleryTabRoute(), sourceTag = tag!!))
     }
 
     private fun subscribeToBackStackChanges() {
