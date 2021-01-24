@@ -49,6 +49,7 @@ open class FragmentNavigator(
         onRestoreState(savedState)
     }
 
+    @Synchronized
     override fun add(route: FragmentRoute, animations: Animations) {
         val backStackTag = convertToBackStackTag(route.getId())
         val fragment = route.createFragment()
@@ -67,7 +68,7 @@ open class FragmentNavigator(
         }
     }
 
-
+    @Synchronized
     override fun replace(route: FragmentRoute, animations: Animations) {
         val backStackTag = convertToBackStackTag(route.getId())
         val fragment = route.createFragment()
@@ -87,6 +88,7 @@ open class FragmentNavigator(
         }
     }
 
+    @Synchronized
     override fun remove(route: FragmentRoute, animations: Animations) {
         val fragment = findFragment(convertToBackStackTag(route.getId())) ?: return
 
@@ -96,6 +98,7 @@ open class FragmentNavigator(
                 .commit()
     }
 
+    @Synchronized
     override fun removeLast(animations: Animations) {
         fragmentManager.beginTransaction().run {
             val entry = backStack.pop()
@@ -109,6 +112,7 @@ open class FragmentNavigator(
         notifyBackStackListeners()
     }
 
+    @Synchronized
     override fun replaceHard(route: FragmentRoute, animations: Animations) {
         val backStackTag = convertToBackStackTag(route.getId())
         val fragment = route.createFragment()
@@ -129,6 +133,7 @@ open class FragmentNavigator(
         notifyBackStackListeners()
     }
 
+    @Synchronized
     override fun removeUntil(route: FragmentRoute, animations: Animations, isInclusive: Boolean) {
         val backStackTag = convertToBackStackTag(route.getId())
         val entry = backStack.find(backStackTag) ?: return
@@ -153,6 +158,7 @@ open class FragmentNavigator(
         notifyBackStackListeners()
     }
 
+    @Synchronized
     override fun removeAll(animations: Animations, shouldRemoveLast: Boolean) {
         val backStackSize = backStack.size
         if (backStackSize == 0) return
@@ -173,10 +179,12 @@ open class FragmentNavigator(
         notifyBackStackListeners()
     }
 
+    @Synchronized
     override fun show(route: FragmentRoute, animations: Animations) {
         toggleVisibility(route, true, animations)
     }
 
+    @Synchronized
     override fun hide(route: FragmentRoute, animations: Animations) {
         toggleVisibility(route, false, animations)
     }

@@ -18,4 +18,4 @@ data class FragmentBackStackEntry(
         val tag: String,
         val fragment: Fragment,
         val command: NavigationCommand
-) : BackStack.Entry
+)
