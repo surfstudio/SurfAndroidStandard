@@ -13,9 +13,7 @@ import ru.surfstudio.android.navigation.route.stub.StubFragmentRoute
  * @param sourceTag tag of a source screen, which will execute navigation command.
  */
 data class RemoveLast(
+        override val route: FragmentRoute,
         override val animations: Animations = NoResourceAnimations,
         override var sourceTag: String = ""
-) : FragmentNavigationCommand {
-
-    override val route: FragmentRoute = StubFragmentRoute
-}
+) : FragmentNavigationCommand

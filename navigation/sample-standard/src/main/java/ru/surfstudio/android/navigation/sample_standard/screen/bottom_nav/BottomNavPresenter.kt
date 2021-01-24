@@ -50,8 +50,11 @@ class BottomNavPresenter @Inject constructor(
 
     private fun onBackPressed() {
         when {
-            hasTabsInStack() -> RemoveLast().execute()
-            else -> RemoveLast(sourceTag = ACTIVITY_NAVIGATION_TAG).execute()
+            hasTabsInStack() -> RemoveLast(BottomNavRoute()).execute()
+            else -> RemoveLast(
+                    route = BottomNavRoute(),
+                    sourceTag = ACTIVITY_NAVIGATION_TAG
+            ).execute()
 
         }
     }
