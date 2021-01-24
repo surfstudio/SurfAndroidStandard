@@ -52,17 +52,17 @@ open class FragmentNavigator(
     override fun add(route: FragmentRoute, animations: Animations) {
         val backStackTag = convertToBackStackTag(route.getId())
         val fragment = route.createFragment()
+        addToBackStack(
+                FragmentBackStackEntry(
+                        backStackTag,
+                        fragment,
+                        Add(BackStackFragmentRoute(route.getId()), animations)
+                )
+        )
 
         fragmentManager.beginTransaction().apply {
             supplyWithAnimations(animations)
             add(containerId, fragment, backStackTag)
-            addToBackStack(
-                    FragmentBackStackEntry(
-                            backStackTag,
-                            fragment,
-                            Add(BackStackFragmentRoute(route.getId()), animations)
-                    )
-            )
             commitNow()
         }
     }
@@ -71,18 +71,18 @@ open class FragmentNavigator(
     override fun replace(route: FragmentRoute, animations: Animations) {
         val backStackTag = convertToBackStackTag(route.getId())
         val fragment = route.createFragment()
+        addToBackStack(
+                FragmentBackStackEntry(
+                        backStackTag,
+                        fragment,
+                        Replace(BackStackFragmentRoute(route.getId()), animations)
+                )
+        )
 
         fragmentManager.beginTransaction().apply {
             supplyWithAnimations(animations)
             findLastVisibleFragments().forEach { detach(it) }
             add(containerId, fragment, backStackTag)
-            addToBackStack(
-                    FragmentBackStackEntry(
-                            backStackTag,
-                            fragment,
-                            Replace(BackStackFragmentRoute(route.getId()), animations)
-                    )
-            )
             commitNow()
         }
     }
@@ -114,18 +114,17 @@ open class FragmentNavigator(
     override fun replaceHard(route: FragmentRoute, animations: Animations) {
         val backStackTag = convertToBackStackTag(route.getId())
         val fragment = route.createFragment()
-
+        addToBackStack(
+                FragmentBackStackEntry(
+                        backStackTag,
+                        fragment,
+                        Replace(BackStackFragmentRoute(route.getId()), animations)
+                )
+        )
         fragmentManager.beginTransaction().apply {
             supplyWithAnimations(animations)
             remove(backStack.pop().fragment)
             add(containerId, fragment, backStackTag)
-            addToBackStack(
-                    FragmentBackStackEntry(
-                            backStackTag,
-                            fragment,
-                            Replace(BackStackFragmentRoute(route.getId()), animations)
-                    )
-            )
             commitNow()
         }
         notifyBackStackListeners()
