@@ -31,7 +31,7 @@ interface FragmentNavigatorInterface {
 
     fun remove(route: FragmentRoute, animations: Animations = EmptyResourceAnimations)
 
-    fun removeLast(route: FragmentRoute, animations: Animations)
+    fun removeLast(animations: Animations)
 
     fun removeUntil(route: FragmentRoute, animations: Animations, isInclusive: Boolean)
 
