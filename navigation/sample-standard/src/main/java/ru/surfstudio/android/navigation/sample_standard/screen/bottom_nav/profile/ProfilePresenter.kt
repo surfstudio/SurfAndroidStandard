@@ -34,10 +34,7 @@ class ProfilePresenter @Inject constructor(
     private fun subscribeToLogoutResult(confirmLogoutRoute: LogoutConfirmationRoute) {
         subscribe(screenResultObserver.observeScreenResult(confirmLogoutRoute)) { result ->
             if (result == SimpleDialogResult.POSITIVE) {
-                RemoveLast(
-                        route = ProfileRoute(),
-                        sourceTag = ACTIVITY_NAVIGATION_TAG
-                ).execute()
+                RemoveLast(sourceTag = ACTIVITY_NAVIGATION_TAG).execute()
             }
         }
     }
