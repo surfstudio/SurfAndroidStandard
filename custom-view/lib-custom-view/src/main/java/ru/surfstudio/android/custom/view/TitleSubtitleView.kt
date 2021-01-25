@@ -51,8 +51,11 @@ class TitleSubtitleView @JvmOverloads constructor(
         defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
-    private var titleView: TextView = TextView(context)
-    private var subTitleView: TextView = TextView(context)
+    var titleView: TextView = TextView(context)
+        private set
+
+    var subTitleView: TextView = TextView(context)
+        private set
 
     private var defaultTitle: String = "Title"
         set(value) {
