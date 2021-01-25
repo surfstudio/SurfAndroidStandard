@@ -763,7 +763,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 10,
+    "unstable_version": 11,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -1247,7 +1247,7 @@
   {
     "id": "imageloader",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 10,
     "stable": false,
     "dir": "imageloader",
     "libs": [
