@@ -3,12 +3,12 @@ package ru.surfstudio.android.navigation.backstack.fragment
 import androidx.fragment.app.Fragment
 import ru.surfstudio.android.navigation.backstack.BackStack
 import ru.surfstudio.android.navigation.backstack.fragment.entry.FragmentBackStackEntry
-import java.util.Stack
+import java.util.*
 
 /**
  * [BackStack] for fragments.
  */
-class FragmentBackStack : BackStack<FragmentBackStackEntry>, Stack<FragmentBackStackEntry>() {
+class FragmentBackStack : LinkedList<FragmentBackStackEntry>() {
 
     /**
      * Find [FragmentBackStackEntry] with a specific [tag].
