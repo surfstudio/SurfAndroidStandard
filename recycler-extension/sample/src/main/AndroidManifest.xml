@@ -20,6 +20,7 @@
         <activity android:name=".screen.CarouselActivity" />
         <activity android:name=".screen.SlidingItemsActivity" />
         <activity android:name=".screen.SnapHelpersActivity" />
+        <activity android:name=".screen.PaginationStickyActivityView" />
     </application>
 
 </manifest>
