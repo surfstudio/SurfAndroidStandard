@@ -157,8 +157,6 @@ open class FragmentNavigationProviderCallbacks(
         }
     }
 
-
-
     private companion object {
         const val NO_NAVIGATION_HOLDER_ERROR =
                 "There's no navigation holders in FragmentNavigationProvider! " +
