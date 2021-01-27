@@ -12,6 +12,9 @@ import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
 import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
 import java.io.Serializable
 
+/**
+ *  The activity navigator which supports start for result.
+ */
 open class ActivityNavigatorWithResultImpl(
         activity: AppCompatActivity
 ) : ActivityNavigator(activity), ActivityNavigatorWithResult {
