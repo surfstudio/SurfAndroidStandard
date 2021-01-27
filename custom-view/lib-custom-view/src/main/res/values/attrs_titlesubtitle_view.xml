@@ -43,6 +43,7 @@
         <attr name="titleDrawableEnd" format="reference" />
         <attr name="titleDrawableTop" format="reference" />
         <attr name="titleDrawableBottom" format="reference" />
+        <attr name="isTitleSelectable" format="boolean" />
 
         <attr name="subTitleText" format="string" />
         <attr name="subTitleTextColor" format="color" />
@@ -86,6 +87,7 @@
         <attr name="subTitleDrawableEnd" format="reference" />
         <attr name="subTitleDrawableTop" format="reference" />
         <attr name="subTitleDrawableBottom" format="reference" />
+        <attr name="isSubtitleSelectable" format="boolean" />
 
     </declare-styleable>
 </resources>
