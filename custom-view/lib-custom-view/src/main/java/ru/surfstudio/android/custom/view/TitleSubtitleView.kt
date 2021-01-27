@@ -327,6 +327,8 @@ class TitleSubtitleView @JvmOverloads constructor(
 
             compoundDrawablePadding = ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_titleDrawablePadding, 0)
             setupTitleDrawables(ta)
+
+            setTextIsSelectable(ta.getBoolean(R.styleable.TitleSubtitleView_isTitleSelectable, false))
         }
     }
 
@@ -364,6 +366,8 @@ class TitleSubtitleView @JvmOverloads constructor(
 
             compoundDrawablePadding = ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_subTitleDrawablePadding, 0)
             setupSubTitleDrawables(ta)
+
+            setTextIsSelectable(ta.getBoolean(R.styleable.TitleSubtitleView_isSubtitleSelectable, false))
         }
     }
 
