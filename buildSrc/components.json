@@ -1698,7 +1698,28 @@
         "name": "navigation-observer",
         "dir": "lib-navigation-observer",
         "artifact_name": "navigation-observer",
-        "third_party_dependencies": [],
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.activity:activity",
+            "type": "api"
+          },
+          {
+            "name": "androidx.activity:activity-ktx",
+            "type": "api"
+          },
+          {
+            "name": "androidx.fragment:fragment",
+            "type": "api"
+          },
+          {
+            "name": "androidx.fragment:fragment-ktx",
+            "type": "api"
+          }
+        ],
         "android_standard_dependencies": [
           {
             "name": "navigation",

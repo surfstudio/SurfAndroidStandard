@@ -66,6 +66,7 @@
 * ANDDEP-1144 Fix navigation
 * ANDDEP-1141 Added Firebase BoM dependency
 * Fix event generation
+* ANDDEP-1100 Navigation with starting system activities for result
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
