@@ -20,6 +20,7 @@ import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -35,6 +36,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
@@ -112,6 +114,14 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     override fun url(@DrawableRes drawableResId: Int) =
             apply { this.imageResourceManager.drawableResId = drawableResId }
+
+    /**
+     * Загрузка изображения/видео по URI
+     *
+     * @param uri URI-ссылка
+     */
+    override fun uri(uri: Uri): ImageLoaderInterface =
+            apply { imageResourceManager.uri = uri }
 
     /**
      * Указание графического ресурса, отображаемого в качестве плейсхолдера
@@ -306,6 +316,15 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     }
 
     /**
+     * Установка кадра видео, который отобразится на [ImageView]
+     *
+     * @param frameTimeMs время кадра из видео в миллисекундах
+     */
+    override fun frame(frameTimeMs: Long) = apply {
+        imageResourceManager.frame = frameTimeMs
+    }
+
+    /**
      * Принудительная вставка изображения во вью
      * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
      */
@@ -416,20 +435,13 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?, imageSource: ImageSource?) -> Unit)? = null,
             onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
     ) {
-        buildRequest().into(object : CustomViewTarget<V, Drawable>(view) {
-
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                onErrorLambda?.invoke(errorDrawable)
-            }
-
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                onCompleteLambda?.invoke(resource, transition, imageCacheManager.imageSource)
-            }
-
-            override fun onResourceCleared(placeholder: Drawable?) {
-                onClearMemoryLambda?.invoke(placeholder)
-            }
-        })
+        buildRequest().into(
+                if (view is ImageView) {
+                    getDrawableImageViewTargetObject(view, onErrorLambda, onCompleteLambda, onClearMemoryLambda)
+                } else {
+                    getCustomViewTargetObject(view, onErrorLambda, onCompleteLambda, onClearMemoryLambda)
+                }
+        )
     }
 
     /**
@@ -441,6 +453,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .addErrorIf(imageResourceManager.isErrorSet) { imageResourceManager.prepareErrorDrawable() }
             .addThumbnailIf(imageResourceManager.isPreviewSet) { imageResourceManager.preparePreviewDrawable() }
             .addTransitionIf(imageTransitionManager.isTransitionSet, imageTransitionManager.imageTransitionOptions)
+            .addFrameIf(imageResourceManager.isFrameSet, imageResourceManager.frame)
             .apply(
                     RequestOptions()
                             .disableHardwareConfigIf(imageResourceManager.isHardwareConfigDisabled)
@@ -482,6 +495,57 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                 { resource, _ -> view.background = resource },
                 view::setBackground
         )
+    }
+
+    /**
+     * Возвращает [Target], наследуемый от [CustomViewTarget]
+     */
+    private fun <V : View> getCustomViewTargetObject(
+            view: V,
+            onErrorLambda: ((errorDrawable: Drawable?) -> Unit)?,
+            onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?, imageSource: ImageSource?) -> Unit)?,
+            onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)?
+    ): CustomViewTarget<V, Drawable> {
+        return object : CustomViewTarget<V, Drawable>(view) {
+
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                onErrorLambda?.invoke(errorDrawable)
+            }
+
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                onCompleteLambda?.invoke(resource, transition, imageCacheManager.imageSource)
+            }
+
+            override fun onResourceCleared(placeholder: Drawable?) {
+                onClearMemoryLambda?.invoke(placeholder)
+            }
+        }
+    }
+
+    /**
+     * Возвращает [Target], наследуемый от [DrawableImageViewTarget]
+     */
+    private fun getDrawableImageViewTargetObject(
+            view: ImageView,
+            onErrorLambda: ((errorDrawable: Drawable?) -> Unit)?,
+            onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?, imageSource: ImageSource?) -> Unit)?,
+            onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)?
+    ): DrawableImageViewTarget {
+        return object : DrawableImageViewTarget(view) {
+
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                onErrorLambda?.invoke(errorDrawable)
+            }
+
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                onCompleteLambda?.invoke(resource, transition, imageCacheManager.imageSource)
+            }
+
+            override fun onLoadCleared(placeholder: Drawable?) {
+                onClearMemoryLambda?.invoke(placeholder)
+                super.onLoadCleared(placeholder)
+            }
+        }
     }
 
     //region Deprecated

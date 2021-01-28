@@ -1,0 +1,13 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidSample.gradle"
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.permission.sample"
+    }
+}
+
+dependencies {
+    DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
+}

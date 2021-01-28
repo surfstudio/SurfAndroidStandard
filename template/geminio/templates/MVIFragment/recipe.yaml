@@ -1,0 +1,182 @@
+requiredParams:
+  name: MVIFragment
+  description: Creates all necessary files for a MVI-based screen.
+
+optionalParams:
+  revision: 1
+  category: Surf
+  formFactor: mobile
+  constraints:
+    - kotlin
+  screens:
+    - fragment_gallery
+    - menu_entry
+  minApi: 7
+  minBuildApi: 8
+
+widgets:
+  - stringParameter:
+      id: screenName
+      name: Имя экрана (без окончания)
+      help: The name of the screen to create
+      constraints:
+        - nonempty
+      default: Blank
+
+  - stringParameter:
+      id: layoutName
+      name: Имя файла XML разметки
+      help: The name of the layout to create
+      constraints:
+        - layout
+        - nonempty
+        - unique
+      default: fragment_${screenName.classToResource()}
+      suggest: fragment_${screenName.classToResource()}
+
+  - stringParameter:
+      id: viewClassName
+      name: Имя файла Fragment
+      help: The name of the fragment
+      default: ${screenName}FragmentView
+      suggest: ${screenName}FragmentView
+      visibility: false
+
+  - stringParameter:
+      id: eventClassName
+      name: Имя файла c Events
+      help: The name of events class
+      default: ${screenName}Event
+      suggest: ${screenName}Event
+      visibility: false
+
+  - stringParameter:
+      id: stateHolderClassName
+      name: Имя файла StateHolder
+      help: The name of StateHolder
+      default: ${screenName}StateHolder
+      suggest: ${screenName}StateHolder
+      visibility: false
+
+  - stringParameter:
+      id: stateClassName
+      name: Имя файла State
+      help: The name of state
+      default: ${screenName}State
+      suggest: ${screenName}State
+      visibility: false
+
+  - stringParameter:
+      id: middlewareClassName
+      name: Имя файла Middleware
+      help: The name of middleware
+      default: ${screenName}Middleware
+      suggest: ${screenName}Middleware
+      visibility: false
+
+  - stringParameter:
+      id: reactorClassName
+      name: Имя файла Reactor
+      help: The name of reactor
+      default: ${screenName}Reactor
+      suggest: ${screenName}Reactor
+      visibility: false
+
+  - stringParameter:
+      id: reducerClassName
+      name: Имя файла Reducer
+      help: The name of reducer
+      default: ${screenName}Reducer
+      suggest: ${screenName}Reducer
+      visibility: false
+
+  - stringParameter:
+      id: configuratorClassName
+      name: Имя файла Configurator
+      help: The name of configurator
+      default: ${screenName}ScreenConfigurator
+      suggest: ${screenName}ScreenConfigurator
+      visibility: false
+
+  - stringParameter:
+      id: screenComponentClassName
+      name: Имя файла ScreenComponent
+      help: The name of component in configurator
+      default: ${screenName}ScreenComponent
+      suggest: ${screenName}ScreenComponent
+      visibility: false
+
+  - stringParameter:
+      id: screenModuleClassName
+      name: Имя файла Module
+      help: The name of module in configurator
+      default: ${screenName}ScreenModule
+      suggest: ${screenName}ScreenModule
+      visibility: false
+
+  - stringParameter:
+      id: routeClassName
+      name: Имя файла базового Route
+      help: The name of base route class
+      default: ${screenName}FragmentRoute
+      suggest: ${screenName}FragmentRoute
+      visibility: false
+
+  - booleanParameter:
+      id: react
+      name: Использовать Reactor
+      help: ...
+      default: false
+
+  - booleanParameter:
+      id: reduce
+      name: Использовать Reducer
+      help: ...
+      default: true
+
+  - booleanParameter:
+      id: shouldAddNavigationMiddleware
+      name: Обработка событий навигации
+      help: Добавить обработку?
+      default: false
+
+  - booleanParameter:
+      id: useNewNavigation
+      name: Использовать новую навигацию
+      help: Из модуля ru.surfstudio.android.navigation
+      default: true
+
+recipe:
+  - instantiate:
+      from: root/res/layout/view.xml.ftl
+      to: ${resOut}/layout/${layoutName}.xml
+  - instantiate:
+      from: root/src/app_package/java/di/Configurator.kt.ftl
+      to: ${srcOut}/di/${screenName}Configurator.kt
+  - instantiate:
+      from: root/src/app_package/java/Event.kt.ftl
+      to: ${srcOut}/${screenName}Event.kt
+  - instantiate:
+      from: root/src/app_package/java/Middleware.kt.ftl
+      to: ${srcOut}/${screenName}Middleware.kt
+  - instantiate:
+      from: root/src/app_package/java/Route.kt.ftl
+      to: ${srcOut}/${screenName}Route.kt
+  - instantiate:
+      from: root/src/app_package/java/StateHolder.kt.ftl
+      to: ${srcOut}/${screenName}StateHolder.kt
+  - instantiate:
+      from: root/src/app_package/java/FragmentView.kt.ftl
+      to: ${srcOut}/${screenName}Fragment.kt
+  - predicate:
+      validIf: ${react}
+      commands:
+        - instantiate:
+            from: root/src/app_package/java/Reactor.kt.ftl
+            to: ${srcOut}/${screenName}Reactor.kt
+  - predicate:
+      validIf: ${reduce}
+      commands:
+        - instantiate:
+            from: root/src/app_package/java/Reducer.kt.ftl
+            to: ${srcOut}/${screenName}Reducer.kt

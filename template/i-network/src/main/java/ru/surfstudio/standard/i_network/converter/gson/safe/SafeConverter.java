@@ -20,7 +20,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
-@Deprecated
 public abstract class SafeConverter<T> {
 
     private TypeToken<T> type;

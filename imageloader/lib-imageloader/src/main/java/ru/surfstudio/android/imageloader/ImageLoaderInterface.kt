@@ -19,7 +19,9 @@ import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
+import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
@@ -47,6 +49,13 @@ interface ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
     fun url(@DrawableRes drawableResId: Int): ImageLoaderInterface
+
+    /**
+     * Загрузка изображения/видео по URI
+     *
+     * @param uri URI-ссылка
+     */
+    fun uri(uri: Uri): ImageLoaderInterface
 
     /**
      * Указание графического ресурса, отображаемого в качестве плейсхолдера.
@@ -225,6 +234,13 @@ interface ImageLoaderInterface {
      * @param signature
      */
     fun signature(signature: Any): ImageLoaderInterface
+
+    /**
+     * Установка кадра видео, который отобразится на [ImageView]
+     *
+     * @param frameTimeMs время кадра из видео в миллисекундах
+     */
+    fun frame(frameTimeMs: Long): ImageLoaderInterface
 
     /**
      * Отключение конфигурации [Bitmap.Config.HARDWARE].

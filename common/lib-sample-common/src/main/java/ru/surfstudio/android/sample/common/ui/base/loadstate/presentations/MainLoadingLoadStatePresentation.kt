@@ -12,7 +12,7 @@ import ru.surfstudio.android.sample.common.R
 import ru.surfstudio.android.sample.common.ui.base.loadstate.MainLoadingState
 
 /**
- * Представление состояния MainLoading в виде ProgressBar
+ * MainLoadingState presentation with a progressbar
  */
 class MainLoadingLoadStatePresentation(private val placeHolder: PlaceHolderViewContainer) :
         SimpleLoadStatePresentation<MainLoadingState>() {

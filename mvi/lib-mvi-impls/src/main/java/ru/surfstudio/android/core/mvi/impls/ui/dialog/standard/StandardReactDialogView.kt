@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2020, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
 package ru.surfstudio.android.core.mvi.impls.ui.dialog.standard
 
 import android.app.Dialog
@@ -83,10 +98,10 @@ class StandardReactDialogView<E : Event> : CoreSimpleDialogFragment() {
             if (textResId != EMPTY_RES) setPositiveButton(textResId, onClickListener) else this
 
     private fun AlertDialog.Builder.setNegativeButtonSafe(
-            @StringRes textResId: Int?,
+            @StringRes textResId: Int,
             onClickListener: DialogInterface.OnClickListener
     ): AlertDialog.Builder =
-            if (textResId != null) setNegativeButton(textResId, onClickListener) else this
+            if (textResId != EMPTY_RES) setNegativeButton(textResId, onClickListener) else this
 
     private fun AlertDialog.setButtonColorSafe(buttonType: Int, @ColorRes colorResId: Int) {
         if (colorResId != EMPTY_RES) {

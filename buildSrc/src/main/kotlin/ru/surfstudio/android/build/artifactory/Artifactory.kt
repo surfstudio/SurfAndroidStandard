@@ -2,9 +2,9 @@ package ru.surfstudio.android.build.artifactory
 
 import org.gradle.api.GradleException
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.exceptions.ArtifactNotExistInArtifactoryException
+import ru.surfstudio.android.build.exceptions.artifactory.ArtifactNotExistInArtifactoryException
 import ru.surfstudio.android.build.exceptions.FolderNotFoundException
-import ru.surfstudio.android.build.exceptions.LibraryNotFoundException
+import ru.surfstudio.android.build.exceptions.library.LibraryNotFoundException
 import ru.surfstudio.android.build.model.ArtifactInfo
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library

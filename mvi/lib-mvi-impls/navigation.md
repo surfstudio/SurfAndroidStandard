@@ -1,8 +1,10 @@
-[Главная страница репозитория](../docs/main.md)
-
-[TOC]
+[Главная страница репозитория](../../docs/main.md)
 
 # Навигация
+
+- [Composition](#composition)
+- [Схема](#схема)
+
 За всю навигацию в mvi отвечает `NavigationMiddleware` (`NavigationMiddlewareInterface`).
 
 Механзим работы этого middleware следующий: 
@@ -16,8 +18,7 @@
 
 1. Route, который мы используем, необходимо унаследовать от `SupportOnActivityResultRoute<T>
 
-1. Необходимо добавить в список трансформаций listenForResult, типизированный по нужному нам Route, **при создании** экрана. 
-Это обязательное условие, и нужно для того, чтобы среагировать на подписку результата работы экрана даже при полном пересоздании родительского экрана.
+1. В списке трансформаций подписываемся на `activityNavigator.observeResult(route)`, где `route` - нужный нам роут. 
 
 1. В OpenScreenEvent мы передаем нужный нам Route.
 
@@ -26,5 +27,11 @@
 ## Composition 
 Для упрощения переиспользования, NavigationMiddleware можно использовать в middleware родительских экранов через композицию событий.
 Механизм подробное описан [здесь][compreadme].
+
+## Схема
+
+Схематично все вышеописанное можно отобразить так:
+
+![Navigation flow diagram]( https://i.imgur.com/vfHcolI.jpg )
 
 [compreadme]: composition.md

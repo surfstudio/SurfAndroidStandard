@@ -1,5 +1,5 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
-// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-3.0.0-SNAPSHOT')
+//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
@@ -91,13 +91,27 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = { PrPipeline.properties(pipeline) }
+pipeline.propertiesProvider = {
+    [
+            script.buildDiscarder(
+                    script.logRotator(
+                            artifactDaysToKeepStr: '3',
+                            artifactNumToKeepStr: '10',
+                            daysToKeepStr: '30',
+                            numToKeepStr: '100')
+            ),
+            PrPipeline.parameters(script),
+            PrPipeline.triggers(script, pipeline.repoUrl),
+            script.gitLabConnection(pipeline.gitlabConnection)
+    ]
+}
+
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != PRE_MERGE) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -156,6 +170,7 @@ pipeline.stages = [
         pipeline.stage(PRE_MERGE) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
+                script.sh "git clean -fd"
             }
             script.git(
                     url: pipeline.repoUrl,
@@ -195,7 +210,7 @@ pipeline.stages = [
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -235,13 +250,42 @@ pipeline.stages = [
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
+        pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
+                    "androidStandardDebugMode=true\n" +
+                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
+            /**
+             * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
+             * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
+             */
+            script.sh("./gradlew -p template clean build assembleQa assembleDebug --stacktrace")
+        },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
+        //TODO не работает после переезда на MVI
+        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.SKIP_STAGE) {
+            script.dir("template") {
+                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                        script,
+                        new AvdConfig(),
+                        "debug",
+                        getTestInstrumentationRunnerName,
+                        new AndroidTestConfig(
+                                "assembleAndroidTest",
+                                "build/outputs/androidTest-results/instrumental",
+                                "build/reports/androidTests/instrumental",
+                                true,
+                                0
+                        ),
+                        "Template Instrumentation Test"
+                )
+            }
+        },
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -258,36 +302,13 @@ pipeline.stages = [
         },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
-        pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew generateModulesNamesFile")
-            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
-        },
-        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.dir("template") {
-                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                        script,
-                        new AvdConfig(),
-                        "debug",
-                        getTestInstrumentationRunnerName,
-                        new AndroidTestConfig(
-                                "assembleAndroidTest",
-                                "build/outputs/androidTest-results/instrumental",
-                                "build/reports/androidTests/instrumental",
-                                true,
-                                0
-                        )
-                )
-            }
         }
 ]
 pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
         def message = "Ветка ${sourceBranch} в состоянии ${pipeline.jobResult} из-за этапов: ${unsuccessReasons}; ${CommonUtil.getBuildUrlSlackLink(script)}"
-        JarvisUtil.sendMessageToUser(script, message, authorUsername, "bitbucket")
+        JarvisUtil.sendMessageToUser(script, message, authorUsername, "gitlab")
     }
 }
 

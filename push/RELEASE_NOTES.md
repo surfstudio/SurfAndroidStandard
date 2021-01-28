@@ -1,8 +1,13 @@
-[TOC]
 # Push Release Notes
+
+- [0.5.0-alpha](#050-alpha)
+- [0.4.0](#040)
+- [0.3.0](#030)
+
 ## 0.5.0-alpha
 ##### Push
-* TODO
+* ANDDEP-930 Added support to custom actions in the notification. Added corresponding listener to the `PushEventListener`.
+* **NO BACKWARD COMPATIBILITY** Before in PushInteractor you received `BaseNotificationTypeData<T>`, now in the `PushInteractor` you must register your listener to the object type which is used in the `BaseNotificationTypeData<T>` or its inherit classes.
 ## 0.4.0
 ##### Push
 * NotificationCenter removed - use `PushHandler`

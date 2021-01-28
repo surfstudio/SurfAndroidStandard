@@ -1,25 +1,28 @@
-apply plugin: 'ru.surfstudio.android'
-
 apply from: '../commonModule.gradle'
 
 dependencies {
     api project(":domain")
-    api "com.google.firebase:firebase-core:$firebaseCoreVersion" //todo might be removed for real project
-    api "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion"
-    api "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
+    api platform(firebase.bom)
+    api firebase.core //todo might be removed for real project
+    api firebase.analytics
+    api firebase.messaging
 
     gradle.ext.androidStandard.api(
             this,
             [
                     "activity-holder",
+                    "core-navigation",
+                    "navigation-observer",
                     "core-ui",
                     "core-mvp",
                     "core-mvp-binding",
                     "mvp-dialog",
                     "mvp-widget",
                     "easyadapter",
+                    "easyadapter-pagination",
                     "analytics",
                     "firebase-analytics",
+                    "permission",
                     "push",
                     "dagger-scope",
                     "logger",
@@ -39,6 +42,12 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"]
+                    "rxbus",
+                    "mvi-core",
+                    "mvi-impls",
+                    "mvi-mapper",
+                    "navigation",
+                    "navigation-rx",
+            ]
     )
 }

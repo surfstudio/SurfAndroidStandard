@@ -1,14 +1,27 @@
+/*
+  Copyright (c) 2020, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
 package ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.close.*
+import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition.OpenScreenForResult
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.open.OpenScreenEvent
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
-import ru.surfstudio.android.core.mvi.util.filterIsInstance
-import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
-import ru.surfstudio.android.core.ui.navigation.ScreenResult
+import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute
 import java.io.Serializable
 
 /**
@@ -26,7 +39,11 @@ interface NavigationMiddlewareInterface<T : Event> : RxMiddleware<T> {
      * Opens the screen when [OpenScreenEvent] appears on eventStream.
      */
     fun openScreenByEvent(event: OpenScreenEvent) {
-        screenNavigator.open(event.route)
+        if (event is OpenScreenForResult<*>) {
+            screenNavigator.openForResult(event.route)
+        } else {
+            screenNavigator.open(event.route)
+        }
     }
 
     /**
@@ -67,72 +84,4 @@ interface NavigationMiddlewareInterface<T : Event> : RxMiddleware<T> {
                 }
                 Observable.empty<T>()
             }
-
-    /**
-     * Listens for screen result of specific route.
-     * Used whe the screen result should be processed on eventStream chain.
-     *
-     * @param routeClass screen route class
-     * @param screenResultMapper mapper, which triggers on [CloseWithResultEvent] and
-     * transforms result in Observable<T> to pass it to eventStream.
-     */
-    fun <R : Serializable> Observable<T>.listenForResultMap(
-            routeClass: Class<out SupportOnActivityResultRoute<R>>,
-            screenResultMapper: (ScreenResult<R>) -> Observable<T>
-    ): Observable<out T> {
-
-        val observeRoute = screenNavigator.observeResult(routeClass)
-                .flatMap(screenResultMapper)
-
-        val openScreen = filterIsInstance<OpenScreenEvent>()
-                .filter { routeClass.isInstance(it.route) }
-                .flatMap {
-                    screenNavigator.open(it.route)
-                    Observable.empty<T>()
-                }
-
-        return merge(observeRoute, openScreen)
-    }
-
-    /**
-     * Listens for screen result of specific route.
-     * Used whe the screen result should be processed on eventStream chain.
-     *
-     * @param routeClass screen route class
-     * @param screenResultMapper mapper, which triggers on [CloseWithResultEvent] and
-     * transforms result in Observable<T> to pass it to eventStream.
-     */
-    fun <D : Serializable> EventTransformerList<T>.listenForResultMap(
-            routeClass: Class<out SupportOnActivityResultRoute<D>>,
-            screenResultMapper: (ScreenResult<D>) -> Observable<T>
-    ): Observable<out T> = eventStream.listenForResultMap(routeClass, screenResultMapper)
-
-    /**
-     * Listens for screen result of specific route.
-     * Used whe the screen result should be simply reacted on.
-     *
-     * @param routeClass screen route class
-     * @param screenResultCallback callback, which is called on [CloseWithResultEvent]
-     */
-    fun <D : Serializable> Observable<T>.listenForResult(
-            routeClass: Class<out SupportOnActivityResultRoute<D>>,
-            screenResultCallback: (ScreenResult<D>) -> Unit
-    ): Observable<out T> =
-            listenForResultMap(routeClass) {
-                screenResultCallback(it)
-                Observable.empty()
-            }
-
-    /**
-     * Listens for screen result of specific route.
-     * Used whe the screen result should be simply reacted on.
-     *
-     * @param routeClass screen route class
-     * @param screenResultCallback callback, which is called on [CloseWithResultEvent]
-     */
-    fun <D : Serializable> EventTransformerList<T>.listenForResult(
-            routeClass: Class<out SupportOnActivityResultRoute<D>>,
-            screenResultCallback: (ScreenResult<D>) -> Unit
-    ): Observable<out T> = eventStream.listenForResult(routeClass, screenResultCallback)
-
 }

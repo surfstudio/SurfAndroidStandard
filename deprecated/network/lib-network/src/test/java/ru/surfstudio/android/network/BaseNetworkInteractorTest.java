@@ -17,7 +17,7 @@ import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.error.CacheEmptyException;
 import ru.surfstudio.android.network.error.NotModifiedException;
 
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static ru.surfstudio.android.network.BaseNetworkInteractorTest.Response.CACHE;
@@ -122,8 +122,8 @@ public class BaseNetworkInteractorTest {
                 .test()
                 .assertNoErrors() // ошибка проглатывается, но логгируется
                 .assertValues(SERVER);
-        PowerMockito.verifyStatic(VerificationModeFactory.times(1));
-        Logger.w((Throwable) anyObject(), anyString());
+        PowerMockito.verifyStatic(Logger.class, VerificationModeFactory.times(1));
+        Logger.e((Throwable) any(), anyString());
     }
 
     @Test
@@ -151,14 +151,14 @@ public class BaseNetworkInteractorTest {
         SERVER, CACHE
     }
 
-    private class TestServerException extends Exception {
+    private static class TestServerException extends Exception {
         @Override
         public boolean equals(Object obj) {
             return obj instanceof TestServerException;
         }
     }
 
-    private class TestCacheException extends Exception {
+    private static class TestCacheException extends Exception {
         @Override
         public boolean equals(Object obj) {
             return obj instanceof TestCacheException;

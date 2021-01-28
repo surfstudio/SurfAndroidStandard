@@ -5,7 +5,7 @@ import ru.surfstudio.standard.i_token.TokenStorage
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.logger.RemoteLogger
+import ru.surfstudio.standard.base.logger.RemoteLogger
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import javax.inject.Inject
 
