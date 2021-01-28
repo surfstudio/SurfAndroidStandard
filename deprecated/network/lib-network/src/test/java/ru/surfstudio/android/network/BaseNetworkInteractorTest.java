@@ -123,7 +123,7 @@ public class BaseNetworkInteractorTest {
                 .assertNoErrors() // ошибка проглатывается, но логгируется
                 .assertValues(SERVER);
         PowerMockito.verifyStatic(Logger.class, VerificationModeFactory.times(1));
-        Logger.e((Throwable) any(), anyString());
+        Logger.w((Throwable) any(), anyString());
     }
 
     @Test
