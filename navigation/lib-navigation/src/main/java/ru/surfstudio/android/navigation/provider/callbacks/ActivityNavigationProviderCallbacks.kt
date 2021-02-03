@@ -8,14 +8,13 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
-import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
-import ru.surfstudio.android.navigation.provider.holder.ActivityNavigationHolder
-import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
-import ru.surfstudio.android.navigation.provider.callbacks.factory.FragmentNavigationProviderCallbacksFactory
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
+import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
+import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
+import ru.surfstudio.android.navigation.provider.callbacks.factory.FragmentNavigationProviderCallbacksFactory
 import ru.surfstudio.android.navigation.provider.callbacks.listener.OnHolderActiveListener
+import ru.surfstudio.android.navigation.provider.holder.ActivityNavigationHolder
 import ru.surfstudio.android.navigation.route.Route
 import ru.surfstudio.android.navigation.route.activity.getDataBundle
 
@@ -94,7 +93,7 @@ open class ActivityNavigationProviderCallbacks(
         }
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         safeRequireActivityId(activity) { _, id ->
             val provider = navigatorHolders[id]?.fragmentNavigationProvider
             val callbacksProvider = provider as? FragmentNavigationProviderCallbacks
@@ -169,7 +168,7 @@ open class ActivityNavigationProviderCallbacks(
             val intent = activity.intent
             val dataBundle = intent.getDataBundle()
             val screenId = when {
-                dataBundle != null -> dataBundle.getString(Route.EXTRA_SCREEN_ID)
+                dataBundle != null -> dataBundle.getString(Route.EXTRA_SCREEN_ID) ?: ""
                 intent.action == Intent.ACTION_MAIN -> LAUNCHER_ACTIVITY_ID
                 else -> return
             }
