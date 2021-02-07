@@ -30,4 +30,13 @@ interface ScreenResultObserver {
     fun <R> removeListener(
             targetRoute: R
     ) where R : BaseRoute<*>, R : ResultRoute<*>
+
+    /**
+     * Removes screen result listener.
+     *
+     * @param routeId id of a screen, that is emitting result
+     */
+    fun <R> removeListener(
+            routeId: String
+    ) where R : BaseRoute<*>, R : ResultRoute<*>
 }

@@ -31,24 +31,34 @@ open class ScreenResultBus(
     }
 
     override fun <R> removeListener(
+            routeId: String
+    ) where R : BaseRoute<*>, R : ResultRoute<*> {
+        listeners.removeAll { it.targetId == routeId }
+    }
+
+    override fun <R> removeListener(
             targetRoute: R
     ) where R : BaseRoute<*>, R : ResultRoute<*> {
-        val targetId = getRouteId(targetRoute)
-        listeners.removeAll { it.targetId == targetId }
+        removeListener<R>(getRouteId(targetRoute))
+    }
+
+    override fun <T : Serializable, R> emit(
+            routeId: String,
+            result: T
+    ) where R : BaseRoute<*>, R : ResultRoute<T> {
+        val matchingObservers = listeners.filter { it.targetId == routeId }
+        if (matchingObservers.isNotEmpty()) {
+            matchingObservers.forEach { it.listener(result) }
+        } else { //no observers, but result emitted
+            saveResultToStorage(routeId, result)
+        }
     }
 
     override fun <T : Serializable, R> emit(
             targetRoute: R,
             result: T
-    ) where R: BaseRoute<*>, R: ResultRoute<T> {
-        val targetId = getRouteId(targetRoute)
-
-        val matchingObservers = listeners.filter { it.targetId == targetId }
-        if (matchingObservers.isNotEmpty()) {
-            matchingObservers.forEach { it.listener(result) }
-        } else { //no observers, but result emitted
-            saveResultToStorage(targetId, result)
-        }
+    ) where R : BaseRoute<*>, R : ResultRoute<T> {
+        emit<T, R>(getRouteId(targetRoute), result)
     }
 
     private fun <T : Serializable> saveResultToStorage(targetId: String, result: T) {
