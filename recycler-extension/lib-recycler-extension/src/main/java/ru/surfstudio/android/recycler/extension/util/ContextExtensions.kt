@@ -39,7 +39,7 @@ internal fun Context.dpToPx(dp: Int): Int {
 /**
  * Extension-method for fast px to dp convertation.
  * */
-fun Context.pxToDp(px: Int): Float {
+internal fun Context.pxToDp(px: Int): Float {
     return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_PX,
             px.toFloat(),
