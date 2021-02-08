@@ -3,7 +3,7 @@ package ru.surfstudio.android.build.model.dependency
 import org.gradle.api.GradleException
 
 /**
- * Dependencies types
+ * Enum of maven and gradle dependencies ratios
  */
 enum class DependencyType(
         val gradleType: String,
