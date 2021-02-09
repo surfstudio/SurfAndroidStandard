@@ -11,6 +11,7 @@
 * Added method `DateUtil.reformatDate ()`, which allows to reformat string representation of the date from one format to another
 * ANDDEP-687 Changed "com.google.android.material:material" dependency from "api" to "implementation" type 
 * ANDDEP-1065 Add Serializable to `SelectableData`, `CheckableData`, `BlockableData`, `DeletableData`, `ExpandableData`, `LoadableData`, `ScrollableData`, `VisibleData`
+* ANDEEP-1062 added methods to convert sp to px and vice versa
 * fix ActivityLifecycleListener 
 ## 0.4.0
 ##### Util-ktx
