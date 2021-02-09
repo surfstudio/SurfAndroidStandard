@@ -18,6 +18,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.surfstudio.android.navigation.sample">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.CAMERA"
+        android:requiredFeature="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -35,6 +45,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".app.screen.main.profile.about.AboutActivity" />
+
+        <provider
+            android:name=".app.screen.system.AppFileProvider"
+            android:authorities="${applicationId}.app_fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/app_fileprovider_path" />
+        </provider>
 
     </application>
 

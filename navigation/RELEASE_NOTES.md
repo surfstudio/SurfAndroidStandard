@@ -11,3 +11,4 @@
 * Update removeUntil and removeAll animations: now they inherit animations from the first fragment of the removing bunch.
 * ANDDEP-1154 Fixed crashes "You must specify unique tag"
 * ANDDEP-1153 Fixed wrong behavior RemoveLast
+* ANDDEP-1100 Added command StartForResult to open system activities for getting result

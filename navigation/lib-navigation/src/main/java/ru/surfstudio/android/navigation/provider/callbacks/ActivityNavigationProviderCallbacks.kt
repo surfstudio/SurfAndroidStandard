@@ -9,14 +9,13 @@ import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
+import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigatorFactory
+import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
-import ru.surfstudio.android.navigation.provider.holder.ActivityNavigationHolder
 import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
 import ru.surfstudio.android.navigation.provider.callbacks.factory.FragmentNavigationProviderCallbacksFactory
-import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
-import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
 import ru.surfstudio.android.navigation.provider.callbacks.listener.OnHolderActiveListener
+import ru.surfstudio.android.navigation.provider.holder.ActivityNavigationHolder
 import ru.surfstudio.android.navigation.route.Route
 import ru.surfstudio.android.navigation.route.activity.getDataBundle
 
@@ -32,7 +31,8 @@ import ru.surfstudio.android.navigation.route.activity.getDataBundle
  * for each activity.
  */
 open class ActivityNavigationProviderCallbacks(
-        private val fragmentCallbacksFactory: FragmentNavigationProviderCallbacksFactory = FragmentNavigationProviderCallbacksFactory()
+        private val fragmentCallbacksFactory: FragmentNavigationProviderCallbacksFactory = FragmentNavigationProviderCallbacksFactory(),
+        private val activityNavigatorFactory: ActivityNavigatorFactory = ActivityNavigatorFactory()
 ) : Application.ActivityLifecycleCallbacks, ActivityNavigationProvider {
 
 
@@ -151,7 +151,7 @@ open class ActivityNavigationProviderCallbacks(
         val fragmentNavigationProvider = fragmentCallbacksFactory.create(activity, savedInstanceState)
         registerFragmentNavigationProvider(activity, fragmentNavigationProvider)
 
-        val activityNavigator = ActivityNavigator(activity)
+        val activityNavigator = activityNavigatorFactory.create(activity)
         val dialogNavigator = DialogNavigator(activity)
 
         return ActivityNavigationHolder(

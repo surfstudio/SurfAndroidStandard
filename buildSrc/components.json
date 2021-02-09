@@ -1674,7 +1674,7 @@
   {
     "id": "navigation",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1698,7 +1698,28 @@
         "name": "navigation-observer",
         "dir": "lib-navigation-observer",
         "artifact_name": "navigation-observer",
-        "third_party_dependencies": [],
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.activity:activity",
+            "type": "api"
+          },
+          {
+            "name": "androidx.activity:activity-ktx",
+            "type": "api"
+          },
+          {
+            "name": "androidx.fragment:fragment",
+            "type": "api"
+          },
+          {
+            "name": "androidx.fragment:fragment-ktx",
+            "type": "api"
+          }
+        ],
         "android_standard_dependencies": [
           {
             "name": "navigation",
@@ -2138,7 +2159,7 @@
   {
     "id": "util-ktx",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "util-ktx",
     "libs": [
@@ -2179,7 +2200,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 41,
+    "unstable_version": 42,
     "stable": false,
     "dir": "template",
     "libs": [],
