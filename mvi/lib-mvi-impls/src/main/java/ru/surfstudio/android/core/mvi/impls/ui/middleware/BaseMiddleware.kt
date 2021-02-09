@@ -24,11 +24,14 @@ import ru.surfstudio.android.core.mvi.event.factory.EventFactory
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.BaseDslRxMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.LifecycleMiddleware
+import ru.surfstudio.android.core.mvi.impls.ui.middleware.freeze.LifecycleFreezeMiddleware
+import ru.surfstudio.android.core.mvi.impls.ui.middleware.persistent.PersistentCheckLifecycleMiddleware
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderHandleError
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderIo
 import ru.surfstudio.android.core.mvp.binding.rx.request.Request
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
+import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.toObservable
@@ -42,11 +45,14 @@ abstract class BaseMiddleware<T : Event>(
         baseMiddlewareDependency: BaseMiddlewareDependency
 ) : BaseDslRxMiddleware<T>,
         LifecycleMiddleware<T>,
+        LifecycleFreezeMiddleware<T>,
+        PersistentCheckLifecycleMiddleware<T>,
         RxBuilderIo,
         RxBuilderHandleError {
 
     override val schedulersProvider: SchedulersProvider = baseMiddlewareDependency.schedulersProvider
     override val errorHandler: ErrorHandler = baseMiddlewareDependency.errorHandler
+    override val screenState: ScreenState = baseMiddlewareDependency.screenState
 
     protected fun <T> Observable<T>.ignoreErrors() = onErrorResumeNext { error: Throwable ->
         Logger.e(error) //логгируем ошибку, чтобы хотя бы знать, где она произошла

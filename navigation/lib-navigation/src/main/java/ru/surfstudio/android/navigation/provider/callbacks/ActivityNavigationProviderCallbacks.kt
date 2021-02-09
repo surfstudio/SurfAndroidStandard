@@ -101,7 +101,7 @@ open class ActivityNavigationProviderCallbacks(
         }
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         safeRequireActivityId(activity) { _, id ->
             val provider = navigatorHolders[id]?.fragmentNavigationProvider
             val callbacksProvider = provider as? FragmentNavigationProviderCallbacks
@@ -175,7 +175,7 @@ open class ActivityNavigationProviderCallbacks(
             val intent = activity.intent
             val dataBundle = intent.getDataBundle()
             val screenId = when {
-                dataBundle != null -> dataBundle.getString(Route.EXTRA_SCREEN_ID)
+                dataBundle != null -> dataBundle.getString(Route.EXTRA_SCREEN_ID, "")
                 intent.action == Intent.ACTION_MAIN -> LAUNCHER_ACTIVITY_ID
                 else -> return
             }
