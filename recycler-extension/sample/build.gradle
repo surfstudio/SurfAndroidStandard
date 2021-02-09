@@ -11,6 +11,9 @@ android {
 dependencies {
     DependencyConfigurator.projectImplementation(project, "recycler-extension")
     DependencyConfigurator.projectImplementation(project, "easyadapter")
+    DependencyConfigurator.projectImplementation(project, "easyadapter-pagination")
+    DependencyConfigurator.projectImplementation(project, "datalist-base")
+    DependencyConfigurator.projectImplementation(project, "datalist-page-count")
     DependencyConfigurator.projectImplementation(project, "sample-common")
 
     DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")

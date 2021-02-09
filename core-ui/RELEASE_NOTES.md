@@ -20,6 +20,7 @@
     If your app depends on permission handling mechanisms from `core-ui`, add `permission` module in its gradle dependencies as well.
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 * ANDDEP-1138 Added supporting View Binding
+* fix getting root view, return root view instead DecorView, because view binding can't init by DecorView
 * Added android 11 support for PermissionManager (one-time permission handling)
 ## 0.4.0
 ##### Core-ui

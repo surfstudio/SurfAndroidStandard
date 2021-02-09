@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <cache-path
+        name="share"
+        path="/temporary_files" />
+    <external-files-path
+        name="media"
+        path="/Pictures" />
+</paths>
