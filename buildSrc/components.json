@@ -1864,7 +1864,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 9,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -2159,7 +2159,7 @@
   {
     "id": "util-ktx",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "util-ktx",
     "libs": [
