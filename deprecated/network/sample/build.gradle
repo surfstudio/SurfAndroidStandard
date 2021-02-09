@@ -15,6 +15,7 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "filestorage")
     DependencyConfigurator.projectImplementation(project, "custom-view")
     DependencyConfigurator.projectImplementation(project, "datalist-page-count")
+    DependencyConfigurator.projectImplementation(project, "datalist-base")
     DependencyConfigurator.projectImplementation(project, "picture-provider")
     DependencyConfigurator.projectImplementation(project, "sample-common")
     DependencyConfigurator.projectImplementation(project, "converter-gson")
