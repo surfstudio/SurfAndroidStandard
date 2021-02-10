@@ -20,8 +20,6 @@ class HomeNestedFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val currentOrder = HomeNestedRoute(arguments).order
         home_nested_tv.text = "Home\nNested\nFragment\n#$currentOrder"
-        val nextOrder = currentOrder + 1
-        home_nested_add_btn.setOnClickListener { App.navigator.execute(Replace(HomeNestedRoute(nextOrder), sourceTag = tag!!)) }
     }
 
 }

@@ -34,16 +34,14 @@ class GalleryTabFragment : Fragment(), FragmentNavigationContainer {
     }
 
     private fun addPicture() {
-        App.navigator.execute(Replace(ImageRoute(currentPicture), sourceTag = tag!!))
+
     }
 
     private fun removePicture() {
-        App.navigator.execute(RemoveLast(sourceTag = tag!!))
+
     }
 
     private fun subscribeToBackStackChanges() {
-        val provider = App.provider.provide().fragmentNavigationProvider.provide(tag)
-        val backStackEntries = provider.fragmentNavigator.addBackStackChangeListener { currentPicture = it.size + 1 }
-        Log.d("111111 Update pic", "backStacks$backStackEntries, manager=${childFragmentManager}")
+
     }
 }

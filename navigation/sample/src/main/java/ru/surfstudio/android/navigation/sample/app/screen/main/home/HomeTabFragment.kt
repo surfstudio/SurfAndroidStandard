@@ -5,12 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_home.*
-import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.sample.R
-import ru.surfstudio.android.navigation.sample.app.App
-import ru.surfstudio.android.navigation.sample.app.screen.main.home.nested.HomeNestedRoute
-import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
 
 class HomeTabFragment : Fragment() {
 
@@ -20,6 +15,6 @@ class HomeTabFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        home_add_btn.setOnClickListener { App.navigator.execute(Replace(HomeNestedRoute(), sourceTag = tag!!)) }
+
     }
 }

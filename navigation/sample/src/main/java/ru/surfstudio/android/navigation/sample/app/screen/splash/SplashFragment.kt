@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ru.surfstudio.android.navigation.command.fragment.ReplaceHard
 import ru.surfstudio.android.navigation.sample.R
-import ru.surfstudio.android.navigation.sample.app.App
-import ru.surfstudio.android.navigation.sample.app.screen.auth.AuthRoute
 
 class SplashFragment : Fragment() {
 
@@ -20,7 +17,7 @@ class SplashFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Handler().postDelayed({
-            App.navigator.execute(ReplaceHard(AuthRoute()))
+            // TODO
         }, 1500L)
     }
 }

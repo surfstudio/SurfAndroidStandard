@@ -6,22 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_main.*
-import ru.surfstudio.android.navigation.command.activity.Finish
-import ru.surfstudio.android.navigation.command.fragment.RemoveAll
-import ru.surfstudio.android.navigation.command.fragment.RemoveLast
-import ru.surfstudio.android.navigation.command.fragment.Replace
-import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigatorInterface
 import ru.surfstudio.android.navigation.provider.container.TabFragmentNavigationContainer
-import ru.surfstudio.android.navigation.provider.holder.FragmentNavigationHolder
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.sample.R
-import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.main.MainTabType.*
 import ru.surfstudio.android.navigation.sample.app.screen.main.gallery.GalleryTabRoute
 import ru.surfstudio.android.navigation.sample.app.screen.main.home.HomeTabRoute
 import ru.surfstudio.android.navigation.sample.app.screen.main.profile.ProfileTabRoute
 import ru.surfstudio.android.navigation.sample.app.utils.addOnBackPressedListener
-import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
 
 class MainFragment : Fragment(), TabFragmentNavigationContainer {
 
@@ -47,18 +39,12 @@ class MainFragment : Fragment(), TabFragmentNavigationContainer {
     }
 
     private fun initActiveTabReopenedListener() {
-        getTabNavigator()
-                .setActiveTabReopenedListener {
-                    App.navigator.execute(RemoveAll(sourceTag = tag!!))
-                }
+
     }
 
     private fun initBackPressedListener() {
         addOnBackPressedListener {
-            when {
-                hasTabsInStack() -> App.navigator.execute(RemoveLast(sourceTag = tag!!))
-                else -> App.navigator.execute(Finish())
-            }
+
         }
     }
 
@@ -68,20 +54,6 @@ class MainFragment : Fragment(), TabFragmentNavigationContainer {
             GALLERY -> GalleryTabRoute()
             PROFILE -> ProfileTabRoute()
         }
-        App.navigator.execute(Replace(route, FadeAnimations(), tag!!))
-    }
 
-    private fun hasTabsInStack(): Boolean {
-        val backStackCount = getTabNavigator()
-                .backStackEntryCount
-        return backStackCount > 1
-    }
-
-    private fun getTabNavigator(): TabFragmentNavigatorInterface {
-        return App.provider
-                .provide()
-                .fragmentNavigationProvider
-                .provide(tag)
-                .fragmentNavigator as TabFragmentNavigatorInterface
     }
 }
