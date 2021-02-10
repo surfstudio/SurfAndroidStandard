@@ -54,10 +54,12 @@ abstract class ScreenModule {
     @Provides
     fun provideBaseMiddlewareDependency(
             schedulersProvider: SchedulersProvider,
-            errorHandler: ErrorHandler
+            errorHandler: ErrorHandler,
+            screenState: ScreenState
     ): BaseMiddlewareDependency = BaseMiddlewareDependency(
             schedulersProvider,
-            errorHandler
+            errorHandler,
+            screenState
     )
 
     @PerScreen
