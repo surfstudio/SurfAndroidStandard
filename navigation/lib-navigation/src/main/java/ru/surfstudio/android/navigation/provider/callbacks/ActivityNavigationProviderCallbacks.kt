@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigatorFactory
@@ -58,10 +59,16 @@ open class ActivityNavigationProviderCallbacks(
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         safeRequireActivityId(activity) { _, id ->
-            val newHolder = createHolder(id, activity, savedInstanceState)
-            navigatorHolders[id] = newHolder
-            if (savedInstanceState != null) {
-                currentHolder = newHolder
+            if (navigatorHolders.containsKey(id)) {
+                Log.e("Create", "Activity id must be unique! You should provide unique ActivityRoute.getTag() for each activity in application. Tag=$id")
+            } else {
+                val newHolder = createHolder(id, activity, savedInstanceState)
+                navigatorHolders[id] = newHolder
+                if (savedInstanceState == null) {
+                    updateCurrentHolder(id)
+                } else {
+                    currentHolder = newHolder
+                }
             }
         }
     }
@@ -140,7 +147,6 @@ open class ActivityNavigationProviderCallbacks(
 
     protected open fun createHolder(id: String, activity: Activity, savedInstanceState: Bundle?): ActivityNavigationHolder {
         require(activity is AppCompatActivity) { "All activities with ActivityNavigationHolders should implement AppCompatActivity!" }
-        require(!navigatorHolders.containsKey(id)) { "Activity id must be unique! You should provide unique ActivityRoute.getTag() for each activity in application." }
 
         val fragmentNavigationProvider = fragmentCallbacksFactory.create(activity, savedInstanceState)
         registerFragmentNavigationProvider(activity, fragmentNavigationProvider)

@@ -67,6 +67,7 @@
 * ANDDEP-1141 Added Firebase BoM dependency
 * Fix event generation
 * ANDDEP-1100 Navigation with starting system activities for result
+* ANDDEP-1170 Added IntentChecker
 * ScreenState added to BaseMiddlwareDependency
 ## 0.4.0
 ##### Template

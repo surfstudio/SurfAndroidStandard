@@ -1674,7 +1674,7 @@
   {
     "id": "navigation",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 8,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1864,7 +1864,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 9,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -2159,7 +2159,7 @@
   {
     "id": "util-ktx",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "util-ktx",
     "libs": [
@@ -2200,7 +2200,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 42,
+    "unstable_version": 43,
     "stable": false,
     "dir": "template",
     "libs": [],

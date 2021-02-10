@@ -17,6 +17,7 @@ import ru.surfstudio.standard.i_auth.AuthInteractor
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
 import ru.surfstudio.standard.i_session.SessionChangedInteractor
+import ru.surfstudio.standard.ui.mvi.navigation.IntentChecker
 import javax.inject.Named
 
 /**
@@ -33,6 +34,7 @@ interface AppProxyDependencies {
     fun schedulerProvider(): SchedulersProvider
     fun resourceProvider(): ResourceProvider
     fun globalNavigator(): GlobalNavigator
+    fun intentChecker(): IntentChecker
 
     fun commandExecutor(): AppCommandExecutor
     fun activityNavigationProvider(): ActivityNavigationProvider
