@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1171 ResourceProvider moved to core-ui
 * ANDDEP-1040 fixed template build stage
 * ANDDEP-46 Added default BottomBarView implementation
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type to f-debug

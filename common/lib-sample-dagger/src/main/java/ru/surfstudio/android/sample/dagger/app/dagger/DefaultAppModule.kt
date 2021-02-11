@@ -11,7 +11,8 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigat
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
-import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProviderImpl
 
 @Module
 class DefaultAppModule(
@@ -29,7 +30,9 @@ class DefaultAppModule(
 
     @PerApplication
     @Provides
-    internal fun provideStringsProvider(context: Context): StringsProvider = StringsProvider(context)
+    internal fun provideResourceProvider(context: Context): ResourceProvider {
+        return ResourceProviderImpl(context)
+    }
 
     @PerApplication
     @Provides

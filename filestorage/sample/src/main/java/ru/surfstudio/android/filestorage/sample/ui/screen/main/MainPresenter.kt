@@ -9,17 +9,18 @@ import ru.surfstudio.android.filestorage.sample.domain.ip.Ip
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
-import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 import javax.inject.Inject
 
 /**
  * Презентер главного экрана
  */
 @PerScreen
-internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 private val repository: IpRepository,
-                                                 private val stringsProvider: StringsProvider,
-                                                 private val messageController: MessageController
+internal class MainPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val repository: IpRepository,
+        private val resourceProvider: ResourceProvider,
+        private val messageController: MessageController
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val sm: MainScreenModel = MainScreenModel()
@@ -84,5 +85,5 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         messageController.show(getString(R.string.cache_deleted_message))
     }
 
-    private fun getString(@StringRes stringRes: Int): String = stringsProvider.getString(stringRes)
+    private fun getString(@StringRes stringRes: Int): String = resourceProvider.getString(stringRes)
 }
