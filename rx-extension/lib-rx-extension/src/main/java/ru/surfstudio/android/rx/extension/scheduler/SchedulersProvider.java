@@ -15,11 +15,25 @@
  */
 package ru.surfstudio.android.rx.extension.scheduler;
 
-
 import io.reactivex.Scheduler;
 
+/**
+ * Abstract entity which can provide few types of {@link Scheduler}.
+ */
 public interface SchedulersProvider {
+
+    /**
+     * Get a scheduler for task execution in the UI-thread.
+     */
     Scheduler main();
 
+    /**
+     * Get a scheduler for task execution in the background thread.
+     */
     Scheduler worker();
+
+    /**
+     * Get a scheduler for non-blocking computational execution in the background thread.
+     */
+    Scheduler computation();
 }
