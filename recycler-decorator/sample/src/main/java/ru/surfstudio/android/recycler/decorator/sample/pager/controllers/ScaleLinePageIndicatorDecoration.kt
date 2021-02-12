@@ -44,6 +44,7 @@ class ScaleLinePageIndicatorDecoration(
         private val paddingBetween: Int = 16.toPx,
         private val indicatorHeight: Int = 8.toPx,
         private val indicatorRadius: Int = 0.toPx,
+        private val paddingTop: Int = 0.toPx,
         private val paddingBottom: Int = 0.toPx,
         private val paddingHorizontal: Int = 32.toPx,
         @ColorInt val colorActive: Int = -0x1,
@@ -82,7 +83,7 @@ class ScaleLinePageIndicatorDecoration(
 
         val indicatorPosY = when (verticalAlign) {
             VerticalAlign.BOTTOM -> recyclerView.height - paddingBottom.toFloat()
-            VerticalAlign.TOP -> 0f
+            VerticalAlign.TOP -> paddingTop.toFloat()
         }
 
         val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
@@ -126,7 +127,7 @@ class ScaleLinePageIndicatorDecoration(
                 VerticalAlign.BOTTOM -> startY - indicatorHeight
                 VerticalAlign.TOP -> startY + indicatorHeight
             }
-            val rect = RectF(currentStartX, startY, currentStartX + indicatorWidth, bottom)
+            val rect = RectF(currentStartX, bottom, currentStartX + indicatorWidth, startY)
             canvas.drawRoundRect(rect, indicatorRadius.toFloat(), indicatorRadius.toFloat(), indicatorPaint)
             currentStartX += (indicatorWidth + paddingBetween)
         }
