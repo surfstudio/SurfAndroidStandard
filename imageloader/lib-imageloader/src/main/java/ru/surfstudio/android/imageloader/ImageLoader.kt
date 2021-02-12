@@ -20,6 +20,7 @@ import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -113,6 +114,14 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     override fun url(@DrawableRes drawableResId: Int) =
             apply { this.imageResourceManager.drawableResId = drawableResId }
+
+    /**
+     * Загрузка изображения/видео по URI
+     *
+     * @param uri URI-ссылка
+     */
+    override fun uri(uri: Uri): ImageLoaderInterface =
+            apply { imageResourceManager.uri = uri }
 
     /**
      * Указание графического ресурса, отображаемого в качестве плейсхолдера
@@ -293,6 +302,15 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     }
 
     /**
+     * Установка кадра видео, который отобразится на [ImageView]
+     *
+     * @param frameTimeMs время кадра из видео в миллисекундах
+     */
+    override fun frame(frameTimeMs: Long) = apply {
+        imageResourceManager.frame = frameTimeMs
+    }
+
+    /**
      * Принудительная вставка изображения во вью
      * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
      */
@@ -422,6 +440,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .addErrorIf(imageResourceManager.isErrorSet) { imageResourceManager.prepareErrorDrawable() }
             .addThumbnailIf(imageResourceManager.isPreviewSet) { imageResourceManager.preparePreviewDrawable() }
             .addTransitionIf(imageTransitionManager.isTransitionSet, imageTransitionManager.imageTransitionOptions)
+            .addFrameIf(imageResourceManager.isFrameSet, imageResourceManager.frame)
             .apply(
                     RequestOptions()
                             .disableHardwareConfigIf(imageResourceManager.isHardwareConfigDisabled)

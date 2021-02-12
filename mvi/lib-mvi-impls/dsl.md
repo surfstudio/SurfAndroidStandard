@@ -61,7 +61,6 @@
             ReloadBtnClicked::class eventMapTo { 
                 interactor.loadData()
                     .io()
-                    .handleError()
                     .asRequest(LoadDataEvent())
             }
   
