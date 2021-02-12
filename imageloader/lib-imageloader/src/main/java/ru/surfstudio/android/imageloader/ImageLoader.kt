@@ -506,6 +506,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             }
 
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                view.setImageDrawable(resource)
                 onCompleteLambda?.invoke(resource, transition, imageCacheManager.imageSource)
             }
 
