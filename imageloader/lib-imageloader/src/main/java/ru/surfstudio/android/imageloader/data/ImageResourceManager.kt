@@ -29,6 +29,7 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.RequestOptions
 import ru.surfstudio.android.imageloader.DEFAULT_DRAWABLE_URI
+import ru.surfstudio.android.imageloader.DEFAULT_FRAME_TIME_MS
 import ru.surfstudio.android.imageloader.util.applyTransformations
 
 /**
@@ -41,6 +42,10 @@ data class ImageResourceManager(
          * сетевая ссылка на изображение
          */
         var url: String = "",
+        /**
+         * uri-ссылка на изображение/видео
+         */
+        var uri: Uri = Uri.EMPTY,
         /**
          * заголовки, которые будут добавлены в запрос,
          * если указан [url]
@@ -60,7 +65,12 @@ data class ImageResourceManager(
          * ссылка на drawable-ресурс плейсхолдера
          */
         @DrawableRes
-        var previewResId: Int = DEFAULT_DRAWABLE_URI
+        var previewResId: Int = DEFAULT_DRAWABLE_URI,
+
+        /**
+         * значение кадра, который берется из видео для отображения
+         */
+        var frame: Long = DEFAULT_FRAME_TIME_MS
 ) {
 
     var shouldTransformError = true
@@ -75,6 +85,8 @@ data class ImageResourceManager(
 
     val isPreviewSet: Boolean get() = previewResId != DEFAULT_DRAWABLE_URI
 
+    val isFrameSet: Boolean get() = frame != DEFAULT_FRAME_TIME_MS && frame > 0
+
 
     /**
      * Метод, автоматически предоставляющий ссылку для загрузки изображения.
@@ -84,6 +96,8 @@ data class ImageResourceManager(
     fun toLoad(): Any =
             if (isImageFromResourcesPresented()) {
                 drawableResId
+            } else if (isFromUri()) {
+                uri
             } else {
                 if (!isFileUrlSpecified() && hasValidHeaders()) {
                     GlideUrl(url, LazyHeaders.Builder().apply {
@@ -141,6 +155,8 @@ data class ImageResourceManager(
      * Загружается ли изображение из res/drawable
      */
     private fun isImageFromResourcesPresented() = drawableResId != DEFAULT_DRAWABLE_URI && drawableResId != 0
+
+    private fun isFromUri() = uri != Uri.EMPTY
 
     private fun hasValidHeaders() = headers.entries.find {
         it.key.isNotEmpty()

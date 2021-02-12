@@ -100,6 +100,10 @@ class App : Application() {
             override fun pushOpenListener(context: Context, intent: Intent) {
                 //todo
             }
+
+            override fun customActionListener(context: Context, intent: Intent) {
+                //todo
+            }
         }
     }
 }
