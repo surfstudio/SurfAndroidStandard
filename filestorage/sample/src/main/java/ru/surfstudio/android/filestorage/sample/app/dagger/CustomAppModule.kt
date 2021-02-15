@@ -10,7 +10,8 @@ import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.filestorage.sample.app.CustomApp
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
-import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProviderImpl
 
 @Module
 class CustomAppModule(private val coreApp: CustomApp) {
@@ -29,8 +30,8 @@ class CustomAppModule(private val coreApp: CustomApp) {
 
     @PerApplication
     @Provides
-    internal fun provideStringsProvider(context: Context): StringsProvider {
-        return StringsProvider(context)
+    internal fun provideResourceProvider(context: Context): ResourceProvider {
+        return ResourceProviderImpl(context)
     }
 
     @PerApplication

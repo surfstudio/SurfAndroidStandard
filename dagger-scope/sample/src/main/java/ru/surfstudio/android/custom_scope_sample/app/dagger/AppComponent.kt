@@ -6,7 +6,7 @@ import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
-import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 
 @PerApplication
 @Component(modules = [
@@ -17,5 +17,5 @@ interface AppComponent {
     fun activeActivityHolder(): ActiveActivityHolder
     fun connectionProvider(): ConnectionProvider
     fun schedulerProvider(): SchedulersProvider
-    fun stringsProvider(): StringsProvider
+    fun resourceProvider(): ResourceProvider
 }
