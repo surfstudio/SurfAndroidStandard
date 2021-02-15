@@ -35,9 +35,9 @@ interface PictureDestinationProvider {
  */
 class ContentResolverUriProvider(
         private val contentResolver: ContentResolver,
-        private val pictureTableProvider: PictureTableProvider = PictureTableProvider,
+        private val pictureTableProvider: PictureTableProvider = DefaultPictureTableProvider(),
         private val contentValuesGenerator: PictureContentValuesGenerator = PictureContentValuesGenerator
-): PictureDestinationProvider {
+) : PictureDestinationProvider {
 
     override fun provideDestination(): Uri {
         return contentResolver.insert(
@@ -64,7 +64,7 @@ interface PictureContentValuesGenerator {
         return ContentValues()
     }
 
-    companion object: PictureContentValuesGenerator
+    companion object : PictureContentValuesGenerator
 }
 
 /**
@@ -75,13 +75,13 @@ interface PictureContentValuesGenerator {
 open class RelativePathPictureContentValuesGenerator(
         private val pictureNameGenerator: PictureNameGenerator = PictureNameGenerator,
         private val pictureFolderGenerator: PictureFolderGenerator = PictureFolderGenerator
-): PictureContentValuesGenerator {
+) : PictureContentValuesGenerator {
 
     override fun generateContentValues(): ContentValues {
         return super.generateContentValues().apply {
             pictureNameGenerator.generatePictureName().takeIf { pictureName ->
                 pictureName.isNotEmpty()
-            }?.let {  pictureName ->
+            }?.let { pictureName ->
                 put(MediaStore.Images.Media.DISPLAY_NAME, pictureName)
             }
             pictureFolderGenerator.generatePictureFolderPath().takeIf { pictureRelativePath ->
@@ -106,7 +106,7 @@ class AbsolutePathContentValuesGenerator(
         private val pictureNameGenerator: PictureNameGenerator = PictureNameGenerator,
         private val pictureFolderGenerator: PictureFolderGenerator = PictureFolderGenerator,
         private val pictureBaseDirectoryProvider: PictureBaseDirectoryProvider = DefaultPictureBaseDirectoryProvider
-): PictureContentValuesGenerator {
+) : PictureContentValuesGenerator {
 
     override fun generateContentValues(): ContentValues {
         return super.generateContentValues().apply {
@@ -140,10 +140,17 @@ class AbsolutePathContentValuesGenerator(
             message = "On Android 10 (API level 29) and higher need use {@link Context#getExternalFilesDir(String)} " +
                     "or use {@link RelativePathPictureContentValuesGenerator}"
     )
-    private object DefaultPictureBaseDirectoryProvider: PictureBaseDirectoryProvider {
+    private object DefaultPictureBaseDirectoryProvider : PictureBaseDirectoryProvider {
         override fun provideBaseDirectory(): File {
             return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         }
+    }
+}
+
+internal class DefaultPictureTableProvider : PictureTableProvider {
+
+    override fun providePictureTable(): Uri {
+        return MediaStore.Images.Media.EXTERNAL_CONTENT_URI
     }
 }
 
@@ -161,7 +168,7 @@ interface PictureNameGenerator {
         return "IMG_$timeStamp.jpg"
     }
 
-    companion object: PictureNameGenerator
+    companion object : PictureNameGenerator
 }
 
 /**
@@ -175,15 +182,12 @@ interface PictureFolderGenerator {
         return ""
     }
 
-    companion object: PictureFolderGenerator
+    companion object : PictureFolderGenerator
 }
 
 /**
  * Интерфейс для предоставления таблицы, в которой будет произведена запись о новом изображении
  */
 interface PictureTableProvider {
-    fun providePictureTable(): Uri {
-        return MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-    }
-    companion object: PictureTableProvider
+    fun providePictureTable(): Uri
 }
