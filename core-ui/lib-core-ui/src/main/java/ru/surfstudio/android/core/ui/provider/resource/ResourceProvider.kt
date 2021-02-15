@@ -53,4 +53,9 @@ interface ResourceProvider {
      * Get a dimension value by [dimenRes].
      */
     fun getDimen(@DimenRes dimenRes: Int): Int
+
+    /**
+     * Get a integer value by [integerRes].
+     */
+    fun getInteger(@IntegerRes integerRes: Int): Int
 }

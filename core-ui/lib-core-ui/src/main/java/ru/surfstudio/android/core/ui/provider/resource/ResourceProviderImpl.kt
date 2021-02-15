@@ -52,4 +52,8 @@ class ResourceProviderImpl(private val context: Context) : ResourceProvider {
     override fun getDimen(@DimenRes dimenRes: Int): Int {
         return context.resources.getDimensionPixelOffset(dimenRes)
     }
+
+    override fun getInteger(@IntegerRes integerRes: Int): Int {
+        return context.resources.getInteger(integerRes)
+    }
 }
