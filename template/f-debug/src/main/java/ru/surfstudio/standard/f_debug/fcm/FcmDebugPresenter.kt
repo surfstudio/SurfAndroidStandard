@@ -5,7 +5,7 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.standard.base.util.ResourceProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
 import javax.inject.Inject
 

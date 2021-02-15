@@ -13,19 +13,19 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.sample.dagger.ui.base
+package ru.surfstudio.android.core.ui.provider.resource
 
 import android.content.Context
-import androidx.annotation.ArrayRes
-import androidx.annotation.PluralsRes
-import androidx.annotation.StringRes
+import android.graphics.drawable.Drawable
+import androidx.annotation.*
+import androidx.core.content.ContextCompat
 
 /**
- * Class which provides strings from resources via ID
+ * Default implementation of [ResourceProvider].
  */
-class StringsProvider constructor(var context: Context) {
+class ResourceProviderImpl(private val context: Context) : ResourceProvider {
 
-    fun getString(@StringRes id: Int, vararg args: Any): String {
+    override fun getString(@StringRes id: Int, vararg args: Any): String {
         return if (args.isEmpty()) {
             context.resources.getString(id)
         } else {
@@ -33,7 +33,7 @@ class StringsProvider constructor(var context: Context) {
         }
     }
 
-    fun getQuantityString(@PluralsRes id: Int, quantity: Int, vararg args: Any): String {
+    override fun getQuantityString(@PluralsRes id: Int, quantity: Int, vararg args: Any): String {
         return if (args.isEmpty()) {
             context.resources.getQuantityString(id, quantity)
         } else {
@@ -41,7 +41,19 @@ class StringsProvider constructor(var context: Context) {
         }
     }
 
-    fun getStringList(@ArrayRes id: Int): List<String> {
+    override fun getStringList(@ArrayRes id: Int): List<String> {
         return context.resources.getStringArray(id).toList()
+    }
+
+    override fun getDrawable(@DrawableRes drawableRes: Int): Drawable? {
+        return ContextCompat.getDrawable(context, drawableRes)
+    }
+
+    override fun getDimen(@DimenRes dimenRes: Int): Int {
+        return context.resources.getDimensionPixelOffset(dimenRes)
+    }
+
+    override fun getInteger(@IntegerRes integerRes: Int): Int {
+        return context.resources.getInteger(integerRes)
     }
 }

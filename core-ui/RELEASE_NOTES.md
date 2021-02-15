@@ -8,6 +8,7 @@
 
 ## 0.5.0-alpha
 ##### Core-ui
+* ANDDEP-1171 ResourceProvider moved to core-ui
 * ANDDEP-466 Fixed crash when calling `FragmentNavigaotr.popStack` with `popDepth` < 0
 * Fix logging screen names
 * Fix extra name for settingsNegativeButtonStr in DefaultSettingsRationalActivity
