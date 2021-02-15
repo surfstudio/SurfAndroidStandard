@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.standard.i_network.network;
 
-@Deprecated
 public class HttpMethods {
     public static final String GET = "GET";
     public static final String POST = "POST";

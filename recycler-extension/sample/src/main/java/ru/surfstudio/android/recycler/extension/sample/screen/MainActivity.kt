@@ -15,6 +15,8 @@ class MainActivity : AppCompatActivity() {
         setOnClickListener(show_sticky_recycler_btn, StickyRecyclerActivity::class.java)
         setOnClickListener(show_carousel_btn, CarouselActivity::class.java)
         setOnClickListener(show_sliding_item_btn, SlidingItemsActivity::class.java)
+        setOnClickListener(show_snap_helpers_item_btn, SnapHelpersActivity::class.java)
+        setOnClickListener(show_pagination_sticky_item_btn, PaginationStickyActivityView::class.java)
     }
 
     private fun setOnClickListener(btn: Button, activityClass: Class<*>) {

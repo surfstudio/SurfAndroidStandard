@@ -11,6 +11,7 @@
   from "api" to "implementation" type
 * ANDDEP-1038 Add `AnimatableViewHolder` and `ViewHolderItemAnimator`
 * ANDDEP-1048 Fixing wrong docs links and docs structure
+* **NO BACKWARD COMPATIBILITY** ANDDEP-1010 PagerSnapHelper deleted
 ## 0.4.0
 ##### Recycler-extension
 * ANDDEP-266 DividerItemDecorator Update

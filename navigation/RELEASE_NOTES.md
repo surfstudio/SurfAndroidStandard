@@ -9,3 +9,4 @@
 * Fix RemoveUntil command execution for single removal
 * Add methods to listen for changes of tab head in TabFragmentNavigator
 * Update removeUntil and removeAll animations: now they inherit animations from the first fragment of the removing bunch.
+* ANDDEP-1100 Added command StartForResult to open system activities for getting result

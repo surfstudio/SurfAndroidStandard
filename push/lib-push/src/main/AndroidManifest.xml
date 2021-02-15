@@ -1,10 +1,9 @@
-<manifest package="ru.surfstudio.android.notification"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ru.surfstudio.android.notification">
 
     <application>
         <receiver
             android:name=".ui.notification.NotificationClickEventReceiver"
-            android:exported="false" >
-        </receiver>
+            android:exported="false" />
     </application>
 </manifest>
