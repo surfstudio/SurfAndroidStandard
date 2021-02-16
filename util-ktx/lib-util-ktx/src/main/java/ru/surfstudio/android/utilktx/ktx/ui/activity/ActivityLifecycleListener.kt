@@ -18,7 +18,6 @@ package ru.surfstudio.android.utilktx.ktx.ui.activity
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import kotlin.Unit
 
 /**
  * Слушатель жизненного цикла активити
