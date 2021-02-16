@@ -16,6 +16,7 @@
 package ru.surfstudio.android.picturechooser
 
 import android.Manifest
+import android.os.Build
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionRequest
@@ -51,8 +52,16 @@ class PicturePermissionChecker @JvmOverloads constructor(
  */
 open class CameraStoragePermissionRequest : PermissionRequest() {
 
-    override val permissions: Array<String>
-        get() = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    override val permissions: Array<String> = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+        arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+    } else {
+        arrayOf(
+                Manifest.permission.CAMERA
+        )
+    }
 }
 
 /**
