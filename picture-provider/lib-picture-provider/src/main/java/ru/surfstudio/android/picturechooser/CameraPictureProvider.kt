@@ -161,16 +161,14 @@ class CameraPictureProvider(
      */
     private fun getAlbumDir(): File {
         val sharedPicturesDir = getBaseAlbumDir()
-        val appDirName = getAppDirName()
         if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
-            return File(sharedPicturesDir, appDirName)
-                    .apply {
-                        if (!mkdirs()) {
-                            if (!exists()) {
-                                throw ExternalStorageException("Failed to create directory")
-                            }
-                        }
+            return sharedPicturesDir.apply {
+                if (!mkdirs()) {
+                    if (!exists()) {
+                        throw ExternalStorageException("Failed to create directory")
                     }
+                }
+            }
         } else {
             throw ExternalStorageException("External storage is not mounted READ/WRITE.")
         }
@@ -178,12 +176,6 @@ class CameraPictureProvider(
 
     private fun getBaseAlbumDir(): File {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-    }
-
-    private fun getAppDirName(): String {
-        val packageManager = currentActivity.packageManager
-        val appInfo = currentActivity.applicationInfo
-        return packageManager.getApplicationLabel(appInfo).toString()
     }
 }
 
