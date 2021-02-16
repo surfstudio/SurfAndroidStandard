@@ -28,7 +28,7 @@ internal class MainPresenter @Inject constructor(
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val sm: MainScreenModel = MainScreenModel()
-    private val imageChooserMessage = resourceProvider.getString(R.string.image_chooser_message)
+    private val chooserTitle = resourceProvider.getString(R.string.image_chooser_message)
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
@@ -41,7 +41,7 @@ internal class MainPresenter @Inject constructor(
     fun openCameraUri() = subscribeIoHandleError(
             photoProvider.openCameraAndTakePhotoUri(
                     destinationProvider = ContentResolverUriProvider(contentResolver = context.contentResolver),
-                    cameraRouteFactory = CameraRouteFactory(chooserTitle = stringsProvider.getString(R.string.choose_app))
+                    cameraRouteFactory = CameraRouteFactory(chooserTitle = chooserTitle)
             )
     ) {
         val uri = it.uri
@@ -53,15 +53,15 @@ internal class MainPresenter @Inject constructor(
     fun openGalleryMultiple() = performAction(photoProvider.openGalleryAndGetFewPhotoUriWrapper())
 
     fun openChooserSingle() {
-        performAction(photoProvider.openImageChooserAndGetPhotoUriWrapper(imageChooserMessage))
+        performAction(photoProvider.openImageChooserAndGetPhotoUriWrapper(chooserTitle))
     }
 
     fun openChooserMultiple() {
-        performAction(photoProvider.openImageChooserAndGetFewPhotoUriWrapper(imageChooserMessage))
+        performAction(photoProvider.openImageChooserAndGetFewPhotoUriWrapper(chooserTitle))
     }
 
     fun openChooserAndSavePhoto() {
-        performAction(photoProvider.openImageChooserAndSavePhoto(imageChooserMessage))
+        performAction(photoProvider.openImageChooserAndSavePhoto(chooserTitle))
     }
 
     private fun <T> performAction(single: Single<T>) {

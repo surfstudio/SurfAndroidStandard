@@ -2,7 +2,7 @@
     <string name="app_name">Picture provider sample</string>
 
     <string name="content_desc">image</string>
-    <string name="image_chooser_message">Выберите приложение для открытия изображения</string>
+    <string name="image_chooser_message">Выберите приложение</string>
 
     <string name="camera_btn_text">Open camera</string>
     <string name="camera_btn_text_deprecated">Open camera deprecated</string>
