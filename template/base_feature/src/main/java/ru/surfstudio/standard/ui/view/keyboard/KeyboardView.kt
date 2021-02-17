@@ -96,11 +96,11 @@ class KeyboardView @JvmOverloads constructor(
                     subtitleTextColor = getColor(R.styleable.KeyboardView_subtitleTextColor, KeyView.DEFAULT_SUBTITLE_COLOR),
                     titleTextSize = getDimension(
                             R.styleable.KeyboardView_titleTextSize,
-                            ViewUtil.convertDpToPx(context, KeyView.DEFAULT_TITLE_SIZE_SP).toFloat()
+                            ViewUtil.convertSpToPx(context, KeyView.DEFAULT_TITLE_SIZE_SP).toFloat()
                     ),
                     subtitleTextSize = getDimension(
                             R.styleable.KeyboardView_subtitleTextSize,
-                            ViewUtil.convertDpToPx(context, KeyView.DEFAULT_SUBTITLE_SIZE_SP).toFloat()
+                            ViewUtil.convertSpToPx(context, KeyView.DEFAULT_SUBTITLE_SIZE_SP).toFloat()
                     ),
                     titleFont = getResourceId(R.styleable.KeyboardView_titleFont, KeyView.UNDEFINE_ATTR),
                     subtitleFont = getResourceId(R.styleable.KeyboardView_subtitleFont, KeyView.UNDEFINE_ATTR),
