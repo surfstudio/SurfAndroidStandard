@@ -56,6 +56,7 @@
 * ANDDEP-1112 Fixed method name typo
 * ANDDEP-1112 Fixed access modifier in `SafeConverterFactory.Function`
 * ANDDEP-1112 Fixed generic type in `CompletableSafeConverter`
+* ANDDEP-1062 added view KeyboardView
 * ANDDEP-1109 Added new obfuscation rule and TODO in [`proguard-rules.pro`](proguard-rules.pro)
 * ANDDEP-1111 Added class inheritance: `Transformable` extends `BaseResponse`
 * ANDDEP-1099 Added new navigation validation support
