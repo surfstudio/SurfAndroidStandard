@@ -1,5 +1,6 @@
 package ru.surfstudio.android.navigation.observer.bus
 
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.route.ResultRoute
@@ -82,6 +83,8 @@ open class ScreenResultBus(
         if (!alreadyHasListener) {
             val listenerInfo = ScreenResultListenerInfo(targetId, listener as (Serializable) -> Unit)
             listeners.add(listenerInfo)
+        } else {
+            Logger.e("The listener is already assigned, you cannot install a new one")
         }
     }
 
