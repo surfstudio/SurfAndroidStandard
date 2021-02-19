@@ -6,7 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_auth.*
+import ru.surfstudio.android.navigation.command.fragment.Replace
+import ru.surfstudio.android.navigation.command.fragment.ReplaceHard
 import ru.surfstudio.android.navigation.sample.R
+import ru.surfstudio.android.navigation.sample.app.App
+import ru.surfstudio.android.navigation.sample.app.screen.main.MainRoute
 
 class AuthFragment : Fragment() {
 
@@ -16,7 +20,7 @@ class AuthFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         auth_btn.setOnClickListener {
-
+            App.executor.execute(ReplaceHard(MainRoute()))
         }
     }
 }

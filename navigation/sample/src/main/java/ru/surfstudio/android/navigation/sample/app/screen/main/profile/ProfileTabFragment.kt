@@ -34,7 +34,7 @@ class ProfileTabFragment : Fragment() {
         profile_settings_btn.setOnClickListener {  }
         profile_about_app_btn.setOnClickListener {  }
         profile_logout_btn.setOnClickListener {  }
-        profile_attach_photo_btn.setOnClickListener {
+        profile_custom_stack_btn.setOnClickListener {
 
         }
 

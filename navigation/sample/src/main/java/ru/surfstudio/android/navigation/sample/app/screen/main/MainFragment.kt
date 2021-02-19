@@ -6,14 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_main.*
+import ru.surfstudio.android.navigation.command.fragment.RemoveLast
+import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.provider.container.TabFragmentNavigationContainer
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.sample.R
+import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.main.MainTabType.*
-import ru.surfstudio.android.navigation.sample.app.screen.main.gallery.GalleryTabRoute
+import ru.surfstudio.android.navigation.sample.app.screen.main.gallery.GalleryRoute
 import ru.surfstudio.android.navigation.sample.app.screen.main.home.HomeTabRoute
 import ru.surfstudio.android.navigation.sample.app.screen.main.profile.ProfileTabRoute
 import ru.surfstudio.android.navigation.sample.app.utils.addOnBackPressedListener
+import ru.surfstudio.android.navigation.sample.app.utils.animations.FadeAnimations
 
 class MainFragment : Fragment(), TabFragmentNavigationContainer {
 
@@ -44,16 +48,23 @@ class MainFragment : Fragment(), TabFragmentNavigationContainer {
 
     private fun initBackPressedListener() {
         addOnBackPressedListener {
-
+            App.executor.execute(
+                    RemoveLast()
+            )
         }
     }
 
     private fun navigateToTab(type: MainTabType) {
         val route: FragmentRoute = when (type) {
             HOME -> HomeTabRoute()
-            GALLERY -> GalleryTabRoute()
+            GALLERY -> GalleryRoute.Tab()
             PROFILE -> ProfileTabRoute()
         }
-
+        App.executor.execute(
+                Replace(route = route,
+                animations = FadeAnimations(),
+                         sourceTag = ""
+                )
+        )
     }
 }
