@@ -1,5 +1,6 @@
 apply from: '../commonModule.gradle'
 apply from: '../commonKaptModule.gradle'
+apply from: '../unitTestConfiguration.gradle'
 
 dependencies {
     api project(":base")
@@ -26,4 +27,7 @@ dependencies {
     implementation debug.anrWatchDog
     implementation debug.timber
     implementation debug.rxJava2Debug
+
+    implementation test.kotest
+    implementation test.mockk
 }

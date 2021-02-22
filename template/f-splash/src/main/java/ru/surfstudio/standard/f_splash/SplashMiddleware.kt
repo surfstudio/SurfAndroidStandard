@@ -8,7 +8,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import ru.surfstudio.standard.f_splash.SplashEvent.Navigation
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
-import ru.surfstudio.standard.ui.mvi.navigation.AppNavigationMiddleware
+import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
 import ru.surfstudio.standard.ui.mvi.navigation.extension.replace
 import ru.surfstudio.standard.ui.navigation.routes.MainActivityRoute
 import java.util.concurrent.TimeUnit
@@ -25,7 +25,7 @@ const val TRANSITION_DELAY_MS = 2000L
 @PerScreen
 class SplashMiddleware @Inject constructor(
         baseMiddlewareDependency: BaseMiddlewareDependency,
-        private val navigationMiddleware: AppNavigationMiddleware,
+        private val navigationMiddleware: NavigationMiddleware,
         private val initializeAppInteractor: InitializeAppInteractor
 ) : BaseMiddleware<SplashEvent>(baseMiddlewareDependency) {
 

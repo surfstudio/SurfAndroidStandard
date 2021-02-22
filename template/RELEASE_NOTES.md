@@ -6,6 +6,9 @@
 
 ## 0.5.0-alpha
 ##### Template
+* Added utility classes for unit testing
+* `gradle-wrapper` version raised: `5.6.4 -> 6.1.1`;
+* `kotlin` version raised: `1.3.71 -> 1.4.30`;
 * ANDDEP-1171 ResourceProvider moved to core-ui
 * ANDDEP-1040 fixed template build stage
 * ANDDEP-46 Added default BottomBarView implementation

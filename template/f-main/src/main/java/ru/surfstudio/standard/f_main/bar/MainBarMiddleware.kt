@@ -8,7 +8,7 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.standard.f_main.bar.MainBarEvent
 import ru.surfstudio.standard.f_main.bar.MainBarEvent.Navigation
 import ru.surfstudio.standard.f_main.bar.MainBarEvent.TabSelected
-import ru.surfstudio.standard.ui.mvi.navigation.AppNavigationMiddleware
+import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
 import ru.surfstudio.standard.ui.mvi.navigation.extension.builder
 import ru.surfstudio.standard.ui.mvi.navigation.extension.replace
 import ru.surfstudio.standard.ui.navigation.routes.FeedFragmentRoute
@@ -21,7 +21,7 @@ import javax.inject.Inject
 internal class MainBarMiddleware @Inject constructor(
         basePresenterDependency: BaseMiddlewareDependency,
         private val sh: MainBarStateHolder,
-        private val navigationMiddleware: AppNavigationMiddleware
+        private val navigationMiddleware: NavigationMiddleware
 ) : BaseMiddleware<MainBarEvent>(basePresenterDependency) {
 
     override fun transform(eventStream: Observable<MainBarEvent>): Observable<out MainBarEvent> = transformations(eventStream) {
