@@ -8,7 +8,7 @@ import ru.surfstudio.android.custom_scope_sample.app.dagger.AppComponent
 import ru.surfstudio.android.custom_scope_sample.domain.EmailData
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.scope.PerLogin
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
-import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 
 @PerLogin
 @Component(dependencies = [AppComponent::class],
@@ -18,7 +18,7 @@ interface LoginComponent {
     fun activeActivityHolder(): ActiveActivityHolder
     fun connectionProvider(): ConnectionProvider
     fun schedulerProvider(): SchedulersProvider
-    fun stringsProvider(): StringsProvider
+    fun resourceProvider(): ResourceProvider
 
     fun emailData(): EmailData
 }
