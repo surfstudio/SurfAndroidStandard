@@ -71,6 +71,7 @@
 * ANDDEP-1100 Navigation with starting system activities for result
 * ANDDEP-1170 Added IntentChecker
 * ScreenState added to BaseMiddlwareDependency
+* ANDDEP-1066 Migrated to gradle 6
 * added startFoResult extension for events
 ## 0.4.0
 ##### Template
