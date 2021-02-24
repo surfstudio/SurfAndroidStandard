@@ -23,9 +23,11 @@ import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 import ru.surfstudio.standard.base.test.TestErrorHandler
+import ru.surfstudio.standard.base.test.TestScreenState
 import ru.surfstudio.standard.base.test.TestResourceProvider
 import ru.surfstudio.standard.base.test.TestSchedulersProvider
 import ru.tricolor.android.ui.test.mvi.TestNavigationMiddleware
+import ru.surfstudio.android.core.ui.state.ScreenState
 
 /**
  * Base class for Middleware-entity test cases.
@@ -35,7 +37,12 @@ abstract class BaseMiddlewareTest : AnnotationSpec(), StateEmitter {
     protected val resourceProvider: ResourceProvider = TestResourceProvider()
     protected val schedulerProvider: SchedulersProvider = TestSchedulersProvider()
     protected val errorHandler: ErrorHandler = TestErrorHandler()
-    protected val baseMiddlewareDependency = BaseMiddlewareDependency(schedulerProvider, errorHandler)
+    protected val screenState: ScreenState = TestScreenState()
+    protected val baseMiddlewareDependency = BaseMiddlewareDependency(
+        schedulerProvider,
+        errorHandler,
+        screenState
+    )
     protected val navigationMiddleware = TestNavigationMiddleware()
 
     protected fun <S, SH : State<S>> SH.resetState(initialState: S) {
