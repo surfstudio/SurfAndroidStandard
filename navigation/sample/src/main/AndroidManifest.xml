@@ -45,6 +45,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".app.screen.main.profile.about.AboutActivity" />
+        <activity android:name=".app.screen.number.NumberActivity"/>
 
         <provider
             android:name=".app.screen.system.AppFileProvider"

@@ -12,5 +12,5 @@ import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 data class Replace(
         override val route: ActivityRoute,
         override val animations: Animations = DefaultAnimations.activity,
-        val activityOptions: Bundle? = null
+        override val activityOptions: Bundle? = null
 ) : ActivityNavigationCommand

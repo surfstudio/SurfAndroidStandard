@@ -14,5 +14,5 @@ import java.io.Serializable
 class StartForResult<T : Serializable, R>(
         override val route: R,
         override val animations: Animations = DefaultAnimations.activity,
-        val activityOptions: Bundle? = null
+        override val activityOptions: Bundle? = null
 ) : ActivityNavigationCommand where R : ActivityWithResultRoute<T>

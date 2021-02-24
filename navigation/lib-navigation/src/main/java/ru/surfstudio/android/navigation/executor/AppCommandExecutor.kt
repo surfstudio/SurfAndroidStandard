@@ -1,7 +1,9 @@
 package ru.surfstudio.android.navigation.executor
 
 import android.os.Handler
+import android.os.Looper
 import ru.surfstudio.android.navigation.command.NavigationCommand
+import ru.surfstudio.android.navigation.command.activity.Start
 import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigationCommand
 import ru.surfstudio.android.navigation.command.dialog.base.DialogNavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
@@ -23,6 +25,7 @@ open class AppCommandExecutor(
         protected val dialogCommandExecutor: DialogCommandExecutor = DialogCommandExecutor(activityNavigationProvider)
 ) : NavigationCommandExecutor {
 
+    protected val handler = Handler(Looper.getMainLooper())
     protected val buffer = mutableListOf<NavigationCommand>()
     protected val commandQueue: Queue<NavigationCommand> = LinkedList()
 
@@ -45,9 +48,13 @@ open class AppCommandExecutor(
         if (activityNavigationProvider.hasCurrentHolder()) {
             divideExecution(commands)
         } else {
-            buffer.addAll(commands)
-            activityNavigationProvider.setOnHolderActiveListenerSingle { utilizeBuffer() }
+            executeWithNewNavigator(commands)
         }
+    }
+
+    private fun executeWithNewNavigator(commands: List<NavigationCommand>) {
+        buffer.addAll(commands)
+        activityNavigationProvider.setOnHolderActiveListenerSingle { utilizeBuffer() }
     }
 
     /**
@@ -70,33 +77,31 @@ open class AppCommandExecutor(
     protected open fun divideExecution(commands: List<NavigationCommand>) {
         if (commands.isEmpty()) return
 
-        val isStartingWithAsyncCommand = checkCommandAsync(commands.first())
-        val asyncCommands: List<NavigationCommand>
-        val syncCommands: List<NavigationCommand>
+        val firstCommand = commands.first()
+        val isStartingWithAsyncCommand = checkCommandAsync(firstCommand)
 
         if (isStartingWithAsyncCommand) {
-            asyncCommands = commands.takeWhile(::checkCommandAsync)
-            syncCommands = commands.takeLast(commands.size - asyncCommands.size)
-
-            val hasAsyncCommands = asyncCommands.isNotEmpty()
-            val hasSyncCommands = syncCommands.isNotEmpty()
-
-            if (hasAsyncCommands) queueCommands(asyncCommands)
-
-            when {
-                hasAsyncCommands && hasSyncCommands -> postponeExecution(syncCommands)
-                hasSyncCommands -> divideExecution(syncCommands)
+            val firstNotStartIndex = commands.indexOfFirst { command -> command !is Start }
+            if (firstNotStartIndex > 1) {
+                executeWithNewNavigator(commands.subList(firstNotStartIndex, commands.lastIndex))
+                startSeveralActivities(commands.take(firstNotStartIndex))
+            } else {
+                executeWithNewNavigator(commands.drop(1))
+                dispatchCommand(firstCommand)
             }
         } else {
-            syncCommands = commands.takeWhile { !checkCommandAsync(it) }
-            asyncCommands = commands.takeLast(commands.size - syncCommands.size)
-
-            val hasAsyncCommands = asyncCommands.isNotEmpty()
-            val hasSyncCommands = syncCommands.isNotEmpty()
-
-            if (hasSyncCommands) queueCommands(syncCommands)
-            if (hasAsyncCommands) safeExecuteWithBuffer(asyncCommands)
+            val firstAsyncCommandIndex = commands.indexOfFirst { checkCommandAsync(it) }
+            if (firstAsyncCommandIndex >= 1) {
+                safeExecuteWithBuffer(commands.subList(firstAsyncCommandIndex, commands.lastIndex))
+                queueCommands(commands.take(firstAsyncCommandIndex))
+            } else {
+                queueCommands(commands)
+            }
         }
+    }
+
+    private fun startSeveralActivities(commands: List<NavigationCommand>) {
+        activityCommandExecutor.execute(commands.map { it as ActivityNavigationCommand })
     }
 
     /**
@@ -143,7 +148,7 @@ open class AppCommandExecutor(
      * Postpones command execution to the end of the Message Queue.
      */
     protected open fun postponeExecution(commands: List<NavigationCommand>) {
-        Handler().post { safeExecuteWithBuffer(commands) }
+        handler.post { safeExecuteWithBuffer(commands) }
     }
 
     /**

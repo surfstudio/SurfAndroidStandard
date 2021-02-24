@@ -80,7 +80,7 @@ open class ActivityNavigationProviderCallbacks(
                 // So, we're just waiting until it executes all actions, and then updating holder status.
                 handler.post { updateCurrentHolder(id) }
             } else {
-                updateCurrentHolder(id)
+                handler.post { updateCurrentHolder(id) }
             }
         }
     }
