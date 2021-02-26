@@ -18,14 +18,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/default_margin"
-        android:text="@string/show_snackbar_with_duration_btn_text"/>
+        android:text="@string/show_snackbar_with_duration_btn_text" />
 
     <Button
         android:id="@+id/show_snackbar_with_listener"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/default_margin"
-        android:text="@string/show_snackbar_with_listener_btn_text"/>
+        android:text="@string/show_snackbar_with_listener_btn_text" />
+
+    <Button
+        android:id="@+id/show_snackbar_with_dismiss_listener"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:text="@string/show_snackbar_with_dismiss_listener_btn_text" />
 
     <Button
         android:id="@+id/show_gravity_toast"

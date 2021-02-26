@@ -40,6 +40,7 @@ interface MessageController {
             @StringRes actionResId: Int? = null,
             @ColorRes actionColorResId: Int? = null,
             duration: Int = DEFAULT_SNACK_DURATION,
+            dismissListener: (DismissReason) -> Unit = {},
             listener: (view: View) -> Unit = {}
     )
 
@@ -49,10 +50,15 @@ interface MessageController {
             @StringRes actionResId: Int? = null,
             @ColorRes actionColorResId: Int? = null,
             duration: Int = DEFAULT_SNACK_DURATION,
+            dismissListener: (DismissReason) -> Unit = {},
             listener: (view: View) -> Unit = {}
     )
 
-    fun show(params: SnackParams, actionListener: (view: View) -> Unit = {})
+    fun show(
+            params: SnackParams,
+            dismissListener: (DismissReason) -> Unit = {},
+            actionListener: (view: View) -> Unit = {}
+    )
 
     fun closeSnack()
 
