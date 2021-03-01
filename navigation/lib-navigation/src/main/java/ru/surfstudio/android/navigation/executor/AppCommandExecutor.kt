@@ -82,12 +82,23 @@ open class AppCommandExecutor(
 
         if (isStartingWithAsyncCommand) {
             val firstNotStartIndex = commands.indexOfFirst { command -> command !is Start }
-            if (firstNotStartIndex > 1) {
-                executeWithNewNavigator(commands.subList(firstNotStartIndex, commands.lastIndex))
-                startSeveralActivities(commands.take(firstNotStartIndex))
-            } else {
-                executeWithNewNavigator(commands.drop(1))
-                dispatchCommand(firstCommand)
+            when {
+                // we have only Start commands, just execute them
+                firstNotStartIndex == -1 -> {
+                    startSeveralActivities(commands)
+                }
+                // we have several start commands and commands of other types right after them, so
+                // we start activities first and execute the rest of commands with a new navigator
+                firstNotStartIndex > 1 -> {
+                    startSeveralActivities(commands.take(firstNotStartIndex))
+                    executeWithNewNavigator(commands.subList(firstNotStartIndex, commands.lastIndex))
+                }
+                // Here are other cases, where we just execute first command and postpone other
+                // commands execution
+                else -> {
+                    executeWithNewNavigator(commands.drop(1))
+                    dispatchCommand(firstCommand)
+                }
             }
         } else {
             val firstAsyncCommandIndex = commands.indexOfFirst { checkCommandAsync(it) }
