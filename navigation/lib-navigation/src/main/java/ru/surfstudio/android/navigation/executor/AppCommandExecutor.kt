@@ -3,6 +3,8 @@ package ru.surfstudio.android.navigation.executor
 import android.os.Handler
 import android.os.Looper
 import ru.surfstudio.android.navigation.command.NavigationCommand
+import ru.surfstudio.android.navigation.command.activity.Finish
+import ru.surfstudio.android.navigation.command.activity.FinishAffinity
 import ru.surfstudio.android.navigation.command.activity.Start
 import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigationCommand
 import ru.surfstudio.android.navigation.command.dialog.base.DialogNavigationCommand
@@ -98,24 +100,41 @@ open class AppCommandExecutor(
                 // we start activities first and postpone the execution of the rest of commands
                 firstNotStartIndex > 1 -> {
                     startSeveralActivities(commands.take(firstNotStartIndex))
-                    postponeExecution(commands.subList(firstNotStartIndex, commands.lastIndex))
+                    postponeExecution(commands.subList(firstNotStartIndex, commands.size))
                 }
-                // Here are other cases, where we just execute first command and postpone other
-                // commands execution
+                /**
+                 * Here are other cases, where we just execute first command.
+                 * If we have to Finish activity or affinity we need to check the next command after
+                 * it. If it's async but not Finish command we can immediately execute it with
+                 * current navigator. Otherwise we postpone execution until the next navigator
+                 * is available.
+                 */
                 else -> {
                     dispatchCommand(firstCommand)
-                    postponeExecution(commands.drop(1))
+                    val restCommands = commands.drop(1)
+                    val canExecuteImmediately: Boolean = restCommands.isNotEmpty()
+                            && checkCommandAsync(restCommands[0])
+                            && !isFinishCommand(restCommands[0])
+                    if (canExecuteImmediately){
+                        divideExecution(restCommands)
+                    } else {
+                        postponeExecution(restCommands)
+                    }
                 }
             }
         } else {
             val firstAsyncCommandIndex = commands.indexOfFirst { checkCommandAsync(it) }
             if (firstAsyncCommandIndex >= 1) {
-                safeExecuteWithBuffer(commands.subList(firstAsyncCommandIndex, commands.lastIndex))
+                safeExecuteWithBuffer(commands.subList(firstAsyncCommandIndex, commands.size))
                 queueCommands(commands.take(firstAsyncCommandIndex))
             } else {
                 queueCommands(commands)
             }
         }
+    }
+
+    private fun isFinishCommand(command: NavigationCommand): Boolean {
+        return command is Finish || command is FinishAffinity
     }
 
     private fun startSeveralActivities(commands: List<NavigationCommand>) {
@@ -173,7 +192,10 @@ open class AppCommandExecutor(
      * Executes everything in buffer and cleans it.
      */
     protected fun utilizeBuffer() {
-        execute(buffer)
+        val commands = ArrayList(buffer)
         buffer.clear()
+        handler.post {
+            execute(commands)
+        }
     }
 }
