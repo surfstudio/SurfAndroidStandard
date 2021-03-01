@@ -19,12 +19,12 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/profile_custom_stack_btn"
+            android:id="@+id/profile_attach_photo_btn"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
-            android:text="open custom stack" />
+            android:text="Attach Photo" />
 
         <Button
             android:id="@+id/profile_settings_btn"

@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_number.*
 import ru.surfstudio.android.navigation.sample.R
 
+/**
+ * Простая активити, отображающая в TextView номер, переданный в роут
+ */
 class NumberActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -3,6 +3,7 @@ package ru.surfstudio.android.navigation.sample.app
 import android.app.Application
 import androidx.core.content.ContextCompat
 import ru.surfstudio.android.navigation.animation.DefaultAnimations
+import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.bus.ScreenResultBus
 import ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult
@@ -23,18 +24,29 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val storage = FileScreenResultStorage(
-                ContextCompat.getNoBackupFilesDir(this)!!.absolutePath
-        )
-        val screenResultEmmiter = ScreenResultBus(storage)
-        val activityNavigationProviderCallbacks = ActivityNavigationProviderCallbacks(
+        initResultObserver()
+        initAnimations()
+    }
+
+    private fun initExecutor(screenResultEmitter: ScreenResultEmitter) {
+        val activityNavigationProvider = ActivityNavigationProviderCallbacks(
                 activityNavigatorFactory = ActivityNavigatorWithResultFactory()
         )
-        registerActivityLifecycleCallbacks(activityNavigationProviderCallbacks)
-        provider = activityNavigationProviderCallbacks
-        executor = AppCommandExecutorWithResult(screenResultEmmiter, activityNavigationProviderCallbacks)
+        registerActivityLifecycleCallbacks(activityNavigationProvider)
+        provider = activityNavigationProvider
+        executor = AppCommandExecutorWithResult(screenResultEmitter, activityNavigationProvider)
+    }
 
-        DefaultAnimations.fragment = SlideAnimations()
-        DefaultAnimations.tab = FadeAnimations()
+    private fun initResultObserver() {
+        val filesDir = ContextCompat.getNoBackupFilesDir(this)!!.absolutePath
+        val storage = FileScreenResultStorage(filesDir)
+        val resultBus = ScreenResultBus(storage)
+        resultObserver = resultBus
+        initExecutor(resultBus)
+    }
+
+    private fun initAnimations() {
+        DefaultAnimations.fragment = SlideAnimations() //animations for all fragment changes
+        DefaultAnimations.tab = FadeAnimations() //animations for tab changes
     }
 }

@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import ru.surfstudio.android.navigation.command.fragment.Replace
-import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
-import ru.surfstudio.android.navigation.sample.app.screen.main.gallery.GalleryRoute
+import ru.surfstudio.android.navigation.sample.app.screen.main.home.nested.HomeNestedRoute
 
 class HomeTabFragment : Fragment() {
 
@@ -20,8 +19,6 @@ class HomeTabFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        home_galery_btn.setOnClickListener {
-            App.executor.execute(Replace(GalleryRoute.FullScreen(), sourceTag = ""))
-        }
+        home_add_btn.setOnClickListener { App.executor.execute(Replace(HomeNestedRoute(), sourceTag = tag!!)) }
     }
 }

@@ -31,13 +31,23 @@ class ProfileTabFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        profile_settings_btn.setOnClickListener {  }
-        profile_about_app_btn.setOnClickListener {  }
-        profile_logout_btn.setOnClickListener {  }
-        profile_custom_stack_btn.setOnClickListener {
-
+        profile_settings_btn.setOnClickListener { App.executor.execute(Start(ApplicationSettingsRoute())) }
+        profile_about_app_btn.setOnClickListener { App.executor.execute(Start(AboutRoute())) }
+        profile_logout_btn.setOnClickListener { App.executor.execute(ReplaceHard(AuthRoute(), FadeAnimations())) }
+        profile_attach_photo_btn.setOnClickListener {
+            App.executor.execute(
+                    StartForResult(
+                            CameraRoute(
+                                    uniqueId = screenId,
+                                    chooserTitle = "Select photo for profile",
+                                    takenPhotoFile = CameraHelper(requireContext()).generatePhotoPath()
+                            )
+                    )
+            )
         }
 
+        App.resultObserver.addListener(targetRoute, ::showAppName)
+        App.resultObserver.addListener(cameraRoute, ::showResult)
     }
 
     private fun showAppName(name: String) {
@@ -57,7 +67,7 @@ class ProfileTabFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-
+        App.resultObserver.removeListener(targetRoute)
         super.onDestroyView()
     }
 }

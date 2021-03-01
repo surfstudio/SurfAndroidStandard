@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.sample.app.screen.number
+package ru.surfstudio.android.navigation.sample.app.screen.flow
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,19 +7,19 @@ import ru.surfstudio.android.navigation.route.Route
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 import ru.surfstudio.android.navigation.route.activity.getDataBundle
 
-class NumberRoute(val number: Int): ActivityRoute() {
+class FlowRoute(val screenId: String): ActivityRoute() {
 
-    constructor(intent: Intent) : this(intent.getDataBundle()?.getInt(Route.EXTRA_FIRST) ?: 0)
+    constructor(intent: Intent) : this(intent.getDataBundle()?.getString(Route.EXTRA_FIRST) ?: "")
 
     override fun getId(): String {
-        return super.getId() + number.toString()
+        return super.getId() + screenId
     }
 
     override fun prepareData(): Bundle {
-        return bundleOf(Route.EXTRA_FIRST to number)
+        return bundleOf(Route.EXTRA_FIRST to screenId)
     }
 
     override fun getScreenClassPath(): String {
-        return "ru.surfstudio.android.navigation.sample.app.screen.number.NumberActivity"
+        return "ru.surfstudio.android.navigation.sample.app.screen.flow.FlowActivity"
     }
 }

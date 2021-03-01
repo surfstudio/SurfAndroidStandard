@@ -12,10 +12,10 @@
         android:textSize="24sp" />
 
     <Button
-        android:id="@+id/home_galery_btn"
+        android:id="@+id/home_add_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="16dp"
-        android:text="Gallery fullscreen" />
+        android:text="Add" />
 </FrameLayout>

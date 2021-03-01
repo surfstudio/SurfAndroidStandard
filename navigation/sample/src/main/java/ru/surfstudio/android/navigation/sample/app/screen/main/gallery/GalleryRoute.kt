@@ -6,7 +6,7 @@ import ru.surfstudio.android.navigation.route.tab.TabHeadRoute
 
 sealed class GalleryRoute : FragmentRoute() {
 
-    override fun getScreenClass(): Class<out Fragment>? = GalleryTabFragment::class.java
+    override fun getScreenClass(): Class<out Fragment>? = GalleryFragment::class.java
 
     class Tab : GalleryRoute(), TabHeadRoute
 
