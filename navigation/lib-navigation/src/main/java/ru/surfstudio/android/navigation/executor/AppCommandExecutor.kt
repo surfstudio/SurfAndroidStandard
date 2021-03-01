@@ -59,7 +59,7 @@ open class AppCommandExecutor(
      * Postpones command execution to the end of the Message Queue
      * and executes [commands] with the next available navigator
      */
-    private fun postponeExecution(commands: List<NavigationCommand>) {
+    protected fun postponeExecution(commands: List<NavigationCommand>) {
         handler.post {
             buffer.addAll(commands)
             activityNavigationProvider.setOnHolderActiveListenerSingle { utilizeBuffer() }
@@ -79,8 +79,7 @@ open class AppCommandExecutor(
      * and then call this method again with remaining commands (returning to step 1)
      *
      * TODO: Dispatch commands in batches, to, for example,
-     * TODO: execute multiple commands in one FragmentTransaction,
-     * TODO: or use Context.startActivities(Intent, Intent...) to launch multiple activities.
+     * TODO: execute multiple commands in one FragmentTransaction
      *
      */
     protected open fun divideExecution(commands: List<NavigationCommand>) {
@@ -90,45 +89,56 @@ open class AppCommandExecutor(
         val isStartingWithAsyncCommand = checkCommandAsync(firstCommand)
 
         if (isStartingWithAsyncCommand) {
-            val firstNotStartIndex = commands.indexOfFirst { command -> command !is Start }
-            when {
-                // we have only Start commands, just execute them
-                firstNotStartIndex == -1 -> {
-                    startSeveralActivities(commands)
-                }
-                // we have several Start commands and commands of other types right after them, so
-                // we start activities first and postpone the execution of the rest of commands
-                firstNotStartIndex > 1 -> {
-                    startSeveralActivities(commands.take(firstNotStartIndex))
-                    postponeExecution(commands.subList(firstNotStartIndex, commands.size))
-                }
-                /**
-                 * Here are other cases, where we just execute first command.
-                 * If we have to Finish activity or affinity we need to check the next command after
-                 * it. If it's async but not Finish command we can immediately execute it with
-                 * current navigator. Otherwise we postpone execution until the next navigator
-                 * is available.
-                 */
-                else -> {
-                    dispatchCommand(firstCommand)
-                    val restCommands = commands.drop(1)
-                    val canExecuteImmediately: Boolean = restCommands.isNotEmpty()
-                            && checkCommandAsync(restCommands[0])
-                            && !isFinishCommand(restCommands[0])
-                    if (canExecuteImmediately){
-                        divideExecution(restCommands)
-                    } else {
-                        postponeExecution(restCommands)
-                    }
-                }
-            }
+            divideStartingFromAsync(commands, firstCommand)
         } else {
-            val firstAsyncCommandIndex = commands.indexOfFirst { checkCommandAsync(it) }
-            if (firstAsyncCommandIndex >= 1) {
-                safeExecuteWithBuffer(commands.subList(firstAsyncCommandIndex, commands.size))
-                queueCommands(commands.take(firstAsyncCommandIndex))
-            } else {
-                queueCommands(commands)
+            divideStartingFromSync(commands)
+        }
+    }
+
+    private fun divideStartingFromSync(commands: List<NavigationCommand>) {
+        val firstAsyncCommandIndex = commands.indexOfFirst { checkCommandAsync(it) }
+        if (firstAsyncCommandIndex >= 1) {
+            queueCommands(commands.take(firstAsyncCommandIndex))
+            safeExecuteWithBuffer(commands.subList(firstAsyncCommandIndex, commands.size))
+        } else {
+            queueCommands(commands)
+        }
+    }
+
+    private fun divideStartingFromAsync(commands: List<NavigationCommand>, firstCommand: NavigationCommand) {
+        val firstNotStartIndex = commands.indexOfFirst { command -> command !is Start }
+        when {
+            /** We have only Start commands, just execute them */
+            firstNotStartIndex == -1 -> {
+                startSeveralActivities(commands)
+            }
+            /**
+             * We have several Start commands and commands of other types right after them, so
+             * we start activities first and postpone the execution of the remaining commands until
+             * new navigation holder become available
+             */
+            firstNotStartIndex > 1 -> {
+                startSeveralActivities(commands.take(firstNotStartIndex))
+                postponeExecution(commands.subList(firstNotStartIndex, commands.size))
+            }
+            /**
+             * Here are other cases, where we just execute first command.
+             * If we have to Finish activity or affinity we need to check the next command after
+             * it. If it's async but not Finish/FinishAffinity command we can immediately execute it
+             * with current navigation holder. Otherwise we postpone execution until new navigation
+             * holder become available.
+             */
+            else -> {
+                dispatchCommand(firstCommand)
+                val restCommands = commands.drop(1)
+                val canExecuteImmediately: Boolean = restCommands.isNotEmpty()
+                        && checkCommandAsync(restCommands[0])
+                        && !isFinishCommand(restCommands[0])
+                if (canExecuteImmediately) {
+                    divideExecution(restCommands)
+                } else {
+                    postponeExecution(restCommands)
+                }
             }
         }
     }
