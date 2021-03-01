@@ -30,8 +30,8 @@ interface MessageController {
 
     companion object {
         private const val DEFAULT_TOAST_GRAVITY = Gravity.BOTTOM
-        private const val DEFAULT_TOAST_DURATION = Toast.LENGTH_LONG
-        private const val DEFAULT_SNACK_DURATION = Snackbar.LENGTH_LONG
+        private const val DEFAULT_TOAST_DURATION = Toast.LENGTH_SHORT
+        private const val DEFAULT_SNACK_DURATION = Snackbar.LENGTH_SHORT
     }
 
     fun show(

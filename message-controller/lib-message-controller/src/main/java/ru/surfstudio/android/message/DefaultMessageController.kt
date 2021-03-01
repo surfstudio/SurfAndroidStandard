@@ -123,12 +123,7 @@ class DefaultMessageController @JvmOverloads constructor(
         } else {
             params.message
         }
-        var duration = params.duration
-        if (duration != Snackbar.LENGTH_SHORT
-                && duration != Snackbar.LENGTH_LONG
-                && duration != Snackbar.LENGTH_INDEFINITE) {
-            duration = Snackbar.LENGTH_SHORT
-        }
+        val duration = params.duration
         snackbar = Snackbar.make(getView(), message, duration).apply {
             var backgroundColor: Int? = if (params.backgroundColorResId != 0) {
                 ContextCompat.getColor(activity, params.backgroundColorResId)
