@@ -46,7 +46,7 @@ class App : Application() {
     }
 
     private fun initAnimations() {
-        DefaultAnimations.fragment = SlideAnimations() //animations for all fragment changes
-        DefaultAnimations.tab = FadeAnimations() //animations for tab changes
+        DefaultAnimations.fragment = SlideAnimations //animations for all fragment changes
+        DefaultAnimations.tab = FadeAnimations //animations for tab changes
     }
 }

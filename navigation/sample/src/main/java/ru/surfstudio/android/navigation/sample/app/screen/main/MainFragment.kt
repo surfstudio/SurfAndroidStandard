@@ -70,7 +70,7 @@ class MainFragment : Fragment(), TabFragmentNavigationContainer {
         App.executor.execute(
                 Replace(
                         route = route,
-                        animations = FadeAnimations(),
+                        animations = FadeAnimations,
                         sourceTag = tag!!
                 )
         )

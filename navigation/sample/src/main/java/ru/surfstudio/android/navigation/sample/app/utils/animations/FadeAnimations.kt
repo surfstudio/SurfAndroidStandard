@@ -7,7 +7,7 @@ import ru.surfstudio.android.navigation.sample.R
 /**
  * Набор анимаций Fade In/Out для переключения фрагментов.
  */
-class FadeAnimations : BaseResourceAnimations(
+object FadeAnimations : BaseResourceAnimations(
         enterAnimation = R.anim.fade_in_fast,
         exitAnimation = R.anim.fade_out_fast,
         popEnterAnimation = R.anim.fade_in_fast,

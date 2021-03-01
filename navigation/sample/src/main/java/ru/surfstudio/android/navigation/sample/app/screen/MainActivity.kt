@@ -17,23 +17,7 @@ class MainActivity : AppCompatActivity(), FragmentNavigationContainer {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single)
         if (savedInstanceState == null) { //Adding fragment only on first create
-            App.executor.execute(Add(SplashRoute(), FadeAnimations()))
-//            val firstFlow = FlowRoute("first")
-//            val secondFlow = FlowRoute("second")
-//            App.executor.execute(
-//                    listOf(
-//                            Start(firstFlow),
-//                            Replace(ImageRoute(0), sourceTag = firstFlow.getId()),
-//                            Replace(ImageRoute(1), sourceTag = firstFlow.getId()),
-//                            Replace(ImageRoute(2), sourceTag = firstFlow.getId()),
-//                            Start(NumberRoute(0)),
-//                            Start(secondFlow),
-//                            Replace(ImageRoute(0), sourceTag = secondFlow.getId()),
-//                            Replace(ImageRoute(1), sourceTag = secondFlow.getId()),
-//                            Replace(ImageRoute(2), sourceTag = secondFlow.getId()),
-//                            Start(NumberRoute(1))
-//                    )
-//            )
+            App.executor.execute(Add(SplashRoute(), FadeAnimations))
         }
     }
 }
