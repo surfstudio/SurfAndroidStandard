@@ -48,13 +48,20 @@ open class AppCommandExecutor(
         if (activityNavigationProvider.hasCurrentHolder()) {
             divideExecution(commands)
         } else {
-            executeWithNewNavigator(commands)
+            postponeExecution(commands)
         }
     }
 
-    private fun executeWithNewNavigator(commands: List<NavigationCommand>) {
-        buffer.addAll(commands)
-        activityNavigationProvider.setOnHolderActiveListenerSingle { utilizeBuffer() }
+
+    /**
+     * Postpones command execution to the end of the Message Queue
+     * and executes [commands] with the next available navigator
+     */
+    private fun postponeExecution(commands: List<NavigationCommand>) {
+        handler.post {
+            buffer.addAll(commands)
+            activityNavigationProvider.setOnHolderActiveListenerSingle { utilizeBuffer() }
+        }
     }
 
     /**
@@ -87,17 +94,17 @@ open class AppCommandExecutor(
                 firstNotStartIndex == -1 -> {
                     startSeveralActivities(commands)
                 }
-                // we have several start commands and commands of other types right after them, so
-                // we start activities first and execute the rest of commands with a new navigator
+                // we have several Start commands and commands of other types right after them, so
+                // we start activities first and postpone the execution of the rest of commands
                 firstNotStartIndex > 1 -> {
                     startSeveralActivities(commands.take(firstNotStartIndex))
-                    executeWithNewNavigator(commands.subList(firstNotStartIndex, commands.lastIndex))
+                    postponeExecution(commands.subList(firstNotStartIndex, commands.lastIndex))
                 }
                 // Here are other cases, where we just execute first command and postpone other
                 // commands execution
                 else -> {
-                    executeWithNewNavigator(commands.drop(1))
                     dispatchCommand(firstCommand)
+                    postponeExecution(commands.drop(1))
                 }
             }
         } else {
@@ -153,13 +160,6 @@ open class AppCommandExecutor(
             is FragmentNavigationCommand -> fragmentCommandExecutor.execute(command)
             is DialogNavigationCommand -> dialogCommandExecutor.execute(command)
         }
-    }
-
-    /**
-     * Postpones command execution to the end of the Message Queue.
-     */
-    protected open fun postponeExecution(commands: List<NavigationCommand>) {
-        handler.post { safeExecuteWithBuffer(commands) }
     }
 
     /**
