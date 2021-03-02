@@ -3,6 +3,7 @@ package ru.surfstudio.android.navigation.sample_standard
 import android.app.Activity
 import android.app.Application
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.navigation.animation.DefaultAnimations
 import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
 import ru.surfstudio.android.navigation.sample_standard.di.AppComponent

@@ -16,6 +16,7 @@ import ru.surfstudio.android.navigation.sample_standard.screen.base.presenter.Co
 import ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.profile.logout.LogoutConfirmationRoute
 import ru.surfstudio.android.navigation.sample_standard.screen.bottom_nav.profile.settings.ApplicationSettingsRoute
 import ru.surfstudio.android.navigation.sample_standard.screen.search.request.SearchRequestRoute
+import ru.surfstudio.android.navigation.sample_standard.screen.search.results.SearchResultRoute
 import ru.surfstudio.android.navigation.sample_standard.utils.animations.ModalAnimations
 import javax.inject.Inject
 
@@ -30,6 +31,7 @@ class ProfilePresenter @Inject constructor(
     override fun onFirstLoad() {
         val confirmLogoutRoute = LogoutConfirmationRoute()
         subscribeToLogoutResult(confirmLogoutRoute)
+        subscribeOnSearchResults()
         bm.openConfirmLogoutScreen bindTo { Show(confirmLogoutRoute).execute() }
         bm.openSettings.bindTo { Start(ApplicationSettingsRoute()).execute() }
         bm.openSearch.bindTo {
@@ -38,6 +40,12 @@ class ProfilePresenter @Inject constructor(
                     animations = ModalAnimations,
                     sourceTag = ACTIVITY_NAVIGATION_TAG
             ).execute()
+        }
+    }
+
+    private fun subscribeOnSearchResults() {
+        subscribe(screenResultObserver.observeScreenResult(SearchRequestRoute())){ result: String ->
+            Replace(SearchResultRoute(result)).execute()
         }
     }
 
