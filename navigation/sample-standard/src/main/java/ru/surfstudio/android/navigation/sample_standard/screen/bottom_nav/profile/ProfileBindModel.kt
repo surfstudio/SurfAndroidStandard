@@ -10,4 +10,5 @@ class ProfileBindModel @Inject constructor() : BindModel {
 
     val openSettings = Action<Unit>()
     val openConfirmLogoutScreen = Action<Unit>()
+    val openSearch = Action<Unit>()
 }
