@@ -525,7 +525,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 28,
+    "unstable_version": 29,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -763,7 +763,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 11,
+    "unstable_version": 12,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -1096,9 +1096,9 @@
   },
   {
     "id": "easyadapter",
-    "version": "2.0.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "2.1.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "easyadapter",
     "libs": [
       {
@@ -1380,7 +1380,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 15,
+    "unstable_version": 16,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1674,7 +1674,7 @@
   {
     "id": "navigation",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 8,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1864,7 +1864,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 9,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -1964,7 +1964,7 @@
   {
     "id": "rx-extension",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 8,
     "stable": false,
     "dir": "rx-extension",
     "libs": [
@@ -2113,7 +2113,7 @@
   {
     "id": "standard-dialog",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 8,
     "stable": false,
     "dir": "standard-dialog",
     "libs": [
@@ -2159,7 +2159,7 @@
   {
     "id": "util-ktx",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "util-ktx",
     "libs": [
@@ -2200,7 +2200,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 42,
+    "unstable_version": 46,
     "stable": false,
     "dir": "template",
     "libs": [],

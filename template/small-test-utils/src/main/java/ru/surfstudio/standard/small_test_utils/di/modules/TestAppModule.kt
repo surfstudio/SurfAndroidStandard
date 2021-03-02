@@ -10,7 +10,8 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigat
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
-import ru.surfstudio.standard.base.util.ResourceProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProviderImpl
 
 @Module
 class TestAppModule(
@@ -32,7 +33,9 @@ class TestAppModule(
 
     @Provides
     @PerApplication
-    internal fun provideResourceProvider(context: Context): ResourceProvider = ResourceProvider(context)
+    internal fun provideResourceProvider(context: Context): ResourceProvider {
+        return ResourceProviderImpl(context)
+    }
 
     @Provides
     @PerApplication

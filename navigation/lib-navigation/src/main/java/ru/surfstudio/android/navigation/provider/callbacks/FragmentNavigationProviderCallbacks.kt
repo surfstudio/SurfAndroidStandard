@@ -58,16 +58,13 @@ open class FragmentNavigationProviderCallbacks(
     }
 
     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
-        Log.d("111111 Create", "Fragment=$f, Manager=$fm")
+        Log.d("Create", "Fragment=$f, Manager=$fm")
 
-        val id = getFragmentId(f)
-        val hasFragmentWithSameId = activeFragments.any { getFragmentId(it) == id }
-        if (hasFragmentWithSameId) error("You must specify unique tag for each fragment! Tag=$id")
-
+        destroyFragmentWithSameId(fm, f)
         activeFragments.add(f)
 
         if (f !is FragmentNavigationContainer) return
-        addHolder(id, f, f.childFragmentManager, savedInstanceState)
+        addHolder(getFragmentId(f), f, f.childFragmentManager, savedInstanceState)
     }
 
     override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) {
@@ -79,8 +76,7 @@ open class FragmentNavigationProviderCallbacks(
     }
 
     override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
-        navigationHolders.remove(getFragmentId(f))
-        activeFragments.remove(f)
+        destroyFragmentWithSameId(fm, f)
     }
 
     fun onActivitySaveState(outState: Bundle?) {
@@ -152,6 +148,14 @@ open class FragmentNavigationProviderCallbacks(
         return fragmentHolder ?: obtainFragmentHolderRecursive(fragment.parentFragment)
     }
 
+    private fun destroyFragmentWithSameId(fm: FragmentManager, f: Fragment) {
+        val id = getFragmentId(f)
+        val hasFragmentWithSameId = activeFragments.any { getFragmentId(it) == id }
+        if (hasFragmentWithSameId) {
+            navigationHolders.remove(getFragmentId(f))
+            activeFragments.remove(f)
+        }
+    }
 
     private companion object {
         const val NO_NAVIGATION_HOLDER_ERROR =

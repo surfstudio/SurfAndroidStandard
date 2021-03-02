@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1171 ResourceProvider moved to core-ui
 * ANDDEP-1040 fixed template build stage
 * ANDDEP-46 Added default BottomBarView implementation
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type to f-debug
@@ -55,6 +56,7 @@
 * ANDDEP-1112 Fixed method name typo
 * ANDDEP-1112 Fixed access modifier in `SafeConverterFactory.Function`
 * ANDDEP-1112 Fixed generic type in `CompletableSafeConverter`
+* ANDDEP-1062 added view KeyboardView
 * ANDDEP-1109 Added new obfuscation rule and TODO in [`proguard-rules.pro`](proguard-rules.pro)
 * ANDDEP-1111 Added class inheritance: `Transformable` extends `BaseResponse`
 * ANDDEP-1099 Added new navigation validation support
@@ -67,6 +69,10 @@
 * ANDDEP-1141 Added Firebase BoM dependency
 * Fix event generation
 * ANDDEP-1100 Navigation with starting system activities for result
+* ANDDEP-1170 Added IntentChecker
+* ScreenState added to BaseMiddlwareDependency
+* ANDDEP-1066 Migrated to gradle 6
+* added startFoResult extension for events
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
