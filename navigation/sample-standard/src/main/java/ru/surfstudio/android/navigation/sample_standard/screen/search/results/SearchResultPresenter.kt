@@ -1,10 +1,8 @@
 package ru.surfstudio.android.navigation.sample_standard.screen.search.results
 
-import android.util.Log
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.navigation.command.fragment.RemoveAll
 import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand.Companion.ACTIVITY_NAVIGATION_TAG
