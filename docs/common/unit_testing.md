@@ -132,6 +132,57 @@ Kotest предоставляет возможность написание те
 Для реализации тест-класса Middleware существует базовый класс [`BaseMiddlewareTest`][baseMiddlewareTest],
 который содержит всё необходимое для создания экземпляра тестируемого Middleware.
 
+Пример тест-класса для Middleware:
+```kotlin
+internal class RateChooserMiddlewareTest : BaseMiddlewareTest() {
+
+    private val initialState = RateChooserState()
+    private val sh = RateChooserStateHolder()
+
+    private val analyticsService = mockk<DefaultAnalyticService>()
+    private val route = mockk<RateChooserDialogRoute>()
+
+    @Test
+    fun `when rate button clicked and rate is good, should be mapped review composer screen open event`() {
+        setRate(5)
+
+        val middleware = createMiddleware()
+        val inputEvent = RateChooserEvent.Input.RateBtnClicked
+        val testObserver = TestObserver<RateChooserEvent>()
+
+        middleware.transform(inputEvent.toObservable()).subscribe(testObserver)
+
+        assertSoftly(testObserver.values().first()) {
+            shouldBeTypeOf<RateChooserEvent.Navigation>()
+
+            val events = actualEvent.events
+
+            events.firstOrNull()
+                .shouldBeNavigationCommand<Show>()
+                .withRoute<StoreRedirectDialogRoute>()
+
+            events.getOrNull(1)
+                .shouldBeNavigationCommand<Dismiss>()
+                .withRoute(route)
+        }
+
+        verify { analyticsService.performAction(any<RatingStarCountEvent>()) }
+    }
+    
+    // остальные тесты
+    
+    private fun createMiddleware(): RateChooserMiddleware {
+        return RateChooserMiddleware(
+            baseMiddlewareDependency,
+            analyticsService,
+            navigationMiddleware,
+            route,
+            sh
+        )
+    }
+}
+```
+
 1. Проверка команд навигации
 
 Для проверки того, что в результате трансформаций были произведены события команд навигаций,
@@ -257,16 +308,20 @@ fun `when rate button clicked, RateBtnClickedDebounced should be produced after 
 Для реализации тест-класса `Reducer`'а существует базовый класс [`BaseReactorTest`][bestReactorTest],
 который содержит всё необходимое для создания экземпляра тестируемого `Reducer`а.
 
-Пример:
+Пример тест-класса:
 ```kotlin
-@Test
-fun `when query changed, filtered list should be produced`() {
-    val initialState = SearchState(query = EMPTY_STRING, items = listOf("a", "b", "c"))
-    val event = Input.QueryChanged(newQuery = "abc")
+internal class ServiceSearchReducerTest : BaseReactorTest() {
 
-    val newState = reducer.reduce(initialState, event)
-
-    newState.filteredItems.shouldBeEmpty()
+    @Test
+    fun `when query changed, filtered list should be produced`() {
+      val reducer = ServiceSearchReducer(baseReactorDependency)
+        val initialState = ServiceSearchState(query = EMPTY_STRING, items = listOf("a", "b", "c"))
+        val event = Input.QueryChanged(newQuery = "abc")
+    
+        val newState = reducer.reduce(initialState, event)
+    
+        newState.filteredItems.shouldBeEmpty()
+    }
 }
 ```
 

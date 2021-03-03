@@ -26,13 +26,17 @@ import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
  */
 class TestResourceProvider : ResourceProvider {
 
-    override fun getString(id: Int, vararg args: Any) = "$id"
+    override fun getString(id: Int, vararg args: Any): String {
+        return "$id"
+    }
 
     override fun getQuantityString(id: Int, quantity: Int, vararg args: Any): String {
         return "$id|$quantity|${args.joinToString()}"
     }
 
-    override fun getStringList(id: Int) = listOf("$id")
+    override fun getStringList(id: Int): List<String> {
+        return listOf("$id")
+    }
 
     override fun getDrawable(@DrawableRes drawableRes: Int): Drawable? {
         return null
