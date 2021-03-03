@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.rivegauche.app.f_main.bar.MainBarState
-import ru.rivegauche.app.f_main.bar.MainBarStateHolder
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
 import ru.surfstudio.android.core.ui.view_binding.viewBinding

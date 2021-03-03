@@ -1,4 +1,4 @@
-package ru.rivegauche.app.f_main.bar
+package ru.surfstudio.standard.f_main.bar
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddleware
@@ -8,6 +8,7 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.standard.f_main.bar.MainBarEvent
 import ru.surfstudio.standard.f_main.bar.MainBarEvent.Navigation
 import ru.surfstudio.standard.f_main.bar.MainBarEvent.TabSelected
+import ru.surfstudio.standard.f_main.bar.MainBarStateHolder
 import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
 import ru.surfstudio.standard.ui.mvi.navigation.extension.builder
 import ru.surfstudio.standard.ui.mvi.navigation.extension.replace
