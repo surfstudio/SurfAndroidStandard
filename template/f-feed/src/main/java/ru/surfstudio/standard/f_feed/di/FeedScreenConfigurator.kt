@@ -37,7 +37,7 @@ internal class FeedScreenConfigurator(arguments: Bundle?) : FragmentScreenConfig
         @PerScreen
         fun provideEventHub(
                 screenEventHubDependency: ScreenEventHubDependency
-        ) = ScreenEventHub<FeedEvent>(screenEventHubDependency, FeedEvent::Lifecycle)
+        )= ScreenEventHub<FeedEvent>(screenEventHubDependency, FeedEvent::Lifecycle)
 
         @Provides
         @PerScreen

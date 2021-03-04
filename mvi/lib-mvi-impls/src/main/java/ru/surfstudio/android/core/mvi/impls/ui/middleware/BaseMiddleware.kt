@@ -47,25 +47,16 @@ abstract class BaseMiddleware<T : Event>(
         LifecycleMiddleware<T>,
         LifecycleFreezeMiddleware<T>,
         PersistentCheckLifecycleMiddleware<T>,
-        RxBuilderIo,
-        RxBuilderHandleError {
+        RxBuilderIo {
 
     override val schedulersProvider: SchedulersProvider = baseMiddlewareDependency.schedulersProvider
-    override val errorHandler: ErrorHandler = baseMiddlewareDependency.errorHandler
+    open val errorHandler: ErrorHandler = baseMiddlewareDependency.errorHandler
     override val screenState: ScreenState = baseMiddlewareDependency.screenState
 
     protected fun <T> Observable<T>.ignoreErrors() = onErrorResumeNext { error: Throwable ->
         Logger.e(error) //логгируем ошибку, чтобы хотя бы знать, где она произошла
         Observable.empty()
     }
-
-    protected fun <E> Observable<E>.ioHandleError() = io().handleError()
-
-    protected fun <E> Single<E>.ioHandleError() = io().handleError()
-
-    protected fun <E> Maybe<E>.ioHandleError() = io().handleError()
-
-    protected fun Completable.ioHandleError() = io().handleError()
 
     /**
      * Трансформация [Observable]<[Request]<[T]>> Observable с событием с данными.

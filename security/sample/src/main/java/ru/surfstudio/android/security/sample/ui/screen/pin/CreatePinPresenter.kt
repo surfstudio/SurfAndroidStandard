@@ -9,11 +9,11 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
 import ru.surfstudio.android.security.sample.R
 import ru.surfstudio.android.security.sample.interactor.profile.ProfileInteractor
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import javax.inject.Inject
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 
 /**
  * Презентер экрана ввода pin-кода
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class CreatePinPresenter @Inject constructor(
     basePresenterDependency: BasePresenterDependency,
     private val route: CreatePinActivityRoute,
-    private val stringsProvider: StringsProvider,
+    private val resourceProvider: ResourceProvider,
     private val profileInteractor: ProfileInteractor,
     private val biometricsService: BiometricsService
 ) : BasePresenter<CreatePinActivityView>(basePresenterDependency) {
@@ -37,7 +37,7 @@ class CreatePinPresenter @Inject constructor(
 
     fun submitPin(pin: String) {
         loadData(profileInteractor.signIn(route.apiKey, pin)) {
-            val message = stringsProvider.getString(R.string.pin_created_message)
+            val message = resourceProvider.getString(R.string.pin_created_message)
             view.showMessage(message)
         }
     }
@@ -50,9 +50,9 @@ class CreatePinPresenter @Inject constructor(
 
     fun encryptPin(pin: String) {
         val promptInfo = PromptInfo(
-            title = stringsProvider.getString(R.string.biometric_dialog_confirmation_title),
-            subtitle = stringsProvider.getString(R.string.biometric_dialog_subtitle),
-            negativeButtonText = stringsProvider.getString(R.string.biometric_dialog_cancel)
+            title = resourceProvider.getString(R.string.biometric_dialog_confirmation_title),
+            subtitle = resourceProvider.getString(R.string.biometric_dialog_subtitle),
+            negativeButtonText = resourceProvider.getString(R.string.biometric_dialog_cancel)
         )
         biometricsDisposable.dispose()
         biometricsDisposable = subscribe(biometricsService.encryptByBiometrics(pin, view, promptInfo),
@@ -63,9 +63,9 @@ class CreatePinPresenter @Inject constructor(
 
     fun decryptPin(encryptedData: String) {
         val promptInfo = PromptInfo(
-            title = stringsProvider.getString(R.string.biometric_dialog_activation_title),
-            subtitle = stringsProvider.getString(R.string.biometric_dialog_subtitle),
-            negativeButtonText = stringsProvider.getString(R.string.biometric_dialog_cancel)
+            title = resourceProvider.getString(R.string.biometric_dialog_activation_title),
+            subtitle = resourceProvider.getString(R.string.biometric_dialog_subtitle),
+            negativeButtonText = resourceProvider.getString(R.string.biometric_dialog_cancel)
         )
         biometricsDisposable.dispose()
         biometricsDisposable = subscribe(biometricsService.decryptByBiometrics(encryptedData, view, promptInfo),
