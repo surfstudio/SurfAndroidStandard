@@ -26,7 +26,7 @@ import ru.surfstudio.standard.base.test.TestErrorHandler
 import ru.surfstudio.standard.base.test.TestScreenState
 import ru.surfstudio.standard.base.test.TestResourceProvider
 import ru.surfstudio.standard.base.test.TestSchedulersProvider
-import ru.tricolor.android.ui.test.mvi.TestNavigationMiddleware
+import ru.surfstudio.standard.ui.test.mvi.TestNavigationMiddleware
 import ru.surfstudio.android.core.ui.state.ScreenState
 
 /**
