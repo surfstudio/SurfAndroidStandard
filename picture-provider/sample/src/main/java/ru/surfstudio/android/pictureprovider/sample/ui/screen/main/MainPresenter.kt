@@ -8,8 +8,8 @@ import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
 import ru.surfstudio.android.pictureprovider.sample.R
-import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
 import javax.inject.Inject
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 
 /**
  * Презентер главного экрана
@@ -17,14 +17,14 @@ import javax.inject.Inject
 @PerScreen
 internal class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        stringsProvider: StringsProvider,
+        resourceProvider: ResourceProvider,
         private val picturePermissionChecker: PicturePermissionChecker,
         private val photoProvider: PictureProvider,
         private val messageController: MessageController
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val sm: MainScreenModel = MainScreenModel()
-    private val imageChooserMessage = stringsProvider.getString(R.string.image_chooser_message)
+    private val imageChooserMessage = resourceProvider.getString(R.string.image_chooser_message)
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)

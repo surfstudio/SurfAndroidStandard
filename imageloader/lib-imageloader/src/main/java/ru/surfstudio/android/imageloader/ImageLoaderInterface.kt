@@ -67,7 +67,7 @@ interface ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable,
      * @param shouldTransformPreview необходимо ли применять трансформации исходника к превью
      */
-    fun preview(@DrawableRes drawableResId: Int, shouldTransformPreview: Boolean = true): ImageLoaderInterface
+    fun preview(@DrawableRes drawableResId: Int, shouldTransformPreview: Boolean = false): ImageLoaderInterface
 
     /**
      * Указание графического ресурса, отображаемого в случае ошибки загрузки.
@@ -79,7 +79,7 @@ interface ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable
      * @param shouldTransformError необходимо ли применять трансформации исходника к превью
      */
-    fun error(@DrawableRes drawableResId: Int, shouldTransformError: Boolean = true): ImageLoaderInterface
+    fun error(@DrawableRes drawableResId: Int, shouldTransformError: Boolean = false): ImageLoaderInterface
 
     /**
      * Установка лямбды для отслеживания загрузки изображения и источника загрузки
