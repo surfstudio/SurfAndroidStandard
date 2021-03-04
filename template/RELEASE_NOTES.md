@@ -69,6 +69,7 @@
 * ANDDEP-930 Added handling custom notification actions
 * ANDDEP-1138 Added supporting View Binding
 * ANDDEP-1144 Fix navigation
+* ANDDEP-1135 Added [`SimpleDialogView`](base_feature/src/main/java/ru/surfstudio/standard/ui/dialog/simple/SimpleDialogView.kt) & easy sample to it
 * ANDDEP-1141 Added Firebase BoM dependency
 * Fix event generation
 * ANDDEP-1100 Navigation with starting system activities for result
