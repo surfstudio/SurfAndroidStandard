@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.tricolor.android.ui.test.navigation
+package ru.surfstudio.standard.ui.test.navigation
 
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener

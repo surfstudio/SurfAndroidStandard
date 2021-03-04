@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.tricolor.android.ui.test.mvi
+package ru.surfstudio.standard.ui.test.mvi
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.navigation.NavigationEvent
