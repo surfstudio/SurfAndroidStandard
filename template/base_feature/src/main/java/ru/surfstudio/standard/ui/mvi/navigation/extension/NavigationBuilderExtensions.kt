@@ -61,6 +61,13 @@ fun <N, R, T> NavigationEventBuilder<N>.startForResult(route: R): NavigationEven
     return add(StartForResult(route))
 }
 
+/** см [NavigationEventBuilder.startForResult] */
+fun <N, R, T> N.startForResult(route: R): N
+        where N : NavCommandsComposition,
+              T : Serializable,
+              R : ActivityWithResultRoute<T> {
+    return createSingleCommandComposition(StartForResult(route))
+}
 
 /** см [NavigationEventBuilder.finish] */
 fun <T : NavCommandsComposition> T.finish(): T {
