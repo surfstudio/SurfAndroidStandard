@@ -4,9 +4,9 @@ import android.os.Bundle
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import ru.rivegauche.app.f_main.bar.MainBarMiddleware
-import ru.rivegauche.app.f_main.bar.MainBarReducer
-import ru.rivegauche.app.f_main.bar.MainBarStateHolder
+import ru.surfstudio.standard.f_main.bar.MainBarMiddleware
+import ru.surfstudio.standard.f_main.bar.MainBarReducer
+import ru.surfstudio.standard.f_main.bar.MainBarStateHolder
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.impls.event.hub.dependency.ScreenEventHubDependency
 import ru.surfstudio.android.core.mvi.impls.ui.binder.ScreenBinder
