@@ -6,16 +6,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
+import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigatorFactory
+import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
-import ru.surfstudio.android.navigation.provider.holder.ActivityNavigationHolder
 import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
 import ru.surfstudio.android.navigation.provider.callbacks.factory.FragmentNavigationProviderCallbacksFactory
-import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
-import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
 import ru.surfstudio.android.navigation.provider.callbacks.listener.OnHolderActiveListener
+import ru.surfstudio.android.navigation.provider.holder.ActivityNavigationHolder
 import ru.surfstudio.android.navigation.route.Route
 import ru.surfstudio.android.navigation.route.activity.getDataBundle
 
@@ -31,7 +31,8 @@ import ru.surfstudio.android.navigation.route.activity.getDataBundle
  * for each activity.
  */
 open class ActivityNavigationProviderCallbacks(
-        private val fragmentCallbacksFactory: FragmentNavigationProviderCallbacksFactory = FragmentNavigationProviderCallbacksFactory()
+        private val fragmentCallbacksFactory: FragmentNavigationProviderCallbacksFactory = FragmentNavigationProviderCallbacksFactory(),
+        private val activityNavigatorFactory: ActivityNavigatorFactory = ActivityNavigatorFactory()
 ) : Application.ActivityLifecycleCallbacks, ActivityNavigationProvider {
 
 
@@ -58,10 +59,16 @@ open class ActivityNavigationProviderCallbacks(
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         safeRequireActivityId(activity) { _, id ->
-            val newHolder = createHolder(id, activity, savedInstanceState)
-            navigatorHolders[id] = newHolder
-            if (savedInstanceState != null) {
-                currentHolder = newHolder
+            if (navigatorHolders.containsKey(id)) {
+                Log.e("Create", "Activity id must be unique! You should provide unique ActivityRoute.getTag() for each activity in application. Tag=$id")
+            } else {
+                val newHolder = createHolder(id, activity, savedInstanceState)
+                navigatorHolders[id] = newHolder
+                if (savedInstanceState == null) {
+                    updateCurrentHolder(id)
+                } else {
+                    currentHolder = newHolder
+                }
             }
         }
     }
@@ -140,12 +147,11 @@ open class ActivityNavigationProviderCallbacks(
 
     protected open fun createHolder(id: String, activity: Activity, savedInstanceState: Bundle?): ActivityNavigationHolder {
         require(activity is AppCompatActivity) { "All activities with ActivityNavigationHolders should implement AppCompatActivity!" }
-        require(!navigatorHolders.containsKey(id)) { "Activity id must be unique! You should provide unique ActivityRoute.getTag() for each activity in application." }
 
         val fragmentNavigationProvider = fragmentCallbacksFactory.create(activity, savedInstanceState)
         registerFragmentNavigationProvider(activity, fragmentNavigationProvider)
 
-        val activityNavigator = ActivityNavigator(activity)
+        val activityNavigator = activityNavigatorFactory.create(activity)
         val dialogNavigator = DialogNavigator(activity)
 
         return ActivityNavigationHolder(

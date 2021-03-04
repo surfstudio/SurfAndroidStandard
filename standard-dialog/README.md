@@ -66,7 +66,7 @@ StandardDialogPresenter.
   
     dialogNavigator.show(StandardDialogRoute(
                   titleRes= R.string.title,
-                  message = stringsProvider.getString(R.string.message, 21),
+                  message = resourceProvider.getString(R.string.message, 21),
                   possitiveBtnTextRes = R.string.possitive,
                   negativeBtnTextRes = R.string.negative,
                   isCancelable = true,

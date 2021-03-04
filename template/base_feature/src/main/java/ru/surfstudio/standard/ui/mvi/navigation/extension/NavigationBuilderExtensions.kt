@@ -11,6 +11,8 @@ import ru.surfstudio.android.navigation.command.dialog.Dismiss
 import ru.surfstudio.android.navigation.command.dialog.Show
 import ru.surfstudio.android.navigation.command.fragment.*
 import ru.surfstudio.android.navigation.observer.command.EmitScreenResult
+import ru.surfstudio.android.navigation.observer.command.activity.StartForResult
+import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
 import ru.surfstudio.android.navigation.observer.route.ResultRoute
 import ru.surfstudio.android.navigation.route.BaseRoute
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute
@@ -45,6 +47,26 @@ fun <N, T, R> NavigationEventBuilder<N>.emitResult(route: R, result: T): Navigat
     return add(
             EmitScreenResult(route, result)
     )
+}
+
+/**
+ * Запуск экрана для получения результата.
+ * Желательно использовать только для системных экранов
+ * или для экранов из которых не возможно эмитит результат через [emitResult]
+ */
+fun <N, R, T> NavigationEventBuilder<N>.startForResult(route: R): NavigationEventBuilder<N>
+        where N : NavCommandsComposition,
+              T : Serializable,
+              R : ActivityWithResultRoute<T> {
+    return add(StartForResult(route))
+}
+
+/** см [NavigationEventBuilder.startForResult] */
+fun <N, R, T> N.startForResult(route: R): N
+        where N : NavCommandsComposition,
+              T : Serializable,
+              R : ActivityWithResultRoute<T> {
+    return createSingleCommandComposition(StartForResult(route))
 }
 
 /** см [NavigationEventBuilder.finish] */

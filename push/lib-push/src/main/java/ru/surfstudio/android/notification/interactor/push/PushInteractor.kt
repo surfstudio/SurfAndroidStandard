@@ -17,13 +17,14 @@ package ru.surfstudio.android.notification.interactor.push
 
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import java.io.Serializable
 
 /**
  * Логика работы с пушами
  */
 class PushInteractor {
 
-    private val notificationPublishSubject = BehaviorSubject.create<BaseNotificationTypeData<*>>()
+    private val notificationPublishSubject = BehaviorSubject.create<Serializable>()
 
     /**
      * Подписка на пуши определенного типа.
@@ -37,7 +38,7 @@ class PushInteractor {
     /**
      * Посылает событие по пушу определенного типа с данными
      */
-    fun onNewNotification(data: BaseNotificationTypeData<*>) {
+    fun onNewNotification(data: Serializable) {
         notificationPublishSubject.onNext(data)
     }
 }

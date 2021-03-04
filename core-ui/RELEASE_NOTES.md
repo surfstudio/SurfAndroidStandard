@@ -8,6 +8,7 @@
 
 ## 0.5.0-alpha
 ##### Core-ui
+* ANDDEP-1171 ResourceProvider moved to core-ui
 * ANDDEP-466 Fixed crash when calling `FragmentNavigaotr.popStack` with `popDepth` < 0
 * Fix logging screen names
 * Fix extra name for settingsNegativeButtonStr in DefaultSettingsRationalActivity
@@ -20,6 +21,7 @@
     If your app depends on permission handling mechanisms from `core-ui`, add `permission` module in its gradle dependencies as well.
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 * ANDDEP-1138 Added supporting View Binding
+* fix getting root view, return root view instead DecorView, because view binding can't init by DecorView
 ## 0.4.0
 ##### Core-ui
 * Added the ability to set text for the buttons of the standard dialog for switching to settings.

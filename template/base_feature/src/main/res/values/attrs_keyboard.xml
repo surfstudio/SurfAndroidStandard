@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- todo удалить, если не требуется на проекте -->
+    <declare-styleable name="KeyboardView">
+        <attr name="areLettersVisible" format="boolean" />
+        <attr name="titleFont" format="reference" />
+        <attr name="subtitleFont" format="reference" />
+        <attr name="titleTextSize" format="dimension" />
+        <attr name="subtitleTextSize" format="dimension" />
+        <attr name="titleTextColor" format="reference|color" />
+        <attr name="subtitleTextColor" format="reference|color" />
+        <attr name="subtitle_margin" format="dimension" />
+    </declare-styleable>
+</resources>
