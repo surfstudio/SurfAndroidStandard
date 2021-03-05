@@ -1,17 +1,11 @@
 apply from: '../commonModule.gradle'
 
 dependencies {
-
-    //TODO Если версия gradle plugin выше 4.0.0, используйте такое подключение:
-    // android {
-    //        buildFeatures {
-    //            viewBinding true
-    //        }
-    //    }
     android {
-        viewBinding {
-            enabled = true
+        buildFeatures {
+            viewBinding true
         }
     }
+
     implementation project(":base_feature")
 }
