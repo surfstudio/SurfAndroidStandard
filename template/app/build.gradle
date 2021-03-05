@@ -26,6 +26,10 @@ android {
 
         testBuildType 'debug' //todo replace to 'qa' for real app
     }
+    packagingOptions {
+        pickFirst 'META-INF/LICENSE.md'
+        pickFirst 'META-INF/LICENSE-notice.md'
+    }
 }
 
 dependencies {
@@ -50,6 +54,8 @@ dependencies {
 configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
     resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
+    resolutionStrategy.force 'org.objenesis:objenesis:2.6'
+    resolutionStrategy.force 'io.github.classgraph:classgraph:4.8.54'
 }
 
 //todo uncoment for real app

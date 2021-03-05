@@ -3,10 +3,10 @@ package ru.surfstudio.standard.ui.mvi.navigation
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.impls.ui.freezer.LifecycleSubscriptionFreezer
 import ru.surfstudio.android.core.mvi.impls.ui.freezer.freeze
-import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
 import ru.surfstudio.android.rx.extension.scheduler.MainThreadImmediateScheduler
 import ru.surfstudio.standard.ui.mvi.navigation.event.NavCommandsEvent
+import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
 
 /**
  * Проектная реализация middleware для осуществления навигации на основе команд.
@@ -15,7 +15,7 @@ import ru.surfstudio.standard.ui.mvi.navigation.event.NavCommandsEvent
 class AppNavigationMiddleware(
         private val navigationExecutor: NavigationCommandExecutor,
         private val lifecycleSubscriptionFreezer: LifecycleSubscriptionFreezer
-) : RxMiddleware<NavCommandsEvent> {
+) : NavigationMiddleware {
 
     override fun transform(
             eventStream: Observable<NavCommandsEvent>

@@ -22,7 +22,7 @@ ext {
             buildToolsVersion               : '29.0.3',             //https://bit.ly/2DNmq3Y
             googleServicesVersion           : '4.3.3',              //https://bit.ly/2Q5FCge
             buildScanPluginVersion          : '2.4.2',              //https://goo.gl/coZHFo
-            kotlinVersion                   : '1.3.71',             //https://goo.gl/2Epeje
+            kotlinVersion                   : '1.4.31',             //https://goo.gl/2Epeje
             annimonStreamVersion            : '1.2.1',              //https://bit.ly/2Ke0nlQ,
             jetbrainsAnnotationsVersion     : '19.0.0',             //http://bit.ly/2NYf6Dt
             constraintLayoutVersion         : '2.0.0-beta4',        //http://bit.ly/2S1WoNg
@@ -39,6 +39,8 @@ ext {
             androidXEspressoContribVersion  : '3.2.0',              //http://bit.ly/2E0DdAq
             robolectricVersion              : '4.3.1',              //http://bit.ly/2xLRICR
             junitVersion                    : '4.13',               //https://goo.gl/hEcfw1
+            kotestVersion                   : '4.4.1',              //https://bit.ly/3oZl3CB
+            mockkVersion                    : "1.10.6",             //https://bit.ly/3r6t8rc
             firebaseBom                     : '26.2.0',             //https://bit.ly/3bxSngK
             firebaseAppDistributionVersion  : '1.2.0',              //http://bit.ly/2Gc2qHh
             firebaseCrashlyticsGradleVersion: '2.0.0-beta01',       //http://bit.ly/2RM7ec2
@@ -109,7 +111,9 @@ ext {
             robolectric    : "org.robolectric:robolectric:${versions.robolectricVersion}",
             shadowsMultidex: "org.robolectric:shadows-multidex:${versions.robolectricVersion}",
             junit          : "junit:junit:${versions.junitVersion}",
-            autoService    : "com.google.auto.service:auto-service:${versions.autoServiceVersion}"
+            autoService    : "com.google.auto.service:auto-service:${versions.autoServiceVersion}",
+            kotest         : "io.kotest:kotest-runner-junit5:${versions.kotestVersion}",
+            mockk          : "io.mockk:mockk:${versions.mockkVersion}"
     ]
 
     androidTest = [

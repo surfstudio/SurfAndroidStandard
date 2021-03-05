@@ -10,7 +10,7 @@ import ru.surfstudio.android.rx.extension.toObservable
 import ru.surfstudio.standard.f_feed.FeedEvent.Navigation
 import ru.surfstudio.standard.ui.dialog.base.SimpleResult
 import ru.surfstudio.standard.ui.dialog.simple.SimpleDialogRoute
-import ru.surfstudio.standard.ui.mvi.navigation.AppNavigationMiddleware
+import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
 import ru.surfstudio.standard.ui.mvi.navigation.extension.show
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ import javax.inject.Inject
 internal class FeedMiddleware @Inject constructor(
         basePresenterDependency: BaseMiddlewareDependency,
         private val screenResultObserver: ScreenResultObserver,
-        private val navigationMiddleware: AppNavigationMiddleware
+        private val navigationMiddleware: NavigationMiddleware
 ) : BaseMiddleware<FeedEvent>(basePresenterDependency) {
 
     override fun transform(eventStream: Observable<FeedEvent>): Observable<out FeedEvent> = transformations(eventStream) {
