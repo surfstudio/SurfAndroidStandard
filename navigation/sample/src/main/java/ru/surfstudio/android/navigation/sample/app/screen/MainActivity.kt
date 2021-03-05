@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(), FragmentNavigationContainer {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single)
         if (savedInstanceState == null) { //Adding fragment only on first create
-            App.executor.execute(Add(SplashRoute(), FadeAnimations))
+            App.navCommandExecutor.execute(Add(SplashRoute(), FadeAnimations))
         }
     }
 }

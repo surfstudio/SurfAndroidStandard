@@ -19,6 +19,6 @@ class HomeTabFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        home_add_btn.setOnClickListener { App.executor.execute(Replace(HomeNestedRoute(), sourceTag = tag!!)) }
+        home_add_btn.setOnClickListener { App.navCommandExecutor.execute(Replace(HomeNestedRoute(), sourceTag = tag!!)) }
     }
 }

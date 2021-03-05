@@ -48,15 +48,15 @@ class MainFragment : Fragment(), TabFragmentNavigationContainer {
     private fun initActiveTabReopenedListener() {
         getTabNavigator()
                 .setActiveTabReopenedListener {
-                    App.executor.execute(RemoveAll(sourceTag = tag!!))
+                    App.navCommandExecutor.execute(RemoveAll(sourceTag = tag!!))
                 }
     }
 
     private fun initBackPressedListener() {
         addOnBackPressedListener {
             when {
-                hasTabsInStack() -> App.executor.execute(RemoveLast(sourceTag = tag!!))
-                else -> App.executor.execute(Finish())
+                hasTabsInStack() -> App.navCommandExecutor.execute(RemoveLast(sourceTag = tag!!))
+                else -> App.navCommandExecutor.execute(Finish())
             }
         }
     }
@@ -67,7 +67,7 @@ class MainFragment : Fragment(), TabFragmentNavigationContainer {
             GALLERY -> GalleryRoute.Tab()
             PROFILE -> ProfileTabRoute()
         }
-        App.executor.execute(
+        App.navCommandExecutor.execute(
                 Replace(
                         route = route,
                         animations = FadeAnimations,
@@ -83,7 +83,7 @@ class MainFragment : Fragment(), TabFragmentNavigationContainer {
     }
 
     private fun getTabNavigator(): TabFragmentNavigatorInterface {
-        return App.provider
+        return App.activityNavigationProvider
                 .provide()
                 .fragmentNavigationProvider
                 .provide(tag)

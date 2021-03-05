@@ -24,7 +24,7 @@ class AuthFragment : Fragment() {
         val mainRoute = MainRoute()
         val galleryRoute = GalleryRoute.Tab()
         auth_btn.setOnClickListener {
-            App.executor.execute(
+            App.navCommandExecutor.execute(
                     listOf(
                             ReplaceHard(mainRoute), //opens main screen
                             Replace(galleryRoute, sourceTag = mainRoute.getId()), //opens gallery tab in main

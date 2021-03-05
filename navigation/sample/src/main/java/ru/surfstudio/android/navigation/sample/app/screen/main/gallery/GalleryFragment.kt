@@ -34,15 +34,15 @@ class GalleryFragment : Fragment(), FragmentNavigationContainer {
     }
 
     private fun addPicture() {
-        App.executor.execute(Replace(ImageRoute(currentPicture), sourceTag = tag!!))
+        App.navCommandExecutor.execute(Replace(ImageRoute(currentPicture), sourceTag = tag!!))
     }
 
     private fun removePicture() {
-        App.executor.execute(RemoveLast(sourceTag = tag!!))
+        App.navCommandExecutor.execute(RemoveLast(sourceTag = tag!!))
     }
 
     private fun subscribeToBackStackChanges() {
-        val provider = App.provider.provide().fragmentNavigationProvider.provide(tag)
+        val provider = App.activityNavigationProvider.provide().fragmentNavigationProvider.provide(tag)
         val backStackEntries = provider.fragmentNavigator.addBackStackChangeListener { currentPicture = it.size + 1 }
         Log.d("111111 Update pic", "backStacks$backStackEntries, manager=${childFragmentManager}")
     }

@@ -21,7 +21,7 @@ class SplashFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Handler().postDelayed({
-            App.executor.execute(ReplaceHard(AuthRoute(), animations = FadeAnimations))
+            App.navCommandExecutor.execute(ReplaceHard(AuthRoute(), animations = FadeAnimations))
         }, 1500L)
     }
 }

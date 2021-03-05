@@ -20,7 +20,7 @@ class AboutActivity : AppCompatActivity() {
 
             val targetRoute = AboutRoute()
 
-            App.executor.execute(listOf(
+            App.navCommandExecutor.execute(listOf(
                     Finish(),
                     EmitScreenResult(targetRoute, appName)
             ))

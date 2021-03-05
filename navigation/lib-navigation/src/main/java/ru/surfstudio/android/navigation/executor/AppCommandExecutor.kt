@@ -48,7 +48,7 @@ open class AppCommandExecutor(
      */
     protected open fun safeExecuteWithBuffer(commands: List<NavigationCommand>) {
         if (activityNavigationProvider.hasCurrentHolder()) {
-            divideExecution(commands)
+            splitExecutionIntoChunks(commands)
         } else {
             postponeExecution(commands)
         }
@@ -82,20 +82,20 @@ open class AppCommandExecutor(
      * TODO: execute multiple commands in one FragmentTransaction
      *
      */
-    protected open fun divideExecution(commands: List<NavigationCommand>) {
+    protected open fun splitExecutionIntoChunks(commands: List<NavigationCommand>) {
         if (commands.isEmpty()) return
 
         val firstCommand = commands.first()
         val isStartingWithAsyncCommand = checkCommandAsync(firstCommand)
 
         if (isStartingWithAsyncCommand) {
-            divideStartingFromAsync(commands, firstCommand)
+            splitStartingFromAsync(commands, firstCommand)
         } else {
-            divideStartingFromSync(commands)
+            splitStartingFromSync(commands)
         }
     }
 
-    private fun divideStartingFromSync(commands: List<NavigationCommand>) {
+    private fun splitStartingFromSync(commands: List<NavigationCommand>) {
         val firstAsyncCommandIndex = commands.indexOfFirst { checkCommandAsync(it) }
         if (firstAsyncCommandIndex >= 1) {
             queueCommands(commands.take(firstAsyncCommandIndex))
@@ -105,7 +105,7 @@ open class AppCommandExecutor(
         }
     }
 
-    private fun divideStartingFromAsync(commands: List<NavigationCommand>, firstCommand: NavigationCommand) {
+    private fun splitStartingFromAsync(commands: List<NavigationCommand>, firstCommand: NavigationCommand) {
         val firstNotStartIndex = commands.indexOfFirst { command -> command !is Start }
         when {
             /** We have only Start commands, just execute them */
@@ -126,7 +126,7 @@ open class AppCommandExecutor(
              * If we have to Finish activity or affinity we need to check the next command after
              * it. If it's async but not Finish/FinishAffinity command we can immediately execute it
              * with current navigation holder. Otherwise we postpone execution until new navigation
-             * holder become available.
+             * holder becomes available.
              */
             else -> {
                 dispatchCommand(firstCommand)
@@ -135,7 +135,7 @@ open class AppCommandExecutor(
                         && checkCommandAsync(restCommands[0])
                         && !isFinishCommand(restCommands[0])
                 if (canExecuteImmediately) {
-                    divideExecution(restCommands)
+                    splitExecutionIntoChunks(restCommands)
                 } else {
                     postponeExecution(restCommands)
                 }

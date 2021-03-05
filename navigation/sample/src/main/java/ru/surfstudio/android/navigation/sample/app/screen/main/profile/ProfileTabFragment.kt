@@ -37,11 +37,11 @@ class ProfileTabFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        profile_settings_btn.setOnClickListener { App.executor.execute(Start(ApplicationSettingsRoute())) }
-        profile_about_app_btn.setOnClickListener { App.executor.execute(Start(AboutRoute())) }
-        profile_logout_btn.setOnClickListener { App.executor.execute(ReplaceHard(AuthRoute(), FadeAnimations)) }
+        profile_settings_btn.setOnClickListener { App.navCommandExecutor.execute(Start(ApplicationSettingsRoute())) }
+        profile_about_app_btn.setOnClickListener { App.navCommandExecutor.execute(Start(AboutRoute())) }
+        profile_logout_btn.setOnClickListener { App.navCommandExecutor.execute(ReplaceHard(AuthRoute(), FadeAnimations)) }
         profile_attach_photo_btn.setOnClickListener {
-            App.executor.execute(
+            App.navCommandExecutor.execute(
                     StartForResult(
                             CameraRoute(
                                     uniqueId = screenId,
@@ -76,7 +76,7 @@ class ProfileTabFragment : Fragment() {
     private fun executeComplexCommandChain() {
         val firstFlow = FlowRoute("First flow")
         val secondFlow = FlowRoute("Second flow")
-        App.executor.execute(
+        App.navCommandExecutor.execute(
                 listOf(
                         Start(NumberRoute(42)),
                         Start(firstFlow, animations = ModalAnimations),

@@ -30,7 +30,7 @@ class FlowActivity: AppCompatActivity(), FragmentNavigationContainer {
 
     override fun onBackPressed() {
         val screenId = route.getId()
-        val backStackEntryCount = App.provider.provide()
+        val backStackEntryCount = App.activityNavigationProvider.provide()
                 .fragmentNavigationProvider
                 .provide(screenId)
                 .fragmentNavigator.backStackEntryCount
@@ -39,6 +39,6 @@ class FlowActivity: AppCompatActivity(), FragmentNavigationContainer {
         } else {
             Finish()
         }
-        App.executor.execute(command)
+        App.navCommandExecutor.execute(command)
     }
 }
