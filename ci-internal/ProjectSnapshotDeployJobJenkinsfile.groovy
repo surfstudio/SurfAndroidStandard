@@ -181,8 +181,7 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    //script.sh "./gradlew clean uploadArchives -PdeployOnlyIfNotExist=true" todo restore
-                    script.sh "./gradlew clean uploadArchives"
+                    script.sh "./gradlew clean uploadArchives -PdeployOnlyIfNotExist=true"
                     if (useBintrayDeploy) {
                         /**
                          * We can not use parameter -PdeployOnlyIfNotExist
