@@ -163,10 +163,8 @@ class CameraPictureProvider(
         val sharedPicturesDir = getBaseAlbumDir()
         if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
             return sharedPicturesDir.apply {
-                if (!mkdirs()) {
-                    if (!exists()) {
+                if (!mkdirs() && !exists()) {
                         throw ExternalStorageException("Failed to create directory")
-                    }
                 }
             }
         } else {

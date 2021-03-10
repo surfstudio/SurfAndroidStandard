@@ -23,7 +23,7 @@ open class BaseCameraRoute(val imageUri: Uri): ActivityWithResultRoute<ResultDat
 }
 
 /**
- * Старая реалзиация [BaseCameraRoute]
+ * Стандартная реалзиация [BaseCameraRoute]
  */
 class CameraRoute(
         imageUri: Uri,

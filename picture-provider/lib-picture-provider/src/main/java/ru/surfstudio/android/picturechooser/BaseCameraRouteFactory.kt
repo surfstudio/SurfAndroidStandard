@@ -41,7 +41,7 @@ internal class OldFileCameraRouteFactory(
 ) : BaseCameraRouteFactory by cameraRouteFactory {
 
     fun create(file: File): BaseCameraRoute {
-        val uri = if (Build.VERSION.SDK_INT >= 24) {
+        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             FileProvider.getUriForFile(context, authority, file)
         } else {
             Uri.fromFile(file)
