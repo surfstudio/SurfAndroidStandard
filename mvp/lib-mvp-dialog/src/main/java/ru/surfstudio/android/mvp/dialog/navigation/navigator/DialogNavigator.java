@@ -53,7 +53,9 @@ public abstract class DialogNavigator implements Navigator {
         FragmentManager fragmentManager = activityProvider.get().getSupportFragmentManager();
         DialogFragment dialogFragment = (DialogFragment) fragmentManager
                 .findFragmentByTag(dialogRoute.getTag());
-        dialogFragment.dismiss();
+        if (dialogFragment != null) {
+            dialogFragment.dismiss();
+        }
     }
 
     protected abstract <D extends DialogFragment & CoreSimpleDialogInterface> void showSimpleDialog(
