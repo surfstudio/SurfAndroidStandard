@@ -22,7 +22,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.Locat
 /**
  * Утилита для решения проблем, связанных с невозможностью получения местоположения.
  */
-internal object LocationErrorsResolver {
+public object LocationErrorsResolver {
 
     /**
      * Решить проблемы, связанные с невозможностью получения местоположения.
@@ -64,7 +64,7 @@ internal object LocationErrorsResolver {
     private fun observeFirstValidThrowableWithResolutionPair(
             throwables: List<Throwable>,
             resolutions: List<LocationErrorResolution<*>>
-    ): Single<Pair<Throwable, LocationErrorResolution<*>>>  =
+    ): Single<Pair<Throwable, LocationErrorResolution<*>>> =
             observeAllPairs(throwables, resolutions)
                     .filter { (throwable, resolution) -> resolution.resolvingThrowableClass.isInstance(throwable) }
                     .firstOrError()
