@@ -9,8 +9,8 @@ import ru.surfstudio.android.shared.pref.sample.R
 import ru.surfstudio.android.shared.pref.sample.domain.ip.Ip
 import ru.surfstudio.android.shared.pref.sample.interactor.ip.IpRepository
 import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
-import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
 import javax.inject.Inject
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 
 /**
  * Презентер главного экрана
@@ -19,7 +19,7 @@ import javax.inject.Inject
 internal class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val repository: IpRepository,
-        private val stringsProvider: StringsProvider,
+        private val resourceProvider: ResourceProvider,
         private val messageController: MessageController
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
@@ -80,5 +80,5 @@ internal class MainPresenter @Inject constructor(
 
     private fun getIpFromCache(): Ip? = repository.getIpFromStorage()
 
-    private fun getString(@StringRes stringId: Int): String = stringsProvider.getString(stringId)
+    private fun getString(@StringRes stringId: Int): String = resourceProvider.getString(stringId)
 }

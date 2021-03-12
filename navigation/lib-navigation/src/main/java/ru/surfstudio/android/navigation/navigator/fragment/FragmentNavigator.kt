@@ -71,11 +71,10 @@ open class FragmentNavigator(
     override fun replace(route: FragmentRoute, animations: Animations) {
         val backStackTag = convertToBackStackTag(route.getId())
         val fragment = route.createFragment()
-        val lastFragment = backStack.peekFragment()
 
         fragmentManager.beginTransaction().apply {
             supplyWithAnimations(animations)
-            lastFragment?.let(::detach) //detach fragment if not null
+            findLastVisibleFragments().forEach { detach(it) }
             add(containerId, fragment, backStackTag)
             addToBackStack(
                     FragmentBackStackEntry(
@@ -96,9 +95,6 @@ open class FragmentNavigator(
                 .remove(fragment)
                 .commit()
     }
-
-    private fun findFragment(backStackTag: String): Fragment? =
-            backStack.findFragment(backStackTag)
 
     override fun removeLast(animations: Animations) {
         fragmentManager.beginTransaction().run {
@@ -130,42 +126,48 @@ open class FragmentNavigator(
             )
             commitNow()
         }
+        notifyBackStackListeners()
     }
 
-    override fun removeUntil(route: FragmentRoute, isInclusive: Boolean) {
+    override fun removeUntil(route: FragmentRoute, animations: Animations, isInclusive: Boolean) {
         val backStackTag = convertToBackStackTag(route.getId())
         val entry = backStack.find(backStackTag) ?: return
         fragmentManager.beginTransaction()
                 .apply {
+                    val entriesToRemove = mutableListOf<FragmentBackStackEntry>()
 
-                    var lastBackStackEntry: FragmentBackStackEntry = backStack.pop()
-
-                    while (lastBackStackEntry != entry) {
-                        remove(lastBackStackEntry.fragment)
-                        lastBackStackEntry = backStack.pop()
+                    while (backStack.peek() != entry) {
+                        entriesToRemove.add(backStack.pop())
                     }
 
                     if (isInclusive) {
-                        remove(lastBackStackEntry.fragment)
+                        entriesToRemove.add(backStack.pop())
                     }
-                    // добавляем
-                    backStack.peekFragment()?.let(::attach)
+
+                    removeEntriesWithinTransaction(this, entriesToRemove, animations)
+
+                    // add all visible fragments
+                    findLastVisibleEntries().forEach { entry -> attach(entry.fragment) }
                 }
                 .commitNow()
         notifyBackStackListeners()
     }
 
-    override fun removeAll(shouldRemoveLast: Boolean) {
+    override fun removeAll(animations: Animations, shouldRemoveLast: Boolean) {
+        val backStackSize = backStack.size
+        if (backStackSize == 0) return
         fragmentManager
                 .beginTransaction()
                 .apply {
-                    val backStackSize = backStack.size
                     val removalCount = if (shouldRemoveLast) backStackSize else backStackSize - 1
+                    val entriesToRemove = mutableListOf<FragmentBackStackEntry>()
                     repeat(removalCount) {
-                        val entry = backStack.pop()
-                        remove(entry.fragment)
+                        entriesToRemove.add(backStack.pop())
                     }
-                    backStack.peekFragment()?.let(::attach)
+
+                    removeEntriesWithinTransaction(this, entriesToRemove, animations)
+                    //add last visible fragment (if it exists)
+                    findLastVisibleEntries().forEach { entry -> attach(entry.fragment) }
                 }
                 .commitNow()
         notifyBackStackListeners()
@@ -214,6 +216,28 @@ open class FragmentNavigator(
         backStackChangedListeners.remove(listener)
     }
 
+    /**
+     * Removes bunch of [FragmentBackStackEntry] within single transaction.
+     *
+     * @param transaction transaction which is used to remove entries
+     * @param entries entries to remove
+     * @param animations animations, which are used to animate entries removal. If none set,
+     * the last entry's animations will be used. For example, you have backStack with fragments A, B, C,
+     * and you want to remove them all. Then they will be placed in entries list in backward way: C, B, A,
+     * and the A's fragment animation will be used when they all be removed.
+     * This will activity's stack removal animation, when whole bunch of items is removed with an animation
+     * of first added item.
+     */
+    protected open fun removeEntriesWithinTransaction(
+            transaction: FragmentTransaction,
+            entries: List<FragmentBackStackEntry>,
+            animations: Animations
+    ) {
+        if (entries.isEmpty()) return
+        setupReverseAnimations(transaction, entries.last().command, animations)
+        entries.forEach { transaction.remove(it.fragment) }
+    }
+
     protected open fun convertToBackStackTag(routeTag: String): String {
         return "$containerId$ROUTE_TAG_DELIMITER$routeTag"
     }
@@ -224,6 +248,43 @@ open class FragmentNavigator(
 
     protected open fun getBackStackKey(): String {
         return BACK_STACK_KEY.format(containerId)
+    }
+
+    /**
+     * Finds fragment by its [backStackTag]
+     */
+    protected open fun findFragment(backStackTag: String): Fragment? =
+            backStack.findFragment(backStackTag)
+
+    /**
+     * Extracts fragments from backStack which needs to be attached to a view.
+     *
+     * We cant just extract last visible fragment because several fragments can be visible if we
+     * add them by using [Add] navigation command.
+     *
+     * So, we're attaching all fragments until the command is not [Add].
+     */
+    open fun findLastVisibleFragments(): List<Fragment> =
+            findLastVisibleEntries().map { it.fragment }
+
+    /**
+     * Extracts entries from backStack with fragments which needs to be attached to a view.
+     *
+     * We cant just extract last visible fragment because several fragments can be visible if we
+     * add them by using [Add] navigation command.
+     *
+     * So, we're attaching all entries until the command is not [Add].
+     */
+    open fun findLastVisibleEntries(): List<FragmentBackStackEntry> {
+        val entries = mutableListOf<FragmentBackStackEntry>()
+        var index = backStack.lastIndex
+        var entry: FragmentBackStackEntry? = backStack.getOrNull(index) ?: return emptyList()
+        do {
+            entries.add(entry!!)
+            index--
+            entry = backStack.getOrNull(index)
+        } while (entry != null && entry.command is Add)
+        return entries.reversed()
     }
 
     /**
@@ -254,28 +315,25 @@ open class FragmentNavigator(
     /**
      * Perform operation opposite to ordinary [replace]
      */
-    private fun setupReverseReplace(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
-        val lastFragment = backStack.peekFragment()
+    protected open fun setupReverseReplace(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
         transaction.remove(entry.fragment)
-        transaction.attach(lastFragment ?: return)
-        notifyBackStackListeners()
+        findLastVisibleFragments().forEach { transaction.attach(it) }
     }
 
     /**
      * Perform operation opposite to ordinary [add].
      */
-    private fun setupReverseAdd(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
+    protected open fun setupReverseAdd(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
         transaction.remove(entry.fragment)
-        notifyBackStackListeners()
     }
 
-    private fun FragmentTransaction.supplyWithAnimations(
+    protected fun FragmentTransaction.supplyWithAnimations(
             animations: Animations
     ): FragmentTransaction {
         return animationSupplier.supplyWithAnimations(this, animations)
     }
 
-    private fun toggleVisibility(
+    protected fun toggleVisibility(
             route: FragmentRoute,
             shouldShow: Boolean,
             animationBundle: Animations
@@ -292,18 +350,18 @@ open class FragmentNavigator(
                 }
     }
 
-    private fun addToBackStack(entry: FragmentBackStackEntry) {
+    protected fun addToBackStack(entry: FragmentBackStackEntry) {
         backStack.push(entry)
         notifyBackStackListeners()
     }
 
-    private fun notifyBackStackListeners() {
+    protected fun notifyBackStackListeners() {
         val stackCopy = backStack.copy()
         backStackChangedListeners.forEach { it.invoke(stackCopy) }
     }
 
     companion object {
-        private const val BACK_STACK_KEY = "FragmentNavigator container %d"
+        protected const val BACK_STACK_KEY = "FragmentNavigator container %d"
         const val ROUTE_TAG_DELIMITER = "-"
     }
 }

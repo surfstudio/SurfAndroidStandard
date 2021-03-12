@@ -25,11 +25,24 @@ import ru.surfstudio.android.logger.Logger;
 public class AppMigrationManager {
     private final AppMigrationStorage appMigrationStorage;
     private final AppLaunchConfigurationStorage appLaunchConfiguration;
-    private final int versionCode;
+    private final long versionCode;
 
-    public AppMigrationManager(AppMigrationStorage appMigrationStorage,
-                               AppLaunchConfigurationStorage appLaunchConfiguration,
-                               int versionCode) {
+    @Deprecated()
+    public AppMigrationManager(
+            AppMigrationStorage appMigrationStorage,
+            AppLaunchConfigurationStorage appLaunchConfiguration,
+            int versionCode
+    ) {
+        this.appMigrationStorage = appMigrationStorage;
+        this.appLaunchConfiguration = appLaunchConfiguration;
+        this.versionCode = versionCode;
+    }
+
+    public AppMigrationManager(
+            AppMigrationStorage appMigrationStorage,
+            AppLaunchConfigurationStorage appLaunchConfiguration,
+            long versionCode
+    ) {
         this.appMigrationStorage = appMigrationStorage;
         this.appLaunchConfiguration = appLaunchConfiguration;
         this.versionCode = versionCode;
@@ -37,8 +50,8 @@ public class AppMigrationManager {
 
     public Completable tryMigrateApp() {
         return Completable.fromRunnable(() -> {
-            int currentVersion = versionCode;
-            int lastLaunchVersion = appLaunchConfiguration.getLastLaunchVersion();
+            long currentVersion = versionCode;
+            long lastLaunchVersion = appLaunchConfiguration.getLastLaunchVersion();
             if (lastLaunchVersion != currentVersion) {
                 for (AppMigration migration : appMigrationStorage.getMigrations()) {
                     try {

@@ -3,9 +3,9 @@ package ru.surfstudio.android.navigation.executor.screen.fragment
 import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.*
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
-import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.executor.CommandExecutor
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
+import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 
 /**
  * Command executor for [ActivityNavigationCommand]s.
@@ -30,8 +30,8 @@ open class FragmentCommandExecutor(
             is ReplaceHard -> navigator.replaceHard(command.route, command.animations)
             is Remove -> navigator.remove(command.route, command.animations)
             is RemoveLast -> navigator.removeLast(command.animations)
-            is RemoveUntil -> navigator.removeUntil(command.route, command.isInclusive)
-            is RemoveAll -> navigator.removeAll(command.shouldRemoveLast)
+            is RemoveUntil -> navigator.removeUntil(command.route, command.animations, command.isInclusive)
+            is RemoveAll -> navigator.removeAll(command.animations, command.shouldRemoveLast)
         }
     }
 

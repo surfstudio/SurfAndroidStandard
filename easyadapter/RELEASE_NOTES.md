@@ -8,7 +8,7 @@
 
 ## 2.1.0-alpha
 ##### Easyadapter
-* TODO
+* ANDDEP-1114 Removed hasFooter method
 ##### Easyadapter Pagination
 * TODO
 ## 2.0.0

@@ -27,7 +27,7 @@ import io.reactivex.Completable
  * We don't expect from it any data, so just return [Completable.complete].
  * */
 @Deprecated(message = "empty")
-class CompletableSafeConverter(type: TypeToken<Completable>) : SafeConverter<Completable>(type) {
+class CompletableSafeConverter(type: TypeToken<Any>) : SafeConverter<Any>(type) {
     override fun convert(
             typeAdapterFactory: TypeAdapterFactory?,
             gson: Gson?,

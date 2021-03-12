@@ -12,6 +12,7 @@ import ru.surfstudio.standard.application.notification.FcmModule
 import ru.surfstudio.standard.application.notification.MessagingService
 import ru.surfstudio.standard.application.notification.NotificationModule
 import ru.surfstudio.standard.application.storage.di.SharedPrefModule
+import ru.surfstudio.standard.ui.navigation.di.NavigationModule
 
 @PerApplication
 @Component(modules = [
@@ -24,7 +25,8 @@ import ru.surfstudio.standard.application.storage.di.SharedPrefModule
     NetworkModule::class,
     OkHttpModule::class,
     FcmModule::class,
-    NotificationModule::class
+    NotificationModule::class,
+    NavigationModule::class
 ])
 interface AppComponent : AppProxyDependencies {
     fun inject(to: MessagingService)
