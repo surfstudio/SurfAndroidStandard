@@ -182,16 +182,16 @@ object DependencyConfigurator {
 
     private fun addThirdPartyDependencies(project: Project, dependencies: List<Dependency>) {
         dependencies.forEach {
-            addDependency(project, it.type, "${it.name}:${libraryVersions[it.name]}")
+            addDependency(project, it.type.gradleType, "${it.name}:${libraryVersions[it.name]}")
         }
     }
 
     private fun addAndroidStandardDependencies(project: Project, dependencies: List<Dependency>) {
         dependencies.forEach {
             if (!isProjectIncluded(project, it.name)) {
-                addDependency(project, IMPLEMENTATION_DEP_TYPE, getDependencyArtifactoryName(it.name))
+                addDependency(project, it.type.gradleType, getDependencyArtifactoryName(it.name))
             } else {
-                addDependency(project, IMPLEMENTATION_DEP_TYPE, project.rootProject.project(":${it.name}"))
+                addDependency(project, it.type.gradleType, project.rootProject.project(":${it.name}"))
             }
         }
     }
