@@ -12,3 +12,4 @@
 * ANDDEP-1154 Fixed crashes "You must specify unique tag"
 * ANDDEP-1153 Fixed wrong behavior RemoveLast
 * ANDDEP-1100 Added command StartForResult to open system activities for getting result
+* ANDDEP-1148 code updated for target sdk 30
