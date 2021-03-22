@@ -21,7 +21,12 @@ open class GenerateDataForPluginTask : DefaultTask() {
     @TaskAction
     fun generate() {
         val gson = GsonBuilder().create()
-        val jsonText = gson.toJson(Components.libraries.map { it.name to it.projectVersion })
+        // parse name and version in order to avoid empty version after migration to gradle 6
+        val jsonText = gson.toJson(
+            Components.libraries.map { library ->
+                Components.getArtifactName(library.name) to Components.getModuleVersion(library.name)
+            }
+        )
         File("$PLUGIN_MODULE/$OUTPUT_DIR/$FILE_NAME").writeText(jsonText)
     }
 }

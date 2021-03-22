@@ -22,6 +22,7 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleStrategy
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
@@ -40,7 +41,7 @@ object NotificationCreateHelper {
         val notificationBuilder = pushHandleStrategy.notificationBuilder
                 ?: buildNotification(pushHandleStrategy, title, body, context)
 
-        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
 
             pushHandleStrategy.group?.id?.let {
                 makeGroupNotificationM(context, notificationBuilder, pushHandleStrategy, it, body, title)
@@ -58,6 +59,8 @@ object NotificationCreateHelper {
             pushHandleStrategy.group?.let {
                 getNotificationManager(context)
                         .notify(it.id, pushHandleStrategy.groupSummaryNotificationBuilder?.build())
+
+                Logger.i("active notifications: " + getNotificationManager(context).activeNotifications.map { it.id }.toList())
             }
         }
 
@@ -95,7 +98,6 @@ object NotificationCreateHelper {
                 .setSmallIcon(pushHandleStrategy.icon)
                 .setContentTitle(title)
                 .setContentText(body)
-                .setGroupSummary(true)
                 .setColor(ContextCompat.getColor(context, pushHandleStrategy.color))
                 .setContent(pushHandleStrategy.contentView)
                 .setAutoCancel(pushHandleStrategy.autoCancelable)

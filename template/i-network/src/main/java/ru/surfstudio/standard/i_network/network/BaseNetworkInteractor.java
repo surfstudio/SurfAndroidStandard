@@ -19,14 +19,13 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.logger.Logger;
-import ru.surfstudio.standard.i_network.network.error.NotModifiedException;
 import ru.surfstudio.android.rx.extension.FunctionSafe;
+import ru.surfstudio.standard.i_network.network.error.NotModifiedException;
 
 /**
  * Базовый класс репозитория
  * Можно переопределить DataStrategy по умолчанию в классе {@link DataStrategy}
  */
-@Deprecated
 public class BaseNetworkInteractor {
 
     private ConnectionProvider connectionProvider;

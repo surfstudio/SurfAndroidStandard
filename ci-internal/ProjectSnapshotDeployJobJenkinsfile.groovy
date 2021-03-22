@@ -2,7 +2,6 @@
 // https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
-import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
@@ -131,8 +130,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             project = globalConfiguration.project_snapshot_name
 
             if (("project-snapshot/" + project) != branchName) {
@@ -203,8 +201,7 @@ pipeline.stages = [
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             if (!skipIncrementVersion) {
                 RepositoryUtil.setDefaultJenkinsGitUser(script)
-                String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-                def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+                def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
 
                 script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
                         "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
@@ -318,4 +315,9 @@ def static withArtifactoryCredentials(script, body) {
     ]) {
         body()
     }
+}
+
+def static getGlobalConfiguration(script, projectConfigurationFile) {
+    String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+    return new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 }

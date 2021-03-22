@@ -7,7 +7,13 @@
     <string name="session_screen_tv_text">Session screen</string>
     <string name="submit_pin_btn_text">Submit pin</string>
     <string name="get_apikey_by_pin_btn">Get apiKey by PIN</string>
+    <string name="encrypt_pincode">Encrypt pin</string>
+    <string name="decrypt_pincode">Decrypt pin</string>
     <string name="pin_created_message">New pin created</string>
     <string name="security_error">Security error</string>
     <string name="empty_string"></string>
+    <string name="biometric_dialog_confirmation_title">Confirm by biometrics</string>
+    <string name="biometric_dialog_activation_title">Activation biometrics</string>
+    <string name="biometric_dialog_subtitle">To enter the application using your biometrics, you need to confirm it.</string>
+    <string name="biometric_dialog_cancel">Cancel</string>
 </resources>
