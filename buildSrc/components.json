@@ -849,6 +849,10 @@
           {
             "name": "com.google.android.play:core",
             "type": "implementation"
+          },
+          {
+            "name": "androidx.browser:browser",
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
