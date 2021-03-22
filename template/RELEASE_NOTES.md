@@ -76,7 +76,8 @@
 * ANDDEP-1170 Added IntentChecker
 * ScreenState added to BaseMiddlwareDependency
 * ANDDEP-1066 Migrated to gradle 6
-* added startFoResult extension for events
+* Added startFoResult extension for events
+* Added base class for bottom sheet dialog
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
