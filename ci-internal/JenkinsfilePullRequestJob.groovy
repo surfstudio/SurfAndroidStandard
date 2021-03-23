@@ -178,6 +178,8 @@ pipeline.stages = [
                     credentialsId: pipeline.repoCredentialsId,
                     branch: sourceBranch
             )
+            
+            lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
             if (!targetBranchChanged) {
