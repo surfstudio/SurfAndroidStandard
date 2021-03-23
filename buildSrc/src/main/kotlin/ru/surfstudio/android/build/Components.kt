@@ -94,6 +94,28 @@ object Components {
     }
 
     /**
+     * Get artifact description for library
+     *
+     * @param libraryName - library name
+     */
+    @JvmStatic
+    fun getArtifactDescription(libraryName: String): String {
+        val library = value.flatMap { it.libraries }.find { it.name == libraryName }
+        return library?.description ?: EMPTY_STRING
+    }
+
+    /**
+     * Get artifact url for library
+     *
+     * @param libraryName - library name
+     */
+    @JvmStatic
+    fun getArtifactUrl(libraryName: String): String {
+        val library = value.flatMap { it.libraries }.find { it.name == libraryName }
+        return library?.url ?: EMPTY_STRING
+    }
+
+    /**
      * Get standard artifact names by library name
      */
     @JvmStatic
