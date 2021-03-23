@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Common tools sample</string>
+    <string name="open_status_bar_switcher_btn_text" translatable="false">Open status bar switcher screen</string>
+    <string name="status_bar_auto_switch_mode_btn_enabled_text" translatable="false">Auto switch enabled</string>
+    <string name="status_bar_auto_switch_mode_btn_disabled_text" translatable="false">Auto switch disabled</string>
+</resources>
