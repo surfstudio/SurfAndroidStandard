@@ -15,6 +15,21 @@ Initializator.init(currentBuildDirectory)
 
 def trueValue = "true"
 
+// license data for maven pom
+def licenseName = "The Apache License, Version 2.0"
+def licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0"
+
+// scm data for maven pom
+def scmConnection = "scm:git:git@github.com:surfstudio/SurfAndroidStandard.git"
+def scmDeveloperConnection = "scm:git:ssh://github.com:surfstudio/SurfAndroidStandard.git"
+def scmUrl = "https://github.com/surfstudio/SurfAndroidStandard"
+
+// developer data for maven pom
+def developerName = "SurfStudio"
+def developerMail = "mail@surfstudio.ru"
+def developerOrganization = "Surf Studio LLC"
+def developerOrganizationUrl = "https://surfstudio.ru"
+
 ext.configureDeploy = { context ->
     // define function for deploy of current module to artifactory
     context.afterEvaluate {
@@ -30,6 +45,9 @@ ext.configureDeploy = { context ->
         }
 
         def artifactName = Components.getArtifactName(project.name)
+        def artifactDescription = Components.getArtifactDescription(project.name)
+        def artifactUrl = Components.getArtifactUrl(project.name)
+
         if (!artifactName.trim()) {
             throw new GradleException("artifactName for ${project.name} can not be blank for deploy")
         }
@@ -78,6 +96,32 @@ ext.configureDeploy = { context ->
                     pom.version = artifactVersion
 
                     pom.project {
+                        name artifactName
+                        description artifactDescription
+                        url artifactUrl
+
+                        licenses {
+                            license {
+                                name licenseName
+                                url licenseUrl
+                            }
+                        }
+
+                        scm {
+                            connection scmConnection
+                            developerConnection scmDeveloperConnection
+                            url scmUrl
+                        }
+
+                        developers {
+                            developer {
+                                name developerName
+                                email developerMail
+                                organization developerOrganization
+                                organizationUrl developerOrganizationUrl
+                            }
+                        }
+
                         dependencies {
                             Components.getAndroidStandardDependencies(project.name).each {
                                 def depArtifactName = it.getArtifactName()
