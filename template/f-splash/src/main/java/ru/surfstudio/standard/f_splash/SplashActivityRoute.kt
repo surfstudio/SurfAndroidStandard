@@ -1,9 +1,6 @@
 package ru.surfstudio.standard.f_splash
 
-import android.content.Context
-import android.content.Intent
-
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
+import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleStrategy
 
 /**
@@ -11,5 +8,7 @@ import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleS
  */
 class SplashRoute(val pushHandleStrategy: PushHandleStrategy<*>? = null) : ActivityRoute() {
 
-    override fun prepareIntent(context: Context) = Intent(context, SplashActivityView::class.java)
+    override fun getScreenClassPath(): String {
+        return "ru.surfstudio.standard.f_splash.SplashActivityView"
+    }
 }

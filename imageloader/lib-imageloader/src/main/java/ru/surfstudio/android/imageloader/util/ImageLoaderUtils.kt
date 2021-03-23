@@ -88,6 +88,20 @@ fun <T, Child : TransitionOptions<Child, T>> RequestBuilder<T>.addTransitionIf(
 }
 
 /**
+ * Функция-расширение для установки кадра видео, который отобразится
+ * Срабатывает только при выполнении условия condition
+ *
+ * @param condition условие, при выполнении которого фрейм установится
+ * @param frameTimeMs время кадра на видео в миллисекундах
+ */
+fun <T> RequestBuilder<T>.addFrameIf(
+        condition: Boolean,
+        frameTimeMs: Long
+): RequestBuilder<T> {
+    return if (condition) this.frame(frameTimeMs) else this
+}
+
+/**
  * Трансформирование [CacheStrategy] в [DiskCacheStrategy] из [Glide]
  */
 internal fun CacheStrategy.toGlideStrategy() = when (ordinal) {

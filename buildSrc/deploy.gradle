@@ -2,9 +2,13 @@ import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.artifactory.Artifactory
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
+import ru.surfstudio.android.build.Initializator
 
 apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'maven'
+
+String currentBuildDirectory = gradle.startParameter.currentDir.path
+Initializator.init(currentBuildDirectory)
 
 // Function for configuration of dependencies of current android-standard module.
 // Context of current module is passed in parameters.

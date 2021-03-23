@@ -1,17 +1,23 @@
 apply from: '../commonModule.gradle'
+apply from: '../unitTestConfiguration.gradle'
 
 dependencies {
     api project(":domain")
+    api platform(firebase.bom)
     api firebase.core //todo might be removed for real project
     api firebase.analytics
     api firebase.messaging
+
+    implementation test.kotest
+    implementation test.mockk
 
     gradle.ext.androidStandard.api(
             this,
             [
                     "activity-holder",
-                    "core-ui",
                     "core-navigation",
+                    "navigation-observer",
+                    "core-ui",
                     "core-mvp",
                     "core-mvp-binding",
                     "mvp-dialog",
@@ -40,7 +46,12 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"
+                    "rxbus",
+                    "mvi-core",
+                    "mvi-impls",
+                    "mvi-mapper",
+                    "navigation",
+                    "navigation-rx",
             ]
     )
 }

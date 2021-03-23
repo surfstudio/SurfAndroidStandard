@@ -6,6 +6,10 @@
 
 ## 0.5.0-alpha
 ##### Template
+* Added unit-tests for SplashMiddleware and MainBarMiddleware
+* Added utility classes for unit testing
+* `kotlin` version raised: `1.3.71 -> 1.4.31`;
+* ANDDEP-1171 ResourceProvider moved to core-ui
 * ANDDEP-1040 fixed template build stage
 * ANDDEP-46 Added default BottomBarView implementation
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type to f-debug
@@ -52,6 +56,28 @@
 * ANDDEP-1049 Added `permission` and `core-navigation` dependencies to template.
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 * Fixed fast switching states between NONE and other
+* ANDDEP-1112 Fixed method name typo
+* ANDDEP-1112 Fixed access modifier in `SafeConverterFactory.Function`
+* ANDDEP-1112 Fixed generic type in `CompletableSafeConverter`
+* ANDDEP-1062 added view KeyboardView
+* ANDDEP-1109 Added new obfuscation rule and TODO in [`proguard-rules.pro`](proguard-rules.pro)
+* ANDDEP-1111 Added class inheritance: `Transformable` extends `BaseResponse`
+* ANDDEP-1099 Added new navigation validation support
+* ANDDEP-1136 Architecture changed to MVI
+* ANDDEP-1137 There is no support for FreeMarker templates in AndroidStudio 4.1, so file templates were modified in order to use them with Geminio library. Geminio compatible file templates are added to project template.
+* ANDDEP-1126 Fixed MigrationModule.kt, get version code from packageInfo.
+* ANDDEP-930 Added handling custom notification actions
+* ANDDEP-1138 Added supporting View Binding
+* ANDDEP-1144 Fix navigation
+* ANDDEP-1135 Added [`SimpleDialogView`](base_feature/src/main/java/ru/surfstudio/standard/ui/dialog/simple/SimpleDialogView.kt) & easy sample to it
+* ANDDEP-1141 Added Firebase BoM dependency
+* Fix event generation
+* ANDDEP-1100 Navigation with starting system activities for result
+* ANDDEP-1170 Added IntentChecker
+* ScreenState added to BaseMiddlwareDependency
+* ANDDEP-1066 Migrated to gradle 6
+* Added startFoResult extension for events
+* Added base class for bottom sheet dialog
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
