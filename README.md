@@ -39,7 +39,7 @@ dependencies {
 - в [бинтрей](https://bintray.com/surf/maven) для стабильных артефактов
 - в [артифактори](https://artifactory.surfstudio.ru/artifactory/libs-release-local/ru/surfstudio/android/) для нестабильных артефактов
 
-Список всех компонентов [здесь][components].
+Список всех компонентов [здесь][components]. 
 
 ## License
 ```
