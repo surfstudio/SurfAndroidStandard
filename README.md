@@ -5,7 +5,7 @@
 [![License][license_icon]][license_link]
 [![Download][build_version_icon]][build_version_link]
 
-Фреймворк для разработки android приложений [студии Surf](https://www.surf.ru/).
+Фреймворк для разработки android приложений [студии Surf](https://www.surf.ru/). 
 Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение
 в короткие сроки.
 
