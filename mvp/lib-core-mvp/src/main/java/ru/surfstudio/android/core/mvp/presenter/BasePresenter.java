@@ -38,7 +38,6 @@ import ru.surfstudio.android.core.mvp.view.CoreView;
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator;
 import ru.surfstudio.android.rx.extension.ActionSafe;
 import ru.surfstudio.android.rx.extension.ConsumerSafe;
-import ru.surfstudio.android.rx.extension.scheduler.MainThreadImmediateScheduler;
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider;
 
 /**
@@ -81,28 +80,28 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     protected <T> Disposable subscribe(final Observable<T> observable,
                                        final ObservableOperatorFreeze<T> operator,
                                        final LambdaObserver<T> observer) {
-        return super.subscribe(observable.observeOn(MainThreadImmediateScheduler.INSTANCE, true), operator, observer);
+        return super.subscribe(observable.observeOn(schedulersProvider.main(), true), operator, observer);
     }
 
     @Override
     protected <T> Disposable subscribe(Single<T> single,
                                        SingleOperatorFreeze<T> operator,
                                        DisposableSingleObserver<T> observer) {
-        return super.subscribe(single.observeOn(MainThreadImmediateScheduler.INSTANCE), operator, observer);
+        return super.subscribe(single.observeOn(schedulersProvider.main()), operator, observer);
     }
 
     @Override
     protected Disposable subscribe(Completable completable,
                                    CompletableOperatorFreeze operator,
                                    DisposableCompletableObserver observer) {
-        return super.subscribe(completable.observeOn(MainThreadImmediateScheduler.INSTANCE), operator, observer);
+        return super.subscribe(completable.observeOn(schedulersProvider.main()), operator, observer);
     }
 
     @Override
     protected <T> Disposable subscribe(Maybe<T> maybe,
                                        MaybeOperatorFreeze<T> operator,
                                        DisposableMaybeObserver<T> observer) {
-        return super.subscribe(maybe.observeOn(MainThreadImmediateScheduler.INSTANCE), operator, observer);
+        return super.subscribe(maybe.observeOn(schedulersProvider.main()), operator, observer);
     }
     //endregion
 
