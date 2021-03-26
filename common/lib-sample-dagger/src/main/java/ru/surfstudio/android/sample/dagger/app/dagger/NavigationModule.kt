@@ -9,15 +9,57 @@ import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.bus.ScreenResultBus
 import ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult
+import ru.surfstudio.android.navigation.observer.navigator.activity.ActivityNavigatorWithResultFactory
+import ru.surfstudio.android.navigation.observer.storage.RouteStorage
 import ru.surfstudio.android.navigation.observer.storage.ScreenResultStorage
+import ru.surfstudio.android.navigation.observer.storage.file.FileRouteStorage
 import ru.surfstudio.android.navigation.observer.storage.file.FileScreenResultStorage
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
+import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
 import javax.inject.Named
 
 @Module
-class NavigationModule(
-    private val activityNavigationProvider: ActivityNavigationProvider
-) {
+class NavigationModule {
+
+    @Provides
+    @PerApplication
+    @Named(SCREEN_ROUTE_STORAGE_DIR)
+    internal fun provideRouteStorageDir(context: Context): String {
+        return ContextCompat.getNoBackupFilesDir(context)!!.absolutePath
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideRouteStorage(
+        @Named(SCREEN_ROUTE_STORAGE_DIR) dir: String
+    ): RouteStorage {
+        return FileRouteStorage(dir)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideNavigatorFactory(
+        storage: RouteStorage,
+        emitter: ScreenResultEmitter
+    ): ActivityNavigatorWithResultFactory {
+        return ActivityNavigatorWithResultFactory(emitter, storage)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideActivityNavigationProviderCallbacks(
+        factory: ActivityNavigatorWithResultFactory
+    ): ActivityNavigationProviderCallbacks {
+        return ActivityNavigationProviderCallbacks(activityNavigatorFactory = factory)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideNavigationProvider(
+        navigationCallbacks: ActivityNavigationProviderCallbacks
+    ): ActivityNavigationProvider {
+        return navigationCallbacks
+    }
 
     @Provides
     @PerApplication
@@ -53,7 +95,8 @@ class NavigationModule(
     @Provides
     @PerApplication
     internal fun provideNavigatorCommand(
-        screenResultEmitter: ScreenResultEmitter
+        screenResultEmitter: ScreenResultEmitter,
+        activityNavigationProvider: ActivityNavigationProvider
     ): AppCommandExecutorWithResult {
         return AppCommandExecutorWithResult(
             screenResultEmitter,
@@ -63,5 +106,6 @@ class NavigationModule(
 
     private companion object {
         const val SCREEN_RESULT_STORAGE_DIR = "screen_result_storage"
+        const val SCREEN_ROUTE_STORAGE_DIR = "screen_route_storage"
     }
 }

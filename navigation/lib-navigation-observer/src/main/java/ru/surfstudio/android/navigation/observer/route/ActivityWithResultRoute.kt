@@ -10,7 +10,8 @@ import java.io.Serializable
  *
  * @param <T> type of the result returned from activity
  */
-abstract class ActivityWithResultRoute<T : Serializable> : ActivityRoute(), ResultRoute<T> {
+abstract class ActivityWithResultRoute<T : Serializable> : ActivityRoute(), ResultRoute<T>,
+    Serializable {
 
     /**
      * Screen identifier, used to avoid collisions where one result can be returned to many subscribers.

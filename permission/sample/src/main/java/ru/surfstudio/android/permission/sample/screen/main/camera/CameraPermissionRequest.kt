@@ -9,5 +9,8 @@ class CameraPermissionRequest : PermissionRequest() {
 
     init {
         showPermissionsRational = true
+        permissionsRationalStr = "Hello motherfucker"
+        showSettingsRational = true
+        settingsRationalStr = "Settings motherfucker"
     }
 }

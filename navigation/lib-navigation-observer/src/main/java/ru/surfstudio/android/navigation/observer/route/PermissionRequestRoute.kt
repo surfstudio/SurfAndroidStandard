@@ -11,6 +11,6 @@ class PermissionRequestRoute(
 ) : ActivityRoute(), ResultRoute<Boolean> {
 
     override fun getId(): String {
-        return permissions.joinToString()
+        return "PermissionRequestRoute"
     }
 }

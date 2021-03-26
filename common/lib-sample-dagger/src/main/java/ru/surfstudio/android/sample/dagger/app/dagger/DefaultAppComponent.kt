@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult
+import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import javax.inject.Named
@@ -27,8 +28,9 @@ interface DefaultAppComponent {
     fun connectionProvider(): ConnectionProvider
     fun schedulerProvider(): SchedulersProvider
     fun resourceProvider(): ResourceProvider
-    fun provideCommandExecutor(): AppCommandExecutorWithResult
-    fun providePermissionManager(): PermissionManager
+    fun commandExecutor(): AppCommandExecutorWithResult
+    fun permissionManager(): PermissionManager
+    fun navigationProviderCallbacks(): ActivityNavigationProviderCallbacks
 
     @Named(NO_BACKUP_SHARED_PREF)
     fun sharedPreferences(): SharedPreferences

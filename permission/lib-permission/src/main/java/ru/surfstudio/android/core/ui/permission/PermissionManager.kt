@@ -15,12 +15,15 @@
  */
 package ru.surfstudio.android.core.ui.permission
 
+import android.app.Activity
 import android.content.SharedPreferences
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.disposables.Disposables
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.core.ui.permission.exceptions.PermissionsRationalIsNotProvidedException
 import ru.surfstudio.android.core.ui.permission.exceptions.SettingsRationalIsNotProvidedException
@@ -42,11 +45,21 @@ import java.io.Serializable
  * Класс для проверки и запросов разрешений.
  */
 open class PermissionManager(
-    private val activityProvider: ActiveActivityHolder,
+    private val activeActivityHolder: ActiveActivityHolder,
     private val commandExecutor: AppCommandExecutorWithResult,
     private val sharedPreferences: SharedPreferences,
     private val screenResultObserver: ScreenResultObserver
 ) {
+    private var settingsDisposable = Disposables.disposed()
+    private var rationalDisposable = Disposables.disposed()
+    private var permissionDisposable = Disposables.disposed()
+
+    init {
+        //что бы очистить старые результаты
+        subscribeToSettingsResult()
+        subscribeToRationalResult()
+        subscribeToPermissionResult()
+    }
 
     protected fun performPermissionRequest(permissionRequest: PermissionRequest): Single<Boolean> {
         val route = PermissionRequestRoute(permissionRequest.permissions)
@@ -63,14 +76,9 @@ open class PermissionManager(
      *
      * @return Статус разрешения [PermissionStatus].
      */
-    fun check(permissionRequest: PermissionRequest): PermissionStatus =
-        when {
-            isPermissionRequestGranted(permissionRequest) -> PermissionStatus.GRANTED
-            !isPermissionRequestRequested(permissionRequest) -> PermissionStatus.NOT_REQUESTED
-            isPermissionRequestLastGranted(permissionRequest) -> PermissionStatus.GRANTED_ONCE
-            isPermissionRequestDenied(permissionRequest) -> PermissionStatus.DENIED
-            else -> PermissionStatus.DENIED_FOREVER
-        }
+    fun check(permissionRequest: PermissionRequest): PermissionStatus {
+        return checkInternal(permissionRequest).blockingGet()
+    }
 
     /**
      * Запросить разрешение.
@@ -80,30 +88,78 @@ open class PermissionManager(
      * @return [Single], содержащий [Boolean]: true, если разрешение выдано, false - если нет.
      */
     fun request(permissionRequest: PermissionRequest): Single<Boolean> {
-        val permissionRequestStatus = check(permissionRequest)
-
-        if (permissionRequestStatus.isGranted) {
-            return Single.just(true)
-        }
-
-        return showPermissionRequestRationalIfNeeded(permissionRequest)
-            .toSingleDefault(false)
-            .flatMap {
-                performPermissionRequestByDialogOrSettings(
-                    permissionRequest,
-                    permissionRequestStatus
-                )
-            }
-            .doOnSuccess {
-                setPermissionRequestIsRequested(permissionRequest)
-                setPermissionRequestIsGranted(permissionRequest, it)
+        disposeAll()
+        return checkInternal(permissionRequest)
+            .flatMap { permissionRequestStatus ->
+                if (permissionRequestStatus.isGranted) {
+                    Single.just(true)
+                } else {
+                    showPermissionRequestRationalIfNeeded(permissionRequest)
+                        .toSingleDefault(false)
+                        .flatMap {
+                            performPermissionRequestByDialogOrSettings(
+                                permissionRequest,
+                                permissionRequestStatus
+                            )
+                        }
+                        .doOnSuccess {
+                            setPermissionRequestIsRequested(permissionRequest)
+                            setPermissionRequestIsGranted(permissionRequest, it)
+                        }
+                }
             }
     }
 
-    private fun isPermissionRequestGranted(permissionRequest: PermissionRequest): Boolean =
-        permissionRequest
-            .permissions
-            .all { permission -> isPermissionGranted(permission) }
+    private fun checkInternal(permissionRequest: PermissionRequest): Single<PermissionStatus> {
+        return isPermissionRequestGranted(permissionRequest).flatMap {
+            if (it) {
+                Single.just(PermissionStatus.GRANTED)
+            } else if (!isPermissionRequestRequested(permissionRequest)) {
+                Single.just(PermissionStatus.NOT_REQUESTED)
+            } else if (isPermissionRequestLastGranted(permissionRequest)) {
+                Single.just(PermissionStatus.GRANTED_ONCE)
+            } else if (isPermissionRequestDenied(permissionRequest)) {
+                Single.just(PermissionStatus.DENIED)
+            } else {
+                Single.just(PermissionStatus.DENIED_FOREVER)
+            }
+        }
+    }
+
+    private fun subscribeToSettingsResult() {
+        val route = DefaultSettingsRationalRoute("")
+        settingsDisposable = screenResultObserver
+            .observeScreenResult(route)
+            .firstElement()
+            .subscribe {}
+    }
+
+    private fun subscribeToRationalResult() {
+        val route = DefaultPermissionRationalRoute("")
+        rationalDisposable = screenResultObserver
+            .observeScreenResult(route)
+            .firstElement()
+            .subscribe { }
+    }
+
+    private fun subscribeToPermissionResult() {
+        val route = PermissionRequestRoute(emptyArray())
+        permissionDisposable = screenResultObserver
+            .observeScreenResult(route)
+            .firstOrError()
+            .subscribe({}, {})
+    }
+
+    private fun disposeAll() {
+        settingsDisposable.dispose()
+        permissionDisposable.dispose()
+        rationalDisposable.dispose()
+    }
+
+    private fun isPermissionRequestGranted(permissionRequest: PermissionRequest): Single<Boolean> =
+        Observable.fromArray(*permissionRequest.permissions)
+            .flatMapSingle { isPermissionGranted(it) }
+            .all { it }
 
     private fun isPermissionRequestDenied(permissionRequest: PermissionRequest): Boolean =
         shouldShowRequestPermissionRationale(permissionRequest)
@@ -145,16 +201,18 @@ open class PermissionManager(
         .permissions
         .forEach { permission -> setPermissionIsGranted(permission, isGranted) }
 
-    private fun isPermissionGranted(permission: String): Boolean =
-        ContextCompat.checkSelfPermission(
-            activityProvider.activity!!,
-            permission
-        ) == PERMISSION_GRANTED
+    private fun isPermissionGranted(permission: String): Single<Boolean> =
+        safeGetActivity().map {
+            ContextCompat.checkSelfPermission(
+                it,
+                permission
+            ) == PERMISSION_GRANTED
+        }
 
     private fun shouldShowRequestPermissionRationale(permissionRequest: PermissionRequest): Boolean =
         permissionRequest
             .permissions
-            .any { permission -> shouldShowPermissionRationale(permission) }
+            .any { permission -> shouldShowPermissionRationale(permission).blockingGet() }
 
     private fun isPermissionRequested(permission: String) =
         sharedPreferences.getBoolean(permission, false)
@@ -202,7 +260,7 @@ open class PermissionManager(
         val settingsRationalRoute = when {
             customSettingsRationalRoute != null -> {
                 return startAndObserveReturnFromScreenCustom(customSettingsRationalRoute)
-                    .toSingle { check(permissionRequest).isGranted }
+                    .andThen(checkInternal(permissionRequest).map { it.isGranted })
             }
             customSettingsRationalStr != null -> DefaultSettingsRationalRoute(
                 customSettingsRationalStr
@@ -210,7 +268,7 @@ open class PermissionManager(
             else -> return Single.error(SettingsRationalIsNotProvidedException())
         }
         return startAndObserveReturnFromScreen(settingsRationalRoute)
-            .toSingle { check(permissionRequest).isGranted }
+            .andThen(checkInternal(permissionRequest).map { it.isGranted })
     }
 
     private fun setPermissionIsRequested(permission: String) =
@@ -228,8 +286,10 @@ open class PermissionManager(
      * again", false - если разрешение запрашивается в первый раз, или если во время предыдущего запроса разрешения
      * пользователь выбрал опцию "Don't ask again".
      */
-    private fun shouldShowPermissionRationale(permission: String) =
-        ActivityCompat.shouldShowRequestPermissionRationale(activityProvider.activity!!, permission)
+    private fun shouldShowPermissionRationale(permission: String): Single<Boolean> =
+        safeGetActivity().map {
+            ActivityCompat.shouldShowRequestPermissionRationale(it, permission)
+        }
 
     private fun startAndObserveReturnFromScreenCustom(route: ActivityRoute): Completable {
         return screenResultObserver
@@ -239,12 +299,22 @@ open class PermissionManager(
             .doOnSubscribe { commandExecutor.execute(Start(route)) }
     }
 
-    private fun startAndObserveReturnFromScreen(route: ActivityWithResultRoute<Serializable>): Completable =
+    private fun <T : Serializable> startAndObserveReturnFromScreen(route: ActivityWithResultRoute<T>): Completable =
         screenResultObserver
             .observeScreenResult(route)
             .firstElement()
             .flatMapCompletable { Completable.complete() }
             .doOnSubscribe { commandExecutor.execute(StartForResult(route)) }
+
+    private fun safeGetActivity(): Single<Activity> {
+        val activity = activeActivityHolder.activity
+        return if (activity != null) {
+            Single.just(activity)
+        } else {
+            activeActivityHolder.activityObservable
+                .firstOrError()
+        }
+    }
 
     private companion object {
         const val GRANTED_PREFIX = "granted"
