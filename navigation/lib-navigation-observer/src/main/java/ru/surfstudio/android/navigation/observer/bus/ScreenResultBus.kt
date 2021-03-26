@@ -45,7 +45,7 @@ open class ScreenResultBus(
         val matchingObservers = listeners.filter { it.targetId == targetId }
         if (matchingObservers.isNotEmpty()) {
             matchingObservers.forEach { it.listener(result) }
-        } else { //no observers, but result emitted
+        } else { // no observers, but result emitted
             saveResultToStorage(targetId, result)
         }
     }

@@ -61,7 +61,7 @@ open class ActivityNavigatorWithResultImpl(
             "You must register callback by method ActivityNavigatorWithResult#callbackResult before starting activity"
         }
         val intent: Intent = route.createIntent(activity)
-        //todo ActivityAnimationSupplier must return ActivityOptionsCompat to launch activity with animations
+        // todo ActivityAnimationSupplier must return ActivityOptionsCompat to launch activity with animations
         launcher.launch(intent)
     }
 

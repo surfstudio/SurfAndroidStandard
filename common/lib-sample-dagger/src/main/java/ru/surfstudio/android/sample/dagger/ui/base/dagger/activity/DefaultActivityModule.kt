@@ -56,8 +56,8 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
     @Provides
     @PerActivity
     internal fun provideActivityNavigator(
-            activityProvider: ActivityProvider,
-            eventDelegateManager: ScreenEventDelegateManager
+        activityProvider: ActivityProvider,
+        eventDelegateManager: ScreenEventDelegateManager
     ): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
@@ -95,10 +95,10 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
     @Provides
     @PerActivity
     internal fun providePictureProvider(
-            context: Context,
-            activityNavigator: ActivityNavigator,
-            activityProvider: ActivityProvider,
-            ppChecker: PicturePermissionChecker
+        context: Context,
+        activityNavigator: ActivityNavigator,
+        activityProvider: ActivityProvider,
+        ppChecker: PicturePermissionChecker
     ): PictureProvider {
         return PictureProvider(context, activityNavigator, activityProvider, ppChecker)
     }
