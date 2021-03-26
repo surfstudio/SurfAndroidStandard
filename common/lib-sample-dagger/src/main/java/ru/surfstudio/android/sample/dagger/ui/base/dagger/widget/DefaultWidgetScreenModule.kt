@@ -28,14 +28,14 @@ private const val PARENT_TYPE_DAGGER_NAME = "parent_type"
 
 @Module(includes = [DefaultErrorHandlerModule::class])
 class DefaultWidgetScreenModule(
-        private val persistentScope: WidgetViewPersistentScope
+    private val persistentScope: WidgetViewPersistentScope
 ) : DefaultScreenModule() {
 
     @Provides
     @PerScreen
     internal fun provideDialogNavigator(
-            activityProvider: ActivityProvider,
-            widgetProvider: WidgetProvider
+        activityProvider: ActivityProvider,
+        widgetProvider: WidgetProvider
     ): DialogNavigator {
         return DialogNavigatorForWidget(activityProvider, widgetProvider, persistentScope)
     }
@@ -74,9 +74,9 @@ class DefaultWidgetScreenModule(
     @Provides
     @PerScreen
     internal fun provideActivityNavigator(
-            activityProvider: ActivityProvider,
-            eventDelegateManager: ScreenEventDelegateManager,
-            @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType
+        activityProvider: ActivityProvider,
+        eventDelegateManager: ScreenEventDelegateManager,
+        @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType
     ): ActivityNavigator {
         return if (parentType == ScreenType.FRAGMENT)
             ActivityNavigatorForFragment(activityProvider, createFragmentProvider(), eventDelegateManager)
@@ -93,8 +93,8 @@ class DefaultWidgetScreenModule(
     @Provides
     @PerScreen
     internal fun provideMessageController(
-            activityProvider: ActivityProvider,
-            @Named(PARENT_TYPE_DAGGER_NAME) screenType: ScreenType
+        activityProvider: ActivityProvider,
+        @Named(PARENT_TYPE_DAGGER_NAME) screenType: ScreenType
     ): MessageController {
         return DefaultMessageController(
                 activityProvider,
