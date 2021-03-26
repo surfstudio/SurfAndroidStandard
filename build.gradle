@@ -36,3 +36,5 @@ buildscript {
         //todo use this for get as dependencies for mirror
     }
 }
+
+apply from: "buildSrc/ktFormatter.gradle"

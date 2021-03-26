@@ -6,6 +6,9 @@
 
 ## 0.5.0-alpha
 ##### Template
+* Added unit-tests for SplashMiddleware and MainBarMiddleware
+* Added utility classes for unit testing
+* `kotlin` version raised: `1.3.71 -> 1.4.31`;
 * ANDDEP-1171 ResourceProvider moved to core-ui
 * ANDDEP-1040 fixed template build stage
 * ANDDEP-46 Added default BottomBarView implementation
@@ -73,7 +76,8 @@
 * ANDDEP-1170 Added IntentChecker
 * ScreenState added to BaseMiddlwareDependency
 * ANDDEP-1066 Migrated to gradle 6
-* added startFoResult extension for events
+* Added startFoResult extension for events
+* Added base class for bottom sheet dialog
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
