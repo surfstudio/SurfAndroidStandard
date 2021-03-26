@@ -5,7 +5,6 @@ import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.route.ResultRoute
 import ru.surfstudio.android.navigation.observer.storage.ScreenResultInfo
 import ru.surfstudio.android.navigation.observer.storage.ScreenResultStorage
-import ru.surfstudio.android.navigation.route.BaseRoute
 import java.io.Serializable
 
 /**
@@ -40,7 +39,7 @@ open class ScreenResultBus(
     override fun <T : Serializable, R> emit(
         targetRoute: R,
         result: T
-    ) where R : BaseRoute<*>, R : ResultRoute<T> {
+    ) where R : ResultRoute<T> {
         val targetId = getRouteId(targetRoute)
 
         val matchingObservers = listeners.filter { it.targetId == targetId }
