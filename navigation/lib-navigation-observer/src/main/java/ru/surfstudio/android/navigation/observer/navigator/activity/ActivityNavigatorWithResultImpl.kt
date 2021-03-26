@@ -10,38 +10,53 @@ import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
 import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
 import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
+import ru.surfstudio.android.navigation.observer.route.PermissionRequestRoute
 import java.io.Serializable
 
 /**
  *  The activity navigator which supports start for result.
  */
 open class ActivityNavigatorWithResultImpl(
-        activity: AppCompatActivity
+    activity: AppCompatActivity
 ) : ActivityNavigator(activity), ActivityNavigatorWithResult {
 
     private val launcher: ActivityResultLauncher<Intent>
     private var resultRegistration: ActivityResultRegistration<Serializable>? = null
+    private val permissionLauncher: ActivityResultLauncher<Array<String>>
+    private var permissionResultCallback: ((Boolean) -> Unit)? = null
 
     init {
-        launcher = (activity as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val data = resultRegistration?.route?.parseResultIntent(result.resultCode, result.data)
-            data?.let { resultRegistration?.callback?.invoke(data) }
-            resultRegistration = null
-        }
+        launcher =
+            (activity as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                val data =
+                    resultRegistration?.route?.parseResultIntent(result.resultCode, result.data)
+                data?.let { resultRegistration?.callback?.invoke(data) }
+                resultRegistration = null
+            }
+
+        permissionLauncher =
+            (activity as ComponentActivity).registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+                permissionResultCallback?.invoke(result.values.all { it })
+                permissionResultCallback = null
+            }
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : Serializable> callbackResult(
-            route: ActivityWithResultRoute<T>,
-            callback: ScreenResultListener<T>
+        route: ActivityWithResultRoute<T>,
+        callback: ScreenResultListener<T>
     ) {
         resultRegistration = ActivityResultRegistration(
-                route,
-                callback
+            route,
+            callback
         ) as ActivityResultRegistration<Serializable>
     }
 
-    override fun startForResult(route: ActivityWithResultRoute<*>, animations: Animations, activityOptions: Bundle?) {
+    override fun startForResult(
+        route: ActivityWithResultRoute<*>,
+        animations: Animations,
+        activityOptions: Bundle?
+    ) {
         check(isCallbackRegistered()) {
             "You must register callback by method ActivityNavigatorWithResult#callbackResult before starting activity"
         }
@@ -50,12 +65,20 @@ open class ActivityNavigatorWithResultImpl(
         launcher.launch(intent)
     }
 
+    override fun requestPermission(
+        route: PermissionRequestRoute,
+        resultCallback: (Boolean) -> Unit
+    ) {
+        permissionResultCallback = resultCallback
+        permissionLauncher.launch(route.permissions)
+    }
+
     private fun isCallbackRegistered(): Boolean {
         return resultRegistration != null
     }
 
     private class ActivityResultRegistration<T : Serializable>(
-            val route: ActivityWithResultRoute<T>,
-            val callback: ScreenResultListener<T>
+        val route: ActivityWithResultRoute<T>,
+        val callback: ScreenResultListener<T>
     )
 }

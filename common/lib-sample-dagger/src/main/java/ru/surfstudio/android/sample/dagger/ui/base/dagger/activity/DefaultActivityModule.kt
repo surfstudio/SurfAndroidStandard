@@ -1,7 +1,6 @@
 package ru.surfstudio.android.sample.dagger.ui.base.dagger.activity
 
 import android.content.Context
-import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
@@ -9,7 +8,6 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.core.ui.scope.PersistentScope
@@ -20,8 +18,6 @@ import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
 import ru.surfstudio.android.rxbus.RxBus
-import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
-import javax.inject.Named
 
 /**
  * Module for Dagger Activity Component.
@@ -70,22 +66,6 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
     @PerActivity
     internal fun provideEventDelegateManager(): ScreenEventDelegateManager {
         return persistentScope.screenEventDelegateManager
-    }
-
-    @Provides
-    @PerActivity
-    internal fun providePermissionManager(
-            eventDelegateManager: ScreenEventDelegateManager,
-            activityNavigator: ActivityNavigator,
-            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-            activityProvider: ActivityProvider
-    ): PermissionManager {
-        return PermissionManagerForActivity(
-                eventDelegateManager,
-                activityNavigator,
-                sharedPreferences,
-                activityProvider
-        )
     }
 
     @Provides

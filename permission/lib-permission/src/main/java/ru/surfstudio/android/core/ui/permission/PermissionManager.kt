@@ -18,55 +18,42 @@ package ru.surfstudio.android.core.ui.permission
 import android.content.SharedPreferences
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
-import java.util.HashMap
-
-import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
-import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultDelegate
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
-
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.SingleEmitter
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.core.ui.permission.exceptions.PermissionsRationalIsNotProvidedException
 import ru.surfstudio.android.core.ui.permission.exceptions.SettingsRationalIsNotProvidedException
 import ru.surfstudio.android.core.ui.permission.screens.default_permission_rational.DefaultPermissionRationalRoute
 import ru.surfstudio.android.core.ui.permission.screens.settings_rational.DefaultSettingsRationalRoute
+import ru.surfstudio.android.navigation.command.activity.Start
+import ru.surfstudio.android.navigation.observer.ScreenResultObserver
+import ru.surfstudio.android.navigation.observer.command.activity.RequestPermission
+import ru.surfstudio.android.navigation.observer.command.activity.StartForResult
+import ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult
+import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
+import ru.surfstudio.android.navigation.observer.route.PermissionRequestRoute
+import ru.surfstudio.android.navigation.observer.route.ResultRoute
+import ru.surfstudio.android.navigation.route.activity.ActivityRoute
+import ru.surfstudio.android.navigation.rx.extension.observeScreenResult
 import java.io.Serializable
 
 /**
  * Класс для проверки и запросов разрешений.
  */
-abstract class PermissionManager(
-        eventDelegateManager: ScreenEventDelegateManager,
-        private val activityProvider: ActivityProvider,
-        private val activityNavigator: ActivityNavigator,
-        private val sharedPreferences: SharedPreferences
-) : RequestPermissionsResultDelegate {
+open class PermissionManager(
+    private val activityProvider: ActiveActivityHolder,
+    private val commandExecutor: AppCommandExecutorWithResult,
+    private val sharedPreferences: SharedPreferences,
+    private val screenResultObserver: ScreenResultObserver
+) {
 
-    private val singleEmitterPerRequestCode = HashMap<Int, SingleEmitter<Boolean>>()
-
-    init {
-        eventDelegateManager.registerDelegate(this)
-    }
-
-    protected abstract fun performPermissionRequest(permissionRequest: PermissionRequest)
-
-    override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<String>,
-            grantResults: IntArray
-    ): Boolean {
-        val nonNullSingleEmitter = singleEmitterPerRequestCode[requestCode] ?: return false
-        if (nonNullSingleEmitter.isDisposed) return true
-
-        val isPermissionRequestGranted = isAllResultsAreGranted(grantResults)
-        nonNullSingleEmitter.onSuccess(isPermissionRequestGranted)
-
-        return true
+    protected fun performPermissionRequest(permissionRequest: PermissionRequest): Single<Boolean> {
+        val route = PermissionRequestRoute(permissionRequest.permissions)
+        return screenResultObserver
+            .observeScreenResult(route)
+            .firstOrError()
+            .doOnSubscribe { commandExecutor.execute(RequestPermission(route)) }
     }
 
     /**
@@ -77,12 +64,13 @@ abstract class PermissionManager(
      * @return Статус разрешения [PermissionStatus].
      */
     fun check(permissionRequest: PermissionRequest): PermissionStatus =
-            when {
-                isPermissionRequestGranted(permissionRequest) -> PermissionStatus.GRANTED
-                !isPermissionRequestRequested(permissionRequest) -> PermissionStatus.NOT_REQUESTED
-                isPermissionRequestDenied(permissionRequest) -> PermissionStatus.DENIED
-                else -> PermissionStatus.DENIED_FOREVER
-            }
+        when {
+            isPermissionRequestGranted(permissionRequest) -> PermissionStatus.GRANTED
+            !isPermissionRequestRequested(permissionRequest) -> PermissionStatus.NOT_REQUESTED
+            isPermissionRequestLastGranted(permissionRequest) -> PermissionStatus.GRANTED_ONCE
+            isPermissionRequestDenied(permissionRequest) -> PermissionStatus.DENIED
+            else -> PermissionStatus.DENIED_FOREVER
+        }
 
     /**
      * Запросить разрешение.
@@ -99,103 +87,137 @@ abstract class PermissionManager(
         }
 
         return showPermissionRequestRationalIfNeeded(permissionRequest)
-                .toSingleDefault(false)
-                .flatMap { performPermissionRequestByDialogOrSettings(permissionRequest, permissionRequestStatus) }
-                .doOnSuccess { setPermissionRequestIsRequested(permissionRequest) }
+            .toSingleDefault(false)
+            .flatMap {
+                performPermissionRequestByDialogOrSettings(
+                    permissionRequest,
+                    permissionRequestStatus
+                )
+            }
+            .doOnSuccess {
+                setPermissionRequestIsRequested(permissionRequest)
+                setPermissionRequestIsGranted(permissionRequest, it)
+            }
     }
 
-    private fun isAllResultsAreGranted(grantResults: IntArray): Boolean =
-            grantResults
-                    .all { grantResult -> grantResult == PERMISSION_GRANTED }
-
     private fun isPermissionRequestGranted(permissionRequest: PermissionRequest): Boolean =
-            permissionRequest
-                    .permissions
-                    .all { permission -> isPermissionGranted(permission) }
+        permissionRequest
+            .permissions
+            .all { permission -> isPermissionGranted(permission) }
 
     private fun isPermissionRequestDenied(permissionRequest: PermissionRequest): Boolean =
-            shouldShowRequestPermissionRationale(permissionRequest)
+        shouldShowRequestPermissionRationale(permissionRequest)
 
     private fun isPermissionRequestRequested(permissionRequest: PermissionRequest): Boolean =
-            permissionRequest
-                    .permissions
-                    .all { permission -> isPermissionRequested(permission) }
+        permissionRequest
+            .permissions
+            .all { permission -> isPermissionRequested(permission) }
 
     private fun showPermissionRequestRationalIfNeeded(permissionRequest: PermissionRequest): Completable =
-            if (needToShowPermissionRequestRational(permissionRequest)) {
-                showPermissionRequestRational(permissionRequest)
-            } else {
-                Completable.complete()
-            }
+        if (needToShowPermissionRequestRational(permissionRequest)) {
+            showPermissionRequestRational(permissionRequest)
+        } else {
+            Completable.complete()
+        }
 
     private fun performPermissionRequestByDialogOrSettings(
-            permissionRequest: PermissionRequest,
-            permissionStatus: PermissionStatus
+        permissionRequest: PermissionRequest,
+        permissionStatus: PermissionStatus
     ): Single<Boolean> =
-            when {
-                permissionStatus != PermissionStatus.DENIED_FOREVER ->
-                    performPermissionRequestByDialog(permissionRequest)
-                permissionRequest.showSettingsRational -> performPermissionRequestBySettings(permissionRequest)
-                else -> Single.just(false)
-            }
+        when {
+            permissionStatus != PermissionStatus.DENIED_FOREVER ->
+                performPermissionRequest(permissionRequest)
+            permissionRequest.showSettingsRational -> performPermissionRequestBySettings(
+                permissionRequest
+            )
+            else -> Single.just(false)
+        }
 
     private fun setPermissionRequestIsRequested(permissionRequest: PermissionRequest) =
-            permissionRequest
-                    .permissions
-                    .forEach { permission -> setPermissionIsRequested(permission) }
+        permissionRequest
+            .permissions
+            .forEach { permission -> setPermissionIsRequested(permission) }
+
+    private fun setPermissionRequestIsGranted(
+        permissionRequest: PermissionRequest,
+        isGranted: Boolean
+    ) = permissionRequest
+        .permissions
+        .forEach { permission -> setPermissionIsGranted(permission, isGranted) }
 
     private fun isPermissionGranted(permission: String): Boolean =
-            ContextCompat.checkSelfPermission(activityProvider.get(), permission) == PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(
+            activityProvider.activity!!,
+            permission
+        ) == PERMISSION_GRANTED
 
     private fun shouldShowRequestPermissionRationale(permissionRequest: PermissionRequest): Boolean =
-            permissionRequest
-                    .permissions
-                    .any { permission -> shouldShowPermissionRationale(permission) }
+        permissionRequest
+            .permissions
+            .any { permission -> shouldShowPermissionRationale(permission) }
 
-    private fun isPermissionRequested(permission: String) = sharedPreferences.getBoolean(permission, false)
+    private fun isPermissionRequested(permission: String) =
+        sharedPreferences.getBoolean(permission, false)
+
+    private fun isPermissionRequestLastGranted(permissionRequest: PermissionRequest): Boolean =
+        permissionRequest
+            .permissions
+            .all { permission -> isPermissionLastGranted(permission) }
+
+    private fun isPermissionLastGranted(permission: String) =
+        sharedPreferences.getBoolean(GRANTED_PREFIX + permission, false)
+
+    private fun setPermissionIsGranted(permission: String, isGranted: Boolean) =
+        sharedPreferences
+            .edit()
+            .putBoolean(GRANTED_PREFIX + permission, isGranted)
+            .apply()
 
     private fun needToShowPermissionRequestRational(permissionRequest: PermissionRequest): Boolean =
-            permissionRequest.showPermissionsRational && shouldShowRequestPermissionRationale(permissionRequest)
+        permissionRequest.showPermissionsRational && shouldShowRequestPermissionRationale(
+            permissionRequest
+        )
 
     private fun showPermissionRequestRational(permissionRequest: PermissionRequest): Completable {
         val customPermissionsRationalRoute = permissionRequest.permissionsRationalRoute
         val customPermissionsRationalStr = permissionRequest.permissionsRationalStr
 
         val permissionRationalRoute = when {
-            customPermissionsRationalRoute != null -> customPermissionsRationalRoute
-            customPermissionsRationalStr != null -> DefaultPermissionRationalRoute(customPermissionsRationalStr)
+            customPermissionsRationalRoute != null -> {
+                return startAndObserveReturnFromScreenCustom(customPermissionsRationalRoute)
+            }
+            customPermissionsRationalStr != null -> DefaultPermissionRationalRoute(
+                customPermissionsRationalStr
+            )
             else -> return Completable.error(PermissionsRationalIsNotProvidedException())
         }
 
         return startAndObserveReturnFromScreen(permissionRationalRoute)
     }
 
-    private fun performPermissionRequestByDialog(permissionRequest: PermissionRequest): Single<Boolean> =
-            Single
-                    .create<Boolean> { singleEmitter ->
-                        singleEmitterPerRequestCode[permissionRequest.requestCode] = singleEmitter
-                        performPermissionRequest(permissionRequest)
-                    }
-                    .doFinally { singleEmitterPerRequestCode.remove(permissionRequest.requestCode) }
-
     private fun performPermissionRequestBySettings(permissionRequest: PermissionRequest): Single<Boolean> {
         val customSettingsRationalRoute = permissionRequest.settingsRationalRoute
         val customSettingsRationalStr = permissionRequest.settingsRationalStr
 
         val settingsRationalRoute = when {
-            customSettingsRationalRoute != null -> customSettingsRationalRoute
-            customSettingsRationalStr != null -> DefaultSettingsRationalRoute(customSettingsRationalStr)
+            customSettingsRationalRoute != null -> {
+                return startAndObserveReturnFromScreenCustom(customSettingsRationalRoute)
+                    .toSingle { check(permissionRequest).isGranted }
+            }
+            customSettingsRationalStr != null -> DefaultSettingsRationalRoute(
+                customSettingsRationalStr
+            )
             else -> return Single.error(SettingsRationalIsNotProvidedException())
         }
         return startAndObserveReturnFromScreen(settingsRationalRoute)
-                .toSingle { check(permissionRequest).isGranted }
+            .toSingle { check(permissionRequest).isGranted }
     }
 
     private fun setPermissionIsRequested(permission: String) =
-            sharedPreferences
-                    .edit()
-                    .putBoolean(permission, true)
-                    .apply()
+        sharedPreferences
+            .edit()
+            .putBoolean(permission, true)
+            .apply()
 
     /**
      * Проверить, следует ли показывать пользователю объяснение, для чего нужен запрашиваемый Permission.
@@ -207,12 +229,24 @@ abstract class PermissionManager(
      * пользователь выбрал опцию "Don't ask again".
      */
     private fun shouldShowPermissionRationale(permission: String) =
-            ActivityCompat.shouldShowRequestPermissionRationale(activityProvider.get(), permission)
+        ActivityCompat.shouldShowRequestPermissionRationale(activityProvider.activity!!, permission)
 
-    private fun startAndObserveReturnFromScreen(route: ActivityWithResultRoute<*>): Completable =
-            activityNavigator
-                    .observeResult<Serializable>(route)
-                    .firstElement()
-                    .flatMapCompletable { Completable.complete() }
-                    .doOnSubscribe { activityNavigator.startForResult(route) }
+    private fun startAndObserveReturnFromScreenCustom(route: ActivityRoute): Completable {
+        return screenResultObserver
+            .observeScreenResult(route as ResultRoute<Serializable>)
+            .firstElement()
+            .flatMapCompletable { Completable.complete() }
+            .doOnSubscribe { commandExecutor.execute(Start(route)) }
+    }
+
+    private fun startAndObserveReturnFromScreen(route: ActivityWithResultRoute<Serializable>): Completable =
+        screenResultObserver
+            .observeScreenResult(route)
+            .firstElement()
+            .flatMapCompletable { Completable.complete() }
+            .doOnSubscribe { commandExecutor.execute(StartForResult(route)) }
+
+    private companion object {
+        const val GRANTED_PREFIX = "granted"
+    }
 }

@@ -4,10 +4,12 @@ import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigation
 import ru.surfstudio.android.navigation.executor.screen.activity.ActivityCommandExecutor
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.command.EmitScreenResult
+import ru.surfstudio.android.navigation.observer.command.activity.RequestPermission
 import ru.surfstudio.android.navigation.observer.command.activity.StartForResult
 import ru.surfstudio.android.navigation.observer.executor.ScreenResultDispatcher
 import ru.surfstudio.android.navigation.observer.navigator.activity.ActivityNavigatorWithResult
 import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
+import ru.surfstudio.android.navigation.observer.route.PermissionRequestRoute
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import java.io.Serializable
 
@@ -16,8 +18,8 @@ import java.io.Serializable
  * @see [ActivityCommandExecutor]
  */
 class ActivityCommandWithResultExecutor(
-        private val activityNavigationProvider: ActivityNavigationProvider,
-        private val screenResultEmitter: ScreenResultEmitter
+    private val activityNavigationProvider: ActivityNavigationProvider,
+    private val screenResultEmitter: ScreenResultEmitter
 ) : ActivityCommandExecutor(activityNavigationProvider) {
 
     private val screenResultDispatcher = ScreenResultDispatcher()
@@ -28,9 +30,15 @@ class ActivityCommandWithResultExecutor(
     override fun execute(command: ActivityNavigationCommand) {
         when (command) {
             is StartForResult<*, *> -> {
-                val castedCommand = command as StartForResult<Serializable, ActivityWithResultRoute<Serializable>>
+                val castedCommand =
+                    command as StartForResult<Serializable, ActivityWithResultRoute<Serializable>>
                 listenForResult(castedCommand)
                 startForResult(castedCommand)
+            }
+            is RequestPermission -> {
+                navigatorWithResult.requestPermission(command.route) {
+                    emitPermissionResult(command.route, it)
+                }
             }
             else -> super.execute(command)
         }
@@ -44,6 +52,15 @@ class ActivityCommandWithResultExecutor(
     }
 
     private fun <T : Serializable, R : ActivityWithResultRoute<T>> startForResult(command: StartForResult<T, R>) {
-        navigatorWithResult.startForResult(command.route, command.animations, command.activityOptions)
+        navigatorWithResult.startForResult(
+            command.route,
+            command.animations,
+            command.activityOptions
+        )
+    }
+
+    private fun emitPermissionResult(route: PermissionRequestRoute, result: Boolean) {
+        val emitCommand = EmitScreenResult(route, result)
+        screenResultDispatcher.dispatch(screenResultEmitter, emitCommand)
     }
 }

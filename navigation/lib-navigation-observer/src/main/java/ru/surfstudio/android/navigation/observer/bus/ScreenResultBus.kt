@@ -15,15 +15,15 @@ import java.io.Serializable
  * [ScreenResultStorage], where they will be stored until handled.
  */
 open class ScreenResultBus(
-        private val screenResultStorage: ScreenResultStorage
+    private val screenResultStorage: ScreenResultStorage
 ) : ScreenResultEmitter, ScreenResultObserver {
 
     private val listeners = mutableListOf<ScreenResultListenerInfo<Serializable>>()
 
     override fun <T : Serializable, R> addListener(
-            targetRoute: R,
-            listener: (T) -> Unit
-    ) where R : BaseRoute<*>, R : ResultRoute<T> {
+        targetRoute: R,
+        listener: (T) -> Unit
+    ) where R : ResultRoute<T> {
         val targetId = getRouteId(targetRoute)
 
         checkStorageForResult(targetId, listener)
@@ -31,16 +31,16 @@ open class ScreenResultBus(
     }
 
     override fun <R> removeListener(
-            targetRoute: R
-    ) where R : BaseRoute<*>, R : ResultRoute<*> {
+        targetRoute: R
+    ) where R : ResultRoute<*> {
         val targetId = getRouteId(targetRoute)
         listeners.removeAll { it.targetId == targetId }
     }
 
     override fun <T : Serializable, R> emit(
-            targetRoute: R,
-            result: T
-    ) where R: BaseRoute<*>, R: ResultRoute<T> {
+        targetRoute: R,
+        result: T
+    ) where R : BaseRoute<*>, R : ResultRoute<T> {
         val targetId = getRouteId(targetRoute)
 
         val matchingObservers = listeners.filter { it.targetId == targetId }
@@ -65,15 +65,16 @@ open class ScreenResultBus(
     }
 
     private fun <T : Serializable> addListenerInfo(
-            targetId: String,
-            listener: (T) -> Unit
+        targetId: String,
+        listener: (T) -> Unit
     ) {
         val alreadyHasListener = listeners.any { it.targetId == targetId }
         if (!alreadyHasListener) {
-            val listenerInfo = ScreenResultListenerInfo(targetId, listener as (Serializable) -> Unit)
+            val listenerInfo =
+                ScreenResultListenerInfo(targetId, listener as (Serializable) -> Unit)
             listeners.add(listenerInfo)
         }
     }
 
-    protected open fun getRouteId(route: BaseRoute<*>): String = route.getId()
+    protected open fun getRouteId(route: ResultRoute<*>): String = route.getId()
 }

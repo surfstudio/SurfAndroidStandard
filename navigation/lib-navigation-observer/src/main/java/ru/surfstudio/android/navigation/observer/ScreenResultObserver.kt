@@ -18,9 +18,9 @@ interface ScreenResultObserver {
      * @param listener listener tha
      */
     fun <T : Serializable, R> addListener(
-            targetRoute: R,
-            listener: ScreenResultListener<T>
-    ) where R : BaseRoute<*>, R : ResultRoute<T>
+        targetRoute: R,
+        listener: ScreenResultListener<T>
+    ) where R : ResultRoute<T>
 
     /**
      * Removes screen result listener.
@@ -28,6 +28,6 @@ interface ScreenResultObserver {
      * @param targetRoute [BaseRoute] of a screen, that is emitting result
      */
     fun <R> removeListener(
-            targetRoute: R
-    ) where R : BaseRoute<*>, R : ResultRoute<*>
+        targetRoute: R
+    ) where R : ResultRoute<*>
 }

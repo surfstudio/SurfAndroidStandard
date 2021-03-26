@@ -1,9 +1,11 @@
 package ru.surfstudio.android.core.ui.permission.screens.settings_rational
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
-import ru.surfstudio.android.core.ui.navigation.Route
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
+import android.os.Bundle
+import androidx.core.os.bundleOf
+import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
+import ru.surfstudio.android.navigation.route.Route
 import java.io.Serializable
 
 /**
@@ -16,16 +18,28 @@ import java.io.Serializable
  * @param settingsNegativeButtonStr negative button text
  */
 class DefaultSettingsRationalRoute(
-        private val settingsRationalStr: String,
-        private val settingsPositiveButtonStr: String? = null,
-        private val settingsNegativeButtonStr: String? = null
+    val settingsRationalStr: String,
+    val settingsPositiveButtonStr: String? = null,
+    val settingsNegativeButtonStr: String? = null
 ) : ActivityWithResultRoute<Serializable>() {
 
-    override fun prepareIntent(context: Context?): Intent =
-            Intent(context, DefaultSettingsRationalActivity::class.java)
-                    .apply {
-                        putExtra(Route.EXTRA_FIRST, settingsRationalStr)
-                        putExtra(Route.EXTRA_SECOND, settingsPositiveButtonStr)
-                        putExtra(Route.EXTRA_THIRD, settingsNegativeButtonStr)
-                    }
+    constructor(args: Bundle) : this(
+        args[Route.EXTRA_FIRST] as String,
+        args[Route.EXTRA_SECOND] as? String,
+        args[Route.EXTRA_THIRD] as? String
+    )
+
+    override val uniqueId: String = settingsRationalStr
+
+    override fun parseResultIntent(resultCode: Int, resultIntent: Intent?): Serializable {
+        return resultCode == Activity.RESULT_OK
+    }
+
+    override fun getScreenClass() = DefaultSettingsRationalActivity::class.java
+
+    override fun prepareData() = bundleOf(
+        Route.EXTRA_FIRST to settingsRationalStr,
+        Route.EXTRA_SECOND to settingsPositiveButtonStr,
+        Route.EXTRA_THIRD to settingsNegativeButtonStr
+    )
 }

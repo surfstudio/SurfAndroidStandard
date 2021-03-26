@@ -5,6 +5,7 @@ import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigatorInterface
 import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
 import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
+import ru.surfstudio.android.navigation.observer.route.PermissionRequestRoute
 import java.io.Serializable
 
 /**
@@ -20,8 +21,8 @@ interface ActivityNavigatorWithResult : ActivityNavigatorInterface {
      * callback will be called only if result returned from ActivityWithResultRoute#parseResult is not null
      */
     fun <T : Serializable> callbackResult(
-            route: ActivityWithResultRoute<T>,
-            callback: ScreenResultListener<T>
+        route: ActivityWithResultRoute<T>,
+        callback: ScreenResultListener<T>
     )
 
     /**
@@ -31,5 +32,14 @@ interface ActivityNavigatorWithResult : ActivityNavigatorInterface {
      * @param animations animations for opening activity
      * @param activityOptions bundle with activity transition options
      */
-    fun startForResult(route: ActivityWithResultRoute<*>, animations: Animations, activityOptions: Bundle?)
+    fun startForResult(
+        route: ActivityWithResultRoute<*>,
+        animations: Animations,
+        activityOptions: Bundle?
+    )
+
+    /**
+     *
+     */
+    fun requestPermission(route: PermissionRequestRoute, resultCallback: (Boolean) -> Unit)
 }
