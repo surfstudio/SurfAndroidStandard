@@ -15,9 +15,6 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 //Pipeline for check prs
 
 // Stage names
-def CHECKOUT = 'Checkout'
-def CODE_STYLE_FORMATTING = 'Code Style Formatting'
-def UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT = 'Update current commit hash after format'
 def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
@@ -46,8 +43,6 @@ def authorUsername = ""
 def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
 
-def boolean hasChanges = false
-
 //parameters
 final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
 final String DESTINATION_BRANCH_PARAMETER = 'destinationBranch'
@@ -63,9 +58,6 @@ def stagesForProjectMode = [
         UNIT_TEST
 ]
 def stagesForReleaseMode = [
-        CHECKOUT,
-        CODE_STYLE_FORMATTING,
-        UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT,
         PRE_MERGE,
         CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT,
         CHECK_STABLE_MODULES_IN_ARTIFACTORY,
@@ -117,7 +109,7 @@ pipeline.propertiesProvider = {
 
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != PRE_MERGE) RepositoryUtil.notifyGithubAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
     RepositoryUtil.notifyGithubAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
@@ -166,47 +158,33 @@ pipeline.initializeBody = {
             stagesForProjectMode,
             "Build triggered by project destination branch, run only ${stagesForProjectMode} stages"
     )
+
+    def buildDescription = targetBranchChanged ?
+            "$sourceBranch to $destinationBranch: target branch changed" :
+            "$sourceBranch to $destinationBranch"
+
+    CommonUtil.setBuildDescription(script, buildDescription)
+    CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
 
 pipeline.stages = [
-        pipeline.stage(CHECKOUT) {
+        pipeline.stage(PRE_MERGE) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
-                RepositoryUtil.revertUncommittedChanges(script)
+                script.sh "git clean -fd"
             }
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId,
-                    branch: sourceBranch
+                    branch: destinationBranch
             )
             
             lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
 
+            script.sh "git checkout origin/$sourceBranch"
+
             RepositoryUtil.saveCurrentGitCommitHash(script)
-            if (!targetBranchChanged) {
-                RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
-            }
 
-            def buildDescription = targetBranchChanged ?
-                    "$sourceBranch to $destinationBranch: target branch changed" :
-                    "$sourceBranch to $destinationBranch"
-
-            CommonUtil.setBuildDescription(script, buildDescription)
-            CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
-        },
-
-        pipeline.stage(CODE_STYLE_FORMATTING) {
-            AndroidPipelineHelper.ktlintFormatStageAndroid(script, sourceBranch, destinationBranch)
-            hasChanges = AndroidPipelineHelper.checkChangesAndUpdate(script, pipeline.repoUrl, pipeline.repoCredentialsId, sourceBranch)
-        },
-
-        pipeline.stage(UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT, false) {
-            if (hasChanges) {
-                RepositoryUtil.saveCurrentGitCommitHash(script)
-            }
-        },
-
-        pipeline.stage(PRE_MERGE) {
             //local merge with destination
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
@@ -309,7 +287,7 @@ pipeline.stages = [
                                 true,
                                 0
                         ),
-                        "Template Instrumentation Test"
+                       "Template Instrumentation Test"
                 )
             }
         },
