@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.dagger.scope.PerApplication
+import ru.surfstudio.android.navigation.executor.AppCommandExecutor
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.bus.ScreenResultBus
@@ -103,6 +104,11 @@ class NavigationModule {
             activityNavigationProvider
         )
     }
+
+    @Provides
+    @PerApplication
+    fun provideCommandExecutor(commandExecutor: AppCommandExecutorWithResult): AppCommandExecutor =
+        commandExecutor
 
     private companion object {
         const val SCREEN_RESULT_STORAGE_DIR = "screen_result_storage"

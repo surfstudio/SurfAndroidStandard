@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
+import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.navigation.executor.AppCommandExecutor
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
@@ -39,6 +40,7 @@ interface AppProxyDependencies {
     fun commandExecutor(): AppCommandExecutor
     fun activityNavigationProvider(): ActivityNavigationProvider
     fun screenResultObserver(): ScreenResultObserver
+    fun permissionManager(): PermissionManager
 
     fun fcmStorage(): FcmStorage
     fun pushHandler(): PushHandler
