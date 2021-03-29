@@ -31,11 +31,11 @@ class App : Application() {
 
         initAnrWatchDog()
         initLog()
-        registerActiveActivityListener()
 
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
         DebugAppInjector.initInjector(this, activeActivityHolder)
+        registerActiveActivityListener()
 
         //initFirebaseCrashlytics() todo uncoment for a real app
         initPushEventListener()
@@ -73,7 +73,7 @@ class App : Application() {
      * Регистрирует слушатель аткивной активити
      */
     private fun registerActiveActivityListener() {
-        registerActivityLifecycleCallbacks(AppInjector.appComponent.navigationProviderCallbacks())
+        registerActivityLifecycleCallbacks(AppInjector.appComponent.navigationCallbacks())
         registerActivityLifecycleCallbacks(
             ActivityLifecycleListener(
                 onActivityResumed = { activity ->
