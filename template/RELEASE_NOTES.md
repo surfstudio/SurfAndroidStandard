@@ -78,6 +78,7 @@
 * ANDDEP-1066 Migrated to gradle 6
 * Added startFoResult extension for events
 * Added base class for bottom sheet dialog
+* ANDDEP-1201 updated PermissionManager with new Navigation module
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
