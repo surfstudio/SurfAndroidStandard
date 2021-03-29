@@ -33,7 +33,7 @@ interface DefaultActivityComponent {
     fun picturePermissionChecker(): PicturePermissionChecker
     fun providePictureProvider(): PictureProvider
     fun rxBus(): RxBus
-    fun providePermissionManager(): PermissionManager
+    fun permissionManager(): PermissionManager
 
     @Named(NO_BACKUP_SHARED_PREF)
     fun sharedPreferences(): SharedPreferences

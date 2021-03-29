@@ -55,8 +55,8 @@ class App : Application() {
      */
     private fun initAnrWatchDog() {
         ANRWatchDog().setReportMainThreadOnly()
-                .setANRListener { RemoteLogger.logError(it) }
-                .start()
+            .setANRListener { RemoteLogger.logError(it) }
+            .start()
     }
 
     private fun initLog() {
@@ -73,15 +73,16 @@ class App : Application() {
      * Регистрирует слушатель аткивной активити
      */
     private fun registerActiveActivityListener() {
+        registerActivityLifecycleCallbacks(AppInjector.appComponent.navigationProviderCallbacks())
         registerActivityLifecycleCallbacks(
-                ActivityLifecycleListener(
-                        onActivityResumed = { activity ->
-                            activeActivityHolder.activity = activity
-                        },
-                        onActivityPaused = {
-                            activeActivityHolder.clearActivity()
-                        }
-                )
+            ActivityLifecycleListener(
+                onActivityResumed = { activity ->
+                    activeActivityHolder.activity = activity
+                },
+                onActivityPaused = {
+                    activeActivityHolder.clearActivity()
+                }
+            )
         )
     }
 
