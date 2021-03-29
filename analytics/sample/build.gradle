@@ -14,8 +14,6 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "firebase-analytics")
     DependencyConfigurator.projectImplementation(project, "activity-holder")
     DependencyConfigurator.projectImplementation(project, "picture-provider")
-    DependencyConfigurator.projectImplementation(project, "navigation")
-    DependencyConfigurator.projectImplementation(project, "navigation-observer")
 
     DependencyConfigurator.implementation(project, "com.android.support:multidex")
 

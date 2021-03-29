@@ -28,12 +28,13 @@ class App : Application() {
 
     private fun initInjector() {
         appComponent = DaggerAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
-                .appNavigationModule(AppNavigationModule())
-                .build()
+            .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
+            .appNavigationModule(AppNavigationModule())
+            .build()
     }
 
     private fun registerActiveActivityListener() {
+        registerActivityLifecycleCallbacks(appComponent.navigationProviderCallbacks())
         registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity

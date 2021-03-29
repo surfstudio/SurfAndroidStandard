@@ -7,13 +7,17 @@ import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
+import ru.surfstudio.android.sample.dagger.app.dagger.NavigationModule
 
 @PerApplication
-@Component(modules = [
-    DefaultAppModule::class,
-    DefaultSharedPrefModule::class,
-    NotificationModule::class
-])
+@Component(
+    modules = [
+        DefaultAppModule::class,
+        DefaultSharedPrefModule::class,
+        NavigationModule::class,
+        NotificationModule::class
+    ]
+)
 interface CustomAppComponent : DefaultAppComponent {
 
     fun pushInteractor(): PushInteractor

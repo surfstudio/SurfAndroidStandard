@@ -7,13 +7,14 @@ import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
+import ru.surfstudio.android.sample.dagger.app.dagger.NavigationModule
 
 @PerApplication
 @Component(
     modules = [
         DefaultAppModule::class,
         DefaultSharedPrefModule::class,
-        AppNavigationModule::class
+        NavigationModule::class
     ]
 )
 interface AppComponent : DefaultAppComponent {
