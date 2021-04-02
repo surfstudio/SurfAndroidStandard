@@ -8,6 +8,9 @@
 
 ## 0.5.0-alpha
 ##### Core-ui
+* ANDDEP-1203 
+    * **NO BACKWARD COMPATIBILITY** CoreFragmentInterface.onActivityCreated is removed. 
+    Use CoreFragmentInterface.onViewCreated instead. For observing activity state use LifecycleObserver.
 * ANDDEP-1171 ResourceProvider moved to core-ui
 * ANDDEP-466 Fixed crash when calling `FragmentNavigaotr.popStack` with `popDepth` < 0
 * Fix logging screen names
