@@ -7,7 +7,9 @@ import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
+import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigatorImpl
 import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragmentNavigator
+import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragmentNavigatorImpl
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
@@ -71,7 +73,7 @@ class DebugActivityModule(private val persistentScope: ActivityPersistentScope) 
     @Provides
     @PerActivity
     internal fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator {
-        return FragmentNavigator(activityProvider)
+        return FragmentNavigatorImpl(activityProvider)
     }
 
     @Provides
@@ -105,10 +107,11 @@ class DebugActivityModule(private val persistentScope: ActivityPersistentScope) 
     @Provides
     @PerActivity
     internal fun provideTabFragmentNavigator(
-            activityProvider: ActivityProvider,
-            eventDelegateManager: ScreenEventDelegateManager
+        activityProvider: ActivityProvider,
+        fragmentNavigator: FragmentNavigator,
+        eventDelegateManager: ScreenEventDelegateManager
     ): TabFragmentNavigator {
-        return TabFragmentNavigator(activityProvider, eventDelegateManager)
+        return TabFragmentNavigatorImpl(activityProvider, fragmentNavigator, eventDelegateManager)
     }
 
     @Provides

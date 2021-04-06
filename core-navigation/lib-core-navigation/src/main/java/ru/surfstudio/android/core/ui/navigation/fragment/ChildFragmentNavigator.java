@@ -31,7 +31,7 @@ import ru.surfstudio.android.core.ui.provider.FragmentProvider;
  * Изначально ядром не поставляется, поскольку не должно быть кейсов его использования,
  * но класс оставлен на всякий случай =)
  */
-public class ChildFragmentNavigator extends FragmentNavigator {
+public class ChildFragmentNavigator extends FragmentNavigatorImpl {
     private final FragmentProvider fragmentProvider;
 
     public ChildFragmentNavigator(ActivityProvider activityProvider,

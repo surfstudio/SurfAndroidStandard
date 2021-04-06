@@ -7,6 +7,7 @@ import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.ScreenNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
+import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigatorImpl
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
@@ -36,5 +37,5 @@ class NavigationScreenModule {
 
     @Provides
     @PerScreen
-    fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator = FragmentNavigator(activityProvider)
+    fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator = FragmentNavigatorImpl(activityProvider)
 }
