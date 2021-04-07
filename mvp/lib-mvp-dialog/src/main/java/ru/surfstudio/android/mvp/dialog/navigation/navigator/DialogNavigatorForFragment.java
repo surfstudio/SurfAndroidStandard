@@ -26,7 +26,7 @@ import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
 /**
  * DialogNavigator работающий из фрагмента
  */
-public class DialogNavigatorForFragment extends DialogNavigator {
+public class DialogNavigatorForFragment extends BaseDialogNavigator {
 
     private FragmentProvider fragmentProvider;
     private FragmentViewPersistentScope fragmentViewPersistentScope;
