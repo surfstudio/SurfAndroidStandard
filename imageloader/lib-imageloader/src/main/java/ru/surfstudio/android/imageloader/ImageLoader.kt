@@ -20,6 +20,7 @@ import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -115,9 +116,18 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             apply { this.imageResourceManager.drawableResId = drawableResId }
 
     /**
+     * Загрузка изображения/видео по URI
+     *
+     * @param uri URI-ссылка
+     */
+    override fun uri(uri: Uri): ImageLoaderInterface =
+            apply { imageResourceManager.uri = uri }
+
+    /**
      * Указание графического ресурса, отображаемого в качестве плейсхолдера
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
+     * @param shouldTransformPreview необходимо ли применять трансформации исходника к превью
      */
     override fun preview(@DrawableRes drawableResId: Int, shouldTransformPreview: Boolean) =
             apply {
@@ -129,6 +139,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Указание графического ресурса, отображаемого в случае ошибки загрузки
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
+     * @param shouldTransformError необходимо ли применять трансформации исходника к превью
      */
     override fun error(@DrawableRes drawableResId: Int, shouldTransformError: Boolean) =
             apply {
@@ -291,6 +302,15 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     }
 
     /**
+     * Установка кадра видео, который отобразится на [ImageView]
+     *
+     * @param frameTimeMs время кадра из видео в миллисекундах
+     */
+    override fun frame(frameTimeMs: Long) = apply {
+        imageResourceManager.frame = frameTimeMs
+    }
+
+    /**
      * Принудительная вставка изображения во вью
      * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
      */
@@ -401,6 +421,8 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?, imageSource: ImageSource?) -> Unit)? = null,
             onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
     ) {
+        this.imageTargetManager.targetView = view
+
         buildRequest().into(
                 if (view is ImageView) {
                     getDrawableImageViewTargetObject(view, onErrorLambda, onCompleteLambda, onClearMemoryLambda)
@@ -418,6 +440,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .addErrorIf(imageResourceManager.isErrorSet) { imageResourceManager.prepareErrorDrawable() }
             .addThumbnailIf(imageResourceManager.isPreviewSet) { imageResourceManager.preparePreviewDrawable() }
             .addTransitionIf(imageTransitionManager.isTransitionSet, imageTransitionManager.imageTransitionOptions)
+            .addFrameIf(imageResourceManager.isFrameSet, imageResourceManager.frame)
             .apply(
                     RequestOptions()
                             .disableHardwareConfigIf(imageResourceManager.isHardwareConfigDisabled)
@@ -502,6 +525,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             }
 
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                view.setImageDrawable(resource)
                 onCompleteLambda?.invoke(resource, transition, imageCacheManager.imageSource)
             }
 

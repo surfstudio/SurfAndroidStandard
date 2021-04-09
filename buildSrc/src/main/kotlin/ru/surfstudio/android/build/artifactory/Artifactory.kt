@@ -56,7 +56,7 @@ object Artifactory {
     fun isLibraryAlreadyDeployed(libraryName: String): Boolean {
         val library = Components.libraries.find { it.name == libraryName }
                 ?: throw LibraryNotFoundException(libraryName)
-        return isArtifactExists(library.name, library.projectVersion)
+        return isArtifactExists(library.name, Components.getModuleVersion(library.name))
     }
 
     /**

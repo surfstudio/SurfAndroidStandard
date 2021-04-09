@@ -15,16 +15,16 @@
  */
 package ru.surfstudio.android.security.crypto.security
 
+import java.security.Key
 import javax.crypto.Cipher
-import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
-fun Cipher.initEncryptMode(secretKey: SecretKey?): Cipher {
+fun Cipher.initEncryptMode(secretKey: Key?): Cipher {
     init(Cipher.ENCRYPT_MODE, secretKey)
     return this
 }
 
-fun Cipher.initDecryptMode(secretKey: SecretKey?, iv: ByteArray?): Cipher {
+fun Cipher.initDecryptMode(secretKey: Key?, iv: ByteArray?): Cipher {
     init(Cipher.DECRYPT_MODE, secretKey, IvParameterSpec(iv))
     return this
 }

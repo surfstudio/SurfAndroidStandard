@@ -1,21 +1,13 @@
 apply plugin: 'kotlin-kapt'
 apply from: '../unitTestTaskExtensions.gradle'
-android {
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
+
+android.testOptions {
+    unitTests.all {
+        useJUnitPlatform()
     }
 }
 
 dependencies {
-    testImplementation project(":base")
-    testImplementation project(":small-test-utils")
-
-    testImplementation lang.annimonStream
-    testImplementation test.junit
-    testImplementation test.robolectric
-    testImplementation test.shadowsMultidex
-    testImplementation di.dagger
-    kaptTest di.daggerKapt
+    testImplementation test.kotest
+    testImplementation test.mockk
 }

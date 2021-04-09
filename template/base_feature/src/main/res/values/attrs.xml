@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <declare-styleable name="PostfixEditText">   <!-- todo удалить если неунжно PostfixEditText -->
         <attr name="postfixText" format="string" />
         <attr name="postfixTextColor" format="color" />

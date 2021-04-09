@@ -1,5 +1,5 @@
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
-// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+@Library('surf-lib@version-4.1.1-SNAPSHOT')
+// https://github.com/surfstudio/jenkins-pipeline-lib
 import groovy.json.JsonSlurper
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
@@ -32,8 +32,6 @@ def MIRROR_COMPONENTS = 'Mirror Components'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
-def androidStandardTemplateName = "android-standard-template"
-def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
 def androidStandardTemplateConfigurationFile = "template/config.gradle"
 def projectConfigurationVersionFile = "buildSrc/build/tmp/projectVersion.txt"
 def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
@@ -43,7 +41,6 @@ def idChatAndroidSlack = "CFSF53SJ1"
 def branchName = ""
 def globalVersion = "<unknown>"
 def buildDescription = ""
-def globalConfiguration = ""
 
 //other config
 
@@ -66,10 +63,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -121,7 +118,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
+            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             globalVersion = globalConfiguration.version
 
             if (("dev/G-" + globalVersion) != branchName) {
@@ -161,7 +158,7 @@ pipeline.stages = [
                     "app/build/reports/tests/testReleaseUnitTest/"
             )
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -194,12 +191,13 @@ pipeline.stages = [
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
+            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
 
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.SKIP_STAGE) {
             if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
@@ -229,7 +227,7 @@ pipeline.finalizeBody = {
             message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
         }
 
-        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
+        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "github", pipeline.jobResult)
     }
 }
 
@@ -277,7 +275,7 @@ def static initTriggers(script) {
                     ],
                     printContributedVariables: true,
                     printPostContent: true,
-                    causeString: 'Triggered by Gitlab',
+                    causeString: 'Triggered by Github',
                     regexpFilterExpression: '^(origin\\/)?refs\\/heads\\/dev\\/G-(.*)$',
                     regexpFilterText: '$branchName'
             ),

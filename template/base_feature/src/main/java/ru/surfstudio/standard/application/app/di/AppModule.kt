@@ -4,13 +4,14 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
-import ru.surfstudio.standard.base.util.StringsProvider
+import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProviderImpl
 
 @Module
 class AppModule(
@@ -32,7 +33,9 @@ class AppModule(
 
     @Provides
     @PerApplication
-    internal fun provideStringsProvider(context: Context): StringsProvider = StringsProvider(context)
+    internal fun provideResourceProvider(context: Context): ResourceProvider {
+        return ResourceProviderImpl(context)
+    }
 
     @Provides
     @PerApplication

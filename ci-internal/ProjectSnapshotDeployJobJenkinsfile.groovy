@@ -1,7 +1,6 @@
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
-// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+@Library('surf-lib@version-4.1.1-SNAPSHOT')
+// https://github.com/surfstudio/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
-import ru.surfstudio.ci.*
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
@@ -59,10 +58,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -131,8 +130,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             project = globalConfiguration.project_snapshot_name
 
             if (("project-snapshot/" + project) != branchName) {
@@ -203,8 +201,7 @@ pipeline.stages = [
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             if (!skipIncrementVersion) {
                 RepositoryUtil.setDefaultJenkinsGitUser(script)
-                String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-                def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+                def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
 
                 script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
                         "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
@@ -238,7 +235,7 @@ pipeline.finalizeBody = {
             }
         }
 
-        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
+        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "github", pipeline.jobResult)
     }
 }
 
@@ -297,7 +294,7 @@ def static initTriggers(script) {
                     ],
                     printContributedVariables: true,
                     printPostContent: true,
-                    causeString: 'Triggered by Gitlab',
+                    causeString: 'Triggered by Github',
                     regexpFilterExpression: '^(origin\\/)?refs\\/heads\\/project-snapshot\\/(.*)$',
                     regexpFilterText: '$branchName'
             ),
@@ -318,4 +315,9 @@ def static withArtifactoryCredentials(script, body) {
     ]) {
         body()
     }
+}
+
+def static getGlobalConfiguration(script, projectConfigurationFile) {
+    String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+    return new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 }
