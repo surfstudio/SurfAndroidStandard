@@ -111,35 +111,32 @@ open class PermissionManager(
     }
 
     private fun checkInternal(permissionRequest: PermissionRequest): Single<PermissionStatus> {
-        return isPermissionRequestGranted(permissionRequest).flatMap {
-            if (it) {
-                Single.just(PermissionStatus.GRANTED)
-            } else if (!isPermissionRequestRequested(permissionRequest)) {
-                Single.just(PermissionStatus.NOT_REQUESTED)
-            } else if (isPermissionRequestLastGranted(permissionRequest)) {
-                Single.just(PermissionStatus.GRANTED_ONCE)
-            } else if (isPermissionRequestDenied(permissionRequest)) {
-                Single.just(PermissionStatus.DENIED)
-            } else {
-                Single.just(PermissionStatus.DENIED_FOREVER)
+        return isPermissionRequestGranted(permissionRequest).flatMap { isGranted ->
+            val status = when {
+                isGranted -> PermissionStatus.GRANTED
+                !isPermissionRequestRequested(permissionRequest) -> PermissionStatus.NOT_REQUESTED
+                isPermissionRequestLastGranted(permissionRequest) -> PermissionStatus.GRANTED_ONCE
+                isPermissionRequestDenied(permissionRequest) -> PermissionStatus.DENIED
+                else -> PermissionStatus.DENIED_FOREVER
             }
+            Single.just(status)
         }
     }
 
     private fun subscribeToSettingsResult() {
         val route = DefaultSettingsRationalRoute("")
         settingsDisposable = screenResultObserver
-            .observeScreenResult(route)
-            .firstElement()
-            .subscribe {}
+                .observeScreenResult(route)
+                .firstElement()
+                .subscribe()
     }
 
     private fun subscribeToRationalResult() {
         val route = DefaultPermissionRationalRoute("")
         rationalDisposable = screenResultObserver
-            .observeScreenResult(route)
-            .firstElement()
-            .subscribe { }
+                .observeScreenResult(route)
+                .firstElement()
+                .subscribe()
     }
 
     private fun subscribeToPermissionResult() {

@@ -1738,6 +1738,10 @@
           {
             "name": "navigation",
             "type": "api"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
           }
         ]
       },

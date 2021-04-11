@@ -1,5 +1,6 @@
 package ru.surfstudio.android.navigation.observer.storage.file
 
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
 import ru.surfstudio.android.navigation.observer.storage.RouteStorage
 import java.io.*
@@ -45,7 +46,7 @@ class FileRouteStorage(
         return try {
             getBytesFromFileUnsafe(id)
         } catch (e: IOException) {
-            e.printStackTrace()
+            Logger.e(e)
             null
         }
     }
@@ -71,7 +72,7 @@ class FileRouteStorage(
         try {
             saveBytesOrRewriteUnsafe(key, encode)
         } catch (e: IOException) {
-            e.printStackTrace()
+            Logger.e(e)
         }
     }
 
@@ -101,7 +102,7 @@ class FileRouteStorage(
                 }
             }
         } catch (e: IOException) {
-            e.printStackTrace()
+            Logger.e(e)
             return null
         }
     }
@@ -114,10 +115,10 @@ class FileRouteStorage(
                 }
             }
         } catch (e: IOException) {
-            e.printStackTrace()
+            Logger.e(e)
             return null
         } catch (e: ClassNotFoundException) {
-            e.printStackTrace()
+            Logger.e(e)
             return null
         }
     }
