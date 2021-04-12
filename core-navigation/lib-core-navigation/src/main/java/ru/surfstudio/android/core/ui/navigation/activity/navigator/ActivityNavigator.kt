@@ -29,7 +29,7 @@ interface ActivityNavigator : Navigator {
      * @param routeClass класс маршрута экрана, который должен вернуть результат
      * @param <T>        тип возвращаемых данных
      */
-    fun <T : Serializable> observeResult(routeClass: Class<out SupportOnActivityResultRoute<T>>): Observable<ScreenResult<T>>
+    fun <T : Serializable> observeResult(routeClass: Class<out SupportOnActivityResultRoute<T>>): Observable<ScreenResult<T?>>
 
     /**
      * позволяет подписываться на событие OnActivityResult
@@ -37,7 +37,7 @@ interface ActivityNavigator : Navigator {
      * @param route маршрут экрана, который должен вернуть результат
      * @param <T>   тип возвращаемых данных
      */
-    fun <T : Serializable> observeResult(route: SupportOnActivityResultRoute<T>): Observable<ScreenResult<T>>
+    fun <T : Serializable> observeResult(route: SupportOnActivityResultRoute<T>): Observable<ScreenResult<T?>>
 
     /**
      * Закрываает текущую активити
@@ -65,7 +65,7 @@ interface ActivityNavigator : Navigator {
      * @param result            возвращаемый результат
      * @param <T>               тип возвращаемого значения
      */
-    fun <T : Serializable> finishWithResult(activeScreenRoute: SupportOnActivityResultRoute<T>, result: T)
+    fun <T : Serializable> finishWithResult(activeScreenRoute: SupportOnActivityResultRoute<T>, result: T?)
 
     /**
      * Закрываает текущую активити c результатом
@@ -75,7 +75,7 @@ interface ActivityNavigator : Navigator {
      * @param success            показывает успешное ли завершение
      * @param <T>                тип возвращаемого значения
      */
-    fun <T : Serializable> finishWithResult(currentScreenRoute: SupportOnActivityResultRoute<T>, result: T, success: Boolean)
+    fun <T : Serializable> finishWithResult(currentScreenRoute: SupportOnActivityResultRoute<T>, result: T?, success: Boolean)
 
     /**
      * Launch a new activity.

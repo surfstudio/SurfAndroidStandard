@@ -102,7 +102,7 @@ internal fun <T : Serializable> observeMultipleScreenResult(
 }
 
 internal fun <T : Serializable> parseScreenResult(
-        screenResult: ScreenResult<T>,
+        screenResult: ScreenResult<T?>,
         throwable: () -> Throwable = { ActionInterruptedException() }
 ): Observable<T> {
     return if (screenResult.isSuccess) {
