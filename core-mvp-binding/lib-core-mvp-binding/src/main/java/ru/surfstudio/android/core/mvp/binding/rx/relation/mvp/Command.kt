@@ -27,11 +27,11 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.Relation
  *  Еммит единичное событие.
  *  В отличии от [State] не эммитит последне значение при подписке
  */
-class Command<T> : Relation<T, PRESENTER, CommandTarget>() {
+class Command<T> : Relation<T, CommandSource, CommandTarget>() {
 
     private val relay = PublishRelay.create<T>()
 
-    override fun getConsumer(source: PRESENTER): Consumer<T> = relay
+    override fun getConsumer(source: CommandSource): Consumer<T> = relay
 
     override fun getObservable(target: CommandTarget): Observable<T> = relay.share()
 }

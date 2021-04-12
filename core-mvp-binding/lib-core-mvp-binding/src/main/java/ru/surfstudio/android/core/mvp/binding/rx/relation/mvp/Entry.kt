@@ -25,8 +25,14 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.RelationEntity
 interface BondSource : RelationEntity
 interface BondTarget : RelationEntity
 
+interface ActionSource : RelationEntity
+interface ActionTarget : RelationEntity
+
+interface StateSource : RelationEntity
 interface StateTarget : RelationEntity
+
+interface CommandSource : RelationEntity
 interface CommandTarget : RelationEntity
 
-object VIEW : BondSource, BondTarget, StateTarget, CommandTarget, RelationEntity
-object PRESENTER : BondSource, BondTarget, StateTarget, CommandTarget, RelationEntity
+object VIEW : BondSource, BondTarget, ActionSource, StateTarget, CommandTarget, RelationEntity
+object PRESENTER : BondSource, BondTarget, ActionTarget, StateSource, StateTarget, CommandSource, CommandTarget, RelationEntity
