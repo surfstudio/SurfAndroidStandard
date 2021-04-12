@@ -10,24 +10,24 @@ import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
  */
 interface FragmentNavigator : Navigator {
 
-    fun add(route: FragmentRoute?, stackable: Boolean, @Transit transition: Int)
+    fun add(route: FragmentRoute, stackable: Boolean, @Transit transition: Int)
 
-    fun replace(route: FragmentRoute?, stackable: Boolean, @Transit transition: Int)
+    fun replace(route: FragmentRoute, stackable: Boolean, @Transit transition: Int)
 
     /**
      * @return возвращает true если фрагмент был удален успешно
      */
-    fun remove(route: FragmentRoute?, @Transit transition: Int): Boolean
+    fun remove(route: FragmentRoute, @Transit transition: Int): Boolean
 
     /**
      * @return возвращает true если фрагмент успешно отобразился
      */
-    fun show(route: FragmentRoute?, @Transit transition: Int): Boolean
+    fun show(route: FragmentRoute, @Transit transition: Int): Boolean
 
     /**
      * @return возвращает true если фрагмент был скрыт успешно
      */
-    fun hide(route: FragmentRoute?, @Transit transition: Int): Boolean
+    fun hide(route: FragmentRoute, @Transit transition: Int): Boolean
 
     /**
      * @return возвращает true если какой-либо фрагмент верхнего уровня был удален из стека
