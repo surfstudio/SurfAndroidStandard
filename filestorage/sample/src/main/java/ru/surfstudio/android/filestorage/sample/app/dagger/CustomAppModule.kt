@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.connection.ConnectionProvider
+import ru.surfstudio.android.connection.ConnectionProviderImpl
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigatorImpl
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -51,6 +52,6 @@ class CustomAppModule(private val coreApp: CustomApp) {
     @Provides
     @PerApplication
     internal fun provideConnectionQualityProvider(context: Context): ConnectionProvider {
-        return ConnectionProvider(context)
+        return ConnectionProviderImpl(context)
     }
 }
