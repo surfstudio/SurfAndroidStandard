@@ -8,7 +8,7 @@
       1. [Middleware](#middleware)
       2. [Reducer](#reducer)
       3. [CommandHolder](#commandholder)
-   2. Binding
+   2. [Binding](#binding)
    3. MVP
 4. [Best practices](#best-practices)
 5. [Материалы](#Материалы)
@@ -372,6 +372,110 @@ fun `when pin is wrong, should show error under pins`() = forAll(
 }
 ```
 
+#### Binding
+Для реализации тест-класса презентера существует базовый класс [`BasePresenterTest`][basePresenterTest] , который содержит базовые зависимости для презентера. 
+Тестирование презентера сводится к 4 шагам:
+1. Вызов метода `Presenter#onFirstLoad()` для биндинга к `BindModel`
+1. Триггер нужных экшенов в `BindModel`
+1. Провертка результата - данные с стейте или выполненная навигация
+1. Вызов метода `Presenter#onDestroy()`
+
+Первый и последний шаги вынесены в `BasePresenterTest`.
+**Пример тест-класса**
+```kotlin
+internal class ActivateCardsPresenterTest : BasePresenterTest<ActivateCardsPresenter, ActivateCardsBindModel>() {
+
+    override fun createBindModel() = ActivateCardsBindModel()
+
+    override fun createPresenter(bm: ActivateCardsBindModel): ActivateCardsPresenter {
+        return ActivateCardsPresenter(
+                ...
+                bm,
+                basePresenterDependency
+        )
+    }
+
+    @Before
+    fun setUp() {
+        setUpPresenter() // создает презентер и bind-модель, вызывает presenter.onFirstLoad()
+    }
+
+    @After
+    fun tearDown() {
+        resetPresenter() // очищает подписки презентера, приводит навигаторы в изначальное состояние
+    }
+
+    @Test
+    fun `when dismiss action is accepted should accept dismiss command`() {
+        val testObserver = bm.onDismissCommand.observable.test()
+        
+        bm.onDismissAction.accept()
+
+        testObserver.assertValue(Unit)
+        testObserver.dispose()
+    }
+}
+```
+
+**Получение данных из стейта**
+Из стейта можно получить как последнее значение, так и историю его изменения. В первом случае достаточно обратиться к полю `State#value`.
+```kotlin
+    val currentStateValue = bm.someState.value
+```
+
+Для получения истории изменений нужно подписаться на стейт.
+```koltin
+    @Test
+    fun `when card is being activated should show transparent loading`() {
+        val loadStateObserver = bm.loadState.observable.test()
+        bm.activateCardAction.accept()
+        
+        val (initialState, loadingState, finalState) = loadStateObserver.values()
+        assertSoftly {
+            initialState shouldBe LoadState.NONE
+            loadingState shouldBe LoadState.TRANSPARENT_LOADING
+            finalState shouldBe LoadState.NONE
+        }
+
+        loadStateObserver.dispose()
+    }
+```
+
+**Навигация**
+Для каждого навигатора предусмотрена реализация c префиксом `Test`, которая сохраняет события навигации в список. После чего можно проверить наличие нужных событий с помощью соответствующих мэтчеров.
+
+| Navigator | Matchers |
+| --------- | -------- |
+| [`TestActivityNavigator`][activityNavigator]       | [`ActivityNavigationMatchers.kt`][activityNavigationMatchers]       |
+| [`TestFragmentNavigator`][fragmentNavigator]       | [`FragmentNavigationMatchers.kt`][fragmentNavigationMatchers]       |
+| [`TestTabFragmentnavigator`][tabFragmentNavigator] | [`TabFragmentNavigationMatchers.kt`][tabFragmentNavigationMatchers] |
+| [`TestDialogNavigator`][dialogNavigator]           | [`DialogNavigationMatchers.kt`][dialogNavigationMatchers]           |
+| [`TestGlobalNavigator`][globalNavigator]           | [`ActivityNavigationMatchers.kt`][activityNavigationMatchers]       |
+
+
+```kotlin
+    @Test
+    fun `when delay elapsed should finish affinity and start fast auth activity`() {
+        val testScheduler = TestScheduler()
+        RxJavaPlugins.setComputationSchedulerHandler { testScheduler }
+        recreatePresenter() // пересоздаем презентер, чтобы применился testScheduler
+        
+        testScheduler.advanceTimeBy(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
+
+        val (finishEvent, navEvent) = activityNavigator.events
+        assertSoftly {
+            finishEvent.shouldBeFinishAffinity()
+            navEvent.shouldBeStart<FastAuthActivityRoute>()
+        }
+        RxJavaPlugins.reset()
+    }
+```
+**Обработка результата экрана**
+Если нужно проверить поведение при получении результата с другого экрана, в `TestActivityNavigator` предусмотрен метод `emitActivityResult`. Например эмит результата с экрана `InputFormActivityView` будет выглядеть следующим образом:
+```kotlin
+activityNavigator.emitActivityResult(InputFormActivityRoute::class, inputFormResult, success = true)
+```
+
 #### Best practices
 
 - В конце теста необходимо выполнять `testObserver.dispose()`
@@ -380,6 +484,11 @@ fun `when pin is wrong, should show error under pins`() = forAll(
 - Для мокирования статических методов используется `mockkStatic`:
 ```kotlin
 mockkStatic(HtmlCompat::class)
+```
+- Для мокирования `object`-классов используется `mockkObject`, но он не поддреживает `relaxed` режим. Для предотвращения вызова реального метода нужно замокировать его отдельно.
+```kotlin
+mockkObject(Foo)
+every { Foo.doSomething() } returns Unit
 ```
 - Когда необходимо гарантировать выполнение определенных инструкций внутри тестируемого метода,
 можно использовать `verify`:
@@ -409,3 +518,15 @@ mockkStatic(HtmlCompat::class)
 [bestReactorTest]: ../../template/base_feature/src/main/java/ru/surfstudio/standard/ui/test/base/BaseReactorTest.kt
 [navigationMatchers]: ../../template/base_feature/src/main/java/ru/surfstudio/standard/ui/test/matcher/NavigationMatchers.kt
 [requestMatchers]: ../../template/base/src/main/java/ru/surfstudio/standard/base/test/matcher/RequestMatchers.kt
+
+[basePresenterTest]: ../../core-mvp-binding/lib-core-mvp-binding-tests/src/main/java/ru/surfstudio/android/core/mvp/binding/test/BasePresenterTest.kt
+[activityNavigator]: ../../core-mvp-binding/lib-core-mvp-binding-tests/src/main/java/ru/surfstudio/android/core/mvp/binding/test/navigation/TestActivityNavigator.kt
+[fragmentNavigator]: ../../core-mvp-binding/lib-core-mvp-binding-tests/src/main/java/ru/surfstudio/android/core/mvp/binding/test/navigation/TestFragmentNavigator.kt
+[tabFragmentNavigator]: ../../core-mvp-binding/lib-core-mvp-binding-tests/src/main/java/ru/surfstudio/android/core/mvp/binding/test/navigation/TestTabFragmentNavigator.kt
+[dialogNavigator]: ../../core-mvp-binding/lib-core-mvp-binding-tests/src/main/java/ru/surfstudio/android/core/mvp/binding/test/navigation/TestDialogNavigator.kt
+[globalNavigator]: ../../core-mvp-binding/lib-core-mvp-binding-tests/src/main/java/ru/surfstudio/android/core/mvp/binding/test/navigation/TestGlobalNavigator.kt
+
+[activityNavigationMatchers]: ../../core-mvp-binding/lib-core-mvp-binding-tests/src/main/java/ru/surfstudio/android/core/mvp/binding/test/navigation/matchers/ActivityNavigationMatchers.kt 
+[fragmentNavigationMatchers]: ../../core-mvp-binding/lib-core-mvp-binding-tests/src/main/java/ru/surfstudio/android/core/mvp/binding/test/navigation/matchers/FragmentNavigationMatchers.kt 
+[tabFragmentNavigationMatchers]: ../../core-mvp-binding/lib-core-mvp-binding-tests/src/main/java/ru/surfstudio/android/core/mvp/binding/test/navigation/matchers/TabFragmentNavigationMatchers.kt 
+[dialogNavigationMatchers]: ../../core-mvp-binding/lib-core-mvp-binding-tests/src/main/java/ru/surfstudio/android/core/mvp/binding/test/navigation/matchers/DialogNavigaitonMatchers.kt 

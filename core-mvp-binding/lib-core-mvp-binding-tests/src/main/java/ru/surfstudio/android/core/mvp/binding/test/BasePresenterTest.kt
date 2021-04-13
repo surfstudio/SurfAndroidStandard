@@ -9,16 +9,16 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.*
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
+import ru.surfstudio.android.core.mvp.binding.test.navigation.TestActivityNavigator
+import ru.surfstudio.android.core.mvp.binding.test.navigation.TestDialogNavigator
+import ru.surfstudio.android.core.mvp.binding.test.navigation.TestFragmentNavigator
+import ru.surfstudio.android.core.mvp.binding.test.navigation.TestTabFragmentNavigator
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
-import ru.surfstudio.android.core.mvp.binding.test.navigation.TestActivityNavigator
-import ru.surfstudio.android.core.mvp.binding.test.navigation.TestDialogNavigator
-import ru.surfstudio.android.core.mvp.binding.test.navigation.TestFragmentNavigator
-import ru.surfstudio.android.core.mvp.binding.test.navigation.TestTabFragmentNavigator
 
 object TEST : ActionSource, ActionTarget, StateSource, StateTarget, CommandSource, CommandTarget
 
@@ -44,7 +44,6 @@ abstract class BasePresenterTest<PT : BaseRxPresenter, BMT : BindModel> : Annota
     abstract fun createBindModel(): BMT
 
     abstract fun createPresenter(bm: BMT): PT
-
 
     fun createBasePresenterDependency(
         schedulersProvider: SchedulersProvider = TestSchedulersProvider(),
@@ -100,7 +99,6 @@ abstract class BasePresenterTest<PT : BaseRxPresenter, BMT : BindModel> : Annota
         tabFragmentNavigator.reset()
         dialogNavigator.reset()
     }
-
 
     override fun relationEntity() = TEST
 
