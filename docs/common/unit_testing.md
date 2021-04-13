@@ -381,6 +381,7 @@ fun `when pin is wrong, should show error under pins`() = forAll(
 1. Вызов метода `Presenter#onDestroy()`
 
 Первый и последний шаги вынесены в `BasePresenterTest`.
+
 **Пример тест-класса**
 ```kotlin
 internal class ActivateCardsPresenterTest : BasePresenterTest<ActivateCardsPresenter, ActivateCardsBindModel>() {
@@ -418,6 +419,7 @@ internal class ActivateCardsPresenterTest : BasePresenterTest<ActivateCardsPrese
 ```
 
 **Получение данных из стейта**
+
 Из стейта можно получить как последнее значение, так и историю его изменения. В первом случае достаточно обратиться к полю `State#value`.
 ```kotlin
     val currentStateValue = bm.someState.value
@@ -442,6 +444,7 @@ internal class ActivateCardsPresenterTest : BasePresenterTest<ActivateCardsPrese
 ```
 
 **Навигация**
+
 Для каждого навигатора предусмотрена реализация c префиксом `Test`, которая сохраняет события навигации в список. После чего можно проверить наличие нужных событий с помощью соответствующих мэтчеров.
 
 | Navigator | Matchers |
@@ -471,6 +474,7 @@ internal class ActivateCardsPresenterTest : BasePresenterTest<ActivateCardsPrese
     }
 ```
 **Обработка результата экрана**
+
 Если нужно проверить поведение при получении результата с другого экрана, в `TestActivityNavigator` предусмотрен метод `emitActivityResult`. Например эмит результата с экрана `InputFormActivityView` будет выглядеть следующим образом:
 ```kotlin
 activityNavigator.emitActivityResult(InputFormActivityRoute::class, inputFormResult, success = true)
