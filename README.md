@@ -7,7 +7,7 @@
 
 Фреймворк для разработки android приложений [студии Surf](https://www.surf.ru/). 
 Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение
-в короткие сроки. 
+в короткие сроки.
 
 **!!! Репозиторий в стадии активной разработки !!!**
 
@@ -74,3 +74,4 @@ dependencies {
 [build_version_link]: https://bintray.com/surf/maven
 [comment]: # (В следующих версиях нужно заменить на ссылку на иконку реального статуса)
 [build_version_icon]: https://img.shields.io/badge/jcenter-libs-brightgreen
+
