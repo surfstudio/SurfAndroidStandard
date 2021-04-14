@@ -749,24 +749,7 @@
             "type": "implementation"
           }
         ]
-      }
-    ],
-    "samples": [
-      {
-        "name": "core-mvp-binding-sample",
-        "dir": "sample"
-      }
-    ],
-    "has_mirror": false,
-    "mirror_repo": ""
-  },
-  {
-    "id": "core-mvp-binding-tests",
-    "version": "0.5.0",
-    "unstable_version": 1,
-    "stable": false,
-    "dir": "core-mvp-binding",
-    "libs": [
+      },
       {
         "name": "core-mvp-binding-tests",
         "dir": "lib-core-mvp-binding-tests",
@@ -813,7 +796,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "core-mvp-binding-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },
