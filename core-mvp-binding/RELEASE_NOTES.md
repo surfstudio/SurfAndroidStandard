@@ -21,8 +21,10 @@ Added state checker methods to Request.
 * ANDDEP-968 `RequestUi.kt`: added fields `isLoading`, `hasData`, `hasError`;
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 
+## 0.5.0-alpha
 ##### Core-mvp-binding-tests
-* TODO
+* ANDDEP-1207 Init module
+
 ## 0.3.0
 ##### Core-mvp-binding
 * Renamed `onViewDetached ()` -> `onViewDetach ()`
