@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1207 Fixed dependencies
 * Added unit-tests for SplashMiddleware and MainBarMiddleware
 * Added utility classes for unit testing
 * `kotlin` version raised: `1.3.71 -> 1.4.31`;
