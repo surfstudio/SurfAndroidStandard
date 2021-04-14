@@ -762,7 +762,7 @@
   },
   {
     "id": "core-mvp-binding-tests",
-    "version": "0.0.1",
+    "version": "0.5.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "core-mvp-binding",
