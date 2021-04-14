@@ -67,13 +67,11 @@ public class ConnectionProviderImpl implements ConnectionProvider {
         return lastConnectionResultFast;
     }
 
-
     @Override
     public boolean isConnectedToWifi() {
         NetworkInfo info = getNetworkInfo(context);
         return info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI;
     }
-
 
     @Override
     public NetworkInfo getNetworkInfo(Context context) {

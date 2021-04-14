@@ -5,6 +5,7 @@
 
 ## 0.5.0-alpha
 ##### Core-mvp-binding
+* ANDDEP-1207 extracted relation's source/target interfaces
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type
 * Clearing `BaseRxFragmentView.viewDisposable` move from onDestroy to onDestroyView
 * ANDDEP-671 Renamed loadable to response

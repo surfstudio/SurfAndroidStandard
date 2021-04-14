@@ -124,7 +124,6 @@ public abstract class BaseActivityNavigator extends BaseActivityResultDelegate
         freezeSelector.onNext(true);
     }
 
-
     @NotNull
     @Override
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
@@ -137,14 +136,12 @@ public abstract class BaseActivityNavigator extends BaseActivityResultDelegate
         }
     }
 
-
     @NotNull
     @Override
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
             @NotNull SupportOnActivityResultRoute<T> route) {
         return super.observeOnActivityResult(route);
     }
-
 
     @Override
     public void finishCurrent() {
@@ -156,7 +153,6 @@ public abstract class BaseActivityNavigator extends BaseActivityResultDelegate
         ActivityCompat.finishAffinity(activityProvider.get());
     }
 
-
     @Override
     public <T extends Serializable> void finishWithResult(@NotNull ActivityWithResultRoute<T> activeScreenRoute,
                                                           boolean success) {
@@ -166,10 +162,9 @@ public abstract class BaseActivityNavigator extends BaseActivityResultDelegate
 
     @Override
     public <T extends Serializable> void finishWithResult(@NotNull SupportOnActivityResultRoute<T> activeScreenRoute,
-                                                          @NotNull T result) {
+                                                          T result) {
         finishWithResult(activeScreenRoute, result, true);
     }
-
 
     @Override
     public <T extends Serializable> void finishWithResult(SupportOnActivityResultRoute<T> currentScreenRoute,
@@ -180,7 +175,6 @@ public abstract class BaseActivityNavigator extends BaseActivityResultDelegate
                 resultIntent);
         finishCurrent();
     }
-
 
     @Override
     public boolean start(ActivityRoute route) {
@@ -193,13 +187,11 @@ public abstract class BaseActivityNavigator extends BaseActivityResultDelegate
         return false;
     }
 
-
     @NotNull
     @Override
     public Observable<SplitFeatureInstallState> start(@NotNull ActivityCrossFeatureRoute route) {
         return startCrossFeature(route, startStatusSubject -> performStart(route, startStatusSubject));
     }
-
 
     @NotNull
     @Override
@@ -297,7 +289,6 @@ public abstract class BaseActivityNavigator extends BaseActivityResultDelegate
         return false;
     }
 
-
     @NotNull
     @Override
     public <T extends NewIntentRoute> Observable<T> observeNewIntent(Class<T> newIntentRouteClass) {
@@ -308,7 +299,6 @@ public abstract class BaseActivityNavigator extends BaseActivityResultDelegate
                     + "must have default constructor", e);
         }
     }
-
 
     @NotNull
     @Override
