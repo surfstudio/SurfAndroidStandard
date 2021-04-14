@@ -159,7 +159,6 @@ public abstract class BaseActivityNavigator extends BaseActivityResultDelegate
         finishWithResult(activeScreenRoute, null, success);
     }
 
-
     @Override
     public <T extends Serializable> void finishWithResult(@NotNull SupportOnActivityResultRoute<T> activeScreenRoute,
                                                           T result) {
@@ -236,7 +235,6 @@ public abstract class BaseActivityNavigator extends BaseActivityResultDelegate
         SplitFeatureInstallStatus status = SplitFeatureInstallStatus.Companion.getByValue(startupStatus);
         splitFeatureInstallStateSubject.onNext(new SplitFeatureInstallState(status));
     }
-
 
     @Override
     public boolean startForResult(@NotNull SupportOnActivityResultRoute route) {
