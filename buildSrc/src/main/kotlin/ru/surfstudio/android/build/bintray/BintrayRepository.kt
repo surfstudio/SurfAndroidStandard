@@ -20,6 +20,7 @@ private const val EMPTY_ERROR_CODE = -1
 /**
  * Class to use bintray api
  */
+@Deprecated("Use Artifactory or Maven Central after Bintray sunset")
 internal class BintrayRepository {
 
     private val gson = GsonBuilder().create()

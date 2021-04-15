@@ -10,17 +10,6 @@ apply plugin: 'maven-publish'
 String currentBuildDirectory = gradle.startParameter.currentDir.path
 Initializator.init(currentBuildDirectory)
 
-// Function for configuration of dependencies of current android-standard module.
-// Context of current module is passed in parameters.
-
-/**
- * HOW TO PUSH ARTIFACTS TO BINTRAY:
- * ./gradlew publishMavenReleasePublicationToExternalRepository
- * ./gradlew distributeArtifactsToBintray
- *
- * More info: https://bit.ly/30G6OZT
- */
-
 def trueValue = "true"
 
 // license data for maven pom
@@ -35,11 +24,14 @@ def scmUrl = "https://github.com/surfstudio/SurfAndroidStandard"
 // developer data for maven pom
 def developerName = "SurfStudio"
 def developerMail = "mail@surfstudio.ru"
-def developerOrganization = "Surf Studio LLC"
-def developerOrganizationUrl = "https://surfstudio.ru"
+def developerOrganization = "SurfStudio LLC"
+def developerOrganizationUrl = "https://surf.ru"
+
+// Function for configuration of dependencies of current android-standard module.
+// Context of current module is passed in parameters.
 
 ext.configureDeploy = { context ->
-    // define function for deploy of current module to artifactory
+    // define function for deploy of current module to artifactory or maven central
     context.afterEvaluate {
 
         // add java source to artifacts for release in JCenter !!! REQUIRED
@@ -117,6 +109,16 @@ ext.configureDeploy = { context ->
                         description = artifactDescription
                         url = artifactUrl
 
+                        organization {
+                            name = developerOrganization
+                            url = developerOrganizationUrl
+                        }
+
+                        issueManagement {
+                            system = "GitHub"
+                            url = "$scmUrl/issues"
+                        }
+
                         licenses {
                             license {
                                 name = licenseName
@@ -134,8 +136,6 @@ ext.configureDeploy = { context ->
                             developer {
                                 name = developerName
                                 email = developerMail
-                                organization = developerOrganization
-                                organizationUrl = developerOrganizationUrl
                             }
                         }
                     }   // pom

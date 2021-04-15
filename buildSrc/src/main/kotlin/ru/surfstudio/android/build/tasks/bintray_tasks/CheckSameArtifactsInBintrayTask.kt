@@ -10,6 +10,7 @@ import ru.surfstudio.android.build.utils.getPropertyComponent
 /**
  * Check same artifact version in bintray.
  */
+@Deprecated("Use Artifactory or Maven Central after Bintray sunset")
 open class CheckSameArtifactsInBintrayTask : DefaultTask() {
 
     /**

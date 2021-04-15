@@ -6,6 +6,7 @@ import ru.surfstudio.android.build.utils.EMPTY_STRING
 /**
  * Class containes bintray's credentials, URLs, repository names, ...
  */
+@Deprecated("Use Artifactory or Maven Central after Bintray sunset")
 object BintrayConfig {
 
     private const val BINTRAY_URL = "https://api.bintray.com"
