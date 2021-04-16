@@ -3,7 +3,7 @@ package ru.surfstudio.android.message
 import com.google.android.material.snackbar.BaseTransientBottomBar.BaseCallback
 import com.google.android.material.snackbar.Snackbar
 
-internal class SnackbarDismissCallback(
+class SnackbarDismissCallback(
         private val dismissListener: (DismissReason) -> Unit
 ) : Snackbar.Callback() {
 
