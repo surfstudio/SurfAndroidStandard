@@ -11,7 +11,7 @@ import ru.surfstudio.android.navigation.command.fragment.ReplaceHard
 import ru.surfstudio.android.navigation.sample.R
 import ru.surfstudio.android.navigation.sample.app.App
 import ru.surfstudio.android.navigation.sample.app.screen.main.MainRoute
-import ru.surfstudio.android.navigation.sample.app.screen.main.gallery.GalleryTabRoute
+import ru.surfstudio.android.navigation.sample.app.screen.main.gallery.GalleryRoute
 import ru.surfstudio.android.navigation.sample.app.screen.main.gallery.image.ImageRoute
 
 class AuthFragment : Fragment() {
@@ -22,9 +22,9 @@ class AuthFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val mainRoute = MainRoute()
-        val galleryRoute = GalleryTabRoute()
+        val galleryRoute = GalleryRoute.Tab()
         auth_btn.setOnClickListener {
-            App.navigator.execute(
+            App.navCommandExecutor.execute(
                     listOf(
                             ReplaceHard(mainRoute), //opens main screen
                             Replace(galleryRoute, sourceTag = mainRoute.getId()), //opens gallery tab in main

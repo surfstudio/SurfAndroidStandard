@@ -23,5 +23,6 @@ class ProfileFragmentView : BaseRxFragmentView() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, viewRecreated: Boolean) {
         profile_settings_btn.setOnClickListener { bm.openSettings.accept() }
         profile_logout_btn.setOnClickListener { bm.openConfirmLogoutScreen.accept() }
+        profile_search_btn.setOnClickListener { bm.openSearch.accept() }
     }
 }

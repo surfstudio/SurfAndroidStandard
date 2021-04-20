@@ -38,6 +38,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
+        <activity android:name="ru.surfstudio.android.navigation.sample.app.screen.flow.FlowActivity"/>
+
         <activity android:name="ru.surfstudio.android.navigation.sample.app.screen.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +47,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".app.screen.main.profile.about.AboutActivity" />
+        <activity android:name=".app.screen.number.NumberActivity"/>
 
         <provider
             android:name=".app.screen.system.AppFileProvider"

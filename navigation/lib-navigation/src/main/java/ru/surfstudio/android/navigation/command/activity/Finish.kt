@@ -1,5 +1,6 @@
 package ru.surfstudio.android.navigation.command.activity
 
+import android.os.Bundle
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.DefaultAnimations
 import ru.surfstudio.android.navigation.command.activity.base.ActivityNavigationCommand
@@ -14,4 +15,5 @@ data class Finish(
 ) : ActivityNavigationCommand {
 
     override val route: ActivityRoute = StubActivityRoute
+    override val activityOptions: Bundle? = null
 }

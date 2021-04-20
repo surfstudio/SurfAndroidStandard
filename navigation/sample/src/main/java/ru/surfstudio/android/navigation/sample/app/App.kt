@@ -17,8 +17,8 @@ import ru.surfstudio.android.navigation.sample.app.utils.animations.SlideAnimati
 class App : Application() {
 
     companion object {
-        lateinit var navigator: AppCommandExecutorWithResult
-        lateinit var provider: ActivityNavigationProvider
+        lateinit var navCommandExecutor: AppCommandExecutorWithResult
+        lateinit var activityNavigationProvider: ActivityNavigationProvider
         lateinit var resultObserver: ScreenResultObserver
     }
 
@@ -29,12 +29,12 @@ class App : Application() {
     }
 
     private fun initExecutor(screenResultEmitter: ScreenResultEmitter) {
-        val activityNavigationProvider = ActivityNavigationProviderCallbacks(
+        val activityNavigationProviderCallbacks = ActivityNavigationProviderCallbacks(
                 activityNavigatorFactory = ActivityNavigatorWithResultFactory()
         )
-        registerActivityLifecycleCallbacks(activityNavigationProvider)
-        provider = activityNavigationProvider
-        navigator = AppCommandExecutorWithResult(screenResultEmitter, activityNavigationProvider)
+        registerActivityLifecycleCallbacks(activityNavigationProviderCallbacks)
+        activityNavigationProvider = activityNavigationProviderCallbacks
+        navCommandExecutor = AppCommandExecutorWithResult(screenResultEmitter, activityNavigationProvider)
     }
 
     private fun initResultObserver() {
@@ -46,7 +46,7 @@ class App : Application() {
     }
 
     private fun initAnimations() {
-        DefaultAnimations.fragment = SlideAnimations() //animations for all fragment changes
-        DefaultAnimations.tab = FadeAnimations() //animations for tab changes
+        DefaultAnimations.fragment = SlideAnimations //animations for all fragment changes
+        DefaultAnimations.tab = FadeAnimations //animations for tab changes
     }
 }

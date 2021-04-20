@@ -9,6 +9,8 @@ import ru.surfstudio.android.navigation.route.activity.ActivityRoute
  */
 interface ActivityNavigatorInterface {
 
+    fun start(routes: List<ActivityRoute>, animations: Animations, activityOptions: Bundle?)
+
     fun start(route: ActivityRoute, animations: Animations, activityOptions: Bundle?)
 
     fun replace(route: ActivityRoute, animations: Animations, activityOptions: Bundle?)

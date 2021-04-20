@@ -104,7 +104,7 @@ ACTIVITY_NAVIGATION_TAG.
     * [RemoveUntil][removeuntilcom] - удаление фрагментов вплоть до указанного в команде.
     * [RemoveAll][removeallcom] - очистка бекстека.
     Возможна очистка всех фрагментов с сохранением последнего: необходимо явно указать параметр shouldRemoveLast=false.
-    Чтобы выполнить эту команду для [TabFragmentNavigator][tfnav], необходимо явно указать параметр isTab=true.
+    В случае с [TabFragmentNavigator][tfnav], команда [RemoveAll][removeallcom] очистит стек текущего активного таба.
 - [DialogNavigationCommand][dcom]
     * [Show][showcom] - показ диалога
     * [Dismiss][dismisscom] - скрытие диалога
@@ -198,6 +198,51 @@ noBackupFilesDir.
 1. Вызвать метод NavigationCommandExecutor.execute и передать в него команду Add(routeA, sourceTag),
 где routeA - route, созданный на первом шаге, sourceTag - тег экрана, созданный на 3 шаге.
 
+### Цепочное выполнение команд
+[AppCommandExecutor][appexec] поддерживает выполнение цепочек, состоящих как из синхронных, так и 
+асинхронных команд. 
+В зависимости от того какие команды есть в цепочке логика работы [AppCommandExecutor][appexec] будет
+немного отличаться. Но основной принцип - выполняется асинхронная команда, выполнение команд идущих 
+после нее откладывается до момента, когда будет доступен новый [ActivityNavigationHolder][anavholdercom].
+И как только холдер станет доступен  - срабатывает та же логика. 
+Исключения из этого:
+    * Выполнение цепочки команд [Start][startcom], открывающее несколько активити сразу.
+    * Выполнение асинхронных команд Replace и Start для активити после выполнения команд Finish и FinishAffinity.
+    Replace и Start выполняются сразу после команд Finish и FinishAffinity в том же [ActivityNavigationHolder][anavholdercom], 
+    так как после выполнения команд закрывающих активити или стек активити в стеке может не остаться 
+    активити и последующие команды не выполнятся.
+
+1. Можно запускать несколько активити за один раз, передавая список из команд Start, например
+`listOf(Start(ActivityRoute1()), Start(ActivityRoute2()), Start(ActivityRoute3()))`.
+У [ActivityNavigator][anav] для выполнения этой цепочки команд будет вызван метод `Context.startActivities`.
+1. Можно асинхронно запустить активити-контейнер фрагментов и сразу добавить в него несколько фрагментов, 
+[AppCommandExecutor][appexec] отложит выполнение всех команд, идущих после команды старта активити, 
+дождется пока активити запутится и последовательно выполнит все синхронные команды, идущие после 
+команды запуска активити.
+1. Можно закрыть несколько активити (без использования [FinishAffinity][finishacom]). Для этого нужно
+передать список комманд [Finish][finishcom]. Первая команда [Finish][finishcom] из этого списка 
+выполнится для текущей активити, последующие команды будут выполняться по мере того как будут 
+становиться доступны холдеры [ActivityNavigationHolder][anavholdercom] ранее запущенных активити.
+1. Можно выполнять запуск нескольких активити с добавлением в них фрагментов.
+listOf(
+    Start(FirstActivityRoute()),
+    Replace(FirstFragmentRoute()),
+    Replace(SecondFragmentRoute()),
+    Start(SecondActivityRoute()),
+    Start(ThirdActivityRoute()),
+    Replace(FirstFragmentRoute()),
+    Replace(SecondFragmentRoute())
+)
+1. Закрываем несколько активити из стека с последующим открытием новых активити.
+В этом случае нужно быть очень внимательным, так как если в стеке всего одна активити, а переданы 
+две команды [Finish][finishcom] и после них есть еще какие-то команды - выполнится только первая 
+команда, которая закроет активити и вместе с этим все приложение и все последующие команды не будут
+выполнены.
+listOf(
+    Finish(),
+    Finish(),
+    Start(SomeActivityRoute())
+)
 
 [route]: src/main/java/ru/surfstudio/android/navigation/route/Route.kt
 [baseroute]: src/main/java/ru/surfstudio/android/navigation/route/BaseRoute.kt
@@ -250,3 +295,5 @@ noBackupFilesDir.
 [dcom]: src/main/java/ru/surfstudio/android/navigation/command/dialog/base/DialogNavigationCommand.kt
 [showcom]: src/main/java/ru/surfstudio/android/navigation/command/dialog/Show.kt
 [dismisscom]: src/main/java/ru/surfstudio/android/navigation/command/dialog/Dismiss.kt
+
+[anavholdercom]: src/main/java/ru/surfstudio/android/navigation/provider/holder/ActivityNavigationHolder.kt

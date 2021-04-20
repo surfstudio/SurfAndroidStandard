@@ -10,6 +10,16 @@ open class ActivityNavigator(val activity: AppCompatActivity) : ActivityNavigato
 
     protected open val animationSupplier = ActivityAnimationSupplier()
 
+    override fun start(routes: List<ActivityRoute>, animations: Animations, activityOptions: Bundle?) {
+        val intents = Array(routes.size) { index: Int ->
+            val route = routes[index]
+            route.createIntent(activity)
+        }
+        val optionsWithAnimations: Bundle? =
+                animationSupplier.supplyWithAnimations(activity, activityOptions, animations)
+        activity.startActivities(intents, optionsWithAnimations)
+    }
+
     override fun start(route: ActivityRoute, animations: Animations, activityOptions: Bundle?) {
         val optionsWithAnimations =
                 animationSupplier.supplyWithAnimations(activity, activityOptions, animations)
