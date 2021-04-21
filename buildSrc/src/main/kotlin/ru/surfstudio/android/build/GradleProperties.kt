@@ -36,6 +36,11 @@ object GradleProperties {
     const val CURRENT_REVISION = "currentRevision"
 
     /**
+     * Publish type
+     */
+    const val PUBLISH_TYPE = "publishType"
+
+    /**
      * If artifact exist in artifactory replace it
      */
     const val DEPLOY_SAME_VERSION_ARTIFACTORY = "deploySameVersionArtifactory"

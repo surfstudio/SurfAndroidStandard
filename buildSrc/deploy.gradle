@@ -3,7 +3,8 @@ import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.artifactory.Artifactory
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 import ru.surfstudio.android.build.Initializator
-import ru.surfstudio.android.build.maven.MavenConfig
+import ru.surfstudio.android.build.PublishType
+import ru.surfstudio.android.build.PublishUtil
 
 apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'maven-publish'
@@ -32,9 +33,9 @@ def developerOrganizationUrl = "https://surf.ru"
 // Function for configuration of dependencies of current android-standard module.
 // Context of current module is passed in parameters.
 
-ext["signing.keyId"] = MavenConfig.SIGN_KEY_ID
-ext["signing.password"] = MavenConfig.SIGN_PASSWORD
-ext["signing.secretKeyRingFile"] = MavenConfig.SIGN_KEY_RING_FILE
+ext["signing.keyId"] = System.getenv("surf_maven_sign_key_id")
+ext["signing.password"] = System.getenv("surf_maven_sign_password")
+ext["signing.secretKeyRingFile"] = System.getenv("surf_maven_sign_key_ring_file")
 
 ext.configureDeploy = { context ->
     // define function for deploy of current module to artifactory or maven central
@@ -50,6 +51,7 @@ ext.configureDeploy = { context ->
         def artifactVersion = Components.getModuleVersion(project.name)
         def artifactDescription = Components.getArtifactDescription(project.name)
         def artifactUrl = Components.getArtifactUrl(project.name)
+        def publishData
 
         if (!artifactName.trim()) {
             throw new GradleException("artifactName for ${project.name} can not be blank for deploy")
@@ -62,6 +64,16 @@ ext.configureDeploy = { context ->
         publishing {
             publications {
                 mavenRelease(MavenPublication) {
+                    // check publishType
+                    if (!project.hasProperty(GradleProperties.PUBLISH_TYPE)) {
+                        throw new GradleException("PUBLISH_TYPE is required for publish task")
+                    }
+                    def publishTypeProperty = project.property(GradleProperties.PUBLISH_TYPE)
+                    def publishType = PublishType.getById(publishTypeProperty)
+                    if (publishType == PublishType.UNKNOWN) {
+                        throw new GradleException("Illegal publishType set: $publishTypeProperty")
+                    }
+                    publishData = PublishUtil.getPublishData(publishType)
 
                     // If -Pcomponent set, deploy only its artifacts
                     if (project.hasProperty(GradleProperties.COMPONENT)) {
@@ -79,7 +91,8 @@ ext.configureDeploy = { context ->
                     // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
                     if (project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST)) {
                         if (project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == trueValue
-                                && Artifactory.isLibraryAlreadyDeployed(project.name) //todo check for maven
+                                && publishType == PublishType.ARTIFACTORY
+                                && Artifactory.isLibraryAlreadyDeployed(project.name)
                         ) return
                     }
 
@@ -134,11 +147,10 @@ ext.configureDeploy = { context ->
             repositories {
                 maven {
                     name = "External"
-                    //todo artifactory or maven
-                    url = ArtifactoryConfig.DEPLOY_URL
+                    url = publishData.url
                     credentials {
-                        username ArtifactoryConfig.USER_NAME
-                        password ArtifactoryConfig.PASSWORD
+                        username publishData.userName
+                        password publishData.password
                     }
                 }   // maven
                 // repositories
