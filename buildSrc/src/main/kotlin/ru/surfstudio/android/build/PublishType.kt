@@ -23,6 +23,9 @@ enum class PublishType(val id: String) {
 object PublishUtil {
 
     @JvmStatic
+    fun initPublishData() = PublishData()
+
+    @JvmStatic
     fun getPublishData(data: PublishType): PublishData = when (data) {
         PublishType.ARTIFACTORY -> PublishData(
             url = ArtifactoryConfig.DEPLOY_URL,

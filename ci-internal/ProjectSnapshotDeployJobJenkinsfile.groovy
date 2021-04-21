@@ -179,9 +179,9 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean publish -PdeployOnlyIfNotExist=true"
+                    script.sh "./gradlew clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory"
                     if (useBintrayDeploy) {
-
+                        //todo maven snapshot
                     }
                 }
             }

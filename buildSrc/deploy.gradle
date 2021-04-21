@@ -51,7 +51,7 @@ ext.configureDeploy = { context ->
         def artifactVersion = Components.getModuleVersion(project.name)
         def artifactDescription = Components.getArtifactDescription(project.name)
         def artifactUrl = Components.getArtifactUrl(project.name)
-        def publishData
+        def publishData = PublishUtil.initPublishData()
 
         if (!artifactName.trim()) {
             throw new GradleException("artifactName for ${project.name} can not be blank for deploy")
@@ -65,15 +65,14 @@ ext.configureDeploy = { context ->
             publications {
                 mavenRelease(MavenPublication) {
                     // check publishType
-                    if (!project.hasProperty(GradleProperties.PUBLISH_TYPE)) {
-                        throw new GradleException("PUBLISH_TYPE is required for publish task")
+                    if (project.hasProperty(GradleProperties.PUBLISH_TYPE)) {
+                        def publishTypeProperty = project.property(GradleProperties.PUBLISH_TYPE)
+                        def publishType = PublishType.getById(publishTypeProperty)
+                        if (publishType == PublishType.UNKNOWN) {
+                            throw new GradleException("Illegal publishType set: $publishTypeProperty")
+                        }
+                        publishData = PublishUtil.getPublishData(publishType)
                     }
-                    def publishTypeProperty = project.property(GradleProperties.PUBLISH_TYPE)
-                    def publishType = PublishType.getById(publishTypeProperty)
-                    if (publishType == PublishType.UNKNOWN) {
-                        throw new GradleException("Illegal publishType set: $publishTypeProperty")
-                    }
-                    publishData = PublishUtil.getPublishData(publishType)
 
                     // If -Pcomponent set, deploy only its artifacts
                     if (project.hasProperty(GradleProperties.COMPONENT)) {
@@ -141,8 +140,8 @@ ext.configureDeploy = { context ->
                     artifact sourcesJar {
                         classifier = "sources"
                     }
-                }   // doFirst
-            }   // mavenRelease
+                }   // mavenRelease
+            }   // publications
 
             repositories {
                 maven {
@@ -153,8 +152,7 @@ ext.configureDeploy = { context ->
                         password publishData.password
                     }
                 }   // maven
-                // repositories
-            } // publications
+            } // repositories
         } // publishing
 
         tasks.withType(PublishToMavenRepository) {
