@@ -16,12 +16,6 @@ object GradleProperties {
     const val COMPONENT_VERSION = "componentVersion"
 
     /**
-     * Components list for check standard dependency stability
-     */
-    const val COMPONENTS_TO_CHECK_STANDARD_DEPENDENCIES_STABILITY =
-            "componentsToCheckStandardDependenciesStability"
-
-    /**
      * Path to project to create configuration file information for
      */
     const val CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT = "pathToProject"
@@ -49,6 +43,7 @@ object GradleProperties {
     /**
      * If artifact exist in bintray replace it
      */
+    @Deprecated("Use Artifactory or Maven Central after Bintray sunset")
     const val DEPLOY_SAME_VERSION_BINTRAY = "deploySameVersionBintray"
 
     /**
@@ -85,9 +80,4 @@ object GradleProperties {
      * Depth of mirror repository tree to search standard commit hash in
      */
     const val DEPLOY_TO_MIRROR_SEARCH_LIMIT = "searchLimit"
-
-    /**
-     * Override existed artifacts
-     */
-    const val OVERRIDE_EXISTED = "overrideExisted"
 }

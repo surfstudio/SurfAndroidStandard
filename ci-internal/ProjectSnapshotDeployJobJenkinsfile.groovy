@@ -181,13 +181,7 @@ pipeline.stages = [
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean publish -PdeployOnlyIfNotExist=true"
                     if (useBintrayDeploy) {
-                        /**
-                         * We can not use parameter -PdeployOnlyIfNotExist
-                         * for distributeArtifactsToBintray after uploadArchives,
-                         * otherwise deploy to Bintray will never be executed
-                         * after successful deploy to artifactory
-                         */
-                        script.sh "./gradlew distributeArtifactsToBintray"
+
                     }
                 }
             }

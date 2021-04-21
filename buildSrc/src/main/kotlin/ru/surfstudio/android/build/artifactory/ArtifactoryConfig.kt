@@ -3,7 +3,7 @@ package ru.surfstudio.android.build.artifactory
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 
 /**
- * Class containes artifactory's credentials, URLs, repository names, ...
+ * Class contains artifactory's credentials, URLs, repository names, ...
  */
 object ArtifactoryConfig {
 
