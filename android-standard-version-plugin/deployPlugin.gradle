@@ -1,32 +1,74 @@
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 import ru.surfstudio.android.build.ConfigInfoProvider
+import ru.surfstudio.android.build.publish.PublishConfig
 
-group = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
-version = ConfigInfoProvider.getVersion()
-
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
     from sourceSets.main.java.srcDirs
 }
 
-artifacts {
-    archives sourcesJar
+signing {
+    sign publishing.publications
 }
 
-//todo define publish
-uploadArchives.repositories.mavenDeployer {
-    pom {
-        groupId = group
-        artifactId = "version-plugin"
-        version = ConfigInfoProvider.getVersion()
+// always deploy version-plugin to artifactory
+publishing {
+    publications {
+        libraryJar(MavenPublication) {
+            groupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
+            artifactId = "version-plugin"
+            version = ConfigInfoProvider.getVersion()
+
+            from components.java
+
+            pom {
+                organization {
+                    name = PublishConfig.DEVELOPER_ORGANISATION
+                    url = PublishConfig.DEVELOPER_ORGANISATION_URL
+                }
+
+                issueManagement {
+                    system = PublishConfig.ISSUE_MANAGEMENT_SYSTEM
+                    url = PublishConfig.ISSUE_MANAGEMENT_URL
+                }
+
+                licenses {
+                    license {
+                        name = PublishConfig.LICENSE_NAME
+                        url = PublishConfig.LICENSE_URL
+                    }
+                }
+
+                scm {
+                    connection = PublishConfig.SCM_CONNECTION
+                    developerConnection = PublishConfig.SCM_DEVELOPER_CONNECTION
+                    url = PublishConfig.SCM_URL
+                }
+
+                developers {
+                    developer {
+                        name = PublishConfig.DEVELOPER_NAME
+                        email = PublishConfig.DEVELOPER_MAIL
+                    }
+                }
+            }
+
+            artifact sourcesJar {
+                archiveClassifier = "sources"
+            }
+        }
     }
 
-    repository(url: ArtifactoryConfig.DEPLOY_URL) {
-        authentication(
-                userName: ArtifactoryConfig.USER_NAME,
-                password: ArtifactoryConfig.PASSWORD
-        )
+    repositories {
+        maven {
+            name = PublishConfig.REPOSITORY_NAME
+            url = ArtifactoryConfig.DEPLOY_URL
+            credentials {
+                username ArtifactoryConfig.USER_NAME
+                password ArtifactoryConfig.PASSWORD
+            }
+        }
     }
 }

@@ -181,7 +181,7 @@ pipeline.stages = [
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory"
                     if (useBintrayDeploy) {
-                        //todo maven snapshot
+                        //todo maven snapshot? change version: must have snapshot suffix & deploy version-plugin
                     }
                 }
             }

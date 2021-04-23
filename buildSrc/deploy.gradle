@@ -5,6 +5,7 @@ import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 import ru.surfstudio.android.build.Initializator
 import ru.surfstudio.android.build.PublishType
 import ru.surfstudio.android.build.PublishUtil
+import ru.surfstudio.android.build.publish.PublishConfig
 
 apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'maven-publish'
@@ -14,21 +15,6 @@ String currentBuildDirectory = gradle.startParameter.currentDir.path
 Initializator.init(currentBuildDirectory)
 
 def trueValue = "true"
-
-// license data for maven pom
-def licenseName = "The Apache License, Version 2.0"
-def licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0"
-
-// scm data for maven pom
-def scmConnection = "scm:git:git@github.com:surfstudio/SurfAndroidStandard.git"
-def scmDeveloperConnection = "scm:git:ssh://github.com:surfstudio/SurfAndroidStandard.git"
-def scmUrl = "https://github.com/surfstudio/SurfAndroidStandard"
-
-// developer data for maven pom
-def developerName = "SurfStudio"
-def developerMail = "mail@surfstudio.ru"
-def developerOrganization = "SurfStudio LLC"
-def developerOrganizationUrl = "https://surf.ru"
 
 // Function for configuration of dependencies of current android-standard module.
 // Context of current module is passed in parameters.
@@ -107,32 +93,32 @@ ext.configureDeploy = { context ->
                         url = artifactUrl
 
                         organization {
-                            name = developerOrganization
-                            url = developerOrganizationUrl
+                            name = PublishConfig.DEVELOPER_ORGANISATION
+                            url = PublishConfig.DEVELOPER_ORGANISATION_URL
                         }
 
                         issueManagement {
-                            system = "GitHub"
-                            url = "$scmUrl/issues"
+                            system = PublishConfig.ISSUE_MANAGEMENT_SYSTEM
+                            url = PublishConfig.ISSUE_MANAGEMENT_URL
                         }
 
                         licenses {
                             license {
-                                name = licenseName
-                                url = licenseUrl
+                                name = PublishConfig.LICENSE_NAME
+                                url = PublishConfig.LICENSE_URL
                             }
                         }
 
                         scm {
-                            connection = scmConnection
-                            developerConnection = scmDeveloperConnection
-                            url = scmUrl
+                            connection = PublishConfig.SCM_CONNECTION
+                            developerConnection = PublishConfig.SCM_DEVELOPER_CONNECTION
+                            url = PublishConfig.SCM_URL
                         }
 
                         developers {
                             developer {
-                                name = developerName
-                                email = developerMail
+                                name = PublishConfig.DEVELOPER_NAME
+                                email = PublishConfig.DEVELOPER_MAIL
                             }
                         }
                     }   // pom
@@ -145,7 +131,7 @@ ext.configureDeploy = { context ->
 
             repositories {
                 maven {
-                    name = "External"
+                    name = PublishConfig.REPOSITORY_NAME
                     url = publishData.url
                     credentials {
                         username publishData.userName
