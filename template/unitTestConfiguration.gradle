@@ -10,5 +10,4 @@ android.testOptions {
 dependencies {
     testImplementation test.kotest
     testImplementation test.mockk
-    testImplementation project(":small-test-utils")
 }
