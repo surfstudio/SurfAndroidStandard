@@ -1,10 +1,10 @@
 package ru.surfstudio.android.build.model.json
 
 import com.google.gson.annotations.SerializedName
-import ru.surfstudio.android.build.bintray.BintrayConfig
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.model.module.Sample
+import ru.surfstudio.android.build.publish.PublishConfig
 import ru.surfstudio.android.build.utils.EMPTY_INT
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.Transformable
@@ -43,7 +43,7 @@ data class ComponentJson(
                         androidStandardDependencies = jsonLib.androidStandardDependencies
                                 .map(DependencyJson::transformToAndroidStandardDependency),
                         description = "${jsonLib.name} library from Surf Android Standard",
-                        url = "${BintrayConfig.GIT_REPOSITORY_URL}/$id/${jsonLib.dir}"
+                        url = "${PublishConfig.SCM_URL}/$id/${jsonLib.dir}"
                 )
             },
             samples = samples.map {

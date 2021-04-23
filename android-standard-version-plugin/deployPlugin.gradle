@@ -1,13 +1,26 @@
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
+import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.ConfigInfoProvider
 import ru.surfstudio.android.build.publish.PublishConfig
 
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
+group = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
+version = ConfigInfoProvider.getVersion()
+
 task sourcesJar(type: Jar) {
+    archiveClassifier = "sources"
     from sourceSets.main.java.srcDirs
 }
+
+artifacts {
+    archives sourcesJar
+}
+
+ext["signing.keyId"] = System.getenv("surf_maven_sign_key_id")
+ext["signing.password"] = System.getenv("surf_maven_sign_password")
+ext["signing.secretKeyRingFile"] = System.getenv("surf_maven_sign_key_ring_file")
 
 signing {
     sign publishing.publications
@@ -16,7 +29,7 @@ signing {
 // always deploy version-plugin to artifactory
 publishing {
     publications {
-        libraryJar(MavenPublication) {
+        maven(MavenPublication) {
             groupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
             artifactId = "version-plugin"
             version = ConfigInfoProvider.getVersion()
@@ -24,6 +37,10 @@ publishing {
             from components.java
 
             pom {
+                name = Components.getArtifactName(project.name)
+                description = Components.getArtifactDescription(project.name)
+                url = Components.getArtifactUrl(project.name)
+
                 organization {
                     name = PublishConfig.DEVELOPER_ORGANISATION
                     url = PublishConfig.DEVELOPER_ORGANISATION_URL
@@ -54,10 +71,6 @@ publishing {
                     }
                 }
             }
-
-            artifact sourcesJar {
-                archiveClassifier = "sources"
-            }
         }
     }
 
@@ -69,6 +82,23 @@ publishing {
                 username ArtifactoryConfig.USER_NAME
                 password ArtifactoryConfig.PASSWORD
             }
+        }
+    }
+}
+
+tasks.withType(PublishToMavenRepository) {
+    doFirst {
+        println("Publishing ${publication.groupId}:${publication.artifactId}:${publication.version} to ${repository.url}")
+    }
+}
+
+// deploy version-plugin with custom name; disable additional publishPluginMavenPublicationToExternalRepository task
+// which deploys "android-standard-version-plugin" by default
+afterEvaluate {
+    tasks.withType(PublishToMavenRepository) { task ->
+        if (task.publication.hasProperty('artifactId') && task.publication.artifactId == project.name) {
+            task.enabled = false
+            task.group = null
         }
     }
 }

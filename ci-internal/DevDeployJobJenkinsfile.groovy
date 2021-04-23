@@ -186,8 +186,12 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
             withArtifactoryCredentials(script) {
                 script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
+                script.sh "./gradlew :android-standard-version-plugin:publish"
             }
+        },
+        pipeline.stage(BUILD_TEMPLATE) {
+            // build template after deploy in order to check usage of new artifacts
+            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)

@@ -13,7 +13,6 @@ object BintrayConfig {
     private const val SURF_BINTRAY_URL = "surf/maven"
     const val GET_VERSION_URL = "$PACKAGES_URL/$SURF_BINTRAY_URL"
     const val GET_ALL_PACKAGES_URL = "$BINTRAY_URL/repos/$SURF_BINTRAY_URL/packages"
-    const val GIT_REPOSITORY_URL = "https://github.com/surfstudio/SurfAndroidStandard"
 
     val USER_NAME: String = System.getenv("surf_bintray_username") ?: EMPTY_STRING
     val PASSWORD: String = System.getenv("surf_bintray_api_key") ?: EMPTY_STRING
