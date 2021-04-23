@@ -58,7 +58,8 @@ ext {
             rxJava2DebugVersion             : '1.4.0',              //https://bit.ly/322Qzo7
             androidDebugToolsVersion        : '1.0',                //https://bit.ly/2QMKLfe
             autoServiceVersion              : '1.0-rc4',            //https://bit.ly/2WsGYH4
-            lifecycleVersion                : '2.2.0'               //https://bit.ly/36Z0Re9
+            lifecycleVersion                : '2.2.0',              //https://bit.ly/36Z0Re9
+            gsonVersion                     : '2.8.6'               //https://bit.ly/3sMIrVs
     ]
 
 
@@ -145,7 +146,11 @@ ext {
     ]
 
     architectureComponents = [
-            lifecycle: "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycleVersion}",
+            lifecycle                   : "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycleVersion}",
             lifecycleAnnotationProcessor: "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycleVersion}"
+    ]
+
+    serialization = [
+            gson: "com.google.code.gson:gson:${versions.gsonVersion}"
     ]
 }

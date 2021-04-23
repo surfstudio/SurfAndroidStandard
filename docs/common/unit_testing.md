@@ -375,7 +375,7 @@ fun `when pin is wrong, should show error under pins`() = forAll(
 
 #### Мокирование доменных моделей
 
-Для мокирования домменых моделей предусмотрен метод `ru.surfstudio.standard.small_test_utils.mock.MockModelUtilKt.parseMockModel`. 
+Для мокирования домменых моделей предусмотрен метод [`ru.surfstudio.standard.base.test.mock.ModelParser.parse`][mockDomainModels]. 
 На вход принимает json и класс маппинг-модели, возвращает доменную модель.
  
 Сценарий использования:
@@ -384,7 +384,7 @@ fun `when pin is wrong, should show error under pins`() = forAll(
 
 Пример **DomainModelMock.kt**
 ```kotlin
-fun getMockDomainModel(): DomainModel = parseMockModel(json, DomainModelObj::class)
+fun getMockDomainModel(): DomainModel = ModelParser.parseModel(json, DomainModelObj::class).transform()
 
 private val json = """
     <json representation of the model>
@@ -428,3 +428,4 @@ mockkStatic(HtmlCompat::class)
 [bestReactorTest]: ../../template/base_feature/src/main/java/ru/surfstudio/standard/ui/test/base/BaseReactorTest.kt
 [navigationMatchers]: ../../template/base_feature/src/main/java/ru/surfstudio/standard/ui/test/matcher/NavigationMatchers.kt
 [requestMatchers]: ../../template/base/src/main/java/ru/surfstudio/standard/base/test/matcher/RequestMatchers.kt
+[mockDomainModels]: ../../template/base/src/main/java/ru/surfstudio/standard/base/test/mock/ModelParser.kt
