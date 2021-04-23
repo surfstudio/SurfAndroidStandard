@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1203 Fixes after core-ui improvements
 * Added method for mocking domain models
 * Added unit-tests for SplashMiddleware and MainBarMiddleware
 * Added utility classes for unit testing

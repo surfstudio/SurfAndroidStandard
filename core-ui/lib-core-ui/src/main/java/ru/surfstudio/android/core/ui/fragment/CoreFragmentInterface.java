@@ -16,8 +16,11 @@
 package ru.surfstudio.android.core.ui.fragment;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
+
+import org.jetbrains.annotations.NotNull;
 
 import ru.surfstudio.android.core.ui.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.configurator.HasConfigurator;
@@ -44,7 +47,7 @@ public interface CoreFragmentInterface extends
      * @param viewRecreated showSimpleDialog whether view created in first time or recreated after
      *                      changing configuration
      */
-    void onActivityCreated(@Nullable Bundle savedInstanceState, boolean viewRecreated);
+    void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState, boolean viewRecreated);
 
     /**
      * Используется для только логирования (Может быть не уникальным)

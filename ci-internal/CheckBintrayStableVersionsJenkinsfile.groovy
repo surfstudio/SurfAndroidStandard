@@ -1,4 +1,4 @@
-@Library('surf-lib@version-4.0.0-SNAPSHOT')
+@Library('surf-lib@version-4.1.1-SNAPSHOT')
 // https://github.com/surfstudio/jenkins-pipeline-lib
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
