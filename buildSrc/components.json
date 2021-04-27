@@ -2,7 +2,7 @@
   {
     "id": "activity-holder",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "activity-holder",
     "libs": [
@@ -26,7 +26,7 @@
   {
     "id": "analytics",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 8,
     "stable": false,
     "dir": "analytics",
     "libs": [
@@ -85,7 +85,7 @@
   {
     "id": "animations",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "animations",
     "libs": [
@@ -118,7 +118,7 @@
   {
     "id": "app-migration",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "app-migration",
     "libs": [
@@ -155,7 +155,7 @@
   {
     "id": "biometrics",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "biometrics",
     "libs": [
@@ -208,7 +208,7 @@
   {
     "id": "broadcast-extension",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "broadcast-extension",
     "libs": [
@@ -242,7 +242,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 10,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -436,7 +436,7 @@
   {
     "id": "connection",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "connection",
     "libs": [
@@ -460,7 +460,7 @@
   {
     "id": "converter-gson",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "deprecated/converter-gson",
     "libs": [
@@ -497,7 +497,7 @@
   {
     "id": "core-app",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "deprecated/core-app",
     "libs": [
@@ -525,7 +525,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 28,
+    "unstable_version": 30,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -673,7 +673,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 20,
+    "unstable_version": 21,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -763,7 +763,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 11,
+    "unstable_version": 14,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -833,7 +833,7 @@
   {
     "id": "core-navigation",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 6,
     "stable": false,
     "dir": "core-navigation",
     "libs": [
@@ -848,6 +848,10 @@
           },
           {
             "name": "com.google.android.play:core",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.browser:browser",
             "type": "implementation"
           }
         ],
@@ -883,7 +887,7 @@
   {
     "id": "permission",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "permission",
     "libs": [
@@ -933,7 +937,7 @@
   {
     "id": "custom-view",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 10,
     "stable": false,
     "dir": "custom-view",
     "libs": [
@@ -991,7 +995,7 @@
   {
     "id": "dagger-scope",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "dagger-scope",
     "libs": [
@@ -1024,7 +1028,7 @@
   {
     "id": "datalist",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "datalist",
     "libs": [
@@ -1096,9 +1100,9 @@
   },
   {
     "id": "easyadapter",
-    "version": "2.0.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "2.1.0",
+    "unstable_version": 2,
+    "stable": false,
     "dir": "easyadapter",
     "libs": [
       {
@@ -1155,7 +1159,7 @@
   {
     "id": "filestorage",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "filestorage",
     "libs": [
@@ -1209,7 +1213,7 @@
   {
     "id": "google-pay-button",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "google-pay-button",
     "libs": [
@@ -1247,7 +1251,7 @@
   {
     "id": "imageloader",
     "version": "0.5.0",
-    "unstable_version": 10,
+    "unstable_version": 11,
     "stable": false,
     "dir": "imageloader",
     "libs": [
@@ -1285,7 +1289,7 @@
   {
     "id": "location",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "location",
     "libs": [
@@ -1327,7 +1331,7 @@
   {
     "id": "logger",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "logger",
     "libs": [
@@ -1351,7 +1355,7 @@
   {
     "id": "message-controller",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "message-controller",
     "libs": [
@@ -1380,7 +1384,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 15,
+    "unstable_version": 18,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1572,7 +1576,7 @@
   {
     "id": "network",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 10,
     "stable": false,
     "dir": "deprecated/network",
     "libs": [
@@ -1674,7 +1678,7 @@
   {
     "id": "navigation",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 10,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1765,7 +1769,7 @@
   {
     "id": "picture-provider",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "picture-provider",
     "libs": [
@@ -1819,7 +1823,7 @@
   {
     "id": "push",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "push",
     "libs": [
@@ -1864,7 +1868,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 10,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -1910,7 +1914,7 @@
   {
     "id": "recycler-decorator",
     "version": "1.0.1",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "recycler-decorator",
     "libs": [
@@ -1964,7 +1968,7 @@
   {
     "id": "rx-extension",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 9,
     "stable": false,
     "dir": "rx-extension",
     "libs": [
@@ -1996,7 +2000,7 @@
   {
     "id": "rxbus",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "rxbus",
     "libs": [
@@ -2025,7 +2029,7 @@
   {
     "id": "security",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 10,
     "stable": false,
     "dir": "security",
     "libs": [
@@ -2079,7 +2083,7 @@
   {
     "id": "shared-pref",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "shared-pref",
     "libs": [
@@ -2113,7 +2117,7 @@
   {
     "id": "standard-dialog",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 9,
     "stable": false,
     "dir": "standard-dialog",
     "libs": [
@@ -2159,7 +2163,7 @@
   {
     "id": "util-ktx",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 7,
     "stable": false,
     "dir": "util-ktx",
     "libs": [
@@ -2200,7 +2204,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 42,
+    "unstable_version": 49,
     "stable": false,
     "dir": "template",
     "libs": [],
@@ -2211,7 +2215,7 @@
   {
     "id": "android-standard-version-plugin",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "android-standard-version-plugin",
     "libs": [],
@@ -2222,7 +2226,7 @@
   {
     "id": "android-studio-settings",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "android-studio-settings",
     "libs": [],
@@ -2233,7 +2237,7 @@
   {
     "id": "docs",
     "version": "0.5.0",
-    "unstable_version": 16,
+    "unstable_version": 17,
     "stable": false,
     "dir": "docs",
     "libs": [],

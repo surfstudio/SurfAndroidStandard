@@ -4,6 +4,7 @@
 
 ## 0.5.0-alpha
 ##### Docs
+* Added unit-testing doc
 * Init tracking changes in RELEASE_NOTES
 * Kotlin code style settings configuration.
 * Init tracking changes in RELEASE_NOTES

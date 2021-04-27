@@ -20,7 +20,7 @@ class ProfileFragmentView : BaseRxFragmentView() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, viewRecreated: Boolean) {
         profile_settings_btn.setOnClickListener { bm.openSettings.accept() }
         profile_logout_btn.setOnClickListener { bm.openConfirmLogoutScreen.accept() }
     }
