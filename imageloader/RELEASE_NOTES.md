@@ -13,6 +13,7 @@ more about this problem -  https://clck.ru/FVpbQ
 * ANDDEP-959 Added ability to work with Animatable drawable (GIF) in callbacks of into method
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 * ANDDEP-1130 Fixed `night`-qualified resources loading
+* ANDDEP-1146 Reversed `shouldTransformPreview` flag to `true` for `ImageLoader#preview` & `ImageLoader#error` methods, fix sample picture
 * ANDDEP-1147 Added video's frame view support + sample
 ## 0.4.0
 ##### Imageloader

@@ -16,8 +16,16 @@
         android:id="@+id/main_profile_btn"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:layout_above="@id/main_link_btn"
+        android:layout_marginHorizontal="16dp"
+        android:text="Profile" />
+
+    <Button
+        android:id="@+id/main_link_btn"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        android:text="Profile" />
+        android:text="Link" />
 
 </RelativeLayout>

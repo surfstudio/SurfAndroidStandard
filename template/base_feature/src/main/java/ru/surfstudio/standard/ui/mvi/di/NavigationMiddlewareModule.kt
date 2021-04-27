@@ -6,6 +6,7 @@ import ru.surfstudio.android.core.mvi.impls.ui.freezer.LifecycleSubscriptionFree
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.navigation.executor.NavigationCommandExecutor
 import ru.surfstudio.standard.ui.mvi.navigation.AppNavigationMiddleware
+import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
 
 /**
  * Модуль, который провайдит Middleware для навигации.
@@ -18,7 +19,7 @@ class NavigationMiddlewareModule {
     fun provideNavigationMiddleware(
             navigationCommandExecutor: NavigationCommandExecutor,
             freezer: LifecycleSubscriptionFreezer
-    ): AppNavigationMiddleware {
+    ): NavigationMiddleware {
         return AppNavigationMiddleware(
                 navigationCommandExecutor,
                 freezer
