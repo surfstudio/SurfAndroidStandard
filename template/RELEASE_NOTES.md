@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1149 Added RxMiddlewareExtensions to the template
 * ANDDEP-1203 Fixes after core-ui improvements
 * Added unit-tests for SplashMiddleware and MainBarMiddleware
 * Added utility classes for unit testing
@@ -113,4 +114,3 @@
 * ANDDEP-255 Created a minimal test environment for testing without an emulator (Robolectric)
 * Added the ability to connect modules locally. Description is
   [here](android-standard/README.md)
-* ANDDEP-1149 Added RxMiddlewareExtensions to the template
