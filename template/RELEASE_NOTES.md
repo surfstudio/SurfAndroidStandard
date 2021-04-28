@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1205 added ToolbarConfig in template
 * ANDDEP-1203 Fixes after core-ui improvements
 * Added unit-tests for SplashMiddleware and MainBarMiddleware
 * Added utility classes for unit testing
