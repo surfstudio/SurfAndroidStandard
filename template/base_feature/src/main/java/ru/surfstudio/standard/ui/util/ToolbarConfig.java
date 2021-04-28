@@ -1,4 +1,4 @@
-package com.mobium8918.app.ui.util;
+package ru.surfstudio.standard.ui.util;
 
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import com.mobium8918.app.base_feature.R;
+import ru.surfstudio.android.template.base_feature.R
 
 /**
  * Builder class for flexible toolbar configuring.
