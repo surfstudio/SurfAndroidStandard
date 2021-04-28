@@ -1,4 +1,4 @@
-package com.mobium8918.app.ui.util.extensions
+package ru.surfstudio.standard.ui.util.extensions
 
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
