@@ -1,20 +1,23 @@
 package ru.surfstudio.standard.f_debug.scalpel
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.view.isVisible
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.scalpel_widget_layout.view.*
 import ru.surfstudio.android.template.f_debug.R
+import ru.surfstudio.android.template.f_debug.databinding.ScalpelWidgetLayoutBinding
 import java.util.concurrent.TimeUnit
 
 /**
  * Виджет, сожержащий [DebugScalpelFrameLayout] и контролы для его настройки
  */
 class DebugScalpelWidget(context: Context) : RelativeLayout(context) {
+
+    private val binding = ScalpelWidgetLayoutBinding.inflate(LayoutInflater.from(context))
 
     private val scalpelSettings = DebugScalpelSettings(context)
     private val scalpelManager = DebugScalpelManager
@@ -29,73 +32,76 @@ class DebugScalpelWidget(context: Context) : RelativeLayout(context) {
     }
 
     private fun initScalpel() {
-        debug_scalpel.setDrawIds(scalpelSettings.drawIds)
-        debug_scalpel.setDrawViewClasses(scalpelSettings.drawClasses)
-        debug_scalpel.setDrawViews(scalpelSettings.drawViewsContent)
-        debug_scalpel.isLayerInteractionEnabled = true
+        with(binding.debugScalpel) {
+            setDrawIds(scalpelSettings.drawIds)
+            setDrawViewClasses(scalpelSettings.drawClasses)
+            setDrawViews(scalpelSettings.drawViewsContent)
+            isLayerInteractionEnabled = true
+        }
     }
 
     private fun initSettingsControls() {
-        //Switchers
-        debug_draw_id_scalpel_settings.setChecked(scalpelSettings.drawIds)
-        debug_draw_class_scalpel_settings.setChecked(scalpelSettings.drawClasses)
-        debug_draw_views_scalpel_settings.setChecked(scalpelSettings.drawViewsContent)
+        with(binding) {
+            //Switchers
+            debugDrawIdScalpelSettings.setChecked(scalpelSettings.drawIds)
+            debugDrawClassScalpelSettings.setChecked(scalpelSettings.drawClasses)
+            debugDrawViewsScalpelSettings.setChecked(scalpelSettings.drawViewsContent)
 
-        debug_draw_id_scalpel_settings.setOnCheckedChangeListener { _, enabled ->
-            scalpelSettings.drawIds = enabled
-            debug_scalpel.setDrawIds(enabled)
-        }
-        debug_draw_class_scalpel_settings.setOnCheckedChangeListener { _, enabled ->
-            scalpelSettings.drawClasses = enabled
-            debug_scalpel.setDrawViewClasses(enabled)
-        }
-        debug_draw_views_scalpel_settings.setOnCheckedChangeListener { _, enabled ->
-            scalpelSettings.drawViewsContent = enabled
-            debug_scalpel.setDrawViews(enabled)
-        }
+            debugDrawIdScalpelSettings.setOnCheckedChangeListener { _, enabled ->
+                scalpelSettings.drawIds = enabled
+                debugScalpel.setDrawIds(enabled)
+            }
+            debugDrawClassScalpelSettings.setOnCheckedChangeListener { _, enabled ->
+                scalpelSettings.drawClasses = enabled
+                debugScalpel.setDrawViewClasses(enabled)
+            }
+            debugDrawViewsScalpelSettings.setOnCheckedChangeListener { _, enabled ->
+                scalpelSettings.drawViewsContent = enabled
+                debugScalpel.setDrawViews(enabled)
+            }
 
-        //Range Bar
-        debug_views_layers_scalpel_settings.setOnRangeBarChangeListener { rangeBar, leftPinIndex, rightPinIndex, leftPinValue, rightPinValue ->
-            debug_scalpel.currentStartViewLayer = leftPinIndex
-            debug_scalpel.currentEndViewLayer = rightPinIndex
-        }
+            //Range Bar
+            debugViewsLayersScalpelSettings.setOnRangeBarChangeListener { rangeBar, leftPinIndex, rightPinIndex, leftPinValue, rightPinValue ->
+                debugScalpel.currentStartViewLayer = leftPinIndex
+                debugScalpel.currentEndViewLayer = rightPinIndex
+            }
 
-        disposable.add(Observable.interval(2000, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    debug_scalpel?.let { scalpel ->
-                        with(debug_views_layers_scalpel_settings) {
-                            val lastTickEnd = tickEnd.toInt()
-                            if (lastTickEnd != scalpel.endViewLayer) {
-                                tickEnd = scalpel.endViewLayer.toFloat()
-                                if (rightIndex == lastTickEnd) {
-                                    setRangePinsByIndices(scalpel.currentStartViewLayer, scalpel.endViewLayer)
+            disposable.add(Observable.interval(2000, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        debugScalpel.let { scalpel ->
+                            with(debugViewsLayersScalpelSettings) {
+                                val lastTickEnd = tickEnd.toInt()
+                                if (lastTickEnd != scalpel.endViewLayer) {
+                                    tickEnd = scalpel.endViewLayer.toFloat()
+                                    if (rightIndex == lastTickEnd) {
+                                        setRangePinsByIndices(scalpel.currentStartViewLayer, scalpel.endViewLayer)
+                                    }
                                 }
                             }
                         }
-                    }
 
-                })
+                    })
 
-        //Hide Btn
-        debug_hide_scalpel_settings_btn.setOnClickListener {
-            toggleSettingsVisibility()
+            //Hide Btn
+            debugHideScalpelSettingsBtn.setOnClickListener {
+                toggleSettingsVisibility()
+            }
         }
+
     }
 
     private fun initPanel() {
-        debug_scalpel_settings_btn.setOnClickListener {
+        binding.debugScalpelSettingsBtn.setOnClickListener {
             toggleSettingsVisibility()
         }
-        debug_close_scalpel_btn.setOnClickListener {
+        binding.debugCloseScalpelBtn.setOnClickListener {
             scalpelManager.disableScalpel()
         }
     }
 
     private fun toggleSettingsVisibility() {
-        with(debug_scalpel_settings_container) {
-            isVisible = isVisible.not()
-        }
+        binding.debugScalpelSettingsContainer.isVisible = isVisible.not()
     }
 
     private fun inflate() {
@@ -103,14 +109,14 @@ class DebugScalpelWidget(context: Context) : RelativeLayout(context) {
     }
 
     fun addContentViews(childViews: List<View>) {
-        childViews.forEach { debug_scalpel.addView(it) }
+        childViews.forEach { binding.debugScalpel.addView(it) }
     }
 
     fun extractContentViews(): List<View> {
-        val childViews = (0 until debug_scalpel.childCount)
-                .map { debug_scalpel.getChildAt(it) }
+        val childViews = (0 until binding.debugScalpel.childCount)
+                .map { binding.debugScalpel.getChildAt(it) }
                 .toList()
-        debug_scalpel.removeAllViews()
+        binding.debugScalpel.removeAllViews()
         return childViews
     }
 
