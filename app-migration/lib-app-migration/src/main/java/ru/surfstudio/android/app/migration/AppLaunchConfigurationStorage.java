@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import ru.surfstudio.android.shared.pref.SettingsUtil;
 
 import static ru.surfstudio.android.shared.pref.SettingsUtil.EMPTY_INT_SETTING;
+import static ru.surfstudio.android.shared.pref.SettingsUtil.EMPTY_LONG_SETTING;
 
 
 /**
@@ -29,6 +30,7 @@ public class AppLaunchConfigurationStorage {
 
     private static final String LAST_LAUNCH_VERSION = "LAST_LAUNCH_VERSION";
     private static final String IS_FIRST_LAUNCH = "IS_FIRST_LAUNCH";
+    private static final String LAST_LAUNCH_VERSION_LONG = "LAST_LAUNCH_VERSION_LONG";
 
     private SharedPreferences noBackupSharedPref;
 
@@ -41,8 +43,10 @@ public class AppLaunchConfigurationStorage {
      *
      * @return - последняя версия
      */
-    public int getLastLaunchVersion() {
-        return SettingsUtil.INSTANCE.getInt(noBackupSharedPref, LAST_LAUNCH_VERSION, EMPTY_INT_SETTING);
+    public long getLastLaunchVersion() {
+        int lastVersionInt = SettingsUtil.INSTANCE.getInt(noBackupSharedPref, LAST_LAUNCH_VERSION, EMPTY_INT_SETTING);
+        long lastVersionLong = SettingsUtil.INSTANCE.getLong(noBackupSharedPref, LAST_LAUNCH_VERSION_LONG, EMPTY_LONG_SETTING);
+        return lastVersionInt == EMPTY_INT_SETTING ? lastVersionLong : lastVersionInt;
     }
 
 
@@ -51,8 +55,18 @@ public class AppLaunchConfigurationStorage {
      *
      * @param version - последняя версия
      */
+    @Deprecated
     public void setLaunchVersion(int version) {
         SettingsUtil.INSTANCE.putInt(noBackupSharedPref, LAST_LAUNCH_VERSION, version, true);
+    }
+
+    /**
+     * Метод, устанавливающий последнюю запущенную текущую версию приложения
+     *
+     * @param version - последняя версия
+     */
+    public void setLaunchVersion(long version) {
+        SettingsUtil.INSTANCE.putLong(noBackupSharedPref, LAST_LAUNCH_VERSION_LONG, version, true);
     }
 
     /**

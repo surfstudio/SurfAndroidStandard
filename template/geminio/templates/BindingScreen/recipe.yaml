@@ -1,0 +1,206 @@
+requiredParams:
+  name: BindingScreen
+  description: Creates all necessary files for a binding-based screen.
+
+optionalParams:
+  revision: 1
+  category: Surf
+  formFactor: mobile
+  constraints:
+    - kotlin
+  screens:
+    - new_module
+    - menu_entry
+  minApi: 7
+  minBuildApi: 8
+
+widgets:
+  - stringParameter:
+      id: screenName
+      name: Имя экрана (без окончания)
+      help: The name of the screen
+      constraints:
+        - nonempty
+      default: Blank
+
+  - stringParameter:
+      id: layoutName
+      name: Имя файла XML разметки
+      help: The name of the layout to create
+      constraints:
+        - layout
+        - nonempty
+        - unique
+      default: layout_${screenName.classToResource()}
+      suggest: layout_${screenName.classToResource()}
+
+  - booleanParameter:
+      id: fragment
+      name: Fragment
+      help: Is screen a fragment
+      default: true
+
+  - booleanParameter:
+      id: activity
+      name: Activity
+      help: Is screen an activity
+      default: false
+
+  - booleanParameter:
+      id: crossFeature
+      name: Использовать CrossFeatureRoute
+      help: Use cross feature route?
+      default: true
+
+  - booleanParameter:
+      id: needToGenerateResult
+      name: Добавить результат
+      help: Add screen result
+      default: false
+      visibility: ${activity}
+
+  - stringParameter:
+      id: resultClass
+      name: Класс результата
+      help: The result class
+      constraints:
+        - class
+        - nonempty
+      default: Blank
+      visibility: ${needToGenerateResult}
+
+  - booleanParameter:
+      id: needToGenerateParams
+      name: Добавить параметры
+      help: Add params to route
+      default: false
+
+  - stringParameter:
+      id: routeParamName1
+      name: Имя параметра №1
+      help: The 1st param name
+      constraints:
+        - class
+      default: param1
+      visibility: ${needToGenerateParams}
+
+  - stringParameter:
+      id: routeParamClassName1
+      name: Класс параметра №1
+      help: The 1st param class
+      constraints:
+        - class
+      default: Unit
+      visibility: ${needToGenerateParams}
+
+  - stringParameter:
+      id: routeParamName2
+      name: Имя параметра №2
+      help: The 2nd param name
+      constraints:
+        - class
+      default: param2
+      visibility: ${needToGenerateParams}
+
+  - stringParameter:
+      id: routeParamClassName2
+      name: Класс параметра №2
+      help: The 2nd param class
+      constraints:
+        - class
+      default: Unit
+      visibility: ${needToGenerateParams}
+
+  - stringParameter:
+      id: routeParamName3
+      name: Имя параметра №3
+      help: The 3rd param name
+      constraints:
+        - class
+      default: param3
+      visibility: ${needToGenerateParams}
+
+  - stringParameter:
+      id: routeParamClassName3
+      name: Класс параметра №3
+      help: The 3rd param class
+      constraints:
+        - class
+      default: Unit
+      visibility: ${needToGenerateParams}
+
+  - stringParameter:
+      id: viewClassName
+      name: Имя файла экрана
+      help: The name of view class
+      default: ${screenName}View
+      suggest: ${screenName}View
+      visibility: false
+
+  - stringParameter:
+      id: presenterClassName
+      name: Имя файла презентера
+      help: The name of presenter
+      default: ${screenName}Presenter
+      suggest: ${screenName}Presenter
+      visibility: false
+
+  - stringParameter:
+      id: bindModelClassName
+      name: Имя файла c BindModel
+      help: The name of BindModel class
+      default: ${screenName}BindModel
+      suggest: ${screenName}BindModel
+      visibility: false
+
+  - stringParameter:
+      id: routeClassName
+      name: Имя файла Route
+      help: The name of route
+      default: ${screenName}Route
+      suggest: ${screenName}Route
+      visibility: false
+
+  - stringParameter:
+      id: configuratorClassName
+      name: Имя файла Configurator
+      help: The name of configurator
+      default: ${screenName}ScreenConfigurator
+      suggest: ${screenName}ScreenConfigurator
+      visibility: false
+
+  - stringParameter:
+      id: screenComponentClassName
+      name: Имя файла ScreenComponent
+      help: The name of component in configurator
+      default: ${screenName}ScreenComponent
+      suggest: ${screenName}ScreenComponent
+      visibility: false
+
+  - stringParameter:
+      id: screenModuleClassName
+      name: Имя файла Module
+      help: The name of module in configurator
+      default: ${screenName}ScreenModule
+      suggest: ${screenName}ScreenModule
+      visibility: false
+
+recipe:
+  - instantiate:
+      from: root/res/layout/view.xml.ftl
+      to: ${resOut}/layout/${layoutName}.xml
+  - instantiate:
+      from: root/src/app_package/kotlin/View.kt.ftl
+      to: ${srcOut}/${viewClassName}.kt
+  - instantiate:
+      from: root/src/app_package/kotlin/Presenter.kt.ftl
+      to: ${srcOut}/${presenterClassName}.kt
+  - instantiate:
+      from: root/src/app_package/kotlin/BindModel.kt.ftl
+      to: ${srcOut}/${bindModelClassName}.kt
+  - instantiate:
+      from: root/src/app_package/kotlin/Route.kt.ftl
+      to: ${srcOut}/${routeClassName}.kt
+  - instantiate:
+      from: root/src/app_package/kotlin/ScreenConfigurator.kt.ftl
+      to: ${srcOut}/di/${configuratorClassName}.kt

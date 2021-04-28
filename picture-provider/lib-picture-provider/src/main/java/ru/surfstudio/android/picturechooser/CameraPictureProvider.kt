@@ -15,10 +15,8 @@
  */
 package ru.surfstudio.android.picturechooser
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
@@ -26,15 +24,15 @@ import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.IActivityNavigator
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.picturechooser.destination.PictureDestinationProvider
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import ru.surfstudio.android.picturechooser.exceptions.ExternalStorageException
 import java.io.File
-import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 /**
  *  Позволяет получить данные с камеры стороннего приложения
@@ -46,9 +44,21 @@ class CameraPictureProvider(
 
     private val currentActivity get() = activityProvider.get()
 
+    @Deprecated(
+            message = "This method is deprecated, because startCameraIntent use " +
+                    "Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) " +
+                    "for root directory for new picture, but after 29 api " +
+                    "getExternalStoragePublicDirectory not working",
+            replaceWith = ReplaceWith(expression = "startCameraWithUriResult"),
+            level = DeprecationLevel.WARNING
+    )
     fun startCameraIntent(): Observable<CameraResult> {
         val image = generatePicturePath()
-        val route = CameraRoute(image)
+        val cameraRouteFactory = OldFileCameraRouteFactory(
+                context = currentActivity.applicationContext,
+                authority = currentActivity.packageName + ".provider"
+        )
+        val route = cameraRouteFactory.create(image)
 
         val result = activityNavigator.observeResult<ResultData>(route)
                 .flatMap { result ->
@@ -69,6 +79,29 @@ class CameraPictureProvider(
 
         activityNavigator.startForResult(route)
         return result
+    }
+
+    /**
+     * Открывает экран камеры, результатом которой будет [UriWrapper], содержащий [Uri], указывающий
+     * на запись в таблице с информацией о новом изображении
+     */
+    fun startCameraWithUriResult(
+            destinationProvider: PictureDestinationProvider,
+            cameraRouteFactory: BaseCameraRouteFactory
+    ): Observable<UriWrapper> {
+        val imageUri = destinationProvider.provideDestination()
+        val route = cameraRouteFactory.create(imageUri)
+        val resultObservable = activityNavigator.observeResult<ResultData>(route).flatMap {
+            if (it.isSuccess) {
+                Observable.just(UriWrapper(imageUri))
+            } else {
+                Observable.error(ActionInterruptedException())
+            }
+        }.doOnError {
+            destinationProvider.deleteDestination(imageUri)
+        }
+        activityNavigator.startForResult(route)
+        return resultObservable
     }
 
     private fun extractRotation(photoPath: String): Int {
@@ -107,65 +140,44 @@ class CameraPictureProvider(
         }
     }
 
+    /**
+     * Создает [File], который будет использоваться для сохранения фото
+     */
     private fun generatePicturePath(): File {
         val storageDir = getAlbumDir()
+        val pictureName = generatePictureName()
+        return File(storageDir, pictureName)
+    }
+
+    /**
+     * Создает имя для фото
+     */
+    private fun generatePictureName(): String {
         val date = Date()
         date.time = System.currentTimeMillis() + Random().nextInt(1000) + 1
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss_SSS", Locale.US).format(date)
-        return File(storageDir, "IMG_$timeStamp.jpg")
+        return "IMG_$timeStamp.jpg"
     }
 
+    /**
+     * Создаст [File], который будет указывать на директорию, где будет сохранено фото
+     */
     private fun getAlbumDir(): File {
-        val sharedPicturesDir =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val appDirName = getAppDirName()
+        val sharedPicturesDir = getBaseAlbumDir()
         if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
-            return File(sharedPicturesDir, appDirName)
-                    .apply {
-                        if (!mkdirs()) {
-                            if (!exists()) {
-                                throw ExternalStorageException("Failed to create directory")
-                            }
-                        }
-                    }
+            return sharedPicturesDir.apply {
+                if (!mkdirs() && !exists()) {
+                        throw ExternalStorageException("Failed to create directory")
+                }
+            }
         } else {
             throw ExternalStorageException("External storage is not mounted READ/WRITE.")
         }
     }
 
-    private fun getAppDirName(): String {
-        val packageManager = currentActivity.packageManager
-        val appInfo = currentActivity.applicationInfo
-        return packageManager.getApplicationLabel(appInfo).toString()
+    private fun getBaseAlbumDir(): File {
+        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
     }
-
-    private inner class CameraRoute(val image: File) : ActivityWithResultRoute<ResultData>() {
-        override fun prepareIntent(context: Context?): Intent {
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (Build.VERSION.SDK_INT >= 24) {
-
-                takePictureIntent.putExtra(
-                        MediaStore.EXTRA_OUTPUT,
-                        FileProvider.getUriForFile(
-                                currentActivity,
-                                currentActivity.applicationContext.packageName + ".provider",
-                                image
-                        )
-                )
-
-                takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            } else {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image))
-            }
-            return Intent.createChooser(
-                    takePictureIntent,
-                    currentActivity.getString(R.string.choose_app)
-            )
-        }
-    }
-
-    private data class ResultData(val photoPath: String) : Serializable
 }
 
 data class CameraResult(val photoUrl: String, val rotation: Int)

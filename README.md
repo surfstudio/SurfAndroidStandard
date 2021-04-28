@@ -5,7 +5,7 @@
 [![License][license_icon]][license_link]
 [![Download][build_version_icon]][build_version_link]
 
-Фреймворк для разработки android приложений [студии Surf](http://www.surfstudio.ru/).
+Фреймворк для разработки android приложений [студии Surf](https://www.surf.ru/). 
 Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение
 в короткие сроки.
 
@@ -39,7 +39,7 @@ dependencies {
 - в [бинтрей](https://bintray.com/surf/maven) для стабильных артефактов
 - в [артифактори](https://artifactory.surfstudio.ru/artifactory/libs-release-local/ru/surfstudio/android/) для нестабильных артефактов
 
-Список всех компонентов [здесь][components].
+Список всех компонентов [здесь][components]. 
 
 ## License
 ```

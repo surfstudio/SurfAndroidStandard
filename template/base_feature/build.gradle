@@ -1,10 +1,9 @@
 apply from: '../commonModule.gradle'
 apply from: '../commonKaptModule.gradle'
+apply from: '../unitTestConfiguration.gradle'
 
 dependencies {
     api project(":base")
-
-    implementation androidX.multidex
 
     //debug
     releaseImplementation project(":f-debug-no-op")
@@ -18,9 +17,8 @@ dependencies {
     implementation project(":i-initialization")
     implementation project(":i-session")
 
-    api rxBinding2.core
-    api rxBinding2.kotlin
-    api rxBinding2.appcompatV7
+    api rxBinding4.core
+    api rxBinding4.material
 
     api(firebase.crashlytics) {
         transitive = true
@@ -29,4 +27,7 @@ dependencies {
     implementation debug.anrWatchDog
     implementation debug.timber
     implementation debug.rxJava2Debug
+
+    implementation test.kotest
+    implementation test.mockk
 }

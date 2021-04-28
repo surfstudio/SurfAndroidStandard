@@ -1,5 +1,11 @@
 apply from: '../commonModule.gradle'
 
 dependencies {
+    android {
+        buildFeatures {
+            viewBinding true
+        }
+    }
+
     implementation project(":base_feature")
 }

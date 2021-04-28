@@ -14,7 +14,7 @@ import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
-import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import javax.inject.Named
 
@@ -26,7 +26,7 @@ import javax.inject.Named
 interface DefaultActivityComponent {
     fun schedulerProvider(): SchedulersProvider
     fun connectionProvider(): ConnectionProvider
-    fun stringsProvider(): StringsProvider
+    fun resourceProvider(): ResourceProvider
 
     fun activityProvider(): Provider<AppCompatActivity>
     fun activityPersistentScope(): ActivityPersistentScope

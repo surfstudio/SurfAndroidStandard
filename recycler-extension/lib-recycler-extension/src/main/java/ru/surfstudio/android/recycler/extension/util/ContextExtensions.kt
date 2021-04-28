@@ -35,3 +35,32 @@ internal fun Context.dpToPx(dp: Float): Int {
 internal fun Context.dpToPx(dp: Int): Int {
     return dpToPx(dp.toFloat())
 }
+
+/**
+ * Extension-method for fast px to dp convertation.
+ * */
+internal fun Context.pxToDp(px: Int): Float {
+    return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_PX,
+            px.toFloat(),
+            resources.displayMetrics
+    )
+}
+
+/**
+ * Extension-method for fast sp to px convertation.
+ * */
+internal fun Context.spToPx(dp: Float): Int {
+    return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            dp,
+            resources.displayMetrics
+    ).toInt()
+}
+
+/**
+ * Extension-method for fast px to sp convertation.
+ * */
+internal fun Context.pxToSp(px: Float): Float {
+    return px / resources.displayMetrics.scaledDensity
+}

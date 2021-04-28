@@ -18,10 +18,13 @@ package ru.surfstudio.android.mvp.dialog.complex;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+
+import org.jetbrains.annotations.NotNull;
 
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator;
 import ru.surfstudio.android.core.mvp.delegate.FragmentViewDelegate;
@@ -58,13 +61,13 @@ public abstract class CoreDialogFragmentView extends AppCompatDialogFragment imp
     }
 
     /**
-     * Override this instead {@link #onActivityCreated(Bundle)}
+     * Override this instead {@link #onViewCreated(View, Bundle)}
      *
      * @param viewRecreated showSimpleDialog whether view created in first time or recreated after
      *                      changing configuration
      */
     @Override
-    public void onActivityCreated(Bundle savedInstanceState, boolean viewRecreated) {
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState, boolean viewRecreated) {
 
     }
 
@@ -92,8 +95,8 @@ public abstract class CoreDialogFragmentView extends AppCompatDialogFragment imp
     }
 
     @Override
-    public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public final void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         fragmentDelegate.onCreate(savedInstanceState, null);
     }
 

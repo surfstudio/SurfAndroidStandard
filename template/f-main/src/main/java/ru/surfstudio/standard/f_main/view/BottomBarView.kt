@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.layout_bottom_bar.view.*
 import ru.surfstudio.android.template.f_main.R
-import ru.surfstudio.standard.ui.navigation.MainTabType
+import ru.surfstudio.standard.ui.navigation.routes.MainTabType
 
 /**
  * Кастомный BottomBar главного экрана.

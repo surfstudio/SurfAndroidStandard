@@ -16,6 +16,7 @@
     1. [Логгирование](common/logging.md)
     1. [Шина сообщений](common/event_bus.md)
     1. [Асинхронные взаимодействия](common/async.md)
+    1. [Unit-тестирование](common/unit_testing.md)
     1. [Пагинация](common/pagin.md)
     1. [Аналитика](../analytics/sample/README.md)
     1. [Пуш-уведомления](../push/README.md)

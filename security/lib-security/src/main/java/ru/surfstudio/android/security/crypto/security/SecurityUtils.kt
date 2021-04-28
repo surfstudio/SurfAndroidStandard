@@ -24,11 +24,11 @@ import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
 
 private val HEX_ARRAY =
-        charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
+    charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
 
 object SecurityUtils {
 
-    internal const val DEFAULT_CIPHER_TRANSFORMATION = "AES/CBC/PKCS7Padding"
+    const val DEFAULT_CIPHER_TRANSFORMATION = "AES/CBC/PKCS7Padding"
     internal const val DEFAULT_KEY_ALGORITHM = "PBKDF2WithHmacSHA1"
 
     private const val DEFAULT_MESSAGE_DIGEST_ALGORITHM_TYPE = "SHA-256"
@@ -48,26 +48,26 @@ object SecurityUtils {
      * Function for generation of a salt for encryption
      */
     fun generateSalt(saltSize: Int = DEFAULT_SALT_SIZE): ByteArray =
-            getRandomBytes(saltSize)
+        getRandomBytes(saltSize)
 
     //region messageDigest
     /**
      * Function for a string data encryption with a given algorithm
      */
     fun messageDigest(
-            data: String,
-            algorithmType: String = DEFAULT_MESSAGE_DIGEST_ALGORITHM_TYPE
+        data: String,
+        algorithmType: String = DEFAULT_MESSAGE_DIGEST_ALGORITHM_TYPE
     ): ByteArray =
-            messageDigest(data.toByteArray(), algorithmType)
+        messageDigest(data.toByteArray(), algorithmType)
 
     /**
      * Function for a byte array encryption with a given algorithm
      */
     fun messageDigest(
-            data: ByteArray,
-            algorithmType: String = DEFAULT_MESSAGE_DIGEST_ALGORITHM_TYPE
+        data: ByteArray,
+        algorithmType: String = DEFAULT_MESSAGE_DIGEST_ALGORITHM_TYPE
     ): ByteArray =
-            MessageDigest.getInstance(algorithmType).digest(data)
+        MessageDigest.getInstance(algorithmType).digest(data)
     //endregion
 
     //region Base64
@@ -106,11 +106,11 @@ object SecurityUtils {
      * Function for a string data encryption with a given algorithm which returns a string data
      */
     fun hash(
-            data: String,
-            algorithmType: String = DEFAULT_MESSAGE_DIGEST_ALGORITHM_TYPE
+        data: String,
+        algorithmType: String = DEFAULT_MESSAGE_DIGEST_ALGORITHM_TYPE
     ): String =
-            messageDigest(data, algorithmType)
-                    .fold(EMPTY_STRING, { str, it -> str + "%02x".format(it) })
+        messageDigest(data, algorithmType)
+            .fold(EMPTY_STRING, { str, it -> str + "%02x".format(it) })
 
     /**
      * Function for a byte array conversion to hex-format
@@ -133,9 +133,9 @@ object SecurityUtils {
      * @param publicKeyAlgorithm algorithm which was used for public key generation
      */
     fun getDecryptedBytes(
-            publicKeyStr: String,
-            encryptedData: ByteArray,
-            publicKeyAlgorithm: String = DEFAULT_PUBLIC_KEY_ALGORITHM
+        publicKeyStr: String,
+        encryptedData: ByteArray,
+        publicKeyAlgorithm: String = DEFAULT_PUBLIC_KEY_ALGORITHM
     ): ByteArray {
         val keySpec = X509EncodedKeySpec(decodeBase64(publicKeyStr))
         val publicKey = KeyFactory.getInstance(publicKeyAlgorithm).generatePublic(keySpec)

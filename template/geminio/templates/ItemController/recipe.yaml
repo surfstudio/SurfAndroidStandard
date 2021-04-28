@@ -1,0 +1,70 @@
+requiredParams:
+  name: ItemController
+  description: Creates all necessary for ItemController.
+
+optionalParams:
+  revision: 1
+  category: Surf
+  formFactor: mobile
+  constraints:
+    - kotlin
+  screens:
+    - menu_entry
+  minApi: 7
+  minBuildApi: 8
+
+widgets:
+  - stringParameter:
+      id: controllerClassNameWithoutPostfix
+      name: Имя контроллера без ItemController
+      help: The name of the screen to create
+      constraints:
+        - nonempty
+      default: New
+
+  - booleanParameter:
+      id: bindable
+      name: Bindable
+      help: Контроллер отображает динамические данные
+      default: true
+
+  - booleanParameter:
+      id: noData
+      name: No Data
+      help: Контроллер отображает статические данные
+      default: false
+
+  - stringParameter:
+      id: controllerItemClassName
+      name: Класс элемента списка в контроллере
+      help: The type of element, for which bind() will be called
+      constraints:
+        - class
+        - nonempty
+      default: Unit
+      visibility: ${bindable}
+
+  - stringParameter:
+      id: layoutName
+      name: Имя файла с XML разметкой ViewHolder'а
+      help: The name of the layout to create
+      constraints:
+        - layout
+        - nonempty
+        - unique
+      default: item_${controllerClassNameWithoutPostfix.classToResource()}
+      suggest: item_${controllerClassNameWithoutPostfix.classToResource()}
+
+  - booleanParameter:
+      id: needToGenerateListener
+      name: Добавить слушатель клика
+      help: Add click listener
+      default: true
+
+recipe:
+  - instantiateAndOpen:
+      from: root/res/layout/item.xml.ftl
+      to: ${resOut}/layout/${layoutName}.xml
+  - instantiateAndOpen:
+      from: root/src/app_package/java/ItemController.kt.ftl
+      to: ${srcOut}/${controllerClassNameWithoutPostfix}ItemController.kt
