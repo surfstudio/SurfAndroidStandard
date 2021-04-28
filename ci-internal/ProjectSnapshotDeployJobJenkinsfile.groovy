@@ -34,7 +34,6 @@ def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 
 //vars
 def branchName = ""
-def useBintrayDeploy = false
 def skipIncrementVersion = false
 
 //other config
@@ -74,9 +73,6 @@ pipeline.initializeBody = {
     //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName') {
         value -> branchName = value
-    }
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'useBintrayDeploy') {
-        value -> useBintrayDeploy = Boolean.valueOf(value)
     }
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'skipIncrementVersion') {
         value -> skipIncrementVersion = Boolean.valueOf(value)
@@ -180,9 +176,6 @@ pipeline.stages = [
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory"
-                    if (useBintrayDeploy) {
-                        //todo maven snapshot? change version: must have snapshot suffix & deploy version-plugin
-                    }
                 }
             }
         },
@@ -223,10 +216,6 @@ pipeline.finalizeBody = {
             }
         } else {
             message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
-            if (useBintrayDeploy) {
-                message += "\nБыл выполнен деплой артефактов в Bintray.\n" +
-                        "Необходимо заменить последние версии артефактов в Bintray на стабильные"
-            }
         }
 
         JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "github", pipeline.jobResult)
@@ -262,12 +251,6 @@ def static initParameters(script) {
             script.string(
                     name: "branchName",
                     description: 'Ветка с исходным кодом'
-            ),
-            script.booleanParam(
-                    defaultValue: false,
-                    name: "useBintrayDeploy",
-                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory.\n' +
-                            'Необходимо перед передачей проекта заказчику'
             ),
             script.booleanParam(
                     defaultValue: false,
