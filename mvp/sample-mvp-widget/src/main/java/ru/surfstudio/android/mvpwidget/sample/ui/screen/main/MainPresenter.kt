@@ -5,7 +5,7 @@ import android.util.Log
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
-import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
+import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigatorImpl
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.list.ListActivityRoute
@@ -22,7 +22,7 @@ internal class MainPresenter @Inject constructor(
         private val activityNavigator: ActivityNavigator
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
-    private val fragmentNavigator = FragmentNavigator(activityProvider)
+    private val fragmentNavigator = FragmentNavigatorImpl(activityProvider)
 
     fun openWidgetFragment() {
         fragmentNavigator.add(MainFragmentRoute(), true, TRANSIT_FRAGMENT_FADE)

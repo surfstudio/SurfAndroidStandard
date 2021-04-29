@@ -27,6 +27,8 @@ import androidx.core.app.ActivityOptionsCompat;
 
 import com.agna.ferro.rx.ObservableOperatorFreeze;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,15 +44,14 @@ import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnComple
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate;
 import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeDelegate;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
-import ru.surfstudio.android.core.ui.navigation.event.result.BaseActivityResultDelegate;
-import ru.surfstudio.android.core.ui.navigation.event.result.CrossFeatureSupportOnActivityResultRoute;
-import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.ActivityRouteInterface;
-import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.NewIntentRoute;
+import ru.surfstudio.android.core.ui.navigation.event.result.BaseActivityResultDelegate;
+import ru.surfstudio.android.core.ui.navigation.event.result.CrossFeatureSupportOnActivityResultRoute;
+import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureEvent;
 import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstallState;
 import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstallStatus;
@@ -59,16 +60,9 @@ import ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature.Dy
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.ActivityCrossFeatureRoute;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 
-/**
- * позволяет осуществлять навигацияю между активити
- * <p>
- * !!!В случае конфликтов возвращения результата между несколькими инстансами навигаторами
- * можно рассмотреть добавление к RequestCode хеша от имени экрана контейнера
- * Конфликт может возникнуть при открытии одинаковых экранов из, например, кастомной вью с
- * презентером и родительской активити вью
- */
-public abstract class ActivityNavigator extends BaseActivityResultDelegate
-        implements Navigator, NewIntentDelegate, OnCompletelyDestroyDelegate, OnResumeDelegate, OnPauseDelegate {
+
+public abstract class BaseActivityNavigator extends BaseActivityResultDelegate
+        implements ActivityNavigator, NewIntentDelegate, OnCompletelyDestroyDelegate, OnResumeDelegate, OnPauseDelegate {
 
     private Map<NewIntentRoute, Subject> newIntentSubjects = new HashMap<>();
     private final ActivityProvider activityProvider;
@@ -87,8 +81,8 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param activityProvider     actual Activity provider instance
      * @param eventDelegateManager screen event delegate manager instance
      */
-    public ActivityNavigator(ActivityProvider activityProvider,
-                             ScreenEventDelegateManager eventDelegateManager) {
+    public BaseActivityNavigator(ActivityProvider activityProvider,
+                                 ScreenEventDelegateManager eventDelegateManager) {
         this(activityProvider, eventDelegateManager, null, false);
     }
 
@@ -103,10 +97,10 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      *                              has already been deployed to Google Play. Otherwise, cross-feature
      *                              navigation won't work at all.
      */
-    public ActivityNavigator(ActivityProvider activityProvider,
-                             ScreenEventDelegateManager eventDelegateManager,
-                             SplitFeatureInstaller splitFeatureInstaller,
-                             Boolean isSplitFeatureModeOn) {
+    public BaseActivityNavigator(ActivityProvider activityProvider,
+                                 ScreenEventDelegateManager eventDelegateManager,
+                                 SplitFeatureInstaller splitFeatureInstaller,
+                                 Boolean isSplitFeatureModeOn) {
         eventDelegateManager.registerDelegate(this);
         this.activityProvider = activityProvider;
         this.splitFeatureInstaller = splitFeatureInstaller;
@@ -130,12 +124,8 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
         freezeSelector.onNext(true);
     }
 
-    /**
-     * позволяет подписываться на событие OnActivityResult
-     *
-     * @param routeClass класс маршрута экрана, который должен вернуть результат
-     * @param <T>        тип возвращаемых данных
-     */
+    @NotNull
+    @Override
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
             Class<? extends SupportOnActivityResultRoute<T>> routeClass) {
         try {
@@ -146,63 +136,36 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
         }
     }
 
-    /**
-     * позволяет подписываться на событие OnActivityResult
-     *
-     * @param route маршрут экрана, который должен вернуть результат
-     * @param <T>   тип возвращаемых данных
-     */
+    @NotNull
+    @Override
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
-            SupportOnActivityResultRoute route) {
+            @NotNull SupportOnActivityResultRoute<T> route) {
         return super.observeOnActivityResult(route);
     }
 
-    /**
-     * Закрываает текущую активити
-     */
+    @Override
     public void finishCurrent() {
         activityProvider.get().finish();
     }
 
-    /**
-     * Закрываает текущую активити Affinity
-     */
+
     public void finishAffinity() {
         ActivityCompat.finishAffinity(activityProvider.get());
     }
 
-    /**
-     * Закрываает текущую активити c результатом
-     *
-     * @param activeScreenRoute маршрут текущего экрана
-     * @param success           показывает успешное ли завершение
-     * @param <T>               тип возвращаемого значения
-     */
-    public <T extends Serializable> void finishWithResult(ActivityWithResultRoute<T> activeScreenRoute,
+    @Override
+    public <T extends Serializable> void finishWithResult(@NotNull ActivityWithResultRoute<T> activeScreenRoute,
                                                           boolean success) {
         finishWithResult(activeScreenRoute, null, success);
     }
 
-    /**
-     * Закрываает текущую активити c результатом
-     *
-     * @param activeScreenRoute маршрут текущего экрана
-     * @param result            возвращаемый результат
-     * @param <T>               тип возвращаемого значения
-     */
-    public <T extends Serializable> void finishWithResult(SupportOnActivityResultRoute<T> activeScreenRoute,
+    @Override
+    public <T extends Serializable> void finishWithResult(@NotNull SupportOnActivityResultRoute<T> activeScreenRoute,
                                                           T result) {
         finishWithResult(activeScreenRoute, result, true);
     }
 
-    /**
-     * Закрываает текущую активити c результатом
-     *
-     * @param currentScreenRoute маршрут текущего экрана
-     * @param result             возвращаемый результат
-     * @param success            показывает успешное ли завершение
-     * @param <T>                тип возвращаемого значения
-     */
+    @Override
     public <T extends Serializable> void finishWithResult(SupportOnActivityResultRoute<T> currentScreenRoute,
                                                           T result, boolean success) {
         Intent resultIntent = currentScreenRoute.prepareResultIntent(result);
@@ -212,14 +175,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
         finishCurrent();
     }
 
-    /**
-     * Launch a new activity.
-     * <p>
-     * Works synchronically.
-     *
-     * @param route navigation route
-     * @return {@code true} if activity started successfully, {@code false} otherwise
-     */
+    @Override
     public boolean start(ActivityRoute route) {
         Context context = activityProvider.get();
         Intent intent = route.prepareIntent(context);
@@ -230,33 +186,15 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
         return false;
     }
 
-    /**
-     * Launch a new activity from another Feature Module.
-     * <p>
-     * Performs asynchronically due to type of the target Feature Module.
-     * This method returns stream of install state change events. You can make a subscription in
-     * your Presenter and handle errors or any other type of events during Dynamic Feature
-     * installation.
-     *
-     * @param route navigation route
-     * @return stream of install state change events
-     */
-    public Observable<SplitFeatureInstallState> start(ActivityCrossFeatureRoute route) {
+    @NotNull
+    @Override
+    public Observable<SplitFeatureInstallState> start(@NotNull ActivityCrossFeatureRoute route) {
         return startCrossFeature(route, startStatusSubject -> performStart(route, startStatusSubject));
     }
 
-    /**
-     * Launch a new Activity for result from another Feature Module.
-     * <p>
-     * Performs asynchronously due to type of the target Feature Module.
-     * This method returns stream of install state change events. You can make a subscription in
-     * your Presenter and handle errors or any other type of events during Dynamic Feature
-     * installation.
-     *
-     * @param route navigation route
-     * @return stream of install state change events
-     */
-    public Observable<SplitFeatureInstallState> startForResult(CrossFeatureSupportOnActivityResultRoute route) {
+    @NotNull
+    @Override
+    public Observable<SplitFeatureInstallState> startForResult(@NotNull CrossFeatureSupportOnActivityResultRoute route) {
         return startCrossFeature(route, startStatusSubject -> performStartForResult(route, startStatusSubject));
     }
 
@@ -298,13 +236,8 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
         splitFeatureInstallStateSubject.onNext(new SplitFeatureInstallState(status));
     }
 
-    /**
-     * Launch a new activity for result.
-     *
-     * @param route navigation route
-     * @return {@code true} if activity started successfully, {@code false} otherwise
-     */
-    public boolean startForResult(SupportOnActivityResultRoute route) {
+    @Override
+    public boolean startForResult(@NotNull SupportOnActivityResultRoute route) {
         if (!super.isObserved(route)) {
             throw new IllegalStateException("route class " + route.getClass().getSimpleName()
                     + " must be registered by method ActivityNavigator#observeResult");
@@ -354,11 +287,8 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
         return false;
     }
 
-    /**
-     * позволяет подписываться на событие OnNewIntent
-     *
-     * @param newIntentRouteClass класс, отвечающий за парсинг intent
-     */
+    @NotNull
+    @Override
     public <T extends NewIntentRoute> Observable<T> observeNewIntent(Class<T> newIntentRouteClass) {
         try {
             return this.observeNewIntent(newIntentRouteClass.newInstance());
@@ -368,12 +298,9 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
         }
     }
 
-    /**
-     * позволяет подписываться на событие OnNewIntent
-     *
-     * @param newIntentRoute отвечает за парсинг intent
-     */
-    public <T extends NewIntentRoute> Observable<T> observeNewIntent(T newIntentRoute) {
+    @NotNull
+    @Override
+    public <T extends NewIntentRoute> Observable<T> observeNewIntent(@NotNull T newIntentRoute) {
         tryRemoveDuplicateNewIntentEventSubjects(newIntentRoute);
         PublishSubject<T> eventSubject = PublishSubject.create();
         newIntentSubjects.put(newIntentRoute, eventSubject);

@@ -26,9 +26,9 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.BehaviorRelation
  * Хранит в себе последнее прошедшее значение.
  * При подписке сообщает это значение или initialValue
  */
-class Action<T>(initialValue: T? = null) : BehaviorRelation<T, VIEW, PRESENTER>(initialValue) {
+class Action<T>(initialValue: T? = null) : BehaviorRelation<T, ActionSource, ActionTarget>(initialValue) {
 
-    override fun getConsumer(source: VIEW): Consumer<T> = relay
+    override fun getConsumer(source: ActionSource): Consumer<T> = relay
 
-    override fun getObservable(target: PRESENTER): Observable<T> = relay.share()
+    override fun getObservable(target: ActionTarget): Observable<T> = relay.share()
 }

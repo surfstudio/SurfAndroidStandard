@@ -5,7 +5,9 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.connection.ConnectionProvider
+import ru.surfstudio.android.connection.ConnectionProviderImpl
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigatorImpl
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.filestorage.sample.app.CustomApp
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
@@ -38,7 +40,7 @@ class CustomAppModule(private val coreApp: CustomApp) {
     @Provides
     internal fun provideGlobalNavigator(context: Context,
                                         activityHolder: ActiveActivityHolder): GlobalNavigator {
-        return GlobalNavigator(context, activityHolder)
+        return GlobalNavigatorImpl(context, activityHolder)
     }
 
     @Provides
@@ -50,6 +52,6 @@ class CustomAppModule(private val coreApp: CustomApp) {
     @Provides
     @PerApplication
     internal fun provideConnectionQualityProvider(context: Context): ConnectionProvider {
-        return ConnectionProvider(context)
+        return ConnectionProviderImpl(context)
     }
 }

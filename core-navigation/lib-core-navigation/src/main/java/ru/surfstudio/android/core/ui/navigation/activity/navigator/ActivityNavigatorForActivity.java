@@ -28,7 +28,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 /**
  * ActivityNavigator working in Activity.
  */
-public class ActivityNavigatorForActivity extends ActivityNavigator {
+public class ActivityNavigatorForActivity extends BaseActivityNavigator {
 
     private ActivityProvider activityProvider;
 

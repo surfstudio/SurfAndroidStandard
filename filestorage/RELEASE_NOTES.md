@@ -5,6 +5,7 @@
 
 ## 0.5.0-alpha
 ##### Filestorage
+* ANDDEP-1207 Fixed sample's dependencies
 * ANDDEP-687 Changed "com.google.code.gson:gson" dependency from "api" to "implementation" type
 ## 0.3.0
 ##### Filestorage

@@ -7,6 +7,7 @@
 
 ## 0.5.0-alpha
 ##### Picture-provider
+* ANDDEP-1207 Util fix
 * ANDDEP-687 Changed "androidx.exifinterface:exifinterface" dependency from "api" to "implementation" type
 * ANDDEP-729 Removed camera-view dependency from picture-provider-sample
 * ANDDEP-1148 Adding support for android 29 and higher. Added the ability to customize the file location for saving photos from an external camera application

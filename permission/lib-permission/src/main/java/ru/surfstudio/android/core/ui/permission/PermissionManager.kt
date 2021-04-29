@@ -211,7 +211,7 @@ abstract class PermissionManager(
 
     private fun startAndObserveReturnFromScreen(route: ActivityWithResultRoute<*>): Completable =
             activityNavigator
-                    .observeResult<Serializable>(route)
+                .observeResult(route)
                     .firstElement()
                     .flatMapCompletable { Completable.complete() }
                     .doOnSubscribe { activityNavigator.startForResult(route) }

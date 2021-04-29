@@ -19,26 +19,23 @@ package ru.surfstudio.android.mvp.dialog.navigation.navigator;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.mvp.dialog.navigation.route.DialogRoute;
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
 
-/**
- * позволяет открывать диалоги
- */
-public abstract class DialogNavigator implements Navigator {
+public abstract class BaseDialogNavigator implements DialogNavigator {
 
     private ActivityProvider activityProvider;
     private ScreenPersistentScope screenPersistentScope;
 
-    public DialogNavigator(ActivityProvider activityProvider,
-                           ScreenPersistentScope screenPersistentScope) {
+    public BaseDialogNavigator(ActivityProvider activityProvider,
+                               ScreenPersistentScope screenPersistentScope) {
         this.activityProvider = activityProvider;
         this.screenPersistentScope = screenPersistentScope;
     }
 
+    @Override
     public void show(DialogRoute dialogRoute) {
         DialogFragment dialog = dialogRoute.createFragment();
         String tag = dialogRoute.getTag();
@@ -49,6 +46,7 @@ public abstract class DialogNavigator implements Navigator {
         }
     }
 
+    @Override
     public void dismiss(DialogRoute dialogRoute) {
         FragmentManager fragmentManager = activityProvider.get().getSupportFragmentManager();
         DialogFragment dialogFragment = (DialogFragment) fragmentManager
@@ -60,5 +58,4 @@ public abstract class DialogNavigator implements Navigator {
             D fragment,
             String tag
     );
-
 }

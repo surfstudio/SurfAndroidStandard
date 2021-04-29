@@ -85,6 +85,8 @@ ext {
             "com.squareup.okhttp3:logging-interceptor"         : "4.4.1",        //https://vk.cc/7UFwTd
             "junit:junit"                                      : "4.13",         //https://goo.gl/hEcfw1
             "org.mockito:mockito-core"                         : "3.3.3",        //https://bit.ly/3bw7XGe
+            "io.kotest:kotest-runner-junit5"                   : "4.4.1",        //https://bit.ly/3g8bgJd
+            "io.mockk:mockk"                                   : "1.10.6",       //https://bit.ly/3wUGGc3
             "org.powermock:powermock-classloading-xstream"     : "2.0.7",        //https://goo.gl/hEcfw1
             "org.powermock:powermock-module-junit4"            : "2.0.7",        //https://goo.gl/hEcfw1
             "org.powermock:powermock-module-junit4-rule"       : "2.0.7",        //https://goo.gl/hEcfw1

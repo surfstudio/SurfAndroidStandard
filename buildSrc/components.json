@@ -749,6 +749,51 @@
             "type": "implementation"
           }
         ]
+      },
+      {
+        "name": "core-mvp-binding-tests",
+        "dir": "lib-core-mvp-binding-tests",
+        "artifact_name": "core-mvp-binding-tests",
+        "third_party_dependencies": [
+          {
+            "name": "io.kotest:kotest-runner-junit5",
+            "type": "implementation"
+          },
+          {
+            "name": "io.mockk:mockk",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-mvp-binding",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "mvp-dialog",
+            "type": "implementation"
+          },
+          {
+            "name": "connection",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
       }
     ],
     "samples": [

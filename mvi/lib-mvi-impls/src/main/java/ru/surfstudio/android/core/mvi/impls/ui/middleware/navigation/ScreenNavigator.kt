@@ -102,7 +102,7 @@ open class ScreenNavigator(
      */
     open fun <R : Serializable> observeResult(
             routeClass: Class<out SupportOnActivityResultRoute<R>>
-    ): Observable<ScreenResult<R>> {
+    ): Observable<ScreenResult<R?>> {
         return activityNavigator.observeResult(routeClass)
     }
 

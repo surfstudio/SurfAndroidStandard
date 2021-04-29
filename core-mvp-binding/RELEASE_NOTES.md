@@ -5,6 +5,7 @@
 
 ## 0.5.0-alpha
 ##### Core-mvp-binding
+* ANDDEP-1207 extracted relation's source/target interfaces
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type
 * Clearing `BaseRxFragmentView.viewDisposable` move from onDestroy to onDestroyView
 * ANDDEP-671 Renamed loadable to response
@@ -19,6 +20,11 @@ Added state checker methods to Request.
 * ANDDEP-968 `Loading.kt`: added class `SimpleLoading`;
 * ANDDEP-968 `RequestUi.kt`: added fields `isLoading`, `hasData`, `hasError`;
 * ANDDEP-1048 Fixing wrong docs links and docs structure
+
+## 0.5.0-alpha
+##### Core-mvp-binding-tests
+* ANDDEP-1207 Init module
+
 ## 0.3.0
 ##### Core-mvp-binding
 * Renamed `onViewDetached ()` -> `onViewDetach ()`

@@ -21,28 +21,18 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder;
-import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 
-/**
- * глобальный навигатор для перехода по экранам не имея доступ
- * к контексту активити (из слоя Interactor)
- */
-public class GlobalNavigator implements Navigator {
+public class GlobalNavigatorImpl implements GlobalNavigator {
     private final Context context;
     private final ActiveActivityHolder activityHolder;
 
-    public GlobalNavigator(Context context, ActiveActivityHolder activityHolder) {
+    public GlobalNavigatorImpl(Context context, ActiveActivityHolder activityHolder) {
         this.context = context;
         this.activityHolder = activityHolder;
     }
 
-    /**
-     * Запуск активити.
-     *
-     * @param route роутер
-     * @return {@code true} если активити успешно запущен, иначе {@code false}
-     */
+    @Override
     public boolean start(ActivityRoute route) {
         Activity activity = activityHolder.getActivity();
         Context localContext = activity != null ? activity : context;

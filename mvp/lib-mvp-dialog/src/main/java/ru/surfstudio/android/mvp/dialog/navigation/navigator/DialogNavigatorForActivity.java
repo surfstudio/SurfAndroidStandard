@@ -25,7 +25,7 @@ import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
 /**
  * DialogNavigator работающий из активити
  */
-public class DialogNavigatorForActivity extends DialogNavigator {
+public class DialogNavigatorForActivity extends BaseDialogNavigator {
 
     private ActivityProvider activityProvider;
     private ActivityViewPersistentScope activityViewPersistentScope;

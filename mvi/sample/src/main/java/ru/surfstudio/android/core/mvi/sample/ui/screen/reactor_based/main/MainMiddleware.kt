@@ -38,15 +38,15 @@ class MainMiddleware @Inject constructor(
      * Показ снека с результирующим текстом, либо показ диалога с сообщением о том,
      * что результата нет, и предложением открыть экран с вводом текста заново.
      */
-    private fun showResultMap(result: ScreenResult<String>): Observable<MainEvent> {
+    private fun showResultMap(result: ScreenResult<String?>): Observable<MainEvent> {
         val hasResultData = result.isSuccess && !result.data.isNullOrEmpty()
         return if (hasResultData) {
-            messageController.show(result.data).skip()
+            messageController.show(result.data!!).skip()
         } else {
             Navigation().open(StandardReactDialogRoute<MainEvent>(
-                    title = "No result",
-                    message = "Try again?",
-                    positiveButtonEvent = Navigation().open(InputFormActivityRoute()))
+                title = "No result",
+                message = "Try again?",
+                positiveButtonEvent = Navigation().open(InputFormActivityRoute()))
             ).toObservable()
         }
     }

@@ -10,6 +10,7 @@
 * ANDDEP-1203 Fixes after core-ui improvements
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 ##### Mvp-widget
+* ANDDEP-1207 Fixed sample
 * ANDDEP-1203 Fixes after core-ui improvements
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 * ANDDEP-687 Changed "androidx.constraintlayout:constraintlayout" dependency from "api" to "implementation" type

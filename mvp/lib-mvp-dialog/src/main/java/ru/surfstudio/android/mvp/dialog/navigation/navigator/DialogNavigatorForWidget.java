@@ -26,7 +26,7 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 /**
  * DialogNavigator работающий из активити
  */
-public class DialogNavigatorForWidget extends DialogNavigator {
+public class DialogNavigatorForWidget extends BaseDialogNavigator {
 
     private WidgetProvider widgetProvider;
     private WidgetViewPersistentScope widgetViewPersistentScope;

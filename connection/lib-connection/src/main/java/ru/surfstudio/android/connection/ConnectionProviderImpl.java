@@ -25,10 +25,7 @@ import io.reactivex.Observable;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 
-/**
- * Provider, позволяющий подписаться на событие изменения состояния соединения
- */
-public class ConnectionProvider {
+public class ConnectionProviderImpl implements ConnectionProvider {
     private static final long LAST_CONNECTION_QUALITY_RESULT_CACHE_TIME = 60L * 1000; //1 мин
 
     private ConnectionReceiver receiver;
@@ -36,7 +33,7 @@ public class ConnectionProvider {
     private boolean lastConnectionResultFast = false;
     private long lastConnectionResultTime = 0;
 
-    public ConnectionProvider(Context context) {
+    public ConnectionProviderImpl(Context context) {
         this.context = context;
         this.receiver = new ConnectionReceiver(context);
 
@@ -45,18 +42,22 @@ public class ConnectionProvider {
         context.registerReceiver(receiver, intentFilter);
     }
 
+    @Override
     public Observable<Boolean> observeConnectionChanges() {
         return receiver.observeConnectionChanges();
     }
 
+    @Override
     public boolean isConnected() {
         return receiver.isConnected();
     }
 
+    @Override
     public boolean isDisconnected() {
         return !receiver.isConnected();
     }
 
+    @Override
     public boolean isConnectedFast() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastConnectionResultTime > LAST_CONNECTION_QUALITY_RESULT_CACHE_TIME) {
@@ -66,22 +67,13 @@ public class ConnectionProvider {
         return lastConnectionResultFast;
     }
 
-    /**
-     * Проверка на подключение к Wi-Fi
-     *
-     * @return подключен ли девайс к Wi-Fi, или к мобильной сети
-     */
+    @Override
     public boolean isConnectedToWifi() {
         NetworkInfo info = getNetworkInfo(context);
         return info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
-    /**
-     * Get the network info
-     *
-     * @param context
-     * @return
-     */
+    @Override
     public NetworkInfo getNetworkInfo(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo();
