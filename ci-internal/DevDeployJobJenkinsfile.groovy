@@ -107,7 +107,7 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
             RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
-        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
+        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.SKIP_STAGE, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
             def prevCommitHash = commitParents[0]
             script.sh("./gradlew WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}")
@@ -117,7 +117,7 @@ pipeline.stages = [
                 JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
             }
         },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
+        pipeline.stage(CHECK_BRANCH_AND_VERSION, StageStrategy.SKIP_STAGE) {
             def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             globalVersion = globalConfiguration.version
 
@@ -125,7 +125,7 @@ pipeline.stages = [
                 script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
             }
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
+        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT, StageStrategy.SKIP_STAGE) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
@@ -147,10 +147,10 @@ pipeline.stages = [
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
-        pipeline.stage(BUILD) {
+        pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
-        pipeline.stage(UNIT_TEST) {
+        pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(
                     script,
                     "testReleaseUnitTest",
@@ -336,7 +336,7 @@ def static getPreviousRevisionWithVersionIncrement(script) {
         script.echo("Not found revision with version label, so use previous revision to compare: ${previousCommit}")
         revisionToCompare = getCommitHash(script, previousCommit)
     }
-    return revisionToCompare
+    return "be55a6f7bf5ec5f7b193a06b34ed967c9ae738ca"
 }
 
 def static withJobCredentials(script, body) {
