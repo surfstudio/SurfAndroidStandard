@@ -33,7 +33,7 @@ def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 
-def BUILD_TEMPLATE = 'Template Build '
+def BUILD_TEMPLATE = 'Template Build'
 def INSTRUMENTATION_TEST_TEMPLATE = 'Template Instrumentation Test'
 
 // git variables

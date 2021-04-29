@@ -29,13 +29,13 @@ object PublishUtil {
     fun getPublishData(data: PublishType): PublishData = when (data) {
         PublishType.ARTIFACTORY -> PublishData(
             url = ArtifactoryConfig.DEPLOY_URL,
-            userName = ArtifactoryConfig.USER_NAME,
-            password = ArtifactoryConfig.PASSWORD
+            userNameEnvName = ArtifactoryConfig.USERNAME_ENV_NAME,
+            passwordEnvName = ArtifactoryConfig.PASSWORD_ENV_NAME
         )
         PublishType.MAVEN_RELEASE -> PublishData(
             url = MavenConfig.RELEASE_DEPLOY_URL,
-            userName = MavenConfig.USER_NAME,
-            password = MavenConfig.PASSWORD
+            userNameEnvName = MavenConfig.USERNAME_ENV_NAME,
+            passwordEnvName = MavenConfig.PASSWORD_ENV_NAME
         )
         PublishType.UNKNOWN -> PublishData()
     }
@@ -43,6 +43,6 @@ object PublishUtil {
 
 data class PublishData(
     val url: String = EMPTY_STRING,
-    val userName: String = EMPTY_STRING,
-    val password: String = EMPTY_STRING
+    val userNameEnvName: String = EMPTY_STRING,
+    val passwordEnvName: String = EMPTY_STRING
 )
