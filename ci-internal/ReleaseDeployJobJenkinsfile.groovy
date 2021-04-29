@@ -199,11 +199,9 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-            withMavenCredentials(script) {
-                withSigningFile(script) {
-                    AndroidUtil.withGradleBuildCacheCredentials(script) {
-                        script.sh "./gradlew clean publish -Pcomponent=${componentName} -PpublishType=maven_release"
-                    }
+            withJobCredentials(script) {
+                AndroidUtil.withGradleBuildCacheCredentials(script) {
+                    script.sh "./gradlew clean publish -Pcomponent=${componentName} -PpublishType=maven_release"
                 }
             }
         },
@@ -335,23 +333,21 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     return revisionToCompare
 }
 
-def static withMavenCredentials(script, body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "Maven_Deploy_Credentials",
-                    usernameVariable: 'surf_ossrh_username',
-                    passwordVariable: 'surf_ossrh_password'
-            )
-    ]) {
-        body()
-    }
-}
-
-def withSigningFile(script, body) {
+def static withJobCredentials(script, body) {
     script.withCredentials([
             script.file(
                     credentialsId: "surf_maven_sign_key_ring_file",
                     variable: 'surf_maven_sign_key_ring_file'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Maven_Sign_Credential",
+                    usernameVariable: 'surf_maven_sign_key_id',
+                    passwordVariable: 'surf_maven_sign_password'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Maven_Deploy_Credentials",
+                    usernameVariable: 'surf_ossrh_username',
+                    passwordVariable: 'surf_ossrh_password'
             )
     ]) {
         body()
