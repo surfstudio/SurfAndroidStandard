@@ -40,8 +40,10 @@ import java.util.*
 /**
  * Навигатор для фрагментов в табах
  */
-open class TabFragmentNavigator(val activityProvider: ActivityProvider,
-                                eventDelegateManager: ScreenEventDelegateManager)
+open class TabFragmentNavigator(
+        val activityProvider: ActivityProvider,
+        eventDelegateManager: ScreenEventDelegateManager
+)
     : Navigator,
         OnBackPressedDelegate,
         OnRestoreStateDelegate,
@@ -202,8 +204,10 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
     /**
      * Добавление рутового фрагмента
      */
-    private fun addRoot(fragmentRoute: FragmentRoute,
-                        transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
+    private fun addRoot(
+            fragmentRoute: FragmentRoute,
+            transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN
+    ) {
         val fragment = fragmentRoute.createFragment()
         activeTabTag = fragmentRoute.tag
         replace(fragment, fragmentRoute.tag, transition)
@@ -221,9 +225,11 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
         replace(activeStack.peek(), activeStack.peek().tag)
     }
 
-    private fun replace(fragment: Fragment,
-                        routeTag: String?,
-                        transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
+    private fun replace(
+            fragment: Fragment,
+            routeTag: String?,
+            transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN
+    ) {
         fragmentManager.executePendingTransactions()
 
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -239,10 +245,12 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
         //https://www.androiddesignpatterns.com/2013/08/fragment-transaction-commit-state-loss.html
     }
 
-    private fun add(fragment: Fragment,
-                    routeTag: String?,
-                    fragmentTransaction: FragmentTransaction,
-                    transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE) {
+    private fun add(
+            fragment: Fragment,
+            routeTag: String?,
+            fragmentTransaction: FragmentTransaction,
+            transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE
+    ) {
         val viewContainerId = getViewContainerIdOrThrow()
         fragmentTransaction.add(viewContainerId, fragment, routeTag)
         fragmentTransaction.setTransition(transition)
@@ -257,7 +265,7 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
         }
     }
 
-    private fun isFragmentExistInMap(fragment: Fragment): Boolean  =  fragmentMap.values.any { it.any { it.tag == fragment.tag }}
+    private fun isFragmentExistInMap(fragment: Fragment): Boolean = fragmentMap.values.any { it.any { it.tag == fragment.tag } }
 
     private fun remove(routeTag: String?, transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_CLOSE): Boolean {
         fragmentManager.executePendingTransactions()

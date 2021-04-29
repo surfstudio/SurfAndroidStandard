@@ -52,11 +52,11 @@ open class ActivityLifecycleListener(
         onActivityStopped?.invoke(activity)
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-        onActivitySaveInstanceState?.invoke(activity, outState)
-    }
-
     override fun onActivityDestroyed(activity: Activity) {
         onActivityDestroyed?.invoke(activity)
+    }
+
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+        onActivitySaveInstanceState?.invoke(activity, outState)
     }
 }
