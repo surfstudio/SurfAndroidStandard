@@ -143,6 +143,22 @@ pipeline.stages = [
                 script.echo "skip project snapshot version incrementation stage"
             }
         },
+        pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
+            if (!skipIncrementVersion) {
+                script.sh("./gradlew generateProjectConfigurationVersionFileTask")
+
+                def currentStandardVersion = script.readFile(projectConfigurationVersionFile)
+
+                AndroidUtil.changeGradleVariable(
+                        script,
+                        androidStandardTemplateConfigurationFile,
+                        "androidStandardVersion",
+                        "'$currentStandardVersion'"
+                )
+            } else {
+                script.echo "skip template snapshot version incrementation stage"
+            }
+        },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
@@ -184,6 +200,10 @@ pipeline.stages = [
                 script.sh "./gradlew generateDataForPlugin"
                 script.sh "./gradlew :android-standard-version-plugin:publish"
             }
+        },
+        pipeline.stage(BUILD_TEMPLATE) {
+            // build template after deploy in order to check usage of new artifacts
+            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             if (!skipIncrementVersion) {
