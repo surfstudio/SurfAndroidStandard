@@ -24,7 +24,7 @@ class BottomBarView @JvmOverloads constructor(
     private val binding = ViewBottomNavBarBinding.inflate(LayoutInflater.from(context), this)
 
     private val tabButtonsMap by lazy {
-        hashMapOf<MainTabType, BottomBarItemView>(
+        hashMapOf(
                 MainTabType.FEED to binding.bottomBarMyFeedBtn,
                 MainTabType.SEARCH to binding.bottomBarSearchBtn,
                 MainTabType.PROFILE to binding.bottomBarProfileBtn
