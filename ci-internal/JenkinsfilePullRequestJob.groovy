@@ -201,12 +201,6 @@ pipeline.stages = [
                 script.echo "artifactory user: ${script.env.surf_maven_username}"
                 script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
             }
-
-            withBintrayCredentials(script) {
-                script.echo "bintray user: ${script.env.surf_bintray_username}"
-                script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
-            }
-
         },
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
@@ -327,17 +321,6 @@ def static withArtifactoryCredentials(script, body) {
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
                     passwordVariable: 'surf_maven_password')
-    ]) {
-        body()
-    }
-}
-
-def static withBintrayCredentials(script, body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "Bintray_Deploy_Credentials",
-                    usernameVariable: 'surf_bintray_username',
-                    passwordVariable: 'surf_bintray_api_key')
     ]) {
         body()
     }

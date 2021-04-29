@@ -36,7 +36,7 @@ object Components {
      * Function for parsing a single component from list
      */
     fun parseComponent(componentJsons: List<ComponentJson>, componentName: String): Component? =
-            componentJsons.firstOrNull { it.id == componentName }?.transform()
+        componentJsons.firstOrNull { it.id == componentName }?.transform()
 
     /**
      * Get project's module
@@ -89,8 +89,7 @@ object Components {
      */
     @JvmStatic
     fun getArtifactName(libraryName: String): String {
-        val library = value.flatMap { it.libraries }.find { it.name == libraryName }
-        return library?.artifactName ?: EMPTY_STRING
+        return libraries.find { it.name == libraryName }?.artifactName.orEmpty()
     }
 
     /**
@@ -100,8 +99,7 @@ object Components {
      */
     @JvmStatic
     fun getArtifactDescription(libraryName: String): String {
-        val library = value.flatMap { it.libraries }.find { it.name == libraryName }
-        return library?.description ?: EMPTY_STRING
+        return libraries.find { it.name == libraryName }?.description.orEmpty()
     }
 
     /**
@@ -111,8 +109,7 @@ object Components {
      */
     @JvmStatic
     fun getArtifactUrl(libraryName: String): String {
-        val library = value.flatMap { it.libraries }.find { it.name == libraryName }
-        return library?.url ?: EMPTY_STRING
+        return libraries.find { it.name == libraryName }?.url.orEmpty()
     }
 
     /**
@@ -120,11 +117,10 @@ object Components {
      */
     @JvmStatic
     fun getAndroidStandardDependencies(libraryName: String): List<Library> {
-        val libs = value.flatMap { it.libraries }
-        val standardDepNames = libs.find { it.name == libraryName }
-                ?.androidStandardDependencies
-                ?.map(Dependency::name) ?: return emptyList()
-        return libs.filter { standardDepNames.contains(it.name) }
+        val standardDepNames = libraries.find { it.name == libraryName }
+            ?.androidStandardDependencies
+            ?.map(Dependency::name) ?: return emptyList()
+        return libraries.filter { standardDepNames.contains(it.name) }
     }
 
     /**
@@ -134,8 +130,8 @@ object Components {
     fun getComponentStability(libraryName: String): Boolean {
         value.forEach { component ->
             component.libraries
-                    .find { it.name == libraryName }
-                    ?.let { return component.stable }
+                .find { it.name == libraryName }
+                ?.let { return component.stable }
         }
 
         throw LibraryNotFoundException(libraryName)
@@ -147,9 +143,9 @@ object Components {
     @JvmStatic
     fun isLibraryFromComponent(libraryName: String, componentName: String): Boolean {
         return value.find { it.name == componentName }
-                ?.libraries
-                ?.any { it.name == libraryName }
-                ?: false
+            ?.libraries
+            ?.any { it.name == libraryName }
+            ?: false
     }
 
     /**
@@ -158,16 +154,15 @@ object Components {
     @JvmStatic
     fun getComponentLibraries(componentName: String): List<Library> {
         return value.firstOrNull { it.name == componentName }
-                ?.libraries
-                ?: throw GradleException("Component $componentName not found")
+            ?.libraries
+            ?: throw GradleException("Component $componentName not found")
     }
 
     /**
      * Set components for android standard dependencies
      */
     private fun setComponentsForAndroidStandardDependencies() {
-        val libs = value.flatMap { it.libraries }
-        val libNameCompMap: Map<String, Component?> = libs.map { lib ->
+        val libNameCompMap: Map<String, Component?> = libraries.map { lib ->
             lib.name to value.find { it.libraries.contains(lib) }
         }.toMap()
 
@@ -175,7 +170,7 @@ object Components {
             component.libraries.forEach { library ->
                 library.androidStandardDependencies.forEach { dependency ->
                     dependency.component = libNameCompMap[dependency.name]
-                            ?: throw ComponentNotFoundForStandardDependencyException(dependency.name)
+                        ?: throw ComponentNotFoundForStandardDependencyException(dependency.name)
                 }
             }
         }
@@ -189,11 +184,11 @@ object Components {
 
         value.forEach { component ->
             val componentVersion = createCompositeVersion(
-                    component.baseVersion,
-                    component.stable,
-                    component.unstableVersion,
-                    configInfo.projectSnapshotName,
-                    configInfo.projectSnapshotVersion
+                component.baseVersion,
+                component.stable,
+                component.unstableVersion,
+                configInfo.projectSnapshotName,
+                configInfo.projectSnapshotVersion
             )
             component.projectVersion = componentVersion
             component.libraries.forEach { it.projectVersion = componentVersion }
@@ -202,6 +197,6 @@ object Components {
 
     private fun getComponentByName(componentName: String): Component {
         return value.firstOrNull { it.name == componentName }
-                ?: throw GradleException("Component name $componentName not found")
+            ?: throw GradleException("Component name $componentName not found")
     }
 }
