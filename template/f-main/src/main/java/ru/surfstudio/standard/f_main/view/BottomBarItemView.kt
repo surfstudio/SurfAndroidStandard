@@ -20,11 +20,11 @@ class BottomBarItemView @JvmOverloads constructor(
         defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private val binding: ViewBottomBarItemBinding = ViewBottomBarItemBinding.inflate(LayoutInflater.from(context), this)
+    private val binding: ViewBottomBarItemBinding =
+            ViewBottomBarItemBinding.inflate(LayoutInflater.from(context), this)
 
     init {
         orientation = VERTICAL
-        inflate(context, R.layout.view_bottom_bar_item, this)
         initAttrs(attrs)
     }
 

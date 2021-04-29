@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import ru.surfstudio.android.template.f_main.R
-import ru.surfstudio.android.template.f_main.databinding.ViewBottomNavBarBinding
+import ru.surfstudio.android.template.f_main.databinding.LayoutBottomBarBinding
 import ru.surfstudio.standard.ui.navigation.routes.MainTabType
 
 /**
@@ -21,11 +21,11 @@ class BottomBarView @JvmOverloads constructor(
         attributeSet: AttributeSet? = null
 ) : LinearLayout(context, attributeSet) {
 
-    private val binding = ViewBottomNavBarBinding.inflate(LayoutInflater.from(context), this)
+    private val binding = LayoutBottomBarBinding.inflate(LayoutInflater.from(context), this)
 
     private val tabButtonsMap by lazy {
         hashMapOf(
-                MainTabType.FEED to binding.bottomBarMyFeedBtn,
+                MainTabType.FEED to binding.bottomBarFeedBtn,
                 MainTabType.SEARCH to binding.bottomBarSearchBtn,
                 MainTabType.PROFILE to binding.bottomBarProfileBtn
         )
@@ -37,8 +37,6 @@ class BottomBarView @JvmOverloads constructor(
     var tabSelectedAction: (MainTabType) -> Unit = { }
 
     init {
-        View.inflate(context, R.layout.layout_bottom_bar, this)
-
         orientation = HORIZONTAL
         gravity = Gravity.CENTER
 

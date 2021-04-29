@@ -25,7 +25,6 @@ class DebugScalpelWidget(context: Context) : RelativeLayout(context) {
     private val disposable = CompositeDisposable()
 
     init {
-        inflate()
         initSettingsControls()
         initScalpel()
         initPanel()
@@ -102,10 +101,6 @@ class DebugScalpelWidget(context: Context) : RelativeLayout(context) {
 
     private fun toggleSettingsVisibility() {
         binding.debugScalpelSettingsContainer.isVisible = isVisible.not()
-    }
-
-    private fun inflate() {
-        View.inflate(context, R.layout.scalpel_widget_layout, this)
     }
 
     fun addContentViews(childViews: List<View>) {

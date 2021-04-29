@@ -25,7 +25,6 @@ class DebugCatalogItemLayout(
     private var debugItemIcon: Drawable? = null
 
     init {
-        View.inflate(context, R.layout.debug_catalog_item_layout, this)
         obtainAttributes(context, attributeSet)
         updateView()
     }

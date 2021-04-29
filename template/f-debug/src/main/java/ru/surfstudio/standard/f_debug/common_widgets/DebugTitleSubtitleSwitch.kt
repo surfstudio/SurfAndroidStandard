@@ -35,8 +35,6 @@ class DebugTitleSubtitleSwitch(context: Context, attrs: AttributeSet) : Constrai
 
 
     init {
-        View.inflate(context, R.layout.layout_title_subtitle_switch, this)
-
         initListeners()
 
         obtainAttributes(context, attrs)
