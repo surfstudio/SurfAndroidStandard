@@ -175,6 +175,9 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 withSigningFile(script) {
+                    script.echo "artifactory user: ${script.env.surf_maven_username}"
+                    script.echo "artifactory password: ${script.env.surf_maven_password}"
+                    script.echo "sign: ${script.env.surf_maven_sign_key_ring_file}"
                     AndroidUtil.withGradleBuildCacheCredentials(script) {
                         script.sh "./gradlew clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory"
                     }
@@ -298,7 +301,7 @@ def static withArtifactoryCredentials(script, body) {
     }
 }
 
-def static withSigningFile(script, body) {
+def withSigningFile(script, body) {
     script.withCredentials([
             script.file(
                     credentialsId: "surf_maven_sign_key_ring_file",

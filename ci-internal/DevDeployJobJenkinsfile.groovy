@@ -355,7 +355,7 @@ def static withArtifactoryCredentials(script, body) {
     }
 }
 
-def static withSigningFile(script, body) {
+def withSigningFile(script, body) {
     script.withCredentials([
             script.file(
                     credentialsId: "surf_maven_sign_key_ring_file",

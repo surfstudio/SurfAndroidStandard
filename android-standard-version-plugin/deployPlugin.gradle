@@ -36,6 +36,10 @@ publishing {
 
             from components.java
 
+            println(System.getenv("surf_maven_sign_key_id"))
+            println(System.getenv("surf_maven_sign_password"))
+            println(System.getenv("surf_maven_sign_key_ring_file"))
+
             pom {
                 name = Components.getArtifactName(project.name)
                 description = Components.getArtifactDescription(project.name)
