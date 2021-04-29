@@ -1,6 +1,5 @@
 @Library('surf-lib@version-4.1.1-SNAPSHOT')
 // https://github.com/surfstudio/jenkins-pipeline-lib
-import groovy.json.JsonSlurper
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
@@ -177,20 +176,16 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
-                withSigningFile(script) {
-                    AndroidUtil.withGradleBuildCacheCredentials(script) {
-                        script.sh "./gradlew clean publish -PonlyUnstable=true -PdeployOnlyIfNotExist=true -PpublishType=artifactory"
-                    }
+            withJobCredentials(script) {
+                AndroidUtil.withGradleBuildCacheCredentials(script) {
+                    script.sh "./gradlew clean publish -PonlyUnstable=true -PdeployOnlyIfNotExist=true -PpublishType=artifactory"
                 }
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
-            withArtifactoryCredentials(script) {
-                withSigningFile(script) {
-                    script.sh "./gradlew generateDataForPlugin"
-                    script.sh "./gradlew :android-standard-version-plugin:publish"
-                }
+            withJobCredentials(script) {
+                script.sh "./gradlew generateDataForPlugin"
+                script.sh "./gradlew :android-standard-version-plugin:publish"
             }
         },
         pipeline.stage(BUILD_TEMPLATE) {
@@ -343,23 +338,21 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     return revisionToCompare
 }
 
-def static withArtifactoryCredentials(script, body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "Artifactory_Deploy_Credentials",
-                    usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password'
-            )
-    ]) {
-        body()
-    }
-}
-
-def static withSigningFile(script, body) {
+def static withJobCredentials(script, body) {
     script.withCredentials([
             script.file(
                     credentialsId: "surf_maven_sign_key_ring_file",
                     variable: 'surf_maven_sign_key_ring_file'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Maven_Sign_Credential",
+                    usernameVariable: 'surf_maven_sign_key_id',
+                    passwordVariable: 'surf_maven_sign_password'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Artifactory_Deploy_Credentials",
+                    usernameVariable: 'surf_maven_username',
+                    passwordVariable: 'surf_maven_password'
             )
     ]) {
         body()

@@ -79,8 +79,8 @@ publishing {
             name = PublishConfig.REPOSITORY_NAME
             url = ArtifactoryConfig.DEPLOY_URL
             credentials {
-                username ArtifactoryConfig.USER_NAME
-                password ArtifactoryConfig.PASSWORD
+                username System.getenv(ArtifactoryConfig.USERNAME_ENV_NAME)
+                password System.getenv(ArtifactoryConfig.PASSWORD_ENV_NAME)
             }
         }
     }

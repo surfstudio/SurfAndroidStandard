@@ -134,8 +134,8 @@ ext.configureDeploy = { context ->
                     name = PublishConfig.REPOSITORY_NAME
                     url = publishData.url
                     credentials {
-                        username publishData.userName
-                        password publishData.password
+                        username System.getenv(publishData.userNameEnvName)
+                        password System.getenv(publishData.passwordEnvName)
                     }
                 }   // maven
             } // repositories
