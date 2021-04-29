@@ -20,15 +20,19 @@ def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
 def CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT = 'Check Configuration is project snapshot'
 def INCREMENT_PROJECT_SNAPSHOT_VERSION = 'Increment Project Snapshot Version'
 def BUILD = 'Build'
+def BUILD_TEMPLATE = 'Template Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
+def UPDATE_TEMPLATE_VERSION_PLUGIN = 'Update Template Version Plugin'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
+def androidStandardTemplateConfigurationFile = "template/config.gradle"
+def projectConfigurationVersionFile = "buildSrc/build/tmp/projectVersion.txt"
 def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
 def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 
@@ -143,6 +147,22 @@ pipeline.stages = [
                 script.echo "skip project snapshot version incrementation stage"
             }
         },
+        pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
+            if (!skipIncrementVersion) {
+                script.sh("./gradlew generateProjectConfigurationVersionFileTask")
+
+                def currentStandardVersion = script.readFile(projectConfigurationVersionFile)
+
+                AndroidUtil.changeGradleVariable(
+                        script,
+                        androidStandardTemplateConfigurationFile,
+                        "androidStandardVersion",
+                        "'$currentStandardVersion'"
+                )
+            } else {
+                script.echo "skip template snapshot version incrementation stage"
+            }
+        },
         pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
@@ -184,6 +204,10 @@ pipeline.stages = [
                 script.sh "./gradlew generateDataForPlugin"
                 script.sh "./gradlew :android-standard-version-plugin:publish"
             }
+        },
+        pipeline.stage(BUILD_TEMPLATE) {
+            // build template after deploy in order to check usage of new artifacts
+            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             if (!skipIncrementVersion) {
