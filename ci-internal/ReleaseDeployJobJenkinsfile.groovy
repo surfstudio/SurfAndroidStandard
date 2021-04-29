@@ -136,9 +136,6 @@ pipeline.stages = [
             withArtifactoryCredentials(script) {
                 script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
             }
-            withBintrayCredentials(script) {
-                script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
-            }
         },
         pipeline.stage(CHECK_COMPONENT_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkComponentStable -Pcomponent=${componentName}")
@@ -202,10 +199,9 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -Pcomponent=${componentName}"
-                    script.sh "./gradlew distributeArtifactsToBintray -Pcomponent=${componentName} -PoverrideExisted=false"
+                    script.sh "./gradlew clean publish -Pcomponent=${componentName} -PpublishType=maven_release"
                 }
             }
         },
@@ -337,24 +333,21 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     return revisionToCompare
 }
 
-def static withArtifactoryCredentials(script, body) {
+def static withJobCredentials(script, body) {
     script.withCredentials([
+            script.file(
+                    credentialsId: "surf_maven_sign_key_ring_file",
+                    variable: 'surf_maven_sign_key_ring_file'
+            ),
             script.usernamePassword(
-                    credentialsId: "Artifactory_Deploy_Credentials",
-                    usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password'
-            )
-    ]) {
-        body()
-    }
-}
-
-def static withBintrayCredentials(script, body) {
-    script.withCredentials([
+                    credentialsId: "Maven_Sign_Credential",
+                    usernameVariable: 'surf_maven_sign_key_id',
+                    passwordVariable: 'surf_maven_sign_password'
+            ),
             script.usernamePassword(
-                    credentialsId: "Bintray_Deploy_Credentials",
-                    usernameVariable: 'surf_bintray_username',
-                    passwordVariable: 'surf_bintray_api_key'
+                    credentialsId: "Maven_Deploy_Credentials",
+                    usernameVariable: 'surf_ossrh_username',
+                    passwordVariable: 'surf_ossrh_password'
             )
     ]) {
         body()
