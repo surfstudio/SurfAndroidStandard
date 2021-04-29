@@ -200,8 +200,10 @@ pipeline.stages = [
         },
         pipeline.stage(DEPLOY_MODULES) {
             withMavenCredentials(script) {
-                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean publish -Pcomponent=${componentName} -PpublishType=maven_release"
+                withSigningFile(script) {
+                    AndroidUtil.withGradleBuildCacheCredentials(script) {
+                        script.sh "./gradlew clean publish -Pcomponent=${componentName} -PpublishType=maven_release"
+                    }
                 }
             }
         },
@@ -339,6 +341,17 @@ def static withMavenCredentials(script, body) {
                     credentialsId: "Maven_Deploy_Credentials",
                     usernameVariable: 'surf_ossrh_username',
                     passwordVariable: 'surf_ossrh_password'
+            )
+    ]) {
+        body()
+    }
+}
+
+def static withSigningFile(script, body) {
+    script.withCredentials([
+            script.file(
+                    credentialsId: "surf_maven_sign_key_ring_file",
+                    variable: 'surf_maven_sign_key_ring_file'
             )
     ]) {
         body()
