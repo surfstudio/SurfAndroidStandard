@@ -22,8 +22,6 @@ class EmptyLoadStatePresentation(
     @StringRes
     var messageTextRes: Int = R.string.state_empty_text
 
-    private lateinit var messageView: TextView
-
     override fun showState(state: EmptyLoadState) {
         initViews()
         with(placeHolder) {
@@ -34,6 +32,6 @@ class EmptyLoadStatePresentation(
     }
 
     private fun initViews() {
-        messageView.text = binding.root.context.getString(messageTextRes)
+        binding.emptyLoadStateTv.text = binding.root.context.getString(messageTextRes)
     }
 }
