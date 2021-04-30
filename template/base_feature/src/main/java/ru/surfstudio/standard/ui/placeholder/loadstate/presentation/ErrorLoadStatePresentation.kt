@@ -24,30 +24,17 @@ class ErrorLoadStatePresentation(
     @StringRes
     var messageTextRes: Int = R.string.state_error_message
 
-    private lateinit var messageView: TextView
-    private lateinit var reloadButton: Button
-
-    private val view: View by lazy {
-        LayoutInflater.from(placeHolder.context)
-                .inflate(R.layout.layout_state_error, placeHolder, false)
-                .apply {
-                    messageView = binding.errorLoadStateTv
-                    reloadButton = binding.errorLoadStateBtn
-                }
-    }
-
     override fun showState(state: ErrorLoadState) {
-        initViews(view)
-
+        initViews()
         with(placeHolder) {
-            changeViewTo(view)
-            reloadButton.setOnClickListener { state.action() }
+            changeViewTo(binding.root)
+            binding.errorLoadStateBtn.setOnClickListener { state.action() }
             setClickableAndFocusable(true)
             show()
         }
     }
 
-    private fun initViews(view: View) {
-        messageView.text = view.context.getString(messageTextRes)
+    private fun initViews() {
+        binding.errorLoadStateTv.text = binding.root.context.getString(messageTextRes)
     }
 }
