@@ -213,7 +213,7 @@ pipeline.stages = [
             script.sh "git tag -a $tag -m \"Set tag $tag $labels\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-        pipeline.stage(MIRROR_COMPONENT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(MIRROR_COMPONENT, StageStrategy.SKIP_STAGE) {
             if (pipeline.getStage(COMPONENT_ALPHA_COUNTER_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
