@@ -200,7 +200,7 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean publish -Pcomponent=${componentName} -PpublishType=maven_release"
+                    script.sh "./gradlew clean :${componentName}:publish -PpublishType=maven_release"
                 }
             }
         },
