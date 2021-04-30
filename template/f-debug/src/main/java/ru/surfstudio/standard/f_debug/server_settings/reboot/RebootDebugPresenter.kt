@@ -9,6 +9,7 @@ import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.f_debug.DebugInteractor
 import ru.surfstudio.standard.f_debug.server_settings.reboot.route.DebugLauncherActivityRoute
+import ru.surfstudio.standard.v_message_controller_top.IconMessageController
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

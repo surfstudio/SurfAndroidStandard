@@ -27,6 +27,8 @@ import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.ui.error.ErrorHandlerModule
 import ru.surfstudio.standard.ui.screen_modules.ScreenModule
+import ru.surfstudio.standard.v_message_controller_top.IconMessageController
+import ru.surfstudio.standard.v_message_controller_top.TopSnackIconMessageController
 import javax.inject.Named
 
 private const val PARENT_TYPE_DAGGER_NAME = "parent_type"
@@ -130,6 +132,12 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
                 else
                     null
         )
+    }
+
+    @Provides
+    @PerScreen
+    internal fun provideTopMessageController(activityProvider: ActivityProvider): IconMessageController {
+        return TopSnackIconMessageController(activityProvider)
     }
 
     private fun createFragmentProvider(): FragmentProvider {
