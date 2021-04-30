@@ -2179,7 +2179,7 @@
     "id": "util-ktx",
     "version": "0.5.0",
     "unstable_version": 7,
-    "stable": false,
+    "stable": true,
     "dir": "util-ktx",
     "libs": [
       {
