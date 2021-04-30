@@ -1983,7 +1983,7 @@
   {
     "id": "rx-extension",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 0,
     "stable": true,
     "dir": "rx-extension",
     "libs": [
