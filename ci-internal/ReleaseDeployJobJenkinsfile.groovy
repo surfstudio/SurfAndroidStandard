@@ -129,7 +129,6 @@ pipeline.stages = [
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
                 script.sh("./gradlew checkExistingDependencyArtifactsInArtifactory -Pcomponent=${componentName}")
-                script.sh("./gradlew checkExistingDependencyArtifactsInBintray -Pcomponent=${componentName}")
             }
         },
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -331,6 +330,18 @@ def static getPreviousRevisionWithVersionIncrement(script) {
         revisionToCompare = getCommitHash(script, previousCommit)
     }
     return revisionToCompare
+}
+
+def static withArtifactoryCredentials(script, body) {
+    script.withCredentials([
+            script.usernamePassword(
+                    credentialsId: "Artifactory_Deploy_Credentials",
+                    usernameVariable: 'surf_maven_username',
+                    passwordVariable: 'surf_maven_password'
+            )
+    ]) {
+        body()
+    }
 }
 
 def static withJobCredentials(script, body) {
