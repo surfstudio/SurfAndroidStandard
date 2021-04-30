@@ -60,12 +60,6 @@ ext.configureDeploy = { context ->
                         publishData = PublishUtil.getPublishData(publishType)
                     }
 
-                    // If -Pcomponent set, deploy only its artifacts
-                    if (project.hasProperty(GradleProperties.COMPONENT)) {
-                        def componentName = project.property(GradleProperties.COMPONENT)
-                        if (!Components.isLibraryFromComponent(project.name, componentName)) return
-                    }
-
                     // If -PonlyUnstable=true deploy only unstable artifacts
                     if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {
                         if (project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == trueValue
