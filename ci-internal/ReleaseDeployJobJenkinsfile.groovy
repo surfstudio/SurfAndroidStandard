@@ -127,12 +127,12 @@ pipeline.stages = [
             script.sh("./gradlew checkStandardDependenciesStableTask -Pcomponent=${componentName}")
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 script.sh("./gradlew checkExistingDependencyArtifactsInArtifactory -Pcomponent=${componentName}")
             }
         },
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
             }
         },
@@ -200,7 +200,9 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean :${componentName}:publish -PpublishType=maven_release"
+                    def publishTask = "./gradlew clean :${componentName}:publish"
+                    script.sh "$publishTask -PpublishType=maven_release"
+                    script.sh "$publishTask -PpublishType=artifactory"
                 }
             }
         },
@@ -332,18 +334,6 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     return revisionToCompare
 }
 
-def static withArtifactoryCredentials(script, body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "Artifactory_Deploy_Credentials",
-                    usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password'
-            )
-    ]) {
-        body()
-    }
-}
-
 def static withJobCredentials(script, body) {
     script.withCredentials([
             script.file(
@@ -359,6 +349,11 @@ def static withJobCredentials(script, body) {
                     credentialsId: "Maven_Deploy_Credentials",
                     usernameVariable: 'surf_ossrh_username',
                     passwordVariable: 'surf_ossrh_password'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Artifactory_Deploy_Credentials",
+                    usernameVariable: 'surf_maven_username',
+                    passwordVariable: 'surf_maven_password'
             )
     ]) {
         body()
