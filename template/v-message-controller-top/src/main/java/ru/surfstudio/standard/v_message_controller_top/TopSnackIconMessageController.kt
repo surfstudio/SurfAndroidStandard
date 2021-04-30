@@ -1,6 +1,7 @@
 package ru.surfstudio.standard.v_message_controller_top
 
 import android.content.Context
+import android.graphics.Color
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -55,7 +56,7 @@ class TopSnackIconMessageController(private val activityProvider: ActivityProvid
         Alerter.hide()
 
         val activity = activityProvider.get()
-        val backgroundColorTintRes = backgroundColor ?: R.color.red
+        val backgroundColorTintRes = backgroundColor ?: R.color.error_color_snackbar
         val backgroundColorTint = ContextCompat.getColor(activity as Context, backgroundColorTintRes)
         val backgroundRes = R.drawable.bg_snack
         val background = ContextCompat

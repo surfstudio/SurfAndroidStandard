@@ -19,6 +19,7 @@ import androidx.core.view.children
 import kotlinx.android.synthetic.main.alerter_alert_view.view.*
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.ui.view.setTopMargin
+import ru.surfstudio.standard.v_message_controller_top.databinding.AlerterAlertViewBinding
 
 typealias OnHideAlertListener = () -> Unit
 typealias OnShowAlertListener = () -> Unit
@@ -34,6 +35,8 @@ class Alert @JvmOverloads constructor(
         View.OnClickListener,
         Animation.AnimationListener,
         SwipeDismissTouchListener.DismissCallbacks {
+
+    private val binding = AlerterAlertViewBinding.inflate(LayoutInflater.from(context))
 
     companion object {
 
@@ -79,7 +82,7 @@ class Alert @JvmOverloads constructor(
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         ViewCompat.setTranslationZ(this, Float.MAX_VALUE)
 
-        llAlertBackground.setOnClickListener(this)
+        binding.llAlertBackground.setOnClickListener(this)
     }
 
     override fun onAttachedToWindow() {
@@ -98,7 +101,7 @@ class Alert @JvmOverloads constructor(
             val displayCutout = window?.decorView?.rootWindowInsets?.displayCutout
             val notchHeight = displayCutout?.safeInsetTop
             if (notchHeight != null) {
-                flClickShield.setTopMargin(notchHeight)
+                binding.flClickShield.setTopMargin(notchHeight)
             }
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -124,8 +127,8 @@ class Alert @JvmOverloads constructor(
         }
     }
 
-    override fun setOnClickListener(listener: View.OnClickListener?) {
-        llAlertBackground.setOnClickListener(listener)
+    override fun setOnClickListener(listener: OnClickListener?) {
+        binding.llAlertBackground.setOnClickListener(listener)
     }
 
     override fun setVisibility(visibility: Int) {
@@ -144,13 +147,13 @@ class Alert @JvmOverloads constructor(
             }
 
             if (showIcon) {
-                ivIcon?.visibility = View.VISIBLE
+                binding.ivIcon.visibility = View.VISIBLE
                 // Only pulse if we're not showing the progress
                 if (enableIconPulse) {
-                    ivIcon?.startAnimation(AnimationUtils.loadAnimation(context, R.anim.alerter_pulse))
+                    binding.ivIcon.startAnimation(AnimationUtils.loadAnimation(context, R.anim.alerter_pulse))
                 }
             } else {
-                ivIcon?.visibility = View.GONE
+                binding.ivIcon.visibility = View.GONE
             }
         }
     }
