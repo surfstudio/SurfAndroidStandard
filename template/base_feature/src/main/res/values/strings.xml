@@ -21,4 +21,7 @@
     <string name="bottom_bar_feed">Новости</string>
     <string name="bottom_bar_search">Поиск</string>
     <string name="bottom_bar_profile">Профиль</string>
+
+    <string name="onboarding_remind_later_btn">Напомнить позже</string>
+    <string name="onboarding_hide_btn">Скрыть</string>
 </resources>

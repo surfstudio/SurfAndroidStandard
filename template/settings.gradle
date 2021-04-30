@@ -10,6 +10,7 @@ include ":app",
         ":i-token",
         ":i-auth",
         ":i-push-notification",
+        ':i-onboarding',
         ":f-auth",
         ":f-main",
         ":f-debug",
@@ -18,6 +19,7 @@ include ":app",
         ':f-feed',
         ':f-search',
         ':f-profile',
+        ':f-onboarding',
         ":small-test-utils"
 
 apply from: 'android-standard/androidStandardSettings.gradle'

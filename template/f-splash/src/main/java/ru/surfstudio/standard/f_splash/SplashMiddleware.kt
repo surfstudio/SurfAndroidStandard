@@ -8,6 +8,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import ru.surfstudio.standard.f_splash.SplashEvent.Navigation
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
+import ru.surfstudio.standard.i_onboarding.OnBoardingStorage
 import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
 import ru.surfstudio.standard.ui.mvi.navigation.extension.replace
 import ru.surfstudio.standard.ui.navigation.routes.MainActivityRoute
@@ -26,7 +27,8 @@ const val TRANSITION_DELAY_MS = 2000L
 class SplashMiddleware @Inject constructor(
         baseMiddlewareDependency: BaseMiddlewareDependency,
         private val navigationMiddleware: NavigationMiddleware,
-        private val initializeAppInteractor: InitializeAppInteractor
+        private val initializeAppInteractor: InitializeAppInteractor,
+        private val onBoardingStorage: OnBoardingStorage
 ) : BaseMiddleware<SplashEvent>(baseMiddlewareDependency) {
 
     override fun transform(eventStream: Observable<SplashEvent>) =
@@ -47,7 +49,8 @@ class SplashMiddleware @Inject constructor(
     }
 
     private fun openNextScreen(): SplashEvent {
-        val nextRoute = MainActivityRoute()
-        return Navigation().replace(nextRoute)
+        return if (onBoardingStorage.shouldShowOnBoardingScreen){
+            Navigation()
+        } else Navigation().replace(MainActivityRoute())
     }
 }

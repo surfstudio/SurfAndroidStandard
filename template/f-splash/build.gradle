@@ -5,4 +5,5 @@ apply from: '../unitTestConfiguration.gradle'
 dependencies {
     implementation project(":i-initialization")
     implementation project(":i-network")
+    implementation project(":i-onboarding")
 }
