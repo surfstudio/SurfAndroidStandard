@@ -242,7 +242,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 10,
+    "unstable_version": 11,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -895,7 +895,7 @@
   {
     "id": "permission",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "permission",
     "libs": [
@@ -903,6 +903,7 @@
         "name": "permission",
         "dir": "lib-permission",
         "artifact_name": "permission",
+        "third_party_dependencies": [],
         "android_standard_dependencies": [
           {
             "name": "logger",
@@ -1688,7 +1689,7 @@
   {
     "id": "navigation",
     "version": "0.5.0",
-    "unstable_version": 10,
+    "unstable_version": 11,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -2218,7 +2219,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 49,
+    "unstable_version": 50,
     "stable": false,
     "dir": "template",
     "libs": [],
@@ -2251,7 +2252,7 @@
   {
     "id": "docs",
     "version": "0.5.0",
-    "unstable_version": 17,
+    "unstable_version": 18,
     "stable": false,
     "dir": "docs",
     "libs": [],
