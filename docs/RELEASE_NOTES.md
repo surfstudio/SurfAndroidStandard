@@ -4,6 +4,7 @@
 
 ## 0.5.0-alpha
 ##### Docs
+* Added paragraph about mock in unit-testing doc.
 * Added unit-testing doc
 * Init tracking changes in RELEASE_NOTES
 * Kotlin code style settings configuration.
