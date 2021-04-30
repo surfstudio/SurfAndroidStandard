@@ -15,6 +15,7 @@ class CustomApp : MultiDexApplication() {
 
     val activeActivityHolder = ActiveActivityHolder()
     var customAppComponent: CustomAppComponent? = null
+
     //листенер для SessionManager
     private val sessionActivityCallback by lazy { customAppComponent?.sessionActivityCallback() }
 
@@ -29,11 +30,12 @@ class CustomApp : MultiDexApplication() {
 
     private fun initInjector() {
         customAppComponent = DaggerCustomAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
-                .build()
+            .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
+            .build()
     }
 
     private fun registerSessionManager() {
+        registerActivityLifecycleCallbacks(customAppComponent?.navigationProviderCallbacks())
         registerActivityLifecycleCallbacks(sessionActivityCallback)
     }
 }

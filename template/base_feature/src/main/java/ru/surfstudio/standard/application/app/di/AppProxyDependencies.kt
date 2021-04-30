@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
+import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.navigation.executor.AppCommandExecutor
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
@@ -13,6 +14,7 @@ import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
+import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
 import ru.surfstudio.standard.i_auth.AuthInteractor
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
@@ -37,8 +39,10 @@ interface AppProxyDependencies {
     fun intentChecker(): IntentChecker
 
     fun commandExecutor(): AppCommandExecutor
+    fun navigationCallbacks(): ActivityNavigationProviderCallbacks
     fun activityNavigationProvider(): ActivityNavigationProvider
     fun screenResultObserver(): ScreenResultObserver
+    fun permissionManager(): PermissionManager
 
     fun fcmStorage(): FcmStorage
     fun pushHandler(): PushHandler

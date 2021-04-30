@@ -359,6 +359,14 @@
             "type": "api"
           },
           {
+            "name": "navigation",
+            "type": "api"
+          },
+          {
+            "name": "navigation-observer",
+            "type": "api"
+          },
+          {
             "name": "permission",
             "type": "api"
           },
@@ -895,12 +903,6 @@
         "name": "permission",
         "dir": "lib-permission",
         "artifact_name": "permission",
-        "third_party_dependencies": [
-          {
-            "name": "com.agna.ferro:ferro-rx",
-            "type": "implementation"
-          }
-        ],
         "android_standard_dependencies": [
           {
             "name": "logger",
@@ -911,7 +913,15 @@
             "type": "implementation"
           },
           {
-            "name": "core-navigation",
+            "name": "navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "navigation-observer",
+            "type": "implementation"
+          },
+          {
+            "name": "navigation-rx",
             "type": "implementation"
           },
           {
@@ -1728,6 +1738,10 @@
           {
             "name": "navigation",
             "type": "api"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
           }
         ]
       },

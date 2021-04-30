@@ -13,9 +13,9 @@ import java.io.Serializable
  *
  * This command can be handled in [ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult].
  */
-class EmitScreenResult<T : Serializable, R>(
-        override val route: R,
-        val result: T
-) : NavigationCommand where R : BaseRoute<*>, R : ResultRoute<T> {
+class EmitScreenResult<T : Serializable, R : ResultRoute<T>>(
+    override val route: R,
+    val result: T
+) : NavigationCommand {
     override val animations: Animations? = null
 }

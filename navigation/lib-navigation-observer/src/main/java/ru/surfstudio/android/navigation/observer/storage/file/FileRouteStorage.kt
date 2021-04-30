@@ -1,43 +1,35 @@
 package ru.surfstudio.android.navigation.observer.storage.file
 
-import ru.surfstudio.android.navigation.observer.storage.ScreenResultInfo
-import ru.surfstudio.android.navigation.observer.storage.ScreenResultStorage
+import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.navigation.observer.route.ActivityWithResultRoute
+import ru.surfstudio.android.navigation.observer.storage.RouteStorage
 import java.io.*
 import java.nio.ByteBuffer
 
-class FileScreenResultStorage(
+class FileRouteStorage(
     rootDirectoryName: String
-) : ScreenResultStorage {
+) : RouteStorage {
 
     private val rootDirectory: File
 
     init {
-        rootDirectory = File(rootDirectoryName, SCREEN_FOR_RESULT_DIR_NAME)
+        rootDirectory = File(rootDirectoryName, SCREEN_FOR_ROUTE_DIR_NAME)
         rootDirectory.mkdir()
     }
 
-    override fun <T : Serializable> get(targetId: String): ScreenResultInfo<T>? {
-        val name = getFileName(targetId)
-        val bytes = getBytesFromFile(name)
+    override fun <T : Serializable> get(): ActivityWithResultRoute<T>? {
+        val bytes = getBytesFromFile(FILE_NAME)
         return bytes?.let { decode(it) }
     }
 
-    override fun <T : Serializable> save(info: ScreenResultInfo<T>) {
-        val name = getFileName(info.targetId)
+    override fun <T : Serializable> save(info: ActivityWithResultRoute<T>) {
         val bytes = encode(info) ?: return
-        saveBytesOrRewrite(name, bytes)
+        saveBytesOrRewrite(FILE_NAME, bytes)
     }
 
-    override fun remove(targetId: String) {
-        val name = getFileName(targetId)
-        getFilesList()
-            .filter { it.name == name }
-            .forEach { it.delete() }
-    }
-
-    override fun contains(targetId: String): Boolean {
-        val name = getFileName(targetId)
-        return getFilesList().any { it.name == name }
+    override fun hasValue(): Boolean {
+        return getFilesList()
+            .any { it.name == FILE_NAME }
     }
 
     override fun clear() {
@@ -46,19 +38,15 @@ class FileScreenResultStorage(
             .forEach { it.delete() }
     }
 
-    private fun getFileName(targetId: String): String {
-        return targetId
-    }
-
-    private fun getFilesList(): List<File> {
-        return listOf(*rootDirectory.listFiles())
+    private fun getFilesList(): Array<File> {
+        return rootDirectory.listFiles() ?: emptyArray()
     }
 
     private fun getBytesFromFile(id: String): ByteArray? {
         return try {
             getBytesFromFileUnsafe(id)
         } catch (e: IOException) {
-            e.printStackTrace()
+            Logger.e(e)
             null
         }
     }
@@ -84,7 +72,7 @@ class FileScreenResultStorage(
         try {
             saveBytesOrRewriteUnsafe(key, encode)
         } catch (e: IOException) {
-            e.printStackTrace()
+            Logger.e(e)
         }
     }
 
@@ -114,7 +102,7 @@ class FileScreenResultStorage(
                 }
             }
         } catch (e: IOException) {
-            e.printStackTrace()
+            Logger.e(e)
             return null
         }
     }
@@ -127,17 +115,18 @@ class FileScreenResultStorage(
                 }
             }
         } catch (e: IOException) {
-            e.printStackTrace()
+            Logger.e(e)
             return null
         } catch (e: ClassNotFoundException) {
-            e.printStackTrace()
+            Logger.e(e)
             return null
         }
     }
 
     private companion object {
-        const val SCREEN_FOR_RESULT_DIR_NAME = "screen result storage"
         const val READ_MODE = "r"
         const val READ_WRITE_MODE = "rw"
+        const val SCREEN_FOR_ROUTE_DIR_NAME = "screen_route_storage"
+        const val FILE_NAME = "route_storage"
     }
 }
