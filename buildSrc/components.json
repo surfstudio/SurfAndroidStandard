@@ -2178,7 +2178,7 @@
   {
     "id": "util-ktx",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 0,
     "stable": true,
     "dir": "util-ktx",
     "libs": [
