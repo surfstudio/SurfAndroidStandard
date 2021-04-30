@@ -2015,7 +2015,7 @@
   {
     "id": "rxbus",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 0,
     "stable": true,
     "dir": "rxbus",
     "libs": [
