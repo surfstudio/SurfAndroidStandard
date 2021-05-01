@@ -44,6 +44,7 @@ interface AppProxyDependencies {
     fun activityNavigationProvider(): ActivityNavigationProvider
     fun screenResultObserver(): ScreenResultObserver
     fun permissionManager(): PermissionManager
+    fun onBoardingStorage(): OnBoardingStorage
 
     fun fcmStorage(): FcmStorage
     fun pushHandler(): PushHandler
@@ -52,5 +53,4 @@ interface AppProxyDependencies {
     fun sharedPreferences(): SharedPreferences
 
     fun authInteractor(): AuthInteractor
-    fun onBoardingStorage(): OnBoardingStorage
 }

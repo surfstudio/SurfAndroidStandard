@@ -10,7 +10,7 @@ import ru.surfstudio.standard.f_onboarding.di.OnboardingScreenConfigurator
 import ru.surfstudio.standard.ui.mvi.view.BaseMviActivityView
 import javax.inject.Inject
 
-internal class OnboardingAcitvityView: BaseMviActivityView<OnboardingStateHolder, OnboardingEvent>(),
+internal class OnboardingActivityView: BaseMviActivityView<OnboardingStateHolder, OnboardingEvent>(),
         SingleHubOwner<OnboardingEvent> {
 
     @Inject

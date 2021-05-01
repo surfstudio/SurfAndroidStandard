@@ -18,7 +18,7 @@ import ru.surfstudio.standard.ui.screen_modules.ActivityScreenModule
 import ru.surfstudio.standard.ui.screen_modules.CustomScreenModule
 
 /**
- * Конфигуратор [OnboardingAcitvityView].
+ * Конфигуратор [OnboardingActivityView].
  */
 internal class OnboardingScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
 
@@ -27,7 +27,7 @@ internal class OnboardingScreenConfigurator(intent: Intent) : ActivityScreenConf
             dependencies = [ActivityComponent::class],
             modules = [ActivityScreenModule::class, OnboardingScreenModule::class]
     )
-    internal interface OnboardingScreenComponent : BindableScreenComponent<OnboardingAcitvityView>
+    internal interface OnboardingScreenComponent : BindableScreenComponent<OnboardingActivityView>
 
     @Module
     internal class OnboardingScreenModule(route: OnboardingActivityRoute) :
