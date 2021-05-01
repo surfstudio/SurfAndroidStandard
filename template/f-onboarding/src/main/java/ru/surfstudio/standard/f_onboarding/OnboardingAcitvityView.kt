@@ -1,7 +1,5 @@
 package ru.surfstudio.standard.f_onboarding
 
-import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
 import ru.surfstudio.android.core.mvi.event.hub.owner.SingleHubOwner
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
@@ -26,7 +24,7 @@ internal class OnboardingAcitvityView: BaseMviActivityView<OnboardingStateHolder
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_onboarding
 
-    override fun createConfigurator() = OnboardingScreenConfigurator()
+    override fun createConfigurator() = OnboardingScreenConfigurator(intent)
 
     override fun getScreenName(): String = "OnBoardingActivityView"
 

@@ -5,13 +5,18 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import ru.surfstudio.standard.f_splash.SplashEvent.Navigation
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_onboarding.OnBoardingStorage
 import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
+import ru.surfstudio.standard.ui.mvi.navigation.extension.builder
+import ru.surfstudio.standard.ui.mvi.navigation.extension.finishAffinity
 import ru.surfstudio.standard.ui.mvi.navigation.extension.replace
+import ru.surfstudio.standard.ui.mvi.navigation.extension.start
 import ru.surfstudio.standard.ui.navigation.routes.MainActivityRoute
+import ru.surfstudio.standard.ui.navigation.routes.OnboardingActivityRoute
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -31,6 +36,12 @@ class SplashMiddleware @Inject constructor(
         private val onBoardingStorage: OnBoardingStorage
 ) : BaseMiddleware<SplashEvent>(baseMiddlewareDependency) {
 
+    private val nextRoute: ActivityRoute
+        get() = if (onBoardingStorage.shouldShowOnBoardingScreen)
+            OnboardingActivityRoute()
+        else
+            MainActivityRoute()
+
     override fun transform(eventStream: Observable<SplashEvent>) =
             transformations(eventStream) {
                 addAll(
@@ -48,9 +59,7 @@ class SplashMiddleware @Inject constructor(
                 .toObservable()
     }
 
-    private fun openNextScreen(): SplashEvent {
-        return if (onBoardingStorage.shouldShowOnBoardingScreen){
-            Navigation()
-        } else Navigation().replace(MainActivityRoute())
-    }
+    private fun openNextScreen(): SplashEvent =
+            Navigation().builder().finishAffinity().start(nextRoute).build()
+
 }

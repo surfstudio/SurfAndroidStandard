@@ -16,6 +16,7 @@ dependencies {
     implementation project(":i-token")
     implementation project(":i-initialization")
     implementation project(":i-session")
+    implementation project(":i-onboarding")
 
     api rxBinding4.core
     api rxBinding4.material
