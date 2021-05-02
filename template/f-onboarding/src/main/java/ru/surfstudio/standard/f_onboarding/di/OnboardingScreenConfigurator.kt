@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.mvi.impls.event.hub.dependency.ScreenEventHubD
 import ru.surfstudio.android.core.mvi.impls.ui.binder.ScreenBinder
 import ru.surfstudio.android.core.mvi.impls.ui.binder.ScreenBinderDependency
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
+import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.f_onboarding.*
 import ru.surfstudio.standard.ui.activity.di.ActivityComponent
@@ -27,7 +28,7 @@ internal class OnboardingScreenConfigurator(intent: Intent) : ActivityScreenConf
             dependencies = [ActivityComponent::class],
             modules = [ActivityScreenModule::class, OnboardingScreenModule::class]
     )
-    internal interface OnboardingScreenComponent : BindableScreenComponent<OnboardingActivityView>
+    interface OnboardingScreenComponent : BindableScreenComponent<OnboardingActivityView>
 
     @Module
     internal class OnboardingScreenModule(route: OnboardingActivityRoute) :
@@ -51,11 +52,11 @@ internal class OnboardingScreenConfigurator(intent: Intent) : ActivityScreenConf
         }
     }
 
-    override fun createScreenComponent(parentActivityComponent: ActivityComponent?,
-                                       activityScreenModule: ActivityScreenModule?,
-                                       intent: Intent?): OnboardingScreenComponent {
+    override fun createScreenComponent(activityComponent: ActivityComponent,
+                                       activityScreenModule: ActivityScreenModule,
+                                       intent: Intent): ScreenComponent<*> {
         return DaggerOnboardingScreenConfigurator_OnboardingScreenComponent.builder()
-                .activityComponent(parentActivityComponent)
+                .activityComponent(activityComponent)
                 .activityScreenModule(activityScreenModule)
                 .onboardingScreenModule(OnboardingScreenModule(OnboardingActivityRoute()))
                 .build()

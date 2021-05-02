@@ -10,14 +10,13 @@ import ru.surfstudio.standard.f_onboarding.di.OnboardingScreenConfigurator
 import ru.surfstudio.standard.ui.mvi.view.BaseMviActivityView
 import javax.inject.Inject
 
-internal class OnboardingActivityView: BaseMviActivityView<OnboardingStateHolder, OnboardingEvent>(),
-        SingleHubOwner<OnboardingEvent> {
+internal class OnboardingActivityView : BaseMviActivityView<OnboardingState, OnboardingEvent>() {
 
     @Inject
     override lateinit var hub: ScreenEventHub<OnboardingEvent>
 
     @Inject
-    override lateinit var sh: State<OnboardingStateHolder>
+    override lateinit var sh: State<OnboardingState>
 
     private val binding by viewBinding(ActivityOnboardingBinding::bind) { rootView }
 
@@ -26,13 +25,13 @@ internal class OnboardingActivityView: BaseMviActivityView<OnboardingStateHolder
 
     override fun createConfigurator() = OnboardingScreenConfigurator(intent)
 
-    override fun getScreenName(): String = "OnBoardingActivityView"
+    override fun getScreenName(): String = "OnboardingActivityView"
 
-    override fun render(state: OnboardingStateHolder) {
+    override fun initViews() {
         //TODO расширить реализацию при создании приложения
     }
 
-    override fun initViews() {
+    override fun render(state: OnboardingState) {
         //TODO расширить реализацию при создании приложения
     }
 

@@ -40,6 +40,7 @@ dependencies {
     implementation project(":f-search")
     implementation project(":f-feed")
     implementation project(":f-profile")
+    implementation project(":f-onboarding")
 
     implementation lang.kotlinStdLib
     implementation lang.jetbrainsAnnotations
