@@ -24,9 +24,7 @@ internal class SplashMiddlewareTest : BaseMiddlewareTest() {
         every { initialize() } returns Completable.complete()
     }
 
-    private val onboardingStorage: OnBoardingStorage = mockk {
-        every { shouldShowOnBoardingScreen } returns false
-    }
+    private val onboardingStorage: OnBoardingStorage = mockk()
 
     @After
     fun tearDownTest() {
