@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.ui.widget.di
 
-import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.ScreenType
