@@ -1,6 +1,7 @@
 package ru.surfstudio.standard.f_onboarding
 
 import androidx.annotation.LayoutRes
+import com.jakewharton.rxbinding2.view.clicks
 import ru.surfstudio.android.core.mvi.event.hub.owner.SingleHubOwner
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
@@ -10,17 +11,19 @@ import ru.surfstudio.standard.f_onboarding.di.OnboardingScreenConfigurator
 import ru.surfstudio.standard.ui.mvi.view.BaseMviActivityView
 import javax.inject.Inject
 
+/**
+ * Вью экрана онбординга
+ */
 internal class OnboardingActivityView : BaseMviActivityView<OnboardingState, OnboardingEvent>() {
 
     @Inject
     override lateinit var hub: ScreenEventHub<OnboardingEvent>
 
     @Inject
-    override lateinit var sh: State<OnboardingState>
+    override lateinit var sh: OnboardingStateHolder
 
     private val binding by viewBinding(ActivityOnboardingBinding::bind) { rootView }
 
-    @LayoutRes
     override fun getContentView(): Int = R.layout.activity_onboarding
 
     override fun createConfigurator() = OnboardingScreenConfigurator(intent)
@@ -29,6 +32,8 @@ internal class OnboardingActivityView : BaseMviActivityView<OnboardingState, Onb
 
     override fun initViews() {
         //TODO расширить реализацию при создании приложения
+        binding.onboardingRemindLaterBtn.clicks().emit(OnboardingEvent.Input.RemindLaterBtnClicked)
+        binding.onboardingSkipBtn.clicks().emit(OnboardingEvent.Input.SkipBtnClicked)
     }
 
     override fun render(state: OnboardingState) {

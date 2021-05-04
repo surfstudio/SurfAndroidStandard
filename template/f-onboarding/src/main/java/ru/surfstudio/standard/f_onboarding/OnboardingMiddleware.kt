@@ -7,16 +7,17 @@ import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.i_onboarding.OnBoardingStorage
-import ru.surfstudio.standard.ui.mvi.navigation.AppNavigationMiddleware
+import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
 import ru.surfstudio.standard.ui.mvi.navigation.extension.builder
 import ru.surfstudio.standard.ui.mvi.navigation.extension.finish
+import ru.surfstudio.standard.ui.mvi.navigation.extension.finishAffinity
 import ru.surfstudio.standard.ui.mvi.navigation.extension.start
 import ru.surfstudio.standard.ui.navigation.routes.MainActivityRoute
 
 @PerScreen
 internal class OnboardingMiddleware @Inject constructor(
         baseMiddlewareDependency: BaseMiddlewareDependency,
-        private val navigationMiddleware: AppNavigationMiddleware,
+        private val navigationMiddleware: NavigationMiddleware,
         private val onBoardingStorage: OnBoardingStorage,
 ) : BaseMiddleware<OnboardingEvent>(baseMiddlewareDependency) {
 
@@ -31,7 +32,7 @@ internal class OnboardingMiddleware @Inject constructor(
     private fun closeOnboardingClick(isRemindLater: Boolean): OnboardingEvent {
         onBoardingStorage.shouldShowOnBoardingScreen = isRemindLater
         return Navigation().builder()
-                .finish()
+                .finishAffinity()
                 .start(MainActivityRoute())
                 .build()
     }

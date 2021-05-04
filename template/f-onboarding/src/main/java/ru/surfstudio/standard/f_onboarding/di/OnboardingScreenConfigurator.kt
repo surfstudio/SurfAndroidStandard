@@ -28,7 +28,7 @@ internal class OnboardingScreenConfigurator(intent: Intent) : ActivityScreenConf
             dependencies = [ActivityComponent::class],
             modules = [ActivityScreenModule::class, OnboardingScreenModule::class]
     )
-    interface OnboardingScreenComponent : BindableScreenComponent<OnboardingActivityView>
+    internal interface OnboardingScreenComponent : BindableScreenComponent<OnboardingActivityView>
 
     @Module
     internal class OnboardingScreenModule(route: OnboardingActivityRoute) :

@@ -3,4 +3,5 @@ apply from: '../commonKaptModule.gradle'
 
 dependencies {
     implementation project(":i-onboarding")
+    implementation project(":i-network")
 }
