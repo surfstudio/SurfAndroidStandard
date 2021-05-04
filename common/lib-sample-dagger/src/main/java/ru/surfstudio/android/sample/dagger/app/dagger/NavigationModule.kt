@@ -1,18 +1,15 @@
-package ru.surfstudio.standard.ui.navigation.di
+package ru.surfstudio.android.sample.dagger.app.dagger
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.filestorage.utils.AppDirectoriesProvider
 import ru.surfstudio.android.navigation.executor.AppCommandExecutor
-import ru.surfstudio.android.navigation.executor.screen.dialog.DialogCommandExecutor
-import ru.surfstudio.android.navigation.executor.screen.fragment.FragmentCommandExecutor
 import ru.surfstudio.android.navigation.observer.ScreenResultEmitter
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.bus.ScreenResultBus
 import ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult
-import ru.surfstudio.android.navigation.observer.executor.screen.activity.ActivityCommandWithResultExecutor
 import ru.surfstudio.android.navigation.observer.navigator.activity.ActivityNavigatorWithResultFactory
 import ru.surfstudio.android.navigation.observer.storage.RouteStorage
 import ru.surfstudio.android.navigation.observer.storage.ScreenResultStorage
@@ -27,22 +24,17 @@ class NavigationModule {
 
     @Provides
     @PerApplication
-    fun provideScreenResultStorage(context: Context): ScreenResultStorage {
-        val filesDir = AppDirectoriesProvider.provideNoBackupStorageDir(context)
-        return FileScreenResultStorage(filesDir)
+    @Named(SCREEN_ROUTE_STORAGE_DIR)
+    internal fun provideRouteStorageDir(context: Context): String {
+        return ContextCompat.getNoBackupFilesDir(context)!!.absolutePath
     }
 
     @Provides
     @PerApplication
-    fun provideScreenResultBus(storage: ScreenResultStorage): ScreenResultBus {
-        return ScreenResultBus(storage)
-    }
-
-    @Provides
-    @PerApplication
-    internal fun provideRouteStorage(context: Context): RouteStorage {
-        val filesDir = AppDirectoriesProvider.provideNoBackupStorageDir(context)
-        return FileRouteStorage(filesDir)
+    internal fun provideRouteStorage(
+        @Named(SCREEN_ROUTE_STORAGE_DIR) dir: String
+    ): RouteStorage {
+        return FileRouteStorage(dir)
     }
 
     @Provides
@@ -56,30 +48,60 @@ class NavigationModule {
 
     @Provides
     @PerApplication
-    fun provideActivityNavigationProviderCallbacks(factory: ActivityNavigatorWithResultFactory): ActivityNavigationProviderCallbacks {
+    internal fun provideActivityNavigationProviderCallbacks(
+        factory: ActivityNavigatorWithResultFactory
+    ): ActivityNavigationProviderCallbacks {
         return ActivityNavigationProviderCallbacks(activityNavigatorFactory = factory)
     }
 
     @Provides
     @PerApplication
-    fun provideActivityNavigationProvider(
-        activityNavigationProviderCallbacks: ActivityNavigationProviderCallbacks
+    internal fun provideNavigationProvider(
+        navigationCallbacks: ActivityNavigationProviderCallbacks
     ): ActivityNavigationProvider {
-        return activityNavigationProviderCallbacks
+        return navigationCallbacks
     }
 
     @Provides
     @PerApplication
-    fun provideAppCommandExecutor(
+    @Named(SCREEN_RESULT_STORAGE_DIR)
+    internal fun provideStorage(context: Context): String {
+        return ContextCompat.getNoBackupFilesDir(context)!!.absolutePath
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideScreenResultStorage(
+        @Named(SCREEN_RESULT_STORAGE_DIR) dir: String
+    ): ScreenResultStorage {
+        return FileScreenResultStorage(dir)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideScreenResultBus(
+        storage: ScreenResultStorage
+    ): ScreenResultBus {
+        return ScreenResultBus(storage)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideResultEmitter(bus: ScreenResultBus): ScreenResultEmitter = bus
+
+    @Provides
+    @PerApplication
+    internal fun provideResultObserver(bus: ScreenResultBus): ScreenResultObserver = bus
+
+    @Provides
+    @PerApplication
+    internal fun provideNavigatorCommand(
         screenResultEmitter: ScreenResultEmitter,
         activityNavigationProvider: ActivityNavigationProvider
     ): AppCommandExecutorWithResult {
         return AppCommandExecutorWithResult(
             screenResultEmitter,
-            activityNavigationProvider,
-            ActivityCommandWithResultExecutor(activityNavigationProvider),
-            FragmentCommandExecutor(activityNavigationProvider),
-            DialogCommandExecutor(activityNavigationProvider)
+            activityNavigationProvider
         )
     }
 
@@ -88,15 +110,8 @@ class NavigationModule {
     fun provideCommandExecutor(commandExecutor: AppCommandExecutorWithResult): AppCommandExecutor =
         commandExecutor
 
-    @Provides
-    @PerApplication
-    fun provideScreenResultObserver(screenResultBus: ScreenResultBus): ScreenResultObserver {
-        return screenResultBus
-    }
-
-    @Provides
-    @PerApplication
-    fun provideScreenResultEmitter(screenResultBus: ScreenResultBus): ScreenResultEmitter {
-        return screenResultBus
+    private companion object {
+        const val SCREEN_RESULT_STORAGE_DIR = "screen_result_storage"
+        const val SCREEN_ROUTE_STORAGE_DIR = "screen_route_storage"
     }
 }
