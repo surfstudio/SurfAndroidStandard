@@ -1113,7 +1113,7 @@
     "id": "easyadapter",
     "version": "2.1.0",
     "unstable_version": 2,
-    "stable": false,
+    "stable": true,
     "dir": "easyadapter",
     "libs": [
       {
