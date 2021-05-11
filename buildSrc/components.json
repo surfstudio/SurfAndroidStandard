@@ -119,7 +119,7 @@
     "id": "app-migration",
     "version": "0.5.0",
     "unstable_version": 7,
-    "stable": false,
+    "stable": true,
     "dir": "app-migration",
     "libs": [
       {
