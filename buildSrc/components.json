@@ -1039,7 +1039,7 @@
   {
     "id": "datalist",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 0,
     "stable": true,
     "dir": "datalist",
     "libs": [
