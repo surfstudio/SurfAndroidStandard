@@ -1171,7 +1171,7 @@
     "id": "filestorage",
     "version": "0.5.0",
     "unstable_version": 5,
-    "stable": false,
+    "stable": true,
     "dir": "filestorage",
     "libs": [
       {
