@@ -1006,7 +1006,7 @@
   {
     "id": "dagger-scope",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 0,
     "stable": true,
     "dir": "dagger-scope",
     "libs": [
