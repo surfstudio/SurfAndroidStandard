@@ -771,7 +771,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 14,
+    "unstable_version": 0,
     "stable": true,
     "dir": "core-ui",
     "libs": [
