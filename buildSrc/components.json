@@ -1225,7 +1225,7 @@
     "id": "google-pay-button",
     "version": "0.5.0",
     "unstable_version": 4,
-    "stable": false,
+    "stable": true,
     "dir": "google-pay-button",
     "libs": [
       {
