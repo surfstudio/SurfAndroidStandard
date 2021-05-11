@@ -1262,7 +1262,7 @@
   {
     "id": "imageloader",
     "version": "0.5.0",
-    "unstable_version": 11,
+    "unstable_version": 0,
     "stable": true,
     "dir": "imageloader",
     "libs": [
