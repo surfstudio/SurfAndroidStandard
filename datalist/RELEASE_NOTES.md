@@ -1,10 +1,10 @@
 # Datalist Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.5.0](#050)
 - [0.4.0](#040)
 - [0.2.0](#020)
 
-## 0.5.0-alpha
+## 0.5.0
 ##### Datalist-limit-offset
 * ANDDEP-1120 added base interface to datalist
 ## 0.4.0
