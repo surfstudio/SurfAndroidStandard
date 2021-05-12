@@ -1690,7 +1690,7 @@
     "id": "navigation",
     "version": "0.5.0",
     "unstable_version": 11,
-    "stable": false,
+    "stable": true,
     "dir": "navigation",
     "libs": [
       {
