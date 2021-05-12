@@ -945,7 +945,7 @@
     "id": "custom-view",
     "version": "0.5.0",
     "unstable_version": 10,
-    "stable": false,
+    "stable": true,
     "dir": "custom-view",
     "libs": [
       {
