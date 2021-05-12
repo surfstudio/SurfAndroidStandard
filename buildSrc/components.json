@@ -682,7 +682,7 @@
     "id": "core-mvp-binding",
     "version": "0.5.0",
     "unstable_version": 21,
-    "stable": false,
+    "stable": true,
     "dir": "core-mvp-binding",
     "libs": [
       {
