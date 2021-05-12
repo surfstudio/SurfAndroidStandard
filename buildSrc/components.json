@@ -681,7 +681,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 21,
+    "unstable_version": 22,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -1685,7 +1685,7 @@
   {
     "id": "navigation",
     "version": "0.5.0",
-    "unstable_version": 11,
+    "unstable_version": 12,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1780,7 +1780,7 @@
   {
     "id": "picture-provider",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "picture-provider",
     "libs": [
@@ -2036,7 +2036,7 @@
   {
     "id": "security",
     "version": "0.5.0",
-    "unstable_version": 10,
+    "unstable_version": 11,
     "stable": false,
     "dir": "security",
     "libs": [
@@ -2218,7 +2218,7 @@
   {
     "id": "android-standard-version-plugin",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "android-standard-version-plugin",
     "libs": [],
