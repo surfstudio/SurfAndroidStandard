@@ -2036,7 +2036,7 @@
   {
     "id": "security",
     "version": "0.5.0",
-    "unstable_version": 10,
+    "unstable_version": 11,
     "stable": false,
     "dir": "security",
     "libs": [
@@ -2218,7 +2218,7 @@
   {
     "id": "android-standard-version-plugin",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 5,
     "stable": false,
     "dir": "android-standard-version-plugin",
     "libs": [],
