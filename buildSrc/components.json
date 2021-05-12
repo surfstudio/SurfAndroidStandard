@@ -1111,7 +1111,7 @@
   },
   {
     "id": "easyadapter",
-    "version": "2.1.0",
+    "version": "7.0.0",
     "unstable_version": 0,
     "stable": true,
     "dir": "easyadapter",
