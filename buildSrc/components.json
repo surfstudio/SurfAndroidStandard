@@ -1921,7 +1921,7 @@
   {
     "id": "recycler-decorator",
     "version": "1.0.1",
-    "unstable_version": 2,
+    "unstable_version": 0,
     "stable": true,
     "dir": "recycler-decorator",
     "libs": [
