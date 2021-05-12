@@ -1781,7 +1781,7 @@
     "id": "picture-provider",
     "version": "0.5.0",
     "unstable_version": 6,
-    "stable": false,
+    "stable": true,
     "dir": "picture-provider",
     "libs": [
       {
