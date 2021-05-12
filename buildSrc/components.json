@@ -1884,7 +1884,7 @@
     "id": "recycler-extension",
     "version": "0.5.0",
     "unstable_version": 10,
-    "stable": false,
+    "stable": true,
     "dir": "recycler-extension",
     "libs": [
       {
