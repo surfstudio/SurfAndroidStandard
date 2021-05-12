@@ -533,7 +533,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 30,
+    "unstable_version": 0,
     "stable": true,
     "dir": "mvi",
     "libs": [
