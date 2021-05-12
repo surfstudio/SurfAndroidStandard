@@ -1395,7 +1395,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 18,
+    "unstable_version": 0,
     "stable": true,
     "dir": "mvp",
     "libs": [
