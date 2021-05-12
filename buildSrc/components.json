@@ -725,10 +725,6 @@
         ],
         "android_standard_dependencies": [
           {
-            "name": "core-app",
-            "type": "implementation"
-          },
-          {
             "name": "core-ui",
             "type": "implementation"
           },
@@ -1800,10 +1796,6 @@
         ],
         "android_standard_dependencies": [
           {
-            "name": "core-app",
-            "type": "implementation"
-          },
-          {
             "name": "core-ui",
             "type": "implementation"
           },
@@ -2077,10 +2069,6 @@
           },
           {
             "name": "util-ktx",
-            "type": "implementation"
-          },
-          {
-            "name": "core-app",
             "type": "implementation"
           }
         ]
