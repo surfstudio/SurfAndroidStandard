@@ -1922,7 +1922,7 @@
     "id": "recycler-decorator",
     "version": "1.0.1",
     "unstable_version": 2,
-    "stable": false,
+    "stable": true,
     "dir": "recycler-decorator",
     "libs": [
       {
