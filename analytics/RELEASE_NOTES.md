@@ -1,12 +1,13 @@
 # Analytics Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.5.0](#050)
 - [0.4.0](#040)
 
-## 0.5.0-alpha
+## 0.5.0
 ##### Analytics
 * ANDDEP-928 Remove Crashlytics dependencies
 * ANDDEP-1048 Fixing wrong docs links and docs structure
+* ANDDEP-1201 Added navigation modules
 ## 0.4.0
 ##### Analytics
 * ANDDEP-294 Improved analytics module

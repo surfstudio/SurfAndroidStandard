@@ -127,17 +127,13 @@ pipeline.stages = [
             script.sh("./gradlew checkStandardDependenciesStableTask -Pcomponent=${componentName}")
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 script.sh("./gradlew checkExistingDependencyArtifactsInArtifactory -Pcomponent=${componentName}")
-                script.sh("./gradlew checkExistingDependencyArtifactsInBintray -Pcomponent=${componentName}")
             }
         },
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
-            }
-            withBintrayCredentials(script) {
-                script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
             }
         },
         pipeline.stage(CHECK_COMPONENT_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -202,10 +198,11 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -Pcomponent=${componentName}"
-                    script.sh "./gradlew distributeArtifactsToBintray -Pcomponent=${componentName} -PoverrideExisted=false"
+                    def publishTask = "./gradlew clean publish -Pcomponent=$componentName"
+                    script.sh "$publishTask -PpublishType=maven_release"
+                    script.sh "$publishTask -PpublishType=artifactory"
                 }
             }
         },
@@ -218,7 +215,7 @@ pipeline.stages = [
             script.sh "git tag -a $tag -m \"Set tag $tag $labels\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-        pipeline.stage(MIRROR_COMPONENT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(MIRROR_COMPONENT, StageStrategy.SKIP_STAGE) {
             if (pipeline.getStage(COMPONENT_ALPHA_COUNTER_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
@@ -337,24 +334,26 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     return revisionToCompare
 }
 
-def static withArtifactoryCredentials(script, body) {
+def static withJobCredentials(script, body) {
     script.withCredentials([
+            script.file(
+                    credentialsId: "surf_maven_sign_key_ring_file",
+                    variable: 'surf_maven_sign_key_ring_file'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Maven_Sign_Credential",
+                    usernameVariable: 'surf_maven_sign_key_id',
+                    passwordVariable: 'surf_maven_sign_password'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Maven_Deploy_Credentials",
+                    usernameVariable: 'surf_ossrh_username',
+                    passwordVariable: 'surf_ossrh_password'
+            ),
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
                     passwordVariable: 'surf_maven_password'
-            )
-    ]) {
-        body()
-    }
-}
-
-def static withBintrayCredentials(script, body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "Bintray_Deploy_Credentials",
-                    usernameVariable: 'surf_bintray_username',
-                    passwordVariable: 'surf_bintray_api_key'
             )
     ]) {
         body()

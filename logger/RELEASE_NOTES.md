@@ -1,9 +1,9 @@
 # Logger Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.5.0](#050)
 - [0.3.0](#030)
 
-## 0.5.0-alpha
+## 0.5.0
 ##### Logger
 * **NO BACKWARD COMPATIBILITY** ANDDEP-928 Remove Crashlytics and Timber
   dependencies

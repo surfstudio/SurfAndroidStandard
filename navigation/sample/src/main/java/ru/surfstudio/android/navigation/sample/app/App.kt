@@ -8,6 +8,7 @@ import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.bus.ScreenResultBus
 import ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult
 import ru.surfstudio.android.navigation.observer.navigator.activity.ActivityNavigatorWithResultFactory
+import ru.surfstudio.android.navigation.observer.storage.file.FileRouteStorage
 import ru.surfstudio.android.navigation.observer.storage.file.FileScreenResultStorage
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
@@ -29,8 +30,12 @@ class App : Application() {
     }
 
     private fun initExecutor(screenResultEmitter: ScreenResultEmitter) {
+        val routeStorage = FileRouteStorage(noBackupFilesDir())
         val activityNavigationProvider = ActivityNavigationProviderCallbacks(
-                activityNavigatorFactory = ActivityNavigatorWithResultFactory()
+            activityNavigatorFactory = ActivityNavigatorWithResultFactory(
+                routeStorage = routeStorage,
+                screenResultEmitter = screenResultEmitter
+            )
         )
         registerActivityLifecycleCallbacks(activityNavigationProvider)
         provider = activityNavigationProvider
@@ -38,8 +43,7 @@ class App : Application() {
     }
 
     private fun initResultObserver() {
-        val filesDir = ContextCompat.getNoBackupFilesDir(this)!!.absolutePath
-        val storage = FileScreenResultStorage(filesDir)
+        val storage = FileScreenResultStorage(noBackupFilesDir())
         val resultBus = ScreenResultBus(storage)
         resultObserver = resultBus
         initExecutor(resultBus)
@@ -48,5 +52,9 @@ class App : Application() {
     private fun initAnimations() {
         DefaultAnimations.fragment = SlideAnimations() //animations for all fragment changes
         DefaultAnimations.tab = FadeAnimations() //animations for tab changes
+    }
+
+    private fun noBackupFilesDir(): String {
+        return ContextCompat.getNoBackupFilesDir(this)!!.absolutePath
     }
 }
