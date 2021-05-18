@@ -1,9 +1,9 @@
 # Core-mvp-binding Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.5.0](#050)
 - [0.3.0](#030)
 
-## 0.5.0-alpha
+## 0.5.0
 ##### Core-mvp-binding
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type
 * Clearing `BaseRxFragmentView.viewDisposable` move from onDestroy to onDestroyView

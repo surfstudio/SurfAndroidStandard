@@ -1,9 +1,9 @@
 # Connection Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.5.0](#050)
 - [0.4.0](#040)
 
-## 0.5.0-alpha
+## 0.5.0
 ##### Connection
 * TODO
 ## 0.4.0

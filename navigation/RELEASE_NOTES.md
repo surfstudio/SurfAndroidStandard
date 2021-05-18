@@ -1,6 +1,6 @@
 # Navigation Release Notes
 
-## 0.5.0-alpha
+## 0.5.0
 ##### Navigation
 * ANDDEP-1203 Fixes after core-ui improvements
 * ANDDEP-312 Added navigation module
@@ -14,3 +14,4 @@
 * ANDDEP-1153 Fixed wrong behavior RemoveLast
 * ANDDEP-1100 Added command StartForResult to open system activities for getting result
 * ANDDEP-1148 code updated for target sdk 30
+* ANDDEP-1201 Added command RequestPermission, added getId for ResultRoute

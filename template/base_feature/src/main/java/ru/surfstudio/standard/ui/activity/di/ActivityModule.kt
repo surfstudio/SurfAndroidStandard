@@ -11,7 +11,6 @@ import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureIn
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragmentNavigator
 import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.core.ui.scope.PersistentScope
@@ -97,22 +96,6 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
     @PerActivity
     internal fun provideEventDelegateManager(): ScreenEventDelegateManager {
         return persistentScope.screenEventDelegateManager
-    }
-
-    @Provides
-    @PerActivity
-    internal fun providePermissionManager(
-            eventDelegateManager: ScreenEventDelegateManager,
-            activityNavigator: ActivityNavigator,
-            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-            activityProvider: ActivityProvider
-    ): PermissionManager {
-        return PermissionManagerForActivity(
-                eventDelegateManager,
-                activityNavigator,
-                sharedPreferences,
-                activityProvider
-        )
     }
 
     @Provides
