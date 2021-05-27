@@ -183,5 +183,6 @@ class WidgetLifecycleManager(
 
     private fun destroy() {
         widgetScreenEventDelegateManager.destroy()
+        widgetViewDelegate?.clear()
     }
 }
