@@ -89,11 +89,6 @@ public class WidgetViewDelegate {
         }
     }
 
-    public void onManualCompletelyDestroy() {
-        getLifecycleManager().onCompletelyDestroy();
-        scopeStorage.remove(getCurrentScopeId());
-    }
-
     public WidgetViewPersistentScope getPersistentScope() {
         return scopeStorage.get(getCurrentScopeId(), WidgetViewPersistentScope.class);
     }

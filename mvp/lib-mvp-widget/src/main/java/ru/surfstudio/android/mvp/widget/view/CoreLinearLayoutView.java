@@ -131,6 +131,6 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
      * а когда он нам больше не нужен - вызывается метод manualCompletelyDestroy и затем removeView.
      */
     public void manualCompletelyDestroy() {
-        widgetViewDelegate.onManualCompletelyDestroy();
+        widgetViewDelegate.manualCompletelyDestroy();
     }
 }
