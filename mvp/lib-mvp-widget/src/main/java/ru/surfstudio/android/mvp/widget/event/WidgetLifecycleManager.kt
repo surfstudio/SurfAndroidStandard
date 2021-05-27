@@ -137,7 +137,6 @@ class WidgetLifecycleManager(
     fun onCompletelyDestroy(source: StageSource) {
         stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED, source)
         destroy()
-
         widgetViewDelegate?.get()?.onCompletelyDestroy()
     }
 
