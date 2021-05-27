@@ -20,11 +20,12 @@ import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.view.View
+import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
-import android.view.View
-import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
@@ -34,9 +35,13 @@ import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.*
+import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.target.DrawableImageViewTarget
+import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.signature.ObjectKey
 import ru.surfstudio.android.imageloader.data.*
 import ru.surfstudio.android.imageloader.transformations.BlurTransformation.BlurBundle
 import ru.surfstudio.android.imageloader.transformations.MaskTransformation.OverlayBundle
@@ -47,7 +52,6 @@ import ru.surfstudio.android.imageloader.util.*
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.util.DrawableUtil
 import java.util.concurrent.ExecutionException
-import com.bumptech.glide.signature.ObjectKey
 
 @Suppress("MemberVisibilityCanBePrivate")
 /**
@@ -97,7 +101,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     }
 
     @Throws(IllegalArgumentException::class)
-    override fun url(url: String,  headers: Map<String, String>) =
+    override fun url(url: String, headers: Map<String, String>) =
             apply {
                 this.imageResourceManager.url = url
                 this.imageResourceManager.headers = headers
@@ -112,9 +116,18 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             apply { this.imageResourceManager.drawableResId = drawableResId }
 
     /**
+     * Загрузка изображения/видео по URI
+     *
+     * @param uri URI-ссылка
+     */
+    override fun uri(uri: Uri): ImageLoaderInterface =
+            apply { imageResourceManager.uri = uri }
+
+    /**
      * Указание графического ресурса, отображаемого в качестве плейсхолдера
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
+     * @param shouldTransformPreview необходимо ли применять трансформации исходника к превью
      */
     override fun preview(@DrawableRes drawableResId: Int, shouldTransformPreview: Boolean) =
             apply {
@@ -126,6 +139,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Указание графического ресурса, отображаемого в случае ошибки загрузки
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
+     * @param shouldTransformError необходимо ли применять трансформации исходника к превью
      */
     override fun error(@DrawableRes drawableResId: Int, shouldTransformError: Boolean) =
             apply {
@@ -264,11 +278,17 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Добавление перехода с растворением между изображениями.
      *
      * @param duration продолжительность перехода (в мс)
+     * @param hidePreviousImage заставляет Glide скрыть предыдущее изображение,
+     * а не просто нарисовать следующее поверх см. документацию https://clck.ru/FVpbQ
      */
-    override fun crossFade(duration: Int): ImageLoaderInterface =
+    override fun crossFade(duration: Int, hidePreviousImage: Boolean): ImageLoaderInterface =
             also {
+                val factory = DrawableCrossFadeFactory.Builder(duration)
+                        .setCrossFadeEnabled(hidePreviousImage)
+                        .build()
+
                 imageTransitionManager.imageTransitionOptions =
-                        DrawableTransitionOptions().crossFade(duration)
+                        DrawableTransitionOptions().crossFade(factory)
             }
 
     /**
@@ -279,6 +299,15 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     override fun tile(isTiled: Boolean, tileMode: Shader.TileMode) = apply {
         imageTransformationsManager.tileBundle = TileBundle(isTiled, tileMode)
+    }
+
+    /**
+     * Установка кадра видео, который отобразится на [ImageView]
+     *
+     * @param frameTimeMs время кадра из видео в миллисекундах
+     */
+    override fun frame(frameTimeMs: Long) = apply {
+        imageResourceManager.frame = frameTimeMs
     }
 
     /**
@@ -392,20 +421,15 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?, imageSource: ImageSource?) -> Unit)? = null,
             onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
     ) {
-        buildRequest().into(object : CustomViewTarget<V, Drawable>(view) {
+        this.imageTargetManager.targetView = view
 
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                onErrorLambda?.invoke(errorDrawable)
-            }
-
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                onCompleteLambda?.invoke(resource, transition, imageCacheManager.imageSource)
-            }
-
-            override fun onResourceCleared(placeholder: Drawable?) {
-                onClearMemoryLambda?.invoke(placeholder)
-            }
-        })
+        buildRequest().into(
+                if (view is ImageView) {
+                    getDrawableImageViewTargetObject(view, onErrorLambda, onCompleteLambda, onClearMemoryLambda)
+                } else {
+                    getCustomViewTargetObject(view, onErrorLambda, onCompleteLambda, onClearMemoryLambda)
+                }
+        )
     }
 
     /**
@@ -416,6 +440,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .addErrorIf(imageResourceManager.isErrorSet) { imageResourceManager.prepareErrorDrawable() }
             .addThumbnailIf(imageResourceManager.isPreviewSet) { imageResourceManager.preparePreviewDrawable() }
             .addTransitionIf(imageTransitionManager.isTransitionSet, imageTransitionManager.imageTransitionOptions)
+            .addFrameIf(imageResourceManager.isFrameSet, imageResourceManager.frame)
             .apply(
                     RequestOptions()
                             .disableHardwareConfigIf(imageResourceManager.isHardwareConfigDisabled)
@@ -457,6 +482,58 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                 { resource, _ -> view.background = resource },
                 view::setBackground
         )
+    }
+
+    /**
+     * Возвращает [Target], наследуемый от [CustomViewTarget]
+     */
+    private fun <V : View> getCustomViewTargetObject(
+            view: V,
+            onErrorLambda: ((errorDrawable: Drawable?) -> Unit)?,
+            onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?, imageSource: ImageSource?) -> Unit)?,
+            onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)?
+    ): CustomViewTarget<V, Drawable> {
+        return object : CustomViewTarget<V, Drawable>(view) {
+
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                onErrorLambda?.invoke(errorDrawable)
+            }
+
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                onCompleteLambda?.invoke(resource, transition, imageCacheManager.imageSource)
+            }
+
+            override fun onResourceCleared(placeholder: Drawable?) {
+                onClearMemoryLambda?.invoke(placeholder)
+            }
+        }
+    }
+
+    /**
+     * Возвращает [Target], наследуемый от [DrawableImageViewTarget]
+     */
+    private fun getDrawableImageViewTargetObject(
+            view: ImageView,
+            onErrorLambda: ((errorDrawable: Drawable?) -> Unit)?,
+            onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?, imageSource: ImageSource?) -> Unit)?,
+            onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)?
+    ): DrawableImageViewTarget {
+        return object : DrawableImageViewTarget(view) {
+
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                onErrorLambda?.invoke(errorDrawable)
+            }
+
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                view.setImageDrawable(resource)
+                onCompleteLambda?.invoke(resource, transition, imageCacheManager.imageSource)
+            }
+
+            override fun onLoadCleared(placeholder: Drawable?) {
+                onClearMemoryLambda?.invoke(placeholder)
+                super.onLoadCleared(placeholder)
+            }
+        }
     }
 
     //region Deprecated

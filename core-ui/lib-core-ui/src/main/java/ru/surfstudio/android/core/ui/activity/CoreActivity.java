@@ -18,6 +18,8 @@ package ru.surfstudio.android.core.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -73,6 +75,13 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     }
 
     /**
+     * @return activity rootView
+     */
+    protected View getRootView() {
+        return ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+    }
+
+    /**
      * @return layout resource of the screen
      */
     @LayoutRes
@@ -103,7 +112,7 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     @Override
     protected void onPause() {
         super.onPause();
-        Logger.d(String.format(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName()));
+        Logger.d(String.format(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName()));
         activityDelegate.onPause();
     }
 

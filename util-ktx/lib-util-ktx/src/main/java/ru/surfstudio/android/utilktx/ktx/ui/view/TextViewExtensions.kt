@@ -73,7 +73,7 @@ fun TextView.setTextAppearanceStyle(@StyleRes styleResId: Int) {
  */
 fun TextView.copyTextToClipboard() {
     val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    clipboardManager.primaryClip = ClipData.newPlainText(null, text)
+    clipboardManager.setPrimaryClip(ClipData.newPlainText(null, text))
 }
 
 /**

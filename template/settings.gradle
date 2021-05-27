@@ -15,6 +15,9 @@ include ":app",
         ":f-debug",
         ":f-splash",
         ":f-debug-no-op",
+        ':f-feed',
+        ':f-search',
+        ':f-profile',
         ":small-test-utils"
 
 apply from: 'android-standard/androidStandardSettings.gradle'

@@ -1,8 +1,15 @@
-[Главная страница репозитория](../docs/main.md)
-
-[TOC]
+[Главная страница репозитория](../../docs/main.md)
 
 # MVI DSL
+
+- [Начало работы](#начало-работы)
+- [Добавление трансформаций](#добавление-трансформаций)
+- [Фильтрация по классу](#фильтрация-по-классу)
+- [Типы трансформаций](#типы-трансформаций)
+- [Добавление новых типов трансформаций](#добавление-новых-типов-трансформаций)
+- [Middleware Builders](#middleware-builders)
+  - [Пример реального метода с трансформациями](#пример-реального-метода-с-трансформациями)
+
 Для упрощения работы с MVI-модулем и уменьшения количества шаблонного кода, было решено добавить DSL-методы для трансформации потока потока событий, проходящего через middleware. 
 
 ## Начало работы
@@ -54,7 +61,6 @@
             ReloadBtnClicked::class eventMapTo { 
                 interactor.loadData()
                     .io()
-                    .handleError()
                     .asRequest(LoadDataEvent())
             }
   
@@ -112,10 +118,10 @@
         }
 
    
-[baserxdslmw]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/dsl/BaseDslRxMiddleware.kt
-[rxdslmw]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/dsl/DslRxMiddleware.kt
-[strtr]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/dsl/transformers/rx/StreamTransformer.kt
-[trlist]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/dsl/EventTransformerList.kt
-[lcmw]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/builders/LifecycleMiddleware.kt
-[flmpmw]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/builders/FlatMapMiddleware.kt
-[lchub]: src/main/java/ru/surfstudio/android/core/mvi/event/hub/lifecycle/LifecycleEventHub.kt
+[baserxdslmw]: src/main/java/ru/surfstudio/android/core/mvi/impls/ui/middleware/dsl/BaseDslRxMiddleware.kt
+[rxdslmw]: ../lib-mvi-core/src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/dsl/DslRxMiddleware.kt
+[strtr]: src/main/java/ru/surfstudio/android/core/mvi/impls/ui/middleware/dsl/transformers/rx/StreamMapTransformer.kt
+[trlist]: src/main/java/ru/surfstudio/android/core/mvi/impls/ui/middleware/dsl/EventTransformerList.kt
+[lcmw]: src/main/java/ru/surfstudio/android/core/mvi/impls/ui/middleware/dsl/LifecycleMiddleware.kt
+[flmpmw]: ../lib-mvi-core/src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/FlatMapMiddleware.kt
+[lchub]: ../lib-mvi-core/src/main/java/ru/surfstudio/android/core/mvi/event/lifecycle/LifecycleEventHub.kt

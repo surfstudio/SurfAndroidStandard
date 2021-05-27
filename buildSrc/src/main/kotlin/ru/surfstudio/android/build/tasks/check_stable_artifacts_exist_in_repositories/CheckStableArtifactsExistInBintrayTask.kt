@@ -2,12 +2,13 @@ package ru.surfstudio.android.build.tasks.check_stable_artifacts_exist_in_reposi
 
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.bintray.Bintray
-import ru.surfstudio.android.build.exceptions.ArtifactsNotFoundInBintrayException
+import ru.surfstudio.android.build.exceptions.bintray.ArtifactsNotFoundInBintrayException
 import ru.surfstudio.android.build.model.module.Library
 
 /**
  * Check stable artifacts exist in bintray
  */
+@Deprecated("Use Artifactory or Maven Central after Bintray sunset")
 open class CheckStableArtifactsExistInBintrayTask : BaseCheckStableArtifactsExistInRepositoryTask() {
 
     @TaskAction

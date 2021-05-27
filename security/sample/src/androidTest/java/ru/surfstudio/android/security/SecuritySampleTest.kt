@@ -1,9 +1,12 @@
 package ru.surfstudio.android.security
 
+import androidx.annotation.CallSuper
+import org.junit.After
 import org.junit.Test
 import ru.surfstudio.android.sample.common.test.ElapsedTimeIdlingResource
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
+import ru.surfstudio.android.sample.common.test.utils.AnimationUtils
 import ru.surfstudio.android.sample.common.test.utils.IdlingUtils
 import ru.surfstudio.android.sample.common.test.utils.TextUtils
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
@@ -16,6 +19,18 @@ private const val PINT_TEXT = "1234"
 private const val LONG_DURATION_TIMEOUT: Long = 4000
 
 class SecuritySampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
+
+    override fun setUp() {
+        super.setUp()
+        AnimationUtils.grantScaleAnimationPermission()
+        AnimationUtils.disableAnimations()
+    }
+
+    @After
+    @CallSuper
+    fun tearDown() {
+        AnimationUtils.enableAnimations()
+    }
 
     @Test
     fun checkRootTest() {

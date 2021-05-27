@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ru.surfstudio.android.custom.view.shadow.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shadow_picture_container"
+    android:layout_width="140dp"
+    android:layout_height="164dp"
+    app:shadowClippedToPadding="true"
+    app:shadowLeftOffset="16dp"
+    app:shadowRadius="18dp"
+    app:shadowRightOffset="16dp"
+    app:shadowTopOffset="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp">
+
+    <ImageView
+        android:id="@+id/shadow_picture_iv"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:contentDescription="@string/content_description" />
+
+</ru.surfstudio.android.custom.view.shadow.ShadowLayout>

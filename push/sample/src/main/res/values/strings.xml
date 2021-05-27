@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Push Sample</string>
+    <string name="notification_channel_id">CHANNEL_ID</string>
+    <string name="no_data_push_channel_name">No data push channel</string>
+    <string name="data_push_channel_name">Data push channel</string>
+    <string name="push_notification_received_text">Push notification received!</string>
+    <string name="notification_custom_action">Make some action</string>
+</resources>

@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2020, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
 package ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl
 
 import io.reactivex.Observable
@@ -78,10 +93,22 @@ open class EventTransformerList<E : Event>(
      *
      * @param mapper mapper function.
      */
+    inline infix fun <reified T : Event> Observable<T>.map(
+            noinline mapper: (T) -> E
+    ): Observable<out E> = compose(MapTransformer(mapper))
+
+    /**
+     * Maps events of type [T] in another type, successor of type [E].
+     *
+     * Used when we need to map event to another event,
+     * For example, when the PhotoButtonClick is appeared, we need to emit OpenSelectPhotoDialog.
+     *
+     * @param mapper mapper function.
+     */
     inline fun <reified T : Event> map(
             noinline mapper: (T) -> E
     ): Observable<out E> {
-        return eventStream.filterIsInstance<T>().compose(MapTransformer(mapper))
+        return eventStream.filterIsInstance<T>() map mapper
     }
 
     /**
@@ -188,10 +215,10 @@ open class EventTransformerList<E : Event>(
      *
      * @see [CompositionTransformer]
      */
-    infix fun <T : Event, C : CompositionEvent<T>> Observable<C>.decompose(
+    inline infix fun <T : Event, reified C : CompositionEvent<T>> Observable<C>.decompose(
             mw: RxMiddleware<T>
     ): Observable<C> {
-        return compose(CompositionTransformer<T, C>(mw))
+        return compose(CompositionTransformer.create<T, C>(mw))
     }
 
     /**
@@ -202,7 +229,6 @@ open class EventTransformerList<E : Event>(
     inline fun <reified T : Event, reified C : CompositionEvent<T>> decomposeTo(mw: RxMiddleware<T>) =
             eventStream.filterIsInstance<C>().decompose(mw)
 
-
     /**
      * Decompose events filtered by type [T], to process them in another middleware.
      *
@@ -210,6 +236,12 @@ open class EventTransformerList<E : Event>(
      *
      * @see [CompositionTransformer]
      */
-    infix fun <T : Event, C : CompositionEvent<T>> KClass<C>.decomposeTo(mw: RxMiddleware<T>) =
+    inline infix fun <T : Event, reified C : CompositionEvent<T>> KClass<C>.decomposeTo(mw: RxMiddleware<T>) =
             eventStream.ofType(this.java).decompose(mw)
+
+    /**
+     * Filters events by a given [filterCondition].
+     */
+    infix fun <T : Event> KClass<T>.filter(filterCondition: (T) -> Boolean): Observable<T> =
+            eventStream.ofType(this.java).filter(filterCondition)
 }

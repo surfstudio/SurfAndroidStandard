@@ -58,21 +58,22 @@
 -dontwarn afu.org.checkerframework.checker.regex.**
 -dontwarn afu.org.checkerframework.checker.units.**
 
+#TODO Поменять пути с соответствии с реальным расположением фойлов.
 #network
 -keep class * implements ru.surfstudio.standard.i_network.network.Transformable
 -keep class * implements ru.surfstudio.standard.i_network.network.response.BaseResponse
+-keepclassmembers,allowobfuscation class * { @com.google.gson.annotations.SerializedName <fields>; }
 
 #glide
 -dontwarn com.bumptech.glide.**
 
-#crashlytics
+#firebase crashlytics
 -printmapping mapping.txt
-
-#fabric
 -keepattributes *Annotation*,SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
--keep class com.crashlytics.** { *; }
--dontwarn com.crashlytics.**
+-keep class com.google.firebase.crashlytics.** { *; }
+-dontwarn com.google.firebase.crashlytics.**
+-dontwarn com.google.firebase.messaging.**
 
 #kotlin-reflect
 #https://stackoverflow.com/questions/45871970/kotlin-reflect-proguard-smallsortedmap

@@ -1,4 +1,4 @@
-@Library('surf-lib@version-1.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-3.0.0-SNAPSHOT') // https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.CommonUtil
@@ -7,7 +7,7 @@ import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.Result
 import java.net.URLEncoder
 
-def encodeUrl(string){
+static def encodeUrl(string){
     URLEncoder.encode(string, "UTF-8") 
 }
 
@@ -34,7 +34,7 @@ pipeline.stages = [
             sh "rm -rf android-standard.git"
             withCredentials([usernamePassword(credentialsId: pipeline.repoCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 echo "credentialsId: $pipeline.repoCredentialsId"
-                sh "git clone --mirror https://${encodeUrl(USERNAME)}:${encodeUrl(PASSWORD)}@bitbucket.org/surfstudio/android-standard.git"
+                sh "git clone --mirror https://${encodeUrl(USERNAME)}:${encodeUrl(PASSWORD)}@gitlab.com/surfstudio/public/android-standard.git"
             }
         },
         pipeline.createStage("Sanitize", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
@@ -44,10 +44,8 @@ pipeline.stages = [
                 echo "packed_refs: $packedRefs"
                 def sanitizedPackedRefs = ""
                 for(ref in packedRefs.split("\n")) {
-                    if(!ref.contains("project-snapshot")) {
-                        sanitizedPackedRefs += ref
-                        sanitizedPackedRefs += "\n"
-                    }
+                    sanitizedPackedRefs += ref
+                    sanitizedPackedRefs += "\n"
                 }
                 echo "sanitizedPackedRefs: $sanitizedPackedRefs"
                 writeFile file: packedRefsFile, text: sanitizedPackedRefs

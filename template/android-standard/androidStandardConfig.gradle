@@ -69,14 +69,23 @@ gradle.ext {
 
             context.dependencies {
                 modules.each { artifactName ->
-                    def version = context.androidStandard.version(artifactName)
-                    if (closure == null) {
-                        api("ru.surfstudio.android:$artifactName:$version")
+                    if (isRemoteModules) {
+                        def version = context.androidStandard.version(artifactName)
+                        if (closure == null) {
+                            api("ru.surfstudio.android:$artifactName:$version")
+                        } else {
+                            api("ru.surfstudio.android:$artifactName:$version", closure)
+                        }
                     } else {
-                        api("ru.surfstudio.android:$artifactName:$version", closure)
+                        if (closure == null) {
+                            api("ru.surfstudio.android:$artifactName")
+                        } else {
+                            api("ru.surfstudio.android:$artifactName", closure)
+                        }
                     }
                 }
             }
+
             if (isRemoteModules) {
                 // Установка com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
                 // с помощью рефлексии для избежания ошибок при конфликте версий GoogleServices

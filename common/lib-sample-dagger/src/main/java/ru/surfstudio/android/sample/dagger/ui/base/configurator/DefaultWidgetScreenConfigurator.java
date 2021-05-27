@@ -7,9 +7,8 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivi
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.widget.DefaultWidgetScreenModule;
 
 /**
- * Базовый конфигуратор для ConstraintWidgetView
+ * Base configurator for Widget
  */
-
 public abstract class DefaultWidgetScreenConfigurator
         extends BaseWidgetViewConfigurator<DefaultActivityComponent, DefaultWidgetScreenModule> {
 

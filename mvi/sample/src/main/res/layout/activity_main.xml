@@ -28,4 +28,12 @@
         android:layout_margin="8dp"
         android:padding="8dp"
         android:text="Open complex list screen" />
+
+    <Button
+        android:id="@+id/main_open_mvi_reducer_screen_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Open mvi-reducer screen"
+        android:layout_margin="8dp"/>
 </LinearLayout>

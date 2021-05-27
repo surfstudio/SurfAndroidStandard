@@ -20,4 +20,19 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <!-- Кнопка без бэкграунда, но с эффектами риппл или
+    полупрозрачным бэкграундом на более ранних версиях. -->
+    <style name="Button.Borderless" parent="Widget.AppCompat.Button.Borderless" />
+
+    <style name="DefaultButton" parent="Button.Borderless">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+    </style>
+
+    <style name="DefaultButton.Primary">
+        <item name="android:textAppearance">@style/Text.White.16</item>
+        <item name="android:background">@drawable/bg_button_primary</item>
+    </style>
 </resources>

@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.standard.i_network.network.etag.storage;
 
-@Deprecated
 public final class EtagStorage {
 
     private EtagCache etagCache;

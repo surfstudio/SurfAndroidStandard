@@ -1,21 +1,36 @@
+/*
+  Copyright (c) 2020, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
 package ru.surfstudio.android.core.mvi.impls.event.hub
 
 import android.content.Intent
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
+import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.factory.EventFactory
 import ru.surfstudio.android.core.mvi.event.factory.ParamlessEventFactory
-import ru.surfstudio.android.core.mvi.impls.event.hub.back_pressed.BackPressedEventHub
-import ru.surfstudio.android.core.mvi.impls.event.hub.dependency.ScreenEventHubDependency
-import ru.surfstudio.android.core.mvi.impls.event.hub.new_intent.NewIntentEventHub
-import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEventHub
+import ru.surfstudio.android.core.mvi.impls.event.hub.back_pressed.BackPressedEventHub
+import ru.surfstudio.android.core.mvi.impls.event.hub.dependency.ScreenEventHubDependency
+import ru.surfstudio.android.core.mvi.impls.event.hub.logging.EventLogger
+import ru.surfstudio.android.core.mvi.impls.event.hub.new_intent.NewIntentEventHub
 import ru.surfstudio.android.core.ui.state.ActivityScreenState
 import ru.surfstudio.android.core.ui.state.FragmentScreenState
 import ru.surfstudio.android.core.ui.state.LifecycleStage
 import ru.surfstudio.android.core.ui.state.ScreenState
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 
 /**
@@ -41,7 +56,9 @@ class ScreenEventHub<T : Event>(
 
     override val screenState: ScreenState = dependency.screenState
 
-    private val screenName: String = extractScreenName(screenState)
+    private val logger: EventLogger = dependency.logger
+
+    private val screenName: String = if (logger.shouldLog) extractScreenName(screenState) else ""
 
     private fun extractScreenName(screenState: ScreenState): String {
         return when (screenState) {
@@ -69,8 +86,7 @@ class ScreenEventHub<T : Event>(
     }
 
     override fun emit(event: T) {
-        //Log events
-        Logger.d("Event / $screenName / $event")
+        logger.log(event, screenName)
         bus.accept(event)
     }
 

@@ -8,9 +8,9 @@ import com.google.gson.GsonBuilder
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.DISTRIBUTE_URL
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.GET_FOLDER_INFO
-import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.PASSWORD
+import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.PASSWORD_ENV_NAME
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.TARGET_REPO
-import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.USER_NAME
+import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.USERNAME_ENV_NAME
 import ru.surfstudio.android.build.exceptions.FolderNotFoundException
 import ru.surfstudio.android.build.model.FolderInfo
 import ru.surfstudio.android.build.model.json.response.folder_info.FolderInfoJson
@@ -43,7 +43,9 @@ internal class ArtifactoryRepository {
 
     /**
      * Deploy artifact to bintray
+     * https://www.jfrog.com/confluence/display/RTF4X/Artifactory+REST+API
      */
+    @Deprecated("Use Artifactory or Maven Central after Bintray sunset")
     fun distribute(packagesRepoPaths: String, overrideExisting: Boolean): Response {
         val bodyJson = """
             {
@@ -57,7 +59,7 @@ internal class ArtifactoryRepository {
                 .header("Content-Type" to "application/json")
                 .body(bodyJson)
                 .authentication()
-                .basic(USER_NAME, PASSWORD)
+                .basic(System.getenv(USERNAME_ENV_NAME), System.getenv(PASSWORD_ENV_NAME))
                 .response()
                 .second
     }

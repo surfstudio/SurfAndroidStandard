@@ -19,10 +19,12 @@ import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.view.View
+import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
-import android.view.View
 import ru.surfstudio.android.imageloader.data.CacheStrategy
 import ru.surfstudio.android.imageloader.data.ImageSource
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
@@ -49,6 +51,13 @@ interface ImageLoaderInterface {
     fun url(@DrawableRes drawableResId: Int): ImageLoaderInterface
 
     /**
+     * Загрузка изображения/видео по URI
+     *
+     * @param uri URI-ссылка
+     */
+    fun uri(uri: Uri): ImageLoaderInterface
+
+    /**
      * Указание графического ресурса, отображаемого в качестве плейсхолдера.
      *
      * Во всех случаях, когда это возможно, следует использовать уже трансформированный
@@ -58,7 +67,7 @@ interface ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable,
      * @param shouldTransformPreview необходимо ли применять трансформации исходника к превью
      */
-    fun preview(@DrawableRes drawableResId: Int, shouldTransformPreview: Boolean = true): ImageLoaderInterface
+    fun preview(@DrawableRes drawableResId: Int, shouldTransformPreview: Boolean = false): ImageLoaderInterface
 
     /**
      * Указание графического ресурса, отображаемого в случае ошибки загрузки.
@@ -70,7 +79,7 @@ interface ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable
      * @param shouldTransformError необходимо ли применять трансформации исходника к превью
      */
-    fun error(@DrawableRes drawableResId: Int, shouldTransformError: Boolean = true): ImageLoaderInterface
+    fun error(@DrawableRes drawableResId: Int, shouldTransformError: Boolean = false): ImageLoaderInterface
 
     /**
      * Установка лямбды для отслеживания загрузки изображения и источника загрузки
@@ -185,8 +194,10 @@ interface ImageLoaderInterface {
      * Добавление перехода с растворением между изображениями.
      *
      * @param duration продолжительность перехода (в мс)
+     * @param hidePreviousImage определяет скрыть ли предыдущее изображение
+     * или нарисовать следующее поверх предыдущего
      */
-    fun crossFade(duration: Int = 300): ImageLoaderInterface
+    fun crossFade(duration: Int = 300, hidePreviousImage: Boolean = false): ImageLoaderInterface
 
     /**
      * Размножения изображения для соответствия его размеров размерам View
@@ -208,6 +219,13 @@ interface ImageLoaderInterface {
      * @param signature
      */
     fun signature(signature: Any): ImageLoaderInterface
+
+    /**
+     * Установка кадра видео, который отобразится на [ImageView]
+     *
+     * @param frameTimeMs время кадра из видео в миллисекундах
+     */
+    fun frame(frameTimeMs: Long): ImageLoaderInterface
 
     /**
      * Отключение конфигурации [Bitmap.Config.HARDWARE].

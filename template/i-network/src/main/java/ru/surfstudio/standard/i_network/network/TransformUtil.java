@@ -27,7 +27,6 @@ import ru.surfstudio.android.utilktx.util.java.CollectionUtils;
  * содержит методы для трансформации объектов Domain слоя в данные для сервера и наоборот.
  * Упрощает работу с {@link Transformable}
  */
-@Deprecated
 public final class TransformUtil {
 
 

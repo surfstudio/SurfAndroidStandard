@@ -10,7 +10,7 @@ enum class ApiErrorType(private val code: Int) {
 
     companion object {
 
-        fun getByCode(code: Int?): ApiErrorType =
+        fun getBy(code: Int?): ApiErrorType =
                 values().firstOrNull { error -> error.code == code } ?: UNKNOWN
     }
 }

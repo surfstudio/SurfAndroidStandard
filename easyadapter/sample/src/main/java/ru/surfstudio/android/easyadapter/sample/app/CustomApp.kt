@@ -8,9 +8,6 @@ import ru.surfstudio.android.easyadapter.sample.app.dagger.DaggerCustomAppCompon
 import ru.surfstudio.android.sample.dagger.app.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 
-/**
- * Класс приложения
- */
 class CustomApp : MultiDexApplication() {
 
     val activeActivityHolder = ActiveActivityHolder()
@@ -24,14 +21,12 @@ class CustomApp : MultiDexApplication() {
 
     private fun initInjector() {
         customAppComponent = DaggerCustomAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
-                .build()
+            .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
+            .build()
     }
 
-    /**
-     * Регистрирует слушатель аткивной активити
-     */
     private fun registerActiveActivityListener() {
+        registerActivityLifecycleCallbacks(customAppComponent?.navigationProviderCallbacks())
         registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity

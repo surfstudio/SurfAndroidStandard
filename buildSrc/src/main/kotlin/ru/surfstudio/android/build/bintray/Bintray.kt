@@ -1,26 +1,28 @@
 package ru.surfstudio.android.build.bintray
 
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.exceptions.ArtifactNotExistInBintrayException
+import ru.surfstudio.android.build.model.BintrayRepoLatestVersion
+import ru.surfstudio.android.build.exceptions.bintray.ArtifactNotExistInBintrayException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library
 
 /**
  * Provide Bintray functions
  */
+@Deprecated("Use Artifactory or Maven Central after Bintray sunset")
 object Bintray {
 
     private val repository = BintrayRepository()
 
     /**
-     * Check libraries's android standard dependencies exist in bintray
+     * Check if libraries's android standard dependencies exist in bintray
      */
     fun checkLibrariesStandardDependenciesExisting(component: Component) {
         component.libraries.forEach { this.checkLibraryStandardDependenciesExisting(it, component) }
     }
 
     /**
-     * Check library's android standard dependencies exist in bintray
+     * Check if library's android standard dependencies exist in bintray
      */
     private fun checkLibraryStandardDependenciesExisting(library: Library, component: Component) {
         library.androidStandardDependencies
@@ -41,9 +43,20 @@ object Bintray {
     }
 
     /**
-     * Check artifact exist in bintray
+     * Check if artifact exists in bintray
      */
-    fun isArtifactExists(dependencyName: String, version: String): Boolean {
-        return repository.isArtifactVersionExist(dependencyName, version)
-    }
+    fun isArtifactExists(dependencyName: String, version: String): Boolean =
+            repository.isArtifactVersionExist(dependencyName, version)
+
+    /**
+     * Function for getting all packages from bintray
+     */
+    fun getAllPackages(): List<String> =
+            repository.getAllPackages()
+
+    /**
+     * Function for getting the latest version of artifact in bintray
+     */
+    fun getArtifactLatestVersion(artifactName: String): BintrayRepoLatestVersion =
+            repository.getArtifactLatestVersion(artifactName)
 }

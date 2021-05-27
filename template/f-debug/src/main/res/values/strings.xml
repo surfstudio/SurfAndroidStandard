@@ -14,7 +14,7 @@
     <string name="debug_reload_btn_text">Обновить</string>
     <string name="debug_switch_subtitle_text">Chuck перехватывает и сохраняет все HTTP-запросы и ответы внутри приложения и предоставляет пользовательский интерфейс для проверки их содержимого.</string>
     <string name="debug_server_url_title_text">Тестовый сервер</string>
-    <string name="debug_server_url_subtitle_text">Если включено будет использоватся тестовый сервер</string>
+    <string name="debug_server_url_subtitle_text">Если включено, то будет использоваться тестовый сервер</string>
     <string name="debug_switch_title_text" translatable="false">Chuck</string>
     <string name="debug_leakcanary_text" translatable="false">LeakCanary</string>
     <string name="debug_leakcanary_subtitle_text">Библиотека обнаружения утечки памяти. LeakCanary автоматически покажет уведомление, когда в вашей отладочной сборке обнаружена утечка памяти в Activity или Fragment.</string>

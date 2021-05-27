@@ -1,1 +1,7 @@
-apply from: "$rootDir/buildSrc/baseBuild.gradle"
+apply from: "$rootDir/buildSrc/baseDeployBuild.gradle"
+
+android {
+    buildFeatures {
+        viewBinding true
+    }
+}

@@ -1,22 +1,13 @@
 apply plugin: 'kotlin-kapt'
 apply from: '../unitTestTaskExtensions.gradle'
-android {
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
+
+android.testOptions {
+    unitTests.all {
+        useJUnitPlatform()
     }
 }
 
 dependencies {
-    testImplementation project(":base")
-    testImplementation project(":small-test-utils")
-
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "com.annimon:stream:$annimonStreamVersion"
-    testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
-    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
-    testImplementation "com.google.dagger:dagger:$daggerVersion"
-    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    testImplementation test.kotest
+    testImplementation test.mockk
 }

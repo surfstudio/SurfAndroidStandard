@@ -30,8 +30,8 @@ interface MessageController {
 
     companion object {
         private const val DEFAULT_TOAST_GRAVITY = Gravity.BOTTOM
-        private const val DEFAULT_TOAST_DURATION = Toast.LENGTH_LONG
-        private const val DEFAULT_SNACK_DURATION = Snackbar.LENGTH_LONG
+        private const val DEFAULT_TOAST_DURATION = Toast.LENGTH_SHORT
+        private const val DEFAULT_SNACK_DURATION = Snackbar.LENGTH_SHORT
     }
 
     fun show(
@@ -40,6 +40,7 @@ interface MessageController {
             @StringRes actionResId: Int? = null,
             @ColorRes actionColorResId: Int? = null,
             duration: Int = DEFAULT_SNACK_DURATION,
+            dismissListener: (DismissReason) -> Unit = {},
             listener: (view: View) -> Unit = {}
     )
 
@@ -49,10 +50,15 @@ interface MessageController {
             @StringRes actionResId: Int? = null,
             @ColorRes actionColorResId: Int? = null,
             duration: Int = DEFAULT_SNACK_DURATION,
+            dismissListener: (DismissReason) -> Unit = {},
             listener: (view: View) -> Unit = {}
     )
 
-    fun show(params: SnackParams, actionListener: (view: View) -> Unit = {})
+    fun show(
+            params: SnackParams,
+            dismissListener: (DismissReason) -> Unit = {},
+            actionListener: (view: View) -> Unit = {}
+    )
 
     fun closeSnack()
 

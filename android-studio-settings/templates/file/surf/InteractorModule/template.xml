@@ -9,7 +9,7 @@
 
     <parameter
         id="interactorModuleNameWithoutPrefix"
-        name="Имя модуля без префикса &quot;i_&quot;"
+        name="Имя модуля без префикса &quot;i_&quot;. Внимание, обновлять settings.gradle нужно вручную. Временное решение, связанное с багом студии 4.0"
         type="string"
         constraints="module|nonempty"/>
 

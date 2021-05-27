@@ -25,9 +25,19 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat.getDrawable
+import ru.surfstudio.android.logger.Logger
 
 private const val DEFAULT_MAX_LINES: Int = 1
+
+private const val START_DRAWABLE_POSITION: Int = 0
+private const val TOP_DRAWABLE_POSITION: Int = 1
+private const val END_DRAWABLE_POSITION: Int = 2
+private const val BOTTOM_DRAWABLE_POSITION: Int = 3
+
+private const val INITIAL_DRAWABLE_ID: Int = 0
 
 /**
  * Виджет для отображения текста с подписью
@@ -128,6 +138,62 @@ class TitleSubtitleView @JvmOverloads constructor(
             subTitleView.maxLines = value
         }
 
+    @DrawableRes
+    var titleStartDrawableId: Int = INITIAL_DRAWABLE_ID
+        set(value) {
+            field = value
+            setDrawable(titleView, value, START_DRAWABLE_POSITION)
+        }
+
+    @DrawableRes
+    var subTitleStartDrawableId: Int = INITIAL_DRAWABLE_ID
+        set(value) {
+            field = value
+            setDrawable(subTitleView, value, START_DRAWABLE_POSITION)
+        }
+
+    @DrawableRes
+    var titleTopDrawableId: Int = INITIAL_DRAWABLE_ID
+        set(value) {
+            field = value
+            setDrawable(titleView, value, TOP_DRAWABLE_POSITION)
+        }
+
+    @DrawableRes
+    var subTitleTopDrawableId: Int = INITIAL_DRAWABLE_ID
+        set(value) {
+            field = value
+            setDrawable(subTitleView, value, TOP_DRAWABLE_POSITION)
+        }
+
+    @DrawableRes
+    var titleEndDrawableId: Int = INITIAL_DRAWABLE_ID
+        set(value) {
+            field = value
+            setDrawable(titleView, value, END_DRAWABLE_POSITION)
+        }
+
+    @DrawableRes
+    var subTitleEndDrawableId: Int = INITIAL_DRAWABLE_ID
+        set(value) {
+            field = value
+            setDrawable(subTitleView, value, END_DRAWABLE_POSITION)
+        }
+
+    @DrawableRes
+    var titleBottomDrawableId: Int = INITIAL_DRAWABLE_ID
+        set(value) {
+            field = value
+            setDrawable(titleView, value, BOTTOM_DRAWABLE_POSITION)
+        }
+
+    @DrawableRes
+    var subTitleBottomDrawableId: Int = INITIAL_DRAWABLE_ID
+        set(value) {
+            field = value
+            setDrawable(subTitleView, value, BOTTOM_DRAWABLE_POSITION)
+        }
+
     var onTitleClickListenerCallback: ((CharSequence) -> Unit)? = null
         set(value) {
             field = value
@@ -158,6 +224,18 @@ class TitleSubtitleView @JvmOverloads constructor(
     }
 
     /**
+     * Устанавливает текст и тип текста заголовка
+     */
+    fun setTitleText(text: CharSequence, type: TextView.BufferType) =
+            titleView.setText(text, type)
+
+    /**
+     * Устанавливает текст и тип текста подзаголовка
+     */
+    fun setSubTitleText(text: CharSequence, type: TextView.BufferType) =
+            subTitleView.setText(text, type)
+
+    /**
      * Возвращает заголовок к дефолтному значению
      */
     fun resetTitleText() {
@@ -169,6 +247,30 @@ class TitleSubtitleView @JvmOverloads constructor(
      */
     fun resetSubTitleText() {
         subTitleText = defaultSubTitle
+    }
+
+    /**
+     * Устанавливает drawables для заголовка
+     */
+    fun setTitleDrawables(
+            @DrawableRes startDrawableId: Int = INITIAL_DRAWABLE_ID,
+            @DrawableRes topDrawableId: Int = INITIAL_DRAWABLE_ID,
+            @DrawableRes endDrawableId: Int = INITIAL_DRAWABLE_ID,
+            @DrawableRes bottomDrawableId: Int = INITIAL_DRAWABLE_ID
+    ) {
+        setDrawables(titleView, startDrawableId, topDrawableId, endDrawableId, bottomDrawableId)
+    }
+
+    /**
+     * Устанавливает drawables для подзаголовка
+     */
+    fun setSubTitleDrawables(
+            @DrawableRes startDrawableId: Int = INITIAL_DRAWABLE_ID,
+            @DrawableRes topDrawableId: Int = INITIAL_DRAWABLE_ID,
+            @DrawableRes endDrawableId: Int = INITIAL_DRAWABLE_ID,
+            @DrawableRes bottomDrawableId: Int = INITIAL_DRAWABLE_ID
+    ) {
+        setDrawables(subTitleView, startDrawableId, topDrawableId, endDrawableId, bottomDrawableId)
     }
 
     private fun addViews() {
@@ -224,12 +326,7 @@ class TitleSubtitleView @JvmOverloads constructor(
             visibility = getVisibilityFromResource(ta, R.styleable.TitleSubtitleView_titleVisibility)
 
             compoundDrawablePadding = ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_titleDrawablePadding, 0)
-            setCompoundDrawablesWithIntrinsicBounds(
-                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableStart, 0),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableTop, 0),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableEnd, 0),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableBottom, 0)
-            )
+            setupTitleDrawables(ta)
         }
     }
 
@@ -266,12 +363,7 @@ class TitleSubtitleView @JvmOverloads constructor(
             visibility = getVisibilityFromResource(ta, R.styleable.TitleSubtitleView_subTitleVisibility)
 
             compoundDrawablePadding = ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_subTitleDrawablePadding, 0)
-            setCompoundDrawablesWithIntrinsicBounds(
-                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableStart, 0),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableTop, 0),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableEnd, 0),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableBottom, 0)
-            )
+            setupSubTitleDrawables(ta)
         }
     }
 
@@ -295,7 +387,7 @@ class TitleSubtitleView @JvmOverloads constructor(
                 2 -> TextUtils.TruncateAt.MIDDLE
                 3 -> TextUtils.TruncateAt.END
                 4 -> TextUtils.TruncateAt.MARQUEE
-                else -> TextUtils.TruncateAt.END
+                else -> null
             }
 
     private fun getVisibilityFromResource(ta: TypedArray, index: Int): Int =
@@ -305,4 +397,91 @@ class TitleSubtitleView @JvmOverloads constructor(
                 2 -> View.GONE
                 else -> View.VISIBLE
             }
+
+    private fun setupTitleDrawables(
+            ta: TypedArray
+    ) {
+        val drawablesId = mapOf(
+                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableStart, INITIAL_DRAWABLE_ID) to START_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableTop, INITIAL_DRAWABLE_ID) to TOP_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableEnd, INITIAL_DRAWABLE_ID) to END_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableBottom, INITIAL_DRAWABLE_ID) to BOTTOM_DRAWABLE_POSITION
+        )
+
+        drawablesId.entries.forEach { (drawableRes, position) ->
+            setupTitleDrawable(drawableRes, position)
+        }
+    }
+
+    private fun setupSubTitleDrawables(
+            ta: TypedArray
+    ) {
+        val drawablesId = mapOf(
+                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableStart, INITIAL_DRAWABLE_ID) to START_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableTop, INITIAL_DRAWABLE_ID) to TOP_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableEnd, INITIAL_DRAWABLE_ID) to END_DRAWABLE_POSITION,
+                ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableBottom, INITIAL_DRAWABLE_ID) to BOTTOM_DRAWABLE_POSITION
+        )
+
+        drawablesId.entries.forEach { (drawableRes, position) ->
+            setupSubTitleDrawable(drawableRes, position)
+        }
+    }
+
+    private fun setupTitleDrawable(
+            @DrawableRes drawableId: Int,
+            drawablePosition: Int
+    ) {
+        when (drawablePosition) {
+            START_DRAWABLE_POSITION -> titleStartDrawableId = drawableId
+            TOP_DRAWABLE_POSITION -> titleTopDrawableId = drawableId
+            END_DRAWABLE_POSITION -> titleEndDrawableId = drawableId
+            BOTTOM_DRAWABLE_POSITION -> titleBottomDrawableId = drawableId
+        }
+    }
+
+    private fun setupSubTitleDrawable(
+            @DrawableRes drawableId: Int,
+            drawablePosition: Int
+    ) {
+        when (drawablePosition) {
+            START_DRAWABLE_POSITION -> subTitleStartDrawableId = drawableId
+            TOP_DRAWABLE_POSITION -> subTitleTopDrawableId = drawableId
+            END_DRAWABLE_POSITION -> subTitleEndDrawableId = drawableId
+            BOTTOM_DRAWABLE_POSITION -> subTitleBottomDrawableId = drawableId
+        }
+    }
+
+    private fun setDrawable(
+            textView: TextView,
+            @DrawableRes drawableId: Int,
+            drawablePosition: Int
+    ) {
+        if (drawableId != INITIAL_DRAWABLE_ID) {
+            val textViewDrawables = textView.compoundDrawables
+            textViewDrawables[drawablePosition] = getDrawable(context, drawableId)
+            textView.setCompoundDrawablesWithIntrinsicBounds(
+                    textViewDrawables[START_DRAWABLE_POSITION],
+                    textViewDrawables[TOP_DRAWABLE_POSITION],
+                    textViewDrawables[END_DRAWABLE_POSITION],
+                    textViewDrawables[BOTTOM_DRAWABLE_POSITION]
+            )
+        }
+    }
+
+    private fun setDrawables(
+            textView: TextView,
+            @DrawableRes startDrawableId: Int = INITIAL_DRAWABLE_ID,
+            @DrawableRes topDrawableId: Int = INITIAL_DRAWABLE_ID,
+            @DrawableRes endDrawableId: Int = INITIAL_DRAWABLE_ID,
+            @DrawableRes bottomDrawableId: Int = INITIAL_DRAWABLE_ID
+    ) {
+        val textViewDrawables = textView.compoundDrawables
+        textView.setCompoundDrawablesWithIntrinsicBounds(
+                if (startDrawableId != INITIAL_DRAWABLE_ID) getDrawable(context, startDrawableId) else textViewDrawables[START_DRAWABLE_POSITION],
+                if (topDrawableId != INITIAL_DRAWABLE_ID) getDrawable(context, topDrawableId) else textViewDrawables[TOP_DRAWABLE_POSITION],
+                if (endDrawableId != INITIAL_DRAWABLE_ID) getDrawable(context, endDrawableId) else textViewDrawables[END_DRAWABLE_POSITION],
+                if (bottomDrawableId != INITIAL_DRAWABLE_ID) getDrawable(context, bottomDrawableId) else textViewDrawables[BOTTOM_DRAWABLE_POSITION]
+        )
+    }
 }

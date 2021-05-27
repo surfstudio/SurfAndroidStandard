@@ -3,29 +3,31 @@
 apply from: '../keystore/signingConfigs.gradle'
 apply from: '../config.gradle'
 
-def config = extensions.getByName("ext")
-
 android {
 
     buildTypes {
         //todo настроить типы сборки
         debug {
             signingConfig signingConfigs.test
-            multiDexEnabled true
             minifyEnabled false
             debuggable = true
-            applicationIdSuffix config["debugVersionNameSuffix"]
+            applicationIdSuffix meta.debugVersionNameSuffix
+            resValue "string", "app_name", "Template Debug" //todo fix debug app name
         }
         qa {
             signingConfig signingConfigs.test
-            multiDexEnabled true
             minifyEnabled true
             debuggable = true
+            applicationIdSuffix meta.qaVersionNameSuffix
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
             // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
             matchingFallbacks = ['release']
-            ext.betaDistributionGroupAliases = "Surf"
-            ext.betaDistributionNotifications = true
+            resValue "string", "app_name", "Template QA" //todo fix qa app name
+
+            /* todo uncoment for real app
+            firebaseAppDistribution {
+                groups="Surf"
+            }*/
         }
         release {
             signingConfig signingConfigs.test //todo заменить на signingConfigs.release
