@@ -59,7 +59,8 @@ ext {
             androidDebugToolsVersion        : '1.0',                //https://bit.ly/2QMKLfe
             autoServiceVersion              : '1.0-rc4',            //https://bit.ly/2WsGYH4
             lifecycleVersion                : '2.2.0',              //https://bit.ly/36Z0Re9
-            gsonVersion                     : '2.8.6'               //https://bit.ly/3sMIrVs
+            gsonVersion                     : '2.8.6',              //https://bit.ly/3sMIrVs
+            detektVersion                   : '1.17.1'              //https://bit.ly/3hZpBsp
     ]
 
 
@@ -153,4 +154,11 @@ ext {
     serialization = [
             gson: "com.google.code.gson:gson:${versions.gsonVersion}"
     ]
+
+    lint = [
+            detekt      : "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detektVersion}",
+            detektCli   : "io.gitlab.arturbosch.detekt:detekt-cli:${versions.detektVersion}",
+            detektPlugin: "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.detektVersion}"
+    ]
+
 }

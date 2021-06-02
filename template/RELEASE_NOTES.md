@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1204 Added Danger and Detekt to the template
 * ANDDEP-1149 Added RxMiddlewareExtensions to the template
 * ANDDEP-1205 added ToolbarConfig in template
 * Add maven central URL
