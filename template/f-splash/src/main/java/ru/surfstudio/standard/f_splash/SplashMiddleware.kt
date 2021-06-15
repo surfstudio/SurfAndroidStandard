@@ -5,16 +5,14 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import ru.surfstudio.standard.f_splash.SplashEvent.Navigation
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_onboarding.OnBoardingStorage
 import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
-import ru.surfstudio.standard.ui.mvi.navigation.extension.builder
-import ru.surfstudio.standard.ui.mvi.navigation.extension.finishAffinity
-import ru.surfstudio.standard.ui.mvi.navigation.extension.replace
-import ru.surfstudio.standard.ui.mvi.navigation.extension.start
+import ru.surfstudio.standard.ui.mvi.navigation.extension.*
 import ru.surfstudio.standard.ui.navigation.routes.MainActivityRoute
 import ru.surfstudio.standard.ui.navigation.routes.OnboardingFragmentRoute
 import java.util.concurrent.TimeUnit
@@ -55,7 +53,10 @@ class SplashMiddleware @Inject constructor(
 
     private fun openNextScreen(): SplashEvent {
         return if (onBoardingStorage.shouldShowOnBoardingScreen) {
-            Navigation().replace(OnboardingFragmentRoute())
+            Navigation().replace(
+                    OnboardingFragmentRoute(),
+                    sourceTag = FragmentNavigationCommand.ACTIVITY_NAVIGATION_TAG,
+            )
         } else {
             Navigation().builder()
                     .finishAffinity()

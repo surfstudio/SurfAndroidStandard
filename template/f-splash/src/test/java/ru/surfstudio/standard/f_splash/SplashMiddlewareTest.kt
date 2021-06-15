@@ -1,7 +1,6 @@
 package ru.surfstudio.standard.f_splash
 
 import io.kotest.assertions.assertSoftly
-import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.every
 import io.mockk.mockk
@@ -24,7 +23,9 @@ internal class SplashMiddlewareTest : BaseMiddlewareTest() {
         every { initialize() } returns Completable.complete()
     }
 
-    private val onboardingStorage: OnBoardingStorage = mockk()
+    private val onboardingStorage: OnBoardingStorage = mockk {
+        every { shouldShowOnBoardingScreen } returns false
+    }
 
     @After
     fun tearDownTest() {
