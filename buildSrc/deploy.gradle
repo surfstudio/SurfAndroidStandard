@@ -140,5 +140,18 @@ ext.configureDeploy = { context ->
                 println("Publishing ${publication.groupId}:${publication.artifactId}:${publication.version} to ${repository.url}")
             }
         }
+
+        // If -Pcomponent set, deploy only its artifacts
+        afterEvaluate {
+            tasks.withType(PublishToMavenRepository) { task ->
+                if (project.hasProperty(GradleProperties.COMPONENT)) {
+                    def componentName = project.property(GradleProperties.COMPONENT)
+                    if (!Components.isLibraryFromComponent(project.name, componentName)) {
+                        task.enabled = false
+                        task.group = null
+                    }
+                }
+            }
+        }
     }
 }

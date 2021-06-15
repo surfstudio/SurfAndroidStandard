@@ -1,10 +1,10 @@
 # Imageloader Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.5.0](#050)
 - [0.4.0](#040)
 - [0.2.1](#021)
 
-## 0.5.0-alpha
+## 0.5.0
 ##### Imageloader
 * Added ability to disable hardware bitmaps config and immediate GIF playback after loading
 * ANDDEP-781 Added headers to ImageLoader when specifying URL
