@@ -1,20 +1,22 @@
 package ru.surfstudio.standard.f_onboarding
 
-import androidx.annotation.LayoutRes
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import com.jakewharton.rxbinding2.view.clicks
-import ru.surfstudio.android.core.mvi.event.hub.owner.SingleHubOwner
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
-import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.ui.view_binding.viewBinding
-import ru.surfstudio.standard.f_onboarding.databinding.ActivityOnboardingBinding
+import ru.surfstudio.standard.f_onboarding.databinding.FragmentOnboardingBinding
 import ru.surfstudio.standard.f_onboarding.di.OnboardingScreenConfigurator
-import ru.surfstudio.standard.ui.mvi.view.BaseMviActivityView
+import ru.surfstudio.standard.ui.mvi.view.BaseMviFragmentView
 import javax.inject.Inject
 
 /**
  * Вью экрана онбординга
  */
-internal class OnboardingActivityView : BaseMviActivityView<OnboardingState, OnboardingEvent>() {
+internal class OnboardingFragmentView : BaseMviFragmentView<OnboardingState, OnboardingEvent>() {
 
     @Inject
     override lateinit var hub: ScreenEventHub<OnboardingEvent>
@@ -22,11 +24,13 @@ internal class OnboardingActivityView : BaseMviActivityView<OnboardingState, Onb
     @Inject
     override lateinit var sh: OnboardingStateHolder
 
-    private val binding by viewBinding(ActivityOnboardingBinding::bind) { rootView }
+    private val binding by viewBinding(FragmentOnboardingBinding::bind)
 
-    override fun getContentView(): Int = R.layout.activity_onboarding
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View = inflater.inflate(R.layout.fragment_onboarding, container, false)
 
-    override fun createConfigurator() = OnboardingScreenConfigurator(intent)
+    override fun createConfigurator() = OnboardingScreenConfigurator(bundleOf())
 
     override fun getScreenName(): String = "OnboardingActivityView"
 

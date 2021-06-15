@@ -44,13 +44,14 @@ interface AppProxyDependencies {
     fun activityNavigationProvider(): ActivityNavigationProvider
     fun screenResultObserver(): ScreenResultObserver
     fun permissionManager(): PermissionManager
-    fun onBoardingStorage(): OnBoardingStorage
 
     fun fcmStorage(): FcmStorage
     fun pushHandler(): PushHandler
 
     @Named(NO_BACKUP_SHARED_PREF)
     fun sharedPreferences(): SharedPreferences
+
+    fun onBoardingStorage(): OnBoardingStorage
 
     fun authInteractor(): AuthInteractor
 }

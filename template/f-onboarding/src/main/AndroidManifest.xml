@@ -3,7 +3,7 @@
     package="ru.surfstudio.standard.f_onboarding">
     <application>
         <activity
-            android:name=".OnboardingActivityView"
+            android:name=".OnboardingFragmentView"
             android:screenOrientation="portrait" />
     </application>
 </manifest>

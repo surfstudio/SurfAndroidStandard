@@ -33,13 +33,13 @@ android {
 
 dependencies {
     implementation project(":i-push-notification")
+    implementation project(":f-onboarding")
     implementation project(":f-auth")
     implementation project(":f-main")
     implementation project(":f-splash")
     implementation project(":f-search")
     implementation project(":f-feed")
     implementation project(":f-profile")
-    implementation project(":f-onboarding")
 
     implementation lang.kotlinStdLib
     implementation lang.jetbrainsAnnotations

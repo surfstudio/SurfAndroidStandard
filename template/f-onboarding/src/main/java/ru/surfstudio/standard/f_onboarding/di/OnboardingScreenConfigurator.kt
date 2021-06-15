@@ -1,6 +1,6 @@
 package ru.surfstudio.standard.f_onboarding.di
 
-import android.content.Intent
+import android.os.Bundle
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -13,26 +13,27 @@ import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.f_onboarding.*
 import ru.surfstudio.standard.ui.activity.di.ActivityComponent
-import ru.surfstudio.standard.ui.activity.di.ActivityScreenConfigurator
-import ru.surfstudio.standard.ui.navigation.routes.OnboardingActivityRoute
+import ru.surfstudio.standard.ui.activity.di.FragmentScreenConfigurator
+import ru.surfstudio.standard.ui.navigation.routes.OnboardingFragmentRoute
 import ru.surfstudio.standard.ui.screen_modules.ActivityScreenModule
 import ru.surfstudio.standard.ui.screen_modules.CustomScreenModule
+import ru.surfstudio.standard.ui.screen_modules.FragmentScreenModule
 
 /**
- * Конфигуратор [OnboardingActivityView].
+ * Конфигуратор [OnboardingFragmentView].
  */
-internal class OnboardingScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
+internal class OnboardingScreenConfigurator(bundle: Bundle?) : FragmentScreenConfigurator(bundle) {
 
     @PerScreen
     @Component(
             dependencies = [ActivityComponent::class],
-            modules = [ActivityScreenModule::class, OnboardingScreenModule::class]
+            modules = [FragmentScreenModule::class, OnboardingScreenModule::class]
     )
-    internal interface OnboardingScreenComponent : BindableScreenComponent<OnboardingActivityView>
+    internal interface OnboardingScreenComponent : BindableScreenComponent<OnboardingFragmentView>
 
     @Module
-    internal class OnboardingScreenModule(route: OnboardingActivityRoute) :
-            CustomScreenModule<OnboardingActivityRoute>(route) {
+    internal class OnboardingScreenModule(route: OnboardingFragmentRoute) :
+            CustomScreenModule<OnboardingFragmentRoute>(route) {
 
         @Provides
         @PerScreen
@@ -52,13 +53,15 @@ internal class OnboardingScreenConfigurator(intent: Intent) : ActivityScreenConf
         }
     }
 
-    override fun createScreenComponent(activityComponent: ActivityComponent,
-                                       activityScreenModule: ActivityScreenModule,
-                                       intent: Intent): ScreenComponent<*> {
+    override fun createScreenComponent(
+            activityComponent: ActivityComponent?,
+            fragmentScreenModule: FragmentScreenModule?,
+            args: Bundle?
+    ): ScreenComponent<*> {
         return DaggerOnboardingScreenConfigurator_OnboardingScreenComponent.builder()
                 .activityComponent(activityComponent)
-                .activityScreenModule(activityScreenModule)
-                .onboardingScreenModule(OnboardingScreenModule(OnboardingActivityRoute()))
+                .fragmentScreenModule(fragmentScreenModule)
+                .onboardingScreenModule(OnboardingScreenModule(OnboardingFragmentRoute()))
                 .build()
     }
 }
