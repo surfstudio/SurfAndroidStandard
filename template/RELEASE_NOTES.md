@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1211 Add onboarding to template
 * ANDDEP-1149 Added RxMiddlewareExtensions to the template
 * ANDDEP-1205 added ToolbarConfig in template
 * Add maven central URL
