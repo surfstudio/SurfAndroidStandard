@@ -58,10 +58,7 @@ class SplashMiddleware @Inject constructor(
                     sourceTag = FragmentNavigationCommand.ACTIVITY_NAVIGATION_TAG,
             )
         } else {
-            Navigation().builder()
-                    .finishAffinity()
-                    .start(MainActivityRoute())
-                    .build()
+            Navigation().replace(MainActivityRoute())
         }
     }
 
