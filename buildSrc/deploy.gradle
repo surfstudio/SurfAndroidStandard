@@ -153,5 +153,12 @@ ext.configureDeploy = { context ->
                 }
             }
         }
+
+        // try to avoid a bug, when aar-files for large components deploy in a separate repository
+        model {
+            tasks.publishMavenReleasePublicationToExternalRepository {
+                dependsOn project.tasks.named("signMavenReleasePublication")
+            }
+        }
     }
 }
