@@ -127,13 +127,12 @@ pipeline.stages = [
             script.sh("./gradlew checkStandardDependenciesStableTask -Pcomponent=${componentName}")
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 script.sh("./gradlew checkExistingDependencyArtifactsInArtifactory -Pcomponent=${componentName}")
-                script.sh("./gradlew checkExistingDependencyArtifactsInBintray -Pcomponent=${componentName}")
             }
         },
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
             }
         },
@@ -201,7 +200,9 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean publish -Pcomponent=${componentName} -PpublishType=maven_release"
+                    def publishTask = "./gradlew clean publish -Pcomponent=$componentName"
+                    script.sh "$publishTask -PpublishType=maven_release"
+                    script.sh "$publishTask -PpublishType=artifactory"
                 }
             }
         },
@@ -214,7 +215,7 @@ pipeline.stages = [
             script.sh "git tag -a $tag -m \"Set tag $tag $labels\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-        pipeline.stage(MIRROR_COMPONENT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(MIRROR_COMPONENT, StageStrategy.SKIP_STAGE) {
             if (pipeline.getStage(COMPONENT_ALPHA_COUNTER_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
@@ -348,6 +349,11 @@ def static withJobCredentials(script, body) {
                     credentialsId: "Maven_Deploy_Credentials",
                     usernameVariable: 'surf_ossrh_username',
                     passwordVariable: 'surf_ossrh_password'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Artifactory_Deploy_Credentials",
+                    usernameVariable: 'surf_maven_username',
+                    passwordVariable: 'surf_maven_password'
             )
     ]) {
         body()

@@ -10,6 +10,7 @@ dependencies {
 
     implementation test.kotest
     implementation test.mockk
+    implementation serialization.gson
 
     gradle.ext.androidStandard.api(
             this,

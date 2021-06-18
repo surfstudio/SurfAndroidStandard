@@ -1,16 +1,14 @@
 # Easy-adapter Release Notes
 
-- [2.1.0-alpha](#210-alpha)
+- [7.0.0](#700)
 - [2.0.0](#200)
 - [1.0.0](#100)
 - [0.3.0](#030)
 - [0.2.1](#021)
 
-## 2.1.0-alpha
+## 7.0.0
 ##### Easyadapter
 * ANDDEP-1114 Removed hasFooter method
-##### Easyadapter Pagination
-* TODO
 ## 2.0.0
 ##### Easyadapter
 * ANDDEP-646 - Improved EasyAdapter. In BaseItem added next and previous links to items, adapterPosition, position in ItemList.
