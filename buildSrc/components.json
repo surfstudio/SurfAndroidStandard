@@ -890,9 +890,9 @@
   },
   {
     "id": "permission",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "permission",
     "libs": [
       {
@@ -1295,9 +1295,9 @@
   },
   {
     "id": "location",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "location",
     "libs": [
       {
@@ -1684,7 +1684,7 @@
   },
   {
     "id": "navigation",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "unstable_version": 0,
     "stable": true,
     "dir": "navigation",
@@ -1779,9 +1779,9 @@
   },
   {
     "id": "picture-provider",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "picture-provider",
     "libs": [
       {

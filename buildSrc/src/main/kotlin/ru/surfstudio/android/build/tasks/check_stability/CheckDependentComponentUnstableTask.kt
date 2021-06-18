@@ -9,28 +9,28 @@ import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.utils.getPropertyComponent
 
 /**
- * Check components libraries depend on parameter component libraries unstable
+ * Only unstable component can depend on the new modified stable component
  */
 open class CheckDependencyForComponentUnstableTask : DefaultTask() {
 
     @TaskAction
     fun check() {
         val component = project.getPropertyComponent()
-        val stableLibraries = ArrayList<Library>()
+        val stableLibraries = mutableSetOf<Library>()
 
         component.libraries.forEach {
             checkDependentLibrariesStable(stableLibraries, it.name, component)
         }
 
-        if (stableLibraries.toSet().isNotEmpty()) {
+        if (stableLibraries.isNotEmpty()) {
             throw DependentComponentsStableException(stableLibraries.map(Library::name))
         }
     }
 
     private fun checkDependentLibrariesStable(
-            stableLibraries: ArrayList<Library>,
-            libName: String,
-            checkedComponent: Component
+        stableLibraries: MutableSet<Library>,
+        libName: String,
+        checkedComponent: Component
     ) {
         Components.value.forEach { comp ->
             comp.libraries.forEach { lib ->
