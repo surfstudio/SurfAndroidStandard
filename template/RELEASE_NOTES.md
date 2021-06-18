@@ -6,6 +6,9 @@
 
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1149 Added RxMiddlewareExtensions to the template
+* ANDDEP-1205 added ToolbarConfig in template
+* Add maven central URL
 * ANDDEP-1203 Fixes after core-ui improvements
 * Added method for mocking domain models
 * Added unit-tests for SplashMiddleware and MainBarMiddleware

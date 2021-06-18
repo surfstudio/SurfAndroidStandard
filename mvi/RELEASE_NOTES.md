@@ -1,8 +1,8 @@
 # Core-mvi Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.5.0](#050)
 
-## 0.5.0-alpha
+## 0.5.0
 ##### Core-mvi
 * ANDDEP-1008 License added
 * ANDDEP-671 Core mvi refactor, add comments

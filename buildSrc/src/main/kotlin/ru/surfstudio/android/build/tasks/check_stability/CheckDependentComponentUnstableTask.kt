@@ -22,7 +22,7 @@ open class CheckDependencyForComponentUnstableTask : DefaultTask() {
             checkDependentLibrariesStable(stableLibraries, it.name, component)
         }
 
-        if (stableLibraries.isNotEmpty()) {
+        if (stableLibraries.toSet().isNotEmpty()) {
             throw DependentComponentsStableException(stableLibraries.map(Library::name))
         }
     }
