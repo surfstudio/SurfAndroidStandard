@@ -26,6 +26,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         main_profile_btn.setOnClickListener { presenter.openProfileScreen() }
+        main_link_btn.setOnClickListener { presenter.openLink("https://google.com") }
     }
 
     override fun renderInternal(sm: MainScreenModel) {}

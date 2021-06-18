@@ -1,10 +1,15 @@
 apply from: '../commonModule.gradle'
+apply from: '../unitTestConfiguration.gradle'
 
 dependencies {
     api project(":domain")
+    api platform(firebase.bom)
     api firebase.core //todo might be removed for real project
     api firebase.analytics
     api firebase.messaging
+
+    implementation test.kotest
+    implementation test.mockk
 
     gradle.ext.androidStandard.api(
             this,

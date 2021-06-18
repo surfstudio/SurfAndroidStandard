@@ -7,6 +7,8 @@
 ##### Message-controller
 * ANDDEP-687 Removed "androidx.exifinterface:exifinterface" dependency
 * ANDDEP-783 Added ability to pass params for snack and toast by one object, set custom view for Toast
+* ANDDEP-1182 Added dismiss callback
+* ANDDEP-1182 Removed duration constraint, now any duration can be used
 ## 0.2.1
 ##### Message-controller
 * ANDDEP-210 added parameter - snackbar duration

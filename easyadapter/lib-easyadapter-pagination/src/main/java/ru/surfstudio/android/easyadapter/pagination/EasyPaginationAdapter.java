@@ -69,9 +69,7 @@ public class EasyPaginationAdapter extends EasyAdapter {
     public void setItems(@NonNull ItemList items, @NonNull PaginationState state) {
         blockShowMoreEvent = state != PaginationState.READY;
         paginationFooterController.setState(state);
-        if (state.isVisible()) {
-            items.add(paginationFooterController);
-        }
+        items.add(paginationFooterController);
         super.setItems(items);
     }
 
@@ -230,7 +228,7 @@ public class EasyPaginationAdapter extends EasyAdapter {
             castedLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    if (position == getPaginationFooterPosition() && hasFooter()) {
+                    if (position == getPaginationFooterPosition()) {
                         //full width footer
                         return castedLayoutManager.getSpanCount();
                     } else {
@@ -243,10 +241,6 @@ public class EasyPaginationAdapter extends EasyAdapter {
 
     private int getPaginationFooterPosition() {
         return getItemCount() - 1;
-    }
-
-    private boolean hasFooter() {
-        return paginationFooterController.getState().isVisible();
     }
 
     private void onShowMoreClick() {
@@ -265,7 +259,7 @@ public class EasyPaginationAdapter extends EasyAdapter {
         blockShowMoreEvent = state != PaginationState.READY;
         ItemList items = getItems();
         int lastIndex = items.size() - 1;
-        if (lastIndex >= 0 && hasFooter()) {
+        if (lastIndex >= 0) {
             items.remove(lastIndex);
         }
         paginationFooterController.setState(state);
