@@ -1684,7 +1684,7 @@
   },
   {
     "id": "navigation",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "unstable_version": 0,
     "stable": true,
     "dir": "navigation",
