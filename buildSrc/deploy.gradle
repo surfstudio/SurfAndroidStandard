@@ -141,9 +141,11 @@ ext.configureDeploy = { context ->
             }
         }
 
-        // If -Pcomponent set, deploy only its artifacts
+        // If -Pcomponent set, deploy and sign only its artifacts.
+        // WARNING: if -Pcomponent set for -PpublishType=maven_release, use --no-parallel option
+        // in order to avoid possible bugs with deploy to different staging repositories
         afterEvaluate {
-            tasks.withType(PublishToMavenRepository) { task ->
+            tasks.withType(Sign) { task ->
                 if (project.hasProperty(GradleProperties.COMPONENT)) {
                     def componentName = project.property(GradleProperties.COMPONENT)
                     if (!Components.isLibraryFromComponent(project.name, componentName)) {
@@ -152,12 +154,14 @@ ext.configureDeploy = { context ->
                     }
                 }
             }
-        }
-
-        // try to avoid a bug, when aar-files for large components deploy in a separate repository
-        model {
-            tasks.publishMavenReleasePublicationToExternalRepository {
-                dependsOn project.tasks.named("signMavenReleasePublication")
+            tasks.withType(PublishToMavenRepository) { task ->
+                if (project.hasProperty(GradleProperties.COMPONENT)) {
+                    def componentName = project.property(GradleProperties.COMPONENT)
+                    if (!Components.isLibraryFromComponent(project.name, componentName)) {
+                        task.enabled = false
+                        task.group = null
+                    }
+                }
             }
         }
     }

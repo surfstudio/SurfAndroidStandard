@@ -532,9 +532,9 @@
   },
   {
     "id": "mvi",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "mvi",
     "libs": [
       {
@@ -680,9 +680,9 @@
   },
   {
     "id": "core-mvp-binding",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
       {
@@ -1107,7 +1107,7 @@
   },
   {
     "id": "easyadapter",
-    "version": "7.0.0",
+    "version": "7.0.1",
     "unstable_version": 0,
     "stable": true,
     "dir": "easyadapter",
@@ -1390,9 +1390,9 @@
   },
   {
     "id": "mvp",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "mvp",
     "libs": [
       {
@@ -1874,9 +1874,9 @@
   },
   {
     "id": "recycler-extension",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "recycler-extension",
     "libs": [
       {
@@ -1920,9 +1920,9 @@
   },
   {
     "id": "recycler-decorator",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "recycler-decorator",
     "libs": [
       {
