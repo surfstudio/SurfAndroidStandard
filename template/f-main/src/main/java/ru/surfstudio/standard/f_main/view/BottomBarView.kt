@@ -3,10 +3,11 @@ package ru.surfstudio.standard.f_main.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
-import kotlinx.android.synthetic.main.layout_bottom_bar.view.*
 import ru.surfstudio.android.template.f_main.R
+import ru.surfstudio.android.template.f_main.databinding.LayoutBottomBarBinding
 import ru.surfstudio.standard.ui.navigation.routes.MainTabType
 
 /**
@@ -20,22 +21,22 @@ class BottomBarView @JvmOverloads constructor(
         attributeSet: AttributeSet? = null
 ) : LinearLayout(context, attributeSet) {
 
+    private val binding = LayoutBottomBarBinding.inflate(LayoutInflater.from(context), this)
+
     private val tabButtonsMap by lazy {
-        hashMapOf<MainTabType, BottomBarItemView>(
-                MainTabType.FEED to bottom_bar_feed_btn,
-                MainTabType.SEARCH to bottom_bar_search_btn,
-                MainTabType.PROFILE to bottom_bar_profile_btn
+        hashMapOf(
+                MainTabType.FEED to binding.bottomBarFeedBtn,
+                MainTabType.SEARCH to binding.bottomBarSearchBtn,
+                MainTabType.PROFILE to binding.bottomBarProfileBtn
         )
     }
 
     /**
      * Экшн, вызываемый при выборе таба
      */
-    var tabSelectedAction: (MainTabType) -> Unit = {  }
+    var tabSelectedAction: (MainTabType) -> Unit = { }
 
     init {
-        View.inflate(context, R.layout.layout_bottom_bar, this)
-
         orientation = HORIZONTAL
         gravity = Gravity.CENTER
 
@@ -67,7 +68,7 @@ class BottomBarView @JvmOverloads constructor(
     /**
      * @param isVisible true, если бейдж нужно показать, false если скрыть
      */
-    fun setBadgeVisibilityOnTab(isVisible: Boolean, tabType: MainTabType){
+    fun setBadgeVisibilityOnTab(isVisible: Boolean, tabType: MainTabType) {
         tabButtonsMap[tabType]?.setBadgeVisibility(isVisible)
     }
 
