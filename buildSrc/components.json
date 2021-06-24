@@ -208,7 +208,7 @@
   {
     "id": "broadcast-extension",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "broadcast-extension",
     "libs": [
@@ -533,7 +533,7 @@
   {
     "id": "mvi",
     "version": "0.5.1",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -681,7 +681,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.1",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -891,7 +891,7 @@
   {
     "id": "permission",
     "version": "0.5.1",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "permission",
     "libs": [
@@ -1296,7 +1296,7 @@
   {
     "id": "location",
     "version": "0.5.1",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "location",
     "libs": [
@@ -1391,7 +1391,7 @@
   {
     "id": "mvp",
     "version": "0.5.1",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1780,7 +1780,7 @@
   {
     "id": "picture-provider",
     "version": "0.5.1",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "picture-provider",
     "libs": [
@@ -1875,7 +1875,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.1",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -1921,7 +1921,7 @@
   {
     "id": "recycler-decorator",
     "version": "1.0.2",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "recycler-decorator",
     "libs": [
@@ -2120,7 +2120,7 @@
   {
     "id": "standard-dialog",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 10,
     "stable": false,
     "dir": "standard-dialog",
     "libs": [
@@ -2207,7 +2207,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 52,
+    "unstable_version": 54,
     "stable": false,
     "dir": "template",
     "libs": [],

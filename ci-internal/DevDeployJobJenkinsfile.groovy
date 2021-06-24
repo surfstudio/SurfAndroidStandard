@@ -148,7 +148,8 @@ pipeline.stages = [
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            script.sh("rm -rf temp template/**/build")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(
@@ -190,8 +191,12 @@ pipeline.stages = [
             }
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
+                    "androidStandardDebugMode=false\n" +
+                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
+            script.sh("./gradlew -p template :app:dependencies")
             // build template after deploy in order to check usage of new artifacts
-            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace")
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
