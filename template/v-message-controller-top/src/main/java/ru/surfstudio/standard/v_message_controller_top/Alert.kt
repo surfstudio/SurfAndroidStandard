@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.v_message_controller_top
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.*
@@ -16,7 +17,6 @@ import androidx.annotation.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat
 import androidx.core.view.children
-import kotlinx.android.synthetic.main.alerter_alert_view.view.*
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.ui.view.setTopMargin
 import ru.surfstudio.standard.v_message_controller_top.databinding.AlerterAlertViewBinding
@@ -28,15 +28,15 @@ typealias OnShowAlertListener = () -> Unit
  * Custom View для отображения уведомления
  */
 class Alert @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyle: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
 ) : FrameLayout(context, attrs, defStyle),
-        View.OnClickListener,
-        Animation.AnimationListener,
-        SwipeDismissTouchListener.DismissCallbacks {
+    View.OnClickListener,
+    Animation.AnimationListener,
+    SwipeDismissTouchListener.DismissCallbacks {
 
-    private val binding = AlerterAlertViewBinding.inflate(LayoutInflater.from(context))
+    private val binding = AlerterAlertViewBinding.inflate(LayoutInflater.from(context), this)
 
     companion object {
 
@@ -77,7 +77,6 @@ class Alert @JvmOverloads constructor(
     private var vibrationEnabled = false
 
     init {
-        inflate(context, R.layout.alerter_alert_view, this)
         isHapticFeedbackEnabled = true
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         ViewCompat.setTranslationZ(this, Float.MAX_VALUE)
@@ -116,6 +115,7 @@ class Alert @JvmOverloads constructor(
 
     /* Override Methods */
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         super.performClick()
         return super.onTouchEvent(event)
@@ -186,8 +186,8 @@ class Alert @JvmOverloads constructor(
         try {
             exitAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation) {
-                    llAlertBackground?.setOnClickListener(null)
-                    llAlertBackground?.isClickable = false
+                    binding.llAlertBackground.setOnClickListener(null)
+                    binding.llAlertBackground.isClickable = false
                 }
 
                 override fun onAnimationEnd(animation: Animation) {
@@ -239,7 +239,7 @@ class Alert @JvmOverloads constructor(
      * @param color The qualified colour integer
      */
     fun setAlertBackgroundColor(@ColorInt color: Int) {
-        llAlertBackground.setBackgroundColor(color)
+        binding.llAlertBackground.setBackgroundColor(color)
     }
 
     /**
@@ -248,7 +248,7 @@ class Alert @JvmOverloads constructor(
      * @param resource id drawable ресурса
      */
     fun setAlertBackgroundResource(@DrawableRes resource: Int) {
-        llAlertBackground.setBackgroundResource(resource)
+        binding.llAlertBackground.setBackgroundResource(resource)
     }
 
     /**
@@ -257,11 +257,7 @@ class Alert @JvmOverloads constructor(
      * @param drawable устанавливаемый drawable
      */
     fun setAlertBackgroundDrawable(drawable: Drawable) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            llAlertBackground.background = drawable
-        } else {
-            llAlertBackground.setBackgroundDrawable(drawable)
-        }
+        binding.llAlertBackground.background = drawable
     }
 
     /**
@@ -277,7 +273,7 @@ class Alert @JvmOverloads constructor(
      * Выключает обработку прикосновений на время пока уведомление отображается
      */
     fun disableOutsideTouch() {
-        flClickShield.isClickable = true
+        binding.flClickShield.isClickable = true
     }
 
     /**
@@ -286,7 +282,7 @@ class Alert @JvmOverloads constructor(
      * @param typeface typeface
      */
     fun setTextTypeface(typeface: Typeface) {
-        tvText.typeface = typeface
+        binding.tvText.typeface = typeface
     }
 
     /**
@@ -296,8 +292,8 @@ class Alert @JvmOverloads constructor(
      */
     fun setText(text: CharSequence) {
         if (!TextUtils.isEmpty(text)) {
-            tvText.visibility = View.VISIBLE
-            tvText.text = text
+            binding.tvText.visibility = View.VISIBLE
+            binding.tvText.text = text
         }
     }
 
@@ -306,11 +302,12 @@ class Alert @JvmOverloads constructor(
      *
      * @param textAppearance id ресурса стиля
      */
+    @Suppress("DEPRECATION")
     fun setTextAppearance(@StyleRes textAppearance: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            tvText.setTextAppearance(textAppearance)
+            binding.tvText.setTextAppearance(textAppearance)
         } else {
-            tvText.setTextAppearance(tvText.context, textAppearance)
+            binding.tvText.setTextAppearance(binding.tvText.context, textAppearance)
         }
     }
 
@@ -320,7 +317,7 @@ class Alert @JvmOverloads constructor(
      * @param iconId id drawable ресурса
      */
     fun setIcon(@DrawableRes iconId: Int) {
-        ivIcon.setImageDrawable(AppCompatResources.getDrawable(context, iconId))
+        binding.ivIcon.setImageDrawable(AppCompatResources.getDrawable(context, iconId))
     }
 
     /**
@@ -329,7 +326,7 @@ class Alert @JvmOverloads constructor(
      * @param color Color int
      */
     fun setIconColorFilter(@ColorInt color: Int) {
-        ivIcon.setColorFilter(color)
+        binding.ivIcon.setColorFilter(color)
     }
 
     /**
@@ -338,7 +335,7 @@ class Alert @JvmOverloads constructor(
      * @param colorFilter ColorFilter
      */
     fun setIconColorFilter(colorFilter: ColorFilter) {
-        ivIcon.colorFilter = colorFilter
+        binding.ivIcon.colorFilter = colorFilter
     }
 
     /**
@@ -348,7 +345,7 @@ class Alert @JvmOverloads constructor(
      * @param mode PorterDuff.Mode
      */
     fun setIconColorFilter(@ColorInt color: Int, mode: PorterDuff.Mode) {
-        ivIcon.setColorFilter(color, mode)
+        binding.ivIcon.setColorFilter(color, mode)
     }
 
     /**
@@ -357,7 +354,7 @@ class Alert @JvmOverloads constructor(
      * @param bitmap Bitmap
      */
     fun setIcon(bitmap: Bitmap) {
-        ivIcon.setImageBitmap(bitmap)
+        binding.ivIcon.setImageBitmap(bitmap)
     }
 
     /**
@@ -366,14 +363,14 @@ class Alert @JvmOverloads constructor(
      * @param drawable Drawable
      */
     fun setIcon(drawable: Drawable) {
-        ivIcon.setImageDrawable(drawable)
+        binding.ivIcon.setImageDrawable(drawable)
     }
 
     /**
      * Включает возможность скрывать уведомление смахиванием
      */
     fun enableSwipeToDismiss() {
-        llAlertBackground.let {
+        binding.llAlertBackground.let {
             it.setOnTouchListener(SwipeDismissTouchListener(it, object : SwipeDismissTouchListener.DismissCallbacks {
                 override fun canDismiss(): Boolean {
                     return true
@@ -438,7 +435,7 @@ class Alert @JvmOverloads constructor(
     }
 
     override fun onDismiss(view: View) {
-        flClickShield?.removeView(llAlertBackground)
+        binding.flClickShield.removeView(binding.llAlertBackground)
     }
 
     override fun onTouch(view: View, touch: Boolean) {

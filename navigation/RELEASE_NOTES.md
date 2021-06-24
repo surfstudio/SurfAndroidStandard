@@ -1,6 +1,6 @@
 # Navigation Release Notes
 
-## 0.5.0-alpha
+## 0.5.1
 ##### Navigation
 * ANDDEP-1203 Fixes after core-ui improvements
 * ANDDEP-312 Added navigation module

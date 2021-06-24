@@ -1,8 +1,12 @@
 # Permission Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.5.1-alpha](#051-alpha)
+- [0.5.0](#050)
 
-## 0.5.0-alpha
+## 0.5.1-alpha
+##### Permission
+* TODO
+## 0.5.0
 ##### Permission
 * ANDDEP-1049 All classes responsible for permissions migrated from `core-ui` to `permission`
 * **NO BACKWARD COMPATIBILITY** ANDDEP-1049 Package for `BaseActivityResultDelegate`,`SupportOnActivityResultRoute` and `CrossFeatureSupportOnActivityResultRoute` is changed 

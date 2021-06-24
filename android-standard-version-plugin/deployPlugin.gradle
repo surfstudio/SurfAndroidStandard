@@ -1,6 +1,7 @@
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.ConfigInfoProvider
+import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.publish.PublishConfig
 
 apply plugin: 'maven-publish'
@@ -92,13 +93,19 @@ tasks.withType(PublishToMavenRepository) {
     }
 }
 
+ext.checkAndDisableTask = { task ->
+    if (project.hasProperty(GradleProperties.COMPONENT) ||
+            task.publication.hasProperty('artifactId') && task.publication.artifactId == project.name
+    ) {
+        task.enabled = false
+        task.group = null
+    }
+}
+
 // deploy version-plugin with custom name; disable additional publishPluginMavenPublicationToExternalRepository task
 // which deploys "android-standard-version-plugin" by default
 afterEvaluate {
     tasks.withType(PublishToMavenRepository) { task ->
-        if (task.publication.hasProperty('artifactId') && task.publication.artifactId == project.name) {
-            task.enabled = false
-            task.group = null
-        }
+        checkAndDisableTask(task)
     }
 }

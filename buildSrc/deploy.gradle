@@ -23,6 +23,31 @@ ext["signing.keyId"] = System.getenv("surf_maven_sign_key_id")
 ext["signing.password"] = System.getenv("surf_maven_sign_password")
 ext["signing.secretKeyRingFile"] = System.getenv("surf_maven_sign_key_ring_file")
 
+ext.checkAndDisableTask = { task, publishType ->
+    task.onlyIf {
+        // If -PonlyUnstable=true deploy only unstable artifacts
+        def onlyUnstable = project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) &&
+                project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == trueValue &&
+                Components.getComponentStability(project.name)
+
+        // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
+        def deployOnlyIfNotExist = project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) &&
+                project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == trueValue &&
+                publishType == PublishType.ARTIFACTORY &&
+                Artifactory.isLibraryAlreadyDeployed(project.name)
+
+        !onlyUnstable && !deployOnlyIfNotExist
+    }
+
+    if (project.hasProperty(GradleProperties.COMPONENT)) {
+        def componentName = project.property(GradleProperties.COMPONENT)
+        if (!Components.isLibraryFromComponent(project.name, componentName)) {
+            task.enabled = false
+            task.group = null
+        }
+    }
+}
+
 ext.configureDeploy = { context ->
     // define function for deploy of current module to artifactory or maven central
     context.afterEvaluate {
@@ -38,9 +63,15 @@ ext.configureDeploy = { context ->
         def artifactDescription = Components.getArtifactDescription(project.name)
         def artifactUrl = Components.getArtifactUrl(project.name)
         def publishData = PublishUtil.initPublishData()
+        def publishTypeProperty = ""
+        def publishType = PublishType.UNKNOWN
 
         if (!artifactName.trim()) {
             throw new GradleException("artifactName for ${project.name} can not be blank for deploy")
+        }
+        if (project.hasProperty(GradleProperties.PUBLISH_TYPE)) {
+            publishTypeProperty = project.property(GradleProperties.PUBLISH_TYPE)
+            publishType = PublishType.getById(publishTypeProperty)
         }
 
         signing {
@@ -52,27 +83,10 @@ ext.configureDeploy = { context ->
                 mavenRelease(MavenPublication) {
                     // check publishType
                     if (project.hasProperty(GradleProperties.PUBLISH_TYPE)) {
-                        def publishTypeProperty = project.property(GradleProperties.PUBLISH_TYPE)
-                        def publishType = PublishType.getById(publishTypeProperty)
                         if (publishType == PublishType.UNKNOWN) {
                             throw new GradleException("Illegal publishType set: $publishTypeProperty")
                         }
                         publishData = PublishUtil.getPublishData(publishType)
-                    }
-
-                    // If -PonlyUnstable=true deploy only unstable artifacts
-                    if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {
-                        if (project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == trueValue
-                                && Components.getComponentStability(project.name)
-                        ) return
-                    }
-
-                    // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
-                    if (project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST)) {
-                        if (project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == trueValue
-                                && publishType == PublishType.ARTIFACTORY
-                                && Artifactory.isLibraryAlreadyDeployed(project.name)
-                        ) return
                     }
 
                     groupId = artifactGroupId
@@ -138,6 +152,18 @@ ext.configureDeploy = { context ->
         tasks.withType(PublishToMavenRepository) {
             doFirst {
                 println("Publishing ${publication.groupId}:${publication.artifactId}:${publication.version} to ${repository.url}")
+            }
+        }
+
+        // If -Pcomponent set, deploy and sign only its artifacts.
+        // WARNING: if -Pcomponent set for -PpublishType=maven_release, use --no-parallel option
+        // in order to avoid possible bugs with deploy to different staging repositories
+        afterEvaluate {
+            tasks.withType(Sign) { task ->
+                checkAndDisableTask(task, publishType)
+            }
+            tasks.withType(PublishToMavenRepository) { task ->
+                checkAndDisableTask(task, publishType)
             }
         }
     }
