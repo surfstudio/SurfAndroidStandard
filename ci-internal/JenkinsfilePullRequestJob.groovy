@@ -50,7 +50,6 @@ final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
 final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 
 // Other config
-final String TEMP_FOLDER_NAME = "temp"
 def stagesForProjectMode = [
         PRE_MERGE,
         RELEASE_NOTES_DIFF,
@@ -223,7 +222,6 @@ pipeline.stages = [
             script.sh "./ci-internal/auto-add-license/add_license.sh"
         },
         pipeline.stage(CHECKS_RESULT) {
-            script.sh "rm -rf $TEMP_FOLDER_NAME"
             def checksPassed = true
             [
                     CHECK_STABLE_MODULES_IN_ARTIFACTORY,
@@ -248,6 +246,7 @@ pipeline.stages = [
         },
 
         pipeline.stage(BUILD) {
+            script.sh("rm -rf temp template/**/build")
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa")
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
