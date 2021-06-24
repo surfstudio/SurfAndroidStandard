@@ -1,7 +1,11 @@
 # Permission Release Notes
 
+- [0.5.1-alpha](#051-alpha)
 - [0.5.0](#050)
 
+## 0.5.1-alpha
+##### Permission
+* TODO
 ## 0.5.0
 ##### Permission
 * ANDDEP-1049 All classes responsible for permissions migrated from `core-ui` to `permission`

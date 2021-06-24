@@ -169,7 +169,7 @@ pipeline.stages = [
         },
 
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(
@@ -201,7 +201,9 @@ pipeline.stages = [
             withJobCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     def publishTask = "./gradlew clean publish -Pcomponent=$componentName"
-                    script.sh "$publishTask -PpublishType=maven_release"
+                    // --no-parallel to avoid possible bugs with deploy to different staging repositories
+                    // -Dhttp.connectionTimeout=60000 to avoid possible Read timed out errors during deploy
+                    script.sh "$publishTask -PpublishType=maven_release --no-parallel -Dhttp.connectionTimeout=60000"
                     script.sh "$publishTask -PpublishType=artifactory"
                 }
             }

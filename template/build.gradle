@@ -29,7 +29,6 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url "https://artifactory.surfstudio.ru/artifactory/libs-release-local" }
-        maven { url "https://dl.bintray.com/terrakok/terramaven" }
         maven { url 'https://jitpack.io' }
     }
 }

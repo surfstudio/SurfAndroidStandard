@@ -1,12 +1,12 @@
 # Easy-adapter Release Notes
 
-- [7.0.0](#700)
+- [7.0.1](#701)
 - [2.0.0](#200)
 - [1.0.0](#100)
 - [0.3.0](#030)
 - [0.2.1](#021)
 
-## 7.0.0
+## 7.0.1
 ##### Easyadapter
 * ANDDEP-1114 Removed hasFooter method
 ## 2.0.0

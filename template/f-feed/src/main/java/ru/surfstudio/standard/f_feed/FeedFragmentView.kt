@@ -8,10 +8,10 @@ import com.jakewharton.rxbinding2.view.clicks
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
 import ru.surfstudio.android.core.ui.view_binding.viewBinding
-import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.standard.f_feed.databinding.FragmentFeedBinding
 import ru.surfstudio.standard.f_feed.di.FeedScreenConfigurator
 import ru.surfstudio.standard.ui.mvi.view.BaseMviFragmentView
+import ru.surfstudio.standard.v_message_controller_top.IconMessageController
 import javax.inject.Inject
 
 internal class FeedFragmentView : BaseMviFragmentView<FeedState, FeedEvent>(), CrossFeatureFragment {
@@ -23,7 +23,7 @@ internal class FeedFragmentView : BaseMviFragmentView<FeedState, FeedEvent>(), C
     override lateinit var sh: FeedScreenStateHolder
 
     @Inject
-    lateinit var messageController: MessageController
+    lateinit var messageController: IconMessageController
 
     private val binding by viewBinding(FragmentFeedBinding::bind)
 
@@ -39,7 +39,7 @@ internal class FeedFragmentView : BaseMviFragmentView<FeedState, FeedEvent>(), C
 
     override fun render(state: FeedState) {
         if (state.message.isNotEmpty()) {
-            messageController.showToast(message = state.message)
+            messageController.show(message = state.message)
         }
     }
 
