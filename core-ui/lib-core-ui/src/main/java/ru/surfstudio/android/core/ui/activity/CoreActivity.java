@@ -92,7 +92,7 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
      *
      * @param savedInstanceState
      */
-    void onPreCreate(Bundle savedInstanceState) {
+    protected void onPreCreate(Bundle savedInstanceState) {
         //empty
     }
 
