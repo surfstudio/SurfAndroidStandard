@@ -258,7 +258,7 @@ pipeline.stages = [
              * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
              * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
              */
-            script.sh("./gradlew -p template clean build assembleQa assembleDebug --stacktrace")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean build assembleQa --stacktrace")
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
