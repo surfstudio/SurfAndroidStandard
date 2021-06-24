@@ -14,10 +14,13 @@ import ru.surfstudio.android.navigation.observer.bus.ScreenResultBus
 import ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult
 import ru.surfstudio.android.navigation.observer.executor.screen.activity.ActivityCommandWithResultExecutor
 import ru.surfstudio.android.navigation.observer.navigator.activity.ActivityNavigatorWithResultFactory
+import ru.surfstudio.android.navigation.observer.storage.RouteStorage
 import ru.surfstudio.android.navigation.observer.storage.ScreenResultStorage
+import ru.surfstudio.android.navigation.observer.storage.file.FileRouteStorage
 import ru.surfstudio.android.navigation.observer.storage.file.FileScreenResultStorage
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
+import javax.inject.Named
 
 @Module
 class NavigationModule {
@@ -37,14 +40,30 @@ class NavigationModule {
 
     @Provides
     @PerApplication
-    fun provideActivityNavigationProviderCallbacks(context: Context): ActivityNavigationProviderCallbacks {
-        return ActivityNavigationProviderCallbacks(activityNavigatorFactory = ActivityNavigatorWithResultFactory())
+    internal fun provideRouteStorage(context: Context): RouteStorage {
+        val filesDir = AppDirectoriesProvider.provideNoBackupStorageDir(context)
+        return FileRouteStorage(filesDir)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideNavigatorFactory(
+        storage: RouteStorage,
+        emitter: ScreenResultEmitter
+    ): ActivityNavigatorWithResultFactory {
+        return ActivityNavigatorWithResultFactory(emitter, storage)
+    }
+
+    @Provides
+    @PerApplication
+    fun provideActivityNavigationProviderCallbacks(factory: ActivityNavigatorWithResultFactory): ActivityNavigationProviderCallbacks {
+        return ActivityNavigationProviderCallbacks(activityNavigatorFactory = factory)
     }
 
     @Provides
     @PerApplication
     fun provideActivityNavigationProvider(
-            activityNavigationProviderCallbacks: ActivityNavigationProviderCallbacks
+        activityNavigationProviderCallbacks: ActivityNavigationProviderCallbacks
     ): ActivityNavigationProvider {
         return activityNavigationProviderCallbacks
     }
@@ -52,17 +71,22 @@ class NavigationModule {
     @Provides
     @PerApplication
     fun provideAppCommandExecutor(
-            screenResultEmitter: ScreenResultEmitter,
-            activityNavigationProvider: ActivityNavigationProvider
-    ): AppCommandExecutor {
+        screenResultEmitter: ScreenResultEmitter,
+        activityNavigationProvider: ActivityNavigationProvider
+    ): AppCommandExecutorWithResult {
         return AppCommandExecutorWithResult(
-                screenResultEmitter,
-                activityNavigationProvider,
-                ActivityCommandWithResultExecutor(activityNavigationProvider, screenResultEmitter),
-                FragmentCommandExecutor(activityNavigationProvider),
-                DialogCommandExecutor(activityNavigationProvider)
+            screenResultEmitter,
+            activityNavigationProvider,
+            ActivityCommandWithResultExecutor(activityNavigationProvider),
+            FragmentCommandExecutor(activityNavigationProvider),
+            DialogCommandExecutor(activityNavigationProvider)
         )
     }
+
+    @Provides
+    @PerApplication
+    fun provideCommandExecutor(commandExecutor: AppCommandExecutorWithResult): AppCommandExecutor =
+        commandExecutor
 
     @Provides
     @PerApplication

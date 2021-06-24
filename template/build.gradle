@@ -4,6 +4,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
@@ -25,8 +26,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         maven { url "https://artifactory.surfstudio.ru/artifactory/libs-release-local" }
-        maven { url "https://dl.bintray.com/terrakok/terramaven" }
         maven { url 'https://jitpack.io' }
     }
 }

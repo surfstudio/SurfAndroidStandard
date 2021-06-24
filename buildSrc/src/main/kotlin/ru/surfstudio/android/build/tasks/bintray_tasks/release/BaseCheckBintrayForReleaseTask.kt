@@ -25,6 +25,7 @@ private const val GET_CURRENT_BRANCH_NAME_COMMAND = "git rev-parse --abbrev-ref 
 /**
  * Base class for tasks of checking Bintray for release artifacts
  */
+@Deprecated("Use Artifactory or Maven Central after Bintray sunset")
 abstract class BaseCheckBintrayForReleaseTask : DefaultTask() {
 
     protected val sb = StringBuilder()
