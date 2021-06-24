@@ -1,0 +1,25 @@
+apply plugin: "io.gitlab.arturbosch.detekt"
+
+configurations {
+    detekt
+}
+
+dependencies {
+    detekt lint.detekt
+    detekt lint.detektCli
+}
+
+task detektCheck(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code smells, code complexity based on detekt.yml."
+
+    main = "io.gitlab.arturbosch.detekt.cli.Main"
+    classpath = configurations.detekt
+
+    def input = "$projectDir"
+    def config = "$rootDir/lint/detekt-config.yml"
+    def report = "xml:$buildDir/reports/detekt/detekt-checkstyle.xml"
+    def params = ["-i", input, "-c", config, "-r", report]
+    args(params)
+
+    ignoreExitValue true
+}
