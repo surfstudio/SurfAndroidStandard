@@ -148,6 +148,7 @@ pipeline.stages = [
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
         pipeline.stage(BUILD) {
+            script.sh("rm -rf temp template/**/build")
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
         },
         pipeline.stage(UNIT_TEST) {
@@ -193,6 +194,7 @@ pipeline.stages = [
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
                     "androidStandardDebugMode=false\n" +
                     "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
+            script.sh("./gradlew -p template :app:dependencies")
             // build template after deploy in order to check usage of new artifacts
             AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace")
         },
