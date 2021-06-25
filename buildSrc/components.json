@@ -1907,6 +1907,43 @@
             "type": "implementation"
           }
         ]
+      },
+      {
+        "name": "picture-provider-deprecated",
+        "dir": "lib-picture-provider-deprecated",
+        "artifact_name": "picture-provider-deprecated",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.exifinterface:exifinterface",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-app",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "permission-deprecated",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
       }
     ],
     "samples": [
