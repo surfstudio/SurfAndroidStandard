@@ -930,6 +930,39 @@
             "type": "implementation"
           }
         ]
+      },
+      {
+        "name": "permission-deprecated",
+        "dir": "lib-permission-deprecated",
+        "artifact_name": "permission-deprecated",
+        "third_party_dependencies": [
+          {
+            "name": "com.agna.ferro:ferro-rx",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-navigation",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "activity-holder",
+            "type": "implementation"
+          }
+        ]
       }
     ],
     "samples": [
@@ -1739,6 +1772,39 @@
           {
             "name": "logger",
             "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "navigation-observer-deprecated",
+        "dir": "lib-navigation-observer-deprecated",
+        "artifact_name": "navigation-observer-deprecated",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.activity:activity",
+            "type": "api"
+          },
+          {
+            "name": "androidx.activity:activity-ktx",
+            "type": "api"
+          },
+          {
+            "name": "androidx.fragment:fragment",
+            "type": "api"
+          },
+          {
+            "name": "androidx.fragment:fragment-ktx",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "navigation",
+            "type": "api"
           }
         ]
       },

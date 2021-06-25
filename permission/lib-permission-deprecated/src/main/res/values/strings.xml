@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="default_permission_rational_got_it">Понятно</string>
+	<string name="settings_rational_go_to_settings">Перейти в настройки</string>
+	<string name="settings_rational_cancel">Отмена</string>
+</resources>
