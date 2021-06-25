@@ -1357,6 +1357,31 @@
             "type": "implementation"
           }
         ]
+      },
+      {
+        "name": "location-deprecated",
+        "dir": "lib-location-deprecated",
+        "artifact_name": "location-deprecated",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.android.gms:play-services-location",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "permission-deprecated",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
       }
     ],
     "samples": [
