@@ -9,10 +9,7 @@ import ru.surfstudio.android.core.ui.navigation.Route
 /**
  * Экран объяснения причины запроса разрешения.
  */
-@Deprecated(
-    message = "Prefer using new implementation",
-    replaceWith = ReplaceWith("permission.PermissionManager")
-)
+@Deprecated("Prefer using new implementation")
 class DefaultPermissionRationalActivity : AppCompatActivity() {
 
     private val permissionsRationalStr: String

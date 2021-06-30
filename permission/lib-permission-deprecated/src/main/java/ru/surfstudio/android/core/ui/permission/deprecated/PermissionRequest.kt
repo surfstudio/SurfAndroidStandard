@@ -22,10 +22,7 @@ private const val MAX_REQUEST_CODE = 32768
 /**
  * Базовый класс запроса Runtime Permissions.
  */
-@Deprecated(
-    message = "Prefer using new implementation",
-    replaceWith = ReplaceWith("permission.PermissionManager")
-)
+@Deprecated("Prefer using new implementation")
 abstract class PermissionRequest {
 
     /**

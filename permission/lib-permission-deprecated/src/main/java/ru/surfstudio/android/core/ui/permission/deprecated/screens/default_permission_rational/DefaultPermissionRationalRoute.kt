@@ -9,10 +9,7 @@ import java.io.Serializable
 /**
  * Маршрут экрана объяснения причины запроса разрешения.
  */
-@Deprecated(
-    message = "Prefer using new implementation",
-    replaceWith = ReplaceWith("permission.PermissionManager")
-)
+@Deprecated("Prefer using new implementation")
 class DefaultPermissionRationalRoute(
         private val permissionRationalStr: String
 ) : ActivityWithResultRoute<Serializable>() {

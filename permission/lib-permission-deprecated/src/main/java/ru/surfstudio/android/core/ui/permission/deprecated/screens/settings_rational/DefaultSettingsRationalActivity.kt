@@ -14,10 +14,7 @@ private const val SETTINGS_REQUEST_CODE = 1005
 /**
  * Экран объяснения необходимости перехода в настройки приложения.
  */
-@Deprecated(
-    message = "Prefer using new implementation",
-    replaceWith = ReplaceWith("permission.PermissionManager")
-)
+@Deprecated("Prefer using new implementation")
 class DefaultSettingsRationalActivity : AppCompatActivity() {
 
     private val settingsRationalStr: String

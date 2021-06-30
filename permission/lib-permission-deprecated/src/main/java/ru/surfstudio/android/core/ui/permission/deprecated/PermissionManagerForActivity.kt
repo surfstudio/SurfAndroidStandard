@@ -25,10 +25,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider
 /**
  * PermissionManager, работающий из активити.
  */
-@Deprecated(
-    message = "Prefer using new implementation",
-    replaceWith = ReplaceWith("permission.PermissionManager")
-)
+@Deprecated("Prefer using new implementation")
 class PermissionManagerForActivity(
         eventDelegateManager: ScreenEventDelegateManager,
         activityNavigator: ActivityNavigator,

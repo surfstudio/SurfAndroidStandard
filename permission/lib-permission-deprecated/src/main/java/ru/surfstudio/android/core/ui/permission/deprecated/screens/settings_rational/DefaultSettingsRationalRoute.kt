@@ -15,10 +15,7 @@ import java.io.Serializable
  * @param settingsPositiveButtonStr positive button text
  * @param settingsNegativeButtonStr negative button text
  */
-@Deprecated(
-    message = "Prefer using new implementation",
-    replaceWith = ReplaceWith("permission.PermissionManager")
-)
+@Deprecated("Prefer using new implementation")
 class DefaultSettingsRationalRoute(
         private val settingsRationalStr: String,
         private val settingsPositiveButtonStr: String? = null,

@@ -40,10 +40,7 @@ import java.io.Serializable
 /**
  * Класс для проверки и запросов разрешений.
  */
-@Deprecated(
-    message = "Prefer using new implementation",
-    replaceWith = ReplaceWith("permission.PermissionManager")
-)
+@Deprecated("Prefer using new implementation")
 abstract class PermissionManager(
         eventDelegateManager: ScreenEventDelegateManager,
         private val activityProvider: ActivityProvider,

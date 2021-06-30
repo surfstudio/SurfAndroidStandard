@@ -24,10 +24,7 @@ import ru.surfstudio.android.core.ui.provider.FragmentProvider
 /**
  * PermissionManager, работающий из фрагмента.
  */
-@Deprecated(
-    message = "Prefer using new implementation",
-    replaceWith = ReplaceWith("permission.PermissionManager")
-)
+@Deprecated("Prefer using new implementation")
 class PermissionManagerForFragment(
         eventDelegateManager: ScreenEventDelegateManager,
         activityProvider: ActivityProvider,

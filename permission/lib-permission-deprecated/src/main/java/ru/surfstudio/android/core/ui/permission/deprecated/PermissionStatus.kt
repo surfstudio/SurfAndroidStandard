@@ -5,10 +5,7 @@ package ru.surfstudio.android.core.ui.permission.deprecated
  *
  * @param isGranted Выдано ли разрешение.
  */
-@Deprecated(
-    message = "Prefer using new implementation",
-    replaceWith = ReplaceWith("permission.PermissionManager")
-)
+@Deprecated("Prefer using new implementation")
 enum class PermissionStatus(val isGranted: Boolean) {
 
     /**
