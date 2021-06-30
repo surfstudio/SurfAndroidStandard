@@ -11,3 +11,5 @@
 * ANDDEP-1038 Add PaginationFooterItemController for samples
 * ANDDEP-1037 Dependencies on deprecated module Network removed
 * ANDDEP-853 Translate docs
+* ANDDEP-1148 code updated for target sdk 30
+* ANDDEP-1201 updated sample with new Navigation and PermissionManager

@@ -20,8 +20,7 @@ class HomeNestedFragmentView : BaseRxFragmentView() {
         return inflater.inflate(R.layout.fragment_home_nested, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
-        super.onActivityCreated(savedInstanceState, viewRecreated)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, viewRecreated: Boolean) {
         bm.currentOrder bindTo ::setOrderText
         home_nested_add_btn.setOnClickListener { bm.openNextScreen.accept() }
     }

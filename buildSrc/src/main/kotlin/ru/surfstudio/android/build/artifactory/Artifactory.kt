@@ -19,6 +19,7 @@ object Artifactory {
     /**
      * Deploy artifact to bintray
      */
+    @Deprecated("Use Artifactory or Maven Central after Bintray sunset")
     fun distributeArtifactToBintray(overrideExisting: Boolean, libraryNames: List<String>) {
         val artifacts: List<ArtifactInfo> = libraryNames.map { ArtifactInfo(it) }
         var packagesRepoPaths = ""
@@ -33,6 +34,7 @@ object Artifactory {
      * Deploy artifact to bintray
      */
     @JvmStatic
+    @Deprecated("Use Artifactory or Maven Central after Bintray sunset")
     fun distributeArtifactToBintray(overrideExisting: Boolean, libraryName: String) {
         distribute(ArtifactInfo(libraryName).getPath(), overrideExisting)
     }
@@ -55,7 +57,7 @@ object Artifactory {
     @JvmStatic
     fun isLibraryAlreadyDeployed(libraryName: String): Boolean {
         val library = Components.libraries.find { it.name == libraryName }
-                ?: throw LibraryNotFoundException(libraryName)
+            ?: throw LibraryNotFoundException(libraryName)
         return isArtifactExists(library.name, Components.getModuleVersion(library.name))
     }
 
@@ -64,15 +66,15 @@ object Artifactory {
      */
     private fun checkLibraryStandardDependenciesExisting(library: Library, component: Component) {
         library.androidStandardDependencies
-                .filter { it.component != component }
-                .forEach { androidStandardDependency ->
-                    if (!isArtifactExists(androidStandardDependency.name, androidStandardDependency.component.projectVersion)) {
-                        throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
-                    }
-                    Components.libraries.find { it.name == androidStandardDependency.name }?.let {
-                        checkLibraryStandardDependenciesExisting(it, component)
-                    }
+            .filter { it.component != component }
+            .forEach { androidStandardDependency ->
+                if (!isArtifactExists(androidStandardDependency.name, androidStandardDependency.component.projectVersion)) {
+                    throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
                 }
+                Components.libraries.find { it.name == androidStandardDependency.name }?.let {
+                    checkLibraryStandardDependenciesExisting(it, component)
+                }
+            }
     }
 
     /**

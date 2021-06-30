@@ -9,8 +9,9 @@ import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigatorFactory
+import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
 import ru.surfstudio.android.navigation.navigator.dialog.DialogNavigator
+import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigatorFactory
 import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 import ru.surfstudio.android.navigation.provider.FragmentNavigationProvider
 import ru.surfstudio.android.navigation.provider.callbacks.factory.FragmentNavigationProviderCallbacksFactory
@@ -175,7 +176,7 @@ open class ActivityNavigationProviderCallbacks(
             val intent = activity.intent
             val dataBundle = intent.getDataBundle()
             val screenId = when {
-                dataBundle != null -> dataBundle.getString(Route.EXTRA_SCREEN_ID, "")
+                dataBundle != null -> dataBundle.getString(Route.EXTRA_SCREEN_ID, "") ?: ""
                 intent.action == Intent.ACTION_MAIN -> LAUNCHER_ACTIVITY_ID
                 else -> return
             }

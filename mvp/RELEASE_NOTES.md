@@ -1,19 +1,26 @@
 # Mvp Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.5.1-alpha](#051-alpha)
+- [0.5.0](#050)
 - [0.4.0](#040)
 - [0.3.0](#030)
 - [0.2.1](#021)
 
-## 0.5.0-alpha
+## 0.5.1-alpha
 ##### Core-mvp
+* TODO
+## 0.5.0
+##### Core-mvp
+* ANDDEP-1203 Fixes after core-ui improvements
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 ##### Mvp-widget
+* ANDDEP-1203 Fixes after core-ui improvements
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 * ANDDEP-687 Changed "androidx.constraintlayout:constraintlayout" dependency from "api" to "implementation" type
 * ANDDEP-633 Fixed widget manual destroy method
 * ANDDEP-1048 Fixing wrong docs links and docs structure
 ##### Mvp-dialog
+* ANDDEP-1203 Fixes after core-ui improvements
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 * Fix logging screen names
 * ANDDEP-922 Fix crash on dismiss simple dialog in child fragment
