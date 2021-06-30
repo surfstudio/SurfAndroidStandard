@@ -9,6 +9,7 @@ import java.io.File
 /**
  * Фабрика для создания [BaseCameraRoute]
  */
+@Deprecated("Prefer using new implementation")
 interface BaseCameraRouteFactory {
     fun create(uri: Uri): BaseCameraRoute
 
@@ -22,6 +23,7 @@ interface BaseCameraRouteFactory {
 /**
  * Реализация [BaseCameraRouteFactory] для создания [CameraRoute]
  */
+@Deprecated("Prefer using new implementation")
 class CameraRouteFactory(
         private val chooserTitle: String
 ) : BaseCameraRouteFactory {
@@ -34,6 +36,7 @@ class CameraRouteFactory(
 /**
  * Реализация [BaseCameraRouteFactory] для создания [CameraRoute] с помощью [File]
  */
+@Deprecated("Prefer using new implementation")
 internal class OldFileCameraRouteFactory(
         private val context: Context,
         private val authority: String,

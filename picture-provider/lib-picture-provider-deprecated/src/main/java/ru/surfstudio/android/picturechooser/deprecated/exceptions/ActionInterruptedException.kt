@@ -18,4 +18,5 @@ package ru.surfstudio.android.picturechooser.deprecated.exceptions
 /**
  * Исключение возникающее при отмене действия (пользователем, падение приложения и т.д)
  */
+@Deprecated("Prefer using new implementation")
 class ActionInterruptedException : Throwable()

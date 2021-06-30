@@ -27,6 +27,7 @@ import ru.surfstudio.android.picturechooser.deprecated.exceptions.NoPermissionEx
 /**
  * Поставляет изображения находящиеся на устройстве или с камеры.
  */
+@Deprecated("Prefer using new implementation")
 class PictureProvider(
     val context: Context,
     activityNavigator: ActivityNavigator,

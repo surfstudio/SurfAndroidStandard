@@ -21,4 +21,5 @@ import java.io.Serializable
 /**
  * Класс-обертка для возвращения Uri с помощью ActivityWithResultRoute
  */
+@Deprecated("Prefer using new implementation")
 data class UriWrapper(val uri: Uri) : Serializable

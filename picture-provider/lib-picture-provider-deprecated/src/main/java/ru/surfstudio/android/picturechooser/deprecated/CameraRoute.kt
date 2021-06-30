@@ -12,6 +12,7 @@ import java.io.Serializable
 /**
  * Базовый класс для создания маршрута экрана камеры
  */
+@Deprecated("Prefer using new implementation")
 open class BaseCameraRoute(val imageUri: Uri): ActivityWithResultRoute<ResultData>() {
 
     @CallSuper
@@ -25,6 +26,7 @@ open class BaseCameraRoute(val imageUri: Uri): ActivityWithResultRoute<ResultDat
 /**
  * Стандартная реалзиация [BaseCameraRoute]
  */
+@Deprecated("Prefer using new implementation")
 class CameraRoute(
         imageUri: Uri,
         private val chooserTitle: String
@@ -42,4 +44,5 @@ class CameraRoute(
     }
 }
 
+@Deprecated("Prefer using new implementation")
 data class ResultData(val photoPath: String) : Serializable

@@ -34,6 +34,7 @@ import java.util.*
 /**
  *  Позволяет получить данные с камеры стороннего приложения
  */
+@Deprecated("Prefer using new implementation")
 class CameraPictureProvider(
         private val activityNavigator: ActivityNavigator,
         private val activityProvider: ActivityProvider
@@ -177,4 +178,5 @@ class CameraPictureProvider(
     }
 }
 
+@Deprecated("Prefer using new implementation")
 data class CameraResult(val photoUrl: String, val rotation: Int)

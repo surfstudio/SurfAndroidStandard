@@ -16,6 +16,7 @@ import java.util.*
 /**
  * Интерфейс для генерации [Uri]
  */
+@Deprecated("Prefer using new implementation")
 interface PictureDestinationProvider {
     /**
      * @return [Uri] изображения
@@ -33,6 +34,7 @@ interface PictureDestinationProvider {
  * Таблица определяется через [pictureTableProvider]
  * Значения для столбцов задаются через [contentValuesGenerator]
  */
+@Deprecated("Prefer using new implementation")
 class ContentResolverUriProvider(
     private val contentResolver: ContentResolver,
     private val pictureTableProvider: PictureTableProvider = DefaultPictureTableProvider(),
@@ -57,6 +59,7 @@ class ContentResolverUriProvider(
 /**
  * Генератор значений для столбцов в таблице
  */
+@Deprecated("Prefer using new implementation")
 interface PictureContentValuesGenerator {
 
     @CallSuper
@@ -72,6 +75,7 @@ interface PictureContentValuesGenerator {
  * либо последующих
  */
 @RequiresApi(Build.VERSION_CODES.Q)
+@Deprecated("Prefer using new implementation")
 open class RelativePathPictureContentValuesGenerator(
     private val pictureNameGenerator: PictureNameGenerator = PictureNameGenerator,
     private val pictureFolderGenerator: PictureFolderGenerator = PictureFolderGenerator
@@ -100,7 +104,8 @@ open class RelativePathPictureContentValuesGenerator(
 @Deprecated(
         message = "Don't use this class on Android 11 and higher, " +
                 "instead use {@link RelativePathPictureContentValuesGenerator} " +
-                "or create your own implementation of {@link PictureContentValuesGenerator}"
+                "or create your own implementation of {@link PictureContentValuesGenerator}. " +
+                "Also prefer using new implementation."
 )
 class AbsolutePathContentValuesGenerator(
     private val pictureNameGenerator: PictureNameGenerator = PictureNameGenerator,
@@ -147,6 +152,7 @@ class AbsolutePathContentValuesGenerator(
     }
 }
 
+@Deprecated("Prefer using new implementation")
 internal class DefaultPictureTableProvider : PictureTableProvider {
 
     override fun providePictureTable(): Uri {
@@ -157,6 +163,7 @@ internal class DefaultPictureTableProvider : PictureTableProvider {
 /**
  * Интерфейс для генерации имени нового изображения
  */
+@Deprecated("Prefer using new implementation")
 interface PictureNameGenerator {
     /**
      * @return имя нового изображения
@@ -174,6 +181,7 @@ interface PictureNameGenerator {
 /**
  * Интерфейс для генерации относительного пути до нового изображения
  */
+@Deprecated("Prefer using new implementation")
 interface PictureFolderGenerator {
     /**
      * @return относительный путь для нового изображения
@@ -188,6 +196,7 @@ interface PictureFolderGenerator {
 /**
  * Интерфейс для предоставления таблицы, в которой будет произведена запись о новом изображении
  */
+@Deprecated("Prefer using new implementation")
 interface PictureTableProvider {
     fun providePictureTable(): Uri
 }

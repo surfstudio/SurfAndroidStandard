@@ -18,4 +18,5 @@ package ru.surfstudio.android.picturechooser.deprecated.exceptions
 /**
  * Исключение возникающее при отсутствии нужных пермишенов для действия
  */
+@Deprecated("Prefer using new implementation")
 class NoPermissionException : Throwable()

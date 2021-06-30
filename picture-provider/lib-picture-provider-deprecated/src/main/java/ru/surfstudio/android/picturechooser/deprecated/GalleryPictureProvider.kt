@@ -25,6 +25,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider
 /**
  * Позволяет получить одно или несколько изображений через сторонее приложение
  */
+@Deprecated("Prefer using new implementation")
 class GalleryPictureProvider(
         private val activityNavigator: ActivityNavigator,
         private val activityProvider: ActivityProvider

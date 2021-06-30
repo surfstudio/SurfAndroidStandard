@@ -24,6 +24,7 @@ import ru.surfstudio.android.core.ui.permission.deprecated.PermissionRequest
 /**
  * утилита для проверки и запроса пермишенов для камеры и хранилища
  */
+@Deprecated("Prefer using new implementation")
 class PicturePermissionChecker @JvmOverloads constructor(
     private val permissionManager: PermissionManager,
     private val cameraPermissionRequest: PermissionRequest = CameraStoragePermissionRequest(),
@@ -50,6 +51,7 @@ class PicturePermissionChecker @JvmOverloads constructor(
 /**
  * пермишен на запрос разрешения камеры
  */
+@Deprecated("Prefer using new implementation")
 open class CameraStoragePermissionRequest : PermissionRequest() {
 
     override val permissions: Array<String> = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
@@ -67,6 +69,7 @@ open class CameraStoragePermissionRequest : PermissionRequest() {
 /**
  * пермишен на запрос разрешения галереи
  */
+@Deprecated("Prefer using new implementation")
 open class GalleryStoragePermissionRequest : PermissionRequest() {
 
     override val permissions: Array<String>

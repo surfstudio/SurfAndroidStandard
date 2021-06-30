@@ -10,6 +10,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider
 /**
  * Позволяет получить одно или несколько изображений из любого места на устройстве
  */
+@Deprecated("Prefer using new implementation")
 class ChooserPictureProvider(
         private val activityNavigator: ActivityNavigator,
         private val activityProvider: ActivityProvider

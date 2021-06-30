@@ -18,4 +18,5 @@ package ru.surfstudio.android.picturechooser.deprecated.exceptions
 /**
  * Исключение при проблемах с хранилищем
  */
+@Deprecated("Prefer using new implementation")
 class ExternalStorageException(message: String?) : Throwable(message)
