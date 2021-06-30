@@ -20,6 +20,7 @@ import androidx.annotation.RequiresPermission
 /**
  * Приоритет при определении местоположения.
  */
+@Deprecated("Prefer using new implementation")
 enum class LocationPriority {
 
     /**

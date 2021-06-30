@@ -20,6 +20,7 @@ import io.reactivex.Completable
 /**
  * Решение проблемы, связанной с невозможностью получения местоположения.
  */
+@Deprecated("Prefer using new implementation")
 interface LocationErrorResolution<E : Throwable> {
 
     val resolvingThrowableClass: Class<E>

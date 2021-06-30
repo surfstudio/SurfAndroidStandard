@@ -27,6 +27,7 @@ import ru.surfstudio.android.location.deprecated.location_errors_resolver.resolu
  *
  * @param activityProvider Провайдер активити.
  */
+@Deprecated("Prefer using new implementation")
 class PlayServicesAreNotAvailableResolution(
         screenEventDelegateManager: ScreenEventDelegateManager,
         private val activityProvider: ActivityProvider

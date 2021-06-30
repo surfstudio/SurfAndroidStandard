@@ -6,6 +6,7 @@ import ru.surfstudio.android.location.deprecated.domain.LocationPriority
 /**
  * Утилита для работы с местоположением.
  */
+@Deprecated("Prefer using new implementation")
 internal object LocationUtil {
 
     fun createLocationRequest(

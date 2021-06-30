@@ -38,6 +38,7 @@ import ru.surfstudio.android.location.deprecated.location_errors_resolver.resolu
 /**
  * Сервис для работы с местоположением.
  */
+@Deprecated("Prefer using new implementation")
 class LocationService(
         context: Context,
         private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)

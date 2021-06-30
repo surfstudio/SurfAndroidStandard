@@ -6,6 +6,7 @@ import ru.surfstudio.android.core.ui.permission.deprecated.PermissionRequest
 /**
  * Запрос разрешения на доступ к местоположению.
  */
+@Deprecated("Prefer using new implementation")
 open class LocationPermissionRequest : PermissionRequest() {
 
     final override val permissions: Array<String>

@@ -22,6 +22,7 @@ import ru.surfstudio.android.location.deprecated.location_errors_resolver.resolu
 /**
  * Основа для решения проблемы получения местоположения.
  */
+@Deprecated("Prefer using new implementation")
 abstract class BaseLocationErrorResolutionImpl<E : Throwable> : LocationErrorResolution<E> {
 
     protected abstract fun performWithCastedThrowable(resolvingThrowable: E): Completable

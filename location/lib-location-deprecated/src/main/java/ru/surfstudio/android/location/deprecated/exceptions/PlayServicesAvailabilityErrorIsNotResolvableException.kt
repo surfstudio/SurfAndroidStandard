@@ -18,4 +18,5 @@ package ru.surfstudio.android.location.deprecated.exceptions
 /**
  * Исключение, возникающее, если проблема с доступностью Google Play Services не решаема.
  */
+@Deprecated("Prefer using new implementation")
 class PlayServicesAvailabilityErrorIsNotResolvableException : RuntimeException()

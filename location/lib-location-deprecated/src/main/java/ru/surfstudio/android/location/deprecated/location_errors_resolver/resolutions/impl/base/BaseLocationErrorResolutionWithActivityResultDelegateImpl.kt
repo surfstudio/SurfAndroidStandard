@@ -28,6 +28,7 @@ import ru.surfstudio.android.location.deprecated.exceptions.UserDeniedException
 /**
  * Основа для решения проблем получения местоположения с использованием [ActivityResultDelegate].
  */
+@Deprecated("Prefer using new implementation")
 abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Throwable>(
         screenEventDelegateManager: ScreenEventDelegateManager
 ) : BaseLocationErrorResolutionImpl<E>(), ActivityResultDelegate {

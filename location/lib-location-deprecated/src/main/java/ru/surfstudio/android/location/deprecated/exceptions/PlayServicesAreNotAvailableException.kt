@@ -22,4 +22,5 @@ package ru.surfstudio.android.location.deprecated.exceptions
  * Может быть одним из следующих значений: SERVICE_MISSING, SERVICE_UPDATING, SERVICE_VERSION_UPDATE_REQUIRED,
  * SERVICE_DISABLED, SERVICE_INVALID
  */
+@Deprecated("Prefer using new implementation")
 class PlayServicesAreNotAvailableException(val connectionResult: Int) : RuntimeException()

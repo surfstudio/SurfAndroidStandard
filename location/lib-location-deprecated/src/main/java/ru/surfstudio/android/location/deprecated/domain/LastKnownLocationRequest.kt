@@ -11,6 +11,7 @@ import ru.surfstudio.android.location.deprecated.location_errors_resolver.resolu
  * @param locationPermissionRequest Запрос разрешения на доступ к местоположению, используемый в
  * [NoLocationPermissionResolution].
  */
+@Deprecated("Prefer using new implementation")
 class LastKnownLocationRequest(
     val priority: LocationPriority = LocationPriority.BALANCED_POWER_ACCURACY,
     val resolveLocationErrors: Boolean = true,

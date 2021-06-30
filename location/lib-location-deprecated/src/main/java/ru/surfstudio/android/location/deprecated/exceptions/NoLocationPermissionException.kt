@@ -18,5 +18,6 @@ package ru.surfstudio.android.location.deprecated.exceptions
 /**
  * Исключение, возникающее, если не были выданы разрешения ACCESS_FINE_LOCATION или ACCESS_COARSE_LOCATION.
  */
+@Deprecated("Prefer using new implementation")
 class NoLocationPermissionException :
         RuntimeException("ACCESS_FINE_LOCATION or ACCESS_COARSE_LOCATION permissions are not granted")

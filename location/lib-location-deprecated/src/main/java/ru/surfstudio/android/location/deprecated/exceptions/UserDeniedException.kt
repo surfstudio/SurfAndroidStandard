@@ -18,4 +18,5 @@ package ru.surfstudio.android.location.deprecated.exceptions
 /**
  * Исключение, возникающее, если при показе диалога пользователь нажал отказ.
  */
+@Deprecated("Prefer using new implementation")
 class UserDeniedException : RuntimeException()

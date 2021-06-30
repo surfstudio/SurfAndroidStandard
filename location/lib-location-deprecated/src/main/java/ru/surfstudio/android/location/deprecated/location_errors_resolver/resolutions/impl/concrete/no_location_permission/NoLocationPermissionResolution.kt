@@ -30,6 +30,7 @@ import ru.surfstudio.android.location.deprecated.location_errors_resolver.resolu
  * @param permissionManager Менеджер разрешений.
  * @param locationPermissionRequest Запрос разрешения на доступ к местоположению.
  */
+@Deprecated("Prefer using new implementation")
 class NoLocationPermissionResolution @RequiresPermission(
         allOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
 ) constructor(

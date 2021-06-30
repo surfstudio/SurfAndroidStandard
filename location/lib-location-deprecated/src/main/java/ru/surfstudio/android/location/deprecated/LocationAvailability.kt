@@ -35,6 +35,7 @@ import ru.surfstudio.android.location.deprecated.exceptions.PlayServicesAreNotAv
 /**
  * Помощник для проверки возможности получения местоположения.
  */
+@Deprecated("Prefer using new implementation")
 internal class LocationAvailability(private val context: Context) {
 
     private val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager

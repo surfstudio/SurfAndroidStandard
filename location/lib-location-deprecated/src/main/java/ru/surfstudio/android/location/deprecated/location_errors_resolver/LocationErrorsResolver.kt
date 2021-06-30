@@ -22,6 +22,7 @@ import ru.surfstudio.android.location.deprecated.location_errors_resolver.resolu
 /**
  * Утилита для решения проблем, связанных с невозможностью получения местоположения.
  */
+@Deprecated("Prefer using new implementation")
 internal object LocationErrorsResolver {
 
     /**

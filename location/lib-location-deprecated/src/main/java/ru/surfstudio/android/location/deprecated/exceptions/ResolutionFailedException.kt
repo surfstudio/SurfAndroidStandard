@@ -21,6 +21,7 @@ package ru.surfstudio.android.location.deprecated.exceptions
  * @param resolvingThrowable исключение, которое требовалось решить.
  * @param failingThrowable исключение, которое возникло в ходе решения.
  */
+@Deprecated("Prefer using new implementation")
 class ResolutionFailedException(
         val resolvingThrowable: Throwable?,
         val failingThrowable: Throwable?

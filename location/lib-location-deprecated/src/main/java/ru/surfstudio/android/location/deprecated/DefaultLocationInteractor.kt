@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit
  * Интерактор, содержащий методы для наиболее частых случаев использования. Для более гибкой настройки следует
  * использовать [LocationService].
  */
+@Deprecated("Prefer using new implementation")
 class DefaultLocationInteractor(
         private val permissionManager: PermissionManager,
         private val screenEventDelegateManager: ScreenEventDelegateManager,
