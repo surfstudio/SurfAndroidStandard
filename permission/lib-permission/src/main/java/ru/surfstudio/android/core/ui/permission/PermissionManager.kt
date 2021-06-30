@@ -117,7 +117,7 @@ open class PermissionManager(
                 !isPermissionRequestRequested(permissionRequest) -> PermissionStatus.NOT_REQUESTED
                 isPermissionRequestLastGranted(permissionRequest) -> PermissionStatus.GRANTED_ONCE
                 isPermissionRequestDenied(permissionRequest) -> PermissionStatus.DENIED
-                else -> PermissionStatus.DENIED_FOREVER
+                else -> PermissionStatus.DENIED_FOREVER_OR_ONE_TIME_PERMISSION
             }
             Single.just(status)
         }
@@ -178,7 +178,7 @@ open class PermissionManager(
         permissionStatus: PermissionStatus
     ): Single<Boolean> =
         when {
-            permissionStatus != PermissionStatus.DENIED_FOREVER ->
+            permissionStatus != PermissionStatus.DENIED_FOREVER_OR_ONE_TIME_PERMISSION ->
                 performPermissionRequest(permissionRequest)
             permissionRequest.showSettingsRational -> performPermissionRequestBySettings(
                 permissionRequest
