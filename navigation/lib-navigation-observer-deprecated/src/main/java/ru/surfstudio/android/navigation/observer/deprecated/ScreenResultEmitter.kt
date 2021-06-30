@@ -8,6 +8,7 @@ import java.io.Serializable
  * Emitter, that emits result from target screen to a source screen.
  * All emitted results should be handled by [ScreenResultObserver].
  */
+@Deprecated("Prefer using new implementation")
 interface ScreenResultEmitter {
 
     /**

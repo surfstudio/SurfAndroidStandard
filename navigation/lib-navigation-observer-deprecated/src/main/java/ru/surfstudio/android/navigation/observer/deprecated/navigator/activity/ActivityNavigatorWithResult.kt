@@ -3,13 +3,14 @@ package ru.surfstudio.android.navigation.observer.deprecated.navigator.activity
 import android.os.Bundle
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigatorInterface
-import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
+import ru.surfstudio.android.navigation.observer.deprecated.listener.ScreenResultListener
 import ru.surfstudio.android.navigation.observer.deprecated.route.ActivityWithResultRoute
 import java.io.Serializable
 
 /**
  *  Interface for an activity navigator with method start for result.
  */
+@Deprecated("Prefer using new implementation")
 interface ActivityNavigatorWithResult : ActivityNavigatorInterface {
 
     /**

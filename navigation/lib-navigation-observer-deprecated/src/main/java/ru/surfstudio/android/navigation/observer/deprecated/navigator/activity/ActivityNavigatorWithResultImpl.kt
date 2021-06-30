@@ -8,13 +8,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.navigator.activity.ActivityNavigator
-import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
+import ru.surfstudio.android.navigation.observer.deprecated.listener.ScreenResultListener
 import ru.surfstudio.android.navigation.observer.deprecated.route.ActivityWithResultRoute
 import java.io.Serializable
 
 /**
  *  The activity navigator which supports start for result.
  */
+@Deprecated("Prefer using new implementation")
 open class ActivityNavigatorWithResultImpl(
         activity: AppCompatActivity
 ) : ActivityNavigator(activity), ActivityNavigatorWithResult {

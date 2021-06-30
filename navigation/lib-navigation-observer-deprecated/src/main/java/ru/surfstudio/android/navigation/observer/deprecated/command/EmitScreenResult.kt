@@ -13,6 +13,7 @@ import java.io.Serializable
  *
  * This command can be handled in [ru.surfstudio.android.navigation.observer.executor.AppCommandExecutorWithResult].
  */
+@Deprecated("Prefer using new implementation")
 class EmitScreenResult<T : Serializable, R>(
         override val route: R,
         val result: T

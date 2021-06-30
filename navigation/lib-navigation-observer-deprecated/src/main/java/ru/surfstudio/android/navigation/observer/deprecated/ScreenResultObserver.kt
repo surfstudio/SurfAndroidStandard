@@ -1,6 +1,6 @@
 package ru.surfstudio.android.navigation.observer.deprecated
 
-import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
+import ru.surfstudio.android.navigation.observer.deprecated.listener.ScreenResultListener
 import ru.surfstudio.android.navigation.observer.deprecated.route.ResultRoute
 import ru.surfstudio.android.navigation.route.BaseRoute
 import java.io.Serializable
@@ -9,6 +9,7 @@ import java.io.Serializable
  * Observer, that listens for screen results.
  * To emit screen result you should use [ScreenResultEmitter]
  */
+@Deprecated("Prefer using new implementation")
 interface ScreenResultObserver {
 
     /**

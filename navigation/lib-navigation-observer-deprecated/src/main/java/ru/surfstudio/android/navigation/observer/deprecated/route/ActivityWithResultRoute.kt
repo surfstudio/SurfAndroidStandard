@@ -10,6 +10,7 @@ import java.io.Serializable
  *
  * @param <T> type of the result returned from activity
  */
+@Deprecated("Prefer using new implementation")
 abstract class ActivityWithResultRoute<T : Serializable> : ActivityRoute(), ResultRoute<T> {
 
     /**

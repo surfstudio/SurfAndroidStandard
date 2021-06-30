@@ -8,6 +8,7 @@ import ru.surfstudio.android.navigation.observer.deprecated.navigator.activity.A
 /**
  * Factory to create [ActivityNavigatorWithResultImpl]
  */
+@Deprecated("Prefer using new implementation")
 open class ActivityNavigatorWithResultFactory : ActivityNavigatorFactory() {
 
     override fun create(

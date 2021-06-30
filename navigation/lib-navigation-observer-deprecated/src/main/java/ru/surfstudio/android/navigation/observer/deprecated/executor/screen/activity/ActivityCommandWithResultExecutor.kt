@@ -15,6 +15,7 @@ import java.io.Serializable
  * This executor supports command [StartForResult] and all commands of its parent.
  * @see [ActivityCommandExecutor]
  */
+@Deprecated("Prefer using new implementation")
 class ActivityCommandWithResultExecutor(
         private val activityNavigationProvider: ActivityNavigationProvider,
         private val screenResultEmitter: ScreenResultEmitter

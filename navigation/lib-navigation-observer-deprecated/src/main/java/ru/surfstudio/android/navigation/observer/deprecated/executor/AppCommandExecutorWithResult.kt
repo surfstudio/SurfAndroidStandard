@@ -13,6 +13,7 @@ import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
 /**
  * [AppCommandExecutor] implementation, that supports [EmitScreenResult] and [StartForResult] commands execution.
  */
+@Deprecated("Prefer using new implementation")
 open class AppCommandExecutorWithResult(
     protected val screenResultEmitter: ScreenResultEmitter,
     activityNavigationProvider: ActivityNavigationProvider,

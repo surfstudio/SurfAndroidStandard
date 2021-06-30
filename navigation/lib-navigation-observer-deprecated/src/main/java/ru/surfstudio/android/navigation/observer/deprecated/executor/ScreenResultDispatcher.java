@@ -5,6 +5,7 @@ import ru.surfstudio.android.navigation.observer.deprecated.command.EmitScreenRe
 import ru.surfstudio.android.navigation.observer.deprecated.route.ResultRoute;
 import ru.surfstudio.android.navigation.route.BaseRoute;
 
+@Deprecated
 public class ScreenResultDispatcher {
 
     public ScreenResultDispatcher() {

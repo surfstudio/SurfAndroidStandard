@@ -3,7 +3,7 @@ package ru.surfstudio.android.navigation.rx.deprecated
 import io.reactivex.Observable
 import io.reactivex.Observer
 import ru.surfstudio.android.navigation.observer.deprecated.ScreenResultObserver
-import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
+import ru.surfstudio.android.navigation.observer.deprecated.listener.ScreenResultListener
 import ru.surfstudio.android.navigation.observer.deprecated.route.ResultRoute
 import ru.surfstudio.android.navigation.route.BaseRoute
 import ru.surfstudio.android.navigation.rx.deprecated.base.disposable.BaseNavigationDisposable

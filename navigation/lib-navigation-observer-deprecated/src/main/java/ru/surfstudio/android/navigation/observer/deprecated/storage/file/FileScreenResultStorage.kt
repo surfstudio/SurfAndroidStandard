@@ -5,6 +5,7 @@ import ru.surfstudio.android.navigation.observer.deprecated.storage.ScreenResult
 import java.io.*
 import java.nio.ByteBuffer
 
+@Deprecated("Prefer using new implementation")
 class FileScreenResultStorage(
         rootDirectoryName: String
 ) : ScreenResultStorage {

@@ -14,6 +14,7 @@ import java.io.Serializable
  * It has simple emit/observe logic based on listeners, and also can save unhandled results into
  * [ScreenResultStorage], where they will be stored until handled.
  */
+@Deprecated("Prefer using new implementation")
 open class ScreenResultBus(
         private val screenResultStorage: ScreenResultStorage
 ) : ScreenResultEmitter, ScreenResultObserver {

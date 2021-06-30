@@ -8,6 +8,7 @@ import java.io.Serializable
  * This storage is designed to survive configuration changes and process death,
  * so note that in your own implementations.
  */
+@Deprecated("Prefer using new implementation")
 interface ScreenResultStorage {
 
     fun <T : Serializable> get(targetId: String): ScreenResultInfo<T>?
