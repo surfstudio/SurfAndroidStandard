@@ -8,7 +8,7 @@
 
 ## 0.5.1-alpha
 ##### Picture-provider
-* TODO
+* ANDDEP-1226 Added `picture-provider-deprecated` module that grants backward compatibility if enabled along with other `-deprecated` modules in project.
 ## 0.5.0
 ##### Picture-provider
 * ANDDEP-687 Changed "androidx.exifinterface:exifinterface" dependency from "api" to "implementation" type

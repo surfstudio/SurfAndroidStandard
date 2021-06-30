@@ -5,7 +5,7 @@
 
 ## 0.5.1-alpha
 ##### Permission
-* TODO
+* ANDDEP-1226 Added `permission-deprecated` module that grants backward compatibility if enabled along with other `-deprecated` modules in project.
 ## 0.5.0
 ##### Permission
 * ANDDEP-1049 All classes responsible for permissions migrated from `core-ui` to `permission`

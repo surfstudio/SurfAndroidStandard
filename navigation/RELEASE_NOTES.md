@@ -15,3 +15,4 @@
 * ANDDEP-1100 Added command StartForResult to open system activities for getting result
 * ANDDEP-1148 code updated for target sdk 30
 * ANDDEP-1201 Added command RequestPermission, added getId for ResultRoute
+* ANDDEP-1226 Added `navigation-observer-deprecated` and `navigation-rx-deprecated` modules that grants backward compatibility if enabled along with other `-deprecated` modules in project.
