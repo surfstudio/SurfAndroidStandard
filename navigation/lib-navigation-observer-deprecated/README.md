@@ -1,3 +1,6 @@
+# **Данный модуль является DEPRECATED** ⚠
+## **Предпочтительней использовать [актуальную реализацию](../lib-navigation-observer/README.md).**
+
 [Главная страница репозитория](/docs/main.md)
 
 # Navigation-observer
