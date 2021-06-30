@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * Based on Jake Wharton's RxBindings.
  */
+@Deprecated("Prefer using new implementation")
 abstract class BaseNavigationDisposable : Disposable {
     private val isUnsubscribed = AtomicBoolean()
 

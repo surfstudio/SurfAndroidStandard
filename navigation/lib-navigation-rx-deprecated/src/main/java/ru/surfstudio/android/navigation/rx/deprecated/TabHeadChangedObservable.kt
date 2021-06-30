@@ -12,6 +12,7 @@ import ru.surfstudio.android.navigation.rx.deprecated.base.disposable.BaseNaviga
  *
  * The parameter of this observable will be current tab head route.
  */
+@Deprecated("Prefer using new implementation")
 class TabHeadChangedObservable(
         private val navigator: TabFragmentNavigatorInterface
 ) : Observable<FragmentRoute>() {

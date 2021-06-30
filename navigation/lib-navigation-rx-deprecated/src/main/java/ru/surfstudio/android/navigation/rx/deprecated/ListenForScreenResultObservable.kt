@@ -15,6 +15,7 @@ import java.io.Serializable
  *
  * It will add [ScreenResultListener] to a [screenResultObserver] on subscribe and remove it on dispose.
  */
+@Deprecated("Prefer using new implementation")
 class ListenForScreenResultObservable<T : Serializable, R>(
         private val screenResultObserver: ScreenResultObserver,
         private val targetRoute: R

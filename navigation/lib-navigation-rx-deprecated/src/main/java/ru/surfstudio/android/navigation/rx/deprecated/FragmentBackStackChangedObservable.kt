@@ -12,6 +12,7 @@ import ru.surfstudio.android.navigation.rx.deprecated.base.disposable.BaseNaviga
  *
  * It will add [FragmentBackStackChangedListener] to navigator on subscribe and remove it on dispose.
  */
+@Deprecated("Prefer using new implementation")
 class FragmentBackStackChangedObservable(
         private val navigator: FragmentNavigatorInterface
 ) : Observable<FragmentBackStack>() {
