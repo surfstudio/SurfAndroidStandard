@@ -891,7 +891,7 @@
   {
     "id": "permission",
     "version": "0.5.1",
-    "unstable_version": 2,
+    "unstable_version": 1,
     "stable": false,
     "dir": "permission",
     "libs": [
@@ -1329,7 +1329,7 @@
   {
     "id": "location",
     "version": "0.5.1",
-    "unstable_version": 2,
+    "unstable_version": 1,
     "stable": false,
     "dir": "location",
     "libs": [
@@ -1743,7 +1743,7 @@
   {
     "id": "navigation",
     "version": "0.5.1",
-    "unstable_version": 1,
+    "unstable_version": 0,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1892,7 +1892,7 @@
   {
     "id": "picture-provider",
     "version": "0.5.1",
-    "unstable_version": 2,
+    "unstable_version": 1,
     "stable": false,
     "dir": "picture-provider",
     "libs": [
