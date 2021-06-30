@@ -1853,6 +1853,27 @@
             "type": "api"
           }
         ]
+      },
+      {
+        "name": "navigation-rx-deprecated",
+        "dir": "lib-navigation-rx-deprecated",
+        "artifact_name": "navigation-rx-deprecated",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "navigation",
+            "type": "api"
+          },
+          {
+            "name": "navigation-observer-deprecated",
+            "type": "api"
+          }
+        ]
       }
     ],
     "samples": [
