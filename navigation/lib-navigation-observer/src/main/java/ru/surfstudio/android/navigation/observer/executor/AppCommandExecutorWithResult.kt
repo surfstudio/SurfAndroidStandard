@@ -14,11 +14,15 @@ import ru.surfstudio.android.navigation.provider.ActivityNavigationProvider
  * [AppCommandExecutor] implementation, that supports [EmitScreenResult] and [StartForResult] commands execution.
  */
 open class AppCommandExecutorWithResult(
-        protected val screenResultEmitter: ScreenResultEmitter,
-        activityNavigationProvider: ActivityNavigationProvider,
-        activityCommandExecutor: ActivityCommandWithResultExecutor = ActivityCommandWithResultExecutor(activityNavigationProvider, screenResultEmitter),
-        fragmentCommandExecutor: FragmentCommandExecutor = FragmentCommandExecutor(activityNavigationProvider),
-        dialogCommandExecutor: DialogCommandExecutor = DialogCommandExecutor(activityNavigationProvider)
+    protected val screenResultEmitter: ScreenResultEmitter,
+    activityNavigationProvider: ActivityNavigationProvider,
+    activityCommandExecutor: ActivityCommandWithResultExecutor = ActivityCommandWithResultExecutor(
+        activityNavigationProvider
+    ),
+    fragmentCommandExecutor: FragmentCommandExecutor = FragmentCommandExecutor(
+        activityNavigationProvider
+    ),
+    dialogCommandExecutor: DialogCommandExecutor = DialogCommandExecutor(activityNavigationProvider)
 ) : AppCommandExecutor(activityNavigationProvider, activityCommandExecutor, fragmentCommandExecutor, dialogCommandExecutor) {
 
     private val screenResultDispatcher = ScreenResultDispatcher()

@@ -9,6 +9,7 @@ import ru.surfstudio.android.build.model.module.Library
 /**
  * Provide Bintray functions
  */
+@Deprecated("Use Artifactory or Maven Central after Bintray sunset")
 object Bintray {
 
     private val repository = BintrayRepository()

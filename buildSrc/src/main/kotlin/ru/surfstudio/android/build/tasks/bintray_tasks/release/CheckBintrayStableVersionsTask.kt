@@ -5,6 +5,7 @@ import ru.surfstudio.android.build.bintray.Bintray
 /**
  * Check if all artifacts in bintray have stable version as latest.
  */
+@Deprecated("Use Artifactory or Maven Central after Bintray sunset")
 open class CheckBintrayStableVersionsTask : BaseCheckBintrayForReleaseTask() {
 
     override fun performCheck(

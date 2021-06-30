@@ -8,6 +8,7 @@ import ru.surfstudio.android.build.model.module.Library
 /**
  * Check stable artifacts exist in bintray
  */
+@Deprecated("Use Artifactory or Maven Central after Bintray sunset")
 open class CheckStableArtifactsExistInBintrayTask : BaseCheckStableArtifactsExistInRepositoryTask() {
 
     @TaskAction

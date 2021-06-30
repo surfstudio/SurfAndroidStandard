@@ -1,5 +1,5 @@
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
-// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+@Library('surf-lib@version-4.1.1-SNAPSHOT')
+// https://github.com/surfstudio/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
@@ -34,7 +34,6 @@ def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 
 //vars
 def branchName = ""
-def useBintrayDeploy = false
 def skipIncrementVersion = false
 
 //other config
@@ -58,10 +57,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -74,9 +73,6 @@ pipeline.initializeBody = {
     //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName') {
         value -> branchName = value
-    }
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'useBintrayDeploy') {
-        value -> useBintrayDeploy = Boolean.valueOf(value)
     }
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'skipIncrementVersion') {
         value -> skipIncrementVersion = Boolean.valueOf(value)
@@ -148,7 +144,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(
@@ -177,25 +173,16 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -PdeployOnlyIfNotExist=true"
-                    if (useBintrayDeploy) {
-                        /**
-                         * We can not use parameter -PdeployOnlyIfNotExist
-                         * for distributeArtifactsToBintray after uploadArchives,
-                         * otherwise deploy to Bintray will never be executed
-                         * after successful deploy to artifactory
-                         */
-                        script.sh "./gradlew distributeArtifactsToBintray"
-                    }
+                    script.sh "./gradlew clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory"
                 }
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
+                script.sh "./gradlew :android-standard-version-plugin:publish"
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -229,13 +216,9 @@ pipeline.finalizeBody = {
             }
         } else {
             message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
-            if (useBintrayDeploy) {
-                message += "\nБыл выполнен деплой артефактов в Bintray.\n" +
-                        "Необходимо заменить последние версии артефактов в Bintray на стабильные"
-            }
         }
 
-        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
+        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "github", pipeline.jobResult)
     }
 }
 
@@ -271,12 +254,6 @@ def static initParameters(script) {
             ),
             script.booleanParam(
                     defaultValue: false,
-                    name: "useBintrayDeploy",
-                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory.\n' +
-                            'Необходимо перед передачей проекта заказчику'
-            ),
-            script.booleanParam(
-                    defaultValue: false,
                     name: "skipIncrementVersion",
                     description: 'Деплой артефактов без инкремента версии'
             )
@@ -294,7 +271,7 @@ def static initTriggers(script) {
                     ],
                     printContributedVariables: true,
                     printPostContent: true,
-                    causeString: 'Triggered by Gitlab',
+                    causeString: 'Triggered by Github',
                     regexpFilterExpression: '^(origin\\/)?refs\\/heads\\/project-snapshot\\/(.*)$',
                     regexpFilterText: '$branchName'
             ),
@@ -305,8 +282,17 @@ def static initTriggers(script) {
 // ============================================= ↑↑↑  END JOB PROPERTIES CONFIGURATION ↑↑↑  ==========================================
 
 // ============ Utils =================
-def static withArtifactoryCredentials(script, body) {
+def static withJobCredentials(script, body) {
     script.withCredentials([
+            script.file(
+                    credentialsId: "surf_maven_sign_key_ring_file",
+                    variable: 'surf_maven_sign_key_ring_file'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Maven_Sign_Credential",
+                    usernameVariable: 'surf_maven_sign_key_id',
+                    passwordVariable: 'surf_maven_sign_password'
+            ),
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',

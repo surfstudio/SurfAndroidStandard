@@ -1,5 +1,5 @@
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
-//  https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+@Library('surf-lib@version-4.1.1-SNAPSHOT')
+// https://github.com/surfstudio/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
@@ -23,6 +23,7 @@ def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not
 def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
 def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
+def ADD_LICENSE = 'Add License'
 def CHECKS_RESULT = 'All Checks Result'
 
 def RELEASE_NOTES_DIFF = 'Release notes diff'
@@ -32,7 +33,7 @@ def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 
-def BUILD_TEMPLATE = 'Template Build '
+def BUILD_TEMPLATE = 'Template Build'
 def INSTRUMENTATION_TEST_TEMPLATE = 'Template Instrumentation Test'
 
 // git variables
@@ -49,7 +50,6 @@ final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
 final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 
 // Other config
-final String TEMP_FOLDER_NAME = "temp"
 def stagesForProjectMode = [
         PRE_MERGE,
         RELEASE_NOTES_DIFF,
@@ -63,6 +63,7 @@ def stagesForReleaseMode = [
         CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
         CHECK_RELEASE_NOTES_VALID,
         CHECK_RELEASE_NOTES_CHANGED,
+        ADD_LICENSE,
         CHECKS_RESULT,
         BUILD,
         UNIT_TEST,
@@ -102,16 +103,15 @@ pipeline.propertiesProvider = {
             ),
             PrPipeline.parameters(script),
             PrPipeline.triggers(script, pipeline.repoUrl),
-            script.gitLabConnection(pipeline.gitlabConnection)
     ]
 }
 
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != PRE_MERGE) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != PRE_MERGE) RepositoryUtil.notifyGithubAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    RepositoryUtil.notifyGithubAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -177,7 +177,7 @@ pipeline.stages = [
                     credentialsId: pipeline.repoCredentialsId,
                     branch: destinationBranch
             )
-
+            
             lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
 
             script.sh "git checkout origin/$sourceBranch"
@@ -200,12 +200,6 @@ pipeline.stages = [
                 script.echo "artifactory user: ${script.env.surf_maven_username}"
                 script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
             }
-
-            withBintrayCredentials(script) {
-                script.echo "bintray user: ${script.env.surf_bintray_username}"
-                script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
-            }
-
         },
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
@@ -223,8 +217,11 @@ pipeline.stages = [
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
+        pipeline.stage(ADD_LICENSE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh "chmod 755 ci-internal/auto-add-license/add_license.sh"
+            script.sh "./ci-internal/auto-add-license/add_license.sh"
+        },
         pipeline.stage(CHECKS_RESULT) {
-            script.sh "rm -rf $TEMP_FOLDER_NAME"
             def checksPassed = true
             [
                     CHECK_STABLE_MODULES_IN_ARTIFACTORY,
@@ -232,7 +229,8 @@ pipeline.stages = [
                     CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
                     CHECK_RELEASE_NOTES_VALID,
-                    CHECK_RELEASE_NOTES_CHANGED
+                    CHECK_RELEASE_NOTES_CHANGED,
+                    ADD_LICENSE
             ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
@@ -248,7 +246,8 @@ pipeline.stages = [
         },
 
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            script.sh("rm -rf temp template/**/build")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa")
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
@@ -258,7 +257,7 @@ pipeline.stages = [
              * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
              * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
              */
-            script.sh("./gradlew -p template clean build assembleQa assembleDebug --stacktrace")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace")
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
@@ -281,7 +280,7 @@ pipeline.stages = [
                                 true,
                                 0
                         ),
-                        "Template Instrumentation Test"
+                       "Template Instrumentation Test"
                 )
             }
         },
@@ -308,7 +307,7 @@ pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
         def message = "Ветка ${sourceBranch} в состоянии ${pipeline.jobResult} из-за этапов: ${unsuccessReasons}; ${CommonUtil.getBuildUrlSlackLink(script)}"
-        JarvisUtil.sendMessageToUser(script, message, authorUsername, "gitlab")
+        JarvisUtil.sendMessageToUser(script, message, authorUsername, "github")
     }
 }
 
@@ -321,17 +320,6 @@ def static withArtifactoryCredentials(script, body) {
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
                     passwordVariable: 'surf_maven_password')
-    ]) {
-        body()
-    }
-}
-
-def static withBintrayCredentials(script, body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "Bintray_Deploy_Credentials",
-                    usernameVariable: 'surf_bintray_username',
-                    passwordVariable: 'surf_bintray_api_key')
     ]) {
         body()
     }

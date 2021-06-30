@@ -18,7 +18,6 @@ package ru.surfstudio.standard.ui.test.navigation
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
 import ru.surfstudio.android.navigation.observer.route.ResultRoute
-import ru.surfstudio.android.navigation.route.BaseRoute
 import java.io.Serializable
 
 /**
@@ -27,13 +26,13 @@ import java.io.Serializable
 class TestScreenResultObserver() : ScreenResultObserver {
 
     override fun <T : Serializable, R> addListener(
-            targetRoute: R,
-            listener: ScreenResultListener<T>
-    ) where R : BaseRoute<*>, R : ResultRoute<T> {
+        targetRoute: R,
+        listener: ScreenResultListener<T>
+    ) where R : ResultRoute<T> {
         /* do nothing */
     }
 
-    override fun <R> removeListener(targetRoute: R) where R : BaseRoute<*>, R : ResultRoute<*> {
+    override fun <R> removeListener(targetRoute: R) where R : ResultRoute<*> {
         /* do nothing */
     }
 }

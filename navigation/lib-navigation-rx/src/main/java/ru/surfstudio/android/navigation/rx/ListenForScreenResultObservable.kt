@@ -5,7 +5,6 @@ import io.reactivex.Observer
 import ru.surfstudio.android.navigation.observer.ScreenResultObserver
 import ru.surfstudio.android.navigation.observer.listener.ScreenResultListener
 import ru.surfstudio.android.navigation.observer.route.ResultRoute
-import ru.surfstudio.android.navigation.route.BaseRoute
 import ru.surfstudio.android.navigation.rx.base.disposable.BaseNavigationDisposable
 import java.io.Serializable
 
@@ -16,9 +15,9 @@ import java.io.Serializable
  * It will add [ScreenResultListener] to a [screenResultObserver] on subscribe and remove it on dispose.
  */
 class ListenForScreenResultObservable<T : Serializable, R>(
-        private val screenResultObserver: ScreenResultObserver,
-        private val targetRoute: R
-) : Observable<T>() where R : BaseRoute<*>, R : ResultRoute<T> {
+    private val screenResultObserver: ScreenResultObserver,
+    private val targetRoute: R
+) : Observable<T>() where R : ResultRoute<T> {
 
     override fun subscribeActual(observer: Observer<in T>?) {
         requireNotNull(observer)
@@ -28,10 +27,10 @@ class ListenForScreenResultObservable<T : Serializable, R>(
     }
 
     private class Listener<T : Serializable, R>(
-            private val screenResultObserver: ScreenResultObserver,
-            private val observer: Observer<in T>,
-            private val targetRoute: R
-    ) : BaseNavigationDisposable(), ScreenResultListener<T> where R : BaseRoute<*>, R : ResultRoute<T> {
+        private val screenResultObserver: ScreenResultObserver,
+        private val observer: Observer<in T>,
+        private val targetRoute: R
+    ) : BaseNavigationDisposable(), ScreenResultListener<T> where R : ResultRoute<T> {
 
         override fun invoke(result: T) {
             observer.onNext(result)

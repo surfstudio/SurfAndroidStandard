@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.core.ui.permission
 
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 
 private const val MAX_REQUEST_CODE = 32768
 
@@ -28,9 +28,6 @@ abstract class PermissionRequest {
      * Запрашиваемые разрешения.
      */
     abstract val permissions: Array<String>
-
-    val requestCode: Int
-        get() = (this.javaClass.canonicalName.hashCode() and 0x7fffffff) % MAX_REQUEST_CODE
 
     /**
      * Показывать ли объяснение причины запроса разрешений при необходимости.
@@ -48,7 +45,7 @@ abstract class PermissionRequest {
     /**
      * Маршрут на экран объяснения причины запроса разрешений.
      */
-    var permissionsRationalRoute: ActivityWithResultRoute<*>? = null
+    var permissionsRationalRoute: ActivityRoute? = null
         protected set
 
     /**
@@ -76,7 +73,7 @@ abstract class PermissionRequest {
     /**
      * Маршрут на экран объяснения необходимости перехода в настройки приложения.
      */
-    var settingsRationalRoute: ActivityWithResultRoute<*>? = null
+    var settingsRationalRoute: ActivityRoute? = null
         protected set
 
     /**

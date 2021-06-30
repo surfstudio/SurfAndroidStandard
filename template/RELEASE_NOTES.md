@@ -6,6 +6,14 @@
 
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1204 Added Danger and Detekt to the template
+* ANDDEP-1208 Removing kotlin.androidx.synthetic from template
+* ANDDEP-1206 add best practice showing snackbar to template
+* ANDDEP-1149 Added RxMiddlewareExtensions to the template
+* ANDDEP-1205 added ToolbarConfig in template
+* Add maven central URL
+* ANDDEP-1203 Fixes after core-ui improvements
+* Added method for mocking domain models
 * Added unit-tests for SplashMiddleware and MainBarMiddleware
 * Added utility classes for unit testing
 * `kotlin` version raised: `1.3.71 -> 1.4.31`;
@@ -76,7 +84,9 @@
 * ANDDEP-1170 Added IntentChecker
 * ScreenState added to BaseMiddlwareDependency
 * ANDDEP-1066 Migrated to gradle 6
-* added startFoResult extension for events
+* Added startFoResult extension for events
+* Added base class for bottom sheet dialog
+* ANDDEP-1201 updated PermissionManager with new Navigation module
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
