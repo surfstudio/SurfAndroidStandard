@@ -61,5 +61,4 @@ class SplashMiddleware @Inject constructor(
             Navigation().replace(MainActivityRoute())
         }
     }
-
 }

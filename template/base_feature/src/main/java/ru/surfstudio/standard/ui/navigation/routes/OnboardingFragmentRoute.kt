@@ -10,5 +10,4 @@ class OnboardingFragmentRoute : FragmentRoute() {
     override fun getScreenClassPath(): String {
         return "ru.surfstudio.standard.f_onboarding.OnboardingFragmentView"
     }
-
 }

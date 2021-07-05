@@ -20,7 +20,8 @@ include ":app",
         ':f-feed',
         ':f-search',
         ':f-profile',
-        ":small-test-utils"
+        ":small-test-utils",
+        ":v-message-controller-top"
 
 apply from: 'android-standard/androidStandardSettings.gradle'
 apply from: '../buildSrc/buildCache.gradle'

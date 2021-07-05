@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import com.jakewharton.rxbinding2.view.clicks
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
+import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
 import ru.surfstudio.android.core.ui.view_binding.viewBinding
 import ru.surfstudio.standard.f_onboarding.databinding.FragmentOnboardingBinding
 import ru.surfstudio.standard.f_onboarding.di.OnboardingScreenConfigurator
@@ -16,7 +17,7 @@ import javax.inject.Inject
 /**
  * Вью экрана онбординга
  */
-internal class OnboardingFragmentView : BaseMviFragmentView<OnboardingState, OnboardingEvent>() {
+internal class OnboardingFragmentView : BaseMviFragmentView<OnboardingState, OnboardingEvent>(), CrossFeatureFragment {
 
     @Inject
     override lateinit var hub: ScreenEventHub<OnboardingEvent>
@@ -32,7 +33,7 @@ internal class OnboardingFragmentView : BaseMviFragmentView<OnboardingState, Onb
 
     override fun createConfigurator() = OnboardingScreenConfigurator(bundleOf())
 
-    override fun getScreenName(): String = "OnboardingActivityView"
+    override fun getScreenName(): String = "OnboardingFragmentView"
 
     override fun initViews() {
         //TODO расширить реализацию при создании приложения
@@ -43,6 +44,4 @@ internal class OnboardingFragmentView : BaseMviFragmentView<OnboardingState, Onb
     override fun render(state: OnboardingState) {
         //TODO расширить реализацию при создании приложения
     }
-
-
 }
