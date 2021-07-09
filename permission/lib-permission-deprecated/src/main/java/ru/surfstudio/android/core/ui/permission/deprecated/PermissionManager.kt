@@ -54,7 +54,7 @@ abstract class PermissionManager(
     }
 
     /**
-     * Способ выдачи разрешений
+     * Выполнить запрос разрешений.
      */
     protected abstract fun performPermissionRequest(permissionRequest: PermissionRequest)
 
