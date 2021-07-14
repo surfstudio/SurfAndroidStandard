@@ -13,6 +13,7 @@ dependencies {
 
     implementation project(":i-push-notification")
     implementation project(":i-auth")
+    implementation project(":i-onboarding")
     implementation project(":i-network")
     implementation project(":i-token")
     implementation project(":i-initialization")

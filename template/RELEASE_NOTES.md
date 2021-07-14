@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* ANDDEP-1211 Add onboarding to template
 * ANDDEP-1204 Added Danger and Detekt to the template
 * ANDDEP-1208 Removing kotlin.androidx.synthetic from template
 * ANDDEP-1206 add best practice showing snackbar to template

@@ -160,5 +160,4 @@ ext {
             detektCli   : "io.gitlab.arturbosch.detekt:detekt-cli:${versions.detektVersion}",
             detektPlugin: "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.detektVersion}"
     ]
-
 }

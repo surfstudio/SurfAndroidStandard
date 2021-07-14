@@ -1,9 +1,7 @@
-apply from:'../commonFeatureModule.gradle'
+apply from: '../commonFeatureModule.gradle'
 apply from: '../commonKaptModule.gradle'
-apply from: '../unitTestConfiguration.gradle'
 
 dependencies {
     implementation project(":i-onboarding")
-    implementation project(":i-initialization")
     implementation project(":i-network")
 }
