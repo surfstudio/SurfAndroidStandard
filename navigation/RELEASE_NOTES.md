@@ -1,5 +1,9 @@
 # Navigation Release Notes
 
+## 0.5.1-alpha
+##### Navigation
+* ANDDEP-1226 Added `navigation-observer-deprecated` and `navigation-rx-deprecated` modules that grants backward compatibility if enabled along with other `-deprecated` modules in project.
+
 ## 0.5.1
 ##### Navigation
 * ANDDEP-1203 Fixes after core-ui improvements

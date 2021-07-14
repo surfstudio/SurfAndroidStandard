@@ -6,7 +6,7 @@
 
 ## 0.5.1-alpha
 ##### Location
-* TODO
+* ANDDEP-1226 Added `location-deprecated` module that grants backward compatibility if enabled along with other `-deprecated` modules in project.
 ## 0.5.0
 ##### Location
 * Version bump
