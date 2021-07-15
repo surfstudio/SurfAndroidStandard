@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="statusBarSwitcherSampleColor1">@color/colorAccent</color>
+    <color name="statusBarSwitcherSampleColor2">@color/colorPrimary</color>
+    <color name="statusBarSwitcherSampleColor3">@color/colorPrimaryDark</color>
+
+    <color name="backButtonBackgroundColor">#FFF</color>
+    <color name="backButtonBackgroundColorPressed">#BCBCBC</color>
+    <color name="backButtonBackgroundColorRipple">#818181</color>
+
+</resources>
