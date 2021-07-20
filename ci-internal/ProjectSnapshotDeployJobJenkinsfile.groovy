@@ -1,18 +1,12 @@
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
-// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+@Library('surf-lib@version-4.1.1-SNAPSHOT')
+// https://github.com/surfstudio/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.JarvisUtil
-import ru.surfstudio.ci.CommonUtil
-import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.utils.android.AndroidUtil
-import ru.surfstudio.ci.Result
-import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
 
@@ -40,7 +34,6 @@ def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 
 //vars
 def branchName = ""
-def useBintrayDeploy = false
 def skipIncrementVersion = false
 
 //other config
@@ -64,10 +57,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -80,9 +73,6 @@ pipeline.initializeBody = {
     //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName') {
         value -> branchName = value
-    }
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'useBintrayDeploy') {
-        value -> useBintrayDeploy = Boolean.valueOf(value)
     }
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'skipIncrementVersion') {
         value -> skipIncrementVersion = Boolean.valueOf(value)
@@ -108,10 +98,11 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
+                scmSkip(deleteBuild: true, skipPattern: '.*\\[skip ci\\].*')
             }
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
+            RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
         pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
@@ -120,11 +111,14 @@ pipeline.stages = [
             String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
 
             if (releaseNotesChanges.trim() != "") {
-                def messageTitle = ""
-                if (releaseNotesChanges.contains("NO BACKWARD COMPATIBILITY")) {
-                    messageTitle = "Snapshot branch _${branchName}_ changed *without backward compatibility*:warning:"
-                } else {
-                    messageTitle = "Snapshot branch _${branchName}_ changed:"
+                boolean isAddedNoBackwardCompatibility = releaseNotesChanges.split("\n")
+                        .any {
+                            it.contains(":heavy_plus_sign:") && it.contains("NO BACKWARD COMPATIBILITY")
+                        }
+
+                def messageTitle = "Snapshot branch _${branchName}_ has changed"
+                if (isAddedNoBackwardCompatibility) {
+                    messageTitle += " *without backward compatibility*:warning:"
                 }
 
                 releaseNotesChanges = "$messageTitle\n$releaseNotesChanges"
@@ -132,8 +126,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
             project = globalConfiguration.project_snapshot_name
 
             if (("project-snapshot/" + project) != branchName) {
@@ -151,13 +144,15 @@ pipeline.stages = [
             }
         },
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
         },
         pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
+            AndroidPipelineHelper.unitTestStageBodyAndroid(
+                    script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
+                    "app/build/reports/tests/testReleaseUnitTest/"
+            )
         },
         pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
@@ -178,32 +173,22 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                    if (useBintrayDeploy) {
-                        /**
-                         * We can not use parameter -PdeployOnlyIfNotExist
-                         * for distributeArtifactsToBintray after uploadArchives,
-                         * otherwise deploy to Bintray will never be executed
-                         * after successful deploy to artifactory
-                         */
-                        script.sh "./gradlew distributeArtifactsToBintray -PonlyUnstable=true"
-                    }
+                    script.sh "./gradlew clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory"
                 }
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
+                script.sh "./gradlew :android-standard-version-plugin:publish"
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             if (!skipIncrementVersion) {
                 RepositoryUtil.setDefaultJenkinsGitUser(script)
-                String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-                def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+                def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
 
                 script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
                         "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
@@ -221,21 +206,20 @@ pipeline.finalizeBody = {
     def success = Result.SUCCESS == pipeline.jobResult
     def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
-    if (!success && !checkoutAborted) {
-        def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        if (unstable) {
-            message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+    if (!checkoutAborted) {
+        if (!success) {
+            def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
+            if (unstable) {
+                message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+            } else {
+                message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+            }
         } else {
-            message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+            message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
         }
-    } else {
-        message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
-        if (useBintrayDeploy) {
-            message += "\nБыл выполнен деплой артефактов в Bintray.\n" +
-                    "Необходимо заменить последние версии артефактов в Bintray на стабильные"
-        }
+
+        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "github", pipeline.jobResult)
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
 }
 
 pipeline.run()
@@ -257,7 +241,8 @@ def static initBuildDiscarder(script) {
                     artifactDaysToKeepStr: '3',
                     artifactNumToKeepStr: '10',
                     daysToKeepStr: '60',
-                    numToKeepStr: '200')
+                    numToKeepStr: '200'
+            )
     )
 }
 
@@ -266,12 +251,6 @@ def static initParameters(script) {
             script.string(
                     name: "branchName",
                     description: 'Ветка с исходным кодом'
-            ),
-            script.booleanParam(
-                    defaultValue: false,
-                    name: "useBintrayDeploy",
-                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory.\n' +
-                            'Необходимо перед передачей проекта заказчику'
             ),
             script.booleanParam(
                     defaultValue: false,
@@ -292,7 +271,7 @@ def static initTriggers(script) {
                     ],
                     printContributedVariables: true,
                     printPostContent: true,
-                    causeString: 'Triggered by Gitlab',
+                    causeString: 'Triggered by Github',
                     regexpFilterExpression: '^(origin\\/)?refs\\/heads\\/project-snapshot\\/(.*)$',
                     regexpFilterText: '$branchName'
             ),
@@ -303,13 +282,28 @@ def static initTriggers(script) {
 // ============================================= ↑↑↑  END JOB PROPERTIES CONFIGURATION ↑↑↑  ==========================================
 
 // ============ Utils =================
-def static withArtifactoryCredentials(script, body) {
+def static withJobCredentials(script, body) {
     script.withCredentials([
+            script.file(
+                    credentialsId: "surf_maven_sign_key_ring_file",
+                    variable: 'surf_maven_sign_key_ring_file'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Maven_Sign_Credential",
+                    usernameVariable: 'surf_maven_sign_key_id',
+                    passwordVariable: 'surf_maven_sign_password'
+            ),
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password')
+                    passwordVariable: 'surf_maven_password'
+            )
     ]) {
         body()
     }
+}
+
+def static getGlobalConfiguration(script, projectConfigurationFile) {
+    String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+    return new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 }

@@ -34,7 +34,7 @@ pipeline.stages = [
             sh "rm -rf android-standard.git"
             withCredentials([usernamePassword(credentialsId: pipeline.repoCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 echo "credentialsId: $pipeline.repoCredentialsId"
-                sh "git clone --mirror https://${encodeUrl(USERNAME)}:${encodeUrl(PASSWORD)}@bitbucket.org/surfstudio/android-standard.git"
+                sh "git clone --mirror https://${encodeUrl(USERNAME)}:${encodeUrl(PASSWORD)}@gitlab.com/surfstudio/public/android-standard.git"
             }
         },
         pipeline.createStage("Sanitize", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
@@ -44,10 +44,8 @@ pipeline.stages = [
                 echo "packed_refs: $packedRefs"
                 def sanitizedPackedRefs = ""
                 for(ref in packedRefs.split("\n")) {
-                    if(!ref.contains("project-snapshot")) {
-                        sanitizedPackedRefs += ref
-                        sanitizedPackedRefs += "\n"
-                    }
+                    sanitizedPackedRefs += ref
+                    sanitizedPackedRefs += "\n"
                 }
                 echo "sanitizedPackedRefs: $sanitizedPackedRefs"
                 writeFile file: packedRefsFile, text: sanitizedPackedRefs

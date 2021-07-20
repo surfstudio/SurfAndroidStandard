@@ -16,6 +16,7 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivi
 @Component(dependencies = [(CustomAppComponent::class)],
         modules = [(DefaultActivityModule::class)])
 interface CustomActivityComponent : DefaultActivityComponent {
+
     fun analyticsService(): DefaultAnalyticService
     fun pushNotificationsListener(): PushNotificationsListener
 }

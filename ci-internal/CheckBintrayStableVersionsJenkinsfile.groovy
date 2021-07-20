@@ -1,9 +1,9 @@
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
-// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+@Library('surf-lib@version-4.1.1-SNAPSHOT')
+// https://github.com/surfstudio/jenkins-pipeline-lib
 import ru.surfstudio.ci.*
-import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
+import ru.surfstudio.ci.stage.StageStrategy
 
 //Pipeline for deploy snapshot artifacts
 
@@ -27,10 +27,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline, UNDEFINED_BRANCH) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -72,10 +72,12 @@ pipeline.stages = [
 
 pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
+    def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
     def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
+
     if (!success && !checkoutAborted) {
         def errorReasons = "из ветки '${branchName}' ${unsuccessReasons} ${jenkinsLink}"
         if (unstable) {
@@ -83,7 +85,7 @@ pipeline.finalizeBody = {
         } else {
             message = "Ошибка проверки стабильных версий артефактов на Bintray $errorReasons"
         }
-        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
+        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "github", pipeline.jobResult)
     }
 }
 

@@ -18,6 +18,8 @@ package ru.surfstudio.android.core.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -70,6 +72,13 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
                          boolean viewRecreated) {
 
         //empty
+    }
+
+    /**
+     * @return activity rootView
+     */
+    protected View getRootView() {
+        return ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
     }
 
     /**

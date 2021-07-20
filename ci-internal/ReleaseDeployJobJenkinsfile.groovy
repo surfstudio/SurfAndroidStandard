@@ -1,5 +1,5 @@
-@Library('surf-lib@version-3.0.0-SNAPSHOT')
-// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
+@Library('surf-lib@version-4.1.1-SNAPSHOT')
+// https://github.com/surfstudio/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
@@ -16,7 +16,7 @@ import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 //Pipeline for deploy snapshot artifacts
 
-// Stage names
+// Stage names
 
 def CHECKOUT = 'Checkout'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
@@ -70,10 +70,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -94,7 +94,6 @@ pipeline.initializeBody = {
 
     buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
-
 }
 
 pipeline.stages = [
@@ -107,11 +106,12 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
+                scmSkip(deleteBuild: true, skipPattern: '.*\\[skip ci\\].*')
             }
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
+            RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             //release/<component>/<version>
@@ -127,17 +127,13 @@ pipeline.stages = [
             script.sh("./gradlew checkStandardDependenciesStableTask -Pcomponent=${componentName}")
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 script.sh("./gradlew checkExistingDependencyArtifactsInArtifactory -Pcomponent=${componentName}")
-                script.sh("./gradlew checkExistingDependencyArtifactsInBintray -Pcomponent=${componentName}")
             }
         },
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
-            }
-            withBintrayCredentials(script) {
-                script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
             }
         },
         pipeline.stage(CHECK_COMPONENT_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -173,15 +169,17 @@ pipeline.stages = [
         },
 
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
         },
         pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
+            AndroidPipelineHelper.unitTestStageBodyAndroid(
+                    script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
+                    "app/build/reports/tests/testReleaseUnitTest/"
+            )
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -200,10 +198,13 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -Pcomponent=${componentName}"
-                    script.sh "./gradlew distributeArtifactsToBintray -Pcomponent=${componentName} -PoverrideExisted=false"
+                    def publishTask = "./gradlew clean publish -Pcomponent=$componentName"
+                    // --no-parallel to avoid possible bugs with deploy to different staging repositories
+                    // -Dhttp.connectionTimeout=60000 to avoid possible Read timed out errors during deploy
+                    script.sh "$publishTask -PpublishType=maven_release --no-parallel -Dhttp.connectionTimeout=60000"
+                    script.sh "$publishTask -PpublishType=artifactory"
                 }
             }
         },
@@ -216,7 +217,7 @@ pipeline.stages = [
             script.sh "git tag -a $tag -m \"Set tag $tag $labels\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-        pipeline.stage(MIRROR_COMPONENT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(MIRROR_COMPONENT, StageStrategy.SKIP_STAGE) {
             if (pipeline.getStage(COMPONENT_ALPHA_COUNTER_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
@@ -234,17 +235,20 @@ pipeline.finalizeBody = {
     def success = Result.SUCCESS == pipeline.jobResult
     def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
-    if (!success && !checkoutAborted) {
-        def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        if (unstable) {
-            message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+    if (!checkoutAborted) {
+        if (!success) {
+            def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
+            if (unstable) {
+                message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+            } else {
+                message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+            }
         } else {
-            message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+            message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
         }
-    } else {
-        message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
+
+        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "github", pipeline.jobResult)
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
 }
 
 pipeline.run()
@@ -266,7 +270,8 @@ def static initBuildDiscarder(script) {
                     artifactDaysToKeepStr: '3',
                     artifactNumToKeepStr: '10',
                     daysToKeepStr: '60',
-                    numToKeepStr: '200')
+                    numToKeepStr: '200'
+            )
     )
 }
 
@@ -274,7 +279,8 @@ def static initParameters(script) {
     return script.parameters([
             script.string(
                     name: "branchName",
-                    description: 'Ветка с исходным кодом')
+                    description: 'Ветка с исходным кодом'
+            )
     ])
 }
 
@@ -295,7 +301,8 @@ def static getCommitHash(script, commit) {
 def static getPreviousRevisionWithVersionIncrement(script) {
     def commits = script.sh(
             returnStdout: true,
-            script: "git  --no-pager log --pretty=oneline -500 --graph")
+            script: "git  --no-pager log --pretty=oneline -500 --graph"
+    )
             .trim()
             .split("\n")
 
@@ -329,23 +336,27 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     return revisionToCompare
 }
 
-def static withArtifactoryCredentials(script, body) {
+def static withJobCredentials(script, body) {
     script.withCredentials([
+            script.file(
+                    credentialsId: "surf_maven_sign_key_ring_file",
+                    variable: 'surf_maven_sign_key_ring_file'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Maven_Sign_Credential",
+                    usernameVariable: 'surf_maven_sign_key_id',
+                    passwordVariable: 'surf_maven_sign_password'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Maven_Deploy_Credentials",
+                    usernameVariable: 'surf_ossrh_username',
+                    passwordVariable: 'surf_ossrh_password'
+            ),
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password')
-    ]) {
-        body()
-    }
-}
-
-def static withBintrayCredentials(script, body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "Bintray_Deploy_Credentials",
-                    usernameVariable: 'surf_bintray_username',
-                    passwordVariable: 'surf_bintray_api_key')
+                    passwordVariable: 'surf_maven_password'
+            )
     ]) {
         body()
     }

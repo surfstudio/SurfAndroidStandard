@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.model.module.Sample
+import ru.surfstudio.android.build.publish.PublishConfig
 import ru.surfstudio.android.build.utils.EMPTY_INT
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.Transformable
@@ -40,7 +41,9 @@ data class ComponentJson(
                         thirdPartyDependencies = jsonLib.thirdPartyDependencies
                                 .map(DependencyJson::transformToThirdPartyDependency),
                         androidStandardDependencies = jsonLib.androidStandardDependencies
-                                .map(DependencyJson::transformToAndroidStandardDependency)
+                                .map(DependencyJson::transformToAndroidStandardDependency),
+                        description = "${jsonLib.name} library from Surf Android Standard",
+                        url = "${PublishConfig.SCM_URL}/$id/${jsonLib.dir}"
                 )
             },
             samples = samples.map {

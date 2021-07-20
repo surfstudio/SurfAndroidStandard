@@ -1,8 +1,10 @@
 package ru.surfstudio.android.loadstate.sample
 
+import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso
+import org.junit.After
 import org.junit.Test
 import ru.surfstudio.android.loadstate.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.loadstate.sample.ui.screen.ordinary.DefaultRendererDemoActivityView
@@ -23,8 +25,9 @@ class LoadStateSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::c
         AnimationUtils.disableAnimations()
     }
 
-    override fun tearDown() {
-        super.tearDown()
+    @After
+    @CallSuper
+    fun tearDown() {
         AnimationUtils.enableAnimations()
     }
 
@@ -41,6 +44,7 @@ class LoadStateSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::c
         performClick(R.id.activity_main_stubs_btn)
         checkIfActivityIsVisible(RendererWithStubsDemoActivityView::class.java)
         performClick(R.id.main_loading_btn, R.id.none_btn, R.id.error_btn, R.id.retry_btn)
+        Thread.sleep(100)
         checkIfToastIsVisible(R.string.retry_toast_msg)
     }
 

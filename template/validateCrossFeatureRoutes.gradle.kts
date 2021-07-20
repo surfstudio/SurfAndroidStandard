@@ -9,6 +9,9 @@ tasks.register<ValidateCrossFeatureRoutesTask>("validateCrossFeatureRoutesTask")
                 file.name.contains("Fragment") ||
                 file.name.contains("Dialog")
     }
+
+    // TODO: изменить на true, если используется последняя навигация
+    useTheMostRecentNavigation = false
 }
 
 tasks.whenTaskAdded {
@@ -18,7 +21,7 @@ tasks.whenTaskAdded {
 
 /**
  * Task performs `CrossFeatureRoute's` validation. Check's following conditions:
- * 1. `CrossFeatureRoute` have valid `targetClassPath`?;
+ * 1. Route have valid `targetClassPath` or `getScreenClassPath` depending on [useTheMostRecentNavigation];
  * 2. Target view (`Fragment` or `Dialog`) of `CrossFeatureRoute` implements `CrossFeatureFragment` interface?;
  *
  * **Note**: supported only `.kt` source files parsing.
@@ -27,7 +30,8 @@ tasks.whenTaskAdded {
  * * [shouldSkipValidation];
  * * [ignoredDirectories];
  * * [routeFilterCondition];
- * * [viewFilterCondition].
+ * * [viewFilterCondition];
+ * * [useTheMostRecentNavigation].
  * */
 open class ValidateCrossFeatureRoutesTask : DefaultTask() {
 
@@ -51,6 +55,11 @@ open class ValidateCrossFeatureRoutesTask : DefaultTask() {
      * */
     var viewFilterCondition: (File) -> Boolean = { false }
 
+    /**
+     *  Validate new navigation routes.
+     * */
+    var useTheMostRecentNavigation: Boolean = false
+
     @TaskAction
     fun validate() {
         if (shouldSkipValidation) {
@@ -66,7 +75,7 @@ open class ValidateCrossFeatureRoutesTask : DefaultTask() {
         val foundRoutes = foundFiles.filter { routeFilterCondition(it) }
         val foundViews = foundFiles.filter { viewFilterCondition(it) }
 
-        val routeParser = CrossFeatureRouteParser(logger)
+        val routeParser = getRouteParser()
         val viewParser = CrossFeatureViewParser(logger)
 
         val crossFeatureRouteFiles = foundRoutes
@@ -77,12 +86,23 @@ open class ValidateCrossFeatureRoutesTask : DefaultTask() {
                 .mapNotNull { viewParser.parse(it) }
                 .filterIsInstance<CrossFeatureViewFile>()
 
+        if(crossFeatureRouteFiles.isEmpty()) {
+            logger.warn("No cross feature routes found. Check isNewNavigationUsed flag.")
+        }
+
         logger.info("Count of CrossFeatureRoute's to validate: ${crossFeatureRouteFiles.size}")
         logger.info("Count of found views, used in CrossFeatureRoute validation: ${crossFeatureViewFiles.size}")
 
         val routeValidator = CrossFeatureRouteValidator(crossFeatureViewFiles, logger)
         crossFeatureRouteFiles.forEach { routeValidator.validate(it) }
         logger.info("All CrossFeatureRoute's validated.")
+    }
+
+    private fun getRouteParser(): BaseRouteParser {
+        return when {
+            useTheMostRecentNavigation -> ScreenPathBasedRouteParser(logger)
+            else -> TargetPathBasedRouteParser(logger)
+        }
     }
 }
 
@@ -319,7 +339,16 @@ private class CrossFeatureViewParser(logger: Logger?) : KClassParser(logger) {
     }
 }
 
-private class CrossFeatureRouteParser(logger: Logger?) : KClassParser(logger) {
+private class TargetPathBasedRouteParser(logger: Logger?) :
+        BaseRouteParser(logger, "fun targetClassPath()")
+
+private class ScreenPathBasedRouteParser(logger: Logger?) :
+        BaseRouteParser(logger, "fun getScreenClassPath()")
+
+private abstract class BaseRouteParser(
+        logger: Logger?,
+        private val methodSignature: String
+) : KClassParser(logger) {
 
     override fun parse(file: File): KClassWrapper? {
         val parsedFile = super.parse(file) ?: return null
@@ -365,7 +394,7 @@ private class CrossFeatureRouteParser(logger: Logger?) : KClassParser(logger) {
     }
 
     private fun findTargetClassPathRange(target: String): IntRange {
-        val funStart = target.indexAfter("fun targetClassPath()")
+        val funStart = target.indexAfter(methodSignature)
         val funSlice = target.substringSafe(funStart..target.lastIndex)
         val start = funStart + funSlice.indexAfter('"')
         val targetClassPathSlice = target.substringSafe(start..target.lastIndex)

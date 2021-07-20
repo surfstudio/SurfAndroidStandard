@@ -1,16 +1,14 @@
 apply from: '../commonModule.gradle'
+apply from: '../commonKaptModule.gradle'
 
-apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation project(":base")
     implementation project(":i-push-notification")
     implementation project(":i-network")
+    implementation project(":v-message-controller-top")
 
-    implementation di.dagger
-    kapt di.daggerKapt
-
-    implementation rxBinding2.core
+    implementation rxBinding4.core
 
     implementation debug.processPhoenix
     implementation debug.androidDebugTools
@@ -18,8 +16,7 @@ dependencies {
     implementation network.chuck
 
     implementation debug.tinyDancer
-    qaImplementation debug.leakCanary
-    debugImplementation debug.leakCanary
+    implementation debug.leakCanary
 
     implementation stetho.core
     implementation stetho.okHttp
@@ -29,5 +26,4 @@ dependencies {
     implementation androidX.constraintLayout
 
     api project(":domain")
-    implementation project(":i-push-notification")
 }

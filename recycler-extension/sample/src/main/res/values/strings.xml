@@ -3,4 +3,6 @@
 
     <string name="show_sticky_recycler_btn_text">Show sticky recycler view</string>
     <string name="show_carousel_btn_text">Show carousel sample</string>
+    <string name="show_sliding_item_btn_text">Show sliding items sample</string>
+    <string name="show_pagination_sticky_btn_text">Show pagination sticky items sample</string>
 </resources>

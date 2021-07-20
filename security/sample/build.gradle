@@ -36,6 +36,7 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "security")
     DependencyConfigurator.projectImplementation(project, "filestorage")
     DependencyConfigurator.projectImplementation(project, "picture-provider")
+    DependencyConfigurator.projectImplementation(project, "biometrics")
 
     DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
 }

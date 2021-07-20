@@ -16,6 +16,11 @@
 package ru.surfstudio.android.core.mvp.fragment;
 
 import android.os.Bundle;
+import android.view.View;
+
+import androidx.annotation.Nullable;
+
+import org.jetbrains.annotations.NotNull;
 
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator;
 import ru.surfstudio.android.core.mvp.delegate.FragmentViewDelegate;
@@ -46,13 +51,13 @@ public abstract class CoreFragmentView extends CoreFragment
     }
 
     /**
-     * Override this instead {@link #onActivityCreated(Bundle)}
+     * Override this instead {@link #onViewCreated(View, Bundle)}
      *
      * @param viewRecreated showSimpleDialog whether view created in first time or recreated after
      *                      changing configuration
      */
     @Override
-    public void onActivityCreated(Bundle savedInstanceState, boolean viewRecreated) {
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState, boolean viewRecreated) {
 
     }
 
