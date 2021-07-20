@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2020, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
 package ru.surfstudio.android.core.mvi.impls.ui.middleware
 
 import io.reactivex.Completable
@@ -9,11 +24,14 @@ import ru.surfstudio.android.core.mvi.event.factory.EventFactory
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.BaseDslRxMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.LifecycleMiddleware
+import ru.surfstudio.android.core.mvi.impls.ui.middleware.freeze.LifecycleFreezeMiddleware
+import ru.surfstudio.android.core.mvi.impls.ui.middleware.persistent.PersistentCheckLifecycleMiddleware
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderHandleError
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderIo
 import ru.surfstudio.android.core.mvp.binding.rx.request.Request
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
+import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.toObservable
@@ -27,24 +45,18 @@ abstract class BaseMiddleware<T : Event>(
         baseMiddlewareDependency: BaseMiddlewareDependency
 ) : BaseDslRxMiddleware<T>,
         LifecycleMiddleware<T>,
-        RxBuilderIo,
-        RxBuilderHandleError {
+        LifecycleFreezeMiddleware<T>,
+        PersistentCheckLifecycleMiddleware<T>,
+        RxBuilderIo {
 
     override val schedulersProvider: SchedulersProvider = baseMiddlewareDependency.schedulersProvider
-    override val errorHandler: ErrorHandler = baseMiddlewareDependency.errorHandler
+    open val errorHandler: ErrorHandler = baseMiddlewareDependency.errorHandler
+    override val screenState: ScreenState = baseMiddlewareDependency.screenState
 
     protected fun <T> Observable<T>.ignoreErrors() = onErrorResumeNext { error: Throwable ->
         Logger.e(error) //логгируем ошибку, чтобы хотя бы знать, где она произошла
         Observable.empty()
     }
-
-    protected fun <E> Observable<E>.ioHandleError() = io().handleError()
-
-    protected fun <E> Single<E>.ioHandleError() = io().handleError()
-
-    protected fun <E> Maybe<E>.ioHandleError() = io().handleError()
-
-    protected fun Completable.ioHandleError() = io().handleError()
 
     /**
      * Трансформация [Observable]<[Request]<[T]>> Observable с событием с данными.

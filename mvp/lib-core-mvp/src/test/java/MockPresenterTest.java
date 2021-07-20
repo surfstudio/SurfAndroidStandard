@@ -72,6 +72,11 @@ public class MockPresenterTest {
             public Scheduler worker() {
                 return Schedulers.trampoline(); //аналог immediate() в RxJava 2
             }
+
+            @Override
+            public Scheduler computation() {
+                return Schedulers.trampoline(); //аналог immediate() в RxJava 2
+            }
         };
 
         basePresenterDependency = new BasePresenterDependency(schedulersProvider,

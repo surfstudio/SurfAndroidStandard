@@ -10,7 +10,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigat
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
-import ru.surfstudio.standard.base.util.StringsProvider
+import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 import ru.surfstudio.standard.f_debug.DebugInteractor
 import ru.surfstudio.standard.f_debug.injector.modules.DebugSharedPrefModule
 import ru.surfstudio.standard.f_debug.injector.ui.notification.DebugFcmModule
@@ -28,7 +28,7 @@ interface DebugAppComponent {
     fun activeActivityHolder(): ActiveActivityHolder
     fun connectionProvider(): ConnectionProvider
     fun schedulerProvider(): SchedulersProvider
-    fun stringsProvider(): StringsProvider
+    fun resourceProvider(): ResourceProvider
     fun globalNavigator(): GlobalNavigator
     fun application(): Application
     fun debugInteractor(): DebugInteractor

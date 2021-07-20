@@ -5,11 +5,12 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
-import kotlinx.android.synthetic.main.activity_app_info_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.ui.view_binding.viewBinding
 import ru.surfstudio.android.template.f_debug.BuildConfig
 import ru.surfstudio.android.template.f_debug.R
+import ru.surfstudio.android.template.f_debug.databinding.ActivityAppInfoDebugBinding
 import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.AppInfoDebugScreenConfigurator
 import javax.inject.Inject
 
@@ -17,6 +18,8 @@ import javax.inject.Inject
  * Вью экрана показа общей информации
  */
 class AppInfoDebugActivityView : BaseRenderableActivityView<AppInfoDebugScreenModel>() {
+
+    private val binding by viewBinding(ActivityAppInfoDebugBinding::bind) { rootView }
 
     @Inject
     lateinit var presenter: AppInfoDebugPresenter
@@ -41,14 +44,14 @@ class AppInfoDebugActivityView : BaseRenderableActivityView<AppInfoDebugScreenMo
     @SuppressLint("StringFormatMatches")
     private fun initContent() {
         with(packageManager.getPackageInfo(packageName, 0)) {
-            debug_app_info_version_code_tv.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            binding.debugAppInfoVersionCodeTv.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                  getString(R.string.debug_app_info_version_code_text, longVersionCode)
             } else {
                 getString(R.string.debug_app_info_version_code_text, versionCode)
             }
-            debug_app_info_version_name_tv.text = getString(R.string.debug_app_info_version_name_text, versionName)
+            binding.debugAppInfoVersionNameTv.text = getString(R.string.debug_app_info_version_name_text, versionName)
         }
-        debug_app_info_package_name_tv.text = getString(R.string.debug_app_info_package_name_text, packageName)
-        debug_app_info_build_type_tv.text = getString(R.string.debug_app_info_build_type_text, BuildConfig.BUILD_TYPE)
+        binding.debugAppInfoPackageNameTv.text = getString(R.string.debug_app_info_package_name_text, packageName)
+        binding.debugAppInfoBuildTypeTv.text = getString(R.string.debug_app_info_build_type_text, BuildConfig.BUILD_TYPE)
     }
 }

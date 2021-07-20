@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.android.custom.view.placeholder.setClickableAndFocusable
 import ru.surfstudio.standard.ui.placeholder.loadstate.state.TransparentLoadingState
 import ru.surfstudio.android.template.base_feature.R
+import ru.surfstudio.android.template.base_feature.databinding.LayoutLoadStateBinding
 
 /**
  * Представление состояния TransparentLoading в виде ProgressBar поверх затемненного фона
@@ -17,20 +18,15 @@ class TransparentLoadingStatePresentation(
         private val placeHolder: PlaceHolderViewContainer
 ) : SimpleLoadStatePresentation<TransparentLoadingState>() {
 
+    private val binding = LayoutLoadStateBinding.inflate(LayoutInflater.from(placeHolder.context))
+
     @ColorInt
     var transparentBackgroundColor = ContextCompat.getColor(placeHolder.context, R.color.transparent_bg_color)
-
-    val view: View by lazy {
-        LayoutInflater.from(placeHolder.context).inflate(
-                R.layout.layout_load_state,
-                placeHolder,
-                false)
-    }
 
     override fun showState(state: TransparentLoadingState) {
         with(placeHolder) {
             setBackgroundColor(transparentBackgroundColor)
-            changeViewTo(view)
+            changeViewTo(binding.root)
             setClickableAndFocusable(true)
             show()
         }

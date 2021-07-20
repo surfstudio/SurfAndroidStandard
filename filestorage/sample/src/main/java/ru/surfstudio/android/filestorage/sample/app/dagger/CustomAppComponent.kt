@@ -12,20 +12,23 @@ import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
 import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpJsonStorageWrapper
 import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpSerializableStorageWrapper
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
+import ru.surfstudio.android.sample.dagger.app.dagger.NavigationModule
 
 @PerApplication
 @Component(
-        modules = [
-            CustomAppModule::class,
-            EtagModule::class,
-            CacheModule::class,
-            NetworkModule::class,
-            OkHttpModule::class,
-            DefaultSharedPrefModule::class,
-            ServerUrlModule::class,
-            IpModule::class
-        ]
+    modules = [
+        DefaultAppModule::class,
+        NavigationModule::class,
+        EtagModule::class,
+        CacheModule::class,
+        NetworkModule::class,
+        OkHttpModule::class,
+        DefaultSharedPrefModule::class,
+        ServerUrlModule::class,
+        IpModule::class
+    ]
 )
 interface CustomAppComponent : DefaultAppComponent {
     fun ipRepository(): IpRepository

@@ -29,10 +29,9 @@ dependencies {
                     "rx-extension",
                     "shared-pref",
                     "util-ktx",
-                    "standard-dialog",
                     "message-controller",
-                    "broadcast-extension",
-                    "rxbus"]
+                    "rxbus"
+            ]
     )
 
     implementation retrofit.core

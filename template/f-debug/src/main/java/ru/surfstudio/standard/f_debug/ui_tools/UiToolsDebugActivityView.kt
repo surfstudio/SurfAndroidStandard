@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.annotation.LayoutRes
-import kotlinx.android.synthetic.main.activity_ui_tools_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.ui.view_binding.viewBinding
 import ru.surfstudio.android.template.f_debug.R
+import ru.surfstudio.android.template.f_debug.databinding.ActivityUiToolsDebugBinding
 import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.UiToolsDebugScreenConfigurator
 import javax.inject.Inject
 
@@ -15,6 +16,8 @@ import javax.inject.Inject
  * Вью экрана показа UI-tools
  */
 class UiToolsDebugActivityView : BaseRenderableActivityView<UiToolsDebugScreenModel>() {
+
+    private val binding by viewBinding(ActivityUiToolsDebugBinding::bind) { rootView }
 
     @Inject
     lateinit var presenter: UiToolsDebugPresenter
@@ -35,17 +38,22 @@ class UiToolsDebugActivityView : BaseRenderableActivityView<UiToolsDebugScreenMo
     }
 
     override fun renderInternal(sm: UiToolsDebugScreenModel) {
-        debug_fps_enable_switch.setChecked(sm.isFpsEnabled)
+        binding.debugFpsEnableSwitch.setChecked(sm.isFpsEnabled)
     }
 
     private fun initListeners() {
-        debug_fps_enable_switch.setOnCheckedChangeListener { _, isEnabled ->
-            presenter.setFpsEnable(isEnabled)
+        with(binding) {
+            debugFpsEnableSwitch.setOnCheckedChangeListener { _, isEnabled ->
+                presenter.setFpsEnable(isEnabled)
+            }
+            debugScalpelTool.setOnClickListener {
+                Toast.makeText(this@UiToolsDebugActivityView,
+                        "Втряхните устройство для включения Scalpel",
+                        Toast.LENGTH_SHORT)
+                        .show()
+            }
+            debugVqaTool.setOnClickListener { presenter.openWindowVQA() }
         }
-        debug_scalpel_tool.setOnClickListener {
-            Toast.makeText(this, "Втряхните устройство для включения Scalpel", Toast.LENGTH_SHORT)
-                    .show()
-        }
-        debug_vqa_tool.setOnClickListener { presenter.openWindowVQA() }
+
     }
 }

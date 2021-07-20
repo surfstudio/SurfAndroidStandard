@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+	package="ru.surfstudio.android.core.ui.permission"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<application>
+		
+		<activity
+			android:name=".screens.default_permission_rational.DefaultPermissionRationalActivity"
+			android:theme="@style/Theme.AppCompat.Translucent"
+			android:excludeFromRecents="true"/>
+		
+		<activity
+			android:name=".screens.settings_rational.DefaultSettingsRationalActivity"
+			android:theme="@style/Theme.AppCompat.Translucent"
+			android:excludeFromRecents="true"/>
+		
+	</application>
+	
+</manifest>

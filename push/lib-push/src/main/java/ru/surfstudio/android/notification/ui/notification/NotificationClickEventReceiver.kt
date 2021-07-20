@@ -18,12 +18,15 @@ package ru.surfstudio.android.notification.ui.notification
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.core.app.NotificationManagerCompat
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.ui.PushClickProvider
 
 const val NOTIFICATION_DATA = "notification_data"
-internal const val NOTIFICATION_GROUP_ID = "notification_group_id"
-internal const val EVENT_TYPE = "event_type"
+const val NOTIFICATION_GROUP_ID = "notification_group_id"
+const val EVENT_TYPE = "event_type"
+const val NOTIFICATION_ID = "notification_id"
+const val SHOULD_AUTO_CANCEL = "should_auto_cancel_on_action"
 
 internal enum class Event {
     OPEN, DISMISS
@@ -36,14 +39,17 @@ internal enum class Event {
 class NotificationClickEventReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val event = intent.getSerializableExtra(EVENT_TYPE) as Event
 
-        when(event) {
+        when (intent.getSerializableExtra(EVENT_TYPE) as? Event) {
             Event.OPEN -> handleNotificationOpen(context, intent)
             Event.DISMISS -> handleNotificationDismiss(context, intent)
+            else -> {
+                handleNotificationActionClick(context, intent)
+                return
+            }
         }
 
-        val groupId = intent.getIntExtra(NOTIFICATION_GROUP_ID, 0)
+        val groupId = getGroupId(intent)
         NotificationGroupHelper.clearSavedNotificationsForGroup(context, groupId)
     }
 
@@ -55,5 +61,19 @@ class NotificationClickEventReceiver : BroadcastReceiver() {
     private fun handleNotificationDismiss(context: Context, intent: Intent) {
         Logger.i("Notification dismissed: $intent")
         PushClickProvider.pushEventListener?.pushDismissListener(context, intent)
+    }
+
+    private fun handleNotificationActionClick(context: Context, intent: Intent) {
+        Logger.i("Notification action clicked: ${intent.action}")
+        if (intent.getBooleanExtra(SHOULD_AUTO_CANCEL, true)) {
+            val groupId = getGroupId(intent)
+            val notificationId = intent.getIntExtra(NOTIFICATION_ID, -1)
+            NotificationManagerHelper.cancel(context, groupId, notificationId)
+        }
+        PushClickProvider.pushEventListener?.customActionListener(context, intent)
+    }
+
+    private fun getGroupId(intent: Intent): Int {
+        return intent.getIntExtra(NOTIFICATION_GROUP_ID, 0)
     }
 }

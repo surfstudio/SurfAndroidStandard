@@ -7,14 +7,11 @@ import ru.surfstudio.android.sample.dagger.app.dagger.DaggerDefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 
-/**
- * Класс приложения
- */
 class DefaultApp : Application() {
 
     val activeActivityHolder = ActiveActivityHolder()
 
-    var defaultAppComponent: DefaultAppComponent? = null
+    lateinit var defaultAppComponent: DefaultAppComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -25,14 +22,12 @@ class DefaultApp : Application() {
 
     private fun initInjector() {
         defaultAppComponent = DaggerDefaultAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
-                .build()
+            .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
+            .build()
     }
 
-    /**
-     * Регистрирует слушатель аткивной активити
-     */
     private fun registerActiveActivityListener() {
+        registerActivityLifecycleCallbacks(defaultAppComponent.navigationProviderCallbacks())
         registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity

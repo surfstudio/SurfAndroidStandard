@@ -1,9 +1,7 @@
 package ru.surfstudio.android.build.artifactory
 
-import ru.surfstudio.android.build.utils.EMPTY_STRING
-
 /**
- * Class containes artifactory's credentials, URLs, repository names, ...
+ * Class contains artifactory's credentials, URLs, repository names, ...
  */
 object ArtifactoryConfig {
 
@@ -19,6 +17,6 @@ object ArtifactoryConfig {
     const val DEPLOY_URL = "$ARTIFACTORY_URL/$SOURCE_REPO"
     const val ANDROID_STANDARD_GROUP_ID = "ru.surfstudio.android"
 
-    val USER_NAME: String = System.getenv("surf_maven_username") ?: EMPTY_STRING
-    val PASSWORD: String = System.getenv("surf_maven_password") ?: EMPTY_STRING
+    val USERNAME_ENV_NAME = "surf_maven_username"
+    val PASSWORD_ENV_NAME = "surf_maven_password"
 }

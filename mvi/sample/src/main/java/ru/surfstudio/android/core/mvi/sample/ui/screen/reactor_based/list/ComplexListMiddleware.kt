@@ -50,7 +50,6 @@ class ComplexListMiddleware @Inject constructor(
 
     private fun loadData(page: Int = 1, isSwr: Boolean = false) = createObservable(page)
             .io()
-            .handleError()
             .asRequestEvent { LoadList(request = it, isSwr = isSwr) }
 
     private fun createObservable(page: Int) = Observable.timer(2, TimeUnit.SECONDS).map {

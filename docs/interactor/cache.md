@@ -1,7 +1,5 @@
 [Главная](../main.md)
 
-[TOC]
-
 ### Кеширование данных
 
 Хорошей практикой является кеширование загруженных данных. Например,
@@ -41,5 +39,5 @@
 [etag]: ../../deprecated/network/lib-network/docs/etag.md
 [hybrid]: ../../deprecated/network/lib-network/docs/hybrid.md
 [simple_cache]: ../../deprecated/network/lib-network/docs/url_cache.md
-[file_cache]: ../../filestorage/lib-filestorage/README.md
+[file_cache]: ../../filestorage/README.md
 [network]: ../../deprecated/network/lib-network/docs/usage.md

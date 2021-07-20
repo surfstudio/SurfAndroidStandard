@@ -103,7 +103,7 @@ class PostfixEditText @JvmOverloads constructor(
     /**
      * Sets the lambda that will calculate the visibility of the postfix text.
      */
-    fun setPostFixVisibiltyLambda(function: (PostfixEditText) -> Boolean) {
+    fun setPostFixVisibilityLambda(function: (PostfixEditText) -> Boolean) {
         this.postFixVisibility = function
     }
 

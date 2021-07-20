@@ -68,7 +68,7 @@ abstract class AsyncBindableViewHolder<T> private constructor(
      *
      * Method is declared final to avoid [NullPointerException] in the inflation process
      *
-     * @param data first data to be bound
+     * @param data data to be bound
      *
      * @see BindableViewHolder.bind
      */
@@ -85,8 +85,7 @@ abstract class AsyncBindableViewHolder<T> private constructor(
     /**
      * Safely bind the data to ViewHolder.
      *
-     * @param firstData first data to be bound
-     * @param secondData second data to be bound
+     * @param data data to be bound
      *
      * @see BindableViewHolder.bind
      */

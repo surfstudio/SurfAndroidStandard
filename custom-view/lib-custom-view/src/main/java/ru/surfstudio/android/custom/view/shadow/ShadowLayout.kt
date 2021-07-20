@@ -16,11 +16,10 @@
 package ru.surfstudio.android.custom.view.shadow
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.annotation.ColorInt
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
@@ -59,20 +58,57 @@ open class ShadowLayout @JvmOverloads constructor(
         const val DEFAULT_DOWNSCALE_RATE = 4
         const val MIN_BLUR_RADIUS = 1
         const val MAX_BLUR_RADIUS = 25
+        const val ALPHA_OPAQUE_INT = 255
     }
 
     private var shadowBitmap: Bitmap? = null
-    private var shadowPaint: Paint? = null
+    private var shadowPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        isDither = true
+        isFilterBitmap = true
+    }
 
     private var shadowTopOffset: Int = DEFAULT_OFFSET
     private var shadowRightOffset: Int = DEFAULT_OFFSET
     private var shadowLeftOffset: Int = DEFAULT_OFFSET
     private var shadowBlurRadius: Int = DEFAULT_RADIUS
-    private var shadowAlphaPercent: Int = DEFAULT_ALPHA_PERCENT
     private var shadowClippedToPadding: Boolean = DEFAULT_SHADOW_CLIP_TO_PADDING
     private var isAsync: Boolean = DEFAULT_IS_ASYNC
 
     private var shadowCreationDisposable = Disposables.disposed()
+
+    /**
+     * Enable or disable drawing of shadow.
+     * Use case: sometime when view is disabled you don't need to draw shadow.
+     */
+    var shouldDrawShadow: Boolean = true
+        set(value) {
+            field = value
+            redrawShadow()
+        }
+
+    /**
+     * Shadow alpha in percents.
+     */
+    var shadowAlphaPercent: Int = DEFAULT_ALPHA_PERCENT
+        set(value) {
+            field = value
+            shadowPaint.alpha = (value / 100f * ALPHA_OPAQUE_INT).toInt()
+            invalidate()
+        }
+
+    /**
+     * Color of the shadow.
+     * Use case: sometimes you want draw shadow of the white background view.
+     */
+    @ColorInt
+    var shadowColor: Int? = null
+        set(value) {
+            field = value
+            shadowPaint.colorFilter = shadowColor?.let {
+                PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
+            }
+            invalidate()
+        }
 
     init {
         obtainAttrs(context, attrs)
@@ -89,17 +125,15 @@ open class ShadowLayout @JvmOverloads constructor(
         shadowRightOffset = typedArray.getDimensionPixelOffset(R.styleable.ShadowLayout_shadowRightOffset, DEFAULT_OFFSET)
         shadowTopOffset = typedArray.getDimensionPixelOffset(R.styleable.ShadowLayout_shadowTopOffset, DEFAULT_OFFSET)
         shadowAlphaPercent = typedArray.getInteger(R.styleable.ShadowLayout_shadowAlphaPercent, DEFAULT_ALPHA_PERCENT)
+        if (typedArray.hasValue(R.styleable.ShadowLayout_shadowColor)) {
+            shadowColor = typedArray.getColor(R.styleable.ShadowLayout_shadowColor, Color.TRANSPARENT)
+        }
         typedArray.recycle()
     }
 
     private fun initView() {
         clipToPadding = false
         clipChildren = false
-        shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            isDither = true
-            isFilterBitmap = true
-            alpha = (shadowAlphaPercent / 100f * 255).toInt()
-        }
         if (!shadowClippedToPadding) {
             resetPadding()
         }
@@ -114,7 +148,7 @@ open class ShadowLayout @JvmOverloads constructor(
     }
 
     override fun dispatchDraw(canvas: Canvas?) {
-        if (shadowBitmap == null) {
+        if (shouldDrawShadow && shadowBitmap == null && width > 0 && height > 0) {
             val sourceBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             val sourceCanvas = Canvas(sourceBitmap)
             background?.draw(sourceCanvas)

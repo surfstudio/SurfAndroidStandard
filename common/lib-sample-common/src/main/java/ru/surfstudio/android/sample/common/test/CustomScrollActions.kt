@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2020-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.sample.common.test
 
 import android.view.View
@@ -10,7 +25,6 @@ import androidx.core.widget.NestedScrollView
 import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.util.HumanReadables
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -18,14 +32,14 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 
 /**
- * ViewAction, позволяющий выполнять scrollTo() для NestedScrollView
+ * ViewAction which allows to call scrollTo() method for NestedScrollView
  */
 fun nestedScrollTo(): ViewAction = object : ViewAction {
 
     override fun getConstraints(): Matcher<View> {
         return Matchers.allOf(
                 isDescendantOfA(isAssignableFrom(NestedScrollView::class.java)),
-                withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+                withEffectiveVisibility(Visibility.VISIBLE))
     }
 
     override fun getDescription(): String {
@@ -79,10 +93,10 @@ private fun findFirstParentLayoutOfClass(view: View, parentClass: Class<out View
     var incrementView: ViewParent? = null
     var i = 0
     while (parent != null && parent.javaClass != parentClass) {
-        if (i == 0) {
-            parent = findParent(view)
+        parent = if (i == 0) {
+            findParent(view)
         } else {
-            parent = findParent(incrementView!!)
+            findParent(incrementView!!)
         }
         incrementView = parent
         i++

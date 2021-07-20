@@ -19,4 +19,25 @@
         android:layout_marginTop="@dimen/default_margin"
         android:text="@string/show_carousel_btn_text" />
 
+    <Button
+        android:id="@+id/show_sliding_item_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/show_sliding_item_btn_text" />
+
+    <Button
+        android:id="@+id/show_snap_helpers_item_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/show_sliding_item_btn_text" />
+
+    <Button
+        android:id="@+id/show_pagination_sticky_item_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/show_pagination_sticky_btn_text" />
+
 </LinearLayout>
