@@ -27,7 +27,6 @@ import androidx.core.app.NotificationCompat
 import ru.surfstudio.android.notification.R
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushNotificationsListener
-import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.ui.notification.*
 import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGroup
 import java.io.Serializable
@@ -164,10 +163,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
         channel = makeNotificationChannel(context, title)
         notificationBuilder = makeNotificationBuilder(context, title, body)
         groupSummaryNotificationBuilder = makeGroupSummaryNotificationBuilder(context, title, body)
-        pushId = makePushId(uniqueId)
-        deleteIntent = makeDeleteIntent(context, group?.id)
         pushNotificationsListener.onNewPushNotification(typeData)
-        typeData.data?.let(pushInteractor::onNewNotification)
 
         if (context is Activity && handlePushInActivity(context)) return
 
@@ -195,7 +191,6 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
         notificationBuilder = makeNotificationBuilder(context, title, body)
         channel = makeNotificationChannel(context, title)
         pushNotificationsListener.onNewPushNotification(typeData)
-        typeData.data?.let(pushInteractor::onNewNotification)
 
         if (context is Activity && handlePushInActivity(context)) return
 

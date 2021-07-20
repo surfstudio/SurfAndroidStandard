@@ -9,7 +9,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
-import ru.surfstudio.android.notification.interactor.push.PushInteractor
+import ru.surfstudio.android.notification.interactor.push.PushNotificationsListener
 import ru.surfstudio.android.notification.ui.notification.strategies.SimpleAbstractPushHandleStrategy
 import ru.surfstudio.android.push.sample.R
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
@@ -31,24 +31,28 @@ abstract class BaseSimplePushStrategy<out T : BaseNotificationTypeData<*>>
 
     override fun handle(
             context: Context,
-            pushInteractor: PushInteractor,
+            pushNotificationsListener: PushNotificationsListener,
             uniqueId: Int,
             title: String,
             body: String
     ) {
         super.handle(
                 context,
-                pushInteractor,
+                pushNotificationsListener,
                 uniqueId.absoluteValue,
                 title,
                 body
         )
     }
 
-    override fun makeNotificationBuilder(context: Context, title: String, body: String): NotificationCompat.Builder? {
+    override fun makeNotificationBuilder(
+            context: Context,
+            title: String,
+            body: String
+    ): NotificationCompat.Builder? {
 
         return NotificationCompat.Builder(context, context.getString(channelId))
-            .setDefaults(Notification.DEFAULT_SOUND)
+                .setDefaults(Notification.DEFAULT_SOUND)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setSmallIcon(icon)
@@ -62,9 +66,9 @@ abstract class BaseSimplePushStrategy<out T : BaseNotificationTypeData<*>>
     override fun makeNotificationChannel(context: Context, title: String): NotificationChannel? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel(
-                context.getString(channelId),
-                context.getString(channelName), //Название канала обязательно не пустое
-                NotificationManager.IMPORTANCE_HIGH
+                    context.getString(channelId),
+                    context.getString(channelName), //Название канала обязательно не пустое
+                    NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 enableLights(true)
                 enableVibration(true)
@@ -74,7 +78,11 @@ abstract class BaseSimplePushStrategy<out T : BaseNotificationTypeData<*>>
         }
     }
 
-    override fun makeGroupSummaryNotificationBuilder(context: Context, title: String, body: String): NotificationCompat.Builder? {
+    override fun makeGroupSummaryNotificationBuilder(
+            context: Context,
+            title: String,
+            body: String
+    ): NotificationCompat.Builder? {
         return NotificationCompat.Builder(context, context.getString(channelId))
                 .setContentTitle(EMPTY_STRING)
                 //set content text to support devices running API level < 24

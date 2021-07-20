@@ -17,7 +17,6 @@ package ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.compositio
 
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.close.*
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.open.OpenScreenEvent
-import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.open.OpenScreenEvent
 import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute
