@@ -70,7 +70,17 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     @Override
     public final void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fragmentDelegate.onCreate(savedInstanceState, null);
+        if (useOnViewCreated()) {
+            fragmentDelegate.onCreate(savedInstanceState, null);
+        }
+    }
+
+    @Override
+    public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (!useOnViewCreated()) {
+            fragmentDelegate.onCreate(savedInstanceState, null);
+        }
     }
 
     @Override

@@ -78,7 +78,11 @@ public class FragmentDelegate extends BaseScreenDelegate {
 
     @Override
     protected void prepareView(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle ignore) {
-        coreFragment.onViewCreated(fragment.requireView(), savedInstanceState, getScreenState().isViewRecreated());
+        if (coreFragment.useOnViewCreated()) {
+            coreFragment.onViewCreated(fragment.requireView(), savedInstanceState, getScreenState().isViewRecreated());
+        } else {
+            coreFragment.onActivityCreated(savedInstanceState, getScreenState().isViewRecreated());
+        }
     }
 
     @NonNull

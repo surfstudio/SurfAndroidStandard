@@ -62,6 +62,20 @@ public abstract class CoreFragmentView extends CoreFragment
     }
 
     /**
+     * @deprecated use onViewCreated
+     */
+    @Deprecated
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState, boolean viewRecreated) {
+
+    }
+
+    @Override
+    public Boolean useOnViewCreated() {
+        return true;
+    }
+
+    /**
      * Bind presenter to this view
      * You can override this method for support different presenters for different views
      */
