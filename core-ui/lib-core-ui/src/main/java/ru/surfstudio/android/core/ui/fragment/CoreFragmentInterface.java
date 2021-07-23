@@ -49,6 +49,11 @@ public interface CoreFragmentInterface extends
      */
     void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState, boolean viewRecreated);
 
+    /** use for dialog fragments */
+    void onActivityCreated(@Nullable Bundle savedInstanceState, boolean viewRecreated);
+
+    Boolean useOnViewCreated();
+
     /**
      * Используется для только логирования (Может быть не уникальным)
      * @return возвращает имя для логов

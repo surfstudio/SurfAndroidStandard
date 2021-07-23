@@ -77,6 +77,19 @@ public abstract class CoreBottomSheetDialogFragmentView extends BottomSheetDialo
 
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState, boolean viewRecreated) {
+
+    }
+
+    /**
+     * @return false if onActivityCreated is required for dialog (in case of using onCreateDialog)
+     */
+    @Override
+    public Boolean useOnViewCreated() {
+        return true;
+    }
+
     /**
      * Bind presenter to this view
      * You can override this method for support different presenters for different views
@@ -98,7 +111,17 @@ public abstract class CoreBottomSheetDialogFragmentView extends BottomSheetDialo
     @Override
     public final void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fragmentDelegate.onCreate(savedInstanceState, null);
+        if (useOnViewCreated()) {
+            fragmentDelegate.onCreate(savedInstanceState, null);
+        }
+    }
+
+    @Override
+    public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (!useOnViewCreated()) {
+            fragmentDelegate.onCreate(savedInstanceState, null);
+        }
     }
 
     @Override
