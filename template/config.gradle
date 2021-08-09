@@ -67,7 +67,7 @@ ext {
     easyLauncherVersion = '1.3.1'               //https://goo.gl/CQNp8c
 
     //glide
-    glideVersion = '4.8.0'                      //http://bit.ly/2Q7Fa41
+    glideVersion = '4.12.0'                      //http://bit.ly/2Q7Fa41
 
     //ui
     materialProgressBarVersion = '1.6.0'        //http://bit.ly/2vrzQvE
