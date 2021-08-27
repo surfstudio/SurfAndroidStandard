@@ -32,6 +32,7 @@ import ru.surfstudio.android.mvp.widget.view.CoreConstraintLayoutView
 import ru.surfstudio.android.mvp.widget.view.CoreFrameLayoutView
 import ru.surfstudio.android.mvp.widget.view.CoreLinearLayoutView
 import ru.surfstudio.android.mvp.widget.view.CoreRelativeLayoutView
+import ru.surfstudio.android.rx.extension.scheduler.MainThreadImmediateScheduler
 
 /**
  * Базовый класс для Widget с поддержкой rx-биндингов на основе [FrameLayout] .
@@ -65,7 +66,7 @@ abstract class CoreRxFrameLayoutView @JvmOverloads constructor(
         onNext: Consumer<T>,
         onError: (Throwable) -> Unit
     ): Disposable =
-        observable.observeOn(AndroidSchedulers.mainThread())
+        observable.observeOn(MainThreadImmediateScheduler)
             .subscribe(onNext, Consumer(onError))
             .also { viewDisposable.add(it) }
 }
@@ -102,7 +103,7 @@ abstract class CoreRxLinearLayoutView @JvmOverloads constructor(
         onNext: Consumer<T>,
         onError: (Throwable) -> Unit
     ): Disposable =
-        observable.observeOn(AndroidSchedulers.mainThread())
+        observable.observeOn(MainThreadImmediateScheduler)
             .subscribe(onNext, Consumer(onError))
             .also { viewDisposable.add(it) }
 }
@@ -139,7 +140,7 @@ abstract class CoreRxRelativeLayoutView @JvmOverloads constructor(
         onNext: Consumer<T>,
         onError: (Throwable) -> Unit
     ): Disposable =
-        observable.observeOn(AndroidSchedulers.mainThread())
+        observable.observeOn(MainThreadImmediateScheduler)
             .subscribe(onNext, Consumer(onError))
             .also { viewDisposable.add(it) }
 }
@@ -176,7 +177,7 @@ abstract class CoreRxConstraintLayoutView @JvmOverloads constructor(
         onNext: Consumer<T>,
         onError: (Throwable) -> Unit
     ): Disposable =
-        observable.observeOn(AndroidSchedulers.mainThread())
+        observable.observeOn(MainThreadImmediateScheduler)
             .subscribe(onNext, Consumer(onError))
             .also { viewDisposable.add(it) }
 }
