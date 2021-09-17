@@ -1978,9 +1978,9 @@
   },
   {
     "id": "push",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "push",
     "libs": [
       {
