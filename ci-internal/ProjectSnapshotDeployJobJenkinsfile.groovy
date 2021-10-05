@@ -144,14 +144,14 @@ pipeline.stages = [
             }
         },
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa")
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(
                     script,
-                    "testReleaseUnitTest",
-                    "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/"
+                    "testQaUnitTest",
+                    "**/test-results/testQaUnitTest/*.xml",
+                    "app/build/reports/tests/testQaUnitTest/"
             )
         },
         pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {

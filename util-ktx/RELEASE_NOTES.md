@@ -7,6 +7,7 @@
 - [0.2.1](#021)
 
 ## 0.5.0-alpha
+* Update SdkUtils for Android 12
 * Update SdkUtils
 ## 0.5.0
 ##### Util-ktx

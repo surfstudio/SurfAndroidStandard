@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.core.ui.permission.deprecated
 
+import android.Manifest
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -66,7 +67,19 @@ abstract class PermissionManager(
         val nonNullSingleEmitter = singleEmitterPerRequestCode[requestCode] ?: return false
         if (nonNullSingleEmitter.isDisposed) return true
 
-        val isPermissionRequestGranted = isAllResultsAreGranted(grantResults)
+        val isPermissionRequestGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val locationPermissions = arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            if (permissions.contentEquals(locationPermissions)) {
+                isAnyResultGranted(grantResults)
+            } else {
+                isAllResultsAreGranted(grantResults)
+            }
+        } else {
+            isAllResultsAreGranted(grantResults)
+        }
         nonNullSingleEmitter.onSuccess(isPermissionRequestGranted)
 
         return true
@@ -114,15 +127,27 @@ abstract class PermissionManager(
         grantResults
             .all { grantResult -> grantResult == PERMISSION_GRANTED }
 
+    private fun isAnyResultGranted(grantResults: IntArray): Boolean =
+        grantResults
+            .any { grantResult -> grantResult == PERMISSION_GRANTED }
+
     /**
      * Проверяем, выдал ли пользователь разрешения.
      *
      * @param permissionRequest Проверяемый [PermissionRequest].
      */
-    private fun isPermissionRequestGranted(permissionRequest: PermissionRequest): Boolean =
-        permissionRequest
-            .permissions
-            .all { permission -> isPermissionGranted(permission) }
+    private fun isPermissionRequestGranted(permissionRequest: PermissionRequest): Boolean {
+        val requestPermissions = permissionRequest.permissions
+        val locationPermissions = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && requestPermissions.contentEquals(locationPermissions)) {
+            permissionRequest.permissions.any { permission -> isPermissionGranted(permission) }
+        } else {
+            permissionRequest.permissions.all { permission -> isPermissionGranted(permission) }
+        }
+    }
 
     /**
      * Проверяем, отказал ли пользователь в выдаче разрешений.
@@ -137,7 +162,7 @@ abstract class PermissionManager(
      *
      * @param permissionRequest Проверяемый [PermissionRequest].
      */
-    private fun isPermissionRequestRequested(permissionRequest: PermissionRequest): Boolean  = permissionRequest
+    private fun isPermissionRequestRequested(permissionRequest: PermissionRequest): Boolean = permissionRequest
         .permissions
         .all { permission -> isPermissionRequested(permission) }
 
