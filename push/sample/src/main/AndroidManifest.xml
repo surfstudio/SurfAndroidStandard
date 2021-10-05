@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.screen.main.MainActivityView">
+        <activity android:name=".ui.screen.main.MainActivityView"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +22,8 @@
         <activity android:name=".ui.screen.push.PushActivityView" />
         <activity android:name=".ui.screen.push.data.DataPushActivityView" />
 
-        <service android:name=".ui.common.notification.FirebaseMessagingService">
+        <service android:name=".ui.common.notification.FirebaseMessagingService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
