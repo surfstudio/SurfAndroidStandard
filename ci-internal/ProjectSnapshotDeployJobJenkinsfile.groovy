@@ -144,7 +144,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa")
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(

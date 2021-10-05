@@ -80,7 +80,7 @@ dependencies {
     DependencyConfigurator.implementation(project, "androidx.appcompat:appcompat")
     DependencyConfigurator.implementation(project, "androidx.constraintlayout:constraintlayout")
 
-    // androidTestImplementation project(":sample-common")
+    androidTestImplementation project(":sample-common")
 }
 
 task printTestInstrumentationRunnerName {
