@@ -220,8 +220,8 @@ pipeline.stages = [
             GradleUtil.gradlew(script, "checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(ADD_LICENSE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            GradleUtil.gradlew(script, "chmod 755 ci-internal/auto-add-license/add_license.sh", useJava11)
-            GradleUtil.gradlew(script, "./ci-internal/auto-add-license/add_license.sh", useJava11)
+            script.sh "chmod 755 ci-internal/auto-add-license/add_license.sh"
+            script.sh "./ci-internal/auto-add-license/add_license.sh"
         },
         pipeline.stage(CHECKS_RESULT) {
             def checksPassed = true
