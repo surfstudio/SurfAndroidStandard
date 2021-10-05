@@ -179,7 +179,7 @@ pipeline.stages = [
                     credentialsId: pipeline.repoCredentialsId,
                     branch: destinationBranch
             )
-            
+
             lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
 
             script.sh "git checkout origin/$sourceBranch"
@@ -262,10 +262,13 @@ pipeline.stages = [
             AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace", useJava11)
         },
         pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
+            AndroidPipelineHelper.unitTestStageBodyAndroid(
+                    script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
+                    "app/build/reports/tests/testReleaseUnitTest/",
+                    useJava11
+            )
         },
         //TODO не работает после переезда на MVI
         pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.SKIP_STAGE) {
@@ -282,7 +285,7 @@ pipeline.stages = [
                                 true,
                                 0
                         ),
-                       "Template Instrumentation Test"
+                        "Template Instrumentation Test"
                 )
             }
         },
