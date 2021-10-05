@@ -1,4 +1,4 @@
-@Library('surf-lib@version-4.1.1-SNAPSHOT')
+@Library('surf-lib@version-4.1.3-SNAPSHOT')
 // https://github.com/surfstudio/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
@@ -9,6 +9,7 @@ import ru.surfstudio.ci.stage.SimpleStage
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
+import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
@@ -189,37 +190,37 @@ pipeline.stages = [
         },
 
         pipeline.stage(RELEASE_NOTES_DIFF, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            GradleUtil.gradlew(script, "./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
 
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
-            script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
+            GradleUtil.gradlew(script, "./gradlew checkConfigurationIsNotProjectSnapshotTask", useJava11)
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
                 script.echo "artifactory user: ${script.env.surf_maven_username}"
-                script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
+                GradleUtil.gradlew(script, "./gradlew checkStableArtifactsExistInArtifactoryTask", useJava11)
             }
         },
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            GradleUtil.gradlew(script, "./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.SKIP_STAGE) {
-            script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            GradleUtil.gradlew(script, "./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkStableComponentStandardDependenciesStableTask")
+            GradleUtil.gradlew(script, "./gradlew checkStableComponentStandardDependenciesStableTask", useJava11)
         },
         pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
-            script.sh("./gradlew checkReleaseNotesNotContainCyrillic")
+            GradleUtil.gradlew(script, "./gradlew checkReleaseNotesContainCurrentVersion", useJava11)
+            GradleUtil.gradlew(script, "./gradlew checkReleaseNotesNotContainCyrillic", useJava11)
         },
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            GradleUtil.gradlew(script, "./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(ADD_LICENSE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh "chmod 755 ci-internal/auto-add-license/add_license.sh"
-            script.sh "./ci-internal/auto-add-license/add_license.sh"
+            GradleUtil.gradlew(script, "chmod 755 ci-internal/auto-add-license/add_license.sh", useJava11)
+            GradleUtil.gradlew(script, "./ci-internal/auto-add-license/add_license.sh", useJava11)
         },
         pipeline.stage(CHECKS_RESULT) {
             def checksPassed = true
@@ -247,7 +248,7 @@ pipeline.stages = [
 
         pipeline.stage(BUILD) {
             script.sh("rm -rf temp template/**/build")
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa", true)
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
@@ -257,7 +258,7 @@ pipeline.stages = [
              * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
              * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
              */
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace", true)
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
