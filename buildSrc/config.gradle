@@ -52,7 +52,7 @@ ext {
             "androidx.asynclayoutinflater:asynclayoutinflater" : "1.0.0",        //https://bit.ly/39rzXcW
             "androidx.biometric:biometric"                     : "1.0.1",        //https://bit.ly/34Rat7U
             "androidx.test:runner"                             : "1.2.0",        //http://bit.ly/2ztEfBo
-            "androidx.test.espresso:espresso-core"             : "3.2.0",        //http://bit.ly/2DNc0AA
+            "androidx.test.espresso:espresso-core"             : "3.5.0-alpha02",//http://bit.ly/2DNc0AA
             "androidx.test:core"                               : "1.2.0",        //http://bit.ly/2P1yKi1
             "androidx.test.ext:junit"                          : "1.1.1",        //http://bit.ly/2zC6UV1
             "androidx.test.espresso:espresso-contrib"          : "3.2.0",        //http://bit.ly/2DNc0AA
