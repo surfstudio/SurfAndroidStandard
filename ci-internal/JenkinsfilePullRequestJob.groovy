@@ -43,6 +43,7 @@ def destinationBranch = ""
 def authorUsername = ""
 def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
+def useJava11 = true
 
 //parameters
 final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
@@ -190,33 +191,33 @@ pipeline.stages = [
         },
 
         pipeline.stage(RELEASE_NOTES_DIFF, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            GradleUtil.gradlew(script, "./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
+            GradleUtil.gradlew(script, "generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
 
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
-            GradleUtil.gradlew(script, "./gradlew checkConfigurationIsNotProjectSnapshotTask", useJava11)
+            GradleUtil.gradlew(script, "checkConfigurationIsNotProjectSnapshotTask", useJava11)
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
                 script.echo "artifactory user: ${script.env.surf_maven_username}"
-                GradleUtil.gradlew(script, "./gradlew checkStableArtifactsExistInArtifactoryTask", useJava11)
+                GradleUtil.gradlew(script, "checkStableArtifactsExistInArtifactoryTask", useJava11)
             }
         },
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            GradleUtil.gradlew(script, "./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
+            GradleUtil.gradlew(script, "checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.SKIP_STAGE) {
-            GradleUtil.gradlew(script, "./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
+            GradleUtil.gradlew(script, "checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            GradleUtil.gradlew(script, "./gradlew checkStableComponentStandardDependenciesStableTask", useJava11)
+            GradleUtil.gradlew(script, "checkStableComponentStandardDependenciesStableTask", useJava11)
         },
         pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            GradleUtil.gradlew(script, "./gradlew checkReleaseNotesContainCurrentVersion", useJava11)
-            GradleUtil.gradlew(script, "./gradlew checkReleaseNotesNotContainCyrillic", useJava11)
+            GradleUtil.gradlew(script, "checkReleaseNotesContainCurrentVersion", useJava11)
+            GradleUtil.gradlew(script, "checkReleaseNotesNotContainCyrillic", useJava11)
         },
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            GradleUtil.gradlew(script, "./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
+            GradleUtil.gradlew(script, "checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(ADD_LICENSE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             GradleUtil.gradlew(script, "chmod 755 ci-internal/auto-add-license/add_license.sh", useJava11)
@@ -248,7 +249,7 @@ pipeline.stages = [
 
         pipeline.stage(BUILD) {
             script.sh("rm -rf temp template/**/build")
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa", true)
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa", useJava11)
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
@@ -258,7 +259,7 @@ pipeline.stages = [
              * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
              * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
              */
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace", true)
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace", useJava11)
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
