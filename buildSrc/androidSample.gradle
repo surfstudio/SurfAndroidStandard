@@ -57,7 +57,7 @@ configurations.all {
 }
 
 dependencies {
-    implementation project(":sample-dagger")
+    // implementation project(":sample-dagger")
 
     DependencyConfigurator.projectImplementation(project, "dagger-scope")
     DependencyConfigurator.projectImplementation(project, "rxbus")
