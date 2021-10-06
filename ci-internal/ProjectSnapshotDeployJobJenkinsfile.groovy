@@ -9,6 +9,7 @@ import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
+import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 //Pipeline for deploy project snapshot artifacts
 
