@@ -36,6 +36,8 @@ object SdkUtils {
 
     fun isAtLeastPie(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
 
+    fun isAtLeastQ(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+
     /**
      * Запускает блок кода на устройствах с андроид версии KitKat и ниже
      *
@@ -98,6 +100,17 @@ object SdkUtils {
      */
     fun runOnPie(block: () -> Unit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            block()
+        }
+    }
+
+    /**
+     * Запускает блок кода на устройствах с андроид версии Q и выше
+     *
+     * @param block запускаемый блок кода
+     */
+    fun runOnQ(block: () -> Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             block()
         }
     }
