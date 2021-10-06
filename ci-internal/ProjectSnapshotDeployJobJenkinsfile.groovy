@@ -36,7 +36,7 @@ def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 //vars
 def branchName = ""
 def skipIncrementVersion = false
-def userJava11 = true
+def useJava11 = true
 
 //other config
 
