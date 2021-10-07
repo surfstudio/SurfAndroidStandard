@@ -1,7 +1,11 @@
 # Core-navigation Release Notes
 
+- [0.6.0-alpha](#060)
 - [0.5.0](#050)
 
+## 0.6.0-alpha
+##### Core-navigation
+* Fix FragmentNavigator.Transit
 ## 0.5.0
 ##### Core-navigation
 * ANDDEP-1049 All classes responsible for navigation migrated from `core-ui` to `core-navigation`
