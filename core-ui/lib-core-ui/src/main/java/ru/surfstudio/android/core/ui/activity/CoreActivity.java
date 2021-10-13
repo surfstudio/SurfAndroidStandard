@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.core.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -28,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ru.surfstudio.android.core.ui.delegate.activity.ActivityDelegate;
 import ru.surfstudio.android.core.ui.delegate.factory.ScreenDelegateFactoryContainer;
+import ru.surfstudio.android.core.ui.locale.LocaleHelper;
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope;
 import ru.surfstudio.android.logger.LogConstants;
 import ru.surfstudio.android.logger.Logger;
@@ -100,6 +102,9 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     protected void onStart() {
         super.onStart();
         activityDelegate.onStart();
+        if (LocaleHelper.INSTANCE.isLocaleChanged(this)) {
+            recreate();
+        }
     }
 
     @Override
@@ -127,6 +132,11 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
         super.onDestroy();
         activityDelegate.onDestroyView();
         activityDelegate.onDestroy();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.INSTANCE.localize(newBase));
     }
 
     @Override

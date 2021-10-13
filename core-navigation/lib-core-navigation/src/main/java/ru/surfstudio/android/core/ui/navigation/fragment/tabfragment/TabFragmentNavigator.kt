@@ -43,8 +43,7 @@ import java.util.*
 open class TabFragmentNavigator(
         val activityProvider: ActivityProvider,
         eventDelegateManager: ScreenEventDelegateManager
-)
-    : Navigator,
+) : Navigator,
         OnBackPressedDelegate,
         OnRestoreStateDelegate,
         OnSaveStateDelegate {
@@ -220,15 +219,16 @@ open class TabFragmentNavigator(
     /**
      * Показывает существующий фрагмент
      */
-    private fun showExistent(routeTag: String) {
+    private fun showExistent(routeTag: String, commitNow: Boolean = false) {
         activeTabTag = routeTag
-        replace(activeStack.peek(), activeStack.peek().tag)
+        replace(activeStack.peek(), activeStack.peek().tag, commitNow = commitNow)
     }
 
     private fun replace(
             fragment: Fragment,
             routeTag: String?,
-            transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN
+            transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
+            commitNow: Boolean = false
     ) {
         fragmentManager.executePendingTransactions()
 
@@ -240,7 +240,12 @@ open class TabFragmentNavigator(
             add(fragment, routeTag, fragmentTransaction, transition)
         }
 
-        fragmentTransaction.commitAllowingStateLoss()
+        if (commitNow) {
+            fragmentTransaction.commitNowAllowingStateLoss()
+        } else {
+            fragmentTransaction.commitAllowingStateLoss()
+        }
+
         //commitAllowingStateLoss жёстко решает проблему редкого непонятного крэша
         //https://www.androiddesignpatterns.com/2013/08/fragment-transaction-commit-state-loss.html
     }
@@ -372,7 +377,7 @@ open class TabFragmentNavigator(
                 Logger.i("TabFragmentNavigator restoreFromBundle after restore map = $fragmentMap")
 
                 val savedCurrentTabTag = savedInstanceState.getString(EXTRA_CURRENT_TAB_TAG) ?: ""
-                showExistent(savedCurrentTabTag)
+                showExistent(savedCurrentTabTag, commitNow = true)
 
                 true
             } catch (t: Throwable) {
