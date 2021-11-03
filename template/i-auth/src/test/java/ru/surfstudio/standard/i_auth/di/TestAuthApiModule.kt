@@ -3,7 +3,7 @@ package ru.surfstudio.standard.i_auth.di
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
-import ru.surfstudio.standard.i_auth.AuthApi
+import ru.surfstudio.standard.i_network.generated.api.AuthApi
 import ru.surfstudio.standard.i_auth.AuthRepository
 import ru.surfstudio.standard.small_test_utils.di.scope.PerTest
 

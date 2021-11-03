@@ -1,6 +1,6 @@
-package ru.surfstudio.standard.application.auth.di
+package ru.surfstudio.standard.i_network.generated.di
 
-import ru.surfstudio.standard.i_auth.AuthApi
+import ru.surfstudio.standard.i_network.generated.api.AuthApi
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
