@@ -32,7 +32,8 @@
 
         <activity
             android:name=".ui.screen.reactor_based.main.MainActivityView"
-            android:label="Surf MVI Sample">
+            android:label="Surf MVI Sample"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
