@@ -53,7 +53,7 @@ ext {
             "androidx.biometric:biometric"                     : "1.0.1",        //https://bit.ly/34Rat7U
             "androidx.test:runner"                             : "1.2.0",        //http://bit.ly/2ztEfBo
             "androidx.test.espresso:espresso-core"             : "3.2.0",        //http://bit.ly/2DNc0AA
-            "androidx.test:core"                               : "1.2.0",        //http://bit.ly/2P1yKi1
+            "androidx.test:core"                               : "1.4.0-rc01",   //http://bit.ly/2P1yKi1
             "androidx.test.ext:junit"                          : "1.1.1",        //http://bit.ly/2zC6UV1
             "androidx.test.espresso:espresso-contrib"          : "3.2.0",        //http://bit.ly/2DNc0AA
             "androidx.test.espresso:espresso-intents"          : "3.2.0",        //http://bit.ly/2DNc0AA
