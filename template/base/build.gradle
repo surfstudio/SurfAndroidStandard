@@ -8,6 +8,8 @@ dependencies {
     api firebase.analytics
     api firebase.messaging
 
+    api view.glide
+
     implementation test.kotest
     implementation test.mockk
     implementation serialization.gson
@@ -32,7 +34,6 @@ dependencies {
                     "dagger-scope",
                     "logger",
                     "filestorage",
-                    "imageloader",
                     "animations",
                     "picture-provider",
                     "app-migration",

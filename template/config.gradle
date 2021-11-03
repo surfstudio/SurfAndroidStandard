@@ -60,7 +60,8 @@ ext {
             autoServiceVersion              : '1.0-rc4',            //https://bit.ly/2WsGYH4
             lifecycleVersion                : '2.2.0',              //https://bit.ly/36Z0Re9
             gsonVersion                     : '2.8.6',              //https://bit.ly/3sMIrVs
-            detektVersion                   : '1.17.1'              //https://bit.ly/3hZpBsp
+            detektVersion                   : '1.17.1',             //https://bit.ly/3hZpBsp
+            glideVersion                    : "4.12.0"              //http://bit.ly/2Q7Fa41
     ]
 
 
@@ -128,7 +129,8 @@ ext {
     ]
 
     view = [
-            materialRangeBar: "com.appyvet:materialrangebar:${versions.materialRangeBarVersion}"
+            materialRangeBar: "com.appyvet:materialrangebar:${versions.materialRangeBarVersion}",
+            glide           : "com.github.bumptech.glide:glide:${versions.glideVersion}"
     ]
 
     debug = [
