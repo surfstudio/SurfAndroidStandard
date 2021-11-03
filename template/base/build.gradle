@@ -44,7 +44,6 @@ dependencies {
                     "rx-extension",
                     "shared-pref",
                     "util-ktx",
-                    "message-controller",
                     "rxbus",
                     "mvi-core",
                     "mvi-impls",
