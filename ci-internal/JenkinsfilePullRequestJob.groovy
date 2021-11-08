@@ -44,7 +44,6 @@ def authorUsername = ""
 def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
 def useJava11 = false
-def useTemplateJava11 = true
 
 //parameters
 final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
@@ -253,14 +252,19 @@ pipeline.stages = [
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa", useJava11)
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            // todo вернуть локальное подключение после обновления стандарта для java11
+            /*
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
                     "androidStandardDebugMode=true\n" +
-                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
+                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")*/
             /**
              * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
              * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
              */
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace", useTemplateJava11)
+             // todo использовать buildStageBodyAndroid после обновления стандарта для java11
+             script.dir("template") {
+                script.sh "./gradlew clean assembleQa --stacktrace -Dorg.gradle.java.home=${script.env.JAVA_HOME_11}"
+             }
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(
