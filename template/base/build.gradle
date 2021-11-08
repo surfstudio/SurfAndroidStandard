@@ -4,7 +4,6 @@ apply from: '../unitTestConfiguration.gradle'
 dependencies {
     api project(":domain")
     api platform(firebase.bom)
-    api firebase.core //todo might be removed for real project
     api firebase.analytics
     api firebase.messaging
 

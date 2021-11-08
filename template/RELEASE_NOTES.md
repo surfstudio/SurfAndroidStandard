@@ -14,6 +14,7 @@
  * Clean f-debug-no-op dependencies
  * Remove imageloader, use Glide on other library instead
  * Update versions
+ * Remove firebase.core dependency
 * ANDDEP-1211 Add onboarding to template
 * ANDDEP-1204 Added Danger and Detekt to the template
 * ANDDEP-1208 Removing kotlin.androidx.synthetic from template

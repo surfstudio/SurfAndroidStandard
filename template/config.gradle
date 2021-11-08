@@ -87,7 +87,6 @@ ext {
             bom        : "com.google.firebase:firebase-bom:${versions.firebaseBom}",
             messaging  : "com.google.firebase:firebase-messaging",
             analytics  : "com.google.firebase:firebase-analytics",
-            core       : "com.google.firebase:firebase-core",
             crashlytics: "com.google.firebase:firebase-crashlytics"
     ]
 
