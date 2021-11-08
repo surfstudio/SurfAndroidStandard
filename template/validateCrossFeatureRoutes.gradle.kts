@@ -10,8 +10,8 @@ tasks.register<ValidateCrossFeatureRoutesTask>("validateCrossFeatureRoutesTask")
                 file.name.contains("Dialog")
     }
 
-    // TODO: изменить на true, если используется последняя навигация
-    useTheMostRecentNavigation = false
+    // TODO: изменить на false, если не используется последняя навигация
+    useTheMostRecentNavigation = true
 }
 
 tasks.whenTaskAdded {
