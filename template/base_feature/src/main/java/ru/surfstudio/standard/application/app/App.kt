@@ -95,7 +95,7 @@ class App : Application() {
     private fun initPushEventListener() {
         PushClickProvider.pushEventListener = object : PushEventListener {
             override fun pushDismissListener(context: Context, intent: Intent) {
-                //todo
+                /* do nothing */
             }
 
             override fun pushOpenListener(context: Context, intent: Intent) {
@@ -103,7 +103,7 @@ class App : Application() {
             }
 
             override fun customActionListener(context: Context, intent: Intent) {
-                //todo
+                /* do nothing */
             }
         }
     }
