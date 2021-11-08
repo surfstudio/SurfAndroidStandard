@@ -37,7 +37,7 @@ def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def BUILD_TEMPLATE = 'Template Build'
 def INSTRUMENTATION_TEST_TEMPLATE = 'Template Instrumentation Test'
 
-// git variables
+// variables
 def sourceBranch = ""
 def destinationBranch = ""
 def authorUsername = ""
