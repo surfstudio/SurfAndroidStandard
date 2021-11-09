@@ -1,7 +1,7 @@
-package ru.surfstudio.standard.i_auth.response
+package ru.surfstudio.standard.i_network.generated.entry
 
 import com.google.gson.annotations.SerializedName
-import ru.surfstudio.standard.domain.login.LoginInfo
+import ru.surfstudio.standard.domain.entity.LoginInfoEntity
 import ru.surfstudio.standard.i_network.error.exception.InvalidServerValuesResponse
 import ru.surfstudio.standard.i_network.network.Transformable
 
@@ -10,14 +10,14 @@ import ru.surfstudio.standard.i_network.network.Transformable
  * сущность для ответа сервера с токенами
  */
 //todo Обновить или удалить класс в соответствии с нуждами приложения
-data class TokenResponse(
+data class TokenResponseEntry(
         @SerializedName("access_token") private val accessToken: String? = null,
         @SerializedName("expires_in") private val expiresIn: Int = 0,
         @SerializedName("token_type") private val tokenType: String? = null,
         @SerializedName("refresh_token") private val refreshToken: String? = null
-) : Transformable<LoginInfo> {
+) : Transformable<LoginInfoEntity> {
 
-    override fun transform(): LoginInfo {
+    override fun transform(): LoginInfoEntity {
         if (accessToken == null) {
             throw InvalidServerValuesResponse(Pair("accessToken", "null"))
         }
@@ -27,6 +27,6 @@ data class TokenResponse(
         if (expiresIn == 0) {
             throw InvalidServerValuesResponse(Pair("expiresIn", expiresIn.toString()))
         }
-        return LoginInfo(accessToken, expiresIn, tokenType, refreshToken)
+        return LoginInfoEntity(accessToken, expiresIn, tokenType, refreshToken)
     }
 }

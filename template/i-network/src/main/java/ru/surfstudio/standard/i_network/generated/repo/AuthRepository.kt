@@ -1,13 +1,14 @@
-package ru.surfstudio.standard.i_auth
+package ru.surfstudio.standard.i_network.generated.repo
 
 import io.reactivex.Completable
 import io.reactivex.Single
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.i_network.network.transform
-import ru.surfstudio.standard.domain.login.KeyInfo
-import ru.surfstudio.standard.domain.login.LoginInfo
-import ru.surfstudio.standard.i_auth.request.LoginByCodeRequest
-import ru.surfstudio.standard.i_auth.request.LoginByPhoneRequest
+import ru.surfstudio.standard.domain.entity.KeyInfoEntity
+import ru.surfstudio.standard.domain.entity.LoginInfoEntity
+import ru.surfstudio.standard.i_network.generated.api.AuthApi
+import ru.surfstudio.standard.i_network.generated.entry.LoginByCodeRequestEntry
+import ru.surfstudio.standard.i_network.generated.entry.LoginByPhoneRequestEntry
 import ru.surfstudio.standard.i_network.service.BaseNetworkService
 import javax.inject.Inject
 
@@ -24,16 +25,16 @@ class AuthRepository @Inject constructor(
     /**
      * Отсылка номера телефона для получения кода авторизации
      */
-    fun requestCode(phoneNumber: String): Single<KeyInfo> =
-            authApi.requestCode(LoginByPhoneRequest(phoneNumber))
+    fun requestCode(phoneNumber: String): Single<KeyInfoEntity> =
+            authApi.requestCode(LoginByPhoneRequestEntry(phoneNumber))
                     .transform()
 
     /**
      * Вход по полученному из смс коду
      */
-    fun loginByCode(key: String, smsCode: String): Single<LoginInfo> {
+    fun loginByCode(key: String, smsCode: String): Single<LoginInfoEntity> {
         val code = String.format(CODE_FORMAT, key, smsCode)
-        return authApi.loginByCode(LoginByCodeRequest(code))
+        return authApi.loginByCode(LoginByCodeRequestEntry(code))
                 .transform()
     }
 

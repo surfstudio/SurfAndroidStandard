@@ -15,8 +15,6 @@ import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.rxbus.RxBus
-import ru.surfstudio.standard.v_message_controller_top.IconMessageController
-import ru.surfstudio.standard.v_message_controller_top.TopSnackIconMessageController
 
 /**
  * Модуль для dagger Activity Component
@@ -81,12 +79,6 @@ class DebugActivityModule(private val persistentScope: ActivityPersistentScope) 
     @PerActivity
     internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {
         return DefaultMessageController(activityProvider)
-    }
-
-    @Provides
-    @PerActivity
-    internal fun provideTopMessageController(activityProvider: ActivityProvider): IconMessageController {
-        return TopSnackIconMessageController(activityProvider)
     }
 
     @Provides
