@@ -194,9 +194,12 @@ pipeline.stages = [
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
                     "androidStandardDebugMode=false\n" +
                     "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template :app:dependencies")
             // build template after deploy in order to check usage of new artifacts
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace")
+            // todo использовать buildStageBodyAndroid после обновления стандарта для java11
+            // script.sh("./gradlew -p template :app:dependencies")
+            script.dir("template") {
+                script.sh "./gradlew clean assembleQa --stacktrace -Dorg.gradle.java.home=${script.env.JAVA_HOME_11}"
+            }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
