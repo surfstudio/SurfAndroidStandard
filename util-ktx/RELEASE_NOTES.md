@@ -5,6 +5,9 @@
 - [0.3.0](#030)
 - [0.2.1](#021)
 
+## 0.5.0-alpha
+* Update SdkUtils for Android 12
+* Update SdkUtils
 ## 0.5.0
 ##### Util-ktx
 * `DateUtil.parseDate ()` methods can receive `NULL` as input parameter. Will return `NULL` in this case

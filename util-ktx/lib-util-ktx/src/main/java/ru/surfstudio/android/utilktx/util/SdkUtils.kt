@@ -17,7 +17,6 @@ package ru.surfstudio.android.utilktx.util
 
 
 import android.os.Build
-import ru.surfstudio.android.utilktx.util.SdkUtils.isPreLollipop
 
 /**
  * Утилиты для проверки версии Api
@@ -37,6 +36,10 @@ object SdkUtils {
     fun isAtLeastPie(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
 
     fun isAtLeastQ(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+
+    fun isAtLeastR(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+
+    fun isAtLeastS(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
     /**
      * Запускает блок кода на устройствах с андроид версии KitKat и ниже
