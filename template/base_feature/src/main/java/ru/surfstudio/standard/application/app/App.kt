@@ -41,7 +41,7 @@ class App : Application() {
         initPushEventListener()
         initRxJava2Debug()
         registerNavigationProviderCallbacks()
-        DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
+        DebugAppInjector.debugInteractor.onCreateApp(R.drawable.ic_android)
     }
 
     private fun registerNavigationProviderCallbacks() {

@@ -3,6 +3,7 @@ apply from: 'config.gradle'
 include ":app",
         ":base",
         ":base_feature",
+        ":base_resources",
         ":domain",
         ":i-initialization",
         ":i-onboarding",
