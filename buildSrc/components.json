@@ -2356,7 +2356,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 57,
+    "unstable_version": 58,
     "stable": false,
     "dir": "template",
     "libs": [],
