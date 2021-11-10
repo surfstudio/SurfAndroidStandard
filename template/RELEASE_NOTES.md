@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* Remove MaterialProgressBar
 * Template updates:
   * Fix BasePushHandleStrategy (make push notifications visible by default)
   * Remove PostfixEditText (see PrefixPostfixEditText in code templates project)

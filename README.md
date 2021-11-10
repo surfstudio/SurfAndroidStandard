@@ -3,7 +3,6 @@
 [![Android Arsenal][android_arsenal_icon]][android_arsenal_link]
 [![Build Status][build_status_icon]][build_status_link]
 [![License][license_icon]][license_link]
-[![Download][build_version_icon]][build_version_link]
 
 Фреймворк для разработки android приложений [студии Surf](https://www.surf.ru/). 
 Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение
@@ -73,4 +72,3 @@ dependencies {
 
 [build_version_link]: https://bintray.com/surf/maven
 [comment]: # (В следующих версиях нужно заменить на ссылку на иконку реального статуса)
-[build_version_icon]: https://img.shields.io/badge/jcenter-libs-brightgreen
