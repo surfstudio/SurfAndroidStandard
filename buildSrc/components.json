@@ -242,7 +242,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 11,
+    "unstable_version": 12,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -533,7 +533,7 @@
   {
     "id": "mvi",
     "version": "0.5.1",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -771,7 +771,7 @@
   {
     "id": "core-ui",
     "version": "0.5.1",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -841,7 +841,7 @@
   {
     "id": "core-navigation",
     "version": "0.5.1",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "core-navigation",
     "libs": [
@@ -895,7 +895,7 @@
   {
     "id": "permission",
     "version": "0.5.1",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "permission",
     "libs": [
@@ -939,8 +939,7 @@
         "name": "permission-deprecated",
         "dir": "lib-permission-deprecated",
         "artifact_name": "permission-deprecated",
-        "third_party_dependencies": [
-        ],
+        "third_party_dependencies": [],
         "android_standard_dependencies": [
           {
             "name": "ferro-rx",
@@ -981,7 +980,7 @@
   {
     "id": "custom-view",
     "version": "0.5.1",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "custom-view",
     "libs": [
@@ -1445,7 +1444,7 @@
   {
     "id": "mvp",
     "version": "0.5.1",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1466,7 +1465,8 @@
             "name": "org.mockito:mockito-core",
             "type": "testImplementation"
           }
-        ]
+        ],
+        "android_standard_dependencies": []
       },
       {
         "name": "core-mvp",
@@ -1758,7 +1758,7 @@
   {
     "id": "navigation",
     "version": "0.5.1",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -2371,7 +2371,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 58,
+    "unstable_version": 59,
     "stable": false,
     "dir": "template",
     "libs": [],
@@ -2404,7 +2404,7 @@
   {
     "id": "docs",
     "version": "0.5.0",
-    "unstable_version": 18,
+    "unstable_version": 19,
     "stable": false,
     "dir": "docs",
     "libs": [],
