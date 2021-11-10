@@ -980,9 +980,9 @@
   },
   {
     "id": "custom-view",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "custom-view",
     "libs": [
       {
@@ -990,10 +990,6 @@
         "dir": "lib-custom-view",
         "artifact_name": "custom-view",
         "third_party_dependencies": [
-          {
-            "name": "me.zhanghai.android.materialprogressbar:library",
-            "type": "api"
-          },
           {
             "name": "com.wang.avi:library",
             "type": "api"

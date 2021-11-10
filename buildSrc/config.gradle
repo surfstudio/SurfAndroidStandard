@@ -91,7 +91,6 @@ ext {
             "org.powermock:powermock-api-mockito2"             : "2.0.7",        //https://goo.gl/hEcfw1
             "com.annimon:stream"                               : "1.2.1",        //https://bit.ly/2Ke0nlQ
             "com.github.anrwatchdog:anrwatchdog"               : "1.4.0",        //http://bit.ly/2NZvjZc
-            "me.zhanghai.android.materialprogressbar:library"  : "1.6.1",        //http://bit.ly/2vrzQvE
             "com.wang.avi:library"                             : "2.1.3",        //http://bit.ly/2NVrDaI
             "com.caverock:androidsvg-aar"                      : "1.4",          //https://bit.ly/2Pcb4fi
             "io.supercharge:shimmerlayout"                     : "2.1.0",        //https://bit.ly/2Pcb4fi

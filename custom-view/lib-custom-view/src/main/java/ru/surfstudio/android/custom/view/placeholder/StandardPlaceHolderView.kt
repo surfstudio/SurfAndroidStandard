@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Build
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
@@ -30,16 +31,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.collection.ArrayMap
 import com.wang.avi.AVLoadingIndicatorView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeIn
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeOut
 import ru.surfstudio.android.custom.view.R
@@ -75,7 +73,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
 
     private var contentContainer: ViewGroup
     private var progressBarContainer: FrameLayout
-    private var progressBar: MaterialProgressBar
+    private var progressBar: ProgressBar
     private var avIndicatorView: AVLoadingIndicatorView? = null
     private var titleTv: TextView
     private var subtitleTv: TextView
@@ -281,7 +279,9 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
 
     private fun initialSetUp() {
         setStyles() //метод setStyles обязательно должен вызываться первым
-        setProgressBarColor()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setProgressBarColor()
+        }
         setMargins()
         setListeners()
     }
@@ -331,13 +331,14 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
     }
 
     /**
-     * Окрашивание индикатора [MaterialProgressBar].
+     * Окрашивание индикатора [ProgressBar].
      *
      * Если цвет не задан явно в стилях - используется ?colorAccent приложения.
      */
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setProgressBarColor() {
         if (styler.progressBarColor != NOT_ASSIGNED_RESOURCE) {
-            progressBar.supportIndeterminateTintList = ColorStateList.valueOf(styler.progressBarColor)
+            progressBar.indeterminateTintList = ColorStateList.valueOf(styler.progressBarColor)
         }
     }
 

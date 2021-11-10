@@ -27,7 +27,6 @@ Gradle:
     
 Модуль имеет прямые зависимости от следующих сторонних библиотек:
 
-    me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion    Улучшенная версия ProgressBar
     com.wang.avi:library:$wangAviLibraryVersion                                    Кастомные Loader Indicators
 
 ## Документация
