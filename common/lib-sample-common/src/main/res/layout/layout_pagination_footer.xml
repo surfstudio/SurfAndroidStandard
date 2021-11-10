@@ -13,7 +13,6 @@
 
     <ProgressBar
         android:id="@+id/pagination_footer_progress_bar"
-        style="@style/Widget.MaterialProgressBar.ProgressBar.Small"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_centerInParent="true"
