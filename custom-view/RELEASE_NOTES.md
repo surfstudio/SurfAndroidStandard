@@ -1,11 +1,15 @@
 # Custom-view Release Notes
 
+- [0.5.1-alpha](#051)
 - [0.5.0](#050)
 - [0.4.0](#040)
 - [0.2.2](#022)
 - [0.2.1](#021)
 - [0.2.0](#020)
 
+## 0.5.1-alpha
+##### Custom-view
+* Remove StandardPlaceHolderView
 ## 0.5.0
 ##### Custom-view
 * ANDDEP-1119 added shadowColor to shadowLayout, added ShadowButton to sample
