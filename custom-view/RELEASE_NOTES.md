@@ -9,7 +9,7 @@
 
 ## 0.5.1-alpha
 ##### Custom-view
-* Remove materialprogressbar
+* Remove StandardPlaceHolderView
 ## 0.5.0
 ##### Custom-view
 * ANDDEP-1119 added shadowColor to shadowLayout, added ShadowButton to sample

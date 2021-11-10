@@ -6,7 +6,6 @@
 ## Список виджетов
 
 + `TitleSubtitleView` - виджет для отображения текста с подписью;
-+ `StandardPlaceHolderView` - полноэкранный плейсхолдер с поддержкой смены состояний. **В настоящее время разработка приостоновлена. Следует использовать [PlaceHolderViewContainer](lib-custom-view/src/main/java/ru/surfstudio/android/custom/view/placeholder/PlaceHolderViewContainer.kt)**
 + `ShadowLayout` - контейнер для отрисовки красивой тени под содержащимися внутри элементами.
 
 ## Использование
@@ -24,10 +23,3 @@ Gradle:
     :util-ktx           Модуль с полезными extension-функциями
     :rx-extension       Модуль для работы с RxJava
     :animations         Модуль с анимациями
-    
-Модуль имеет прямые зависимости от следующих сторонних библиотек:
-
-    com.wang.avi:library:$wangAviLibraryVersion                                    Кастомные Loader Indicators
-
-## Документация
-[`StandardPlaceHolderView`](lib-custom-view/STANDARD-PLACEHOLDER-VIEW-README.md)

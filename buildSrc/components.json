@@ -991,10 +991,6 @@
         "artifact_name": "custom-view",
         "third_party_dependencies": [
           {
-            "name": "com.wang.avi:library",
-            "type": "api"
-          },
-          {
             "name": "com.google.android.material:material",
             "type": "implementation"
           }
