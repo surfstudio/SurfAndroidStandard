@@ -25,8 +25,6 @@ dependencies {
     implementation stetho.core
     implementation stetho.okHttp
 
-    implementation view.materialRangeBar
-
     implementation androidX.constraintLayout
 
     api project(":domain")
