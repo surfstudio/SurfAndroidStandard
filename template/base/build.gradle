@@ -8,6 +8,7 @@ dependencies {
     api firebase.messaging
 
     api view.glide
+    api view.material
 
     implementation test.kotest
     implementation test.mockk
