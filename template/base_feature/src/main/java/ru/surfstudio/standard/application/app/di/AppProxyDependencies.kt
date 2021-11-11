@@ -17,6 +17,7 @@ import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
 import ru.surfstudio.standard.i_auth.AuthInteractor
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
+import ru.surfstudio.standard.i_onboarding.OnBoardingStorage
 import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
 import ru.surfstudio.standard.i_session.SessionChangedInteractor
 import ru.surfstudio.standard.ui.mvi.navigation.IntentChecker
@@ -49,6 +50,8 @@ interface AppProxyDependencies {
 
     @Named(NO_BACKUP_SHARED_PREF)
     fun sharedPreferences(): SharedPreferences
+
+    fun onBoardingStorage(): OnBoardingStorage
 
     fun authInteractor(): AuthInteractor
 }

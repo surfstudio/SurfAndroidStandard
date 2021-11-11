@@ -16,7 +16,5 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "sample-common")
     DependencyConfigurator.projectImplementation(project, "custom-view")
 
-    DependencyConfigurator.implementation(project, "me.zhanghai.android.materialprogressbar:library")
-
     DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
 }

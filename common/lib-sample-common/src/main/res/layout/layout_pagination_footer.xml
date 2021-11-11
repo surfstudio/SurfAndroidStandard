@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="60dp">
 
@@ -12,12 +11,10 @@
         android:gravity="center"
         android:text="@string/pagination_footer_text" />
 
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+    <ProgressBar
         android:id="@+id/pagination_footer_progress_bar"
-        style="@style/Widget.MaterialProgressBar.ProgressBar.Small"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_centerInParent="true"
-        android:indeterminate="true"
-        app:mpb_progressStyle="circular" />
+        android:indeterminate="true" />
 </RelativeLayout>

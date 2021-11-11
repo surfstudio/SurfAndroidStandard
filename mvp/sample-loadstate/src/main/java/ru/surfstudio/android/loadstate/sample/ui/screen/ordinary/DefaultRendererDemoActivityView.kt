@@ -3,12 +3,12 @@ package ru.surfstudio.android.loadstate.sample.ui.screen.ordinary
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_default_renderer_demo.*
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
@@ -34,21 +34,42 @@ class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoS
 
     private val renderer: DefaultLoadStateRenderer by lazy {
         DefaultLoadStateRenderer(placeholder)
-                .apply {
-                    //пример добавления представления кастомного стейта
-                    putPresentation(
-                            CustomLoadState::class,
-                            CustomLoadStatePresentation(placeholder))
+            .apply {
+                //пример добавления представления кастомного стейта
+                putPresentation(
+                    CustomLoadState::class,
+                    CustomLoadStatePresentation(placeholder)
+                )
 
-                    // установка листнеров на кнопки, при необходимости смена ресурсов
-                    configEmptyState(onBtnClickedListener = { toast(R.string.empty_state_toast_msg) })
-                    configErrorState(onBtnClickedListener = { toast(R.string.error_state_toast_msg) })
+                // установка листнеров на кнопки, при необходимости смена ресурсов
+                configEmptyState(onBtnClickedListener = {
+                    Toast
+                        .makeText(
+                            this@DefaultRendererDemoActivityView,
+                            R.string.empty_state_toast_msg,
+                            Toast.LENGTH_SHORT
+                        )
+                        .apply {
+                            show()
+                        }
+                })
+                configErrorState(onBtnClickedListener = {
+                    Toast
+                        .makeText(
+                            this@DefaultRendererDemoActivityView,
+                            R.string.error_state_toast_msg,
+                            Toast.LENGTH_SHORT
+                        )
+                        .apply {
+                            show()
+                        }
+                })
 
-                    //пример задания дополнительных действий при смене лоадстейта
-                    forState(ErrorLoadState::class,
-                            run = { colorToolbar(R.color.colorAccent) },
-                            elseRun = { colorToolbar(R.color.colorPrimary) })
-                }
+                //пример задания дополнительных действий при смене лоадстейта
+                forState(ErrorLoadState::class,
+                    run = { colorToolbar(R.color.colorAccent) },
+                    elseRun = { colorToolbar(R.color.colorPrimary) })
+            }
     }
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
@@ -62,16 +83,20 @@ class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoS
 
     override fun getLoadStateRenderer() = renderer
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
+    override fun onCreate(
+        savedInstanceState: Bundle?,
+        persistentState: PersistableBundle?,
+        viewRecreated: Boolean
+    ) {
         initViews()
         initListeners()
     }
 
     override fun renderInternal(screenModel: DefaultRendererDemoScreenModel) {
-        adapter.setItems(ItemList.create()
-                .addAll(screenModel.itemList, exampleDataItemController))
+        adapter.setItems(
+            ItemList.create()
+                .addAll(screenModel.itemList, exampleDataItemController)
+        )
     }
 
     private fun initViews() {

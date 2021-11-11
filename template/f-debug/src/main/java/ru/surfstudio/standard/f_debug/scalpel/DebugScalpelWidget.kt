@@ -59,29 +59,6 @@ class DebugScalpelWidget(context: Context) : RelativeLayout(context) {
                 debugScalpel.setDrawViews(enabled)
             }
 
-            //Range Bar
-            debugViewsLayersScalpelSettings.setOnRangeBarChangeListener { rangeBar, leftPinIndex, rightPinIndex, leftPinValue, rightPinValue ->
-                debugScalpel.currentStartViewLayer = leftPinIndex
-                debugScalpel.currentEndViewLayer = rightPinIndex
-            }
-
-            disposable.add(Observable.interval(2000, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
-                        debugScalpel.let { scalpel ->
-                            with(debugViewsLayersScalpelSettings) {
-                                val lastTickEnd = tickEnd.toInt()
-                                if (lastTickEnd != scalpel.endViewLayer) {
-                                    tickEnd = scalpel.endViewLayer.toFloat()
-                                    if (rightIndex == lastTickEnd) {
-                                        setRangePinsByIndices(scalpel.currentStartViewLayer, scalpel.endViewLayer)
-                                    }
-                                }
-                            }
-                        }
-
-                    })
-
             //Hide Btn
             debugHideScalpelSettingsBtn.setOnClickListener {
                 toggleSettingsVisibility()
