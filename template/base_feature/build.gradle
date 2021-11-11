@@ -4,6 +4,7 @@ apply from: '../unitTestConfiguration.gradle'
 
 dependencies {
     api project(":base")
+    api project(":base_resources")
     api project(":v-message-controller-top")
 
     //debug
@@ -13,6 +14,7 @@ dependencies {
 
     implementation project(":i-push-notification")
     implementation project(":i-auth")
+    implementation project(":i-onboarding")
     implementation project(":i-network")
     implementation project(":i-token")
     implementation project(":i-initialization")

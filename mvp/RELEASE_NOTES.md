@@ -7,6 +7,8 @@
 - [0.2.1](#021)
 
 ## 0.5.1-alpha
+##### Ferro-rx
+* Init module for backward compatibility
 ##### Core-mvp
 * TODO
 ## 0.5.0

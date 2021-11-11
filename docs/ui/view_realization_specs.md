@@ -53,9 +53,6 @@
 **независящим** от фреймворка и поставляемым в презентер через *Dagger*.
 (например проверка наличия модуля GCM или подписка на [`BroadcastReceiver`][broadcast])
 
-* Вместо нативного ProgressBar используем MaterialProgressBar из этой библиотеки
-(для стилизации элемента на prelollipop-устройствах).
-
 * [PlaceHolderViewContainer](../../custom-view/lib-custom-view/src/main/java/ru/surfstudio/android/custom/view/placeholder/PlaceHolderViewContainer.kt) - кастомизируемый плейсхолдер
 для различных лоад-стейтов.
 

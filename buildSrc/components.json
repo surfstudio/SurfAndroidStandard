@@ -242,7 +242,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 11,
+    "unstable_version": 12,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -533,7 +533,7 @@
   {
     "id": "mvi",
     "version": "0.5.1",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -630,6 +630,10 @@
           }
         ],
         "android_standard_dependencies": [
+          {
+            "name": "ferro-rx",
+            "type": "implementation"
+          },
           {
             "name": "mvi-core",
             "type": "api"
@@ -770,9 +774,9 @@
   },
   {
     "id": "core-ui",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.5.1",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "core-ui",
     "libs": [
       {
@@ -797,10 +801,6 @@
             "type": "implementation"
           },
           {
-            "name": "com.agna.ferro:ferro-rx",
-            "type": "implementation"
-          },
-          {
             "name": "androidx.appcompat:appcompat",
             "type": "implementation"
           },
@@ -814,6 +814,10 @@
           }
         ],
         "android_standard_dependencies": [
+          {
+            "name": "ferro-rx",
+            "type": "implementation"
+          },
           {
             "name": "logger",
             "type": "implementation"
@@ -851,11 +855,11 @@
         "artifact_name": "core-navigation",
         "third_party_dependencies": [
           {
-            "name": "com.agna.ferro:ferro-rx",
+            "name": "com.google.android.play:core",
             "type": "implementation"
           },
           {
-            "name": "com.google.android.play:core",
+            "name": "androidx.browser:browser",
             "type": "implementation"
           },
           {
@@ -864,6 +868,10 @@
           }
         ],
         "android_standard_dependencies": [
+          {
+            "name": "ferro-rx",
+            "type": "implementation"
+          },
           {
             "name": "core-ui",
             "type": "implementation"
@@ -895,7 +903,7 @@
   {
     "id": "permission",
     "version": "0.5.1",
-    "unstable_version": 1,
+    "unstable_version": 3,
     "stable": false,
     "dir": "permission",
     "libs": [
@@ -939,13 +947,12 @@
         "name": "permission-deprecated",
         "dir": "lib-permission-deprecated",
         "artifact_name": "permission-deprecated",
-        "third_party_dependencies": [
-          {
-            "name": "com.agna.ferro:ferro-rx",
-            "type": "implementation"
-          }
-        ],
+        "third_party_dependencies": [],
         "android_standard_dependencies": [
+          {
+            "name": "ferro-rx",
+            "type": "implementation"
+          },
           {
             "name": "logger",
             "type": "implementation"
@@ -980,9 +987,9 @@
   },
   {
     "id": "custom-view",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.5.1",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "custom-view",
     "libs": [
       {
@@ -990,14 +997,6 @@
         "dir": "lib-custom-view",
         "artifact_name": "custom-view",
         "third_party_dependencies": [
-          {
-            "name": "me.zhanghai.android.materialprogressbar:library",
-            "type": "api"
-          },
-          {
-            "name": "com.wang.avi:library",
-            "type": "api"
-          },
           {
             "name": "com.google.android.material:material",
             "type": "implementation"
@@ -1333,7 +1332,7 @@
   {
     "id": "location",
     "version": "0.5.1",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "location",
     "libs": [
@@ -1423,9 +1422,9 @@
   },
   {
     "id": "message-controller",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "message-controller",
     "libs": [
       {
@@ -1453,19 +1452,35 @@
   {
     "id": "mvp",
     "version": "0.5.1",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "mvp",
     "libs": [
+      {
+        "name": "ferro-rx",
+        "dir": "lib-ferro-rx",
+        "artifact_name": "core-ferro-rx",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.mockito:mockito-core",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      },
       {
         "name": "core-mvp",
         "dir": "lib-core-mvp",
         "artifact_name": "core-mvp",
         "third_party_dependencies": [
-          {
-            "name": "com.agna.ferro:ferro-rx",
-            "type": "api"
-          },
           {
             "name": "junit:junit",
             "type": "testImplementation"
@@ -1500,6 +1515,10 @@
           }
         ],
         "android_standard_dependencies": [
+          {
+            "name": "ferro-rx",
+            "type": "api"
+          },
           {
             "name": "logger",
             "type": "implementation"
@@ -1747,7 +1766,7 @@
   {
     "id": "navigation",
     "version": "0.5.1",
-    "unstable_version": 0,
+    "unstable_version": 2,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1896,7 +1915,7 @@
   {
     "id": "picture-provider",
     "version": "0.5.1",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "picture-provider",
     "libs": [
@@ -1982,9 +2001,9 @@
   },
   {
     "id": "push",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "push",
     "libs": [
       {
@@ -2360,7 +2379,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 56,
+    "unstable_version": 59,
     "stable": false,
     "dir": "template",
     "libs": [],
@@ -2393,7 +2412,7 @@
   {
     "id": "docs",
     "version": "0.5.0",
-    "unstable_version": 18,
+    "unstable_version": 19,
     "stable": false,
     "dir": "docs",
     "libs": [],

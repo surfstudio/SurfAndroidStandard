@@ -3,10 +3,14 @@ apply from: '../commonKaptModule.gradle'
 
 
 dependencies {
+    gradle.ext.androidStandard.api(
+            this,
+            ["message-controller"]
+    )
+
     implementation project(":base")
     implementation project(":i-push-notification")
     implementation project(":i-network")
-    implementation project(":v-message-controller-top")
 
     implementation rxBinding4.core
 
@@ -20,8 +24,6 @@ dependencies {
 
     implementation stetho.core
     implementation stetho.okHttp
-
-    implementation view.materialRangeBar
 
     implementation androidX.constraintLayout
 
