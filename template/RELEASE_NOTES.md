@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* Fix rxbinding dependency
 * Remove jcenter()
 * Remove MaterialProgressBar
 * Template updates:

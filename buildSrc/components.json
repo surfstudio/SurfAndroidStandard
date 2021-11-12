@@ -699,18 +699,6 @@
             "type": "api"
           },
           {
-            "name": "com.jakewharton.rxbinding2:rxbinding",
-            "type": "api"
-          },
-          {
-            "name": "com.jakewharton.rxbinding2:rxbinding-kotlin",
-            "type": "api"
-          },
-          {
-            "name": "com.jakewharton.rxbinding2:rxbinding-appcompat-v7",
-            "type": "api"
-          },
-          {
             "name": "com.jakewharton.rxrelay2:rxrelay",
             "type": "api"
           },

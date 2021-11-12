@@ -47,7 +47,7 @@ ext {
             okHttpVersion                   : '4.9.2',              //https://vk.cc/7UFwTd
             retrofitVersion                 : '2.9.0',              //https://vk.cc/7UFxk3
             chuckVersion                    : '1.1.0',              //https://bit.ly/2qCecTE
-            rxBinding4Version               : '4.0.0',              //https://goo.gl/KQ5Vga
+            rxBinding2Version               : '2.2.0',              //https://goo.gl/KQ5Vga
             stethoVersion                   : '1.5.1',              //https://bit.ly/2eZ3YI7
             tinyDancerVersion               : '0.1.2',              //https://bit.ly/2Bluq9P
             processPhoenixVersion           : '2.0.0',              //https://bit.ly/2OAc0po
@@ -104,9 +104,9 @@ ext {
             chuck: "com.readystatesoftware.chuck:library:${versions.chuckVersion}"
     ]
 
-    rxBinding4 = [
-            core    : "com.jakewharton.rxbinding4:rxbinding:${versions.rxBinding4Version}",
-            material: "com.jakewharton.rxbinding4:rxbinding-material:${versions.rxBinding4Version}"
+    rxBinding2 = [
+            core       : "com.jakewharton.rxbinding2:rxbinding:${versions.rxBinding2Version}",
+            kotlin     : "com.jakewharton.rxbinding2:rxbinding-kotlin:${versions.rxBinding2Version}",
     ]
 
     test = [

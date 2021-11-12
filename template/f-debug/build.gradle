@@ -12,7 +12,7 @@ dependencies {
     implementation project(":i-push-notification")
     implementation project(":i-network")
 
-    implementation rxBinding4.core
+    implementation rxBinding2.core
 
     implementation debug.processPhoenix
     implementation debug.androidDebugTools

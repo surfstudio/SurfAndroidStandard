@@ -65,7 +65,6 @@ ext {
             "io.reactivex.rxjava2:rxandroid"                   : "2.1.1",        //https://goo.gl/3Kd3iP
             "io.reactivex.rxjava2:rxkotlin"                    : "2.4.0",        //https://bit.ly/2yaZ7zn
             "com.jakewharton.rxrelay2:rxrelay"                 : "2.1.1",        //https://goo.gl/E643M0
-            "com.jakewharton.rxbinding2:rxbinding-appcompat-v7": "2.2.0",        //https://goo.gl/KQ5Vga
             "com.jakewharton.rxbinding2:rxbinding"             : "2.2.0",        //https://goo.gl/KQ5Vga
             "com.jakewharton.rxbinding2:rxbinding-kotlin"      : "2.2.0",        //https://goo.gl/KQ5Vga
             "javax.inject:javax.inject"                        : "1",            //https://goo.gl/cM9Kcd
