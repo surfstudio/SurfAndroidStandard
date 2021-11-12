@@ -1,9 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ru.surfstudio.android.location_sample">
-    
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name="ru.surfstudio.android.location.sample.app.CustomApp"
         android:allowBackup="true"
@@ -11,24 +12,26 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        
+        android:theme="@style/AppTheme"
+        tools:node="replace">
+
         <activity
             android:name="ru.surfstudio.android.location.sample.ui.screen.start.MainActivity"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <activity
             android:name="ru.surfstudio.android.location.sample.ui.screen.default_location_interactor_sample.DefaultLocationInteractorActivityView"
-            android:screenOrientation="portrait"/>
-        
+            android:screenOrientation="portrait" />
+
         <activity
             android:name="ru.surfstudio.android.location.sample.ui.screen.location_service_sample.LocationServiceActivityView"
-            android:screenOrientation="portrait"/>
-        
+            android:screenOrientation="portrait" />
+
     </application>
 </manifest>
