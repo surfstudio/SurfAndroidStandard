@@ -32,7 +32,7 @@ ext {
             androidXVersion                 : '1.3.1',              //http://bit.ly/2zjueqh
             androidxTestCoreVersion         : '1.3.0',              //http://bit.ly/2P1yKi1
             androidxTestExtJunitVersion     : '1.1.2',              //http://bit.ly/2zC6UV1
-            androidxAnnotationVersion       : '1.2.0',              //http://bit.ly/2P3QBVO
+            androidxAnnotationVersion       : '1.3.0',              //http://bit.ly/2P3QBVO
             androidXTestRunnerVersion       : '1.4.0',              //http://bit.ly/2ztEfBo
             androidXEspressoCoreVersion     : '3.4.0',              //http://bit.ly/2DNc0AA
             androidXEspressoIntentsVersion  : '3.4.0',              //http://bit.ly/2SikuDT
