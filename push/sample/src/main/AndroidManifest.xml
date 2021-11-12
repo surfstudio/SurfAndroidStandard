@@ -25,7 +25,9 @@
         <activity android:name=".ui.screen.push.PushActivityView" />
         <activity android:name=".ui.screen.push.data.DataPushActivityView" />
 
-        <service android:name=".ui.common.notification.FirebaseMessagingService">
+        <service
+            android:name=".ui.common.notification.FirebaseMessagingService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
