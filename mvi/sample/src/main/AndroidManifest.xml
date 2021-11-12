@@ -18,7 +18,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.surfstudio.android.core.mvi.sample">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="ru.surfstudio.android.sample.dagger.app.DefaultApp"
@@ -32,6 +32,7 @@
 
         <activity
             android:name=".ui.screen.reactor_based.main.MainActivityView"
+            android:exported="true"
             android:label="Surf MVI Sample">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

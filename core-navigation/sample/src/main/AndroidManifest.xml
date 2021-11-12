@@ -10,7 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="ru.surfstudio.android.core.navigation.sample.ui.screen.main.MainActivityView">
+        <activity
+            android:name="ru.surfstudio.android.core.navigation.sample.ui.screen.main.MainActivityView"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

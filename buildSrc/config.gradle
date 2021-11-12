@@ -23,9 +23,9 @@ ext {
     projectVersion = -1
 
     libMinSdkVersion = 17
-    sampleMinSdkVersion = 18
-    targetSdkVersion = 30
-    compileSdkVersion = 30
+    sampleMinSdkVersion = 19
+    targetSdkVersion = 31
+    compileSdkVersion = 31
     debugVersionNameSuffix = ".debug"
     qaVersionNameSuffix = ".qa"
 
@@ -43,6 +43,7 @@ ext {
             "androidx.recyclerview:recyclerview"               : "1.2.1",        //https://bit.ly/33s8ohH
             "androidx.core:core"                               : "1.7.0",        //https://bit.ly/2yYY82h
             "androidx.core:core-ktx"                           : "1.7.0",        //http://bit.ly/2qY7ffW
+            "androidx.swiperefreshlayout:swiperefreshlayout"   : "1.1.0",        //https://bit.ly/3gDcMjB
             "androidx.constraintlayout:constraintlayout"       : "2.1.1",        //http://bit.ly/2S1WoNg
             "androidx.appcompat:appcompat"                     : "1.3.1",        //http://bit.ly/2zjueqh
             "androidx.lifecycle:lifecycle-runtime-ktx"         : "2.2.0",        //https://bit.ly/3anEaR2

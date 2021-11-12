@@ -1492,6 +1492,10 @@
           {
             "name": "androidx.annotation:annotation",
             "type": "implementation"
+          },
+          {
+            "name": "androidx.swiperefreshlayout:swiperefreshlayout",
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [

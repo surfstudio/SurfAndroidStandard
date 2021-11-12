@@ -128,7 +128,7 @@ open class CarouselView<T> @JvmOverloads constructor(
     private fun getCenterChild(drawRect: Rect): View? {
         val parentCenter = drawRect.also { this.getWindowVisibleDisplayFrame(it) }.centerX()
         return children.asSequence()
-                .minBy { view ->
+                .minByOrNull { view ->
                     (parentCenter - drawRect.also { view.getGlobalVisibleRect(it) }.centerX())
                             .absoluteValue
                 }
