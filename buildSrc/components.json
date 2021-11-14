@@ -2411,5 +2411,34 @@
     "samples": [],
     "has_mirror": false,
     "mirror_repo": ""
+  },
+  {
+    "id": "common-tools",
+    "version": "0.5.0",
+    "unstable_version": 0,
+    "stable": false,
+    "dir": "common-tools",
+    "libs": [
+      {
+        "name": "status-bar-switcher",
+        "dir": "lib-status-bar-switcher",
+        "artifact_name": "status-bar-switcher",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.palette:palette-ktx",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": [
+      {
+        "name": "common-tools-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
   }
 ]
