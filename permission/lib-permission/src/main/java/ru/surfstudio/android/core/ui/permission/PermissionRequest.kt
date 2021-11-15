@@ -17,8 +17,6 @@ package ru.surfstudio.android.core.ui.permission
 
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 
-private const val MAX_REQUEST_CODE = 32768
-
 /**
  * Базовый класс запроса Runtime Permissions.
  */

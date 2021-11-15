@@ -15,8 +15,10 @@
  */
 package ru.surfstudio.android.core.ui.permission
 
+import android.Manifest
 import android.app.Activity
 import android.content.SharedPreferences
+import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
@@ -55,7 +57,7 @@ open class PermissionManager(
     private var permissionDisposable = Disposables.disposed()
 
     init {
-        //что бы очистить старые результаты
+        //чтобы очистить старые результаты
         subscribeToSettingsResult()
         subscribeToRationalResult()
         subscribeToPermissionResult()
@@ -126,17 +128,17 @@ open class PermissionManager(
     private fun subscribeToSettingsResult() {
         val route = DefaultSettingsRationalRoute("")
         settingsDisposable = screenResultObserver
-                .observeScreenResult(route)
-                .firstElement()
-                .subscribe()
+            .observeScreenResult(route)
+            .firstElement()
+            .subscribe()
     }
 
     private fun subscribeToRationalResult() {
         val route = DefaultPermissionRationalRoute("")
         rationalDisposable = screenResultObserver
-                .observeScreenResult(route)
-                .firstElement()
-                .subscribe()
+            .observeScreenResult(route)
+            .firstElement()
+            .subscribe()
     }
 
     private fun subscribeToPermissionResult() {
@@ -153,10 +155,22 @@ open class PermissionManager(
         rationalDisposable.dispose()
     }
 
-    private fun isPermissionRequestGranted(permissionRequest: PermissionRequest): Single<Boolean> =
-        Observable.fromArray(*permissionRequest.permissions)
+    private fun isPermissionRequestGranted(permissionRequest: PermissionRequest): Single<Boolean> {
+        val requestPermissions = permissionRequest.permissions
+        val locationPermissions = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        val observable = Observable.fromArray(*requestPermissions)
             .flatMapSingle { isPermissionGranted(it) }
-            .all { it }
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            requestPermissions.contentEquals(locationPermissions)
+        ) {
+            observable.any { it }
+        } else {
+            observable.all { it }
+        }
+    }
 
     private fun isPermissionRequestDenied(permissionRequest: PermissionRequest): Boolean =
         shouldShowRequestPermissionRationale(permissionRequest)
