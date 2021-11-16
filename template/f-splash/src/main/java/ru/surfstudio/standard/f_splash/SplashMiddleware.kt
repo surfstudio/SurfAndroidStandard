@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.f_splash
 
+import android.os.Build
 import io.reactivex.Completable
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddleware
@@ -43,7 +44,12 @@ class SplashMiddleware @Inject constructor(
             }
 
     private fun mergeInitDelay(): Observable<String> {
-        val delay = Completable.timer(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
+        val transitionDelay = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            TRANSITION_DELAY_MS / 4
+        } else {
+            TRANSITION_DELAY_MS
+        }
+        val delay = Completable.timer(transitionDelay, TimeUnit.MILLISECONDS)
         val worker = initializeAppInteractor.initialize()
         return Completable.merge(arrayListOf(delay, worker))
                 .io()

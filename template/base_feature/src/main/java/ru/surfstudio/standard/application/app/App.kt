@@ -3,6 +3,8 @@ package ru.surfstudio.standard.application.app
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.StrictMode
 import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.github.anrwatchdog.ANRWatchDog
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -31,6 +33,7 @@ class App : Application() {
 
         initAnrWatchDog()
         initLog()
+        initVmPolicy()
 
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
@@ -63,6 +66,16 @@ class App : Application() {
         Logger.addLoggingStrategy(TimberLoggingStrategy())
         Logger.addLoggingStrategy(RemoteLoggerLoggingStrategy())
         RemoteLogger.addRemoteLoggingStrategy(FirebaseCrashlyticsRemoteLoggingStrategy())
+    }
+
+    private fun initVmPolicy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val policy = StrictMode.VmPolicy.Builder()
+                .detectUnsafeIntentLaunch()
+                .build()
+
+            StrictMode.setVmPolicy(policy)
+        }
     }
 
     private fun initRxJava2Debug() {

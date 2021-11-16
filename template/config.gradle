@@ -10,8 +10,8 @@ ext {
 
     meta = [
             minSdkVersion         : 21,
-            targetSdkVersion      : 30,
-            compileSdkVersion     : 30,
+            targetSdkVersion      : 31,
+            compileSdkVersion     : 31,
             debugVersionNameSuffix: ".debug",
             qaVersionNameSuffix   : ".qa"
     ]
@@ -51,7 +51,7 @@ ext {
             stethoVersion                   : '1.5.1',              //https://bit.ly/2eZ3YI7
             tinyDancerVersion               : '0.1.2',              //https://bit.ly/2Bluq9P
             processPhoenixVersion           : '2.0.0',              //https://bit.ly/2OAc0po
-            leakCanaryVersion               : '2.2',                //https://goo.gl/w3pm32
+            leakCanaryVersion               : '2.7',                //https://goo.gl/w3pm32
             anrWatchDogVersion              : '1.4.0',              //http://bit.ly/2NZvjZc
             timberVersion                   : '5.0.1',              //http://bit.ly/2LWbLaY
             rxJava2DebugVersion             : '1.4.0',              //https://bit.ly/322Qzo7
@@ -61,7 +61,8 @@ ext {
             gsonVersion                     : '2.8.9',              //https://bit.ly/3sMIrVs
             detektVersion                   : '1.17.1',             //https://bit.ly/3hZpBsp
             glideVersion                    : "4.12.0",             //http://bit.ly/2Q7Fa41
-            googleMaterialVersion           : "1.4.0"               // http://bit.ly/2KAAq1y
+            googleMaterialVersion           : "1.4.0",              // http://bit.ly/2KAAq1y
+            splashVersion                   : "1.0.0-alpha02"       // https://bit.ly/3meXtSz
     ]
 
 
@@ -78,6 +79,7 @@ ext {
     ]
 
     androidX = [
+            splash          : "androidx.core:core-splashscreen:${versions.splashVersion}",
             appcompat       : "androidx.appcompat:appcompat:${versions.androidXVersion}",
             annotation      : "androidx.annotation:annotation:${versions.androidxAnnotationVersion}",
             constraintLayout: "androidx.constraintlayout:constraintlayout:${versions.constraintLayoutVersion}"
@@ -105,8 +107,8 @@ ext {
     ]
 
     rxBinding2 = [
-            core       : "com.jakewharton.rxbinding2:rxbinding:${versions.rxBinding2Version}",
-            kotlin     : "com.jakewharton.rxbinding2:rxbinding-kotlin:${versions.rxBinding2Version}",
+            core  : "com.jakewharton.rxbinding2:rxbinding:${versions.rxBinding2Version}",
+            kotlin: "com.jakewharton.rxbinding2:rxbinding-kotlin:${versions.rxBinding2Version}",
     ]
 
     test = [
@@ -128,8 +130,8 @@ ext {
     ]
 
     view = [
-            glide           : "com.github.bumptech.glide:glide:${versions.glideVersion}",
-            material        : "com.google.android.material:material:${versions.googleMaterialVersion}"
+            glide   : "com.github.bumptech.glide:glide:${versions.glideVersion}",
+            material: "com.google.android.material:material:${versions.googleMaterialVersion}"
     ]
 
     debug = [

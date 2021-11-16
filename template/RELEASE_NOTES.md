@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* Update for Android 12
 * Fix rxbinding dependency
 * Remove jcenter()
 * Remove MaterialProgressBar
