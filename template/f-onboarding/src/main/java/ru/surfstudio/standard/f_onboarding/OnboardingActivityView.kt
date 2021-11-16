@@ -1,23 +1,18 @@
 package ru.surfstudio.standard.f_onboarding
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import com.jakewharton.rxbinding2.view.clicks
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment
 import ru.surfstudio.android.core.ui.view_binding.viewBinding
-import ru.surfstudio.standard.f_onboarding.databinding.FragmentOnboardingBinding
+import ru.surfstudio.standard.f_onboarding.databinding.ActivityOnboardingBinding
 import ru.surfstudio.standard.f_onboarding.di.OnboardingScreenConfigurator
-import ru.surfstudio.standard.ui.mvi.view.BaseMviFragmentView
+import ru.surfstudio.standard.ui.mvi.view.BaseMviActivityView
 import javax.inject.Inject
 
 /**
  * Вью экрана онбординга
  */
-internal class OnboardingFragmentView : BaseMviFragmentView<OnboardingState, OnboardingEvent>(), CrossFeatureFragment {
+internal class OnboardingActivityView : BaseMviActivityView<OnboardingState, OnboardingEvent>(), CrossFeatureFragment {
 
     @Inject
     override lateinit var hub: ScreenEventHub<OnboardingEvent>
@@ -25,15 +20,13 @@ internal class OnboardingFragmentView : BaseMviFragmentView<OnboardingState, Onb
     @Inject
     override lateinit var sh: OnboardingStateHolder
 
-    private val binding by viewBinding(FragmentOnboardingBinding::bind)
+    private val binding by viewBinding(ActivityOnboardingBinding::bind) { rootView }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View = inflater.inflate(R.layout.fragment_onboarding, container, false)
+    override fun getContentView(): Int = R.layout.activity_onboarding
 
-    override fun createConfigurator() = OnboardingScreenConfigurator(bundleOf())
+    override fun createConfigurator() = OnboardingScreenConfigurator(intent)
 
-    override fun getScreenName(): String = "OnboardingFragmentView"
+    override fun getScreenName(): String = "OnboardingActivityView"
 
     override fun initViews() {
         //TODO расширить реализацию при создании приложения

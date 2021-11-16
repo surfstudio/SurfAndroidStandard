@@ -5,6 +5,7 @@
 
 ## 0.5.1-alpha
 ##### Permission
+* Update PermissionManager for Android 12 requirements
 * ANDDEP-1226 Added `permission-deprecated` module that grants backward compatibility if enabled along with other `-deprecated` modules in project.
 ## 0.5.0
 ##### Permission

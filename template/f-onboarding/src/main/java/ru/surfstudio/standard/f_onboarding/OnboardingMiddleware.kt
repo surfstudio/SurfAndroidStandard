@@ -9,7 +9,6 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.i_onboarding.OnBoardingStorage
 import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
 import ru.surfstudio.standard.ui.mvi.navigation.extension.builder
-import ru.surfstudio.standard.ui.mvi.navigation.extension.finish
 import ru.surfstudio.standard.ui.mvi.navigation.extension.finishAffinity
 import ru.surfstudio.standard.ui.mvi.navigation.extension.start
 import ru.surfstudio.standard.ui.navigation.routes.MainActivityRoute

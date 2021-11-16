@@ -117,9 +117,9 @@
   },
   {
     "id": "app-migration",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "app-migration",
     "libs": [
       {
@@ -699,18 +699,6 @@
             "type": "api"
           },
           {
-            "name": "com.jakewharton.rxbinding2:rxbinding",
-            "type": "api"
-          },
-          {
-            "name": "com.jakewharton.rxbinding2:rxbinding-kotlin",
-            "type": "api"
-          },
-          {
-            "name": "com.jakewharton.rxbinding2:rxbinding-appcompat-v7",
-            "type": "api"
-          },
-          {
             "name": "com.jakewharton.rxrelay2:rxrelay",
             "type": "api"
           },
@@ -1193,9 +1181,9 @@
   },
   {
     "id": "filestorage",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "filestorage",
     "libs": [
       {
@@ -1247,9 +1235,9 @@
   },
   {
     "id": "google-pay-button",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "google-pay-button",
     "libs": [
       {
@@ -1285,9 +1273,9 @@
   },
   {
     "id": "imageloader",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "imageloader",
     "libs": [
       {
@@ -1451,7 +1439,7 @@
       {
         "name": "ferro-rx",
         "dir": "lib-ferro-rx",
-        "artifact_name": "core-ferro-rx",
+        "artifact_name": "ferro-rx",
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
@@ -1503,6 +1491,10 @@
           },
           {
             "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.swiperefreshlayout:swiperefreshlayout",
             "type": "implementation"
           }
         ],
@@ -1556,6 +1548,10 @@
           },
           {
             "name": "androidx.constraintlayout:constraintlayout",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.swiperefreshlayout:swiperefreshlayout",
             "type": "implementation"
           },
           {
@@ -2249,9 +2245,9 @@
   },
   {
     "id": "shared-pref",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "shared-pref",
     "libs": [
       {
@@ -2329,9 +2325,9 @@
   },
   {
     "id": "util-ktx",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "util-ktx",
     "libs": [
       {

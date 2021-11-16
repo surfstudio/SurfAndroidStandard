@@ -17,6 +17,7 @@ package ru.surfstudio.android.utilktx.util
 
 
 import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 import ru.surfstudio.android.utilktx.util.SdkUtils.isPreLollipop
 
 /**
@@ -26,15 +27,29 @@ object SdkUtils {
 
     fun isPreLollipop(): Boolean = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.LOLLIPOP)
     fun isAtLeastLollipop(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.M)
     fun isAtLeastMarshmallow(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
     fun isAtLeastNougat(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)
     fun isAtLeastOreo(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)
     fun isAtLeastPie(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
+    fun isAtLeastQ(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)
+    fun isAtLeastR(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
+    fun isAtLeastS(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
     /**
      * Запускает блок кода на устройствах с андроид версии KitKat и ниже
@@ -42,7 +57,7 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnPreLollipop(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (isPreLollipop()) {
             block()
         }
     }
@@ -53,7 +68,7 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnLollipop(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (isAtLeastLollipop()) {
             block()
         }
     }
@@ -64,7 +79,7 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnMarshmallow(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (isAtLeastMarshmallow()) {
             block()
         }
     }
@@ -75,7 +90,7 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnNoughat(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (isAtLeastNougat()) {
             block()
         }
     }
@@ -86,7 +101,7 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnOreo(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (isAtLeastOreo()) {
             block()
         }
     }
@@ -97,7 +112,40 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnPie(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        if (isAtLeastPie()) {
+            block()
+        }
+    }
+
+    /**
+     * Запускает блок кода на устройствах с андроид версии Q и выше
+     *
+     * @param block запускаемый блок кода
+     */
+    fun runOnQ(block: () -> Unit) {
+        if (isAtLeastQ()) {
+            block()
+        }
+    }
+
+    /**
+     * Запускает блок кода на устройствах с андроид версии R и выше
+     *
+     * @param block запускаемый блок кода
+     */
+    fun runOnR(block: () -> Unit) {
+        if (isAtLeastR()) {
+            block()
+        }
+    }
+
+    /**
+     * Запускает блок кода на устройствах с андроид версии S и выше
+     *
+     * @param block запускаемый блок кода
+     */
+    fun runOnS(block: () -> Unit) {
+        if (isAtLeastS()) {
             block()
         }
     }
@@ -106,47 +154,5 @@ object SdkUtils {
      * Запускает ту, или иную лямбду в зависимости какая версия api на устройстве
      */
     fun doIfSdk(atLeast: Boolean, ifTrue: () -> Unit, ifFalse: () -> Unit) =
-            if (atLeast) ifTrue() else ifFalse()
-
-    //region Deprecated
-    @Deprecated(
-            message = "Необходимо заменить на метод SdkUtils.isPreLollipop()",
-            replaceWith = ReplaceWith("Sdk.isPreLollipop()")
-    )
-    val isPreLollipop: Boolean
-        @JvmName("isPreLollipopDeprecated")
-        get() = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP
-
-    @Deprecated(
-            message = "Необходимо заменить на SdkUtils.isAtLeastLollipop()",
-            replaceWith = ReplaceWith("SdkUtils.isAtLeastLollipop()")
-    )
-    val isAtLeastLollipop: Boolean
-        @JvmName("isAtLeastLollipopDeprecated")
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-
-    @Deprecated(
-            message = "Необходимо заменить на SdkUtils.isAtLeastMarshmallow()",
-            replaceWith = ReplaceWith("SdkUtils.isAtLeastMarshmallow()")
-    )
-    val isAtLeastMarshmallow: Boolean
-        @JvmName("isAtLeastMarshmallowDeprecated")
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-
-    @Deprecated(
-            message = "Необходимо заменить на SdkUtils.isAtLeastNougat()",
-            replaceWith = ReplaceWith("SdkUtils.isAtLeastNougat()")
-    )
-    val isAtLeastNougat: Boolean
-        @JvmName("isAtLeastNougatDeprecated")
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-
-    @Deprecated(
-            message = "Необходимо заменить на SdkUtils.isAtLeastOreo()",
-            replaceWith = ReplaceWith("SdkUtils.isAtLeastOreo()")
-    )
-    val isAtLeastOreo: Boolean
-        @JvmName("isAtLeastOreoDeprecated")
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-    //endregion
+        if (atLeast) ifTrue() else ifFalse()
 }

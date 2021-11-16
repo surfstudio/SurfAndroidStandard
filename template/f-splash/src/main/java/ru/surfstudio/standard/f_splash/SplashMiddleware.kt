@@ -5,16 +5,15 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
-import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
+import ru.surfstudio.android.utilktx.util.SdkUtils
 import ru.surfstudio.standard.f_splash.SplashEvent.Navigation
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_onboarding.OnBoardingStorage
 import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
 import ru.surfstudio.standard.ui.mvi.navigation.extension.*
 import ru.surfstudio.standard.ui.navigation.routes.MainActivityRoute
-import ru.surfstudio.standard.ui.navigation.routes.OnboardingFragmentRoute
+import ru.surfstudio.standard.ui.navigation.routes.OnboardingActivityRoute
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -43,7 +42,12 @@ class SplashMiddleware @Inject constructor(
             }
 
     private fun mergeInitDelay(): Observable<String> {
-        val delay = Completable.timer(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
+        val transitionDelay = if (SdkUtils.isAtLeastS()) {
+            TRANSITION_DELAY_MS / 4
+        } else {
+            TRANSITION_DELAY_MS
+        }
+        val delay = Completable.timer(transitionDelay, TimeUnit.MILLISECONDS)
         val worker = initializeAppInteractor.initialize()
         return Completable.merge(arrayListOf(delay, worker))
                 .io()
@@ -52,13 +56,11 @@ class SplashMiddleware @Inject constructor(
     }
 
     private fun openNextScreen(): SplashEvent {
-        return if (onBoardingStorage.shouldShowOnBoardingScreen) {
-            Navigation().replace(
-                    OnboardingFragmentRoute(),
-                    sourceTag = FragmentNavigationCommand.ACTIVITY_NAVIGATION_TAG,
-            )
-        } else {
-            Navigation().replace(MainActivityRoute())
-        }
+        return Navigation().replace(
+            if (onBoardingStorage.shouldShowOnBoardingScreen)
+                OnboardingActivityRoute()
+            else
+                MainActivityRoute()
+        )
     }
 }
