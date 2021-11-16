@@ -3,7 +3,6 @@ package ru.surfstudio.standard.application.app
 import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.StrictMode
 import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.github.anrwatchdog.ANRWatchDog
@@ -17,6 +16,7 @@ import ru.surfstudio.android.notification.ui.PushEventListener
 import ru.surfstudio.android.template.base_feature.BuildConfig
 import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.android.utilktx.ktx.ui.activity.ActivityLifecycleListener
+import ru.surfstudio.android.utilktx.util.SdkUtils
 import ru.surfstudio.standard.application.app.di.AppInjector
 import ru.surfstudio.standard.application.logger.strategies.remote.FirebaseCrashlyticsRemoteLoggingStrategy
 import ru.surfstudio.standard.application.logger.strategies.remote.RemoteLoggerLoggingStrategy
@@ -69,7 +69,7 @@ class App : Application() {
     }
 
     private fun initVmPolicy() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (SdkUtils.isAtLeastS()) {
             val policy = StrictMode.VmPolicy.Builder()
                 .detectUnsafeIntentLaunch()
                 .build()

@@ -1,12 +1,12 @@
 package ru.surfstudio.standard.f_splash
 
-import android.os.Build
 import io.reactivex.Completable
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
+import ru.surfstudio.android.utilktx.util.SdkUtils
 import ru.surfstudio.standard.f_splash.SplashEvent.Navigation
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_onboarding.OnBoardingStorage
@@ -42,7 +42,7 @@ class SplashMiddleware @Inject constructor(
             }
 
     private fun mergeInitDelay(): Observable<String> {
-        val transitionDelay = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val transitionDelay = if (SdkUtils.isAtLeastS()) {
             TRANSITION_DELAY_MS / 4
         } else {
             TRANSITION_DELAY_MS

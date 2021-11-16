@@ -42,6 +42,7 @@ import java.io.Serializable
 /**
  * Класс для проверки и запросов разрешений.
  */
+@Deprecated("Prefer using new implementation")
 abstract class PermissionManager(
     eventDelegateManager: ScreenEventDelegateManager,
     private val activityProvider: ActivityProvider,
