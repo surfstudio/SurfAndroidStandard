@@ -46,7 +46,7 @@ ext {
             firebaseCrashlyticsGradleVersion: '2.8.0',              //http://bit.ly/2RM7ec2
             okHttpVersion                   : '4.9.2',              //https://vk.cc/7UFwTd
             retrofitVersion                 : '2.9.0',              //https://vk.cc/7UFxk3
-            chuckVersion                    : '1.1.0',              //https://bit.ly/2qCecTE
+            chuckerVersion                  : '3.5.2',              //https://bit.ly/3tVySEV
             rxBinding2Version               : '2.2.0',              //https://goo.gl/KQ5Vga
             stethoVersion                   : '1.5.1',              //https://bit.ly/2eZ3YI7
             tinyDancerVersion               : '0.1.2',              //https://bit.ly/2Bluq9P
@@ -103,7 +103,7 @@ ext {
     ]
 
     network = [
-            chuck: "com.readystatesoftware.chuck:library:${versions.chuckVersion}"
+            chucker  : "com.github.ChuckerTeam.Chucker:library:${versions.chuckerVersion}",
     ]
 
     rxBinding2 = [

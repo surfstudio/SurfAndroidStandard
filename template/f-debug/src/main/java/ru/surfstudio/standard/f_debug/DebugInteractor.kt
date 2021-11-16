@@ -1,6 +1,8 @@
 package ru.surfstudio.standard.f_debug
 
 import android.app.Application
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.codemonkeylabs.fpslibrary.TinyDancer
 import com.facebook.stetho.Stetho
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -94,11 +96,16 @@ class DebugInteractor @Inject constructor(
         }
 
     /**
-     * Добавляет [ChuckInterceptor], [StethoInterceptor] в [OkHttpClient] если в настройках включено
+     * Добавляет [ChuckerInterceptor], [StethoInterceptor] в [OkHttpClient] если в настройках включено
      */
     fun configureOkHttp(okHttpBuilder: OkHttpClient.Builder) {
         if (debugServerSettingsStorage.isChuckEnabled) {
-            okHttpBuilder.addInterceptor(ChuckInterceptor(application))
+            okHttpBuilder.addInterceptor(
+                ChuckerInterceptor.Builder(application)
+                    .collector(ChuckerCollector(application))
+                    .alwaysReadResponseBody(true)
+                    .build()
+            )
         }
 
         if (toolsDebugStorage.isStethoEnabled) {
