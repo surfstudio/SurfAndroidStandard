@@ -6,14 +6,11 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.codemonkeylabs.fpslibrary.TinyDancer
 import com.facebook.stetho.Stetho
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.readystatesoftware.chuck.ChuckInterceptor
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposables
 import io.reactivex.subjects.PublishSubject
 import leakcanary.LeakCanary
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -25,7 +22,6 @@ import ru.surfstudio.standard.f_debug.storage.DebugServerSettingsStorage
 import ru.surfstudio.standard.f_debug.storage.DebugUiToolsStorage
 import ru.surfstudio.standard.f_debug.storage.MemoryDebugStorage
 import ru.surfstudio.standard.f_debug.storage.ToolsDebugStorage
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @PerApplication

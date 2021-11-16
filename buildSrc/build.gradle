@@ -8,16 +8,16 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.31"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'org.eclipse.jgit:org.eclipse.jgit:5.4.0.201906121030-r'
-    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:5.13.0.202109080827-r'
+    implementation 'commons-io:commons-io:2.11.0'
 }
 compileKotlin {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }

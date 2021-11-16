@@ -1,8 +1,11 @@
 # App-migration Release Notes
 
+- [0.6.0-alpha](#060-alpha)
 - [0.5.0](#050)
-- [App-migration](#app-migration)
 
+## 0.6.0-alpha
+##### App-migration
+* TODO
 ## 0.5.0
 ##### App-migration
 * ANDDEP-782 Update shared-pref dependency

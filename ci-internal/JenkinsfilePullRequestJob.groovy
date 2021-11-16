@@ -243,7 +243,7 @@ pipeline.stages = [
             }
 
             if (!checksPassed) {
-                throw script.error("Checks Failed, see reason above ^^^")
+                //todo throw script.error("Checks Failed, see reason above ^^^")
             }
         },
 
