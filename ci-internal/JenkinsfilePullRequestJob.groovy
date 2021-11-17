@@ -212,7 +212,8 @@ pipeline.stages = [
                 GradleUtil.gradlew(script, "checkStableArtifactsExistInArtifactoryTask", useJava11)
             }
         },
-        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        //todo ANDDEP-1259
+        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.SKIP_STAGE) {
             GradleUtil.gradlew(script, "checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.SKIP_STAGE) {
@@ -225,7 +226,8 @@ pipeline.stages = [
             GradleUtil.gradlew(script, "checkReleaseNotesContainCurrentVersion", useJava11)
             GradleUtil.gradlew(script, "checkReleaseNotesNotContainCyrillic", useJava11)
         },
-        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        //todo ANDDEP-1259
+        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.SKIP_STAGE) {
             GradleUtil.gradlew(script, "checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(ADD_LICENSE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
