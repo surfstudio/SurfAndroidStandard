@@ -29,6 +29,7 @@ import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeDa
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.ui.notification.*
 import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGroup
+import ru.surfstudio.android.utilktx.util.SdkUtils
 import java.io.Serializable
 
 
@@ -245,6 +246,14 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
             }
     }
 
+    protected fun getPendingIntentFlags(): Int {
+        return if (SdkUtils.isAtLeastMarshmallow()) {
+            return PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_ONE_SHOT
+        }
+    }
+
     /**
      * Интент в соответствии с необходимыми действиями
      */
@@ -259,7 +268,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
         }
         return PendingIntent.getBroadcast(
             context.applicationContext,
-            title.hashCode(), intent, PendingIntent.FLAG_ONE_SHOT
+            title.hashCode(), intent, getPendingIntentFlags()
         )
     }
 
@@ -273,7 +282,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
         }
         return PendingIntent.getBroadcast(
             context.applicationContext,
-            0, intent, PendingIntent.FLAG_ONE_SHOT
+            0, intent, getPendingIntentFlags()
         )
     }
 

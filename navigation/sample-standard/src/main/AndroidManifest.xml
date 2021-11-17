@@ -28,12 +28,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:node="replace">
 
         <activity
             android:name=".screen.splash.SplashActivityView"
-            android:label="Splash activity"
-            android:exported="true">
+            android:exported="true"
+            android:label="Splash activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

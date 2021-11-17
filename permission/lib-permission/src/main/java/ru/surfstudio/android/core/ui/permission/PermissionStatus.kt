@@ -29,7 +29,7 @@ enum class PermissionStatus(val isGranted: Boolean) {
     NOT_REQUESTED(false),
 
     /**
-     * Разрашение выдано только для одного раза
+     * Разрешение выдано только для одного раза
      */
     GRANTED_ONCE(false)
 }
