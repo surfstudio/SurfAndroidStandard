@@ -46,7 +46,6 @@ def lastDestinationBranchCommitHash = ""
 def useJava11 = false // default value
 def java11Branches = [
         "dev/G-0.5.0",
-        "permission-manager-update", //todo remove
         "project-snapshot/BET",
         "project-snapshot-BZN"
 ]

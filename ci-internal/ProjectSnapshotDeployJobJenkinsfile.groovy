@@ -36,7 +36,12 @@ def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 //vars
 def branchName = ""
 def skipIncrementVersion = false
-def useJava11 = true
+def useJava11 = false // default value
+def java11Branches = [
+        "dev/G-0.5.0",
+        "project-snapshot/BET",
+        "project-snapshot-BZN"
+]
 
 //other config
 
@@ -85,6 +90,9 @@ pipeline.initializeBody = {
         branchName = branchName.replace("origin/", "")
     }
 
+    if (java11Branches.contains(branchName)) {
+        useJava11 = true
+    }
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
@@ -147,12 +155,12 @@ pipeline.stages = [
             }
         },
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa", useJava11)
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease", useJava11)
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(
                     script,
-                    "testQaUnitTest",
+                    "testReleaseUnitTest",
                     "**/test-results/testQaUnitTest/*.xml",
                     "app/build/reports/tests/testQaUnitTest/",
                     useJava11
