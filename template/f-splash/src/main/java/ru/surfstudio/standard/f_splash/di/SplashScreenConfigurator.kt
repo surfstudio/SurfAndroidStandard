@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.f_splash.di
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import dagger.Component
 import dagger.Module
@@ -20,6 +21,7 @@ import ru.surfstudio.standard.ui.screen_modules.CustomScreenModule
 /**
  * Конфигуратор стартового сплеш-экрана [SplashActivityView]
  */
+@SuppressLint("CustomSplashScreen")
 class SplashScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
 
     @PerScreen

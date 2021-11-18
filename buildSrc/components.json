@@ -1,22 +1,22 @@
 [
   {
     "id": "activity-holder",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "activity-holder",
     "libs": [
       {
         "name": "activity-holder",
         "dir": "lib-activity-holder",
         "artifact_name": "activity-holder",
-        "third_party_dependencies": [],
-        "android_standard_dependencies": [
+        "third_party_dependencies": [
           {
-            "name": "rx-extension",
-            "type": "implementation"
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
           }
-        ]
+        ],
+        "android_standard_dependencies": []
       }
     ],
     "samples": [],
@@ -117,9 +117,9 @@
   },
   {
     "id": "app-migration",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "app-migration",
     "libs": [
       {
@@ -532,8 +532,8 @@
   },
   {
     "id": "mvi",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -688,7 +688,7 @@
   },
   {
     "id": "core-mvp-binding",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "core-mvp-binding",
@@ -700,18 +700,6 @@
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
-            "type": "api"
-          },
-          {
-            "name": "com.jakewharton.rxbinding2:rxbinding",
-            "type": "api"
-          },
-          {
-            "name": "com.jakewharton.rxbinding2:rxbinding-kotlin",
-            "type": "api"
-          },
-          {
-            "name": "com.jakewharton.rxbinding2:rxbinding-appcompat-v7",
             "type": "api"
           },
           {
@@ -774,7 +762,7 @@
   },
   {
     "id": "core-ui",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "core-ui",
@@ -845,7 +833,7 @@
   {
     "id": "core-navigation",
     "version": "0.6.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "core-navigation",
     "libs": [
@@ -902,8 +890,8 @@
   },
   {
     "id": "permission",
-    "version": "0.5.1",
-    "unstable_version": 3,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "permission",
     "libs": [
@@ -987,7 +975,7 @@
   },
   {
     "id": "custom-view",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "custom-view",
@@ -1201,9 +1189,9 @@
   },
   {
     "id": "filestorage",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "filestorage",
     "libs": [
       {
@@ -1255,9 +1243,9 @@
   },
   {
     "id": "google-pay-button",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "google-pay-button",
     "libs": [
       {
@@ -1293,9 +1281,9 @@
   },
   {
     "id": "imageloader",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "imageloader",
     "libs": [
       {
@@ -1331,8 +1319,8 @@
   },
   {
     "id": "location",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "location",
     "libs": [
@@ -1422,8 +1410,8 @@
   },
   {
     "id": "message-controller",
-    "version": "0.5.1",
-    "unstable_version": 0,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "message-controller",
     "libs": [
@@ -1451,15 +1439,15 @@
   },
   {
     "id": "mvp",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "mvp",
     "libs": [
       {
         "name": "ferro-rx",
         "dir": "lib-ferro-rx",
-        "artifact_name": "core-ferro-rx",
+        "artifact_name": "ferro-rx",
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
@@ -1511,6 +1499,10 @@
           },
           {
             "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.swiperefreshlayout:swiperefreshlayout",
             "type": "implementation"
           }
         ],
@@ -1564,6 +1556,10 @@
           },
           {
             "name": "androidx.constraintlayout:constraintlayout",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.swiperefreshlayout:swiperefreshlayout",
             "type": "implementation"
           },
           {
@@ -1765,8 +1761,8 @@
   },
   {
     "id": "navigation",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1914,8 +1910,8 @@
   },
   {
     "id": "picture-provider",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "picture-provider",
     "libs": [
@@ -2046,7 +2042,7 @@
   },
   {
     "id": "recycler-extension",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "recycler-extension",
@@ -2178,9 +2174,9 @@
   },
   {
     "id": "rxbus",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "rxbus",
     "libs": [
       {
@@ -2193,12 +2189,7 @@
             "type": "api"
           }
         ],
-        "android_standard_dependencies": [
-          {
-            "name": "rx-extension",
-            "type": "implementation"
-          }
-        ]
+        "android_standard_dependencies": []
       }
     ],
     "samples": [],
@@ -2257,9 +2248,9 @@
   },
   {
     "id": "shared-pref",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "shared-pref",
     "libs": [
       {
@@ -2337,9 +2328,9 @@
   },
   {
     "id": "util-ktx",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "util-ktx",
     "libs": [
       {
