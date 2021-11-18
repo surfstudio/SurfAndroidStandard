@@ -532,8 +532,8 @@
   },
   {
     "id": "mvi",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -684,7 +684,7 @@
   },
   {
     "id": "core-mvp-binding",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "core-mvp-binding",
@@ -758,7 +758,7 @@
   },
   {
     "id": "core-ui",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "core-ui",
@@ -828,7 +828,7 @@
   },
   {
     "id": "core-navigation",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "core-navigation",
@@ -882,8 +882,8 @@
   },
   {
     "id": "permission",
-    "version": "0.5.1",
-    "unstable_version": 3,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "permission",
     "libs": [
@@ -967,7 +967,7 @@
   },
   {
     "id": "custom-view",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "custom-view",
@@ -1311,8 +1311,8 @@
   },
   {
     "id": "location",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "location",
     "libs": [
@@ -1402,8 +1402,8 @@
   },
   {
     "id": "message-controller",
-    "version": "0.5.1",
-    "unstable_version": 0,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "message-controller",
     "libs": [
@@ -1431,8 +1431,8 @@
   },
   {
     "id": "mvp",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1753,8 +1753,8 @@
   },
   {
     "id": "navigation",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "navigation",
     "libs": [
@@ -1902,8 +1902,8 @@
   },
   {
     "id": "picture-provider",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "picture-provider",
     "libs": [
@@ -2034,7 +2034,7 @@
   },
   {
     "id": "recycler-extension",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "recycler-extension",

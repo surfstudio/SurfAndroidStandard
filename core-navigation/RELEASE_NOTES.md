@@ -1,9 +1,9 @@
 # Core-navigation Release Notes
 
-- [0.5.1](#051-alpha)
+- [0.6.0-alpha](#060-alpha)
 - [0.5.0](#050)
 
-## 0.5.1-alpha
+## 0.6.0-alpha
 ##### Core-navigation
 * Replace local ferro-rx dependency
 ## 0.5.0
