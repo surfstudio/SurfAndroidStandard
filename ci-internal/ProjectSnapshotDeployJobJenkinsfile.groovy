@@ -1,4 +1,4 @@
-@Library('surf-lib@version-4.1.1-SNAPSHOT')
+@Library('surf-lib@version-4.1.3-SNAPSHOT')
 // https://github.com/surfstudio/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
@@ -9,6 +9,7 @@ import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
+import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 //Pipeline for deploy project snapshot artifacts
 
@@ -35,6 +36,12 @@ def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 //vars
 def branchName = ""
 def skipIncrementVersion = false
+def useJava11 = false // default value
+def java11Branches = [
+        "dev/G-0.5.0",
+        "project-snapshot/BET",
+        "project-snapshot-BZN"
+]
 
 //other config
 
@@ -83,6 +90,9 @@ pipeline.initializeBody = {
         branchName = branchName.replace("origin/", "")
     }
 
+    if (java11Branches.contains(branchName)) {
+        useJava11 = true
+    }
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
@@ -104,10 +114,11 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
             RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
-        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
+        //todo ANDDEP-1259
+        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.SKIP_STAGE, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
             def prevCommitHash = commitParents[0]
-            script.sh("./gradlew WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}")
+            GradleUtil.gradlew(script, "WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}", useJava11)
             String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
 
             if (releaseNotesChanges.trim() != "") {
@@ -134,24 +145,25 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
-            script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
+            GradleUtil.gradlew(script, "checkConfigurationIsProjectSnapshotTask", useJava11)
         },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
             if (!skipIncrementVersion) {
-                script.sh("./gradlew incrementProjectSnapshotVersion")
+                GradleUtil.gradlew(script, "incrementProjectSnapshotVersion", useJava11)
             } else {
                 script.echo "skip project snapshot version incrementation stage"
             }
         },
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease", useJava11)
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(
                     script,
                     "testReleaseUnitTest",
-                    "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/"
+                    "**/test-results/testQaUnitTest/*.xml",
+                    "app/build/reports/tests/testQaUnitTest/",
+                    useJava11
             )
         },
         pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
@@ -175,14 +187,14 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory"
+                    GradleUtil.gradlew(script, "clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory", useJava11)
                 }
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
             withJobCredentials(script) {
-                script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew :android-standard-version-plugin:publish"
+                GradleUtil.gradlew(script, "generateDataForPlugin", useJava11)
+                GradleUtil.gradlew(script, ":android-standard-version-plugin:publish", useJava11)
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
