@@ -1,13 +1,13 @@
 # Core-ui Release Notes
 
-- [0.5.1](#051-alpha)
+- [0.6.0](#060-alpha)
 - [0.5.0](#050)
 - [0.4.0](#040)
 - [0.3.0](#030)
 - [0.2.1](#021)
 - [0.2.0](#020)
 
-## 0.5.1-alpha
+## 0.6.0-alpha
 ##### Core-ui
 * Replace local ferro-rx dependency
 ## 0.5.0
