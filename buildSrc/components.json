@@ -1,22 +1,22 @@
 [
   {
     "id": "activity-holder",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "activity-holder",
     "libs": [
       {
         "name": "activity-holder",
         "dir": "lib-activity-holder",
         "artifact_name": "activity-holder",
-        "third_party_dependencies": [],
-        "android_standard_dependencies": [
+        "third_party_dependencies": [
           {
-            "name": "rx-extension",
-            "type": "implementation"
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
           }
-        ]
+        ],
+        "android_standard_dependencies": []
       }
     ],
     "samples": [],
@@ -2166,9 +2166,9 @@
   },
   {
     "id": "rxbus",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "rxbus",
     "libs": [
       {
@@ -2181,12 +2181,7 @@
             "type": "api"
           }
         ],
-        "android_standard_dependencies": [
-          {
-            "name": "rx-extension",
-            "type": "implementation"
-          }
-        ]
+        "android_standard_dependencies": []
       }
     ],
     "samples": [],
