@@ -17,7 +17,7 @@ ext {
     ]
 
     versions = [
-            androidStandardVersion          : '0.5.0-alpha.208',    //версия version-plugin
+            androidStandardVersion          : '0.5.0-alpha.209',    //версия version-plugin
             gradlePluginVersion             : '7.0.3',              //https://bit.ly/3lvwLGQ
             buildToolsVersion               : '30.0.2',             //https://bit.ly/2DNmq3Y
             googleServicesVersion           : '4.3.10',             //https://bit.ly/3jj941O
