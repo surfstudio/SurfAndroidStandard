@@ -109,7 +109,8 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
             RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
-        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
+        //todo ANDDEP-1259
+        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.SKIP_STAGE, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
             def prevCommitHash = commitParents[0]
             GradleUtil.gradlew(script, "WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}", useJava11)
@@ -145,7 +146,8 @@ pipeline.stages = [
                     "'$currentStandardVersion'"
             )
         },
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
+        //todo ANDDEP-1259
+        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION, StageStrategy.SKIP_STAGE) {
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
             GradleUtil.gradlew(script, "incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}", useJava11)
         },
