@@ -4,6 +4,7 @@ apply from: '../unitTestConfiguration.gradle'
 
 dependencies {
     api project(":base")
+    api project(":base_resources")
     api project(":v-message-controller-top")
 
     //debug
@@ -19,8 +20,8 @@ dependencies {
     implementation project(":i-initialization")
     implementation project(":i-session")
 
-    api rxBinding4.core
-    api rxBinding4.material
+    api rxBinding2.core
+    api rxBinding2.kotlin
 
     api(firebase.crashlytics) {
         transitive = true

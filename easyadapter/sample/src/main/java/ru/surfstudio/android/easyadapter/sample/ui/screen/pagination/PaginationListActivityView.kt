@@ -2,9 +2,9 @@ package ru.surfstudio.android.easyadapter.sample.ui.screen.pagination
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.paginationable_list_layout.*
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.ItemList
@@ -24,15 +24,23 @@ class PaginationListActivityView : BaseRenderableActivityView<PaginationListScre
         presenter.loadMore()
     }
 
-    private val controller = FirstDataItemController { toast(it.toString()) }
+    private val controller = FirstDataItemController {
+        Toast
+            .makeText(this, it.toString(), Toast.LENGTH_SHORT)
+            .apply {
+                show()
+            }
+    }
 
     override fun createConfigurator(): CustomActivityScreenConfigurator {
         return PaginationListScreenConfigurator(intent)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
+    override fun onCreate(
+        savedInstanceState: Bundle?,
+        persistentState: PersistableBundle?,
+        viewRecreated: Boolean
+    ) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         initRecycler()
     }
@@ -44,8 +52,10 @@ class PaginationListActivityView : BaseRenderableActivityView<PaginationListScre
     override fun getScreenName(): String = "Pagination List Activity"
 
     override fun renderInternal(sm: PaginationListScreenModel) {
-        adapter.setItems(ItemList.create()
-                .addAll(sm.pageList, controller), sm.paginationState)
+        adapter.setItems(
+            ItemList.create()
+                .addAll(sm.pageList, controller), sm.paginationState
+        )
     }
 
     private fun initRecycler() {

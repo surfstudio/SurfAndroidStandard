@@ -3,25 +3,27 @@ apply from: '../commonKaptModule.gradle'
 
 
 dependencies {
+    gradle.ext.androidStandard.api(
+            this,
+            ["message-controller"]
+    )
+
     implementation project(":base")
     implementation project(":i-push-notification")
     implementation project(":i-network")
-    implementation project(":v-message-controller-top")
 
-    implementation rxBinding4.core
+    implementation rxBinding2.core
 
     implementation debug.processPhoenix
     implementation debug.androidDebugTools
 
-    implementation network.chuck
+    implementation network.chucker
 
     implementation debug.tinyDancer
     implementation debug.leakCanary
 
     implementation stetho.core
     implementation stetho.okHttp
-
-    implementation view.materialRangeBar
 
     implementation androidX.constraintLayout
 

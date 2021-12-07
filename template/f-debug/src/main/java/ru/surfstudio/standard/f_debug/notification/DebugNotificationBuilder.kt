@@ -25,7 +25,8 @@ object DebugNotificationBuilder {
                     context,
                     DEBUG_NOTIFICATION_ID,
                     DebugActivityRoute().prepareIntent(context),
-                    PendingIntent.FLAG_UPDATE_CURRENT)
+                    getPendingIntentFlags()
+            )
 
             val notificationBuilder = NotificationCompat.Builder(context, channelId)
                     .setContentTitle(notificationTitle)
@@ -43,7 +44,7 @@ object DebugNotificationBuilder {
 
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            SdkUtils.runOnOreo {
+            if (SdkUtils.isAtLeastOreo()) {
                 notificationManager.createNotificationChannel(
                         NotificationChannel(
                                 channelId,
@@ -55,5 +56,13 @@ object DebugNotificationBuilder {
             }
 
             notificationManager.notify(DEBUG_NOTIFICATION_ID, notificationBuilder.build())
+    }
+
+    private fun getPendingIntentFlags(): Int {
+        return if (SdkUtils.isAtLeastMarshmallow()) {
+            return PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
     }
 }

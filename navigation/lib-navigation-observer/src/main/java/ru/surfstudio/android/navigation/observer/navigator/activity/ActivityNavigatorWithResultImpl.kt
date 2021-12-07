@@ -1,6 +1,8 @@
 package ru.surfstudio.android.navigation.observer.navigator.activity
 
+import android.Manifest
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResult
@@ -39,7 +41,19 @@ open class ActivityNavigatorWithResultImpl(
             }
         permissionLauncher = componentActivity
             .registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
-                handlePermissionResult(result.values.all { it })
+                val locationPermissions = arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+                handlePermissionResult(
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                        result.keys.toTypedArray().contentEquals(locationPermissions)
+                    ) {
+                        result.values.any { it }
+                    } else {
+                        result.values.all { it }
+                    }
+                )
             }
     }
 

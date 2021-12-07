@@ -13,7 +13,6 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "easyadapter")
 
     DependencyConfigurator.implementation(project, "androidx.recyclerview:recyclerview")
-    DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
 
     DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
 }

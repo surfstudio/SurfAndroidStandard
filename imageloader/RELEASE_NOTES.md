@@ -1,9 +1,13 @@
 # Imageloader Release Notes
 
+- [0.6.0-alpha](#060-alpha)
 - [0.5.0](#050)
 - [0.4.0](#040)
 - [0.2.1](#021)
 
+## 0.6.0-alpha
+##### Imageloader
+* TODO
 ## 0.5.0
 ##### Imageloader
 * Added ability to disable hardware bitmaps config and immediate GIF playback after loading

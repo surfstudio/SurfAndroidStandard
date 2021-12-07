@@ -3,6 +3,7 @@ package ru.surfstudio.standard.application.app
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.os.StrictMode
 import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.github.anrwatchdog.ANRWatchDog
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -15,6 +16,7 @@ import ru.surfstudio.android.notification.ui.PushEventListener
 import ru.surfstudio.android.template.base_feature.BuildConfig
 import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.android.utilktx.ktx.ui.activity.ActivityLifecycleListener
+import ru.surfstudio.android.utilktx.util.SdkUtils
 import ru.surfstudio.standard.application.app.di.AppInjector
 import ru.surfstudio.standard.application.logger.strategies.remote.FirebaseCrashlyticsRemoteLoggingStrategy
 import ru.surfstudio.standard.application.logger.strategies.remote.RemoteLoggerLoggingStrategy
@@ -31,6 +33,7 @@ class App : Application() {
 
         initAnrWatchDog()
         initLog()
+        initVmPolicy()
 
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
@@ -41,7 +44,7 @@ class App : Application() {
         initPushEventListener()
         initRxJava2Debug()
         registerNavigationProviderCallbacks()
-        DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
+        DebugAppInjector.debugInteractor.onCreateApp(R.drawable.ic_android)
     }
 
     private fun registerNavigationProviderCallbacks() {
@@ -63,6 +66,16 @@ class App : Application() {
         Logger.addLoggingStrategy(TimberLoggingStrategy())
         Logger.addLoggingStrategy(RemoteLoggerLoggingStrategy())
         RemoteLogger.addRemoteLoggingStrategy(FirebaseCrashlyticsRemoteLoggingStrategy())
+    }
+
+    private fun initVmPolicy() {
+        if (SdkUtils.isAtLeastS()) {
+            val policy = StrictMode.VmPolicy.Builder()
+                .detectUnsafeIntentLaunch()
+                .build()
+
+            StrictMode.setVmPolicy(policy)
+        }
     }
 
     private fun initRxJava2Debug() {
@@ -95,7 +108,7 @@ class App : Application() {
     private fun initPushEventListener() {
         PushClickProvider.pushEventListener = object : PushEventListener {
             override fun pushDismissListener(context: Context, intent: Intent) {
-                //todo
+                /* do nothing */
             }
 
             override fun pushOpenListener(context: Context, intent: Intent) {
@@ -103,7 +116,7 @@ class App : Application() {
             }
 
             override fun customActionListener(context: Context, intent: Intent) {
-                //todo
+                /* do nothing */
             }
         }
     }
