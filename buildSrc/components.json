@@ -1,22 +1,22 @@
 [
   {
     "id": "activity-holder",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "activity-holder",
     "libs": [
       {
         "name": "activity-holder",
         "dir": "lib-activity-holder",
         "artifact_name": "activity-holder",
-        "third_party_dependencies": [],
-        "android_standard_dependencies": [
+        "third_party_dependencies": [
           {
-            "name": "rx-extension",
-            "type": "implementation"
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
           }
-        ]
+        ],
+        "android_standard_dependencies": []
       }
     ],
     "samples": [],
@@ -117,9 +117,9 @@
   },
   {
     "id": "app-migration",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "app-migration",
     "libs": [
       {
@@ -242,7 +242,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 11,
+    "unstable_version": 12,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -532,7 +532,7 @@
   },
   {
     "id": "mvi",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "mvi",
@@ -627,6 +627,10 @@
         ],
         "android_standard_dependencies": [
           {
+            "name": "ferro-rx",
+            "type": "implementation"
+          },
+          {
             "name": "mvi-core",
             "type": "api"
           },
@@ -680,7 +684,7 @@
   },
   {
     "id": "core-mvp-binding",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "core-mvp-binding",
@@ -692,18 +696,6 @@
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
-            "type": "api"
-          },
-          {
-            "name": "com.jakewharton.rxbinding2:rxbinding",
-            "type": "api"
-          },
-          {
-            "name": "com.jakewharton.rxbinding2:rxbinding-kotlin",
-            "type": "api"
-          },
-          {
-            "name": "com.jakewharton.rxbinding2:rxbinding-appcompat-v7",
             "type": "api"
           },
           {
@@ -766,9 +758,9 @@
   },
   {
     "id": "core-ui",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "core-ui",
     "libs": [
       {
@@ -793,10 +785,6 @@
             "type": "implementation"
           },
           {
-            "name": "com.agna.ferro:ferro-rx",
-            "type": "implementation"
-          },
-          {
             "name": "androidx.appcompat:appcompat",
             "type": "implementation"
           },
@@ -810,6 +798,10 @@
           }
         ],
         "android_standard_dependencies": [
+          {
+            "name": "ferro-rx",
+            "type": "implementation"
+          },
           {
             "name": "logger",
             "type": "implementation"
@@ -837,7 +829,7 @@
   {
     "id": "core-navigation",
     "version": "0.6.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "core-navigation",
     "libs": [
@@ -846,10 +838,6 @@
         "dir": "lib-core-navigation",
         "artifact_name": "core-navigation",
         "third_party_dependencies": [
-          {
-            "name": "com.agna.ferro:ferro-rx",
-            "type": "implementation"
-          },
           {
             "name": "com.google.android.play:core",
             "type": "implementation"
@@ -860,6 +848,10 @@
           }
         ],
         "android_standard_dependencies": [
+          {
+            "name": "ferro-rx",
+            "type": "implementation"
+          },
           {
             "name": "core-ui",
             "type": "implementation"
@@ -890,8 +882,8 @@
   },
   {
     "id": "permission",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "permission",
     "libs": [
@@ -935,13 +927,12 @@
         "name": "permission-deprecated",
         "dir": "lib-permission-deprecated",
         "artifact_name": "permission-deprecated",
-        "third_party_dependencies": [
-          {
-            "name": "com.agna.ferro:ferro-rx",
-            "type": "implementation"
-          }
-        ],
+        "third_party_dependencies": [],
         "android_standard_dependencies": [
+          {
+            "name": "ferro-rx",
+            "type": "implementation"
+          },
           {
             "name": "logger",
             "type": "implementation"
@@ -976,9 +967,9 @@
   },
   {
     "id": "custom-view",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "custom-view",
     "libs": [
       {
@@ -986,14 +977,6 @@
         "dir": "lib-custom-view",
         "artifact_name": "custom-view",
         "third_party_dependencies": [
-          {
-            "name": "me.zhanghai.android.materialprogressbar:library",
-            "type": "api"
-          },
-          {
-            "name": "com.wang.avi:library",
-            "type": "api"
-          },
           {
             "name": "com.google.android.material:material",
             "type": "implementation"
@@ -1198,9 +1181,9 @@
   },
   {
     "id": "filestorage",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "filestorage",
     "libs": [
       {
@@ -1252,9 +1235,9 @@
   },
   {
     "id": "google-pay-button",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "google-pay-button",
     "libs": [
       {
@@ -1290,9 +1273,9 @@
   },
   {
     "id": "imageloader",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "imageloader",
     "libs": [
       {
@@ -1328,8 +1311,8 @@
   },
   {
     "id": "location",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "location",
     "libs": [
@@ -1419,9 +1402,9 @@
   },
   {
     "id": "message-controller",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "message-controller",
     "libs": [
       {
@@ -1448,20 +1431,36 @@
   },
   {
     "id": "mvp",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "mvp",
     "libs": [
       {
+        "name": "ferro-rx",
+        "dir": "lib-ferro-rx",
+        "artifact_name": "ferro-rx",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.mockito:mockito-core",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      },
+      {
         "name": "core-mvp",
         "dir": "lib-core-mvp",
         "artifact_name": "core-mvp",
         "third_party_dependencies": [
-          {
-            "name": "com.agna.ferro:ferro-rx",
-            "type": "api"
-          },
           {
             "name": "junit:junit",
             "type": "testImplementation"
@@ -1493,9 +1492,17 @@
           {
             "name": "androidx.annotation:annotation",
             "type": "implementation"
+          },
+          {
+            "name": "androidx.swiperefreshlayout:swiperefreshlayout",
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
+          {
+            "name": "ferro-rx",
+            "type": "api"
+          },
           {
             "name": "logger",
             "type": "implementation"
@@ -1541,6 +1548,10 @@
           },
           {
             "name": "androidx.constraintlayout:constraintlayout",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.swiperefreshlayout:swiperefreshlayout",
             "type": "implementation"
           },
           {
@@ -1742,7 +1753,7 @@
   },
   {
     "id": "navigation",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "navigation",
@@ -1891,8 +1902,8 @@
   },
   {
     "id": "picture-provider",
-    "version": "0.5.1",
-    "unstable_version": 2,
+    "version": "0.6.0",
+    "unstable_version": 1,
     "stable": false,
     "dir": "picture-provider",
     "libs": [
@@ -2023,7 +2034,7 @@
   },
   {
     "id": "recycler-extension",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "unstable_version": 1,
     "stable": false,
     "dir": "recycler-extension",
@@ -2155,9 +2166,9 @@
   },
   {
     "id": "rxbus",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "rxbus",
     "libs": [
       {
@@ -2170,12 +2181,7 @@
             "type": "api"
           }
         ],
-        "android_standard_dependencies": [
-          {
-            "name": "rx-extension",
-            "type": "implementation"
-          }
-        ]
+        "android_standard_dependencies": []
       }
     ],
     "samples": [],
@@ -2234,9 +2240,9 @@
   },
   {
     "id": "shared-pref",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "shared-pref",
     "libs": [
       {
@@ -2314,9 +2320,9 @@
   },
   {
     "id": "util-ktx",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
+    "unstable_version": 1,
+    "stable": false,
     "dir": "util-ktx",
     "libs": [
       {
@@ -2356,7 +2362,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 57,
+    "unstable_version": 59,
     "stable": false,
     "dir": "template",
     "libs": [],
@@ -2389,7 +2395,7 @@
   {
     "id": "docs",
     "version": "0.5.0",
-    "unstable_version": 18,
+    "unstable_version": 19,
     "stable": false,
     "dir": "docs",
     "libs": [],

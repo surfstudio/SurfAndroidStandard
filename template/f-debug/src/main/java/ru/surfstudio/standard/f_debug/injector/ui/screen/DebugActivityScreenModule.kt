@@ -16,8 +16,6 @@ import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForActivity
 import ru.surfstudio.standard.f_debug.injector.ui.error.DebugErrorHandlerModule
-import ru.surfstudio.standard.v_message_controller_top.IconMessageController
-import ru.surfstudio.standard.v_message_controller_top.TopSnackIconMessageController
 
 @Module(includes = [DebugErrorHandlerModule::class])
 class DebugActivityScreenModule(
@@ -57,12 +55,6 @@ class DebugActivityScreenModule(
     @PerScreen
     internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {
         return DefaultMessageController(activityProvider)
-    }
-
-    @Provides
-    @PerScreen
-    internal fun provideTopMessageController(activityProvider: ActivityProvider): IconMessageController {
-        return TopSnackIconMessageController(activityProvider)
     }
 
     @Provides

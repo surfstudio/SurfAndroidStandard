@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="ru.surfstudio.standard.f_onboarding" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ru.surfstudio.standard.f_onboarding">
+
+    <application>
+        <activity
+            android:name=".OnboardingActivityView"
+            android:screenOrientation="portrait"></activity>
+    </application>
+</manifest>

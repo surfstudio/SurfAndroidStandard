@@ -3,6 +3,7 @@ apply from: '../commonKaptModule.gradle'
 apply from: '../unitTestConfiguration.gradle'
 
 dependencies {
+    implementation androidX.splash
     implementation project(":i-onboarding")
     implementation project(":i-initialization")
     implementation project(":i-network")

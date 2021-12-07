@@ -10,8 +10,8 @@ tasks.register<ValidateCrossFeatureRoutesTask>("validateCrossFeatureRoutesTask")
                 file.name.contains("Dialog")
     }
 
-    // TODO: изменить на true, если используется последняя навигация
-    useTheMostRecentNavigation = false
+    // TODO: изменить на false, если не используется последняя навигация
+    useTheMostRecentNavigation = true
 }
 
 tasks.whenTaskAdded {
@@ -38,26 +38,31 @@ open class ValidateCrossFeatureRoutesTask : DefaultTask() {
     /**
      * Whenever this value is true -> this task gonna be skipped with console warning.
      * */
+    @Internal
     var shouldSkipValidation: Boolean = false
 
     /**
      * List of directory names which gonna be ignored on project scan.
      * */
+    @Internal
     var ignoredDirectories: List<String> = emptyList()
 
     /**
      * Condition used to find routes.
      * */
+    @Internal
     var routeFilterCondition: (File) -> Boolean = { false }
 
     /**
      * Condition used to find views that can be Route target.
      * */
+    @Internal
     var viewFilterCondition: (File) -> Boolean = { false }
 
     /**
      *  Validate new navigation routes.
      * */
+    @Internal
     var useTheMostRecentNavigation: Boolean = false
 
     @TaskAction

@@ -15,7 +15,7 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
 //Pipeline for check prs
 
-// Stage names
+// Stage names
 def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
@@ -37,13 +37,18 @@ def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def BUILD_TEMPLATE = 'Template Build'
 def INSTRUMENTATION_TEST_TEMPLATE = 'Template Instrumentation Test'
 
-// git variables
+// variables
 def sourceBranch = ""
 def destinationBranch = ""
 def authorUsername = ""
 def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
-def useJava11 = true
+def useJava11 = false // default value
+def java11Branches = [
+        "dev/G-0.5.0",
+        "project-snapshot/BET",
+        "project-snapshot-BZN"
+]
 
 //parameters
 final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
@@ -164,6 +169,9 @@ pipeline.initializeBody = {
             "$sourceBranch to $destinationBranch: target branch changed" :
             "$sourceBranch to $destinationBranch"
 
+    if (java11Branches.contains(destinationBranch)) {
+        useJava11 = true
+    }
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
@@ -203,7 +211,8 @@ pipeline.stages = [
                 GradleUtil.gradlew(script, "checkStableArtifactsExistInArtifactoryTask", useJava11)
             }
         },
-        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        //todo ANDDEP-1259
+        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.SKIP_STAGE) {
             GradleUtil.gradlew(script, "checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.SKIP_STAGE) {
@@ -216,7 +225,8 @@ pipeline.stages = [
             GradleUtil.gradlew(script, "checkReleaseNotesContainCurrentVersion", useJava11)
             GradleUtil.gradlew(script, "checkReleaseNotesNotContainCyrillic", useJava11)
         },
-        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        //todo ANDDEP-1259
+        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.SKIP_STAGE) {
             GradleUtil.gradlew(script, "checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(ADD_LICENSE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -270,7 +280,6 @@ pipeline.stages = [
                     useJava11
             )
         },
-        //TODO не работает после переезда на MVI
         pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.SKIP_STAGE) {
             script.dir("template") {
                 AndroidPipelineHelper.instrumentationTestStageBodyAndroid(

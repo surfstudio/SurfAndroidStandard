@@ -7,6 +7,7 @@
 
 ## 0.6.0-alpha
 ##### Push
+* Fix PendingIntent flags for Android 12 support
 * ANDDEP-1241 Fix unique pushes implementation
 ## 0.5.0
 ##### Push

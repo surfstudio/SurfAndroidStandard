@@ -4,7 +4,6 @@ import ru.surfstudio.android.build.DependencyConfigurator
 apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 DependencyConfigurator.configure(project)
