@@ -60,6 +60,8 @@ class ProjectConfigurationProvider(
     /**
      * provides command running task creating project configuration file for revision to compare
      *
+     * todo remove
+     *
      * @return command to run [GRADLE_TASK_CREATE_FROM_TEMP] task with parameters
      */
     private fun createCommandForRevisionToCompare(revisionToCompare: String): String {
@@ -72,6 +74,8 @@ class ProjectConfigurationProvider(
      * provides command running task creating project configuration file for current revision
      *
      * @param currentRevision git current project revision
+     *
+     * todo remove
      *
      * @return command to run [GRADLE_TASK_CREATE_PROJECT_CONFIGURATION] task with parameters
      */
