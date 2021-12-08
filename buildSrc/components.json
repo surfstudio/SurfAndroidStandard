@@ -2373,7 +2373,7 @@
   {
     "id": "android-standard-version-plugin",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "android-standard-version-plugin",
     "libs": [],
