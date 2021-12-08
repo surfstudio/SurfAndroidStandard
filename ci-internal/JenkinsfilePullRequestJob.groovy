@@ -20,7 +20,6 @@ def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
 def CHECK_STABLE_MODULES_NOT_CHANGED = 'Check Stable Modules Not Changed'
-def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not Became Stable'
 def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
 def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
@@ -211,12 +210,8 @@ pipeline.stages = [
                 GradleUtil.gradlew(script, "checkStableArtifactsExistInArtifactoryTask", useJava11)
             }
         },
-        //todo ANDDEP-1259
-        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             GradleUtil.gradlew(script, "checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
-        },
-        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.SKIP_STAGE) {
-            GradleUtil.gradlew(script, "checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             GradleUtil.gradlew(script, "checkStableComponentStandardDependenciesStableTask", useJava11)
@@ -225,8 +220,7 @@ pipeline.stages = [
             GradleUtil.gradlew(script, "checkReleaseNotesContainCurrentVersion", useJava11)
             GradleUtil.gradlew(script, "checkReleaseNotesNotContainCyrillic", useJava11)
         },
-        //todo ANDDEP-1259
-        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             GradleUtil.gradlew(script, "checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(ADD_LICENSE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -238,7 +232,6 @@ pipeline.stages = [
             [
                     CHECK_STABLE_MODULES_IN_ARTIFACTORY,
                     CHECK_STABLE_MODULES_NOT_CHANGED,
-                    CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
                     CHECK_RELEASE_NOTES_VALID,
                     CHECK_RELEASE_NOTES_CHANGED,
