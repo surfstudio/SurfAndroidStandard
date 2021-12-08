@@ -14,9 +14,6 @@ apply plugin: 'groovy'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'kotlin'
 
-sourceCompatibility = "11"
-targetCompatibility = "11"
-
 repositories {
     mavenCentral()
 }
@@ -26,6 +23,12 @@ dependencies {
     implementation localGroovy()
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     implementation 'com.google.code.gson:gson:2.8.9'
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
 }
 
 apply from: 'deployPlugin.gradle'
