@@ -215,9 +215,6 @@ pipeline.stages = [
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.SKIP_STAGE) {
             GradleUtil.gradlew(script, "checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
-        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.SKIP_STAGE) {
-            GradleUtil.gradlew(script, "checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
-        },
         pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             GradleUtil.gradlew(script, "checkStableComponentStandardDependenciesStableTask", useJava11)
         },

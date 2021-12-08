@@ -31,8 +31,6 @@ task checkSameArtifactsInArtifactory(type: CheckSameArtifactsInArtifactoryTask) 
 
 task checkSameArtifactsInBintray(type: CheckSameArtifactsInBintrayTask) //release
 
-task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask) // pr
-
 task checkComponentStable(type: CheckComponentStableTask) //release
 
 task checkVersionEqualsComponentVersion(type: CheckVersionEqualsComponentVersionTask) //release
