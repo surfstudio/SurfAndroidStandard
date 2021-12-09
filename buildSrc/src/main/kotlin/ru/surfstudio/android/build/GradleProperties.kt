@@ -46,12 +46,6 @@ object GradleProperties {
     const val DEPLOY_SAME_VERSION_ARTIFACTORY = "deploySameVersionArtifactory"
 
     /**
-     * If artifact exist in bintray replace it
-     */
-    @Deprecated("Use Artifactory or Maven Central after Bintray sunset")
-    const val DEPLOY_SAME_VERSION_BINTRAY = "deploySameVersionBintray"
-
-    /**
      * Deploy only unstable components
      */
     const val DEPLOY_ONLY_UNSTABLE_COMPONENTS = "onlyUnstable"

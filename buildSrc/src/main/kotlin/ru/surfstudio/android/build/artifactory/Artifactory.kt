@@ -1,11 +1,9 @@
 package ru.surfstudio.android.build.artifactory
 
-import org.gradle.api.GradleException
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.exceptions.artifactory.ArtifactNotExistInArtifactoryException
 import ru.surfstudio.android.build.exceptions.FolderNotFoundException
+import ru.surfstudio.android.build.exceptions.artifactory.ArtifactNotExistInArtifactoryException
 import ru.surfstudio.android.build.exceptions.library.LibraryNotFoundException
-import ru.surfstudio.android.build.model.ArtifactInfo
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library
 
@@ -15,34 +13,6 @@ import ru.surfstudio.android.build.model.module.Library
 object Artifactory {
 
     private val repository = ArtifactoryRepository()
-
-    /**
-     * Deploy artifact to bintray
-     */
-    @Deprecated("Use Artifactory or Maven Central after Bintray sunset")
-    fun distributeArtifactToBintray(overrideExisting: Boolean, libraryNames: List<String>) {
-        val artifacts: List<ArtifactInfo> = libraryNames.map { ArtifactInfo(it) }
-        var packagesRepoPaths = ""
-        artifacts.forEachIndexed { index, artifactInfo ->
-            packagesRepoPaths += artifactInfo.getPath()
-            if (index != artifacts.size - 1) packagesRepoPaths += ", "
-        }
-        distribute(packagesRepoPaths, overrideExisting)
-    }
-
-    /**
-     * Deploy artifact to bintray
-     */
-    @JvmStatic
-    @Deprecated("Use Artifactory or Maven Central after Bintray sunset")
-    fun distributeArtifactToBintray(overrideExisting: Boolean, libraryName: String) {
-        distribute(ArtifactInfo(libraryName).getPath(), overrideExisting)
-    }
-
-    private fun distribute(packagesRepoPath: String, overrideExisting: Boolean) {
-        val response = repository.distribute(packagesRepoPath, overrideExisting)
-        if (response.statusCode != 200) throw GradleException(response.toString())
-    }
 
     /**
      * Check if libraries's android standard dependencies exist in artifactory
