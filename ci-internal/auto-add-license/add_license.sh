@@ -2,6 +2,11 @@
 
 ### Copy LICENSE to all android packages if necessary.
 ### must be run from root of repository
+
+# todo fix: no need to add license for each template module
+# todo commit after adding license
+# todo could be replaced with spotless
+
 ### region FUNC
 
 ## check is android module directory
