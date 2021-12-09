@@ -35,4 +35,5 @@ buildscript {
     }
 }
 
-apply from: "buildSrc/ktFormatter.gradle"
+// todo could be replaced with spotless
+//apply from: "buildSrc/ktFormatter.gradle"
