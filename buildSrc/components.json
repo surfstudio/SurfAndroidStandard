@@ -829,7 +829,7 @@
   {
     "id": "core-navigation",
     "version": "0.6.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "core-navigation",
     "libs": [
