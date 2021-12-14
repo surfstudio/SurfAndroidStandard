@@ -40,7 +40,8 @@ def useJava11 = false // default value
 def java11Branches = [
         "dev/G-0.5.0",
         "project-snapshot/BET",
-        "project-snapshot/BZN"
+        "project-snapshot/BZN",
+        "project-snapshot/MLO"
 ]
 
 //other config
