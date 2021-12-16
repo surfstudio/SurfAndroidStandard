@@ -47,7 +47,7 @@ public class FragmentNavigator implements Navigator {
 
     @IntDef({TRANSIT_NONE, TRANSIT_FRAGMENT_OPEN, TRANSIT_FRAGMENT_CLOSE, TRANSIT_FRAGMENT_FADE})
     @Retention(RetentionPolicy.SOURCE)
-    private @interface Transit {
+    public @interface Transit {
     }
 
     public FragmentNavigator(Provider<AppCompatActivity> activityProvider) {

@@ -8,13 +8,17 @@ import ru.surfstudio.android.location.sample.ui.screen.common.CommonLocationPerm
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
+import ru.surfstudio.android.sample.dagger.app.dagger.NavigationModule
 
 @PerApplication
-@Component(modules = [
-    DefaultAppModule::class,
-    DefaultSharedPrefModule::class,
-    LocationModule::class
-])
+@Component(
+    modules = [
+        DefaultAppModule::class,
+        DefaultSharedPrefModule::class,
+        NavigationModule::class,
+        LocationModule::class
+    ]
+)
 interface CustomAppComponent : DefaultAppComponent {
     fun locationService(): ILocationService
     fun commonLocationPermissionRequest(): CommonLocationPermissionRequest

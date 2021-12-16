@@ -23,12 +23,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     lintOptions {
@@ -72,11 +72,16 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "activity-holder")
     DependencyConfigurator.projectImplementation(project, "logger")
     DependencyConfigurator.projectImplementation(project, "util-ktx")
+    DependencyConfigurator.projectImplementation(project, "navigation")
+    DependencyConfigurator.projectImplementation(project, "navigation-observer")
 
     DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
     DependencyConfigurator.implementation(project, "androidx.appcompat:appcompat")
     DependencyConfigurator.implementation(project, "androidx.constraintlayout:constraintlayout")
+    DependencyConfigurator.implementation(project, "androidx.swiperefreshlayout:swiperefreshlayout")
+
+    DependencyConfigurator.implementation(project, "com.jakewharton.rxbinding2:rxbinding")
+    DependencyConfigurator.implementation(project, "com.jakewharton.rxbinding2:rxbinding-kotlin")
 
     androidTestImplementation project(":sample-common")
 }

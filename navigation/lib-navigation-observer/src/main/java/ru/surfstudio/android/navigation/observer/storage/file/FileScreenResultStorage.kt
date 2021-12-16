@@ -6,7 +6,7 @@ import java.io.*
 import java.nio.ByteBuffer
 
 class FileScreenResultStorage(
-        rootDirectoryName: String
+    rootDirectoryName: String
 ) : ScreenResultStorage {
 
     private val rootDirectory: File
@@ -22,7 +22,6 @@ class FileScreenResultStorage(
         return bytes?.let { decode(it) }
     }
 
-
     override fun <T : Serializable> save(info: ScreenResultInfo<T>) {
         val name = getFileName(info.targetId)
         val bytes = encode(info) ?: return
@@ -32,8 +31,8 @@ class FileScreenResultStorage(
     override fun remove(targetId: String) {
         val name = getFileName(targetId)
         getFilesList()
-                .filter { it.name == name }
-                .forEach { it.delete() }
+            .filter { it.name == name }
+            .forEach { it.delete() }
     }
 
     override fun contains(targetId: String): Boolean {
@@ -43,8 +42,8 @@ class FileScreenResultStorage(
 
     override fun clear() {
         getFilesList()
-                .filter { it.canRead() && it.canWrite() }
-                .forEach { it.delete() }
+            .filter { it.canRead() && it.canWrite() }
+            .forEach { it.delete() }
     }
 
     private fun getFileName(targetId: String): String {

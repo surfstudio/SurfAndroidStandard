@@ -26,6 +26,7 @@ class CustomApp : MultiDexApplication() {
      * Регистрирует слушатель аткивной активити
      */
     private fun registerActiveActivityListener() {
+        registerActivityLifecycleCallbacks(AppConfigurator.customAppComponent?.navigationProviderCallbacks())
         registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity

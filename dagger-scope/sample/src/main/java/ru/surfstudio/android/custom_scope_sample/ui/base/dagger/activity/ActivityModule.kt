@@ -1,15 +1,11 @@
 package ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity
 
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
-import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
@@ -18,8 +14,6 @@ import ru.surfstudio.android.core.ui.state.ActivityScreenState
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
-import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
-import javax.inject.Named
 
 /**
  * Модуль для dagger Activity Component
@@ -29,7 +23,6 @@ import javax.inject.Named
  * Эти обьекты могут также использоваться внутри дополнительных обектов со специфической логикой,
  * принадлежащих скоупу @PerScreen
  */
-
 @Module
 class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
@@ -53,14 +46,16 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun provideActivityProvider(): Provider<AppCompatActivity> {
+    internal fun provideActivityProvider(): ActivityProvider {
         return ActivityProvider(persistentScope.screenState)
     }
 
     @Provides
     @PerActivity
-    internal fun provideActivityNavigator(activityProvider: Provider<AppCompatActivity>,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    internal fun provideActivityNavigator(
+        activityProvider: ActivityProvider,
+        eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 
@@ -72,27 +67,13 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
-                                          activityNavigator: ActivityNavigator,
-                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-                                          activityProvider: Provider<AppCompatActivity>): PermissionManager {
-        return PermissionManagerForActivity(
-                eventDelegateManager,
-                activityNavigator,
-                sharedPreferences,
-                activityProvider
-        )
-    }
-
-    @Provides
-    @PerActivity
-    internal fun provideMessageController(activityProvider: Provider<AppCompatActivity>): MessageController {
+    internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {
         return DefaultMessageController(activityProvider)
     }
 
     @Provides
     @PerActivity
-    internal fun provideFragmentNavigator(activityProvider: Provider<AppCompatActivity>): FragmentNavigator {
+    internal fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator {
         return FragmentNavigator(activityProvider)
     }
 }

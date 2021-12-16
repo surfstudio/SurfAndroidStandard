@@ -1,7 +1,6 @@
 package ru.surfstudio.standard.f_splash
 
 import io.kotest.assertions.assertSoftly
-import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.every
 import io.mockk.mockk
@@ -11,6 +10,7 @@ import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.TestScheduler
 import ru.surfstudio.android.navigation.command.activity.Replace
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
+import ru.surfstudio.standard.i_onboarding.OnBoardingStorage
 import ru.surfstudio.standard.ui.navigation.routes.MainActivityRoute
 import ru.surfstudio.standard.ui.test.base.BaseMiddlewareTest
 import ru.surfstudio.standard.ui.test.matcher.shouldBeNavigationCommand
@@ -21,6 +21,10 @@ internal class SplashMiddlewareTest : BaseMiddlewareTest() {
 
     private val initializeAppInteractor: InitializeAppInteractor = mockk {
         every { initialize() } returns Completable.complete()
+    }
+
+    private val onboardingStorage: OnBoardingStorage = mockk {
+        every { shouldShowOnBoardingScreen } returns false
     }
 
     @After
@@ -39,17 +43,18 @@ internal class SplashMiddlewareTest : BaseMiddlewareTest() {
 
         assertSoftly(testObserver.values().firstOrNull()) {
             shouldBeInstanceOf<SplashEvent.Navigation>()
-                .event
-                .shouldBeNavigationCommand<Replace>()
-                .withRoute<MainActivityRoute>()
+                    .event
+                    .shouldBeNavigationCommand<Replace>()
+                    .withRoute<MainActivityRoute>()
         }
     }
 
     private fun createMiddleware(): SplashMiddleware {
         return SplashMiddleware(
-            baseMiddlewareDependency,
-            navigationMiddleware,
-            initializeAppInteractor
+                baseMiddlewareDependency,
+                navigationMiddleware,
+                initializeAppInteractor,
+                onboardingStorage
         )
     }
 }

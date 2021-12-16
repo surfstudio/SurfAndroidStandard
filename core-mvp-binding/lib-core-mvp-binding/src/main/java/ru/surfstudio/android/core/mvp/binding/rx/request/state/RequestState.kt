@@ -33,7 +33,7 @@ open class RequestState<T>(
             .flatMap { skipIfNull(it.data) }
 
     fun observeOptionalData(): Observable<Optional<T>> = relay.share()
-            .map { if (it.data == null) Optional.empty() else Optional.of(it.data) }
+            .map { if (it.data == null) Optional.empty() else Optional.of<T>(it.data) }
             .distinctUntilChanged()
 
     fun observeLoading(): Observable<Loading> = relay.share()

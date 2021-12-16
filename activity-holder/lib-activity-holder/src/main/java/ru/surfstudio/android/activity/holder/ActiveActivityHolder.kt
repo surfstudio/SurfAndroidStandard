@@ -16,7 +16,6 @@
 package ru.surfstudio.android.activity.holder
 
 import android.app.Activity
-import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 /**

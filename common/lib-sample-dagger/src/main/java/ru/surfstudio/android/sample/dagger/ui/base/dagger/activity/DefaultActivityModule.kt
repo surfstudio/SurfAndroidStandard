@@ -1,8 +1,6 @@
 package ru.surfstudio.android.sample.dagger.ui.base.dagger.activity
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
@@ -10,9 +8,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
-import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.core.ui.scope.PersistentScope
 import ru.surfstudio.android.core.ui.state.ActivityScreenState
@@ -22,8 +18,6 @@ import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
 import ru.surfstudio.android.rxbus.RxBus
-import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
-import javax.inject.Named
 
 /**
  * Module for Dagger Activity Component.
@@ -55,15 +49,15 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
 
     @Provides
     @PerActivity
-    internal fun provideActivityProvider(): Provider<AppCompatActivity> {
+    internal fun provideActivityProvider(): ActivityProvider {
         return ActivityProvider(persistentScope.screenState)
     }
 
     @Provides
     @PerActivity
     internal fun provideActivityNavigator(
-            activityProvider: Provider<AppCompatActivity>,
-            eventDelegateManager: ScreenEventDelegateManager
+        activityProvider: ActivityProvider,
+        eventDelegateManager: ScreenEventDelegateManager
     ): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
@@ -76,29 +70,13 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
 
     @Provides
     @PerActivity
-    internal fun providePermissionManager(
-            eventDelegateManager: ScreenEventDelegateManager,
-            activityNavigator: ActivityNavigator,
-            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-            activityProvider: Provider<AppCompatActivity>
-    ): PermissionManager {
-        return PermissionManagerForActivity(
-                eventDelegateManager,
-                activityNavigator,
-                sharedPreferences,
-                activityProvider
-        )
-    }
-
-    @Provides
-    @PerActivity
-    internal fun provideMessageController(activityProvider: Provider<AppCompatActivity>): MessageController {
+    internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {
         return DefaultMessageController(activityProvider)
     }
 
     @Provides
     @PerActivity
-    internal fun provideFragmentNavigator(activityProvider: Provider<AppCompatActivity>): FragmentNavigator {
+    internal fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator {
         return FragmentNavigator(activityProvider)
     }
 
@@ -117,10 +95,10 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
     @Provides
     @PerActivity
     internal fun providePictureProvider(
-            context: Context,
-            activityNavigator: ActivityNavigator,
-            activityProvider: Provider<AppCompatActivity>,
-            ppChecker: PicturePermissionChecker
+        context: Context,
+        activityNavigator: ActivityNavigator,
+        activityProvider: ActivityProvider,
+        ppChecker: PicturePermissionChecker
     ): PictureProvider {
         return PictureProvider(context, activityNavigator, activityProvider, ppChecker)
     }

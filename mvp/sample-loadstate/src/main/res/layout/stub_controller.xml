@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.supercharge.shimmerlayout.ShimmerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/stub_controller_shimmer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:shimmer_color="@color/white_20">
+    android:layout_height="wrap_content">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -23,4 +21,4 @@
             android:minHeight="18dp" />
 
     </FrameLayout>
-</io.supercharge.shimmerlayout.ShimmerLayout>
+</com.facebook.shimmer.ShimmerFrameLayout>

@@ -31,8 +31,8 @@ import java.util.concurrent.atomic.AtomicReference
 @Deprecated("Use Action/State pair instead")
 class Bond<T>(initialValue: T? = null) : ValuableRelation<T, BondSource, BondTarget>() {
 
-    private val action = initialValue?.let { Action(it) } ?: Action()
-    private val command = initialValue?.let { State(it) } ?: State()
+    private val action = initialValue?.let { Action<T>(it) } ?: Action()
+    private val command = initialValue?.let { State<T>(it) } ?: State()
 
     private val cachedValue = AtomicReference<T>()
 

@@ -4,9 +4,9 @@ import android.location.Location
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.core.view.isGone
 import io.reactivex.exceptions.CompositeException
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.location_sample.R
 
@@ -60,5 +60,13 @@ abstract class BaseSampleActivity : CoreActivityView() {
                 append(exception::class.java.simpleName)
             }
         }
+    }
+
+    private fun toast(message: String) {
+        Toast
+            .makeText(this, message, Toast.LENGTH_SHORT)
+            .apply {
+                show()
+            }
     }
 }

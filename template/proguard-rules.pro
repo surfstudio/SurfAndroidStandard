@@ -58,7 +58,7 @@
 -dontwarn afu.org.checkerframework.checker.regex.**
 -dontwarn afu.org.checkerframework.checker.units.**
 
-#TODO Поменять пути с соответствии с реальным расположением фойлов.
+#TODO Поменять пути в соответствии с реальным расположением файлов.
 #network
 -keep class * implements ru.surfstudio.standard.i_network.network.Transformable
 -keep class * implements ru.surfstudio.standard.i_network.network.response.BaseResponse

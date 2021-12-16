@@ -11,7 +11,7 @@ class DefaultApp : Application() {
 
     val activeActivityHolder = ActiveActivityHolder()
 
-    var defaultAppComponent: DefaultAppComponent? = null
+    lateinit var defaultAppComponent: DefaultAppComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -22,11 +22,12 @@ class DefaultApp : Application() {
 
     private fun initInjector() {
         defaultAppComponent = DaggerDefaultAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
-                .build()
+            .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
+            .build()
     }
 
     private fun registerActiveActivityListener() {
+        registerActivityLifecycleCallbacks(defaultAppComponent.navigationProviderCallbacks())
         registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity

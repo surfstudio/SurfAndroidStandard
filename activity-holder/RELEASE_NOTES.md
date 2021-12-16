@@ -1,7 +1,11 @@
 # Activity-holder Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.6.0-alpha](#060-alpha)
+- [0.5.0](#050)
 
-## 0.5.0-alpha
+## 0.6.0-alpha
 ##### Activity-holder
-* TODO
+* Remove rx-extension dependency
+## 0.5.0
+##### Activity-holder
+* Init module

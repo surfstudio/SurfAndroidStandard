@@ -2,9 +2,9 @@ package ru.surfstudio.android.easyadapter.sample.ui.screen.multitype
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.multitype_list_layout.*
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
@@ -27,17 +27,32 @@ class MultitypeListActivityView : BaseRenderableActivityView<MultitypeListScreen
     private val emptyItemController = EmptyItemController()
     private val twoDataItemController = TwoDataItemController()
 
-    private val firstDataItemController = FirstDataItemController { toast("Value = $it") }
+    private val firstDataItemController = FirstDataItemController {
+        Toast
+            .makeText(this, "Value = $it", Toast.LENGTH_SHORT)
+            .apply {
+                show()
+            }
+    }
 
-    private val secondDataItemController = SecondDataItemController { toast("Value = ${it.stringValue}") }
+    private val secondDataItemController =
+        SecondDataItemController {
+            Toast
+                .makeText(this, "Value = ${it.stringValue}", Toast.LENGTH_SHORT)
+                .apply {
+                    show()
+                }
+        }
 
     override fun createConfigurator(): CustomActivityScreenConfigurator {
         return MultitypeListScreenConfigurator(intent)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
+    override fun onCreate(
+        savedInstanceState: Bundle?,
+        persistentState: PersistableBundle?,
+        viewRecreated: Boolean
+    ) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         initRecycler()
     }
@@ -49,11 +64,13 @@ class MultitypeListActivityView : BaseRenderableActivityView<MultitypeListScreen
     override fun getScreenName(): String = "Multitype List Activity"
 
     override fun renderInternal(sm: MultitypeListScreenModel) {
-        adapter.setItems(ItemList.create()
+        adapter.setItems(
+            ItemList.create()
                 .addAll(sm.firstDataList, firstDataItemController)
                 .addAll(sm.secondDataList, secondDataItemController)
                 .add(emptyItemController)
-                .add(sm.firstData, sm.secondData, twoDataItemController))
+                .add(sm.firstData, sm.secondData, twoDataItemController)
+        )
     }
 
     private fun initRecycler() {
