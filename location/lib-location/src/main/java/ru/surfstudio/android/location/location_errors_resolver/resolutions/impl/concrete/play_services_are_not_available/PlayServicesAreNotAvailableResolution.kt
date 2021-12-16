@@ -31,7 +31,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
  */
 class PlayServicesAreNotAvailableResolution(
         screenEventDelegateManager: ScreenEventDelegateManager,
-        private val activityProvider: Provider<AppCompatActivity>
+        private val activityProvider: ActivityProvider
 ) : BaseLocationErrorResolutionWithActivityResultDelegateImpl<PlayServicesAreNotAvailableException>(
         screenEventDelegateManager
 ) {

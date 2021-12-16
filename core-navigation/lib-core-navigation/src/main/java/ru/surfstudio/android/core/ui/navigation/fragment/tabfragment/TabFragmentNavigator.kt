@@ -18,7 +18,6 @@ package ru.surfstudio.android.core.ui.navigation.fragment.tabfragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import io.reactivex.Observable
@@ -34,7 +33,7 @@ import ru.surfstudio.android.core.ui.navigation.Navigator
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
 import ru.surfstudio.android.core.ui.navigation.fragment.route.RootFragmentRoute
-import ru.surfstudio.android.core.ui.provider.Provider
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.logger.Logger
 import java.util.*
 
@@ -42,8 +41,8 @@ import java.util.*
  * Навигатор для фрагментов в табах
  */
 open class TabFragmentNavigator(
-        val activityProvider: Provider<AppCompatActivity>,
-        eventDelegateManager: ScreenEventDelegateManager
+    val activityProvider: ActivityProvider,
+    eventDelegateManager: ScreenEventDelegateManager
 )
     : Navigator,
         OnBackPressedDelegate,

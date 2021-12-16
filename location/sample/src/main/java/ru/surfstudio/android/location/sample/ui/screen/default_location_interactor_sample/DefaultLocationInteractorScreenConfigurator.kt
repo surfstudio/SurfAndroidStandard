@@ -1,7 +1,6 @@
 package ru.surfstudio.android.location.sample.ui.screen.default_location_interactor_sample
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -9,7 +8,7 @@ import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.core.ui.provider.Provider
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.location.DefaultLocationInteractor
 import ru.surfstudio.android.location.ILocationService
@@ -34,10 +33,10 @@ class DefaultLocationInteractorScreenConfigurator(intent: Intent) : CustomActivi
 
         @Provides
         fun provideDefaultLocationInteractor(
-                permissionManager: PermissionManager,
-                screenEventDelegateManager: ScreenEventDelegateManager,
-                activityProvider: Provider<AppCompatActivity>,
-                locationService: ILocationService
+            permissionManager: PermissionManager,
+            screenEventDelegateManager: ScreenEventDelegateManager,
+            activityProvider: ActivityProvider,
+            locationService: ILocationService
         ) = DefaultLocationInteractor(permissionManager, screenEventDelegateManager, activityProvider, locationService)
 
         @Provides

@@ -1,10 +1,9 @@
 package ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
-import ru.surfstudio.android.core.ui.provider.Provider
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.resource.ResourceProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.custom_scope_sample.app.dagger.AppComponent
@@ -23,7 +22,7 @@ interface ActivityComponent {
     fun connectionProvider(): ConnectionProvider
     fun resourceProvider(): ResourceProvider
 
-    fun activityProvider(): Provider<AppCompatActivity>
+    fun activityProvider(): ActivityProvider
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context
 }

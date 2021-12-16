@@ -16,11 +16,10 @@
 package ru.surfstudio.android.core.ui.permission.deprecated
 
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
-import ru.surfstudio.android.core.ui.navigation.IActivityNavigator
-import ru.surfstudio.android.core.ui.provider.Provider
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 
 /**
  * PermissionManager, работающий из активити.
@@ -28,9 +27,9 @@ import ru.surfstudio.android.core.ui.provider.Provider
 @Deprecated("Prefer using new implementation")
 class PermissionManagerForActivity(
         eventDelegateManager: ScreenEventDelegateManager,
-        activityNavigator: IActivityNavigator,
+        activityNavigator: ActivityNavigator,
         sharedPreferences: SharedPreferences,
-        private val activityProvider: Provider<AppCompatActivity>
+        private val activityProvider: ActivityProvider
 ) : PermissionManager(eventDelegateManager, activityProvider, activityNavigator, sharedPreferences) {
 
     override fun performPermissionRequest(permissionRequest: PermissionRequest) =

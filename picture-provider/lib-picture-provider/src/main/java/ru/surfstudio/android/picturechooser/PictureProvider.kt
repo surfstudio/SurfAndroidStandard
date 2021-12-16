@@ -17,11 +17,10 @@ package ru.surfstudio.android.picturechooser
 
 import android.content.Context
 import android.provider.MediaStore
-import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Observable
 import io.reactivex.Single
 import ru.surfstudio.android.core.ui.navigation.IActivityNavigator
-import ru.surfstudio.android.core.ui.provider.Provider
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.picturechooser.destination.PictureDestinationProvider
 import ru.surfstudio.android.picturechooser.exceptions.NoPermissionException
 
@@ -29,13 +28,13 @@ import ru.surfstudio.android.picturechooser.exceptions.NoPermissionException
  * Поставляет изображения находящиеся на устройстве или с камеры.
  */
 class PictureProvider(
-        val context: Context,
-        activityNavigator: IActivityNavigator,
-        activityProvider: Provider<AppCompatActivity>,
-        private val cameraStoragePermissionChecker: PicturePermissionChecker,
-        private val cameraIntentHelper: CameraPictureProvider = CameraPictureProvider(activityNavigator, activityProvider),
-        private val galleryPictureProvider: GalleryPictureProvider = GalleryPictureProvider(activityNavigator, activityProvider),
-        private val chooserPictureProvider: ChooserPictureProvider = ChooserPictureProvider(activityNavigator, activityProvider)
+    val context: Context,
+    activityNavigator: IActivityNavigator,
+    activityProvider: ActivityProvider,
+    private val cameraStoragePermissionChecker: PicturePermissionChecker,
+    private val cameraIntentHelper: CameraPictureProvider = CameraPictureProvider(activityNavigator, activityProvider),
+    private val galleryPictureProvider: GalleryPictureProvider = GalleryPictureProvider(activityNavigator, activityProvider),
+    private val chooserPictureProvider: ChooserPictureProvider = ChooserPictureProvider(activityNavigator, activityProvider)
 ) {
 
     /**

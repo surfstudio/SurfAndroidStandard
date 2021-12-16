@@ -2,13 +2,11 @@ package ru.surfstudio.android.mvpwidget.sample.ui.screen.main
 
 import android.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
-import ru.surfstudio.android.core.ui.provider.Provider
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.list.ListActivityRoute
 import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.fragment.MainFragmentRoute
@@ -20,7 +18,7 @@ import javax.inject.Inject
 @PerScreen
 internal class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        activityProvider: Provider<AppCompatActivity>,
+        activityProvider: ActivityProvider,
         private val activityNavigator: ActivityNavigator
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
