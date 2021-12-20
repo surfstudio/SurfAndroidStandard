@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* Fix bug in DebugCatalogItemLayout
 * Add chucker
 * Update for Android 12
 * Fix rxbinding dependency
