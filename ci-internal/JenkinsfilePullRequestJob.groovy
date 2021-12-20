@@ -46,7 +46,8 @@ def java11Branches = [
         "dev/G-0.5.0",
         "project-snapshot/BET",
         "project-snapshot/BZN",
-        "project-snapshot/MLO"
+        "project-snapshot/MLO",
+        "project-snapshot/LABAND"
 ]
 
 //parameters
