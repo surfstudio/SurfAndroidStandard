@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+//apply plugin: 'com.google.gms.google-services' todo uncoment for real app
 //apply plugin: 'com.google.firebase.crashlytics' todo uncoment for real app
 //apply plugin: 'com.google.firebase.appdistribution' todo uncoment for real app
 
@@ -57,6 +58,3 @@ configurations.all {
     resolutionStrategy.force 'org.objenesis:objenesis:2.6'
     resolutionStrategy.force 'io.github.classgraph:classgraph:4.8.54'
 }
-
-//todo uncoment for real app
-//apply plugin: 'com.google.gms.google-services'
