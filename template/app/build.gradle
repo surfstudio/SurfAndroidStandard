@@ -17,10 +17,10 @@ apply from: '../androidTestConfiguration.gradle'
 android {
 
     defaultConfig {
-        applicationId meta.applicationId
+        applicationId app.applicationId
 
-        versionCode meta.versionCode
-        versionName meta.versionName
+        versionCode app.versionCode
+        versionName app.versionName
 
         //setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)") //todo uncomment for real app
 
