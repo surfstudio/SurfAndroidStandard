@@ -5,7 +5,8 @@ dependencies {
             this,
             [
                     "activity-holder",
-                    "rx-extension"
+                    "rx-extension",
+                    "message-controller"
             ]
     )
 

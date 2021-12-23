@@ -6,6 +6,7 @@
 
 ## 0.5.0-alpha
 ##### Template
+* Fix assembleRelease
 * Fix defaultConfig path for variables
 * Fix uploadCrashlyticsMappingFileQa task Failed
 * Fix bug in DebugCatalogItemLayout
