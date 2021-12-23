@@ -199,7 +199,7 @@ pipeline.stages = [
                     "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
             // build template after deploy in order to check usage of new artifacts
             GradleUtil.gradlew(script, "-p template :app:dependencies", useJava11)
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace", useJava11)
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa assembleRelease --stacktrace", useJava11)
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
