@@ -47,7 +47,8 @@ def java11Branches = [
         "project-snapshot/BET",
         "project-snapshot/BZN",
         "project-snapshot/MLO",
-        "project-snapshot/LABAND"
+        "project-snapshot/LABAND",
+        "project-snapshot/UNI-NEW"
 ]
 
 //parameters
