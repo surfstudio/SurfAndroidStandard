@@ -1,14 +1,16 @@
 apply from: '../commonModule.gradle'
+apply from: '../commonKaptModule.gradle'
 
-apply plugin: 'kotlin-kapt'
 
 dependencies {
+    gradle.ext.androidStandard.api(
+            this,
+            ["message-controller"]
+    )
+
     implementation project(":base")
     implementation project(":i-push-notification")
     implementation project(":i-network")
-
-    implementation di.dagger
-    kapt di.daggerKapt
 
     implementation rxBinding4.core
 
@@ -28,5 +30,4 @@ dependencies {
     implementation androidX.constraintLayout
 
     api project(":domain")
-    implementation project(":i-push-notification")
 }

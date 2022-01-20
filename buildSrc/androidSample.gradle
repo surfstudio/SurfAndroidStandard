@@ -72,9 +72,10 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "activity-holder")
     DependencyConfigurator.projectImplementation(project, "logger")
     DependencyConfigurator.projectImplementation(project, "util-ktx")
+    DependencyConfigurator.projectImplementation(project, "navigation")
+    DependencyConfigurator.projectImplementation(project, "navigation-observer")
 
     DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
     DependencyConfigurator.implementation(project, "androidx.appcompat:appcompat")
     DependencyConfigurator.implementation(project, "androidx.constraintlayout:constraintlayout")
 

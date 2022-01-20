@@ -31,7 +31,5 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "datalist-limit-offset")
     DependencyConfigurator.projectImplementation(project, "datalist-page-count")
 
-    DependencyConfigurator.implementation(project, "me.zhanghai.android.materialprogressbar:library")
-
     DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
 }

@@ -4,12 +4,14 @@ apply from: '../unitTestConfiguration.gradle'
 dependencies {
     api project(":domain")
     api platform(firebase.bom)
-    api firebase.core //todo might be removed for real project
     api firebase.analytics
     api firebase.messaging
 
+    api view.glide
+
     implementation test.kotest
     implementation test.mockk
+    implementation serialization.gson
 
     gradle.ext.androidStandard.api(
             this,
@@ -31,7 +33,6 @@ dependencies {
                     "dagger-scope",
                     "logger",
                     "filestorage",
-                    "imageloader",
                     "animations",
                     "picture-provider",
                     "app-migration",
@@ -43,9 +44,6 @@ dependencies {
                     "rx-extension",
                     "shared-pref",
                     "util-ktx",
-                    "standard-dialog",
-                    "message-controller",
-                    "broadcast-extension",
                     "rxbus",
                     "mvi-core",
                     "mvi-impls",

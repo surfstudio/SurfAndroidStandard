@@ -1,9 +1,13 @@
 # Message-controller Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.5.1](#051-alpha)
+- [0.5.0](#050)
 - [0.2.1](#021)
 
-## 0.5.0-alpha
+## 0.5.1-alpha
+##### Message-controller
+* Replace local ferro-rx dependency
+## 0.5.0
 ##### Message-controller
 * ANDDEP-687 Removed "androidx.exifinterface:exifinterface" dependency
 * ANDDEP-783 Added ability to pass params for snack and toast by one object, set custom view for Toast

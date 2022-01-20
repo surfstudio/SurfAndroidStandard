@@ -27,9 +27,9 @@ class StubLoadStateController : BindableItemController<StubData, StubLoadStateCo
         private fun animateShimmer(isAnimated: Boolean) {
             shimmer.post {
                 if (isAnimated) {
-                    shimmer.startShimmerAnimation()
+                    shimmer.startShimmer()
                 } else {
-                    shimmer.stopShimmerAnimation()
+                    shimmer.stopShimmer()
                 }
             }
         }

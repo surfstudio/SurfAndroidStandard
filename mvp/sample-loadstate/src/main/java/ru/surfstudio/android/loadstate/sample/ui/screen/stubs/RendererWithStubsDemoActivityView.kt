@@ -2,10 +2,10 @@ package ru.surfstudio.android.loadstate.sample.ui.screen.stubs
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_renderer_with_stubs_demo.*
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
@@ -28,12 +28,13 @@ class RendererWithStubsDemoActivityView : BaseLdsActivityView<RendererWithStubsD
 
     private val renderer: LoadStateWithStubsRenderer by lazy {
         LoadStateWithStubsRenderer(adapter)
-                .apply {
-                    //пример управления видимостью View в зависимости от стейта
-                    setViewVisibleFor(
-                            ErrorLoadState::class,
-                            retry_btn)
-                }
+            .apply {
+                //пример управления видимостью View в зависимости от стейта
+                setViewVisibleFor(
+                    ErrorLoadState::class,
+                    retry_btn
+                )
+            }
     }
 
     @Inject
@@ -50,9 +51,11 @@ class RendererWithStubsDemoActivityView : BaseLdsActivityView<RendererWithStubsD
 
     override fun getLoadStateRenderer() = renderer
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
+    override fun onCreate(
+        savedInstanceState: Bundle?,
+        persistentState: PersistableBundle?,
+        viewRecreated: Boolean
+    ) {
         initViews()
         initListeners()
     }
@@ -62,8 +65,9 @@ class RendererWithStubsDemoActivityView : BaseLdsActivityView<RendererWithStubsD
         if (screenModel.loadState !is NoneLoadState) return
 
         adapter.setItems(
-                ItemList.create()
-                        .addAll(screenModel.itemList, exampleDataItemController))
+            ItemList.create()
+                .addAll(screenModel.itemList, exampleDataItemController)
+        )
     }
 
     private fun initViews() {
@@ -75,6 +79,12 @@ class RendererWithStubsDemoActivityView : BaseLdsActivityView<RendererWithStubsD
         main_loading_btn.setOnClickListener { presenter.mainLoading() }
         error_btn.setOnClickListener { presenter.error() }
         none_btn.setOnClickListener { presenter.none() }
-        retry_btn.setOnClickListener { toast(R.string.retry_toast_msg) }
+        retry_btn.setOnClickListener {
+            Toast
+                .makeText(this, R.string.retry_toast_msg, Toast.LENGTH_SHORT)
+                .apply {
+                    show()
+                }
+        }
     }
 }

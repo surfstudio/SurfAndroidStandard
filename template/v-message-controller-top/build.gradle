@@ -1,0 +1,6 @@
+apply from: '../commonModule.gradle'
+
+dependencies {
+    implementation project(":base")
+    implementation project(":base_resources")
+}

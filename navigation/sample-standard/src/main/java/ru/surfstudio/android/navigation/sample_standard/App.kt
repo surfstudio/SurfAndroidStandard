@@ -6,7 +6,6 @@ import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.navigation.animation.DefaultAnimations
 import ru.surfstudio.android.navigation.provider.callbacks.ActivityNavigationProviderCallbacks
 import ru.surfstudio.android.navigation.sample_standard.di.AppComponent
-import ru.surfstudio.android.navigation.sample_standard.di.AppNavigationModule
 import ru.surfstudio.android.navigation.sample_standard.di.DaggerAppComponent
 import ru.surfstudio.android.navigation.sample_standard.utils.animations.FadeAnimations
 import ru.surfstudio.android.navigation.sample_standard.utils.animations.SlideAnimations
@@ -28,12 +27,12 @@ class App : Application() {
 
     private fun initInjector() {
         appComponent = DaggerAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
-                .appNavigationModule(AppNavigationModule())
-                .build()
+            .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
+            .build()
     }
 
     private fun registerActiveActivityListener() {
+        registerActivityLifecycleCallbacks(appComponent.navigationProviderCallbacks())
         registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity

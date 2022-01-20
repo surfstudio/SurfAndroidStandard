@@ -14,7 +14,7 @@ abstract class DialogScreenConfigurator(
         return FragmentScreenModule(persistentScope)
     }
 
-    override fun getParentComponent(): ActivityComponent { //TODO добавить диалог компонент?
+    override fun getParentComponent(): ActivityComponent {
         return (getTargetFragmentView<CoreDialogFragmentView>().activity as CoreActivityInterface)
                 .persistentScope
                 .configurator
