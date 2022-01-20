@@ -1,9 +1,13 @@
 # Filestorage Release Notes
 
-- [0.5.0-alpha](#050-alpha)
+- [0.6.0-alpha](#060-alpha)
+- [0.5.0](#050)
 - [0.3.0](#030)
 
-## 0.5.0-alpha
+## 0.6.0-alpha
+##### Filestorage
+* TODO
+## 0.5.0
 ##### Filestorage
 * ANDDEP-687 Changed "com.google.code.gson:gson" dependency from "api" to "implementation" type
 ## 0.3.0

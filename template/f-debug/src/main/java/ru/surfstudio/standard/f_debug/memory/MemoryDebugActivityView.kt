@@ -1,12 +1,15 @@
 package ru.surfstudio.standard.f_debug.memory
 
-import kotlinx.android.synthetic.main.activity_memory_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
+import ru.surfstudio.android.core.ui.view_binding.viewBinding
 import ru.surfstudio.android.template.f_debug.R
+import ru.surfstudio.android.template.f_debug.databinding.ActivityMemoryDebugBinding
 import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.MemoryDebugScreenConfigurator
 import javax.inject.Inject
 
 class MemoryDebugActivityView : BaseRenderableActivityView<MemoryDebugScreenModel>() {
+
+    private val binding by viewBinding(ActivityMemoryDebugBinding::bind) { rootView }
 
     @Inject
     lateinit var presenter: MemoryDebugPresenter
@@ -20,14 +23,14 @@ class MemoryDebugActivityView : BaseRenderableActivityView<MemoryDebugScreenMode
     override fun getPresenters() = arrayOf(presenter)
 
     override fun renderInternal(model: MemoryDebugScreenModel) {
-        debug_memory_leakcanary_switch.setChecked(model.isLeakCanaryEnabled)
+        binding.debugMemoryLeakcanarySwitch.setChecked(model.isLeakCanaryEnabled)
         initListeners()
     }
 
     private fun initListeners() {
-        debug_memory_leakcanary_switch.setOnCheckedChangeListener { _, isEnabled ->
+        binding.debugMemoryLeakcanarySwitch.setOnCheckedChangeListener { _, isEnabled ->
             presenter.setLeakCanaryEnabled(isEnabled)
         }
-        debug_show_storage_item_layout.setOnClickListener { presenter.openStorageDebugScreen() }
+        binding.debugShowStorageItemLayout.setOnClickListener { presenter.openStorageDebugScreen() }
     }
 }

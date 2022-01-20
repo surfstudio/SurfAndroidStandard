@@ -10,5 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:contentDescription="@string/content_description"
         app:srcCompat="@android:mipmap/sym_def_app_icon" />
 </FrameLayout>

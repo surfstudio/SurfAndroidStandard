@@ -2,9 +2,9 @@ package ru.surfstudio.android.easyadapter.sample.ui.screen.async
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.async_inflate_list_layout.*
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -20,7 +20,11 @@ class AsyncInflateListActivityView : BaseRenderableActivityView<AsyncInflateList
     private val adapter = EasyAdapter()
 
     private val controller = AsyncInflateItemController {
-        toast("Click!")
+        Toast
+            .makeText(this, "Click!", Toast.LENGTH_SHORT)
+            .apply {
+                show()
+            }
     }
 
     override fun createConfigurator(): BaseActivityViewConfigurator<*, *, *> {
@@ -37,7 +41,11 @@ class AsyncInflateListActivityView : BaseRenderableActivityView<AsyncInflateList
         adapter.setItems(ItemList.create().addAll(screenModel.data, controller))
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
+    override fun onCreate(
+        savedInstanceState: Bundle?,
+        persistentState: PersistableBundle?,
+        viewRecreated: Boolean
+    ) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
 
         initRecycler()

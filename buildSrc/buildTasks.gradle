@@ -19,41 +19,13 @@ task checkStableComponentStandardDependenciesStableTask(type: CheckStableCompone
 
 task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactoryTask) //release
 
-task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintrayTask) //release
-
 task checkDependencyForComponentUnstable(type: CheckDependencyForComponentUnstableTask) //release
 
 task checkStableComponentsChanged(type: CheckStableComponentsChangedTask) //pr
 
-task createProjectConfiguration(type: CreateProjectConfigurationTask)
-
-task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
-    dir = file('./temp')
-    tasks = ['CreateProjectConfiguration']
-    doFirst {
-        def pathToProject = null
-        def revision = null
-        if (project.hasProperty('pathToProject')) {
-            pathToProject = project.findProperty('pathToProject')
-        } else {
-            throw new GradleException("No arguments found")
-        }
-        if (project.hasProperty('revision')) {
-            revision = project.findProperty('revision')
-        } else {
-            throw new GradleException("No arguments found")
-        }
-        startParameter.projectProperties = [pathToProject: pathToProject, revision: revision]
-    }
-}
-
 task incrementUnstableChangedComponents(type: IncrementUnstableChangedComponentsTask) // dev
 
 task checkSameArtifactsInArtifactory(type: CheckSameArtifactsInArtifactoryTask) //release
-
-task checkSameArtifactsInBintray(type: CheckSameArtifactsInBintrayTask) //release
-
-task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask) // pr
 
 task checkComponentStable(type: CheckComponentStableTask) //release
 
@@ -73,8 +45,6 @@ task checkReleaseNotesNotContainCyrillic(type: CheckReleaseNotesNotContainCyrill
 
 task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask) //pr
 
-task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBintrayTask) //pr
-
 task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask) //release
 
 task checkReleaseNotesChanged(type: CheckReleaseNotesChangedTask) //pr
@@ -90,7 +60,3 @@ task generateReleaseNotesDiff(type: GenerateReleaseNotesDiffTask) // helper
 task writeToFileReleaseNotesDiffForSlack(type: WriteToFileReleaseNotesDiffForSlack)
 
 task writeToFileReleaseNotesDiff(type: WriteToFileReleaseNotesDiff)
-
-task checkBintrayStableVersionsTask(type: CheckBintrayStableVersionsTask)
-
-task checkTagsForReleaseArtifactsTask(type: CheckTagsForReleaseArtifactsTask)

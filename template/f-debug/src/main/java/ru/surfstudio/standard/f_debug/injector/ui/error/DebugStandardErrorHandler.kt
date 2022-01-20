@@ -1,17 +1,16 @@
 package ru.surfstudio.standard.f_debug.injector.ui.error
 
 import android.text.TextUtils
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.message.MessageController
-import ru.surfstudio.standard.i_network.network.error.ConversionException
-import ru.surfstudio.standard.i_network.network.error.HttpCodes
-import ru.surfstudio.standard.i_network.network.error.NoInternetException
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.i_network.error.HttpProtocolException
 import ru.surfstudio.standard.i_network.error.NetworkErrorHandler
 import ru.surfstudio.standard.i_network.error.NonAuthorizedException
+import ru.surfstudio.standard.i_network.network.error.ConversionException
+import ru.surfstudio.standard.i_network.network.error.HttpCodes
+import ru.surfstudio.standard.i_network.network.error.NoInternetException
 import javax.inject.Inject
 
 /**
@@ -19,8 +18,7 @@ import javax.inject.Inject
  */
 @PerScreen
 open class DebugStandardErrorHandler @Inject constructor(
-        private val messageController: MessageController,
-        private val globalNavigator: GlobalNavigator
+    private val messageController: MessageController
 ) : NetworkErrorHandler() {
 
     override fun handleHttpProtocolException(e: HttpProtocolException) {

@@ -11,7 +11,6 @@ import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureIn
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragmentNavigator
 import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.core.ui.scope.PersistentScope
@@ -22,6 +21,8 @@ import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.rxbus.RxBus
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.android.template.base_feature.BuildConfig
+import ru.surfstudio.standard.v_message_controller_top.IconMessageController
+import ru.surfstudio.standard.v_message_controller_top.TopSnackIconMessageController
 import javax.inject.Named
 
 /**
@@ -101,24 +102,14 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun providePermissionManager(
-            eventDelegateManager: ScreenEventDelegateManager,
-            activityNavigator: ActivityNavigator,
-            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-            activityProvider: ActivityProvider
-    ): PermissionManager {
-        return PermissionManagerForActivity(
-                eventDelegateManager,
-                activityNavigator,
-                sharedPreferences,
-                activityProvider
-        )
+    internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {
+        return DefaultMessageController(activityProvider)
     }
 
     @Provides
     @PerActivity
-    internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {
-        return DefaultMessageController(activityProvider)
+    internal fun provideTopMessageController(activityProvider: ActivityProvider): IconMessageController {
+        return TopSnackIconMessageController(activityProvider)
     }
 
     @Provides

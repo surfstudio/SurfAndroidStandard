@@ -1,11 +1,9 @@
 package ru.surfstudio.android.build.artifactory
 
-import org.gradle.api.GradleException
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.exceptions.artifactory.ArtifactNotExistInArtifactoryException
 import ru.surfstudio.android.build.exceptions.FolderNotFoundException
+import ru.surfstudio.android.build.exceptions.artifactory.ArtifactNotExistInArtifactoryException
 import ru.surfstudio.android.build.exceptions.library.LibraryNotFoundException
-import ru.surfstudio.android.build.model.ArtifactInfo
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library
 
@@ -15,32 +13,6 @@ import ru.surfstudio.android.build.model.module.Library
 object Artifactory {
 
     private val repository = ArtifactoryRepository()
-
-    /**
-     * Deploy artifact to bintray
-     */
-    fun distributeArtifactToBintray(overrideExisting: Boolean, libraryNames: List<String>) {
-        val artifacts: List<ArtifactInfo> = libraryNames.map { ArtifactInfo(it) }
-        var packagesRepoPaths = ""
-        artifacts.forEachIndexed { index, artifactInfo ->
-            packagesRepoPaths += artifactInfo.getPath()
-            if (index != artifacts.size - 1) packagesRepoPaths += ", "
-        }
-        distribute(packagesRepoPaths, overrideExisting)
-    }
-
-    /**
-     * Deploy artifact to bintray
-     */
-    @JvmStatic
-    fun distributeArtifactToBintray(overrideExisting: Boolean, libraryName: String) {
-        distribute(ArtifactInfo(libraryName).getPath(), overrideExisting)
-    }
-
-    private fun distribute(packagesRepoPath: String, overrideExisting: Boolean) {
-        val response = repository.distribute(packagesRepoPath, overrideExisting)
-        if (response.statusCode != 200) throw GradleException(response.toString())
-    }
 
     /**
      * Check if libraries's android standard dependencies exist in artifactory
@@ -55,7 +27,7 @@ object Artifactory {
     @JvmStatic
     fun isLibraryAlreadyDeployed(libraryName: String): Boolean {
         val library = Components.libraries.find { it.name == libraryName }
-                ?: throw LibraryNotFoundException(libraryName)
+            ?: throw LibraryNotFoundException(libraryName)
         return isArtifactExists(library.name, Components.getModuleVersion(library.name))
     }
 
@@ -64,15 +36,15 @@ object Artifactory {
      */
     private fun checkLibraryStandardDependenciesExisting(library: Library, component: Component) {
         library.androidStandardDependencies
-                .filter { it.component != component }
-                .forEach { androidStandardDependency ->
-                    if (!isArtifactExists(androidStandardDependency.name, androidStandardDependency.component.projectVersion)) {
-                        throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
-                    }
-                    Components.libraries.find { it.name == androidStandardDependency.name }?.let {
-                        checkLibraryStandardDependenciesExisting(it, component)
-                    }
+            .filter { it.component != component }
+            .forEach { androidStandardDependency ->
+                if (!isArtifactExists(androidStandardDependency.name, androidStandardDependency.component.projectVersion)) {
+                    throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
                 }
+                Components.libraries.find { it.name == androidStandardDependency.name }?.let {
+                    checkLibraryStandardDependenciesExisting(it, component)
+                }
+            }
     }
 
     /**

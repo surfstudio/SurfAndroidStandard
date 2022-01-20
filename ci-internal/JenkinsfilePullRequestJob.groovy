@@ -1,4 +1,4 @@
-@Library('surf-lib@version-4.1.1-SNAPSHOT')
+@Library('surf-lib@version-4.1.3-SNAPSHOT')
 // https://github.com/surfstudio/jenkins-pipeline-lib
 
 import ru.surfstudio.ci.*
@@ -9,21 +9,20 @@ import ru.surfstudio.ci.stage.SimpleStage
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
+import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
 //Pipeline for check prs
 
-// Stage names
+// Stage names
 def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
 def CHECK_STABLE_MODULES_NOT_CHANGED = 'Check Stable Modules Not Changed'
-def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not Became Stable'
 def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
 def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
-def ADD_LICENSE = 'Add License'
 def CHECKS_RESULT = 'All Checks Result'
 
 def RELEASE_NOTES_DIFF = 'Release notes diff'
@@ -33,15 +32,24 @@ def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 
-def BUILD_TEMPLATE = 'Template Build '
+def BUILD_TEMPLATE = 'Template Build'
 def INSTRUMENTATION_TEST_TEMPLATE = 'Template Instrumentation Test'
 
-// git variables
+// variables
 def sourceBranch = ""
 def destinationBranch = ""
 def authorUsername = ""
 def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
+def useJava11 = false // default value
+def java11Branches = [
+        "dev/G-0.5.0",
+        "project-snapshot/BET",
+        "project-snapshot/BZN",
+        "project-snapshot/MLO",
+        "project-snapshot/LABAND",
+        "project-snapshot/UNI-NEW"
+]
 
 //parameters
 final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
@@ -50,7 +58,6 @@ final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
 final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 
 // Other config
-final String TEMP_FOLDER_NAME = "temp"
 def stagesForProjectMode = [
         PRE_MERGE,
         RELEASE_NOTES_DIFF,
@@ -64,7 +71,6 @@ def stagesForReleaseMode = [
         CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
         CHECK_RELEASE_NOTES_VALID,
         CHECK_RELEASE_NOTES_CHANGED,
-        ADD_LICENSE,
         CHECKS_RESULT,
         BUILD,
         UNIT_TEST,
@@ -163,6 +169,9 @@ pipeline.initializeBody = {
             "$sourceBranch to $destinationBranch: target branch changed" :
             "$sourceBranch to $destinationBranch"
 
+    if (java11Branches.contains(destinationBranch)) {
+        useJava11 = true
+    }
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
@@ -178,7 +187,7 @@ pipeline.stages = [
                     credentialsId: pipeline.repoCredentialsId,
                     branch: destinationBranch
             )
-            
+
             lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
 
             script.sh "git checkout origin/$sourceBranch"
@@ -190,55 +199,39 @@ pipeline.stages = [
         },
 
         pipeline.stage(RELEASE_NOTES_DIFF, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            GradleUtil.gradlew(script, "generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
 
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
-            script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
+            GradleUtil.gradlew(script, "checkConfigurationIsNotProjectSnapshotTask", useJava11)
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
                 script.echo "artifactory user: ${script.env.surf_maven_username}"
-                script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
+                GradleUtil.gradlew(script, "checkStableArtifactsExistInArtifactoryTask", useJava11)
             }
-
-            withBintrayCredentials(script) {
-                script.echo "bintray user: ${script.env.surf_bintray_username}"
-                script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
-            }
-
         },
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
-        },
-        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.SKIP_STAGE) {
-            script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            GradleUtil.gradlew(script, "checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkStableComponentStandardDependenciesStableTask")
+            GradleUtil.gradlew(script, "checkStableComponentStandardDependenciesStableTask", useJava11)
         },
         pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
-            script.sh("./gradlew checkReleaseNotesNotContainCyrillic")
+            GradleUtil.gradlew(script, "checkReleaseNotesContainCurrentVersion", useJava11)
+            GradleUtil.gradlew(script, "checkReleaseNotesNotContainCyrillic", useJava11)
         },
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
-        },
-        pipeline.stage(ADD_LICENSE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh "chmod 755 ci-internal/auto-add-license/add_license.sh"
-            script.sh "./ci-internal/auto-add-license/add_license.sh"
+            GradleUtil.gradlew(script, "checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
         },
         pipeline.stage(CHECKS_RESULT) {
-            script.sh "rm -rf $TEMP_FOLDER_NAME"
             def checksPassed = true
             [
                     CHECK_STABLE_MODULES_IN_ARTIFACTORY,
                     CHECK_STABLE_MODULES_NOT_CHANGED,
-                    CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
                     CHECK_RELEASE_NOTES_VALID,
-                    CHECK_RELEASE_NOTES_CHANGED,
-                    ADD_LICENSE
+                    CHECK_RELEASE_NOTES_CHANGED
             ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
@@ -254,7 +247,8 @@ pipeline.stages = [
         },
 
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            script.sh("rm -rf temp template/**/build")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa", useJava11)
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
@@ -264,15 +258,17 @@ pipeline.stages = [
              * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
              * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
              */
-            script.sh("./gradlew -p template clean build assembleQa assembleDebug --stacktrace")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa assembleRelease --stacktrace", useJava11)
         },
         pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
-                    "testReleaseUnitTest",
-                    "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
+            AndroidPipelineHelper.unitTestStageBodyAndroid(
+                    script,
+                    "testQaUnitTest",
+                    "**/test-results/testQaUnitTest/*.xml",
+                    "app/build/reports/tests/testQaUnitTest/",
+                    useJava11
+            )
         },
-        //TODO не работает после переезда на MVI
         pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.SKIP_STAGE) {
             script.dir("template") {
                 AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
@@ -287,7 +283,7 @@ pipeline.stages = [
                                 true,
                                 0
                         ),
-                       "Template Instrumentation Test"
+                        "Template Instrumentation Test"
                 )
             }
         },
@@ -327,17 +323,6 @@ def static withArtifactoryCredentials(script, body) {
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
                     passwordVariable: 'surf_maven_password')
-    ]) {
-        body()
-    }
-}
-
-def static withBintrayCredentials(script, body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "Bintray_Deploy_Credentials",
-                    usernameVariable: 'surf_bintray_username',
-                    passwordVariable: 'surf_bintray_api_key')
     ]) {
         body()
     }
