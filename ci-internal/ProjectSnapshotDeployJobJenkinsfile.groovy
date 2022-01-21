@@ -1,4 +1,4 @@
-@Library('surf-lib@version-4.1.1-SNAPSHOT')
+@Library('surf-lib@version-4.1.3-SNAPSHOT')
 // https://github.com/surfstudio/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
@@ -9,6 +9,7 @@ import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
+import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 //Pipeline for deploy project snapshot artifacts
 
@@ -34,8 +35,17 @@ def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 
 //vars
 def branchName = ""
-def useBintrayDeploy = false
 def skipIncrementVersion = false
+def useJava11 = false // default value
+def java11Branches = [
+        "dev/G-0.5.0",
+        "project-snapshot/BET",
+        "project-snapshot/BZN",
+        "project-snapshot/MLO",
+        "project-snapshot/LABAND",
+        "project-snapshot/UNI-NEW",
+        "project-snapshot/SBI"
+]
 
 //other config
 
@@ -75,9 +85,6 @@ pipeline.initializeBody = {
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName') {
         value -> branchName = value
     }
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'useBintrayDeploy') {
-        value -> useBintrayDeploy = Boolean.valueOf(value)
-    }
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'skipIncrementVersion') {
         value -> skipIncrementVersion = Boolean.valueOf(value)
     }
@@ -87,6 +94,9 @@ pipeline.initializeBody = {
         branchName = branchName.replace("origin/", "")
     }
 
+    if (java11Branches.contains(branchName)) {
+        useJava11 = true
+    }
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
@@ -111,7 +121,7 @@ pipeline.stages = [
         pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
             def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
             def prevCommitHash = commitParents[0]
-            script.sh("./gradlew WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}")
+            GradleUtil.gradlew(script, "WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}", useJava11)
             String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
 
             if (releaseNotesChanges.trim() != "") {
@@ -138,24 +148,25 @@ pipeline.stages = [
             }
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
-            script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
+            GradleUtil.gradlew(script, "checkConfigurationIsProjectSnapshotTask", useJava11)
         },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
             if (!skipIncrementVersion) {
-                script.sh("./gradlew incrementProjectSnapshotVersion")
+                GradleUtil.gradlew(script, "incrementProjectSnapshotVersion", useJava11)
             } else {
                 script.echo "skip project snapshot version incrementation stage"
             }
         },
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease", useJava11)
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(
                     script,
                     "testReleaseUnitTest",
-                    "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/"
+                    "**/test-results/testQaUnitTest/*.xml",
+                    "app/build/reports/tests/testQaUnitTest/",
+                    useJava11
             )
         },
         pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
@@ -177,25 +188,16 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
+            withJobCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -PdeployOnlyIfNotExist=true"
-                    if (useBintrayDeploy) {
-                        /**
-                         * We can not use parameter -PdeployOnlyIfNotExist
-                         * for distributeArtifactsToBintray after uploadArchives,
-                         * otherwise deploy to Bintray will never be executed
-                         * after successful deploy to artifactory
-                         */
-                        script.sh "./gradlew distributeArtifactsToBintray"
-                    }
+                    GradleUtil.gradlew(script, "clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory", useJava11)
                 }
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
-            withArtifactoryCredentials(script) {
-                script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
+            withJobCredentials(script) {
+                GradleUtil.gradlew(script, "generateDataForPlugin", useJava11)
+                GradleUtil.gradlew(script, ":android-standard-version-plugin:publish", useJava11)
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -229,10 +231,6 @@ pipeline.finalizeBody = {
             }
         } else {
             message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
-            if (useBintrayDeploy) {
-                message += "\nБыл выполнен деплой артефактов в Bintray.\n" +
-                        "Необходимо заменить последние версии артефактов в Bintray на стабильные"
-            }
         }
 
         JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "github", pipeline.jobResult)
@@ -271,12 +269,6 @@ def static initParameters(script) {
             ),
             script.booleanParam(
                     defaultValue: false,
-                    name: "useBintrayDeploy",
-                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory.\n' +
-                            'Необходимо перед передачей проекта заказчику'
-            ),
-            script.booleanParam(
-                    defaultValue: false,
                     name: "skipIncrementVersion",
                     description: 'Деплой артефактов без инкремента версии'
             )
@@ -305,8 +297,17 @@ def static initTriggers(script) {
 // ============================================= ↑↑↑  END JOB PROPERTIES CONFIGURATION ↑↑↑  ==========================================
 
 // ============ Utils =================
-def static withArtifactoryCredentials(script, body) {
+def static withJobCredentials(script, body) {
     script.withCredentials([
+            script.file(
+                    credentialsId: "surf_maven_sign_key_ring_file",
+                    variable: 'surf_maven_sign_key_ring_file'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Maven_Sign_Credential",
+                    usernameVariable: 'surf_maven_sign_key_id',
+                    passwordVariable: 'surf_maven_sign_password'
+            ),
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',

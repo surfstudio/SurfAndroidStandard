@@ -10,55 +10,59 @@ ext {
 
     meta = [
             minSdkVersion         : 21,
-            targetSdkVersion      : 28,
-            compileSdkVersion     : 28,
+            targetSdkVersion      : 31,
+            compileSdkVersion     : 31,
             debugVersionNameSuffix: ".debug",
             qaVersionNameSuffix   : ".qa"
     ]
 
     versions = [
-            androidStandardVersion          : '0.5.0-alpha.186',    //версия version-plugin
-            gradlePluginVersion             : '4.1.1',              //https://bit.ly/2NXD4Pe
-            buildToolsVersion               : '29.0.3',             //https://bit.ly/2DNmq3Y
-            googleServicesVersion           : '4.3.3',              //https://bit.ly/2Q5FCge
+            androidStandardVersion          : '0.5.0-alpha.219',    //версия version-plugin
+            gradlePluginVersion             : '7.0.3',              //https://bit.ly/3lvwLGQ
+            buildToolsVersion               : '30.0.2',             //https://bit.ly/2DNmq3Y
+            googleServicesVersion           : '4.3.10',             //https://bit.ly/3jj941O
             buildScanPluginVersion          : '2.4.2',              //https://goo.gl/coZHFo
-            kotlinVersion                   : '1.4.31',             //https://goo.gl/2Epeje
+            kotlinVersion                   : '1.5.31',             //https://bit.ly/2WDq5vS
             annimonStreamVersion            : '1.2.1',              //https://bit.ly/2Ke0nlQ,
-            jetbrainsAnnotationsVersion     : '19.0.0',             //http://bit.ly/2NYf6Dt
-            constraintLayoutVersion         : '2.0.0-beta4',        //http://bit.ly/2S1WoNg
-            ktlintPluginVersion             : '2.3.2',              //https://bit.ly/2YLc3n8
-            daggerVersion                   : '2.27',               //https://vk.cc/7UFvQo
+            jetbrainsAnnotationsVersion     : '22.0.0',             //http://bit.ly/2NYf6Dt
+            constraintLayoutVersion         : '2.1.1',              //http://bit.ly/2S1WoNg
+            ktlintPluginVersion             : '3.4.5',              //https://bit.ly/2YLc3n8
+            daggerVersion                   : '2.36',               //https://vk.cc/7UFvQo
             javaInjectVersion               : '1',                  //https://goo.gl/cM9Kcd
-            androidXVersion                 : '1.1.0',              //http://bit.ly/2zjueqh
-            androidxTestCoreVersion         : '1.2.0',              //http://bit.ly/2P1yKi1
-            androidxTestExtJunitVersion     : '1.1.1',              //http://bit.ly/2zC6UV1
-            androidxAnnotationVersion       : '1.1.0',              //http://bit.ly/2P3QBVO
-            androidXTestRunnerVersion       : '1.2.0',              //http://bit.ly/2ztEfBo
-            androidXEspressoCoreVersion     : '3.2.0',              //http://bit.ly/2DNc0AA
-            androidXEspressoIntentsVersion  : '3.2.0',              //http://bit.ly/2SikuDT
-            androidXEspressoContribVersion  : '3.2.0',              //http://bit.ly/2E0DdAq
-            robolectricVersion              : '4.3.1',              //http://bit.ly/2xLRICR
-            junitVersion                    : '4.13',               //https://goo.gl/hEcfw1
+            androidXVersion                 : '1.3.1',              //http://bit.ly/2zjueqh
+            androidxTestCoreVersion         : '1.3.0',              //http://bit.ly/2P1yKi1
+            androidxTestExtJunitVersion     : '1.1.2',              //http://bit.ly/2zC6UV1
+            androidxAnnotationVersion       : '1.3.0',              //http://bit.ly/2P3QBVO
+            androidXTestRunnerVersion       : '1.4.0',              //http://bit.ly/2ztEfBo
+            androidXEspressoCoreVersion     : '3.4.0',              //http://bit.ly/2DNc0AA
+            androidXEspressoIntentsVersion  : '3.4.0',              //http://bit.ly/2SikuDT
+            androidXEspressoContribVersion  : '3.4.0',              //http://bit.ly/2E0DdAq
+            robolectricVersion              : '4.6.1',              //http://bit.ly/2xLRICR
+            junitVersion                    : '4.13.2',             //https://goo.gl/hEcfw1
             kotestVersion                   : '4.4.1',              //https://bit.ly/3oZl3CB
             mockkVersion                    : "1.10.6",             //https://bit.ly/3r6t8rc
-            firebaseBom                     : '26.2.0',             //https://bit.ly/3bxSngK
-            firebaseAppDistributionVersion  : '1.2.0',              //http://bit.ly/2Gc2qHh
-            firebaseCrashlyticsGradleVersion: '2.0.0-beta01',       //http://bit.ly/2RM7ec2
-            okHttpVersion                   : '4.4.1',              //https://vk.cc/7UFwTd
-            retrofitVersion                 : '2.8.1',              //https://vk.cc/7UFxk3
-            chuckVersion                    : '1.1.0',              //https://bit.ly/2qCecTE
-            rxBinding4Version               : '4.0.0',              //https://goo.gl/KQ5Vga
+            firebaseBom                     : '29.0.0',             //https://bit.ly/3bxSngK
+            firebaseAppDistributionVersion  : '2.2.0',              //http://bit.ly/2Gc2qHh
+            firebaseCrashlyticsGradleVersion: '2.8.0',              //http://bit.ly/2RM7ec2
+            okHttpVersion                   : '4.9.2',              //https://vk.cc/7UFwTd
+            retrofitVersion                 : '2.9.0',              //https://vk.cc/7UFxk3
+            chuckerVersion                  : '3.5.2',              //https://bit.ly/3tVySEV
+            rxBinding2Version               : '2.2.0',              //https://goo.gl/KQ5Vga
             stethoVersion                   : '1.5.1',              //https://bit.ly/2eZ3YI7
             tinyDancerVersion               : '0.1.2',              //https://bit.ly/2Bluq9P
             processPhoenixVersion           : '2.0.0',              //https://bit.ly/2OAc0po
-            leakCanaryVersion               : '2.2',                //https://goo.gl/w3pm32
+            leakCanaryVersion               : '2.7',                //https://goo.gl/w3pm32
             anrWatchDogVersion              : '1.4.0',              //http://bit.ly/2NZvjZc
-            materialRangeBarVersion         : '1.4.4',              //https://bit.ly/2TxqAkm
-            timberVersion                   : '4.7.1',              //http://bit.ly/2LWbLaY
+            timberVersion                   : '5.0.1',              //http://bit.ly/2LWbLaY
             rxJava2DebugVersion             : '1.4.0',              //https://bit.ly/322Qzo7
             androidDebugToolsVersion        : '1.0',                //https://bit.ly/2QMKLfe
             autoServiceVersion              : '1.0-rc4',            //https://bit.ly/2WsGYH4
-            lifecycleVersion                : '2.2.0'               //https://bit.ly/36Z0Re9
+            lifecycleVersion                : '2.2.0',              //https://bit.ly/36Z0Re9
+            gsonVersion                     : '2.8.9',              //https://bit.ly/3sMIrVs
+            detektVersion                   : '1.17.1',             //https://bit.ly/3hZpBsp
+            glideVersion                    : "4.12.0",             //http://bit.ly/2Q7Fa41
+            googleMaterialVersion           : "1.4.0",              // http://bit.ly/2KAAq1y
+            splashVersion                   : "1.0.0-alpha02"       // https://bit.ly/3meXtSz
     ]
 
 
@@ -75,6 +79,7 @@ ext {
     ]
 
     androidX = [
+            splash          : "androidx.core:core-splashscreen:${versions.splashVersion}",
             appcompat       : "androidx.appcompat:appcompat:${versions.androidXVersion}",
             annotation      : "androidx.annotation:annotation:${versions.androidxAnnotationVersion}",
             constraintLayout: "androidx.constraintlayout:constraintlayout:${versions.constraintLayoutVersion}"
@@ -84,7 +89,6 @@ ext {
             bom        : "com.google.firebase:firebase-bom:${versions.firebaseBom}",
             messaging  : "com.google.firebase:firebase-messaging",
             analytics  : "com.google.firebase:firebase-analytics",
-            core       : "com.google.firebase:firebase-core",
             crashlytics: "com.google.firebase:firebase-crashlytics"
     ]
 
@@ -99,12 +103,12 @@ ext {
     ]
 
     network = [
-            chuck: "com.readystatesoftware.chuck:library:${versions.chuckVersion}"
+            chucker  : "com.github.ChuckerTeam.Chucker:library:${versions.chuckerVersion}",
     ]
 
-    rxBinding4 = [
-            core    : "com.jakewharton.rxbinding4:rxbinding:${versions.rxBinding4Version}",
-            material: "com.jakewharton.rxbinding4:rxbinding-material:${versions.rxBinding4Version}"
+    rxBinding2 = [
+            core  : "com.jakewharton.rxbinding2:rxbinding:${versions.rxBinding2Version}",
+            kotlin: "com.jakewharton.rxbinding2:rxbinding-kotlin:${versions.rxBinding2Version}",
     ]
 
     test = [
@@ -126,7 +130,8 @@ ext {
     ]
 
     view = [
-            materialRangeBar: "com.appyvet:materialrangebar:${versions.materialRangeBarVersion}"
+            glide   : "com.github.bumptech.glide:glide:${versions.glideVersion}",
+            material: "com.google.android.material:material:${versions.googleMaterialVersion}"
     ]
 
     debug = [
@@ -145,7 +150,17 @@ ext {
     ]
 
     architectureComponents = [
-            lifecycle: "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycleVersion}",
+            lifecycle                   : "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycleVersion}",
             lifecycleAnnotationProcessor: "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycleVersion}"
+    ]
+
+    serialization = [
+            gson: "com.google.code.gson:gson:${versions.gsonVersion}"
+    ]
+
+    lint = [
+            detekt      : "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detektVersion}",
+            detektCli   : "io.gitlab.arturbosch.detekt:detekt-cli:${versions.detektVersion}",
+            detektPlugin: "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.detektVersion}"
     ]
 }

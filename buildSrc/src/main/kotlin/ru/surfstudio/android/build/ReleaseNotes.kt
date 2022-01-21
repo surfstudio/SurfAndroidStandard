@@ -19,7 +19,7 @@ object ReleaseNotes {
 
     private val parser = ReleaseNotesParser()
 
-    val values: List<ReleaseNotesInfo> by lazy { parseReleaseNotesFiles() }
+    private val values: List<ReleaseNotesInfo> by lazy { parseReleaseNotesFiles() }
 
     fun findByComponentName(componentName: String): ReleaseNotesInfo {
         return values.find { it.component.name == componentName }
@@ -53,6 +53,6 @@ object ReleaseNotes {
      * Check release notes file exists
      */
     private fun checkReleaseNotesFilesExist(releaseNotesFile: File) {
-        if (!releaseNotesFile.exists()) ReleaseNotesFileNotExistException(releaseNotesFile.name)
+        if (!releaseNotesFile.exists()) throw ReleaseNotesFileNotExistException(releaseNotesFile.name)
     }
 }

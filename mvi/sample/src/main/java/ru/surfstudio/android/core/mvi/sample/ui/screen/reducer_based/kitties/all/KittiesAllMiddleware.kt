@@ -51,7 +51,12 @@ internal class KittiesAllMiddleware @Inject constructor(
     private fun onLoadKitties(observable: Observable<Data.LoadKitties>): Observable<out KittiesAllEvent> {
         return observable.switchMap { event ->
             fakeRequest(1500L, kittiesStorage.getPaginatedKitties(event.offset))
-                    .asRequestEvent { LoadKittiesRequestEvent(it, isSwr = event.isSwr) }
+                .asRequestEvent {
+                    LoadKittiesRequestEvent(
+                        it,
+                        isSwr = event.isSwr
+                    )
+                } as Observable<out KittiesAllEvent>
         }
     }
 

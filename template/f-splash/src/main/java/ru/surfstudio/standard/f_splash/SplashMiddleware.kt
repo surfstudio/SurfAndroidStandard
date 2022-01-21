@@ -6,11 +6,14 @@ import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
+import ru.surfstudio.android.utilktx.util.SdkUtils
 import ru.surfstudio.standard.f_splash.SplashEvent.Navigation
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
+import ru.surfstudio.standard.i_onboarding.OnBoardingStorage
 import ru.surfstudio.standard.ui.mvi.navigation.base.NavigationMiddleware
-import ru.surfstudio.standard.ui.mvi.navigation.extension.replace
+import ru.surfstudio.standard.ui.mvi.navigation.extension.*
 import ru.surfstudio.standard.ui.navigation.routes.MainActivityRoute
+import ru.surfstudio.standard.ui.navigation.routes.OnboardingActivityRoute
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -26,7 +29,8 @@ const val TRANSITION_DELAY_MS = 2000L
 class SplashMiddleware @Inject constructor(
         baseMiddlewareDependency: BaseMiddlewareDependency,
         private val navigationMiddleware: NavigationMiddleware,
-        private val initializeAppInteractor: InitializeAppInteractor
+        private val initializeAppInteractor: InitializeAppInteractor,
+        private val onBoardingStorage: OnBoardingStorage
 ) : BaseMiddleware<SplashEvent>(baseMiddlewareDependency) {
 
     override fun transform(eventStream: Observable<SplashEvent>) =
@@ -38,7 +42,12 @@ class SplashMiddleware @Inject constructor(
             }
 
     private fun mergeInitDelay(): Observable<String> {
-        val delay = Completable.timer(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
+        val transitionDelay = if (SdkUtils.isAtLeastS()) {
+            TRANSITION_DELAY_MS / 4
+        } else {
+            TRANSITION_DELAY_MS
+        }
+        val delay = Completable.timer(transitionDelay, TimeUnit.MILLISECONDS)
         val worker = initializeAppInteractor.initialize()
         return Completable.merge(arrayListOf(delay, worker))
                 .io()
@@ -47,7 +56,11 @@ class SplashMiddleware @Inject constructor(
     }
 
     private fun openNextScreen(): SplashEvent {
-        val nextRoute = MainActivityRoute()
-        return Navigation().replace(nextRoute)
+        return Navigation().replace(
+            if (onBoardingStorage.shouldShowOnBoardingScreen)
+                OnboardingActivityRoute()
+            else
+                MainActivityRoute()
+        )
     }
 }
