@@ -26,9 +26,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:node="replace">
 
-        <activity android:name="ru.surfstudio.android.mvp.binding.rx.sample.MainActivityView">
+        <activity
+            android:name="ru.surfstudio.android.mvp.binding.rx.sample.MainActivityView"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

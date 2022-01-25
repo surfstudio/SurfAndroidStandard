@@ -27,6 +27,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           viewRecreated: Boolean
     ) {
         go_to_camera_btn.setOnClickListener { presenter.requestCameraPermission() }
+        request_location_btn.setOnClickListener { presenter.requestLocationPermission() }
     }
 
     override fun renderInternal(sm: MainScreenModel) {}

@@ -1,13 +1,11 @@
 package ru.surfstudio.android.imageloader_sample
 
 import android.graphics.PorterDuff
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.load.resource.gif.GifDrawable
-import org.jetbrains.anko.find
 import ru.surfstudio.android.imageloader.ImageLoader
 import ru.surfstudio.android.logger.Logger
 
@@ -32,9 +30,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        imageView = find(R.id.imageloader_sample_iv)
-        lambdasImageView = find(R.id.imageloader_sample_lambdas_iv)
-        transformButton = find(R.id.image_loader_sample_btn)
+        imageView = findViewById(R.id.imageloader_sample_iv)
+        lambdasImageView = findViewById(R.id.imageloader_sample_lambdas_iv)
+        transformButton = findViewById(R.id.image_loader_sample_btn)
 
         var isLoadOriginal = false
 
@@ -46,15 +44,15 @@ class MainActivity : AppCompatActivity() {
         imageView.post { loadOriginalImage() }
         lambdasImageView.post { loadMemeImage() }
 
-        svgIv = find(R.id.imageloader_sample_svg_iv)
+        svgIv = findViewById(R.id.imageloader_sample_svg_iv)
         val svgImageUrl = "https://card2card.zenit.ru/assets/images/banks/yandex.svg"
         loadSvgImage(svgImageUrl)
 
-        gifImageView = find(R.id.imageloader_sample_gif_iv)
-        gifButton = find(R.id.image_loader_sample_gif_btn)
+        gifImageView = findViewById(R.id.imageloader_sample_gif_iv)
+        gifButton = findViewById(R.id.image_loader_sample_gif_btn)
         loadGifImage()
 
-        videoImageView = find(R.id.imageloader_video_iv)
+        videoImageView = findViewById(R.id.imageloader_video_iv)
         loadVideoPreview()
     }
 

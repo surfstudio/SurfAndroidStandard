@@ -45,7 +45,7 @@ class DataPushStrategy : BaseSimplePushStrategy<NotificationTypeData>() {
             context.applicationContext,
             title.hashCode(),
             intent,
-            PendingIntent.FLAG_ONE_SHOT
+            getPendingIntentFlags()
         )
     }
 

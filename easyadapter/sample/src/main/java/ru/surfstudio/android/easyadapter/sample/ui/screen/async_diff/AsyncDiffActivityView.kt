@@ -2,9 +2,9 @@ package ru.surfstudio.android.easyadapter.sample.ui.screen.async_diff
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.layout_async_diff_list.*
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -21,10 +21,16 @@ class AsyncDiffActivityView : BaseRenderableActivityView<AsyncDiffScreenModel>()
 
     private val adapter = EasyAdapter()
 
-    private val controller = AsyncDiffItemController { toast("Click!") }
+    private val controller = AsyncDiffItemController {
+        Toast
+            .makeText(this, "Click!", Toast.LENGTH_SHORT)
+            .apply {
+                show()
+            }
+    }
 
     override fun createConfigurator(): BaseActivityViewConfigurator<*, *, *> =
-            AsyncDiffScreenConfigurator(intent)
+        AsyncDiffScreenConfigurator(intent)
 
 
     override fun getScreenName() = "AsyncDiffActivityView"
@@ -34,9 +40,9 @@ class AsyncDiffActivityView : BaseRenderableActivityView<AsyncDiffScreenModel>()
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun onCreate(
-            savedInstanceState: Bundle?,
-            persistentState: PersistableBundle?,
-            viewRecreated: Boolean
+        savedInstanceState: Bundle?,
+        persistentState: PersistableBundle?,
+        viewRecreated: Boolean
     ) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         initListener()
@@ -56,7 +62,13 @@ class AsyncDiffActivityView : BaseRenderableActivityView<AsyncDiffScreenModel>()
         async_diff_rv.adapter = adapter.apply {
             isFirstInvisibleItemEnabled = true
             setAsyncDiffCalculationEnabled(true)
-            setDiffResultDispatchListener { toast("Diff dispatched!") }
+            setDiffResultDispatchListener {
+                Toast
+                    .makeText(this@AsyncDiffActivityView, "Diff dispatched!", Toast.LENGTH_SHORT)
+                    .apply {
+                        show()
+                    }
+            }
             setAsyncDiffStrategy(AsyncDiffStrategy.APPLY_LATEST)
         }
     }

@@ -23,14 +23,15 @@ class CustomApp : MultiDexApplication() {
 
     private fun initInjector() {
         customAppComponent = DaggerCustomAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
-                .build()
+            .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
+            .build()
     }
 
     /**
      * Регистрирует слушатель аткивной активити
      */
     private fun registerActiveActivityListener() {
+        registerActivityLifecycleCallbacks(customAppComponent?.navigationProviderCallbacks())
         registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity

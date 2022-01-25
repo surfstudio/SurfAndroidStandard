@@ -3,10 +3,10 @@ package ru.surfstudio.android.location.sample.app
 import android.app.Activity
 import androidx.multidex.MultiDexApplication
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
-import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 import ru.surfstudio.android.location.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.location.sample.app.dagger.DaggerCustomAppComponent
 import ru.surfstudio.android.sample.dagger.app.DefaultActivityLifecycleCallbacks
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 
 /**
  * Класс приложения
@@ -24,14 +24,15 @@ open class CustomApp : MultiDexApplication() {
 
     protected open fun initInjector() {
         customAppComponent = DaggerCustomAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
-                .build()
+            .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
+            .build()
     }
 
     /**
      * Регистрирует слушатель аткивной активити
      */
     private fun registerActiveActivityListener() {
+        registerActivityLifecycleCallbacks(customAppComponent?.navigationProviderCallbacks())
         registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity

@@ -26,7 +26,7 @@ class MainFragmentView: BaseRenderableFragmentView<MainScreenModel>() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_main, container, false)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, viewRecreated: Boolean) {
         constraint_widget_view.render("$this")
     }
 
