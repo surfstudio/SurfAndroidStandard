@@ -41,16 +41,7 @@ def destinationBranch = ""
 def authorUsername = ""
 def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
-def useJava11 = false // default value
-def java11Branches = [
-        "dev/G-0.5.0",
-        "project-snapshot/BET",
-        "project-snapshot/BZN",
-        "project-snapshot/MLO",
-        "project-snapshot/LABAND",
-        "project-snapshot/UNI-NEW",
-        "project-snapshot/SBI"
-]
+def useJava11 = true // default value
 
 //parameters
 final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
@@ -169,10 +160,6 @@ pipeline.initializeBody = {
     def buildDescription = targetBranchChanged ?
             "$sourceBranch to $destinationBranch: target branch changed" :
             "$sourceBranch to $destinationBranch"
-
-    if (java11Branches.contains(destinationBranch)) {
-        useJava11 = true
-    }
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }

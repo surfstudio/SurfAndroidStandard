@@ -36,16 +36,7 @@ def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 //vars
 def branchName = ""
 def skipIncrementVersion = false
-def useJava11 = false // default value
-def java11Branches = [
-        "dev/G-0.5.0",
-        "project-snapshot/BET",
-        "project-snapshot/BZN",
-        "project-snapshot/MLO",
-        "project-snapshot/LABAND",
-        "project-snapshot/UNI-NEW",
-        "project-snapshot/SBI"
-]
+def useJava11 = true // default value
 
 //other config
 
@@ -92,10 +83,6 @@ pipeline.initializeBody = {
     branchName = branchName.replace("refs/heads/", "")
     if (branchName.contains("origin/")) {
         branchName = branchName.replace("origin/", "")
-    }
-
-    if (java11Branches.contains(branchName)) {
-        useJava11 = true
     }
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
