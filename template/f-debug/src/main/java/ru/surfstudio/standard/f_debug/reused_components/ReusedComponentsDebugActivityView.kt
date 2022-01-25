@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_reused_components_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.ui.view_binding.viewBinding
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.f_debug.R
+import ru.surfstudio.android.template.f_debug.databinding.ActivityReusedComponentsDebugBinding
 import ru.surfstudio.standard.f_debug.reused_components.controllers.CustomControllerDescriptionItemController
 import ru.surfstudio.standard.f_debug.reused_components.description.addDescription
 import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.ReusedComponentsDebugScreenConfigurator
@@ -19,6 +20,8 @@ import javax.inject.Inject
  * Вью экрана для показа переиспользуемых компонентов
  */
 class ReusedComponentsDebugActivityView : BaseRenderableActivityView<ReusedComponentsDebugScreenModel>() {
+
+    private val binding by viewBinding(ActivityReusedComponentsDebugBinding::bind) { rootView }
 
     @Inject
     lateinit var presenter: ReusedComponentsDebugPresenter
@@ -49,8 +52,8 @@ class ReusedComponentsDebugActivityView : BaseRenderableActivityView<ReusedCompo
     override fun getScreenName(): String = "debug_controllers"
 
     private fun initRecycler() {
-        debug_recycler.layoutManager = LinearLayoutManager(this)
-        debug_recycler.adapter = adapter
+        binding.debugRecycler.layoutManager = LinearLayoutManager(this)
+        binding.debugRecycler.adapter = adapter
     }
 
     private fun initAdapter() {

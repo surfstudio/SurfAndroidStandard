@@ -3,10 +3,11 @@ package ru.surfstudio.standard.f_debug.tools
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
-import kotlinx.android.synthetic.main.activity_tools_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.ui.view_binding.viewBinding
 import ru.surfstudio.android.template.f_debug.R
+import ru.surfstudio.android.template.f_debug.databinding.ActivityToolsDebugBinding
 import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.ToolsDebugScreenConfigurator
 import javax.inject.Inject
 
@@ -14,6 +15,8 @@ import javax.inject.Inject
  * Вью экрана показа Tools
  */
 class ToolsDebugActivityView : BaseRenderableActivityView<ToolsDebugScreenModel>() {
+
+    private val binding by viewBinding(ActivityToolsDebugBinding::bind) { rootView }
 
     @Inject
     lateinit var presenter: ToolsDebugPresenter
@@ -34,11 +37,11 @@ class ToolsDebugActivityView : BaseRenderableActivityView<ToolsDebugScreenModel>
     }
 
     override fun renderInternal(sm: ToolsDebugScreenModel) {
-        debug_stetho_switch.setChecked(sm.isStethoEnabled)
+        binding.debugStethoSwitch.setChecked(sm.isStethoEnabled)
     }
 
     private fun initListeners() {
-        debug_stetho_switch.setOnCheckedChangeListener { _, isEnable ->
+        binding.debugStethoSwitch.setOnCheckedChangeListener { _, isEnable ->
             presenter.setStethoEnable(isEnable)
         }
     }

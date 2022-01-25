@@ -3,7 +3,10 @@ package ru.surfstudio.android.core.navigation.sample.ui.screen.main
 import android.content.Intent
 import dagger.Component
 import dagger.Module
+import dagger.Provides
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
+import ru.surfstudio.android.core.ui.navigation.customtabs.CustomTabsNavigator
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
@@ -19,7 +22,13 @@ internal class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenCon
     internal interface MainScreenComponent : ScreenComponent<MainActivityView>
 
     @Module
-    internal class MainScreenModule
+    internal class MainScreenModule {
+
+        @Provides
+        @PerScreen
+        fun provideCustomTabsNavigator(activityProvider: ActivityProvider): CustomTabsNavigator =
+                CustomTabsNavigator(activityProvider.get())
+    }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,

@@ -4,12 +4,19 @@ android {
     signingConfigs {
         //todo настроить релизную подпись приложения
         release {
+            /* todo uncoment for real app
             apply from: '../keystore/keystoreConfig.gradle'
 
             keyAlias keystoreConfig.keyAlias
             keyPassword keystoreConfig.keyPassword
             storeFile file(keystoreConfig.storeFile)
-            storePassword keystoreConfig.storePassword
+            storePassword keystoreConfig.storePassword*/
+
+            // todo remove for real app
+            storeFile file("../keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
         }
 
         test {

@@ -10,8 +10,9 @@
       3. [CommandHolder](#commandholder)
    2. Binding
    3. MVP
-4. [Best practices](#best-practices)
-5. [Материалы](#Материалы)
+4. [Мокирование доменных моделей](#Мокирование-доменных-моделей)
+5. [Best practices](#best-practices)
+6. [Материалы](#Материалы)
 
 ---
 
@@ -372,6 +373,24 @@ fun `when pin is wrong, should show error under pins`() = forAll(
 }
 ```
 
+#### Мокирование доменных моделей
+
+Для мокирования домменых моделей предусмотрен метод [`ru.surfstudio.standard.base.test.mock.ModelParser.parse`][mockDomainModels]. 
+На вход принимает json и класс модели.
+ 
+Сценарий использования:
+- В файл рядом с тестами кладутся kt-строки с json-ом необходимого ответа от сервера
+- В том же файле или рядом кладутся методы `getMockDomainModel`
+
+Пример **DomainModelMock.kt**
+```kotlin
+fun getMockDomainModel(): DomainModel = ModelParser.parseModel(json, DomainModelObj::class).transform()
+
+private val json = """
+    <json representation of the model>
+""".trimIndent()
+```
+
 #### Best practices
 
 - В конце теста необходимо выполнять `testObserver.dispose()`
@@ -409,3 +428,4 @@ mockkStatic(HtmlCompat::class)
 [bestReactorTest]: ../../template/base_feature/src/main/java/ru/surfstudio/standard/ui/test/base/BaseReactorTest.kt
 [navigationMatchers]: ../../template/base_feature/src/main/java/ru/surfstudio/standard/ui/test/matcher/NavigationMatchers.kt
 [requestMatchers]: ../../template/base/src/main/java/ru/surfstudio/standard/base/test/matcher/RequestMatchers.kt
+[mockDomainModels]: ../../template/base/src/main/java/ru/surfstudio/standard/base/test/mock/ModelParser.kt

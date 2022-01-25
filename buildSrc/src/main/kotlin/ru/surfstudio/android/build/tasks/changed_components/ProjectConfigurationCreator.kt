@@ -68,7 +68,7 @@ class ProjectConfigurationCreator(
      * and its version as second parameter
      */
     private fun createComponentsWithVersions(versions: LinkedHashMap<String, String>): List<ComponentWithVersion> {
-        val components = JsonHelper.parseComponentsJson("$pathToProject$COMPONENTS_JSON_FILE_PATH").map(ComponentJson::transform)
+        val components = JsonHelper.parseComponentsJson("$pathToProject/$COMPONENTS_JSON_FILE_PATH").map(ComponentJson::transform)
 
         return components.map { component ->
             val libs = component.libraries.map { lib ->

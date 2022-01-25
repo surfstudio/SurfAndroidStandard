@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.ui.widget.di
 
-import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.ScreenType
@@ -8,9 +7,6 @@ import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForFragment
-import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
-import ru.surfstudio.android.core.ui.permission.PermissionManagerForFragment
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.FragmentProvider
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
@@ -24,9 +20,10 @@ import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForW
 import ru.surfstudio.android.mvp.widget.provider.WidgetProvider
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
-import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.ui.error.ErrorHandlerModule
 import ru.surfstudio.standard.ui.screen_modules.ScreenModule
+import ru.surfstudio.standard.v_message_controller_top.IconMessageController
+import ru.surfstudio.standard.v_message_controller_top.TopSnackIconMessageController
 import javax.inject.Named
 
 private const val PARENT_TYPE_DAGGER_NAME = "parent_type"
@@ -95,30 +92,6 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(
-            eventDelegateManager: ScreenEventDelegateManager,
-            activityProvider: ActivityProvider,
-            activityNavigator: ActivityNavigator,
-            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-            @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType
-    ): PermissionManager {
-        return if (parentType == ScreenType.FRAGMENT)
-            PermissionManagerForFragment(
-                    eventDelegateManager,
-                    activityProvider,
-                    activityNavigator,
-                    sharedPreferences,
-                    createFragmentProvider())
-        else
-            PermissionManagerForActivity(
-                    eventDelegateManager,
-                    activityNavigator,
-                    sharedPreferences,
-                    activityProvider)
-    }
-
-    @Provides
-    @PerScreen
     internal fun provideMessageController(
             activityProvider: ActivityProvider,
             @Named(PARENT_TYPE_DAGGER_NAME) screenType: ScreenType
@@ -130,6 +103,12 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
                 else
                     null
         )
+    }
+
+    @Provides
+    @PerScreen
+    internal fun provideTopMessageController(activityProvider: ActivityProvider): IconMessageController {
+        return TopSnackIconMessageController(activityProvider)
     }
 
     private fun createFragmentProvider(): FragmentProvider {

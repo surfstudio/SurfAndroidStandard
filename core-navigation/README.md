@@ -28,6 +28,8 @@
     - [`TabFragmentNavigator`][tab];
 
     - [`ChildFragmentBavigator`][child];
+    
+- [`CustomTabsNavigator`][ctn];
 
 Навигаторы работают с определенными `Route`(Activity, Fragment, Dialog).
 **Но `Route` может быть использован отдельно от навигатора!**
@@ -44,6 +46,9 @@
     * [`FragmentRoute`][fr]
     * [`FragmentWithParamsRoute`][fwpr]
     * [`RootFragmentRoute`][rfr]
+    
+* Прочие
+    * [`OpenLinkRoute`][olr]
 
 Навигация для диалогов предоставляется модулем [mvp-dialog][dial]
 
@@ -81,3 +86,5 @@ Gradle:
 [nav]: /docs/ui/navigation.md
 [dial]: /mvp/lib-mvp-dialog/README.md
 [i_route]: lib-core-navigation/src/main/java/ru/surfstudio/android/core/ui/navigation/Route.java
+[ctn]: lib-core-navigation/src/main/java/ru/surfstudio/android/core/ui/navigation/customtabs/CustomTabsNavigator.kt
+[olr]: lib-core-navigation/src/main/java/ru/surfstudio/android/core/ui/navigation/customtabs/OpenUrlRoute.kt
