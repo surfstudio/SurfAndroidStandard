@@ -3,7 +3,8 @@
 
     <application>
         <activity android:name="ru.surfstudio.standard.f_splash.SplashActivityView"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

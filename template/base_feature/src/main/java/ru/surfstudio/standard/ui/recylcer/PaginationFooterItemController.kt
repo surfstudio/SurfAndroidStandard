@@ -1,15 +1,14 @@
 package ru.surfstudio.standard.ui.recylcer
 
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar
-import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.easyadapter.pagination.EasyPaginationAdapter
+import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.template.base_feature.R
 
 class PaginationFooterItemController
@@ -27,7 +26,7 @@ class PaginationFooterItemController
             listener: EasyPaginationAdapter.OnShowMoreListener
     ) : EasyPaginationAdapter.BasePaginationFooterHolder(parent, R.layout.layout_pagination_footer) {
 
-        private val loadingIndicator: MaterialProgressBar = itemView.findViewById(R.id.pagination_footer_progress_bar)
+        private val loadingIndicator: ProgressBar = itemView.findViewById(R.id.pagination_footer_progress_bar)
         private val showMoreTv: TextView = itemView.findViewById(R.id.pagination_footer_tv)
 
         init {

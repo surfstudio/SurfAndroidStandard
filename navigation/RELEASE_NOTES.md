@@ -1,5 +1,13 @@
 # Navigation Release Notes
 
+- [0.6.0-alpha](#060-alpha)
+- [0.5.1](#051)
+
+## 0.6.0-alpha
+##### Navigation
+* Update ActivityNavigatorWithResultImpl for Android 12 location permission
+* ANDDEP-1226 Added `navigation-observer-deprecated` and `navigation-rx-deprecated` modules that grants backward compatibility if enabled along with other `-deprecated` modules in project.
+
 ## 0.5.1
 ##### Navigation
 * ANDDEP-1203 Fixes after core-ui improvements

@@ -3,7 +3,6 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
@@ -19,16 +18,15 @@ buildscript {
         if (!gradle.ext.androidStandard.debugEnabled) {
             classpath "ru.surfstudio.android:version-plugin:${versions.androidStandardVersion}"
         }
+        classpath lint.detektPlugin
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url "https://artifactory.surfstudio.ru/artifactory/libs-release-local" }
-        maven { url "https://dl.bintray.com/terrakok/terramaven" }
         maven { url 'https://jitpack.io' }
     }
 }
@@ -40,3 +38,4 @@ task clean(type: Delete) {
 apply from: "scripts/dependenciesModules.gradle"
 apply from: "scripts/ktFormatter.gradle"
 apply from: "androidStandardPlugin.gradle"
+apply from: "lint/detekt.gradle"

@@ -6,6 +6,29 @@
 
 ## 0.5.0-alpha
 ##### Template
+* Fix assembleRelease
+* Fix defaultConfig path for variables
+* Fix uploadCrashlyticsMappingFileQa task Failed
+* Fix bug in DebugCatalogItemLayout
+* Add chucker
+* Update for Android 12
+* Fix rxbinding dependency
+* Remove jcenter()
+* Remove MaterialProgressBar
+* Template updates:
+  * Fix BasePushHandleStrategy (make push notifications visible by default)
+  * Remove PostfixEditText (see PrefixPostfixEditText in code templates project)
+  * Update service layer for SurfGen usage
+  * Message controller dependency is used for debug module only
+  * Clean f-debug-no-op dependencies
+  * Remove imageloader, use Glide or other library instead
+  * Update versions
+  * Remove firebase.core dependency
+  * Add base_resources module
+* ANDDEP-1211 Add onboarding to template
+* ANDDEP-1204 Added Danger and Detekt to the template
+* ANDDEP-1208 Removing kotlin.androidx.synthetic from template
+* ANDDEP-1206 add best practice showing snackbar to template
 * ANDDEP-1149 Added RxMiddlewareExtensions to the template
 * ANDDEP-1205 added ToolbarConfig in template
 * Add maven central URL

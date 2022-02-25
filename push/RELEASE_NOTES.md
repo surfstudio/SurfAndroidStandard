@@ -1,9 +1,14 @@
 # Push Release Notes
 
+- [0.6.0-alpha](#060-alpha)
 - [0.5.0](#050)
 - [0.4.0](#040)
 - [0.3.0](#030)
 
+## 0.6.0-alpha
+##### Push
+* Fix PendingIntent flags for Android 12 support
+* ANDDEP-1241 Fix unique pushes implementation
 ## 0.5.0
 ##### Push
 * ANDDEP-930 Added support to custom actions in the notification. Added corresponding listener to the `PushEventListener`.

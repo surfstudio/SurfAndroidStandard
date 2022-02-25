@@ -29,6 +29,7 @@ import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeDa
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.ui.notification.*
 import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGroup
+import ru.surfstudio.android.utilktx.util.SdkUtils
 import java.io.Serializable
 
 
@@ -43,11 +44,16 @@ import java.io.Serializable
 abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Serializable {
 
     /**
-     * Идентификатор пуш-нотификации. При совпадении идентификаторов пуш-нотификации заменяют друг
-     * друга. Если в стратегии не переопределить данное свойство, все нотификации будут
-     * автоматически получать уникальные идентификаторы.
+     * Идентификатор пуш-нотификации.
+     * При совпадении идентификаторов пуш-нотификации заменяют друг друга.
      */
     open var pushId: Int = -1
+
+    /**
+     * Признак уникальности пушей. Если в стратегии не переопределить данное свойство, все нотификации будут
+     * автоматически получать уникальные идентификаторы.
+     */
+    open var uniquePushes: Boolean = true
 
     /**
      * тип данных пуша [BaseNotificationTypeData]
@@ -133,7 +139,11 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
      * @param title заголовок пуш-нотификации
      * @param body текст пуш-нотификации
      */
-    abstract fun makeNotificationBuilder(context: Context, title: String, body: String): NotificationCompat.Builder?
+    abstract fun makeNotificationBuilder(
+        context: Context,
+        title: String,
+        body: String
+    ): NotificationCompat.Builder?
 
     /**
      * Метод для создания канала нотификаций
@@ -150,14 +160,15 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
      * @param body текст пуш-нотификации
      */
     open fun handle(
-            context: Context,
-            pushInteractor: PushInteractor,
-            uniqueId: Int,
-            title: String,
-            body: String
+        context: Context,
+        pushInteractor: PushInteractor,
+        uniqueId: Int,
+        title: String,
+        body: String
     ) {
-
-        pushId = makePushId(uniqueId)
+        if (uniquePushes) {
+            pushId = uniqueId
+        }
         pendingIntent = preparePendingIntent(context, title, group?.id, pushId)
         deleteIntent = makeDeleteIntent(context, group?.id, pushId)
         channel = makeNotificationChannel(context, title)
@@ -178,13 +189,15 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
      * @param title заголовок пуш-нотификации
      * @param body текст пуш-нотификации
      */
-    @Deprecated("Используйте метод с uniqueId",
-            ReplaceWith("handle(context, pushInteractor, uniqueId, title, body"))
+    @Deprecated(
+        "Используйте метод с uniqueId",
+        ReplaceWith("handle(context, pushInteractor, uniqueId, title, body")
+    )
     open fun handle(
-            context: Context,
-            pushInteractor: PushInteractor,
-            title: String,
-            body: String
+        context: Context,
+        pushInteractor: PushInteractor,
+        title: String,
+        body: String
     ) {
 
         pendingIntent = preparePendingIntent(context, title, -1, -1)
@@ -200,9 +213,11 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
     /**
      * Метод для инициализации builder'а заголовка группы нотификаций.
      */
-    open fun makeGroupSummaryNotificationBuilder(context: Context,
-                                                 title: String,
-                                                 body: String): NotificationCompat.Builder? {
+    open fun makeGroupSummaryNotificationBuilder(
+        context: Context,
+        title: String,
+        body: String
+    ): NotificationCompat.Builder? {
         return null
     }
 
@@ -217,60 +232,76 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
     }
 
     @CallSuper
-    protected open fun getIntentForPending(context: Context, groupId: Int?, notificationId: Int?): Intent {
+    protected open fun getIntentForPending(
+        context: Context,
+        groupId: Int?,
+        notificationId: Int?
+    ): Intent {
         return Intent(context, NotificationClickEventReceiver::class.java)
-                .apply {
-                    putExtra(NOTIFICATION_DATA, typeData)
-                    putExtra(NOTIFICATION_GROUP_ID, groupId ?: 0)
-                    putExtra(NOTIFICATION_ID, notificationId ?: 0)
-                    putExtra(SHOULD_AUTO_CANCEL, autoCancelable)
-                }
+            .apply {
+                putExtra(NOTIFICATION_DATA, typeData)
+                putExtra(NOTIFICATION_GROUP_ID, groupId ?: 0)
+                putExtra(NOTIFICATION_ID, notificationId ?: 0)
+                putExtra(SHOULD_AUTO_CANCEL, autoCancelable)
+            }
+    }
+
+    protected fun getPendingIntentFlags(): Int {
+        return if (SdkUtils.isAtLeastMarshmallow()) {
+            return PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_ONE_SHOT
+        }
     }
 
     /**
      * Интент в соответствии с необходимыми действиями
      */
-    private fun preparePendingIntent(context: Context, title: String, groupId: Int?, notificationId: Int?): PendingIntent {
+    private fun preparePendingIntent(
+        context: Context,
+        title: String,
+        groupId: Int?,
+        notificationId: Int?
+    ): PendingIntent {
         val intent = getIntentForPending(context, groupId, notificationId).apply {
             putExtra(EVENT_TYPE, Event.OPEN)
         }
-        return PendingIntent.getBroadcast(context.applicationContext,
-                title.hashCode(), intent, PendingIntent.FLAG_ONE_SHOT)
+        return PendingIntent.getBroadcast(
+            context.applicationContext,
+            title.hashCode(), intent, getPendingIntentFlags()
+        )
     }
 
-    private fun makeDeleteIntent(context: Context, groupId: Int?, notificationId: Int?): PendingIntent {
+    private fun makeDeleteIntent(
+        context: Context,
+        groupId: Int?,
+        notificationId: Int?
+    ): PendingIntent {
         val intent = getIntentForPending(context, groupId, notificationId).apply {
             putExtra(EVENT_TYPE, Event.DISMISS)
         }
-        return PendingIntent.getBroadcast(context.applicationContext,
-                0, intent, PendingIntent.FLAG_ONE_SHOT)
-    }
-
-    /**
-     * Инициализация идентификатора пуш-нотификации.
-     *
-     * Если ID пуша не задано явно в стратегии, все пуши будут иметь уникальный ID.
-     */
-    private fun makePushId(uniqueId: Int): Int {
-        return if (pushId == -1) uniqueId else pushId
+        return PendingIntent.getBroadcast(
+            context.applicationContext,
+            0, intent, getPendingIntentFlags()
+        )
     }
 
     private fun showNotification(context: Context, pushId: Int, title: String, body: String) {
         NotificationCreateHelper.showNotification(
-                context,
-                this,
-                pushId,
-                title,
-                body
+            context,
+            this,
+            pushId,
+            title,
+            body
         )
     }
 
     private fun showNotification(context: Context, title: String, body: String) {
         NotificationCreateHelper.showNotification(
-                context,
-                this,
-                title,
-                body
+            context,
+            this,
+            title,
+            body
         )
     }
 }

@@ -1,11 +1,12 @@
 # Permission Release Notes
 
-- [0.5.1-alpha](#051-alpha)
+- [0.6.0-alpha](#060-alpha)
 - [0.5.0](#050)
 
-## 0.5.1-alpha
+## 0.6.0-alpha
 ##### Permission
-* TODO
+* Update PermissionManager for Android 12 requirements.
+* ANDDEP-1226 Added `permission-deprecated` module that grants backward compatibility if enabled along with other `-deprecated` modules in project.
 ## 0.5.0
 ##### Permission
 * ANDDEP-1049 All classes responsible for permissions migrated from `core-ui` to `permission`

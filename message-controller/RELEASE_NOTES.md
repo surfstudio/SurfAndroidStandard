@@ -1,8 +1,12 @@
 # Message-controller Release Notes
 
+- [0.6.0](#060-alpha)
 - [0.5.0](#050)
 - [0.2.1](#021)
 
+## 0.6.0-alpha
+##### Message-controller
+* Replace local ferro-rx dependency
 ## 0.5.0
 ##### Message-controller
 * ANDDEP-687 Removed "androidx.exifinterface:exifinterface" dependency

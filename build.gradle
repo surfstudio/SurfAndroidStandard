@@ -6,7 +6,6 @@ apply from: 'buildSrc/buildTasks.gradle'
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
@@ -21,7 +20,6 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
         maven { url 'https://maven.google.com' }
         maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
@@ -37,4 +35,5 @@ buildscript {
     }
 }
 
-apply from: "buildSrc/ktFormatter.gradle"
+// todo could be replaced with spotless
+//apply from: "buildSrc/ktFormatter.gradle"

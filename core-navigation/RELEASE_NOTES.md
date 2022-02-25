@@ -1,7 +1,11 @@
 # Core-navigation Release Notes
 
+- [0.6.0-alpha](#060-alpha)
 - [0.5.0](#050)
 
+## 0.6.0-alpha
+##### Core-navigation
+* Replace local ferro-rx dependency
 ## 0.5.0
 ##### Core-navigation
 * ANDDEP-1049 All classes responsible for navigation migrated from `core-ui` to `core-navigation`

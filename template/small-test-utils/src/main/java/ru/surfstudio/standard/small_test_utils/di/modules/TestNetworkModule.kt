@@ -18,7 +18,7 @@ import ru.surfstudio.standard.i_network.network.BaseUrl
 import ru.surfstudio.standard.i_network.network.calladapter.BaseCallAdapterFactory
 import ru.surfstudio.android.template.test_utils.BuildConfig
 import ru.surfstudio.standard.i_network.network.CallAdapterFactory
-import ru.surfstudio.standard.i_network.TEST_API_URL
+import ru.surfstudio.standard.i_network.generated.urls.ServerUrls.TEST_API_URL
 
 @Module
 class TestNetworkModule {
@@ -54,9 +54,7 @@ class TestNetworkModule {
     @Provides
     @PerApplication
     internal fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        val logger = object : HttpLoggingInterceptor.Logger {
-            override fun log(message: String) = Logger.d("$HTTP_LOG_TAG $message")
-        }
+        val logger = HttpLoggingInterceptor.Logger { message -> Logger.d("$HTTP_LOG_TAG $message") }
         return HttpLoggingInterceptor(logger).apply {
             level = when (BuildConfig.DEBUG) {
                 true -> HttpLoggingInterceptor.Level.BODY
