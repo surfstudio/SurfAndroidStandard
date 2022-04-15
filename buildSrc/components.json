@@ -13,7 +13,7 @@
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
-            "type": "api"
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": []
