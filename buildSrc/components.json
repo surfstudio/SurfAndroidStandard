@@ -210,7 +210,7 @@
     "version": "0.5.0",
     "unstable_version": 7,
     "stable": false,
-    "dir": "broadcast-extension",
+    "dir": "deprecated/broadcast-extension",
     "libs": [
       {
         "name": "broadcast-extension",
@@ -2277,7 +2277,7 @@
     "version": "0.5.0",
     "unstable_version": 10,
     "stable": false,
-    "dir": "standard-dialog",
+    "dir": "deprecated/standard-dialog",
     "libs": [
       {
         "name": "standard-dialog",
@@ -2300,10 +2300,6 @@
           },
           {
             "name": "mvp-dialog",
-            "type": "implementation"
-          },
-          {
-            "name": "dagger-scope",
             "type": "implementation"
           }
         ]
