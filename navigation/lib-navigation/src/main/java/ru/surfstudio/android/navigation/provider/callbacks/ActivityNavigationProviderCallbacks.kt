@@ -178,6 +178,7 @@ open class ActivityNavigationProviderCallbacks(
             val screenId = when {
                 dataBundle != null -> dataBundle.getString(Route.EXTRA_SCREEN_ID) ?: ""
                 intent.action == Intent.ACTION_MAIN -> LAUNCHER_ACTIVITY_ID
+                intent.action == Intent.ACTION_VIEW && intent.data != null -> LAUNCHER_ACTIVITY_ID
                 else -> return
             }
             onActivityReady(activity, screenId)
