@@ -8,7 +8,6 @@ import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.RepositoryUtil
-import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
@@ -46,8 +45,6 @@ def buildDescription = ""
 
 
 def isDeploySameVersionArtifactory = "deploySameVersionArtifactory"
-
-def isDeploySameVersionBintray = "deploySameVersionBintray"
 
 //other config
 
@@ -199,13 +196,11 @@ pipeline.stages = [
         },
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {
-                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    def publishTask = "./gradlew clean publish -Pcomponent=$componentName"
-                    // --no-parallel to avoid possible bugs with deploy to different staging repositories
-                    // -Dhttp.connectionTimeout=60000 to avoid possible Read timed out errors during deploy
-                    script.sh "$publishTask -PpublishType=maven_release --no-parallel -Dhttp.connectionTimeout=60000"
-                    script.sh "$publishTask -PpublishType=artifactory"
-                }
+                def publishTask = "./gradlew clean publish -Pcomponent=$componentName"
+                // --no-parallel to avoid possible bugs with deploy to different staging repositories
+                // -Dhttp.connectionTimeout=60000 to avoid possible Read timed out errors during deploy
+                script.sh "$publishTask -PpublishType=maven_release --no-parallel -Dhttp.connectionTimeout=60000"
+                script.sh "$publishTask -PpublishType=artifactory"
             }
         },
         pipeline.stage(COMPONENT_ALPHA_COUNTER_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
