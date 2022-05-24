@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.exceptions.deploy_to_mirror
+package ru.surfstudio.android.build.exceptions.branch
 
 import org.gradle.api.GradleException
 

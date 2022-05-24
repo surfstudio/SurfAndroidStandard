@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks.deploy_to_mirror.repository
+package ru.surfstudio.android.build
 
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.ListBranchCommand
@@ -8,8 +8,8 @@ import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.treewalk.CanonicalTreeParser
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.BranchCanNotBeDefinedException
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.BranchNotFoundException
+import ru.surfstudio.android.build.exceptions.branch.BranchCanNotBeDefinedException
+import ru.surfstudio.android.build.exceptions.branch.BranchNotFoundException
 import ru.surfstudio.android.build.utils.extractBranchNames
 import java.io.File
 

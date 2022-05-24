@@ -29,10 +29,12 @@ def componentsJson = file(COMPONENTS_JSON_FILE)
 def parsedJson = new JsonSlurper().parseText(componentsJson.text)
 
 parsedJson.forEach { component ->
-    component.libs.forEach { lib ->
-        def moduleName = ":${lib.name}"
-        include moduleName
-        project(moduleName).projectDir = new File("${component.dir}/${lib.dir}")
+    if (component.libs != null) {
+        component.libs.forEach { lib ->
+            def moduleName = ":${lib.name}"
+            include moduleName
+            project(moduleName).projectDir = new File("${component.dir}/${lib.dir}")
+        }
     }
 
     if (component.enabled_samples) {

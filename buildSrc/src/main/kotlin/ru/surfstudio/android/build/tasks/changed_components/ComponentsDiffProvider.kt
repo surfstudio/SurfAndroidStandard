@@ -1,10 +1,10 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
+import ru.surfstudio.android.build.BaseGitRepository
 import ru.surfstudio.android.build.ConfigInfoProvider
 import ru.surfstudio.android.build.RELEASE_NOTES_FILE_NAME
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.check_release_notes.CheckReleaseNotesChangedTask.Companion.SAMPLE_FILE_REGEX
-import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.BaseGitRepository
 import java.io.File
 
 /**

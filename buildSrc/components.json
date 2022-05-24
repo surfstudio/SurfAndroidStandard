@@ -18,10 +18,7 @@
         ],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "analytics",
@@ -79,9 +76,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "animations",
@@ -113,9 +108,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "app-migration",
@@ -151,9 +144,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "biometrics",
@@ -203,10 +194,7 @@
           }
         ]
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "broadcast-extension",
@@ -239,9 +227,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "common",
@@ -440,10 +426,7 @@
           }
         ]
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "connection",
@@ -464,10 +447,7 @@
         ],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "converter-gson",
@@ -501,10 +481,7 @@
           }
         ]
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "core-app",
@@ -529,10 +506,7 @@
         ],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "mvi",
@@ -683,9 +657,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "core-mvp-binding",
@@ -758,9 +730,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "core-ui",
@@ -884,9 +854,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "permission",
@@ -970,9 +938,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "custom-view",
@@ -1021,9 +987,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "dagger-scope",
@@ -1055,9 +1019,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "datalist",
@@ -1127,10 +1089,7 @@
         "third_party_dependencies": [],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "easyadapter",
@@ -1242,9 +1201,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "google-pay-button",
@@ -1281,9 +1238,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "imageloader",
@@ -1320,9 +1275,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "location",
@@ -1388,9 +1341,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "logger",
@@ -1411,10 +1362,7 @@
         ],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "message-controller",
@@ -1442,9 +1390,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "mvp",
@@ -1663,9 +1609,7 @@
         "dir": "sample-mvp-widget"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "network",
@@ -1766,9 +1710,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "navigation",
@@ -1916,9 +1858,7 @@
         "dir": "sample-standard"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "picture-provider",
@@ -2004,9 +1944,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "push",
@@ -2050,9 +1988,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "recycler-extension",
@@ -2097,9 +2033,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "recycler-decorator",
@@ -2152,9 +2086,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "rx-extension",
@@ -2183,10 +2115,7 @@
         ],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "rxbus",
@@ -2207,10 +2136,7 @@
         ],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "security",
@@ -2259,9 +2185,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "shared-pref",
@@ -2294,9 +2218,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "standard-dialog",
@@ -2337,9 +2259,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false,
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "util-ktx",
@@ -2377,53 +2297,34 @@
           }
         ]
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "template",
     "version": "0.5.0",
     "unstable_version": 61,
     "stable": false,
-    "dir": "template",
-    "libs": [],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "dir": "template"
   },
   {
     "id": "android-standard-version-plugin",
     "version": "0.5.0",
     "unstable_version": 7,
     "stable": false,
-    "dir": "android-standard-version-plugin",
-    "libs": [],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "dir": "android-standard-version-plugin"
   },
   {
     "id": "android-studio-settings",
     "version": "0.5.0",
     "unstable_version": 7,
     "stable": false,
-    "dir": "android-studio-settings",
-    "libs": [],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "dir": "android-studio-settings"
   },
   {
     "id": "docs",
     "version": "0.5.0",
     "unstable_version": 19,
     "stable": false,
-    "dir": "docs",
-    "libs": [],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "dir": "docs"
   }
 ]
