@@ -6,7 +6,6 @@ import ru.surfstudio.android.build.tasks.check_dependencies_stable.*
 import ru.surfstudio.android.build.tasks.check_stability.*
 import ru.surfstudio.android.build.tasks.generate_version_file.*
 import ru.surfstudio.android.build.tasks.increment_version.*
-import ru.surfstudio.android.build.tasks.project_snapshot.*
 
 task checkStandardDependenciesStableTask(type: CheckStandardDependenciesStableTask) //release
 
@@ -37,7 +36,3 @@ task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask) 
 task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask) //pr
 
 task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask) //release
-
-task checkConfigurationIsProjectSnapshotTask(type: CheckConfigurationIsProjectSnapshotTask) // project-snapshot
-
-task checkConfigurationIsNotProjectSnapshotTask(type: CheckConfigurationIsNotProjectSnapshotTask) // dev, release, pr

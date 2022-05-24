@@ -14,7 +14,6 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
 // Stage names
 def PRE_MERGE = 'PreMerge'
-def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
 def CHECK_STABLE_MODULES_NOT_CHANGED = 'Check Stable Modules Not Changed'
 def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
@@ -47,7 +46,6 @@ def stagesForProjectMode = [
 ]
 def stagesForReleaseMode = [
         PRE_MERGE,
-        CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT,
         CHECK_STABLE_MODULES_IN_ARTIFACTORY,
         CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
         CHECKS_RESULT,
@@ -160,10 +158,6 @@ pipeline.stages = [
 
             //local merge with destination
             script.sh "git merge origin/$destinationBranch --no-ff"
-        },
-
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
-            GradleUtil.gradlew(script, "checkConfigurationIsNotProjectSnapshotTask", useJava11)
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {

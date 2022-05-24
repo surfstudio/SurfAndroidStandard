@@ -13,8 +13,6 @@ import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 // Stage names
 def CHECKOUT = 'Checkout'
-def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
-def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
 def INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION = 'Increment Changed Unstable Modules Alpha Version'
 def BUILD = 'Build'
@@ -32,7 +30,6 @@ def projectConfigurationVersionFile = "buildSrc/build/tmp/projectVersion.txt"
 
 //vars
 def branchName = ""
-def globalVersion = "<unknown>"
 def buildDescription = ""
 def useJava11 = true
 
@@ -90,17 +87,6 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
             RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
-        },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
-            globalVersion = globalConfiguration.version
-
-            if (("dev/G-" + globalVersion) != branchName) {
-                script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
-            }
-        },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
-            GradleUtil.gradlew(script, "checkConfigurationIsNotProjectSnapshotTask", useJava11)
         },
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
             GradleUtil.gradlew(script, "incrementGlobalUnstableVersion", useJava11)

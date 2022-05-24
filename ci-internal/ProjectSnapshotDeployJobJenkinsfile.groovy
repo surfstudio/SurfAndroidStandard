@@ -6,22 +6,15 @@ import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
-import ru.surfstudio.ci.utils.android.config.AvdConfig
 import ru.surfstudio.ci.utils.buildsystems.GradleUtil
-
 //Pipeline for deploy project snapshot artifacts
 
 // Stage names
 
 def CHECKOUT = 'Checkout'
-def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
-def CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT = 'Check Configuration is project snapshot'
 def INCREMENT_PROJECT_SNAPSHOT_VERSION = 'Increment Project Snapshot Version'
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
-def INSTRUMENTATION_TEST = 'Instrumentation Test'
-def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
@@ -33,16 +26,6 @@ def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def branchName = ""
 def skipIncrementVersion = false
 def useJava11 = true // default value
-
-//other config
-
-def getTestInstrumentationRunnerName = { script, prefix ->
-    def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
-    return script.sh(
-            returnStdout: true,
-            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
-    )
-}
 
 //init
 def script = this
@@ -101,17 +84,6 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
             RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
-            project = globalConfiguration.project_snapshot_name
-
-            if (("project-snapshot/" + project) != branchName) {
-                script.error("Deploy AndroidStandard for project: $project from branch: '$branchName' forbidden")
-            }
-        },
-        pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
-            GradleUtil.gradlew(script, "checkConfigurationIsProjectSnapshotTask", useJava11)
-        },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
             if (!skipIncrementVersion) {
                 GradleUtil.gradlew(script, "incrementProjectSnapshotVersion", useJava11)
@@ -130,24 +102,6 @@ pipeline.stages = [
                     "app/build/reports/tests/testQaUnitTest/",
                     useJava11
             )
-        },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
-        },
-        pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {

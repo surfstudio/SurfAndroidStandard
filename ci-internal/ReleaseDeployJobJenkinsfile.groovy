@@ -10,8 +10,6 @@ import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
-import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
-import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 //Pipeline for deploy snapshot artifacts
 
@@ -19,7 +17,6 @@ import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 def CHECKOUT = 'Checkout'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
-def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_COMPONENT_DEPENDENCY_STABLE = 'Check Component Dependency Stable'
 def CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY = 'Check Component Dependency In Artifactory'
 def CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY = 'Check Component Already In Artifactory'
@@ -30,8 +27,6 @@ def SET_COMPONENT_ALPHA_COUNTER_TO_ZERO = "Set Component Alpha Counter To Zero"
 
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
-def INSTRUMENTATION_TEST = 'Instrumentation Test'
-def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def DEPLOY_MODULES = 'Deploy Modules'
 def COMPONENT_ALPHA_COUNTER_PUSH = 'Component Alpha Counter Push'
 def MIRROR_COMPONENT = 'Mirror Components'
@@ -42,18 +37,7 @@ def componentVersion = "<unknown>"
 def componentName = "<unknown>"
 def buildDescription = ""
 
-
 def isDeploySameVersionArtifactory = "deploySameVersionArtifactory"
-
-//other config
-
-def getTestInstrumentationRunnerName = { script, prefix ->
-    def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
-    return script.sh(
-            returnStdout: true,
-            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
-    )
-}
 
 //init
 def script = this
@@ -116,9 +100,6 @@ pipeline.stages = [
             componentVersion = parts[2]
             script.sh("./gradlew checkVersionEqualsComponentVersion -Pcomponent=${componentName} -PcomponentVersion=${componentVersion}")
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
-            script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
-        },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkStandardDependenciesStableTask -Pcomponent=${componentName}")
         },
@@ -169,24 +150,6 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/"
             )
-        },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
-        },
-        pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {
