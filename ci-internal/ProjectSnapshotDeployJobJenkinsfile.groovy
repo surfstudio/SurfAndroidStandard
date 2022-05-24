@@ -15,7 +15,6 @@ import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 // Stage names
 
 def CHECKOUT = 'Checkout'
-def NOTIFY_ABOUT_NEW_RELEASE_NOTES = 'Notify About New Release Notes'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
 def CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT = 'Check Configuration is project snapshot'
 def INCREMENT_PROJECT_SNAPSHOT_VERSION = 'Increment Project Snapshot Version'
@@ -29,8 +28,6 @@ def VERSION_PUSH = 'Version Push'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
-def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
-def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 
 //vars
 def branchName = ""
@@ -103,27 +100,6 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
             RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
-        },
-        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
-            def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
-            def prevCommitHash = commitParents[0]
-            GradleUtil.gradlew(script, "WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}", useJava11)
-            String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
-
-            if (releaseNotesChanges.trim() != "") {
-                boolean isAddedNoBackwardCompatibility = releaseNotesChanges.split("\n")
-                        .any {
-                            it.contains(":heavy_plus_sign:") && it.contains("NO BACKWARD COMPATIBILITY")
-                        }
-
-                def messageTitle = "Snapshot branch _${branchName}_ has changed"
-                if (isAddedNoBackwardCompatibility) {
-                    messageTitle += " *without backward compatibility*:warning:"
-                }
-
-                releaseNotesChanges = "$messageTitle\n$releaseNotesChanges"
-                JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidStandardSlack, "slack", true)
-            }
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)

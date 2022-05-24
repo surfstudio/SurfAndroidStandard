@@ -25,7 +25,6 @@ def CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY = 'Check Component Dependency In A
 def CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY = 'Check Component Already In Artifactory'
 def CHECK_COMPONENT_STABLE = 'Check Component Stable'
 def CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE = 'Check Components Dependent From Current Unstable'
-def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECKS_RESULT = 'Checks Result'
 def SET_COMPONENT_ALPHA_COUNTER_TO_ZERO = "Set Component Alpha Counter To Zero"
 
@@ -139,10 +138,6 @@ pipeline.stages = [
         pipeline.stage(CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkDependencyForComponentUnstable -Pcomponent=${componentName}")
         },
-        pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
-            script.sh("./gradlew checkReleaseNotesNotContainCyrillic")
-        },
         pipeline.stage(CHECKS_RESULT) {
             def checksPassed = true
             [
@@ -150,8 +145,7 @@ pipeline.stages = [
                     CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY,
                     CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY,
                     CHECK_COMPONENT_STABLE,
-                    CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE,
-                    CHECK_RELEASE_NOTES_VALID
+                    CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE
             ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
