@@ -1,29 +1,8 @@
-import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.tasks.*
-import ru.surfstudio.android.build.tasks.artifactory_tasks.*
-import ru.surfstudio.android.build.tasks.check_stable_artifacts_exist_in_repositories.*
-import ru.surfstudio.android.build.tasks.check_dependencies_stable.*
-import ru.surfstudio.android.build.tasks.check_stability.*
 import ru.surfstudio.android.build.tasks.generate_version_file.*
 import ru.surfstudio.android.build.tasks.increment_version.*
 
-task checkStandardDependenciesStableTask(type: CheckStandardDependenciesStableTask) //release
-
-task checkStableComponentStandardDependenciesStableTask(type: CheckStableComponentStandardDependenciesStableTask) //pr
-
-task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactoryTask) //release
-
-task checkDependencyForComponentUnstable(type: CheckDependencyForComponentUnstableTask) //release
-
-task checkStableComponentsChanged(type: CheckStableComponentsChangedTask) //pr
-
 task incrementUnstableChangedComponents(type: IncrementUnstableChangedComponentsTask) // dev
-
-task checkSameArtifactsInArtifactory(type: CheckSameArtifactsInArtifactoryTask) //release
-
-task checkComponentStable(type: CheckComponentStableTask) //release
-
-task checkVersionEqualsComponentVersion(type: CheckVersionEqualsComponentVersionTask) //release
 
 task generateDataForPlugin(type: GenerateDataForPluginTask) //dev //project-snapshot
 
@@ -32,7 +11,5 @@ task generateProjectConfigurationVersionFileTask(type: GenerateProjectConfigurat
 task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //dev
 
 task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask) // project-snapshot
-
-task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask) //pr
 
 task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask) //release

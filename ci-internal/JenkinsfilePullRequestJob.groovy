@@ -7,17 +7,12 @@ import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.pipeline.pr.PrPipeline
 import ru.surfstudio.ci.stage.SimpleStage
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 //Pipeline for check prs
 
 // Stage names
 def PRE_MERGE = 'PreMerge'
-def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
-def CHECK_STABLE_MODULES_NOT_CHANGED = 'Check Stable Modules Not Changed'
-def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
-def CHECKS_RESULT = 'All Checks Result'
 
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
@@ -46,9 +41,6 @@ def stagesForProjectMode = [
 ]
 def stagesForReleaseMode = [
         PRE_MERGE,
-        CHECK_STABLE_MODULES_IN_ARTIFACTORY,
-        CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
-        CHECKS_RESULT,
         BUILD,
         UNIT_TEST,
         BUILD_TEMPLATE,
@@ -89,9 +81,6 @@ pipeline.postExecuteStageBody = { stage ->
 
 pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
-
-    script.echo "artifactory user: ${script.env.surf_maven_username}"
-    script.echo "bintray user: ${script.env.surf_bintray_username}"
 
     //если триггером был webhook параметры устанавливаются как env, если запустили вручную, то устанавливается как params
     extractValueFromEnvOrParamsAndRun(script, SOURCE_BRANCH_PARAMETER) {
@@ -159,38 +148,6 @@ pipeline.stages = [
             //local merge with destination
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
-        pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            withArtifactoryCredentials(script) {
-                script.echo "artifactory user: ${script.env.surf_maven_username}"
-                GradleUtil.gradlew(script, "checkStableArtifactsExistInArtifactoryTask", useJava11)
-            }
-        },
-        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            GradleUtil.gradlew(script, "checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}", useJava11)
-        },
-        pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            GradleUtil.gradlew(script, "checkStableComponentStandardDependenciesStableTask", useJava11)
-        },
-        pipeline.stage(CHECKS_RESULT) {
-            def checksPassed = true
-            [
-                    CHECK_STABLE_MODULES_IN_ARTIFACTORY,
-                    CHECK_STABLE_MODULES_NOT_CHANGED,
-                    CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE
-            ].each { stageName ->
-                def stageResult = pipeline.getStage(stageName).result
-                checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
-
-                if (!checksPassed) {
-                    script.echo "Stage '${stageName}' ${stageResult}"
-                }
-            }
-
-            if (!checksPassed) {
-                throw script.error("Checks Failed, see reason above ^^^")
-            }
-        },
-
         pipeline.stage(BUILD) {
             script.sh("rm -rf temp template/**/build")
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa", useJava11)
@@ -223,18 +180,6 @@ pipeline.finalizeBody = {
 }
 
 pipeline.run()
-
-
-def static withArtifactoryCredentials(script, body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "Artifactory_Deploy_Credentials",
-                    usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password')
-    ]) {
-        body()
-    }
-}
 
 def configureStageSkipping(script, pipeline, isSkip, stageNames, message) {
     if (isSkip) {

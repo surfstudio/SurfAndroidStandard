@@ -11,9 +11,9 @@ import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurat
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
-import ru.surfstudio.android.build.tasks.check_stability.currentDirectory
 import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
 import ru.surfstudio.android.build.utils.JsonHelper
+import ru.surfstudio.android.build.utils.currentDirectory
 import java.io.File
 
 /**
