@@ -79,6 +79,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -112,6 +113,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -149,6 +151,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -236,6 +239,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -679,6 +683,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -753,6 +758,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -823,6 +829,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": true,
     "mirror_repo": "https://github.com/surfstudio/Core-ui"
   },
@@ -877,6 +884,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -962,6 +970,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -1012,6 +1021,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -1045,6 +1055,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -1176,6 +1187,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": true,
     "mirror_repo": "https://github.com/surfstudio/EasyAdapter"
   },
@@ -1230,6 +1242,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -1268,6 +1281,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -1306,6 +1320,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -1373,6 +1388,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -1426,6 +1442,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -1646,6 +1663,7 @@
         "dir": "sample-mvp-widget"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -1748,6 +1766,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -1897,6 +1916,7 @@
         "dir": "sample-standard"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -1984,6 +2004,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -2029,6 +2050,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -2075,6 +2097,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -2129,6 +2152,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -2235,6 +2259,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -2269,6 +2294,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -2311,6 +2337,7 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": false,
     "mirror_repo": ""
   },

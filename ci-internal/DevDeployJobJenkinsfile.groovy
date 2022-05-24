@@ -193,8 +193,7 @@ pipeline.stages = [
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=false\n" +
-                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
+                    "androidStandardDebugMode=false\" > template/android-standard/androidStandard.properties")
             // build template after deploy in order to check usage of new artifacts
             GradleUtil.gradlew(script, "-p template :app:dependencies", useJava11)
             AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa assembleRelease --stacktrace", useJava11)

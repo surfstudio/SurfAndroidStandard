@@ -13,15 +13,12 @@ import java.util.*
  * otherwise these files will be searched in android standard directory as usual
  */
 const val MIRROR_PROPERTIES_FILE_PATH = "mirror.properties"
-private const val ANDROID_STANDARD_PROPERTIES_FILE_PATH = "android-standard/androidStandard.properties"
 
 const val COMMON_COMPONENT_NAME = "surf.commonComponentName"
 private const val MIRROR_COMPONENT_NAME = "surf.mirrorComponentName"
-private const val SKIP_SAMPLES_BUILD_PROPERTY_NAME = "skipSamplesBuild"
 
 /**
- * Loading properties and caching them
- * from [MIRROR_PROPERTIES_FILE_PATH] and [ANDROID_STANDARD_PROPERTIES_FILE_PATH]
+ * Loading properties and caching them from [MIRROR_PROPERTIES_FILE_PATH]
  * Created for loading only once during settings.gradle execute and then use everywhere
  */
 object GradlePropertiesManager {
@@ -32,13 +29,9 @@ object GradlePropertiesManager {
     var commonComponentNameForMirror: String = EMPTY_STRING
         private set
 
-    var skipSamplesBuilding: Boolean = false
-        private set
-
     fun init() {
         loadMirrorComponentName()
         loadCommonComponentNameForMirror()
-        loadSkipSamplesBuildProperty()
     }
 
     /**
@@ -106,15 +99,6 @@ object GradlePropertiesManager {
                 required = false
         )?.also { propertyValue ->
             commonComponentNameForMirror = propertyValue
-        }
-    }
-
-    private fun loadSkipSamplesBuildProperty() {
-        loadProperty(
-                propertiesFileName = ANDROID_STANDARD_PROPERTIES_FILE_PATH,
-                propertyName = SKIP_SAMPLES_BUILD_PROPERTY_NAME
-        )?.also { propertyValue ->
-            skipSamplesBuilding = propertyValue.toBoolean()
         }
     }
 }
