@@ -1,0 +1,27 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+        
+    - name: Build with Gradle
+      run: ./gradlew clean assembleQa
+      
+    - name: Build template
+      run: \
+        echo "androidStandardDebugDir=${GITHUB_WORKSPACE}\nandroidStandardDebugMode=true" > template/android-standard/androidStandard.properties
+        ./gradlew -p template clean assembleQa assembleRelease --stacktrace
+        
+    - name: Run unit tests
+      run: ./gradlew testQaUnitTest
