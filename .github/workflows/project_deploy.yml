@@ -1,0 +1,58 @@
+name: Project Snapshot Deploy
+
+on:
+  push:
+    branches:
+      - 'project-snapshot/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+      
+    - name: Increment project snapshot version
+      run: ./gradlew incrementProjectSnapshotVersion
+      
+    - name: Get incremented version
+      id: version_counter
+      uses: notiz-dev/github-action-json-property@release
+      with: 
+          path: 'buildSrc/projectConfiguration.json'
+          prop_path: 'project_snapshot_version'
+          
+    - run: echo ${{ steps.version_counter.outputs.prop }} 
+    
+    - name: Build with Gradle
+      run: ./gradlew clean assembleRelease
+        
+    - name: Run unit tests
+      run: ./gradlew testReleaseUnitTest
+      
+    - name: Deploy modules
+      env:
+          surf_maven_username: ${{ secrets.SURF_MAVEN_USERNAME }}
+          surf_maven_password: ${{ secrets.SURF_MAVEN_PASSWORD }}
+          surf_maven_sign_key_id: ${{ secrets.SURF_MAVEN_SIGN_KEY_ID }}
+          surf_maven_sign_password: ${{ secrets.SURF_MAVEN_SIGN_PASSWORD }}
+      run: ./gradlew clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory
+      
+    - name: Deploy version plugin
+      env:
+          surf_maven_username: ${{ secrets.SURF_MAVEN_USERNAME }}
+          surf_maven_password: ${{ secrets.SURF_MAVEN_PASSWORD }}
+          surf_maven_sign_key_id: ${{ secrets.SURF_MAVEN_SIGN_KEY_ID }}
+          surf_maven_sign_password: ${{ secrets.SURF_MAVEN_SIGN_PASSWORD }}
+      run: |
+        ./gradlew generateDataForPlugin
+        ./gradlew :android-standard-version-plugin:publish
+      
+    - name: Commit version increment
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Increase project-snapshot version counter to ${{ steps.version_counter.outputs.prop }} [skip ci] [version]
