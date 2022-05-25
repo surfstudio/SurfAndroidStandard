@@ -7,52 +7,31 @@ import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.AndroidUtil
-import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
-import ru.surfstudio.ci.utils.android.config.AvdConfig
 import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 //Pipeline for deploy snapshot artifacts
 
 // Stage names
 def CHECKOUT = 'Checkout'
-def NOTIFY_ABOUT_NEW_RELEASE_NOTES = 'Notify About New Release Notes'
-def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
-def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
 def INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION = 'Increment Changed Unstable Modules Alpha Version'
 def BUILD = 'Build'
 def BUILD_TEMPLATE = 'Template Build'
 def UNIT_TEST = 'Unit Test'
-def INSTRUMENTATION_TEST = 'Instrumentation Test'
-def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def UPDATE_TEMPLATE_VERSION_PLUGIN = 'Update Template Version Plugin'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
-def MIRROR_COMPONENTS = 'Mirror Components'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def androidStandardTemplateConfigurationFile = "template/config.gradle"
 def projectConfigurationVersionFile = "buildSrc/build/tmp/projectVersion.txt"
-def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
-def idChatAndroidSlack = "CFSF53SJ1"
 
 //vars
 def branchName = ""
-def globalVersion = "<unknown>"
 def buildDescription = ""
 def useJava11 = true
-
-//other config
-
-def getTestInstrumentationRunnerName = { script, prefix ->
-    def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
-    return script.sh(
-            returnStdout: true,
-            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
-    )
-}
 
 //init
 def script = this
@@ -73,8 +52,6 @@ pipeline.postExecuteStageBody = { stage ->
 
 pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
-
-    script.echo "artifactory user: ${script.env.surf_maven_username}"
 
     //Выбираем значения веток из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
@@ -109,27 +86,6 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
             RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
-        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
-            def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
-            def prevCommitHash = commitParents[0]
-            GradleUtil.gradlew(script, "WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}", useJava11)
-            String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
-            if (releaseNotesChanges.trim() != "") {
-                releaseNotesChanges = "Android Standard changes:\n$releaseNotesChanges"
-                JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
-            }
-        },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
-            globalVersion = globalConfiguration.version
-
-            if (("dev/G-" + globalVersion) != branchName) {
-                script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
-            }
-        },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
-            GradleUtil.gradlew(script, "checkConfigurationIsNotProjectSnapshotTask", useJava11)
-        },
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
             GradleUtil.gradlew(script, "incrementGlobalUnstableVersion", useJava11)
         },
@@ -162,29 +118,9 @@ pipeline.stages = [
                     useJava11
             )
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
-        },
-        pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {
-                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    GradleUtil.gradlew(script, "clean publish -PonlyUnstable=true -PdeployOnlyIfNotExist=true -PpublishType=artifactory", useJava11)
-                }
+                GradleUtil.gradlew(script, "clean publish -PonlyUnstable=true -PdeployOnlyIfNotExist=true -PpublishType=artifactory", useJava11)
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
@@ -195,8 +131,7 @@ pipeline.stages = [
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=false\n" +
-                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
+                    "androidStandardDebugMode=false\" > template/android-standard/androidStandard.properties")
             // build template after deploy in order to check usage of new artifacts
             GradleUtil.gradlew(script, "-p template :app:dependencies", useJava11)
             AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa assembleRelease --stacktrace", useJava11)
@@ -208,15 +143,6 @@ pipeline.stages = [
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
-        },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.SKIP_STAGE) {
-            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
-                script.error("Cannot mirror without change version")
-            }
-            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
-                    script.string(name: 'branch', value: branchName),
-                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
-            ]
         }
 ]
 

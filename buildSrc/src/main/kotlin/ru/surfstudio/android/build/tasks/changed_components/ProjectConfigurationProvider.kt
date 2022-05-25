@@ -3,8 +3,8 @@ package ru.surfstudio.android.build.tasks.changed_components
 import ru.surfstudio.android.build.Folders.OUTPUT_JSON_FOLDER_PATH
 import ru.surfstudio.android.build.Folders.TEMP_FOLDER_NAME
 import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
-import ru.surfstudio.android.build.tasks.check_stability.currentDirectory
 import ru.surfstudio.android.build.utils.JsonHelper
+import ru.surfstudio.android.build.utils.currentDirectory
 import java.io.File
 
 /**
