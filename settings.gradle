@@ -29,7 +29,8 @@ def componentsJson = file(COMPONENTS_JSON_FILE)
 def parsedJson = new JsonSlurper().parseText(componentsJson.text)
 
 parsedJson.forEach { component ->
-    if (component.libs != null) {
+    def disabled = component.disabled?.toBoolean() ?: false
+    if (component.libs != null && !disabled) {
         component.libs.forEach { lib ->
             def moduleName = ":${lib.name}"
             include moduleName

@@ -227,6 +227,7 @@
         "dir": "sample"
       }
     ],
+    "disabled": true,
     "enabled_samples": false
   },
   {
@@ -381,10 +382,6 @@
             "type": "api"
           },
           {
-            "name": "standard-dialog",
-            "type": "api"
-          },
-          {
             "name": "logger",
             "type": "api"
           },
@@ -481,7 +478,8 @@
           }
         ]
       }
-    ]
+    ],
+    "disabled": true
   },
   {
     "id": "core-app",
@@ -506,7 +504,8 @@
         ],
         "android_standard_dependencies": []
       }
-    ]
+    ],
+    "disabled": true
   },
   {
     "id": "mvi",
@@ -1710,6 +1709,7 @@
         "dir": "sample"
       }
     ],
+    "disabled": true,
     "enabled_samples": false
   },
   {
@@ -2259,6 +2259,7 @@
         "dir": "sample"
       }
     ],
+    "disabled": true,
     "enabled_samples": false
   },
   {
