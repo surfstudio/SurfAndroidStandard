@@ -2,7 +2,9 @@ name: Pull Request
 
 on:
   pull_request:
-    branches: [ main ]
+    branches:
+      - 'main'
+      - 'project-snapshot/*'
 
 jobs:
   build:
@@ -20,7 +22,7 @@ jobs:
       
     - name: Build template
       run: \
-        echo "androidStandardDebugDir=${GITHUB_WORKSPACE}\nandroidStandardDebugMode=true" > template/android-standard/androidStandard.properties
+        echo "androidStandardDebugDir=${{ github.workspace }}\nandroidStandardDebugMode=true" > template/android-standard/androidStandard.properties
         ./gradlew -p template clean assembleQa assembleRelease --stacktrace
         
     - name: Run unit tests
