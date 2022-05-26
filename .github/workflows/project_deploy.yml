@@ -28,9 +28,7 @@ jobs:
       with: 
           path: 'buildSrc/projectConfiguration.json'
           prop_path: 'project_snapshot_version'
-          
-    - run: echo ${{ steps.version_counter.outputs.prop }} 
-    
+              
     - name: Build with Gradle
       run: ./gradlew clean assembleRelease
         

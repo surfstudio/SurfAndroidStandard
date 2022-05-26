@@ -394,10 +394,6 @@
             "type": "api"
           },
           {
-            "name": "converter-gson",
-            "type": "api"
-          },
-          {
             "name": "shared-pref",
             "type": "api"
           },
@@ -1919,10 +1915,6 @@
           }
         ],
         "android_standard_dependencies": [
-          {
-            "name": "core-app",
-            "type": "implementation"
-          },
           {
             "name": "core-ui",
             "type": "implementation"
