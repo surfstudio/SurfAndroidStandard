@@ -29,7 +29,7 @@
     1. [Работа с локацией](../location/README.md)
     1. [Проверка соединения](../connection/README.md)
     1. [Миграция между версиями приложения](../app-migration/README.md)
-    1. [Работа с Broadcast](../broadcast-extension/README.md)
+    1. [Работа с Broadcast](../deprecated/broadcast-extension/README.md)
     1. [Работа с файловым хранилищем](../filestorage/README.md)
     1. [Работа с SharedPrefs](../shared-pref/README.md)
 

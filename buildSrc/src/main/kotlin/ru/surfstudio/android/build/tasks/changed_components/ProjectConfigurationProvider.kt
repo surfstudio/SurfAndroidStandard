@@ -2,14 +2,9 @@ package ru.surfstudio.android.build.tasks.changed_components
 
 import ru.surfstudio.android.build.Folders.OUTPUT_JSON_FOLDER_PATH
 import ru.surfstudio.android.build.Folders.TEMP_FOLDER_NAME
-import ru.surfstudio.android.build.GradleProperties.CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT
-import ru.surfstudio.android.build.GradleProperties.CREATE_PROJECT_CONFIGURATION_REVISION
-import ru.surfstudio.android.build.GradleTasksNames.GRADLE_TASK_CREATE_FROM_TEMP
-import ru.surfstudio.android.build.GradleTasksNames.GRADLE_TASK_CREATE_PROJECT_CONFIGURATION
-import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner.runCommandWithResult
 import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
-import ru.surfstudio.android.build.tasks.check_stability.currentDirectory
 import ru.surfstudio.android.build.utils.JsonHelper
+import ru.surfstudio.android.build.utils.currentDirectory
 import java.io.File
 
 /**
@@ -35,7 +30,7 @@ class ProjectConfigurationProvider(
     fun provideCurrentRevisionConfiguration(): ProjectConfiguration {
         val outputJsonFile = createJsonFileNameByRevision(currentRevision)
         if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
-            runCommandWithResult(createCommandForCurrentRevision(currentRevision), File(currentDirectory))
+            ProjectConfigurationCreator(currentRevision, currentDirectory).createProjectConfigurationFile()
         }
 
         return JsonHelper.parseProjectConfigurationFile(outputJsonFile)
@@ -51,34 +46,10 @@ class ProjectConfigurationProvider(
         val outputJsonFile = createJsonFileNameByRevision(revisionToCompare)
         if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
             TempProjectCreator(revisionToCompare, TEMP_FOLDER_NAME).createProjectWithRevToCompare()
-            runCommandWithResult(createCommandForRevisionToCompare(revisionToCompare), File(currentDirectory))
+            ProjectConfigurationCreator(revisionToCompare, tempDirectory).createProjectConfigurationFile()
         }
 
         return JsonHelper.parseProjectConfigurationFile(outputJsonFile)
-    }
-
-    /**
-     * provides command running task creating project configuration file for revision to compare
-     *
-     * @return command to run [GRADLE_TASK_CREATE_FROM_TEMP] task with parameters
-     */
-    private fun createCommandForRevisionToCompare(revisionToCompare: String): String {
-        return "./gradlew $GRADLE_TASK_CREATE_FROM_TEMP " +
-                "-P$CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT=$tempDirectory " +
-                "-P$CREATE_PROJECT_CONFIGURATION_REVISION=$revisionToCompare"
-    }
-
-    /**
-     * provides command running task creating project configuration file for current revision
-     *
-     * @param currentRevision git current project revision
-     *
-     * @return command to run [GRADLE_TASK_CREATE_PROJECT_CONFIGURATION] task with parameters
-     */
-    private fun createCommandForCurrentRevision(currentRevision: String): String {
-        return "./gradlew $GRADLE_TASK_CREATE_PROJECT_CONFIGURATION " +
-                "-P$CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT=$currentDirectory/ " +
-                "-P$CREATE_PROJECT_CONFIGURATION_REVISION=$currentRevision"
     }
 
     /**

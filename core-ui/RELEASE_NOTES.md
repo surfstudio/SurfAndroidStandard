@@ -9,6 +9,7 @@
 
 ## 0.6.0-alpha
 ##### Core-ui
+* Fix FragmentNavigator.Transit
 * Replace local ferro-rx dependency
 ## 0.5.0
 ##### Core-ui

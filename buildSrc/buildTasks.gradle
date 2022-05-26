@@ -1,63 +1,8 @@
-import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.tasks.*
-import ru.surfstudio.android.build.tasks.artifactory_tasks.*
-import ru.surfstudio.android.build.tasks.bintray_tasks.*
-import ru.surfstudio.android.build.tasks.bintray_tasks.release.*
-import ru.surfstudio.android.build.tasks.check_stable_artifacts_exist_in_repositories.*
-import ru.surfstudio.android.build.tasks.check_dependencies_stable.*
-import ru.surfstudio.android.build.tasks.check_release_notes.*
-import ru.surfstudio.android.build.tasks.check_stability.*
-import ru.surfstudio.android.build.tasks.deploy_to_mirror.*
-import ru.surfstudio.android.build.tasks.generate_release_notes_diff.*
 import ru.surfstudio.android.build.tasks.generate_version_file.*
 import ru.surfstudio.android.build.tasks.increment_version.*
-import ru.surfstudio.android.build.tasks.project_snapshot.*
-
-task checkStandardDependenciesStableTask(type: CheckStandardDependenciesStableTask) //release
-
-task checkStableComponentStandardDependenciesStableTask(type: CheckStableComponentStandardDependenciesStableTask) //pr
-
-task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactoryTask) //release
-
-task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintrayTask) //release
-
-task checkDependencyForComponentUnstable(type: CheckDependencyForComponentUnstableTask) //release
-
-task checkStableComponentsChanged(type: CheckStableComponentsChangedTask) //pr
-
-task createProjectConfiguration(type: CreateProjectConfigurationTask)
-
-task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
-    dir = file('./temp')
-    tasks = ['CreateProjectConfiguration']
-    doFirst {
-        def pathToProject = null
-        def revision = null
-        if (project.hasProperty('pathToProject')) {
-            pathToProject = project.findProperty('pathToProject')
-        } else {
-            throw new GradleException("No arguments found")
-        }
-        if (project.hasProperty('revision')) {
-            revision = project.findProperty('revision')
-        } else {
-            throw new GradleException("No arguments found")
-        }
-        startParameter.projectProperties = [pathToProject: pathToProject, revision: revision]
-    }
-}
 
 task incrementUnstableChangedComponents(type: IncrementUnstableChangedComponentsTask) // dev
-
-task checkSameArtifactsInArtifactory(type: CheckSameArtifactsInArtifactoryTask) //release
-
-task checkSameArtifactsInBintray(type: CheckSameArtifactsInBintrayTask) //release
-
-task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask) // pr
-
-task checkComponentStable(type: CheckComponentStableTask) //release
-
-task checkVersionEqualsComponentVersion(type: CheckVersionEqualsComponentVersionTask) //release
 
 task generateDataForPlugin(type: GenerateDataForPluginTask) //dev //project-snapshot
 
@@ -67,30 +12,4 @@ task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //
 
 task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask) // project-snapshot
 
-task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion) //pr //release
-
-task checkReleaseNotesNotContainCyrillic(type: CheckReleaseNotesNotContainCyrillic) //pr //release
-
-task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask) //pr
-
-task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBintrayTask) //pr
-
 task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask) //release
-
-task checkReleaseNotesChanged(type: CheckReleaseNotesChangedTask) //pr
-
-task deployToMirror(type: DeployToMirrorTask)
-
-task checkConfigurationIsProjectSnapshotTask(type: CheckConfigurationIsProjectSnapshotTask) // project-snapshot
-
-task checkConfigurationIsNotProjectSnapshotTask(type: CheckConfigurationIsNotProjectSnapshotTask) // dev, release, pr
-
-task generateReleaseNotesDiff(type: GenerateReleaseNotesDiffTask) // helper
-
-task writeToFileReleaseNotesDiffForSlack(type: WriteToFileReleaseNotesDiffForSlack)
-
-task writeToFileReleaseNotesDiff(type: WriteToFileReleaseNotesDiff)
-
-task checkBintrayStableVersionsTask(type: CheckBintrayStableVersionsTask)
-
-task checkTagsForReleaseArtifactsTask(type: CheckTagsForReleaseArtifactsTask)

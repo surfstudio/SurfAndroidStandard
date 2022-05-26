@@ -1,8 +1,12 @@
-# Surf Android Standard
+# (Deprecated) Surf Android Standard
 
 [![Android Arsenal][android_arsenal_icon]][android_arsenal_link]
 [![Build Status][build_status_icon]][build_status_link]
 [![License][license_icon]][license_link]
+
+## Развитие приостановлено. Наши новые наработки [тут](https://github.com/surfstudio/surf-compose)
+
+### Текущая версия артефактов стабильна. Выпуск новых релизов не планируется
 
 Фреймворк для разработки android приложений [студии Surf](https://www.surf.ru/). 
 Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение

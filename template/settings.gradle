@@ -25,4 +25,3 @@ include ":app",
         ":v-message-controller-top"
 
 apply from: 'android-standard/androidStandardSettings.gradle'
-apply from: '../buildSrc/buildCache.gradle'
