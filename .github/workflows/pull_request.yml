@@ -6,8 +6,11 @@ on:
       - 'main'
       - 'project-snapshot/*'
 
+env:
+  _JAVA_OPTIONS: -Xmx8g
+
 jobs:
-  build:
+  pull_request:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

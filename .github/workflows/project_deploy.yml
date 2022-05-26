@@ -5,8 +5,11 @@ on:
     branches:
       - 'project-snapshot/*'
 
+env:
+  _JAVA_OPTIONS: -Xmx8g
+
 jobs:
-  build:
+  project_deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
