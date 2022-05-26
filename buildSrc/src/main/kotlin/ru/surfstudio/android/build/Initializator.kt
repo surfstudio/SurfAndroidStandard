@@ -19,13 +19,8 @@ object Initializator {
     @JvmStatic
     fun init(currentBuildDirectory: String) {
         initConfigProviderWithCurrentDirectory(currentBuildDirectory)
-        GradlePropertiesManager.init()
         val jsonComponents = JsonHelper.parseComponentsJson("$currentBuildDirectory/$COMPONENTS_JSON_FILE_PATH")
-        if (GradlePropertiesManager.isCurrentComponentAMirror()) {
-            checkOnlyMirrorComponentFolder(jsonComponents, currentBuildDirectory)
-        } else {
-            checkAllComponentsFolders(jsonComponents, currentBuildDirectory)
-        }
+        checkAllComponentsFolders(jsonComponents, currentBuildDirectory)
         Components.init(jsonComponents)
     }
 
@@ -34,28 +29,6 @@ object Initializator {
      */
     private fun initConfigProviderWithCurrentDirectory(currentDirectory: String) {
         ConfigInfoProvider.currentDirectory = "$currentDirectory/"
-    }
-
-    private fun checkOnlyMirrorComponentFolder(
-            jsonComponents: List<ComponentJson>,
-            currentDirectory: String
-    ) {
-        checkComponentFolders(
-                getComponentJson(
-                        GradlePropertiesManager.componentMirrorName,
-                        jsonComponents
-                ),
-                currentDirectory
-        )
-        if (GradlePropertiesManager.hasCommonComponent()) {
-            checkComponentFolders(
-                    getComponentJson(
-                            GradlePropertiesManager.commonComponentNameForMirror,
-                            jsonComponents
-                    ),
-                    currentDirectory
-            )
-        }
     }
 
     private fun getComponentJson(

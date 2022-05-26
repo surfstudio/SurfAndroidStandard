@@ -1,6 +1,6 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
-import ru.surfstudio.android.build.tasks.check_stability.currentDirectory
+import ru.surfstudio.android.build.utils.currentDirectory
 import java.io.File
 
 /**

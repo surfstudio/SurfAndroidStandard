@@ -35,4 +35,4 @@ Activity в стеке.
 [widget]: ../../mvp/lib-mvp-widget/README.md
 [rxbus]: ../../rxbus/README.md
 [interactor]: ../interactor/events_by_interactor.md
-[bcr]: ../../broadcast-extension/README.md
+[bcr]: ../../deprecated/broadcast-extension/README.md

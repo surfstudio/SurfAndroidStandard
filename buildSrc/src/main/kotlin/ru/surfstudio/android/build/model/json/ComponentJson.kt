@@ -20,6 +20,8 @@ data class ComponentJson(
         val dir: String = EMPTY_STRING,
         val libs: List<LibJson> = listOf(),
         val samples: List<SampleJson> = listOf(),
+        val disabled: Boolean = false,
+        @SerializedName("enabled_samples") val enabledSamples: Boolean = false,
         @SerializedName("has_mirror") val hasMirror: Boolean = false,
         @SerializedName("mirror_repo") val mirrorRepo: String = EMPTY_STRING
 ) : Transformable<Component> {
@@ -30,6 +32,8 @@ data class ComponentJson(
             baseVersion = version,
             stable = stable,
             unstableVersion = unstableVersion,
+            disabled = disabled,
+            enabledSamples = enabledSamples,
             hasMirror = hasMirror,
             mirrorRepo = mirrorRepo,
             libraries = libs.map { jsonLib ->

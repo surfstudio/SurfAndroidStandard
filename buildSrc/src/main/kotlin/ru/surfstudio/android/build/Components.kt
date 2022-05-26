@@ -39,30 +39,6 @@ object Components {
         componentJsons.firstOrNull { it.id == componentName }?.transform()
 
     /**
-     * Get project's module
-     */
-    @JvmStatic
-    fun getModules(): List<Module> {
-        val mirrorComponentName = GradlePropertiesManager.componentMirrorName
-        val skipSamplesBuilding = GradlePropertiesManager.skipSamplesBuilding
-
-        return if (!GradlePropertiesManager.isCurrentComponentAMirror()) {
-            value.flatMap { component ->
-                component.getModules(skipSamplesBuilding)
-            }
-        } else {
-            val mirrorComponent = getComponentByName(mirrorComponentName)
-            val result = mirrorComponent.libraries + mirrorComponent.samples
-            if (GradlePropertiesManager.hasCommonComponent()) {
-                val commonComponent = getComponentByName(GradlePropertiesManager.commonComponentNameForMirror)
-                result + commonComponent.libraries + commonComponent.samples
-            } else {
-                result
-            }
-        }
-    }
-
-    /**
      * Get moduleVersionName
      *
      * There are 4 types of version:
