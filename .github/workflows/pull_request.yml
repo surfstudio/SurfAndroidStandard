@@ -18,7 +18,7 @@ jobs:
       uses: gradle/gradle-build-action@v2
 
     - name: Build with Gradle
-      run: ./gradlew clean assembleQa
+      run: ./gradlew clean assembleRelease
 
     - name: Build template
       if: ${{ !startsWith(github.base_ref, 'project-snapshot') }}
@@ -27,4 +27,4 @@ jobs:
         ./gradlew -p template clean assembleQa assembleRelease --stacktrace
 
     - name: Run unit tests
-      run: ./gradlew testQaUnitTest
+      run: ./gradlew testReleaseUnitTest

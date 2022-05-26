@@ -21,7 +21,7 @@ def trueValue = "true"
 
 ext["signing.keyId"] = System.getenv("surf_maven_sign_key_id")
 ext["signing.password"] = System.getenv("surf_maven_sign_password")
-ext["signing.secretKeyRingFile"] = System.getenv("surf_maven_sign_key_ring_file")
+ext["signing.secretKeyRingFile"] = "$rootDir/sign/sign.gpg"
 
 ext.checkAndDisableTask = { task, publishType ->
     // If -PonlyUnstable=true deploy only unstable artifacts
