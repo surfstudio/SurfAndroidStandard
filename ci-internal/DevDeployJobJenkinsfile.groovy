@@ -11,6 +11,10 @@ import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 //Pipeline for deploy snapshot artifacts
 
+// !!! Job оставлен для обратной совместимости.
+// Актуальная версия переписана на Github Actions, см .github/workflows/main-deploy.yml
+// При необходимости можно включить job Standard-Deploy-Dev_Android_TAG в jenkins
+
 // Stage names
 def CHECKOUT = 'Checkout'
 def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'

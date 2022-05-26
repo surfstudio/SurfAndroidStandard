@@ -11,7 +11,8 @@ import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
 
-//Pipeline for deploy snapshot artifacts
+// !!! Релиз артефактов в maven central. Активно не используется.
+// Соответствует job Standard-Release_Android_TAG в jenkins
 
 // Stage names
 

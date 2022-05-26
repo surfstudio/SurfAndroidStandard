@@ -11,6 +11,10 @@ import ru.surfstudio.ci.stage.StageStrategy
 import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 //Pipeline for check prs
 
+// !!! Job оставлен для обратной совместимости.
+// Актуальная версия переписана на Github Actions, см .github/workflows/pull_request.yml
+// При необходимости можно включить job Standard_Android_PR в jenkins
+
 // Stage names
 def PRE_MERGE = 'PreMerge'
 
