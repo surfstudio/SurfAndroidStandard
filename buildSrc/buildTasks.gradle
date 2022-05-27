@@ -2,8 +2,6 @@ import ru.surfstudio.android.build.tasks.*
 import ru.surfstudio.android.build.tasks.generate_version_file.*
 import ru.surfstudio.android.build.tasks.increment_version.*
 
-task incrementUnstableChangedComponents(type: IncrementUnstableChangedComponentsTask) // dev
-
 task generateDataForPlugin(type: GenerateDataForPluginTask) //dev //project-snapshot
 
 task generateProjectConfigurationVersionFileTask(type: GenerateProjectConfigurationVersionFileTask) //dev

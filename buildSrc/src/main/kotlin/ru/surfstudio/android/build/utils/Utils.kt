@@ -4,8 +4,6 @@ const val EMPTY_STRING = ""
 const val EMPTY_INT = -1
 const val COMPONENTS_JSON_FILE_PATH = "buildSrc/components.json"
 
-val currentDirectory = System.getProperty("user.dir")
-
 /**
  * Create composite version
  *
