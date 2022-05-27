@@ -41,7 +41,7 @@ jobs:
           surf_maven_password: ${{ secrets.SURF_MAVEN_PASSWORD }}
           surf_maven_sign_key_id: ${{ secrets.SURF_MAVEN_SIGN_KEY_ID }}
           surf_maven_sign_password: ${{ secrets.SURF_MAVEN_SIGN_PASSWORD }}
-      run: ./gradlew clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory
+      run: ./gradlew clean publish -PpublishType=artifactory
       
     - name: Deploy version plugin
       env:

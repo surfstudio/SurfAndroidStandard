@@ -1,6 +1,5 @@
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
-import ru.surfstudio.android.build.artifactory.Artifactory
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 import ru.surfstudio.android.build.Initializator
 import ru.surfstudio.android.build.PublishType
@@ -14,8 +13,6 @@ apply plugin: 'signing'
 String currentBuildDirectory = gradle.startParameter.currentDir.path
 Initializator.init(currentBuildDirectory)
 
-def trueValue = "true"
-
 // Function for configuration of dependencies of current android-standard module.
 // Context of current module is passed in parameters.
 
@@ -24,16 +21,7 @@ ext["signing.password"] = System.getenv("surf_maven_sign_password")
 ext["signing.secretKeyRingFile"] = "$rootDir/sign/sign.gpg"
 
 ext.checkAndDisableTask = { task, publishType ->
-    // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
-    def deployOnlyIfNotExist = project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) &&
-            project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == trueValue &&
-            publishType == PublishType.ARTIFACTORY &&
-            Artifactory.isLibraryAlreadyDeployed(project.name)
-
-    if (deployOnlyIfNotExist) {
-        task.enabled = false
-        task.group = null
-    } else if (project.hasProperty(GradleProperties.COMPONENT)) {
+    if (project.hasProperty(GradleProperties.COMPONENT)) {
         def componentName = project.property(GradleProperties.COMPONENT)
         if (!Components.isLibraryFromComponent(project.name, componentName)) {
             task.enabled = false
