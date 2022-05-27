@@ -1,10 +1,9 @@
-import ru.surfstudio.android.build.tasks.*
-import ru.surfstudio.android.build.tasks.generate_version_file.*
+import ru.surfstudio.android.build.tasks.generate.*
 import ru.surfstudio.android.build.tasks.increment_version.*
 
 task generateDataForPlugin(type: GenerateDataForPluginTask) //dev //project-snapshot
 
-task generateProjectConfigurationVersionFileTask(type: GenerateProjectConfigurationVersionFileTask) //dev
+task incrementTemplateVersion(type: IncrementTemplateVersionTask) //dev
 
 task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //dev
 

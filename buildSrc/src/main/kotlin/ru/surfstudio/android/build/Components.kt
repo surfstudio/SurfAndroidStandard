@@ -2,7 +2,6 @@ package ru.surfstudio.android.build
 
 import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundForStandardDependencyException
 import ru.surfstudio.android.build.model.Component
-import ru.surfstudio.android.build.model.dependency.Dependency
 import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.model.module.Module

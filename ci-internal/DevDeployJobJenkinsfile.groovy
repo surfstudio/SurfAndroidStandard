@@ -6,7 +6,6 @@ import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 //Pipeline for deploy snapshot artifacts
@@ -28,8 +27,6 @@ def VERSION_PUSH = 'Version Push'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
-def androidStandardTemplateConfigurationFile = "template/config.gradle"
-def projectConfigurationVersionFile = "buildSrc/build/tmp/projectVersion.txt"
 
 //vars
 def branchName = ""
@@ -93,16 +90,7 @@ pipeline.stages = [
             GradleUtil.gradlew(script, "incrementGlobalUnstableVersion", useJava11)
         },
         pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
-            GradleUtil.gradlew(script, "generateProjectConfigurationVersionFileTask", useJava11)
-
-            def currentStandardVersion = script.readFile(projectConfigurationVersionFile)
-
-            AndroidUtil.changeGradleVariable(
-                    script,
-                    androidStandardTemplateConfigurationFile,
-                    "androidStandardVersion",
-                    "'$currentStandardVersion'"
-            )
+            GradleUtil.gradlew(script, "incrementTemplateVersion", useJava11)
         },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease", useJava11)
