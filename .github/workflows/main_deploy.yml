@@ -58,7 +58,7 @@ jobs:
 
     - name: Build template
       run: |
-        echo "androidStandardDebugDir=${{ github.workspace }}\nandroidStandardDebugMode=true" > template/android-standard/androidStandard.properties
+        echo "androidStandardDebugDir=${{ github.workspace }}\nandroidStandardDebugMode=false" > template/android-standard/androidStandard.properties
         ./gradlew -p template :app:dependencies
         ./gradlew -p template clean assembleQa assembleRelease --stacktrace
 
