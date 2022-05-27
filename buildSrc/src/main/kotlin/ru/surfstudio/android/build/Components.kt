@@ -2,7 +2,6 @@ package ru.surfstudio.android.build
 
 import org.gradle.api.GradleException
 import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundForStandardDependencyException
-import ru.surfstudio.android.build.exceptions.library.LibraryNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.dependency.Dependency
 import ru.surfstudio.android.build.model.json.ComponentJson
@@ -100,20 +99,6 @@ object Components {
     }
 
     /**
-     * Get component stability by module name
-     */
-    @JvmStatic
-    fun getComponentStability(libraryName: String): Boolean {
-        value.forEach { component ->
-            component.libraries
-                .find { it.name == libraryName }
-                ?.let { return component.stable }
-        }
-
-        throw LibraryNotFoundException(libraryName)
-    }
-
-    /**
      * Is library from component
      */
     @JvmStatic
@@ -161,8 +146,8 @@ object Components {
         value.forEach { component ->
             val componentVersion = createCompositeVersion(
                 component.baseVersion,
-                component.stable,
-                component.unstableVersion,
+                configInfo.isStable,
+                configInfo.unstableVersion,
                 configInfo.projectSnapshotName,
                 configInfo.projectSnapshotVersion
             )

@@ -1,7 +1,6 @@
 package ru.surfstudio.android.build.utils
 
 const val EMPTY_STRING = ""
-const val EMPTY_INT = -1
 const val COMPONENTS_JSON_FILE_PATH = "buildSrc/components.json"
 
 /**
