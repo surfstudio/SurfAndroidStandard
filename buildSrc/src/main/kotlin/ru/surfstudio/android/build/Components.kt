@@ -1,6 +1,5 @@
 package ru.surfstudio.android.build
 
-import org.gradle.api.GradleException
 import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundForStandardDependencyException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.dependency.Dependency
@@ -32,19 +31,11 @@ object Components {
     }
 
     /**
-     * Function for parsing a single component from list
-     */
-    fun parseComponent(componentJsons: List<ComponentJson>, componentName: String): Component? =
-        componentJsons.firstOrNull { it.id == componentName }?.transform()
-
-    /**
      * Get moduleVersionName
      *
-     * There are 4 types of version:
-     * 1. X.Y.Z - component is stable, projectPostfix is empty
-     * 2. X.Y.Z-alpha.unstable_version - component is unstable, projectPostfix is empty
-     * 3. X.Y.Z-projectPostfix.projectVersion - component is stable, projectPostfix isn't empty
-     * 4. X.Y.Z-alpha.unstable_version-projectPostfix.projectVersion - component is unstable, projectPostfix isn't empty
+     * There are 2 types of version:
+     * X.Y.Z-unstable_version - projectSnapshotName is empty
+     * X.Y.Z-unstable_version.projectSnapshotName.projectVersion - projectSnapshotName isn't empty
      */
     @JvmStatic
     fun getModuleVersion(moduleName: String): String {
@@ -88,17 +79,6 @@ object Components {
     }
 
     /**
-     * Get standard artifact names by library name
-     */
-    @JvmStatic
-    fun getAndroidStandardDependencies(libraryName: String): List<Library> {
-        val standardDepNames = libraries.find { it.name == libraryName }
-            ?.androidStandardDependencies
-            ?.map(Dependency::name) ?: return emptyList()
-        return libraries.filter { standardDepNames.contains(it.name) }
-    }
-
-    /**
      * Is library from component
      */
     @JvmStatic
@@ -107,16 +87,6 @@ object Components {
             ?.libraries
             ?.any { it.name == libraryName }
             ?: false
-    }
-
-    /**
-     * Get component's libraries
-     */
-    @JvmStatic
-    fun getComponentLibraries(componentName: String): List<Library> {
-        return value.firstOrNull { it.name == componentName }
-            ?.libraries
-            ?: throw GradleException("Component $componentName not found")
     }
 
     /**
@@ -146,7 +116,6 @@ object Components {
         value.forEach { component ->
             val componentVersion = createCompositeVersion(
                 component.baseVersion,
-                configInfo.isStable,
                 configInfo.unstableVersion,
                 configInfo.projectSnapshotName,
                 configInfo.projectSnapshotVersion
@@ -154,10 +123,5 @@ object Components {
             component.projectVersion = componentVersion
             component.libraries.forEach { it.projectVersion = componentVersion }
         }
-    }
-
-    private fun getComponentByName(componentName: String): Component {
-        return value.firstOrNull { it.name == componentName }
-            ?: throw GradleException("Component name $componentName not found")
     }
 }
