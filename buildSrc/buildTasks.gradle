@@ -9,5 +9,3 @@ task generateProjectConfigurationVersionFileTask(type: GenerateProjectConfigurat
 task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //dev
 
 task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask) // project-snapshot
-
-task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask) //release

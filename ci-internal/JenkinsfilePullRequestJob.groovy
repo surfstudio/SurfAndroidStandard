@@ -153,7 +153,6 @@ pipeline.stages = [
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
         pipeline.stage(BUILD) {
-            script.sh("rm -rf temp template/**/build")
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleQa", useJava11)
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {

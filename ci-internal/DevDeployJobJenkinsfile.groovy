@@ -105,7 +105,6 @@ pipeline.stages = [
             )
         },
         pipeline.stage(BUILD) {
-            script.sh("rm -rf temp template/**/build")
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease", useJava11)
         },
         pipeline.stage(UNIT_TEST) {
