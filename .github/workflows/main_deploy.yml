@@ -1,12 +1,12 @@
-name: Project Snapshot Deploy
+name: Main Deploy
 
 on:
   push:
     branches:
-      - 'project-snapshot/*'
+      - 'main'
 
 jobs:
-  project_deploy:
+  main_deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -19,15 +19,18 @@ jobs:
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
 
-    - name: Increment project snapshot version
-      run: ./gradlew incrementProjectSnapshotVersion
-      
+    - name: Increment global version
+      run: ./gradlew incrementGlobalUnstableVersion
+
+    - name: Increment template version
+      run: ./gradlew incrementTemplateVersion
+
     - name: Get incremented version
       id: version_counter
       uses: notiz-dev/github-action-json-property@release
       with: 
           path: 'buildSrc/projectConfiguration.json'
-          prop_path: 'project_snapshot_version'
+          prop_path: 'unstable_version'
               
     - name: Build with Gradle
       run: ./gradlew clean assembleRelease
@@ -52,7 +55,13 @@ jobs:
       run: |
         ./gradlew generateDataForPlugin
         ./gradlew :android-standard-version-plugin:publish
-      
+
+    - name: Build template
+      run: |
+        echo "androidStandardDebugDir=${{ github.workspace }}\nandroidStandardDebugMode=true" > template/android-standard/androidStandard.properties
+        ./gradlew -p template :app:dependencies
+        ./gradlew -p template clean assembleQa assembleRelease --stacktrace
+
     - name: Commit version increment
       uses: stefanzweifel/git-auto-commit-action@v4
       with:

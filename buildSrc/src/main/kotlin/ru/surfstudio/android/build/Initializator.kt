@@ -1,7 +1,6 @@
 package ru.surfstudio.android.build
 
 import ru.surfstudio.android.build.exceptions.component.ComponentDirectoryNotExistException
-import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundException
 import ru.surfstudio.android.build.exceptions.library.LibraryDirectoryNotExistException
 import ru.surfstudio.android.build.exceptions.SampleDirectoryNotExistException
 import ru.surfstudio.android.build.model.json.ComponentJson
@@ -30,13 +29,6 @@ object Initializator {
     private fun initConfigProviderWithCurrentDirectory(currentDirectory: String) {
         ConfigInfoProvider.currentDirectory = "$currentDirectory/"
     }
-
-    private fun getComponentJson(
-            componentName: String,
-            jsonComponents: List<ComponentJson>
-    ): ComponentJson =
-            jsonComponents.firstOrNull { it.id == componentName }
-                    ?: throw ComponentNotFoundException(componentName)
 
     /**
      * Check value directories for existance

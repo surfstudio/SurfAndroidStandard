@@ -1,9 +1,7 @@
 [
   {
     "id": "activity-holder",
-    "version": "0.6.0",
-    "unstable_version": 2,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "activity-holder",
     "libs": [
       {
@@ -22,9 +20,7 @@
   },
   {
     "id": "analytics",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "analytics",
     "libs": [
       {
@@ -80,9 +76,7 @@
   },
   {
     "id": "animations",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "animations",
     "libs": [
       {
@@ -112,9 +106,7 @@
   },
   {
     "id": "app-migration",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "app-migration",
     "libs": [
       {
@@ -148,9 +140,7 @@
   },
   {
     "id": "biometrics",
-    "version": "0.5.0",
-    "unstable_version": 3,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "biometrics",
     "libs": [
       {
@@ -198,9 +188,7 @@
   },
   {
     "id": "broadcast-extension",
-    "version": "0.5.0",
-    "unstable_version": 7,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "deprecated/broadcast-extension",
     "libs": [
       {
@@ -232,9 +220,7 @@
   },
   {
     "id": "common",
-    "version": "0.5.0",
-    "unstable_version": 12,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "common",
     "libs": [
       {
@@ -423,9 +409,7 @@
   },
   {
     "id": "connection",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "connection",
     "libs": [
       {
@@ -444,9 +428,7 @@
   },
   {
     "id": "converter-gson",
-    "version": "0.5.0",
-    "unstable_version": 6,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "deprecated/converter-gson",
     "libs": [
       {
@@ -479,9 +461,7 @@
   },
   {
     "id": "core-app",
-    "version": "0.5.0",
-    "unstable_version": 7,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "deprecated/core-app",
     "libs": [
       {
@@ -505,9 +485,7 @@
   },
   {
     "id": "mvi",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "mvi",
     "libs": [
       {
@@ -656,9 +634,7 @@
   },
   {
     "id": "core-mvp-binding",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "core-mvp-binding",
     "libs": [
       {
@@ -729,9 +705,7 @@
   },
   {
     "id": "core-ui",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "core-ui",
     "libs": [
       {
@@ -800,9 +774,7 @@
   },
   {
     "id": "core-navigation",
-    "version": "0.6.0",
-    "unstable_version": 2,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "core-navigation",
     "libs": [
       {
@@ -853,9 +825,7 @@
   },
   {
     "id": "permission",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "permission",
     "libs": [
       {
@@ -937,9 +907,7 @@
   },
   {
     "id": "custom-view",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "custom-view",
     "libs": [
       {
@@ -986,9 +954,7 @@
   },
   {
     "id": "dagger-scope",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "dagger-scope",
     "libs": [
       {
@@ -1018,9 +984,7 @@
   },
   {
     "id": "datalist",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "datalist",
     "libs": [
       {
@@ -1088,9 +1052,7 @@
   },
   {
     "id": "easyadapter",
-    "version": "7.0.1",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "7.1.0",
     "dir": "easyadapter",
     "libs": [
       {
@@ -1147,9 +1109,7 @@
   },
   {
     "id": "filestorage",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "filestorage",
     "libs": [
       {
@@ -1200,9 +1160,7 @@
   },
   {
     "id": "google-pay-button",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "google-pay-button",
     "libs": [
       {
@@ -1237,9 +1195,7 @@
   },
   {
     "id": "imageloader",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "imageloader",
     "libs": [
       {
@@ -1274,9 +1230,7 @@
   },
   {
     "id": "location",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "location",
     "libs": [
       {
@@ -1340,9 +1294,7 @@
   },
   {
     "id": "logger",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "logger",
     "libs": [
       {
@@ -1361,9 +1313,7 @@
   },
   {
     "id": "message-controller",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "message-controller",
     "libs": [
       {
@@ -1389,9 +1339,7 @@
   },
   {
     "id": "mvp",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "mvp",
     "libs": [
       {
@@ -1608,9 +1556,7 @@
   },
   {
     "id": "network",
-    "version": "0.5.0",
-    "unstable_version": 10,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "deprecated/network",
     "libs": [
       {
@@ -1710,9 +1656,7 @@
   },
   {
     "id": "navigation",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "navigation",
     "libs": [
       {
@@ -1858,9 +1802,7 @@
   },
   {
     "id": "picture-provider",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "picture-provider",
     "libs": [
       {
@@ -1940,9 +1882,7 @@
   },
   {
     "id": "push",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "push",
     "libs": [
       {
@@ -1984,9 +1924,7 @@
   },
   {
     "id": "recycler-extension",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "recycler-extension",
     "libs": [
       {
@@ -2029,9 +1967,7 @@
   },
   {
     "id": "recycler-decorator",
-    "version": "1.0.2",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "1.1.0",
     "dir": "recycler-decorator",
     "libs": [
       {
@@ -2082,9 +2018,7 @@
   },
   {
     "id": "rx-extension",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "rx-extension",
     "libs": [
       {
@@ -2111,9 +2045,7 @@
   },
   {
     "id": "rxbus",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "rxbus",
     "libs": [
       {
@@ -2132,9 +2064,7 @@
   },
   {
     "id": "security",
-    "version": "0.5.0",
-    "unstable_version": 11,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "security",
     "libs": [
       {
@@ -2181,9 +2111,7 @@
   },
   {
     "id": "shared-pref",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "shared-pref",
     "libs": [
       {
@@ -2214,9 +2142,7 @@
   },
   {
     "id": "standard-dialog",
-    "version": "0.5.0",
-    "unstable_version": 10,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "deprecated/standard-dialog",
     "libs": [
       {
@@ -2256,9 +2182,7 @@
   },
   {
     "id": "util-ktx",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "util-ktx",
     "libs": [
       {
@@ -2291,33 +2215,5 @@
         ]
       }
     ]
-  },
-  {
-    "id": "template",
-    "version": "0.5.0",
-    "unstable_version": 61,
-    "stable": false,
-    "dir": "template"
-  },
-  {
-    "id": "android-standard-version-plugin",
-    "version": "0.5.0",
-    "unstable_version": 7,
-    "stable": false,
-    "dir": "android-standard-version-plugin"
-  },
-  {
-    "id": "android-studio-settings",
-    "version": "0.5.0",
-    "unstable_version": 7,
-    "stable": false,
-    "dir": "android-studio-settings"
-  },
-  {
-    "id": "docs",
-    "version": "0.5.0",
-    "unstable_version": 19,
-    "stable": false,
-    "dir": "docs"
   }
 ]

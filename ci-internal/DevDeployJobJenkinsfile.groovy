@@ -6,7 +6,6 @@ import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 //Pipeline for deploy snapshot artifacts
@@ -18,7 +17,6 @@ import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 // Stage names
 def CHECKOUT = 'Checkout'
 def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
-def INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION = 'Increment Changed Unstable Modules Alpha Version'
 def BUILD = 'Build'
 def BUILD_TEMPLATE = 'Template Build'
 def UNIT_TEST = 'Unit Test'
@@ -29,8 +27,6 @@ def VERSION_PUSH = 'Version Push'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
-def androidStandardTemplateConfigurationFile = "template/config.gradle"
-def projectConfigurationVersionFile = "buildSrc/build/tmp/projectVersion.txt"
 
 //vars
 def branchName = ""
@@ -94,23 +90,9 @@ pipeline.stages = [
             GradleUtil.gradlew(script, "incrementGlobalUnstableVersion", useJava11)
         },
         pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
-            GradleUtil.gradlew(script, "generateProjectConfigurationVersionFileTask", useJava11)
-
-            def currentStandardVersion = script.readFile(projectConfigurationVersionFile)
-
-            AndroidUtil.changeGradleVariable(
-                    script,
-                    androidStandardTemplateConfigurationFile,
-                    "androidStandardVersion",
-                    "'$currentStandardVersion'"
-            )
-        },
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
-            GradleUtil.gradlew(script, "incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}", useJava11)
+            GradleUtil.gradlew(script, "incrementTemplateVersion", useJava11)
         },
         pipeline.stage(BUILD) {
-            script.sh("rm -rf temp template/**/build")
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease", useJava11)
         },
         pipeline.stage(UNIT_TEST) {
@@ -124,7 +106,7 @@ pipeline.stages = [
         },
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {
-                GradleUtil.gradlew(script, "clean publish -PonlyUnstable=true -PdeployOnlyIfNotExist=true -PpublishType=artifactory", useJava11)
+                GradleUtil.gradlew(script, "clean publish -PpublishType=artifactory", useJava11)
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
@@ -228,54 +210,6 @@ def static initTriggers(script) {
 // ============================================== ↑↑↑  END JOB PROPERTIES CONFIGURATION ↑↑↑  ==========================================
 
 // ============ Utils =================
-
-def static getCommitHash(script, commit) {
-    def parts = commit.split(" ")
-    for (part in parts) {
-        if (part.trim().matches("^[a-zA-Z0-9]+\$")) {
-            return part.trim()
-        }
-    }
-    script.error("Commit hash not found in commit str: $commit")
-}
-
-def static getPreviousRevisionWithVersionIncrement(script) {
-    def commits = script.sh(
-            returnStdout: true,
-            script: "git  --no-pager log --pretty=oneline -500 --graph"
-    )
-            .trim()
-            .split("\n")
-
-    def filteredCommits = []
-    for (commit in commits) {
-        if (commit.startsWith("*")) {
-            //filter only commit in
-            filteredCommits.add(commit)
-        }
-    }
-    def revisionToCompare = null
-
-    for (commit in filteredCommits) {
-        if (commit.contains(RepositoryUtil.VERSION_LABEL1)) {
-            script.echo("revision to compare: ${commit}")
-            revisionToCompare = getCommitHash(script, commit)
-            break
-        }
-    }
-    if (revisionToCompare == null) {
-        //gets previous commit
-        def previousCommit
-        if (commits[1] != "|\\  ") {
-            previousCommit = commits[1]
-        } else {
-            previousCommit = commits[2]
-        }
-        script.echo("Not found revision with version label, so use previous revision to compare: ${previousCommit}")
-        revisionToCompare = getCommitHash(script, previousCommit)
-    }
-    return revisionToCompare
-}
 
 def static withJobCredentials(script, body) {
     script.withCredentials([
