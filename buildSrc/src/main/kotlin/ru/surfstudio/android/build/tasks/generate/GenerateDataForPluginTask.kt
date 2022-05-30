@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks
+package ru.surfstudio.android.build.tasks.generate
 
 import com.google.gson.GsonBuilder
 import org.gradle.api.DefaultTask

@@ -3,7 +3,6 @@ package ru.surfstudio.android.build.model
 import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.model.module.Module
 import ru.surfstudio.android.build.model.module.Sample
-import ru.surfstudio.android.build.utils.EMPTY_INT
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 
 /**
@@ -14,8 +13,6 @@ data class Component(
         val directory: String = EMPTY_STRING,
         val baseVersion: String = EMPTY_STRING, // Version from components.json
         var projectVersion: String = EMPTY_STRING, // Project version
-        val stable: Boolean = false,
-        var unstableVersion: Int = EMPTY_INT,
         val libraries: List<Library> = listOf(),
         val samples: List<Sample> = listOf(),
         val disabled: Boolean = false,

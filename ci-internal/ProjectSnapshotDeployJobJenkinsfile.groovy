@@ -9,6 +9,10 @@ import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 //Pipeline for deploy project snapshot artifacts
 
+// !!! Job оставлен для обратной совместимости.
+// Актуальная версия переписана на Github Actions, см .github/workflows/project-deploy.yml
+// При необходимости можно включить job Standard-Project-Snapshot-Job_Android_TAG в jenkins
+
 // Stage names
 
 def CHECKOUT = 'Checkout'
@@ -103,7 +107,7 @@ pipeline.stages = [
         },
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {
-                GradleUtil.gradlew(script, "clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory", useJava11)
+                GradleUtil.gradlew(script, "clean publish -PpublishType=artifactory", useJava11)
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
