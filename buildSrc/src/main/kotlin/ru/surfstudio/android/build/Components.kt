@@ -33,8 +33,8 @@ object Components {
      * Get moduleVersionName
      *
      * There are 2 types of version:
-     * X.Y.Z-unstable_version - projectSnapshotName is empty
-     * X.Y.Z-unstable_version.projectSnapshotName.projectVersion - projectSnapshotName isn't empty
+     * X.Y.Z-unstableVersion - projectSnapshotName is empty
+     * X.Y.Z-projectSnapshotName.projectSnapshotVersion - projectSnapshotName isn't empty
      */
     @JvmStatic
     fun getModuleVersion(moduleName: String): String {
