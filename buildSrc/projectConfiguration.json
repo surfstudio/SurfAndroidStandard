@@ -1,7 +1,6 @@
 {
   "version": "0.5.0",
-  "stable": false,
   "unstable_version": 221,
   "project_snapshot_name": "INF",
-  "project_snapshot_version": 3
+  "project_snapshot_version": 4
 }
