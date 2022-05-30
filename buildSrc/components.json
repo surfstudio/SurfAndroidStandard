@@ -1,9 +1,7 @@
 [
   {
     "id": "activity-holder",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "activity-holder",
     "libs": [
       {
@@ -13,21 +11,16 @@
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
-            "type": "api"
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "analytics",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "analytics",
     "libs": [
       {
@@ -79,14 +72,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "animations",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "animations",
     "libs": [
       {
@@ -112,14 +102,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "app-migration",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "app-migration",
     "libs": [
       {
@@ -149,14 +136,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "biometrics",
-    "version": "0.5.0",
-    "unstable_version": 3,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "biometrics",
     "libs": [
       {
@@ -200,17 +184,12 @@
           }
         ]
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "broadcast-extension",
-    "version": "0.5.0",
-    "unstable_version": 7,
-    "stable": false,
-    "dir": "broadcast-extension",
+    "version": "0.6.0",
+    "dir": "deprecated/broadcast-extension",
     "libs": [
       {
         "name": "broadcast-extension",
@@ -236,14 +215,12 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "disabled": true,
+    "enabled_samples": false
   },
   {
     "id": "common",
-    "version": "0.5.0",
-    "unstable_version": 12,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "common",
     "libs": [
       {
@@ -391,10 +368,6 @@
             "type": "api"
           },
           {
-            "name": "standard-dialog",
-            "type": "api"
-          },
-          {
             "name": "logger",
             "type": "api"
           },
@@ -404,10 +377,6 @@
           },
           {
             "name": "filestorage",
-            "type": "api"
-          },
-          {
-            "name": "converter-gson",
             "type": "api"
           },
           {
@@ -436,16 +405,11 @@
           }
         ]
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "connection",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "connection",
     "libs": [
       {
@@ -460,16 +424,11 @@
         ],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "converter-gson",
-    "version": "0.5.0",
-    "unstable_version": 6,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "deprecated/converter-gson",
     "libs": [
       {
@@ -498,15 +457,11 @@
         ]
       }
     ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "disabled": true
   },
   {
     "id": "core-app",
-    "version": "0.5.0",
-    "unstable_version": 7,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "deprecated/core-app",
     "libs": [
       {
@@ -526,15 +481,11 @@
         "android_standard_dependencies": []
       }
     ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "disabled": true
   },
   {
     "id": "mvi",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "mvi",
     "libs": [
       {
@@ -679,14 +630,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "core-mvp-binding",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "core-mvp-binding",
     "libs": [
       {
@@ -753,14 +701,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "core-ui",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "core-ui",
     "libs": [
       {
@@ -823,14 +768,13 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": true,
     "mirror_repo": "https://github.com/surfstudio/Core-ui"
   },
   {
     "id": "core-navigation",
-    "version": "0.6.0",
-    "unstable_version": 2,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "core-navigation",
     "libs": [
       {
@@ -877,14 +821,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "permission",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "permission",
     "libs": [
       {
@@ -962,14 +903,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "custom-view",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "custom-view",
     "libs": [
       {
@@ -1012,14 +950,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "dagger-scope",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "dagger-scope",
     "libs": [
       {
@@ -1045,14 +980,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "datalist",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "datalist",
     "libs": [
       {
@@ -1116,16 +1048,11 @@
         "third_party_dependencies": [],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "easyadapter",
-    "version": "7.0.1",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "7.1.0",
     "dir": "easyadapter",
     "libs": [
       {
@@ -1176,14 +1103,13 @@
         "dir": "sample"
       }
     ],
+    "enabled_samples": false,
     "has_mirror": true,
     "mirror_repo": "https://github.com/surfstudio/EasyAdapter"
   },
   {
     "id": "filestorage",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "filestorage",
     "libs": [
       {
@@ -1230,14 +1156,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "google-pay-button",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "google-pay-button",
     "libs": [
       {
@@ -1268,14 +1191,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "imageloader",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "imageloader",
     "libs": [
       {
@@ -1306,14 +1226,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "location",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "location",
     "libs": [
       {
@@ -1373,14 +1290,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "logger",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "logger",
     "libs": [
       {
@@ -1395,16 +1309,11 @@
         ],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "message-controller",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "message-controller",
     "libs": [
       {
@@ -1426,14 +1335,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "mvp",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "mvp",
     "libs": [
       {
@@ -1646,14 +1552,11 @@
         "dir": "sample-mvp-widget"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "network",
-    "version": "0.5.0",
-    "unstable_version": 10,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "deprecated/network",
     "libs": [
       {
@@ -1748,14 +1651,12 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "disabled": true,
+    "enabled_samples": false
   },
   {
     "id": "navigation",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "navigation",
     "libs": [
       {
@@ -1897,14 +1798,11 @@
         "dir": "sample-standard"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "picture-provider",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "picture-provider",
     "libs": [
       {
@@ -1952,10 +1850,6 @@
         ],
         "android_standard_dependencies": [
           {
-            "name": "core-app",
-            "type": "implementation"
-          },
-          {
             "name": "core-ui",
             "type": "implementation"
           },
@@ -1984,14 +1878,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "push",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "push",
     "libs": [
       {
@@ -2029,14 +1920,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "recycler-extension",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "recycler-extension",
     "libs": [
       {
@@ -2075,14 +1963,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "recycler-decorator",
-    "version": "1.0.2",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "1.1.0",
     "dir": "recycler-decorator",
     "libs": [
       {
@@ -2129,14 +2014,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "rx-extension",
-    "version": "0.5.0",
-    "unstable_version": 0,
-    "stable": true,
+    "version": "0.6.0",
     "dir": "rx-extension",
     "libs": [
       {
@@ -2159,16 +2041,11 @@
         ],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "rxbus",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "rxbus",
     "libs": [
       {
@@ -2183,16 +2060,11 @@
         ],
         "android_standard_dependencies": []
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   },
   {
     "id": "security",
-    "version": "0.5.0",
-    "unstable_version": 11,
-    "stable": false,
+    "version": "0.6.0",
     "dir": "security",
     "libs": [
       {
@@ -2235,14 +2107,11 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "shared-pref",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "shared-pref",
     "libs": [
       {
@@ -2269,15 +2138,12 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "enabled_samples": false
   },
   {
     "id": "standard-dialog",
-    "version": "0.5.0",
-    "unstable_version": 10,
-    "stable": false,
-    "dir": "standard-dialog",
+    "version": "0.6.0",
+    "dir": "deprecated/standard-dialog",
     "libs": [
       {
         "name": "standard-dialog",
@@ -2301,10 +2167,6 @@
           {
             "name": "mvp-dialog",
             "type": "implementation"
-          },
-          {
-            "name": "dagger-scope",
-            "type": "implementation"
           }
         ]
       }
@@ -2315,14 +2177,12 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "disabled": true,
+    "enabled_samples": false
   },
   {
     "id": "util-ktx",
-    "version": "0.6.0",
-    "unstable_version": 1,
-    "stable": false,
+    "version": "0.7.0",
     "dir": "util-ktx",
     "libs": [
       {
@@ -2354,53 +2214,6 @@
           }
         ]
       }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
-  },
-  {
-    "id": "template",
-    "version": "0.5.0",
-    "unstable_version": 61,
-    "stable": false,
-    "dir": "template",
-    "libs": [],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
-  },
-  {
-    "id": "android-standard-version-plugin",
-    "version": "0.5.0",
-    "unstable_version": 7,
-    "stable": false,
-    "dir": "android-standard-version-plugin",
-    "libs": [],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
-  },
-  {
-    "id": "android-studio-settings",
-    "version": "0.5.0",
-    "unstable_version": 7,
-    "stable": false,
-    "dir": "android-studio-settings",
-    "libs": [],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
-  },
-  {
-    "id": "docs",
-    "version": "0.5.0",
-    "unstable_version": 19,
-    "stable": false,
-    "dir": "docs",
-    "libs": [],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    ]
   }
 ]

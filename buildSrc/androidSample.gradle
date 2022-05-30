@@ -1,6 +1,5 @@
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.DependencyConfigurator
-import ru.surfstudio.android.build.GradlePropertiesManager
 
 apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'com.android.application'
@@ -34,25 +33,6 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
-    }
-}
-
-configurations.all {
-    resolutionStrategy {
-        dependencySubstitution {
-            /**
-             * All modules and transitive dependencies of mirror component
-             * must have a mirror module as a local dependency
-             * to avoid errors with dependency conflict
-             */
-            if (GradlePropertiesManager.isCurrentComponentAMirror()) {
-                Components.getComponentLibraries(GradlePropertiesManager.componentMirrorName)
-                        .forEach {
-                            def libraryName = it.name
-                            substitute module("ru.surfstudio.android:$libraryName") with project(":$libraryName")
-                        }
-            }
-        }
     }
 }
 

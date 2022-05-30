@@ -20,8 +20,6 @@
 androidStandardDebugDir=/full/path/to/your/local/android-standard
 # флаг для активации режима локальной загрузки репозитория android-standard
 androidStandardDebugMode=false
-# флаг для отключения сборки примеров к модулям при локальном подключении
-skipSamplesBuild=true
 ```
 
 2. В рабочем проекте выполнить ```File - Sync Project with Gradle Files```.
@@ -30,9 +28,6 @@ skipSamplesBuild=true
 
 1. В рабочем проекте изменить флаг `androidStandardDebugMode` в файле `android-standard/androidStandard.properties`
 2. В рабочем проекте выполнить `File - Sync Project with Gradle Files`.
-
-**ВАЖНО!** При активном локальном подключении при любом изменении флага
-`skipSamplesBuild` делать Gradle Sync перед сборкой проекта.
 
 ##Подключение скриптов к сборщику gradle
 Этот раздел будет полезен для тех кто собирается перенести эти скрипты в существующий проект

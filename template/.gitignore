@@ -10,5 +10,4 @@
 */build
 /captures
 .externalNativeBuild
-/temp
-_mirror
+mapping.txt
