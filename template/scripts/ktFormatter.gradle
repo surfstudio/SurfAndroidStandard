@@ -20,6 +20,8 @@ buildscript {
  */
 task ktlintFilesFormat(type: org.jmailen.gradle.kotlinter.tasks.FormatTask) {
 
+    disabledRules = ["import-ordering"]
+
     report = file('build/ktlint-report.txt')
 
     if (findProperty("lintFiles")) {
@@ -30,7 +32,5 @@ task ktlintFilesFormat(type: org.jmailen.gradle.kotlinter.tasks.FormatTask) {
         source.forEach { file ->
             logger.info("file: ", file)
         }
-    } else {
-        logger.error "Files not set. Use -PlintFiles property"
     }
 }

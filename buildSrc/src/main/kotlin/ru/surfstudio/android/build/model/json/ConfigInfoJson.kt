@@ -9,7 +9,6 @@ import ru.surfstudio.android.build.utils.Transformable
  */
 data class ConfigInfoJson(
         val version: String,
-        val stable: Boolean,
         @SerializedName("unstable_version") val unstableVersion: Int,
         @SerializedName("project_snapshot_name") val projectSnapshotName: String,
         @SerializedName("project_snapshot_version") val projectSnapshotVersion: Int
@@ -17,7 +16,6 @@ data class ConfigInfoJson(
 
     constructor(globalConfigInfo: GlobalConfigInfo) : this(
             globalConfigInfo.commonVersion,
-            globalConfigInfo.isStable,
             globalConfigInfo.unstableVersion,
             globalConfigInfo.projectSnapshotName,
             globalConfigInfo.projectSnapshotVersion
@@ -25,7 +23,6 @@ data class ConfigInfoJson(
 
     override fun transform() = GlobalConfigInfo(
             version,
-            stable,
             unstableVersion,
             projectSnapshotName,
             projectSnapshotVersion
