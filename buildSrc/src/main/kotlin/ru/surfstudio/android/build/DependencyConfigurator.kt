@@ -43,7 +43,7 @@ object DependencyConfigurator {
 
     /**
      * Add dependency to project with "implementation"
-     * If current project is not mirror and dependency is not contained in current project then
+     * If dependency is not contained in current project then
      * add in with artifactory name else add locally
      *
      * @param project - project
@@ -60,7 +60,7 @@ object DependencyConfigurator {
 
     /**
      * Add dependency to project with "testImplementation"
-     * If current project is not mirror and dependency is not contained in current project then
+     * If dependency is not contained in current project then
      * add in with artifactory name else add locally
      *
      * @param project - project
@@ -77,7 +77,7 @@ object DependencyConfigurator {
 
     /**
      * Add dependency to project with "androidTestImplementation"
-     * If current project is not mirror and dependency is not contained in current project then
+     * If dependency is not contained in current project then
      * add in with artifactory name else add locally
      *
      * @param project - project

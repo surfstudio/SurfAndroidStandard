@@ -21,7 +21,7 @@ artifacts {
 
 ext["signing.keyId"] = System.getenv("surf_maven_sign_key_id")
 ext["signing.password"] = System.getenv("surf_maven_sign_password")
-ext["signing.secretKeyRingFile"] = System.getenv("surf_maven_sign_key_ring_file")
+ext["signing.secretKeyRingFile"] = "$rootDir/sign/sign.gpg"
 
 signing {
     sign publishing.publications

@@ -6,10 +6,7 @@ repositories {
 }
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.32"
-    implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
-    implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'org.eclipse.jgit:org.eclipse.jgit:5.13.0.202109080827-r'
-    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'com.google.code.gson:gson:2.9.0'
 }
 compileKotlin {
     kotlinOptions {

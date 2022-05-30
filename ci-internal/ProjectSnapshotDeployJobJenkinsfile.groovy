@@ -6,47 +6,30 @@ import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.utils.android.AndroidUtil
-import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
-import ru.surfstudio.ci.utils.android.config.AvdConfig
 import ru.surfstudio.ci.utils.buildsystems.GradleUtil
-
 //Pipeline for deploy project snapshot artifacts
+
+// !!! Job оставлен для обратной совместимости.
+// Актуальная версия переписана на Github Actions, см .github/workflows/project-deploy.yml
+// При необходимости можно включить job Standard-Project-Snapshot-Job_Android_TAG в jenkins
 
 // Stage names
 
 def CHECKOUT = 'Checkout'
-def NOTIFY_ABOUT_NEW_RELEASE_NOTES = 'Notify About New Release Notes'
-def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
-def CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT = 'Check Configuration is project snapshot'
 def INCREMENT_PROJECT_SNAPSHOT_VERSION = 'Increment Project Snapshot Version'
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
-def INSTRUMENTATION_TEST = 'Instrumentation Test'
-def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
-def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
-def idChatAndroidStandardSlack = "CFS619TMH"// #android-standard
 
 //vars
 def branchName = ""
 def skipIncrementVersion = false
 def useJava11 = true // default value
-
-//other config
-
-def getTestInstrumentationRunnerName = { script, prefix ->
-    def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
-    return script.sh(
-            returnStdout: true,
-            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
-    )
-}
 
 //init
 def script = this
@@ -67,8 +50,6 @@ pipeline.postExecuteStageBody = { stage ->
 
 pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
-
-    script.echo "artifactory user: ${script.env.surf_maven_username}"
 
     //Выбираем значения веток из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
@@ -105,38 +86,6 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
             RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
-        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
-            def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
-            def prevCommitHash = commitParents[0]
-            GradleUtil.gradlew(script, "WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}", useJava11)
-            String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
-
-            if (releaseNotesChanges.trim() != "") {
-                boolean isAddedNoBackwardCompatibility = releaseNotesChanges.split("\n")
-                        .any {
-                            it.contains(":heavy_plus_sign:") && it.contains("NO BACKWARD COMPATIBILITY")
-                        }
-
-                def messageTitle = "Snapshot branch _${branchName}_ has changed"
-                if (isAddedNoBackwardCompatibility) {
-                    messageTitle += " *without backward compatibility*:warning:"
-                }
-
-                releaseNotesChanges = "$messageTitle\n$releaseNotesChanges"
-                JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidStandardSlack, "slack", true)
-            }
-        },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
-            project = globalConfiguration.project_snapshot_name
-
-            if (("project-snapshot/" + project) != branchName) {
-                script.error("Deploy AndroidStandard for project: $project from branch: '$branchName' forbidden")
-            }
-        },
-        pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
-            GradleUtil.gradlew(script, "checkConfigurationIsProjectSnapshotTask", useJava11)
-        },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
             if (!skipIncrementVersion) {
                 GradleUtil.gradlew(script, "incrementProjectSnapshotVersion", useJava11)
@@ -156,29 +105,9 @@ pipeline.stages = [
                     useJava11
             )
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
-        },
-        pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {
-                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    GradleUtil.gradlew(script, "clean publish -PdeployOnlyIfNotExist=true -PpublishType=artifactory", useJava11)
-                }
+                GradleUtil.gradlew(script, "clean publish -PpublishType=artifactory", useJava11)
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {

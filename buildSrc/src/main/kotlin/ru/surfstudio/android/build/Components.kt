@@ -1,10 +1,7 @@
 package ru.surfstudio.android.build
 
-import org.gradle.api.GradleException
 import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundForStandardDependencyException
-import ru.surfstudio.android.build.exceptions.library.LibraryNotFoundException
 import ru.surfstudio.android.build.model.Component
-import ru.surfstudio.android.build.model.dependency.Dependency
 import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.model.module.Module
@@ -33,43 +30,11 @@ object Components {
     }
 
     /**
-     * Function for parsing a single component from list
-     */
-    fun parseComponent(componentJsons: List<ComponentJson>, componentName: String): Component? =
-        componentJsons.firstOrNull { it.id == componentName }?.transform()
-
-    /**
-     * Get project's module
-     */
-    @JvmStatic
-    fun getModules(): List<Module> {
-        val mirrorComponentName = GradlePropertiesManager.componentMirrorName
-        val skipSamplesBuilding = GradlePropertiesManager.skipSamplesBuilding
-
-        return if (!GradlePropertiesManager.isCurrentComponentAMirror()) {
-            value.flatMap { component ->
-                component.getModules(skipSamplesBuilding)
-            }
-        } else {
-            val mirrorComponent = getComponentByName(mirrorComponentName)
-            val result = mirrorComponent.libraries + mirrorComponent.samples
-            if (GradlePropertiesManager.hasCommonComponent()) {
-                val commonComponent = getComponentByName(GradlePropertiesManager.commonComponentNameForMirror)
-                result + commonComponent.libraries + commonComponent.samples
-            } else {
-                result
-            }
-        }
-    }
-
-    /**
      * Get moduleVersionName
      *
-     * There are 4 types of version:
-     * 1. X.Y.Z - component is stable, projectPostfix is empty
-     * 2. X.Y.Z-alpha.unstable_version - component is unstable, projectPostfix is empty
-     * 3. X.Y.Z-projectPostfix.projectVersion - component is stable, projectPostfix isn't empty
-     * 4. X.Y.Z-alpha.unstable_version-projectPostfix.projectVersion - component is unstable, projectPostfix isn't empty
+     * There are 2 types of version:
+     * X.Y.Z-unstableVersion - projectSnapshotName is empty
+     * X.Y.Z-projectSnapshotName.projectSnapshotVersion - projectSnapshotName isn't empty
      */
     @JvmStatic
     fun getModuleVersion(moduleName: String): String {
@@ -113,31 +78,6 @@ object Components {
     }
 
     /**
-     * Get standard artifact names by library name
-     */
-    @JvmStatic
-    fun getAndroidStandardDependencies(libraryName: String): List<Library> {
-        val standardDepNames = libraries.find { it.name == libraryName }
-            ?.androidStandardDependencies
-            ?.map(Dependency::name) ?: return emptyList()
-        return libraries.filter { standardDepNames.contains(it.name) }
-    }
-
-    /**
-     * Get component stability by module name
-     */
-    @JvmStatic
-    fun getComponentStability(libraryName: String): Boolean {
-        value.forEach { component ->
-            component.libraries
-                .find { it.name == libraryName }
-                ?.let { return component.stable }
-        }
-
-        throw LibraryNotFoundException(libraryName)
-    }
-
-    /**
      * Is library from component
      */
     @JvmStatic
@@ -146,16 +86,6 @@ object Components {
             ?.libraries
             ?.any { it.name == libraryName }
             ?: false
-    }
-
-    /**
-     * Get component's libraries
-     */
-    @JvmStatic
-    fun getComponentLibraries(componentName: String): List<Library> {
-        return value.firstOrNull { it.name == componentName }
-            ?.libraries
-            ?: throw GradleException("Component $componentName not found")
     }
 
     /**
@@ -185,18 +115,12 @@ object Components {
         value.forEach { component ->
             val componentVersion = createCompositeVersion(
                 component.baseVersion,
-                component.stable,
-                component.unstableVersion,
+                configInfo.unstableVersion,
                 configInfo.projectSnapshotName,
                 configInfo.projectSnapshotVersion
             )
             component.projectVersion = componentVersion
             component.libraries.forEach { it.projectVersion = componentVersion }
         }
-    }
-
-    private fun getComponentByName(componentName: String): Component {
-        return value.firstOrNull { it.name == componentName }
-            ?: throw GradleException("Component name $componentName not found")
     }
 }
