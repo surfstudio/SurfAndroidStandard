@@ -7,8 +7,8 @@ const val COMPONENTS_JSON_FILE_PATH = "buildSrc/components.json"
  * Create composite version
  *
  * There are 2 types of version:
- * X.Y.Z-unstable_version - projectSnapshotName is empty
- * X.Y.Z-unstable_version.projectSnapshotName.projectVersion - projectSnapshotName isn't empty
+ * X.Y.Z-unstableVersion - projectSnapshotName is empty
+ * X.Y.Z-projectSnapshotName.projectSnapshotVersion - projectSnapshotName isn't empty
  */
 fun createCompositeVersion(
         version: String,
@@ -16,9 +16,9 @@ fun createCompositeVersion(
         projectSnapshotName: String,
         projectSnapshotVersion: Int
 ): String {
-    var compositeVersion = "$version-$unstableVersion"
-    if (projectSnapshotName.isNotEmpty()) {
-        compositeVersion += "-$projectSnapshotName.$projectSnapshotVersion"
+    return if (projectSnapshotName.isNotEmpty()) {
+        "$version-$projectSnapshotName.$projectSnapshotVersion"
+    } else {
+        "$version-$unstableVersion"
     }
-    return compositeVersion
 }
