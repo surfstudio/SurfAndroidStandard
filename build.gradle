@@ -1,4 +1,3 @@
-import ru.surfstudio.android.build.ConfigInfoProvider
 import ru.surfstudio.android.build.DependencyConfigurator
 
 apply from: 'buildSrc/buildTasks.gradle'
@@ -30,10 +29,5 @@ buildscript {
         DependencyConfigurator.classpath(project, "org.jetbrains.kotlin:kotlin-gradle-plugin")
         classpath "com.google.gms:google-services:$googleServicesVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
-        //classpath "ru.surfstudio.android:version-plugin:${ConfigInfoProvider.getVersion()}"
-        //todo use this for get as dependencies for mirror
     }
 }
-
-// todo could be replaced with spotless
-//apply from: "buildSrc/ktFormatter.gradle"

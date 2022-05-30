@@ -1,29 +1,24 @@
 package ru.surfstudio.android.build.utils
 
 const val EMPTY_STRING = ""
-const val EMPTY_INT = -1
 const val COMPONENTS_JSON_FILE_PATH = "buildSrc/components.json"
 
 /**
  * Create composite version
  *
- * There are 4 types of version:
- * 1. X.Y.Z - isStable = true, projectSnapshotName is empty
- * 2. X.Y.Z-alpha.unstable_version - isStable = false, projectSnapshotName is empty
- * 3. X.Y.Z-projectPostfix.projectVersion - isStable = true, projectSnapshotName isn't empty
- * 4. X.Y.Z-alpha.unstable_version-projectPostfix.projectVersion - isStable = false, projectSnapshotName isn't empty
+ * There are 2 types of version:
+ * X.Y.Z-unstable_version - projectSnapshotName is empty
+ * X.Y.Z-unstable_version.projectSnapshotName.projectVersion - projectSnapshotName isn't empty
  */
 fun createCompositeVersion(
         version: String,
-        isStable: Boolean,
         unstableVersion: Int,
         projectSnapshotName: String,
         projectSnapshotVersion: Int
 ): String {
-    var compositeVersion = version
-
-    if (!isStable) compositeVersion += "-alpha.$unstableVersion"
-    if (projectSnapshotName.isNotEmpty()) compositeVersion += "-$projectSnapshotName.$projectSnapshotVersion"
-
+    var compositeVersion = "$version-$unstableVersion"
+    if (projectSnapshotName.isNotEmpty()) {
+        compositeVersion += "-$projectSnapshotName.$projectSnapshotVersion"
+    }
     return compositeVersion
 }

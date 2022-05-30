@@ -24,7 +24,7 @@
 
 В студийной практике принято оборачивать те или иные события в rx.
 Например, есть готовые обертки для:
-- [BroadcastReceiver](../../broadcast-extension/README.md)
+- [BroadcastReceiver](../../deprecated/broadcast-extension/README.md)
 - Состояния соединения,[также на Broadcast](../../connection/README.md)
 - Событие [onActivityResult][core-ui]
 - [RuntimePermissions][core-ui]

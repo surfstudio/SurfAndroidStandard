@@ -1,5 +1,6 @@
 apply from: '../android-standard/androidStandardConfig.gradle'
 import groovy.json.JsonSlurper
+
 // Скрипт для включения модулей android-standard из локального репозитория в settings.gradle
 
 if (gradle.ext.androidStandard.debugEnabled) {
@@ -10,7 +11,8 @@ if (gradle.ext.androidStandard.debugEnabled) {
         includeBuild("$androidStandardDebugDir") {
             dependencySubstitution {
                 components.each { component ->
-                    if (component.libs != null && !component.libs.isEmpty()) {
+                    def disabled = component.disabled?.toBoolean() ?: false
+                    if (component.libs != null && !disabled) {
                         component.libs.each { library ->
                             def artifactName = library.artifact_name
                             if (artifactName != null && !artifactName.isEmpty()) {
