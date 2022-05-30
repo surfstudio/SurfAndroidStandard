@@ -22,84 +22,23 @@ import groovy.json.JsonSlurper
 include ':android-standard-version-plugin'
 
 // used files
-def MIRROR_PROPERTIES_FILE = 'mirror.properties'
-def ANDROID_STANDARD_PROPERTIES_FILE = 'android-standard/androidStandard.properties'
 def COMPONENTS_JSON_FILE = './buildSrc/components.json'
-
-// used properties from above files
-def COMMON_COMPONENT_NAME = "surf.commonComponentName"
-def MIRROR_COMPONENT_NAME = 'surf.mirrorComponentName'
-def SKIP_SAMPLES_BUILD_PROPERTY_NAME = 'skipSamplesBuild'
-
-// initialize reading properties files
-def mirrorComponentName = ""
-def commonComponentName = ""
-if (file(MIRROR_PROPERTIES_FILE).exists()) {
-    Properties mirrorProperties = new Properties()
-    mirrorProperties.load(file(MIRROR_PROPERTIES_FILE).newDataInputStream())
-    mirrorComponentName = mirrorProperties.getProperty(MIRROR_COMPONENT_NAME)
-    commonComponentName = mirrorProperties.getProperty(COMMON_COMPONENT_NAME)
-}
-def skipSamples = "false"
-if (file(ANDROID_STANDARD_PROPERTIES_FILE).exists()) {
-    Properties androidStandardProperties = new Properties()
-    androidStandardProperties.load(file(ANDROID_STANDARD_PROPERTIES_FILE).newDataInputStream())
-    skipSamples = androidStandardProperties.getProperty(SKIP_SAMPLES_BUILD_PROPERTY_NAME)
-}
-
-/**
- * Includes components in project
- * @param components - [List<Object>] list of components
- * @param skipSample - [String] ("true", "false"), is need to skip sample modules
- */
-def includeComponents(components) {
-    components.forEach { component ->
-        if (component != null && component.libs != null) {
-            component.libs.forEach { lib ->
-                def moduleName = ":${lib.name}"
-                include moduleName
-                project(moduleName).projectDir = new File("${component.dir}/${lib.dir}")
-            }
-        }
-    }
-}
 
 // reading components.json
 def componentsJson = file(COMPONENTS_JSON_FILE)
 def parsedJson = new JsonSlurper().parseText(componentsJson.text)
 
-// if current component is not a mirror
-if (mirrorComponentName == "") {
-    def result = parsedJson.collect { it.libraries }.flatten()  // == flatMap
-    if (skipSamples == "true") {
-        includeComponents(result)
-    } else {
-        result = result + parsedJson.collect { it.samples }.flatten()
-        includeComponents(result)
-    }
-} else {
-    def mirrorComponent = parsedJson.find { it.name == mirrorComponentName }[0]
-    if (mirrorComponent != null) {
-        def result = mirrorComponent.libs + mirrorComponent.samples
-        if (commonComponentName != "") {
-            def commonComponent = parsedJson.find { it.name == commonComponentName }[0]
-            if (commonComponent != null) {
-                includeComponents(result + commonComponent.libraries + commonComponent.samples)
-            }
-        } else {
-            includeComponents(result)
+parsedJson.forEach { component ->
+    def disabled = component.disabled?.toBoolean() ?: false
+    if (component.libs != null && !disabled) {
+        component.libs.forEach { lib ->
+            def moduleName = ":${lib.name}"
+            include moduleName
+            project(moduleName).projectDir = new File("${component.dir}/${lib.dir}")
         }
     }
-}
 
-parsedJson.forEach { component ->
-    component.libs.forEach { lib ->
-        def moduleName = ":${lib.name}"
-        include moduleName
-        project(moduleName).projectDir = new File("${component.dir}/${lib.dir}")
-    }
-
-    if (skipSamples != "true") {
+    if (component.enabled_samples) {
         component.samples.forEach { sample ->
             def moduleName = ":${sample.name}"
             include moduleName
@@ -107,5 +46,3 @@ parsedJson.forEach { component ->
         }
     }
 }
-
-apply from: 'buildSrc/buildCache.gradle'

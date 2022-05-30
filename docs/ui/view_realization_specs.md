@@ -57,7 +57,7 @@
 для различных лоад-стейтов.
 
 
-[broadcast]: ../../broadcast-extension/README.md
+[broadcast]: ../../deprecated/broadcast-extension/README.md
 [message]: ../../message-controller/README.md
 [sticky]: ../../recycler-extension/README.md
 [easy]: ../../easyadapter/lib-easyadapter/
