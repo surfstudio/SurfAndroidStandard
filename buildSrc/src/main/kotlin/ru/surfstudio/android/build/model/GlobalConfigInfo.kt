@@ -6,14 +6,12 @@ import ru.surfstudio.android.build.utils.createCompositeVersion
  * Configuration information
  *
  * @param commonVersion - common project version. Format : 0.0.0
- * @param isStable - stable or unstable
- * @param unstableVersion - if isStable = true then it use to create project version
+ * @param unstableVersion - unique part of artifact version which is incremented for each deploy
  * @param projectSnapshotName - project snapshot name. For project's android standard
  * @param projectSnapshotVersion - project snapshot version
  */
 data class GlobalConfigInfo(
         val commonVersion: String,
-        val isStable: Boolean,
         val unstableVersion: Int,
         val projectSnapshotName: String,
         val projectSnapshotVersion: Int
@@ -25,7 +23,6 @@ data class GlobalConfigInfo(
     val version: String by lazy {
         createCompositeVersion(
                 commonVersion,
-                isStable,
                 unstableVersion,
                 projectSnapshotName,
                 projectSnapshotVersion

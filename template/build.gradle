@@ -16,7 +16,7 @@ buildscript {
         classpath "com.google.firebase:firebase-crashlytics-gradle:${versions.firebaseCrashlyticsGradleVersion}"
         classpath "com.gradle:build-scan-plugin:${versions.buildScanPluginVersion}"
         if (!gradle.ext.androidStandard.debugEnabled) {
-            classpath "ru.surfstudio.android:version-plugin:${versions.androidStandardVersion}"
+            classpath "ru.surfstudio.android:version-plugin:${androidStandardVersion}"
         }
         classpath lint.detektPlugin
     }
