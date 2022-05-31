@@ -1713,39 +1713,6 @@
         ]
       },
       {
-        "name": "navigation-observer-deprecated",
-        "dir": "lib-navigation-observer-deprecated",
-        "artifact_name": "navigation-observer-deprecated",
-        "third_party_dependencies": [
-          {
-            "name": "androidx.appcompat:appcompat",
-            "type": "implementation"
-          },
-          {
-            "name": "androidx.activity:activity",
-            "type": "api"
-          },
-          {
-            "name": "androidx.activity:activity-ktx",
-            "type": "api"
-          },
-          {
-            "name": "androidx.fragment:fragment",
-            "type": "api"
-          },
-          {
-            "name": "androidx.fragment:fragment-ktx",
-            "type": "api"
-          }
-        ],
-        "android_standard_dependencies": [
-          {
-            "name": "navigation",
-            "type": "api"
-          }
-        ]
-      },
-      {
         "name": "navigation-rx",
         "dir": "lib-navigation-rx",
         "artifact_name": "navigation-rx",
@@ -1762,27 +1729,6 @@
           },
           {
             "name": "navigation-observer",
-            "type": "api"
-          }
-        ]
-      },
-      {
-        "name": "navigation-rx-deprecated",
-        "dir": "lib-navigation-rx-deprecated",
-        "artifact_name": "navigation-rx-deprecated",
-        "third_party_dependencies": [
-          {
-            "name": "io.reactivex.rxjava2:rxjava",
-            "type": "api"
-          }
-        ],
-        "android_standard_dependencies": [
-          {
-            "name": "navigation",
-            "type": "api"
-          },
-          {
-            "name": "navigation-observer-deprecated",
             "type": "api"
           }
         ]
