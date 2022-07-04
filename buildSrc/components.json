@@ -457,7 +457,7 @@
         ]
       }
     ],
-    "disabled": true
+    "disabled": false
   },
   {
     "id": "core-app",
