@@ -1,0 +1,68 @@
+name: Main Deploy
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  main_deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+
+    - name: Increment global version
+      run: ./gradlew incrementGlobalUnstableVersion
+
+    - name: Increment template version
+      run: ./gradlew incrementTemplateVersion
+
+    - name: Get incremented version
+      id: version_counter
+      uses: notiz-dev/github-action-json-property@release
+      with: 
+          path: 'buildSrc/projectConfiguration.json'
+          prop_path: 'unstable_version'
+              
+    - name: Build with Gradle
+      run: ./gradlew clean assembleRelease
+        
+    - name: Run unit tests
+      run: ./gradlew testReleaseUnitTest
+      
+    - name: Deploy modules
+      env:
+          surf_maven_username: ${{ secrets.SURF_MAVEN_USERNAME }}
+          surf_maven_password: ${{ secrets.SURF_MAVEN_PASSWORD }}
+          surf_maven_sign_key_id: ${{ secrets.SURF_MAVEN_SIGN_KEY_ID }}
+          surf_maven_sign_password: ${{ secrets.SURF_MAVEN_SIGN_PASSWORD }}
+      run: ./gradlew clean publish -PpublishType=artifactory
+      
+    - name: Deploy version plugin
+      env:
+          surf_maven_username: ${{ secrets.SURF_MAVEN_USERNAME }}
+          surf_maven_password: ${{ secrets.SURF_MAVEN_PASSWORD }}
+          surf_maven_sign_key_id: ${{ secrets.SURF_MAVEN_SIGN_KEY_ID }}
+          surf_maven_sign_password: ${{ secrets.SURF_MAVEN_SIGN_PASSWORD }}
+      run: |
+        ./gradlew generateDataForPlugin
+        ./gradlew :android-standard-version-plugin:publish
+
+    - name: Build template
+      run: |
+        echo "androidStandardDebugDir=${{ github.workspace }}\nandroidStandardDebugMode=false" > template/android-standard/androidStandard.properties
+        ./gradlew -p template :app:dependencies
+        ./gradlew -p template clean assembleQa assembleRelease --stacktrace
+
+    - name: Commit version increment
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Increase project-snapshot version counter to ${{ steps.version_counter.outputs.prop }} [skip ci] [version]

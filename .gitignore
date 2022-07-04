@@ -7,7 +7,4 @@
 **/build
 **/.cxx
 /captures
-buildSrc/modules.json
 .externalNativeBuild
-/temp
-_mirror

@@ -1,7 +1,6 @@
 {
-  "version": "0.5.0",
-  "stable": false,
-  "unstable_version": 210,
+  "version": "0.6.0",
+  "unstable_version": 228,
   "project_snapshot_name": "BZN",
   "project_snapshot_version": 25
 }

@@ -6,53 +6,32 @@ import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.utils.android.AndroidUtil
-import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
-import ru.surfstudio.ci.utils.android.config.AvdConfig
 import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 
 //Pipeline for deploy snapshot artifacts
 
+// !!! Job оставлен для обратной совместимости.
+// Актуальная версия переписана на Github Actions, см .github/workflows/main-deploy.yml
+// При необходимости можно включить job Standard-Deploy-Dev_Android_TAG в jenkins
+
 // Stage names
 def CHECKOUT = 'Checkout'
-def NOTIFY_ABOUT_NEW_RELEASE_NOTES = 'Notify About New Release Notes'
-def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
-def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
-def INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION = 'Increment Changed Unstable Modules Alpha Version'
 def BUILD = 'Build'
 def BUILD_TEMPLATE = 'Template Build'
 def UNIT_TEST = 'Unit Test'
-def INSTRUMENTATION_TEST = 'Instrumentation Test'
-def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def UPDATE_TEMPLATE_VERSION_PLUGIN = 'Update Template Version Plugin'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
-def MIRROR_COMPONENTS = 'Mirror Components'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
-def androidStandardTemplateConfigurationFile = "template/config.gradle"
-def projectConfigurationVersionFile = "buildSrc/build/tmp/projectVersion.txt"
-def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
-def idChatAndroidSlack = "CFSF53SJ1"
 
 //vars
 def branchName = ""
-def globalVersion = "<unknown>"
 def buildDescription = ""
 def useJava11 = true
-
-//other config
-
-def getTestInstrumentationRunnerName = { script, prefix ->
-    def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
-    return script.sh(
-            returnStdout: true,
-            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
-    )
-}
 
 //init
 def script = this
@@ -73,8 +52,6 @@ pipeline.postExecuteStageBody = { stage ->
 
 pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
-
-    script.echo "artifactory user: ${script.env.surf_maven_username}"
 
     //Выбираем значения веток из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
@@ -109,50 +86,13 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
             RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
-        //todo ANDDEP-1259
-        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.SKIP_STAGE, false) {
-            def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
-            def prevCommitHash = commitParents[0]
-            GradleUtil.gradlew(script, "WriteToFileReleaseNotesDiffForSlack -PrevisionToCompare=${prevCommitHash}", useJava11)
-            String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
-            if (releaseNotesChanges.trim() != "") {
-                releaseNotesChanges = "Android Standard changes:\n$releaseNotesChanges"
-                JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
-            }
-        },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
-            globalVersion = globalConfiguration.version
-
-            if (("dev/G-" + globalVersion) != branchName) {
-                script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
-            }
-        },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
-            GradleUtil.gradlew(script, "checkConfigurationIsNotProjectSnapshotTask", useJava11)
-        },
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
             GradleUtil.gradlew(script, "incrementGlobalUnstableVersion", useJava11)
         },
         pipeline.stage(UPDATE_TEMPLATE_VERSION_PLUGIN) {
-            GradleUtil.gradlew(script, "generateProjectConfigurationVersionFileTask", useJava11)
-
-            def currentStandardVersion = script.readFile(projectConfigurationVersionFile)
-
-            AndroidUtil.changeGradleVariable(
-                    script,
-                    androidStandardTemplateConfigurationFile,
-                    "androidStandardVersion",
-                    "'$currentStandardVersion'"
-            )
-        },
-        //todo ANDDEP-1259
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION, StageStrategy.SKIP_STAGE) {
-            def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
-            GradleUtil.gradlew(script, "incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}", useJava11)
+            GradleUtil.gradlew(script, "incrementTemplateVersion", useJava11)
         },
         pipeline.stage(BUILD) {
-            script.sh("rm -rf temp template/**/build")
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease", useJava11)
         },
         pipeline.stage(UNIT_TEST) {
@@ -164,29 +104,9 @@ pipeline.stages = [
                     useJava11
             )
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
-        },
-        pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
         pipeline.stage(DEPLOY_MODULES) {
             withJobCredentials(script) {
-                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    GradleUtil.gradlew(script, "clean publish -PonlyUnstable=true -PdeployOnlyIfNotExist=true -PpublishType=artifactory", useJava11)
-                }
+                GradleUtil.gradlew(script, "clean publish -PpublishType=artifactory", useJava11)
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
@@ -197,11 +117,10 @@ pipeline.stages = [
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=false\n" +
-                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
+                    "androidStandardDebugMode=false\" > template/android-standard/androidStandard.properties")
             // build template after deploy in order to check usage of new artifacts
             GradleUtil.gradlew(script, "-p template :app:dependencies", useJava11)
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa --stacktrace", useJava11)
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "-p template clean assembleQa assembleRelease --stacktrace", useJava11)
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
@@ -210,15 +129,6 @@ pipeline.stages = [
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
-        },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.SKIP_STAGE) {
-            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
-                script.error("Cannot mirror without change version")
-            }
-            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
-                    script.string(name: 'branch', value: branchName),
-                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
-            ]
         }
 ]
 
@@ -300,54 +210,6 @@ def static initTriggers(script) {
 // ============================================== ↑↑↑  END JOB PROPERTIES CONFIGURATION ↑↑↑  ==========================================
 
 // ============ Utils =================
-
-def static getCommitHash(script, commit) {
-    def parts = commit.split(" ")
-    for (part in parts) {
-        if (part.trim().matches("^[a-zA-Z0-9]+\$")) {
-            return part.trim()
-        }
-    }
-    script.error("Commit hash not found in commit str: $commit")
-}
-
-def static getPreviousRevisionWithVersionIncrement(script) {
-    def commits = script.sh(
-            returnStdout: true,
-            script: "git  --no-pager log --pretty=oneline -500 --graph"
-    )
-            .trim()
-            .split("\n")
-
-    def filteredCommits = []
-    for (commit in commits) {
-        if (commit.startsWith("*")) {
-            //filter only commit in
-            filteredCommits.add(commit)
-        }
-    }
-    def revisionToCompare = null
-
-    for (commit in filteredCommits) {
-        if (commit.contains(RepositoryUtil.VERSION_LABEL1)) {
-            script.echo("revision to compare: ${commit}")
-            revisionToCompare = getCommitHash(script, commit)
-            break
-        }
-    }
-    if (revisionToCompare == null) {
-        //gets previous commit
-        def previousCommit
-        if (commits[1] != "|\\  ") {
-            previousCommit = commits[1]
-        } else {
-            previousCommit = commits[2]
-        }
-        script.echo("Not found revision with version label, so use previous revision to compare: ${previousCommit}")
-        revisionToCompare = getCommitHash(script, previousCommit)
-    }
-    return revisionToCompare
-}
 
 def static withJobCredentials(script, body) {
     script.withCredentials([

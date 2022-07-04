@@ -17,7 +17,6 @@ ext {
     ]
 
     versions = [
-            androidStandardVersion          : '0.5.0-alpha.210',    //версия version-plugin
             gradlePluginVersion             : '7.0.3',              //https://bit.ly/3lvwLGQ
             buildToolsVersion               : '30.0.2',             //https://bit.ly/2DNmq3Y
             googleServicesVersion           : '4.3.10',             //https://bit.ly/3jj941O
@@ -58,7 +57,7 @@ ext {
             androidDebugToolsVersion        : '1.0',                //https://bit.ly/2QMKLfe
             autoServiceVersion              : '1.0-rc4',            //https://bit.ly/2WsGYH4
             lifecycleVersion                : '2.2.0',              //https://bit.ly/36Z0Re9
-            gsonVersion                     : '2.8.5',              //https://bit.ly/3sMIrVs не обновлять версию на зените выше 2.8.5
+            gsonVersion                     : '2.8.9',              //https://bit.ly/3sMIrVs
             detektVersion                   : '1.17.1',             //https://bit.ly/3hZpBsp
             glideVersion                    : "4.12.0",             //http://bit.ly/2Q7Fa41
             googleMaterialVersion           : "1.4.0",              // http://bit.ly/2KAAq1y

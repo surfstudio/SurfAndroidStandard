@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
+import androidx.core.view.children
 import androidx.core.view.isVisible
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.android.template.f_debug.databinding.DebugCatalogItemLayoutBinding
@@ -18,7 +19,8 @@ class DebugCatalogItemLayout(
         attributeSet: AttributeSet
 ): RelativeLayout(context, attributeSet) {
 
-    private val binding = DebugCatalogItemLayoutBinding.inflate(LayoutInflater.from(context))
+    private val binding = inflate(context, R.layout.debug_catalog_item_layout, this)
+        .let { DebugCatalogItemLayoutBinding.bind(children.first()) }
 
     private lateinit var debugItemName: String
     private lateinit var debugItemDescription: String

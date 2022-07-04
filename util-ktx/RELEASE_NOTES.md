@@ -9,9 +9,6 @@
 ## 0.6.0-alpha
 ##### Util-ktx
 * Refactoring, remove deprecated, update for Android 12
-## 0.5.0-alpha
-* Update SdkUtils for Android 12
-* Update SdkUtils
 ## 0.5.0
 ##### Util-ktx
 * `DateUtil.parseDate ()` methods can receive `NULL` as input parameter. Will return `NULL` in this case
