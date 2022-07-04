@@ -701,7 +701,7 @@
         "dir": "sample"
       }
     ],
-    "enabled_samples": false
+    "enabled_samples": true
   },
   {
     "id": "core-ui",
@@ -1651,7 +1651,7 @@
         "dir": "sample"
       }
     ],
-    "disabled": true,
+    "disabled": false,
     "enabled_samples": false
   },
   {
