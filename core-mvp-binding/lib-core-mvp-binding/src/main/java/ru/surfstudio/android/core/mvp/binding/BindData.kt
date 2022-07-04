@@ -21,6 +21,7 @@ package ru.surfstudio.android.core.mvp.binding
  * Реализует концепцию источников данных: "События изменения данных принимают все, кроме эммитящего источника"
  * Это исключает прослушивания источником своих же событий изменения данных и зацикливания.
  */
+@Deprecated("Используйте пакет ru.surfstudio.android.core.mvp.binding.rx")
 open class BindData<T>(value: T) : IBindData<T> {
 
     override val value: T

@@ -24,6 +24,7 @@ import ru.surfstudio.android.core.mvp.model.ScreenModel
 /**
  * Вспомогательные view для работы с [IBindData]. Работают в паре с [BaseBindingPresenter]
  */
+@Deprecated("Используйте пакет ru.surfstudio.android.core.mvp.binding.rx")
 abstract class BaseBindableActivityView<in M : ScreenModel> : CoreActivityView(), BindableView<M>, BindSource {
 
     @Suppress("LeakingThis") //для BindData не имеет значения какой именно объект передается в качестве source
@@ -43,6 +44,7 @@ abstract class BaseBindableActivityView<in M : ScreenModel> : CoreActivityView()
     }
 }
 
+@Deprecated("Используйте пакет ru.surfstudio.android.core.mvp.binding.rx")
 abstract class BaseBindableFragmentView<in M : ScreenModel> : CoreFragmentView(), BindableView<M>, BindSource {
 
     private val bindsHolder = BindsHolder(this)
@@ -61,6 +63,7 @@ abstract class BaseBindableFragmentView<in M : ScreenModel> : CoreFragmentView()
     }
 }
 
+@Deprecated("Используйте пакет ru.surfstudio.android.core.mvp.binding.rx")
 interface BindableView<in M : ScreenModel> {
 
     fun onBind(sm: M)

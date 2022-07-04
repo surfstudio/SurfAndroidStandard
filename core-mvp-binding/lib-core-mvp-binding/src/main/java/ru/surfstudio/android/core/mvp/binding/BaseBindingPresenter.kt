@@ -16,7 +16,6 @@
 
 package ru.surfstudio.android.core.mvp.binding
 
-import androidx.annotation.CallSuper
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -25,6 +24,7 @@ import ru.surfstudio.android.core.mvp.view.CoreView
 /**
  * Вспомогательный презентер для работы с [BindData]
  */
+@Deprecated("Используйте пакет ru.surfstudio.android.core.mvp.binding.rx")
 abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency: BasePresenterDependency)
     : BasePresenter<V>(basePresenterDependency), BindSource
         where  V : CoreView, V : BindableView<M> {
@@ -34,14 +34,9 @@ abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency:
 
     abstract val sm: M
 
-    @CallSuper
-    override fun onFirstLoad() {
-        super.onFirstLoad()
-        view.onBind(sm)
-    }
-
     override fun attachView(view: V) {
         super.attachView(view)
+        view.onBind(sm)
     }
 
     override fun onViewDetach() {
@@ -63,6 +58,7 @@ abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency:
     }
 }
 
+@Deprecated("Используйте пакет ru.surfstudio.android.core.mvp.binding.rx")
 interface BindSource {
 
     fun <T> observe(bindData: IBindData<T>, listener: (T) -> Unit)
