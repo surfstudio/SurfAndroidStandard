@@ -18,7 +18,6 @@ package ru.surfstudio.android.utilktx.util
 
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
-import ru.surfstudio.android.utilktx.util.SdkUtils.isPreLollipop
 
 /**
  * Утилиты для проверки версии Api
@@ -50,6 +49,9 @@ object SdkUtils {
 
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
     fun isAtLeastS(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
+    fun isAtLeastTiramisu(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
     /**
      * Запускает блок кода на устройствах с андроид версии KitKat и ниже

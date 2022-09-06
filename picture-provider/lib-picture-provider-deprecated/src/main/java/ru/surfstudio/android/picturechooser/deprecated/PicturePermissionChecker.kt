@@ -35,17 +35,17 @@ class PicturePermissionChecker @JvmOverloads constructor(
      * проверка и запрос пермишена на камеру и хранилища
      */
     fun checkCameraStoragePermission(): Observable<Boolean> =
-            permissionManager
-                    .request(cameraPermissionRequest)
-                    .toObservable()
+        permissionManager
+            .request(cameraPermissionRequest)
+            .toObservable()
 
     /**
      * проверка и запрос пермишена на чтения из хранилища
      */
     fun checkGalleryStoragePermission(): Observable<Boolean> =
-            permissionManager
-                    .request(galleryStoragePermissionRequest)
-                    .toObservable()
+        permissionManager
+            .request(galleryStoragePermissionRequest)
+            .toObservable()
 }
 
 /**
@@ -56,12 +56,12 @@ open class CameraStoragePermissionRequest : PermissionRequest() {
 
     override val permissions: Array<String> = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
         arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
     } else {
         arrayOf(
-                Manifest.permission.CAMERA
+            Manifest.permission.CAMERA
         )
     }
 }
@@ -73,6 +73,10 @@ open class CameraStoragePermissionRequest : PermissionRequest() {
 open class GalleryStoragePermissionRequest : PermissionRequest() {
 
     override val permissions: Array<String>
-        get() = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        get() = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+        }
 }
 

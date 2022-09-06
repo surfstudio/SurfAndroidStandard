@@ -24,8 +24,8 @@ ext {
 
     libMinSdkVersion = 17
     sampleMinSdkVersion = 19
-    targetSdkVersion = 31
-    compileSdkVersion = 31
+    targetSdkVersion = 33
+    compileSdkVersion = 33
     debugVersionNameSuffix = ".debug"
     qaVersionNameSuffix = ".qa"
 
