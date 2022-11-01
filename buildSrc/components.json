@@ -481,7 +481,7 @@
         "android_standard_dependencies": []
       }
     ],
-    "disabled": true
+    "disabled": false
   },
   {
     "id": "mvi",
@@ -2123,7 +2123,7 @@
         "dir": "sample"
       }
     ],
-    "disabled": true,
+    "disabled": false,
     "enabled_samples": false
   },
   {
