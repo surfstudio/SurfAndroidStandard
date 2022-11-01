@@ -457,7 +457,7 @@
         ]
       }
     ],
-    "disabled": true
+    "disabled": false
   },
   {
     "id": "core-app",
@@ -1651,7 +1651,7 @@
         "dir": "sample"
       }
     ],
-    "disabled": true,
+    "disabled": false,
     "enabled_samples": false
   },
   {
