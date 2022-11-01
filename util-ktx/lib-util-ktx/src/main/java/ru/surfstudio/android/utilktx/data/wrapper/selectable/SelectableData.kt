@@ -1,6 +1,7 @@
 package ru.surfstudio.android.utilktx.data.wrapper.selectable
 
 import ru.surfstudio.android.utilktx.data.wrapper.DataWrapperInterface
+import ru.surfstudio.android.utilktx.data.wrapper.checkable.CheckableData
 import java.io.Serializable
 
 /**

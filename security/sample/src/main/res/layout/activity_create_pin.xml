@@ -26,11 +26,34 @@
             android:text="@string/submit_pin_btn_text" />
 
         <Button
+            android:id="@+id/encrypt_pin_by_biometrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/enter_pin_et"
+            android:layout_alignParentEnd="true"
+            android:text="@string/encrypt_pincode" />
+
+        <Button
             android:id="@+id/get_api_key_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/enter_pin_et"
             android:text="@string/get_apikey_by_pin_btn" />
+
+        <EditText
+            android:id="@+id/encrypted_pin_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/get_api_key_btn"
+            tools:ignore="LabelFor" />
+
+        <Button
+            android:id="@+id/decrypt_pin_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/encrypted_pin_et"
+            android:layout_alignParentEnd="true"
+            android:text="@string/decrypt_pincode" />
     </RelativeLayout>
 
 </RelativeLayout>

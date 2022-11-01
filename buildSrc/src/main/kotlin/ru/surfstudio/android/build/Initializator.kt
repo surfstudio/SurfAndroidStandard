@@ -1,7 +1,6 @@
 package ru.surfstudio.android.build
 
 import ru.surfstudio.android.build.exceptions.component.ComponentDirectoryNotExistException
-import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundException
 import ru.surfstudio.android.build.exceptions.library.LibraryDirectoryNotExistException
 import ru.surfstudio.android.build.exceptions.SampleDirectoryNotExistException
 import ru.surfstudio.android.build.model.json.ComponentJson
@@ -20,13 +19,8 @@ object Initializator {
     fun init(currentBuildDirectory: String) {
         initConfigProviderWithCurrentDirectory(currentBuildDirectory)
         val jsonComponents = JsonHelper.parseComponentsJson("$currentBuildDirectory/$COMPONENTS_JSON_FILE_PATH")
-        if (GradlePropertiesManager.isCurrentComponentAMirror()) {
-            checkOnlyMirrorComponentFolder(jsonComponents, currentBuildDirectory)
-        } else {
-            checkAllComponentsFolders(jsonComponents, currentBuildDirectory)
-        }
+        checkAllComponentsFolders(jsonComponents, currentBuildDirectory)
         Components.init(jsonComponents)
-        GradlePropertiesManager.init()
     }
 
     /**
@@ -36,15 +30,8 @@ object Initializator {
         ConfigInfoProvider.currentDirectory = "$currentDirectory/"
     }
 
-    private fun checkOnlyMirrorComponentFolder(jsonComponents: List<ComponentJson>, currentDirectory: String) {
-        val componentMirrorName = GradlePropertiesManager.componentMirrorName
-        val component = jsonComponents.firstOrNull { it.id == componentMirrorName }
-                ?: throw ComponentNotFoundException(componentMirrorName)
-        checkComponentFolders(component, currentDirectory)
-    }
-
     /**
-     * Check value directories for exist
+     * Check value directories for existance
      */
     private fun checkAllComponentsFolders(componentJsons: List<ComponentJson>, currentDirectory: String) {
         componentJsons.forEach { component ->

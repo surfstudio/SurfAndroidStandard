@@ -1,62 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
     <RelativeLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:padding="@dimen/default_margin">
 
         <Button
             android:id="@+id/camera_btn"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
-            android:text="@string/camera_btn_text" />
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_width="wrap_content"
+            android:text="@string/camera_btn_text_deprecated" />
+
+        <Button
+            android:id="@+id/chooser_save_btn"
+            android:layout_below="@id/gallery_m_btn"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_width="wrap_content"
+            android:text="@string/chooser_save_btn_text" />
 
         <Button
             android:id="@+id/gallery_btn"
-            android:layout_width="wrap_content"
+            android:layout_below="@+id/camera_uri_btn"
             android:layout_height="wrap_content"
-            android:layout_below="@id/camera_btn"
-            android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
+            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
             android:text="@string/gallery_btn_test" />
 
         <Button
             android:id="@+id/chooser_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gallery_btn"
             android:layout_alignParentEnd="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:text="@string/chooser_btn_test" />
 
         <Button
             android:id="@+id/gallery_m_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/gallery_btn"
-            android:layout_marginTop="@dimen/default_margin"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_width="wrap_content"
             android:text="@string/gallery_m_btn_text" />
 
         <Button
             android:id="@+id/chooser_m_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gallery_m_btn"
             android:layout_alignParentEnd="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:text="@string/chooser_m_btn_text" />
 
         <Button
-            android:id="@+id/chooser_save_btn"
-            android:layout_width="wrap_content"
+            android:id="@+id/camera_uri_btn"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/camera_btn"
             android:layout_height="wrap_content"
-            android:layout_below="@id/gallery_m_btn"
-            android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
-            android:text="@string/chooser_save_btn_text" />
+            android:layout_marginStart="-5dp"
+            android:layout_marginTop="-1dp"
+            android:layout_width="wrap_content"
+            android:text="@string/camera_btn_text" />
+
+        <ImageView
+            android:id="@+id/example_iv"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/camera_uri_btn"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent" />
     </RelativeLayout>
 </ScrollView>

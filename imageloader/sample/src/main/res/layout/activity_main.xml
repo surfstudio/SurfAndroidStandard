@@ -17,6 +17,17 @@
         android:padding="16dp"
         tools:src="@drawable/a123321" />
 
+    <ImageView
+        android:id="@+id/imageloader_sample_lambdas_iv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.5"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/content_description"
+        android:padding="16dp"
+        tools:src="@drawable/a123321" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -60,5 +71,18 @@
             android:layout_gravity="bottom|start"
             android:layout_margin="32dp"
             android:text="@string/gif_button" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+
+        <ImageView
+            android:id="@+id/imageloader_video_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/a123321" />
     </FrameLayout>
 </LinearLayout>

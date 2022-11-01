@@ -10,17 +10,17 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.surfstudio.standard.i_network.converter.gson.ResponseTypeAdapterFactory
-import ru.surfstudio.standard.i_network.converter.gson.SafeConverterFactory
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.standard.i_network.network.BaseUrl
-import ru.surfstudio.standard.i_network.network.calladapter.BaseCallAdapterFactory
 import ru.surfstudio.android.template.base_feature.BuildConfig
-import ru.surfstudio.standard.i_network.network.CallAdapterFactory
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
-import ru.surfstudio.standard.i_network.BASE_API_URL
-import ru.surfstudio.standard.i_network.TEST_API_URL
+import ru.surfstudio.standard.i_network.converter.gson.ResponseTypeAdapterFactory
+import ru.surfstudio.standard.i_network.converter.gson.SafeConverterFactory
+import ru.surfstudio.standard.i_network.generated.urls.ServerUrls.BASE_API_URL
+import ru.surfstudio.standard.i_network.generated.urls.ServerUrls.TEST_API_URL
+import ru.surfstudio.standard.i_network.network.BaseUrl
+import ru.surfstudio.standard.i_network.network.CallAdapterFactory
+import ru.surfstudio.standard.i_network.network.calladapter.BaseCallAdapterFactory
 
 @Module
 class NetworkModule {
@@ -56,13 +56,12 @@ class NetworkModule {
     @Provides
     @PerApplication
     internal fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor { message ->
-            Logger.d("$HTTP_LOG_TAG $message")
-        }.apply {
-            level = if (BuildConfig.DEBUG)
-                HttpLoggingInterceptor.Level.BODY
-            else
-                HttpLoggingInterceptor.Level.BASIC
+        val logger = HttpLoggingInterceptor.Logger { message -> Logger.d("$HTTP_LOG_TAG $message") }
+        return HttpLoggingInterceptor(logger).apply {
+            level = when (BuildConfig.DEBUG) {
+                true -> HttpLoggingInterceptor.Level.BODY
+                false -> HttpLoggingInterceptor.Level.BASIC
+            }
         }
     }
 

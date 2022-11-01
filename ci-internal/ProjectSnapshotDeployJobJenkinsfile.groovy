@@ -1,31 +1,24 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
-// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-4.1.3-SNAPSHOT')
+// https://github.com/surfstudio/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
+import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
-import ru.surfstudio.ci.JarvisUtil
-import ru.surfstudio.ci.CommonUtil
-import ru.surfstudio.ci.RepositoryUtil
-import ru.surfstudio.ci.utils.android.AndroidUtil
-import ru.surfstudio.ci.Result
-import ru.surfstudio.ci.AbortDuplicateStrategy
-import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
-import ru.surfstudio.ci.utils.android.config.AvdConfig
-
+import ru.surfstudio.ci.stage.StageStrategy
+import ru.surfstudio.ci.utils.buildsystems.GradleUtil
 //Pipeline for deploy project snapshot artifacts
+
+// !!! Job оставлен для обратной совместимости.
+// Актуальная версия переписана на Github Actions, см .github/workflows/project-deploy.yml
+// При необходимости можно включить job Standard-Project-Snapshot-Job_Android_TAG в jenkins
 
 // Stage names
 
 def CHECKOUT = 'Checkout'
-def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
-def CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT = 'Check Configuration is project snapshot'
 def INCREMENT_PROJECT_SNAPSHOT_VERSION = 'Increment Project Snapshot Version'
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
-def INSTRUMENTATION_TEST = 'Instrumentation Test'
-def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
@@ -35,18 +28,8 @@ def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 
 //vars
 def branchName = ""
-def useBintrayDeploy = false
 def skipIncrementVersion = false
-
-//other config
-
-def getTestInstrumentationRunnerName = { script, prefix ->
-    def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
-    return script.sh(
-            returnStdout: true,
-            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
-    )
-}
+def useJava11 = true // default value
 
 //init
 def script = this
@@ -59,34 +42,29 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGithubAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
 
-    script.echo "artifactory user: ${script.env.surf_maven_username}"
-
     //Выбираем значения веток из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
     //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName_0') {
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName') {
         value -> branchName = value
     }
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'useBintrayDeploy') {
-        value -> useBintrayDeploy = value
-    }
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'skipIncrementVersion') {
-        value -> skipIncrementVersion = value
+        value -> skipIncrementVersion = Boolean.valueOf(value)
     }
 
+    branchName = branchName.replace("refs/heads/", "")
     if (branchName.contains("origin/")) {
         branchName = branchName.replace("origin/", "")
     }
-
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
@@ -102,84 +80,46 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
+                scmSkip(deleteBuild: true, skipPattern: '.*\\[skip ci\\].*')
             }
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
-        },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
-            project = globalConfiguration.project_snapshot_name
-
-            if (("project-snapshot/" + project) != branchName) {
-                script.error("Deploy AndroidStandard for project: $project from branch: '$branchName' forbidden")
-            }
-        },
-        pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
-            script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
+            RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
         },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
             if (!skipIncrementVersion) {
-                script.sh("./gradlew incrementProjectSnapshotVersion")
+                GradleUtil.gradlew(script, "incrementProjectSnapshotVersion", useJava11)
             } else {
                 script.echo "skip project snapshot version incrementation stage"
             }
         },
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease", useJava11)
         },
         pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
-                    "testReleaseUnitTest",
-                    "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
-        },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+            AndroidPipelineHelper.unitTestStageBodyAndroid(
                     script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
+                    "testReleaseUnitTest",
+                    "**/test-results/testQaUnitTest/*.xml",
+                    "app/build/reports/tests/testQaUnitTest/",
+                    useJava11
             )
         },
-        pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
         pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
-                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                    if (useBintrayDeploy) {
-                        /**
-                         * We can not use parameter -PdeployOnlyIfNotExist
-                         * for distributeArtifactsToBintray after uploadArchives,
-                         * otherwise deploy to Bintray will never be executed
-                         * after successful deploy to artifactory
-                         */
-                        script.sh "./gradlew distributeArtifactsToBintray -PonlyUnstable=true"
-                    }
-                }
+            withJobCredentials(script) {
+                GradleUtil.gradlew(script, "clean publish -PpublishType=artifactory", useJava11)
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
-            withArtifactoryCredentials(script) {
-                script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
+            withJobCredentials(script) {
+                GradleUtil.gradlew(script, "generateDataForPlugin", useJava11)
+                GradleUtil.gradlew(script, ":android-standard-version-plugin:publish", useJava11)
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             if (!skipIncrementVersion) {
                 RepositoryUtil.setDefaultJenkinsGitUser(script)
-                String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-                def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+                def globalConfiguration = getGlobalConfiguration(script, projectConfigurationFile)
 
                 script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
                         "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
@@ -197,21 +137,20 @@ pipeline.finalizeBody = {
     def success = Result.SUCCESS == pipeline.jobResult
     def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
-    if (!success && !checkoutAborted) {
-        def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        if (unstable) {
-            message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+    if (!checkoutAborted) {
+        if (!success) {
+            def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
+            if (unstable) {
+                message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+            } else {
+                message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+            }
         } else {
-            message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+            message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
         }
-    } else {
-        message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
-        if (useBintrayDeploy) {
-            message += "\nБыл выполнен деплой артефактов в Bintray.\n" +
-                    "Необходимо заменить последние версии артефактов в Bintray на стабильные"
-        }
+
+        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "github", pipeline.jobResult)
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
 }
 
 pipeline.run()
@@ -233,20 +172,16 @@ def static initBuildDiscarder(script) {
                     artifactDaysToKeepStr: '3',
                     artifactNumToKeepStr: '10',
                     daysToKeepStr: '60',
-                    numToKeepStr: '200')
+                    numToKeepStr: '200'
+            )
     )
 }
 
 def static initParameters(script) {
     return script.parameters([
             script.string(
-                    name: "branchName_0",
+                    name: "branchName",
                     description: 'Ветка с исходным кодом'
-            ),
-            script.booleanParam(
-                    defaultValue: false,
-                    name: "useBintrayDeploy",
-                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory'
             ),
             script.booleanParam(
                     defaultValue: false,
@@ -262,14 +197,14 @@ def static initTriggers(script) {
                     genericVariables: [
                             [
                                     key  : "branchName",
-                                    value: '$.push.changes[?(@.new.type == "branch")].new.name'
+                                    value: '$.ref'
                             ]
                     ],
                     printContributedVariables: true,
                     printPostContent: true,
-                    causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?project-snapshot\\/(.*)$',
-                    regexpFilterText: '$branchName_0'
+                    causeString: 'Triggered by Github',
+                    regexpFilterExpression: '^(origin\\/)?refs\\/heads\\/project-snapshot\\/(.*)$',
+                    regexpFilterText: '$branchName'
             ),
             script.pollSCM('')
     ])
@@ -278,13 +213,28 @@ def static initTriggers(script) {
 // ============================================= ↑↑↑  END JOB PROPERTIES CONFIGURATION ↑↑↑  ==========================================
 
 // ============ Utils =================
-def static withArtifactoryCredentials(script, body) {
+def static withJobCredentials(script, body) {
     script.withCredentials([
+            script.file(
+                    credentialsId: "surf_maven_sign_key_ring_file",
+                    variable: 'surf_maven_sign_key_ring_file'
+            ),
+            script.usernamePassword(
+                    credentialsId: "Maven_Sign_Credential",
+                    usernameVariable: 'surf_maven_sign_key_id',
+                    passwordVariable: 'surf_maven_sign_password'
+            ),
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password')
+                    passwordVariable: 'surf_maven_password'
+            )
     ]) {
         body()
     }
+}
+
+def static getGlobalConfiguration(script, projectConfigurationFile) {
+    String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+    return new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 }

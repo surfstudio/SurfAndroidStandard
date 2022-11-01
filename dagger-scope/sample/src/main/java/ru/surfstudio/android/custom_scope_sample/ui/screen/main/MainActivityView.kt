@@ -2,9 +2,9 @@ package ru.surfstudio.android.custom_scope_sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.custom_scope_sample.R
@@ -28,9 +28,11 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun getScreenName(): String = "MainActivity"
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
+    override fun onCreate(
+        savedInstanceState: Bundle?,
+        persistentState: PersistableBundle?,
+        viewRecreated: Boolean
+    ) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         open_another_screen_btn.setOnClickListener { presenter.openAnotherScreen() }
     }
@@ -49,7 +51,11 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     fun showMessage(message: String) {
         if (message.isNotEmpty()) {
-            toast(message)
+            Toast
+                .makeText(this, message, Toast.LENGTH_SHORT)
+                .apply {
+                    show()
+                }
         }
     }
 }

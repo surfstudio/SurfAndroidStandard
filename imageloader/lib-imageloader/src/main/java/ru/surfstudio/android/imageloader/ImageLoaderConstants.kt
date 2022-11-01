@@ -18,4 +18,6 @@
 package ru.surfstudio.android.imageloader
 
 val DEFAULT_DRAWABLE_URI: Int = R.drawable.empty_drawable //дефолтная заглушка для любого drawable-ресурса
+val DEFAULT_FRAME_TIME_MS = -1L   // дефолтное значение кадра, который берется из видео для отображения
+
 val NO_SIZE = -1                    //заглушка для размерной величины

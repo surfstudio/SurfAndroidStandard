@@ -1,6 +1,8 @@
 [Главная](../main.md)
 
-[TOC]
+- [Инъекция зависимостей](#инъекция-зависимостей)
+- [Иерархия компонентов в наших приложениях](#иерархия-компонентов-в-наших-приложениях)
+- [Добавление кастомного скоупа](#добавление-кастомного-скоупа)
 
 ### Инъекция зависимостей
 
@@ -29,7 +31,7 @@
 
 *Замечание*: несмотря на название Activity помечается скоупом экрана.
 
-Основные скоупы в наших приложениях представлены аннотациями из модуля [dagger-scope](../../dagger-scope/lib-dagger-scope/README.md).
+Основные скоупы в наших приложениях представлены аннотациями из модуля [dagger-scope](../../dagger-scope/README.md).
 При дальнейшем описании будут исользоваться они же.
 
 Разрешается добавлять скоупы для собственных нужд, **между уровнем приложения
@@ -62,18 +64,18 @@
 Это позволяет контролировать, что будет проброшено в дочерний компонент.
 
 За время жизни каждого скоупа отвечает делегат -  BaseScreenDelegate.
-После того , как умирает экран, он убивает [`PersistentScope`](../../core-ui/lib-core-ui/README.md), который в свою
+После того , как умирает экран, он убивает [`PersistentScope`](../../core-ui/README.md), который в свою
 очередь и содержит в себе конфигратор с компонентом. Таким образом не остается
 внешних ссылок на компонент и он тоже стирается сборщиком мусора.
 
 `BaseActivityConfigurator` и `Base...ViewConfigurator` расширяют [базовые конфигураторы](../../mvp/lib-core-mvp/docs/configurator.md)
-из модулей [core-mvp](../../mvp/lib-core-mvp/README.md), [core-ui](../../core-ui/lib-core-ui/README.md)
+из модулей [core-mvp](../../mvp/lib-core-mvp/README.md), [core-ui](../../core-ui/README.md)
 
 ### Добавление кастомного скоупа
 
 Как добавить свой скоуп описано [здесь](../../dagger-scope/sample/src/main/java/ru/surfstudio/android/custom_scope_sample/).
 
-[ds]: ../../dagger-scope/lib-dagger-scope/README.md
+[ds]: ../../dagger-scope/README.md
 [configurator]: ../../mvp/lib-core-mvp/docs/configurator.md
 [mvp]: ../../mvp/lib-core-mvp/
 [ui]: ../../core-ui/

@@ -15,23 +15,27 @@
  */
 package ru.surfstudio.android.rx.extension.scheduler;
 
-
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * провайдер Schedulers для Rx
+ * Default implementation of {@link SchedulersProvider}.
  */
 public class SchedulersProviderImpl implements SchedulersProvider {
 
     @Override
-    public Scheduler main(){
+    public Scheduler main() {
         return AndroidSchedulers.mainThread();
     }
 
     @Override
-    public Scheduler worker(){
+    public Scheduler worker() {
         return Schedulers.io();
+    }
+
+    @Override
+    public Scheduler computation() {
+        return Schedulers.computation();
     }
 }

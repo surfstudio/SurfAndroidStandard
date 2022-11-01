@@ -6,3 +6,7 @@ android {
         multiDexEnabled true
     }
 }
+
+dependencies {
+    api project(":sample-common")
+}

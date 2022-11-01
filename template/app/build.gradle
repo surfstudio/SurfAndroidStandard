@@ -1,59 +1,60 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+//apply plugin: 'com.google.gms.google-services' todo uncoment for real app
 //apply plugin: 'com.google.firebase.crashlytics' todo uncoment for real app
 //apply plugin: 'com.google.firebase.appdistribution' todo uncoment for real app
 
 apply from: '../config.gradle'
 
 apply from: '../setLabelToIcon.gradle'
+apply from: '../validateCrossFeatureRoutes.gradle.kts'
 apply from: '../keystore/signingConfigs.gradle'
 apply from: '../buildTypes.gradle'
 apply from: '../commonAndroidDefaultConfig.gradle'
 apply from: '../androidTestConfiguration.gradle'
 
-def config = extensions.getByName("ext")
-
 android {
 
     defaultConfig {
-        applicationId config["applicationId"]
+        applicationId app.applicationId
 
-        versionCode config["versionCode"]
-        versionName config["versionName"]
-        
+        versionCode app.versionCode
+        versionName app.versionName
+
         //setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)") //todo uncomment for real app
 
         testBuildType 'debug' //todo replace to 'qa' for real app
     }
+    packagingOptions {
+        pickFirst 'META-INF/LICENSE.md'
+        pickFirst 'META-INF/LICENSE-notice.md'
+    }
 }
 
 dependencies {
-    implementation project(":base")
-    implementation project(":base_feature")
     implementation project(":i-push-notification")
+    implementation project(":f-onboarding")
     implementation project(":f-auth")
     implementation project(":f-main")
     implementation project(":f-splash")
+    implementation project(":f-search")
+    implementation project(":f-feed")
+    implementation project(":f-profile")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation lang.kotlinStdLib
+    implementation lang.jetbrainsAnnotations
 
-    implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation di.dagger
+    kapt di.daggerKapt
 
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
-    implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
-
-    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
-    implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation androidX.annotation
+    implementation androidX.appcompat
 }
 
 configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
     resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
+    resolutionStrategy.force 'org.objenesis:objenesis:2.6'
+    resolutionStrategy.force 'io.github.classgraph:classgraph:4.8.54'
 }
-
-//todo uncoment for real app
-//apply plugin: 'com.google.gms.google-services'

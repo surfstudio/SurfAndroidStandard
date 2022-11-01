@@ -1,6 +1,5 @@
 package ru.surfstudio.android.sample.dagger.ui.base.dagger.widget
 
-import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.ScreenType
@@ -8,9 +7,6 @@ import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForFragment
-import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
-import ru.surfstudio.android.core.ui.permission.PermissionManagerForFragment
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.FragmentProvider
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
@@ -26,17 +22,21 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.error.DefaultErrorHandlerModule
-import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import javax.inject.Named
 
 private const val PARENT_TYPE_DAGGER_NAME = "parent_type"
 
 @Module(includes = [DefaultErrorHandlerModule::class])
-class DefaultWidgetScreenModule(private val persistentScope: WidgetViewPersistentScope) : DefaultScreenModule() {
+class DefaultWidgetScreenModule(
+    private val persistentScope: WidgetViewPersistentScope
+) : DefaultScreenModule() {
+
     @Provides
     @PerScreen
-    internal fun provideDialogNavigator(activityProvider: ActivityProvider,
-                                        widgetProvider: WidgetProvider): DialogNavigator {
+    internal fun provideDialogNavigator(
+        activityProvider: ActivityProvider,
+        widgetProvider: WidgetProvider
+    ): DialogNavigator {
         return DialogNavigatorForWidget(activityProvider, widgetProvider, persistentScope)
     }
 
@@ -73,9 +73,11 @@ class DefaultWidgetScreenModule(private val persistentScope: WidgetViewPersisten
 
     @Provides
     @PerScreen
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager,
-                                          @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType): ActivityNavigator {
+    internal fun provideActivityNavigator(
+        activityProvider: ActivityProvider,
+        eventDelegateManager: ScreenEventDelegateManager,
+        @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType
+    ): ActivityNavigator {
         return if (parentType == ScreenType.FRAGMENT)
             ActivityNavigatorForFragment(activityProvider, createFragmentProvider(), eventDelegateManager)
         else
@@ -90,39 +92,17 @@ class DefaultWidgetScreenModule(private val persistentScope: WidgetViewPersisten
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
-                                          activityProvider: ActivityProvider,
-                                          activityNavigator: ActivityNavigator,
-                                          @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType,
-                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences
-    ): PermissionManager {
-        return if (parentType == ScreenType.FRAGMENT)
-            PermissionManagerForFragment(
-                    eventDelegateManager,
-                    activityProvider,
-                    activityNavigator,
-                    sharedPreferences,
-                    createFragmentProvider()
-            )
-        else
-            PermissionManagerForActivity(
-                    eventDelegateManager,
-                    activityNavigator,
-                    sharedPreferences,
-                    activityProvider
-            )
-    }
-
-    @Provides
-    @PerScreen
-    internal fun provideMessageController(activityProvider: ActivityProvider,
-                                          @Named(PARENT_TYPE_DAGGER_NAME) screenType: ScreenType): MessageController {
+    internal fun provideMessageController(
+        activityProvider: ActivityProvider,
+        @Named(PARENT_TYPE_DAGGER_NAME) screenType: ScreenType
+    ): MessageController {
         return DefaultMessageController(
                 activityProvider,
                 if (screenType == ScreenType.FRAGMENT)
                     createFragmentProvider()
                 else
-                    null)
+                    null
+        )
     }
 
     private fun createFragmentProvider(): FragmentProvider {

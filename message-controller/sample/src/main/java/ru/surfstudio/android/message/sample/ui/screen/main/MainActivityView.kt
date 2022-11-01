@@ -40,6 +40,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         show_colored_snackbar.setOnClickListener { presenter.showColoredSnackbar() }
         show_snackbar_with_duration.setOnClickListener { presenter.showSnackbarWithDuration() }
         show_snackbar_with_listener.setOnClickListener { presenter.showSnackbarWithListener() }
+        show_snackbar_with_dismiss_listener.setOnClickListener { presenter.showSnackbarWithDismissListener() }
         show_gravity_toast.setOnClickListener { presenter.showGravityToast() }
         close_snackbar.setOnClickListener { presenter.closeSnackbar() }
         start_message_demo.setOnClickListener { presenter.startMessageDemo() }

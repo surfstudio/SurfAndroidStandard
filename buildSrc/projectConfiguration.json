@@ -1,7 +1,6 @@
 {
-  "version": "0.5.0",
-  "stable": false,
-  "unstable_version": 92,
+  "version": "0.6.0",
+  "unstable_version": 93,
   "project_snapshot_name": "LAD",
-  "project_snapshot_version": 5
+  "project_snapshot_version": 6
 }

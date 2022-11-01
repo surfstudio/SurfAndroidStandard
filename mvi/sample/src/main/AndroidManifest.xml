@@ -18,6 +18,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.surfstudio.android.core.mvi.sample">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="ru.surfstudio.android.sample.dagger.app.DefaultApp"
         android:allowBackup="true"
@@ -26,10 +28,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:node="replace">
 
         <activity
-            android:name=".ui.screen.main.MainActivityView"
+            android:name=".ui.screen.reactor_based.main.MainActivityView"
+            android:exported="true"
             android:label="Surf MVI Sample">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,16 +42,26 @@
         </activity>
 
         <activity
-            android:name=".ui.screen.list.ComplexListActivityView"
+            android:name=".ui.screen.reactor_based.list.ComplexListActivityView"
             android:label="Complex list screen" />
 
         <activity
-            android:name=".ui.screen.input.InputFormActivityView"
+            android:name=".ui.screen.reactor_based.input.InputFormActivityView"
             android:label="Input form screen" />
 
         <activity
-            android:name=".ui.screen.simple_list.SimpleListActivityView"
+            android:name=".ui.screen.reducer_based.simple_list.SimpleListActivityView"
             android:label="Input form screen" />
+
+        <activity
+            android:name=".ui.screen.reducer_based.kitties.KittiesActivityView"
+            android:label="MVI-Reducer showcase activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".ui.screen.reducer_based.kitties.all.KittiesAllActivityView"
+            android:label="MVI-Reducer showcase activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

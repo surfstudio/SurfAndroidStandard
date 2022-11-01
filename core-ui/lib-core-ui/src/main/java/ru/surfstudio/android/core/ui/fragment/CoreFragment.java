@@ -17,6 +17,7 @@ package ru.surfstudio.android.core.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,8 +68,8 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     }
 
     @Override
-    public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public final void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         fragmentDelegate.onCreate(savedInstanceState, null);
     }
 
@@ -88,7 +89,7 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     @Override
     public void onPause() {
         super.onPause();
-        Logger.d(String.format(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName()));
+        Logger.d(String.format(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName()));
         fragmentDelegate.onPause();
     }
 

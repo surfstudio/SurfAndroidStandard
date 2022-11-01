@@ -1,15 +1,42 @@
-[TOC]
 # Mvp Release Notes
-## 0.5.0-alpha
+
+- [0.6.0-alpha](#060-alpha)
+- [0.5.0](#050)
+- [0.4.0](#040)
+- [0.3.0](#030)
+- [0.2.1](#021)
+
+## 0.6.0-alpha
+##### Ferro-rx
+* Init module for backward compatibility
+##### Core-mvp
+* TODO
+## 0.5.0
+##### Core-mvp
+* ANDDEP-1203 Fixes after core-ui improvements
+* ANDDEP-1048 Fixing wrong docs links and docs structure
 ##### Mvp-widget
+* ANDDEP-1203 Fixes after core-ui improvements
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 * ANDDEP-687 Changed "androidx.constraintlayout:constraintlayout" dependency from "api" to "implementation" type
 * ANDDEP-633 Fixed widget manual destroy method
+* ANDDEP-1048 Fixing wrong docs links and docs structure
 ##### Mvp-dialog
+* ANDDEP-1203 Fixes after core-ui improvements
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 * Fix logging screen names
 * ANDDEP-922 Fix crash on dismiss simple dialog in child fragment
-* ANDDEP-922 Fix inconsistent dialog navigator behavior: CoreSimpleDialog now showing with it's route tag. Methods `DialogNavigator.showSimpleDialog`, `CoreSimpleDialogInterface.show`, `CoreSimpleBottomSheetDialogFragment.show`, `CoreSimpleDialogFragment.show` and `SimpleDialogDelegate.show` are changed **without backward compatibility support**. 
+* **NO BACKWARD COMPATIBILITY** ANDDEP-922 Fix inconsistent dialog
+  navigator behavior: CoreSimpleDialog now showing with it's route tag.
+  Methods `DialogNavigator.showSimpleDialog`,
+  `CoreSimpleDialogInterface.show`,
+  `CoreSimpleBottomSheetDialogFragment.show`,
+  `CoreSimpleDialogFragment.show` and `SimpleDialogDelegate.show` are
+  changed.
+* ANDDEP-922 Fix inconsistent dialog navigator behavior: CoreSimpleDialog now showing with it's route tag. Methods `DialogNavigator.showSimpleDialog`, `CoreSimpleDialogInterface.show`, `CoreSimpleBottomSheetDialogFragment.show`, `CoreSimpleDialogFragment.show` and `SimpleDialogDelegate.show` are changed **without backward compatibility support**.
+* ANDDEP-985 Fix screen names logging
+* ANDDEP-928 Fix SimpleDialogDelegate logs
+* ANDDEP-1048 Fixing wrong docs links and docs structure
 ## 0.4.0
 ##### Core-mvp
 * ANDDEP-320 Ability to dynamically set LoadState, a flexible way to display LoadState

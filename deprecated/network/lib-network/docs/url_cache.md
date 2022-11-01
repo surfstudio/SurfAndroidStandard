@@ -1,5 +1,3 @@
-[TOC]
-
 # URL-кеш
 
 **Url-кеш** - при успешном запросе на сервер кешируется сырой ответ
@@ -13,7 +11,7 @@
 `SimpleCacheFactory` и произвести очистку.
 
 Для конкатенирования данных из кеша и с сервера предусмотрен метод
-[`BaseNetworkInteractor#hybridQueryWithSimpleCache`][hybrid]. Предусмотрена также
+`BaseNetworkInteractor#hybridQueryWithSimpleCache`. Предусмотрена также
 возможность иметь один кеш для нескольких запросов.
 
 Для использования неоходимо создать [`SimpleCacheInterceptor`](../src/main/java/ru/surfstudio/android/network/cache/SimpleCacheInterceptor.java)

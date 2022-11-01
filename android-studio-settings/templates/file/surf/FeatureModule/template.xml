@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<template
+    format="4"
+    revision="1"
+    name="FeatureModule"
+    description="FeatureModule">
+
+    <category value="Surf"/>
+
+    <parameter
+        id="featureModuleNameWithoutPrefix"
+        name="Имя модуля без префикса &quot;f_&quot;. Внимание, обновлять settings.gradle нужно вручную. Временное решение, связанное с багом студии 4.0"
+        type="string"
+        constraints="module|nonempty"/>
+
+    <parameter
+        id="packageName"
+        name="Package name"
+        type="string"
+        constraints="app_package|nonempty"
+        default="com.mycompany.myapp" />
+
+    <globals file="globals.xml.ftl"/>
+    <execute file="recipe.xml.ftl"/>
+
+</template>
