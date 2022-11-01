@@ -67,7 +67,7 @@ ext {
             "com.google.dagger:dagger-compiler"                 : "2.21",         //https://vk.cc/7UFvQo
             "javax.inject:javax.inject"                         : "1",            //https://goo.gl/cM9Kcd
             "androidx.constraintlayout:constraintlayout"        : "2.0.0-alpha3", //http://bit.ly/2S1WoNg
-            "androidx.appcompat:appcompat"                      : "1.0.2",        //http://bit.ly/2zjueqh
+            "androidx.appcompat:appcompat"                      : "1.1.0",        //http://bit.ly/2zjueqh
             "com.google.code.gson:gson"                         : "2.8.5",        //https://vk.cc/7UFvbd
             "com.squareup.retrofit2:retrofit"                   : "2.5.0",        //https://vk.cc/7UFxk3
             "com.squareup.retrofit2:converter-gson"             : "2.5.0",        //https://vk.cc/7UFxk3
