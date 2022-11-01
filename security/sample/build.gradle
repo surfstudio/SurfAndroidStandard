@@ -18,8 +18,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     lintOptions {
@@ -32,6 +36,7 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "security")
     DependencyConfigurator.projectImplementation(project, "filestorage")
     DependencyConfigurator.projectImplementation(project, "picture-provider")
+    DependencyConfigurator.projectImplementation(project, "biometrics")
 
     DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
 }

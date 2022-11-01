@@ -1,10 +1,11 @@
 apply from: '../commonModule.gradle'
 apply from: '../commonKaptModule.gradle'
+apply from: '../unitTestConfiguration.gradle'
 
 dependencies {
     api project(":base")
-
-    implementation "androidx.multidex:multidex:$androidxMultidexVersion"
+    api project(":base_resources")
+    api project(":v-message-controller-top")
 
     //debug
     releaseImplementation project(":f-debug-no-op")
@@ -13,20 +14,23 @@ dependencies {
 
     implementation project(":i-push-notification")
     implementation project(":i-auth")
+    implementation project(":i-onboarding")
     implementation project(":i-network")
     implementation project(":i-token")
     implementation project(":i-initialization")
     implementation project(":i-session")
 
-    api "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
-    api "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBinding2Version"
-    api "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBinding2Version"
+    api rxBinding2.core
+    api rxBinding2.kotlin
 
-    api("com.google.firebase:firebase-crashlytics:$firebaseCrashlyticsVersion") {
+    api(firebase.crashlytics) {
         transitive = true
     }
-    
-    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
 
-    implementation "com.akaita.java:rxjava2-debug:$rxJava2DebugVersion"
+    implementation debug.anrWatchDog
+    implementation debug.timber
+    implementation debug.rxJava2Debug
+
+    implementation test.kotest
+    implementation test.mockk
 }

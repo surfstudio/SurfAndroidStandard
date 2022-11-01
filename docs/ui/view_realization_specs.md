@@ -1,8 +1,10 @@
 [Главная](../main.md)
 
-[TOC]
-
 ##### Особенности реализации View
+
+- [Списки](#списки)
+- [Изображения](#изображения)
+- [Прочее](#прочее)
 
 ###### Списки
 **RecyclerView.Adapter** - в качестве адаптера следует использовать [`EasyAdapter`][easy]
@@ -51,16 +53,13 @@
 **независящим** от фреймворка и поставляемым в презентер через *Dagger*.
 (например проверка наличия модуля GCM или подписка на [`BroadcastReceiver`][broadcast])
 
-* Вместо нативного ProgressBar используем MaterialProgressBar из этой библиотеки
-(для стилизации элемента на prelollipop-устройствах).
-
 * [PlaceHolderViewContainer](../../custom-view/lib-custom-view/src/main/java/ru/surfstudio/android/custom/view/placeholder/PlaceHolderViewContainer.kt) - кастомизируемый плейсхолдер
 для различных лоад-стейтов.
 
 
-[broadcast]: ../../broadcast-extension/lib-broadcast-extension/README.md
-[message]: ../../message-controller/lib-message-controller/README.md
-[sticky]: ../../recycler-extension/lib-recycler-extension/README.md
+[broadcast]: ../../deprecated/broadcast-extension/README.md
+[message]: ../../message-controller/README.md
+[sticky]: ../../recycler-extension/README.md
 [easy]: ../../easyadapter/lib-easyadapter/
-[imageloader]: ../../imageloader/lib-imageloader/README.md
+[imageloader]: ../../imageloader/README.md
 [glide]: https://github.com/bumptech/glide

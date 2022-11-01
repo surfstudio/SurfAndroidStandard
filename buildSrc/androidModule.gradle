@@ -4,7 +4,6 @@ import ru.surfstudio.android.build.DependencyConfigurator
 apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 DependencyConfigurator.configure(project)
@@ -21,8 +20,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     lintOptions {
@@ -43,7 +46,7 @@ android {
 }
 
 dependencies {
-    DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk7")
+    DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 
 //временное решение для разрешения конфликтов версий сторонних зависимостей

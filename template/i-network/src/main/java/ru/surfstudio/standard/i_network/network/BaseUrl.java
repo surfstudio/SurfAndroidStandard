@@ -21,12 +21,11 @@ import androidx.annotation.Nullable;
 /**
  * Класс для описания базовой части Url сервера api
  */
-@Deprecated
 public class BaseUrl {
     private static final String START_SLASH = "^/";
     private static final String END_SLASH = "/$";
     @NonNull
-    private String base;
+    private final String base;
     @Nullable
     private String apiVersion;
 
@@ -48,10 +47,13 @@ public class BaseUrl {
         return apiVersion;
     }
 
+    @NonNull
     @Override
     public String toString() {
         if (apiVersion != null) {
-            return base + "/" + apiVersion + "/";
+            //todo: проверить на реальном проекте:
+            // если часть урла начинается с /, то после apiVersion добавлять его не нужно
+            return base + "/" + apiVersion;
         }
         return base;
     }

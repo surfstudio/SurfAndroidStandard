@@ -1,20 +1,18 @@
 buildscript {
+    ext.kotlinVersion = "1.5.32"
 
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.31"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 
 apply plugin: 'groovy'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'kotlin'
-
-sourceCompatibility = "8"
-targetCompatibility = "8"
 
 repositories {
     mavenCentral()
@@ -23,8 +21,14 @@ repositories {
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.31'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation 'com.google.code.gson:gson:2.8.9'
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
 }
 
 apply from: 'deployPlugin.gradle'

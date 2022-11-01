@@ -13,7 +13,7 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "easyadapter")
     DependencyConfigurator.projectImplementation(project, "recycler-extension")
 
-    DependencyConfigurator.implementation(project, "io.supercharge:shimmerlayout")
+    DependencyConfigurator.implementation(project, "com.facebook.shimmer:shimmer")
 
     DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
 }

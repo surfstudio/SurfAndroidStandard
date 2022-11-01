@@ -70,6 +70,7 @@ class DefaultMessageController @JvmOverloads constructor(
             @ColorRes
             actionColorResId: Int?,
             duration: Int,
+            dismissListener: (DismissReason) -> Unit,
             listener: (view: View) -> Unit
     ) {
         show(
@@ -80,6 +81,7 @@ class DefaultMessageController @JvmOverloads constructor(
                         actionColorResId = actionColorResId ?: 0,
                         duration = duration
                 ),
+                dismissListener,
                 listener
         )
     }
@@ -94,6 +96,7 @@ class DefaultMessageController @JvmOverloads constructor(
             @ColorRes
             actionColorResId: Int?,
             duration: Int,
+            dismissListener: (DismissReason) -> Unit,
             listener: (view: View) -> Unit
     ) {
         show(
@@ -104,23 +107,23 @@ class DefaultMessageController @JvmOverloads constructor(
                         actionColorResId = actionColorResId ?: 0,
                         duration = duration
                 ),
+                dismissListener,
                 listener
         )
     }
 
-    override fun show(params: SnackParams, actionListener: (view: View) -> Unit) {
+    override fun show(
+            params: SnackParams,
+            dismissListener: (DismissReason) -> Unit,
+            actionListener: (view: View) -> Unit
+    ) {
         val activity = activityProvider.get()
         val message = if (params.messageResId != 0) {
             activity.getString(params.messageResId)
         } else {
             params.message
         }
-        var duration = params.duration
-        if (duration != Snackbar.LENGTH_SHORT
-                && duration != Snackbar.LENGTH_LONG
-                && duration != Snackbar.LENGTH_INDEFINITE) {
-            duration = Snackbar.LENGTH_SHORT
-        }
+        val duration = params.duration
         snackbar = Snackbar.make(getView(), message, duration).apply {
             var backgroundColor: Int? = if (params.backgroundColorResId != 0) {
                 ContextCompat.getColor(activity, params.backgroundColorResId)
@@ -152,6 +155,8 @@ class DefaultMessageController @JvmOverloads constructor(
             if (actionButtonColor != null) {
                 setActionTextColor(actionButtonColor)
             }
+
+            addCallback(SnackbarDismissCallback(dismissListener))
             show()
         }
     }
@@ -162,10 +167,11 @@ class DefaultMessageController @JvmOverloads constructor(
 
     override fun showToast(
             @StringRes messageResId: Int,
-            gravity: Int?,duration: Int
+            gravity: Int?,
+            duration: Int
     ) {
         showToast(
-                ToastParams(messageResId = messageResId ?: 0,
+                ToastParams(messageResId = messageResId,
                         gravity = gravity,
                         duration = duration)
         )

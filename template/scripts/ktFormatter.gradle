@@ -10,7 +10,7 @@ buildscript {
         maven { url "${surf_maven_libs_url}" }
     }
     dependencies {
-        classpath "org.jmailen.gradle:kotlinter-gradle:$ktlintPluginVersion"
+        classpath "org.jmailen.gradle:kotlinter-gradle:${versions.ktlintPluginVersion}"
     }
 }
 
@@ -19,6 +19,8 @@ buildscript {
  * например: ./gradlew ktlintFilesFormat -PlintFiles="src/classA.kt","src/classB.kt"
  */
 task ktlintFilesFormat(type: org.jmailen.gradle.kotlinter.tasks.FormatTask) {
+
+    disabledRules = ["import-ordering"]
 
     report = file('build/ktlint-report.txt')
 
@@ -30,7 +32,5 @@ task ktlintFilesFormat(type: org.jmailen.gradle.kotlinter.tasks.FormatTask) {
         source.forEach { file ->
             logger.info("file: ", file)
         }
-    } else {
-        logger.error "Files not set. Use -PlintFiles property"
     }
 }

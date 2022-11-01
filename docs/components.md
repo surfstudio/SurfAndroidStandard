@@ -16,16 +16,16 @@
 Библиотека [app-migration](../app-migration/lib-app-migration/) - модуль для миграции приложения. Позволяет выполнять необходиымые действия при изменении версии приложения (обновлении).  
 [Пример использования](../app-migration/sample/)
 
-1. [Broadcast-extension](../broadcast-extension/) :  
-Библиотека [broadcast-extension](../broadcast-extension/lib-broadcast-extension/) - модуль содержит расширения для Broadcast Receiver.  
-[Пример использования](../broadcast-extension/sample/)
+1. [Broadcast-extension](../deprecated/broadcast-extension/) :  
+Библиотека [broadcast-extension](../deprecated/broadcast-extension/lib-broadcast-extension/) - модуль содержит расширения для Broadcast Receiver.  
+[Пример использования](../deprecated/broadcast-extension/sample/)
 
 1. [Connection](../connection/) :  
 Библиотека [connection](../connection/lib-connection/) - предоставляет набор классов для работы с состоянитем сети.  
 
-1. [Core-mvi](../core-mvi/) :  
-Библиотека [core-mvi](../core-mvi/lib-core-mvi/) - расширение core-ui с поддержкой MVI-архитектурного подхода.  
-[Пример использования](../core-mvi/sample/)
+1. [Core-mvi](../mvi/) :  
+Библиотека [core-mvi](../mvi/lib-mvi-core/) - расширение core-ui с поддержкой MVI-архитектурного подхода.  
+[Пример использования](../mvi/sample/)
 
 1. [Core-mvp-binding](../core-mvp-binding/) :  
 Библиотека [core-mvp-binding](../core-mvp-binding/lib-core-mvp-binding/) - расширение core-mvp с поддержкой DataBinding.  
@@ -104,9 +104,9 @@
 Библиотека [shared-pref](../shared-pref/lib-shared-pref/) - утилитарный модуль для работы с `SharedPreferences`.  
 [Пример использования](../shared-pref/sample/)
 
-1. [Standard-dialog](../standard-dialog/) :  
-Библиотека [standard-dialog](../standard-dialog/lib-standard-dialog/) - модуль c простым да/нет диалогом, в который можно передать строковые ресурсы или сами строки.  
-[Пример использования](../standard-dialog/sample/)
+1. [Standard-dialog](../deprecated/standard-dialog/) :  
+Библиотека [standard-dialog](../deprecated/standard-dialog/lib-standard-dialog/) - модуль c простым да/нет диалогом, в который можно передать строковые ресурсы или сами строки.  
+[Пример использования](../deprecated/standard-dialog/sample/)
 
 1. [Util-ktx](../util-ktx/) :  
 Библиотека [util-ktx](../util-ktx/lib-util-ktx/) - модуль c утилитарными классами для android фреймворка и языков.  

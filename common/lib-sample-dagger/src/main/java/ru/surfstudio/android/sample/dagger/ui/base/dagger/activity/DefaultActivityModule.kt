@@ -1,7 +1,6 @@
 package ru.surfstudio.android.sample.dagger.ui.base.dagger.activity
 
 import android.content.Context
-import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
@@ -9,7 +8,6 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.core.ui.scope.PersistentScope
@@ -20,18 +18,14 @@ import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
 import ru.surfstudio.android.rxbus.RxBus
-import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
-import javax.inject.Named
 
 /**
- * Модуль для dagger Activity Component
- * поставляет ряд сущностей, например навигаторы, причем они находятся в @PerActivity scope
- * и не пробрасываются в дочерние scope, эти обьекты могут быть использованы без презентера,
- * например открытие необходимого фрагмента с помощью FragmentNavigator из активити контейнера.
- * Эти обьекты могут также использоваться внутри дополнительных обектов со специфической логикой,
- * принадлежащих скоупу @PerScreen
+ * Module for Dagger Activity Component.
+ * Provides entities for @PerActivity scope which are not provided in child scopes.
+ * These entities could be used without Presenter,
+ * for example, opening a fragment using FragmentNavigator from activity container.
+ * These entities also could be used in other objects from @PerScreen scope
  */
-
 @Module
 class DefaultActivityModule(private val persistentScope: ActivityPersistentScope) {
 
@@ -61,8 +55,10 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
 
     @Provides
     @PerActivity
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    internal fun provideActivityNavigator(
+        activityProvider: ActivityProvider,
+        eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 
@@ -70,20 +66,6 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
     @PerActivity
     internal fun provideEventDelegateManager(): ScreenEventDelegateManager {
         return persistentScope.screenEventDelegateManager
-    }
-
-    @Provides
-    @PerActivity
-    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
-                                          activityNavigator: ActivityNavigator,
-                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-                                          activityProvider: ActivityProvider): PermissionManager {
-        return PermissionManagerForActivity(
-                eventDelegateManager,
-                activityNavigator,
-                sharedPreferences,
-                activityProvider
-        )
     }
 
     @Provides
@@ -112,10 +94,12 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
 
     @Provides
     @PerActivity
-    internal fun providePictureProvider(context: Context,
-                                        activityNavigator: ActivityNavigator,
-                                        activityProvider: ActivityProvider,
-                                        ppChecker: PicturePermissionChecker): PictureProvider {
+    internal fun providePictureProvider(
+        context: Context,
+        activityNavigator: ActivityNavigator,
+        activityProvider: ActivityProvider,
+        ppChecker: PicturePermissionChecker
+    ): PictureProvider {
         return PictureProvider(context, activityNavigator, activityProvider, ppChecker)
     }
 }

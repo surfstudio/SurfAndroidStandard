@@ -2,10 +2,10 @@
 
 Основные классы для работы с пагинацией:
 
-- DataList(на выбор в зависимости от [механизма на сервере](../../docs/common/pagin.md)):
-    - [DataList c поддержкой limit-offset](../../datalist-limit-offset/README.md);
-    - [DataList с поддержкой page-count](../../datalist-page-count/README.md);
-- [класс-наследник базового адаптера для пагинации](../src/main/java/ru/surfstudio/android/network/sample/ui/screen/main/list/ProductListAdapter.kt).
+- DataList(на выбор в зависимости от [механизма на сервере](../../../../docs/common/pagin.md)):
+    - [DataList c поддержкой limit-offset](../../../../datalist/lib-datalist-limit-offset/README.md);
+    - [DataList с поддержкой page-count](../../../../datalist/lib-datalist-page-count/README.md);
+- класс-наследник базового адаптера для пагинации.
 Нужен для настройки футера.
 - [класс-наследник ..Pgn..ScreenModel](../src/main/java/ru/surfstudio/android/network/sample/ui/screen/main/MainScreenModel.kt).
 Поддерживает установку состояния пагинации.

@@ -1,14 +1,48 @@
-include ':android-standard-version-plugin'
-import ru.surfstudio.android.build.Initializator
-import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.model.module.Module
-
-def currentBuildDirectory = gradle.startParameter.currentDir.path
-
-Initializator.init(currentBuildDirectory)
-Components.getModules().forEach { Module module ->
-    include module.getGradleModuleName()
-    project(module.getGradleModuleName()).projectDir = new File(module.directoryPath)
+/**
+ * "Build scan" - является общей и централизованной записью сборки которая дает представление о том, что произошло и почему.
+ * С этим плагином вы можете опубликовать свои записи сборки на https://scans.gradle.com бесплатно.
+ *
+ * пример использования: Выполните ./gradlew assembleRelease --scan
+ * и перейдите по зеленой ссылке в конце сборки, для просмотра результатов сканирования.
+ */
+plugins {
+    id "com.gradle.enterprise" version "3.3.4"
 }
 
-apply from: 'buildSrc/buildCache.gradle'
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+        allowUntrustedServer = true
+    }
+}
+
+import groovy.json.JsonSlurper
+
+include ':android-standard-version-plugin'
+
+// used files
+def COMPONENTS_JSON_FILE = './buildSrc/components.json'
+
+// reading components.json
+def componentsJson = file(COMPONENTS_JSON_FILE)
+def parsedJson = new JsonSlurper().parseText(componentsJson.text)
+
+parsedJson.forEach { component ->
+    def disabled = component.disabled?.toBoolean() ?: false
+    if (component.libs != null && !disabled) {
+        component.libs.forEach { lib ->
+            def moduleName = ":${lib.name}"
+            include moduleName
+            project(moduleName).projectDir = new File("${component.dir}/${lib.dir}")
+        }
+    }
+
+    if (component.enabled_samples) {
+        component.samples.forEach { sample ->
+            def moduleName = ":${sample.name}"
+            include moduleName
+            project(moduleName).projectDir = new File("${component.dir}/${sample.dir}")
+        }
+    }
+}

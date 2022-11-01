@@ -1,15 +1,16 @@
-# Surf Android Standard
+# (Deprecated) Surf Android Standard
 
 [![Android Arsenal][android_arsenal_icon]][android_arsenal_link]
 [![Build Status][build_status_icon]][build_status_link]
 [![License][license_icon]][license_link]
-[![Download][build_version_icon]][build_version_link] 
 
-Фреймворк для разработки android приложений [студии Surf](http://www.surfstudio.ru/).
+## Развитие приостановлено. Наши новые наработки [тут](https://github.com/surfstudio/surf-compose)
+
+### Текущая версия артефактов стабильна. Выпуск новых релизов не планируется
+
+Фреймворк для разработки android приложений [студии Surf](https://www.surf.ru/). 
 Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение
 в короткие сроки.
-
-**!!! Репозиторий в стадии активной разработки !!!**
 
 **[Стандарты разработки приложений в Surf][docs]**
 
@@ -36,10 +37,10 @@ dependencies {
 ```
 
 Актуальные версии можно посмотреть:
-- в [бинтрей](https://bintray.com/surf/maven) для стабильных артефактов 
+- в [maven central](https://search.maven.org/search?q=surfstudio) для стабильных артефактов
 - в [артифактори](https://artifactory.surfstudio.ru/artifactory/libs-release-local/ru/surfstudio/android/) для нестабильных артефактов
 
-Список всех компонентов [здесь][components].
+Список всех компонентов [здесь][components]. 
 
 ## License
 ```
@@ -61,8 +62,9 @@ dependencies {
 [docs]: docs/main.md
 [components]: docs/components.md
 
-[build_status_link]: https://jenkins.surfstudio.ru/view/Projects/view/Android_Standard/job/Android_Standard_Dev_Deploy/
-[build_status_icon]: https://img.shields.io/badge/build-success-brightgreen
+[build_status_link]: https://jenkins.surfstudio.ru/view/Projects/view/Android_Standard/job/Android_Standard_Dev_Deploy/lastBuild/
+[build_status_icon]: https://jenkins.surfstudio.ru/buildStatus/icon?job=Android_Standard_Dev_Deploy/
+
 [license_link]: http://www.apache.org/licenses/LICENSE-2.0
 [license_icon]: https://img.shields.io/badge/license-Apache%202-blue
 
@@ -72,4 +74,3 @@ dependencies {
 
 [build_version_link]: https://bintray.com/surf/maven
 [comment]: # (В следующих версиях нужно заменить на ссылку на иконку реального статуса)
-[build_version_icon]: https://img.shields.io/badge/jcenter-libs-brightgreen

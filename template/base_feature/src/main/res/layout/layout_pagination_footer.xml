@@ -1,14 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="60dp">
 
     <TextView
-        android:id="@+id/pagination_footer_text"
+        android:id="@+id/pagination_footer_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:gravity="center"
-        android:text="" />
+        android:text="@string/pagination_footer_text" />
 
+    <ProgressBar
+        android:id="@+id/pagination_footer_progress_bar"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorAccent" />
 </RelativeLayout>

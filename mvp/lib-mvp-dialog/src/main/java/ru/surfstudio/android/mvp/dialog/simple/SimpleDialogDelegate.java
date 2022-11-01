@@ -31,7 +31,7 @@ import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorageContainer;
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.logger.LogConstants;
-import ru.surfstudio.android.logger.RemoteLogger;
+import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
@@ -124,10 +124,10 @@ public class SimpleDialogDelegate {
     }
 
     public void onResume() {
-        RemoteLogger.logMessage(String.format(LogConstants.LOG_DIALOG_RESUME_FORMAT, simpleDialog.getName()));
+        Logger.d(String.format(LogConstants.LOG_DIALOG_RESUME_FORMAT, simpleDialog.getName()));
     }
 
     public void onPause() {
-        RemoteLogger.logMessage(String.format(LogConstants.LOG_DIALOG_PAUSE_FORMAT, simpleDialog.getName()));
+        Logger.d(String.format(LogConstants.LOG_DIALOG_PAUSE_FORMAT, simpleDialog.getName()));
     }
 }

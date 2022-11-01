@@ -18,9 +18,9 @@ package ru.surfstudio.android.mvp.binding.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main_deprecated.*
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.binding.BaseBindableActivityView
 import ru.surfstudio.android.core.mvp.binding.BindData
 import ru.surfstudio.android.core.mvp.binding.sample.R
@@ -39,7 +39,15 @@ class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
     override fun onBind(sm: MainScreenModel) {
 
         sm.solved.observe(this) {
-            toast(if (it) R.string.win_message else R.string.lose_message)
+            Toast
+                .makeText(
+                    this,
+                    if (it) R.string.win_message else R.string.lose_message,
+                    Toast.LENGTH_SHORT
+                )
+                .apply {
+                    show()
+                }
         }
 
         observeAndApply(sm.panel1) { observePane(pane_1, it) }
@@ -87,11 +95,14 @@ class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
+    override fun createConfigurator(): DefaultActivityScreenConfigurator =
+        MainScreenConfigurator(intent)
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
+    override fun onCreate(
+        savedInstanceState: Bundle?,
+        persistentState: PersistableBundle?,
+        viewRecreated: Boolean
+    ) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         easy_win_btn.setOnClickListener { presenter.onEasyWinClick() }
         unbind_btn.setOnClickListener { presenter.onUnbindClick() }

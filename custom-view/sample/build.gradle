@@ -12,6 +12,6 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "animations")
     DependencyConfigurator.projectImplementation(project, "custom-view")
     DependencyConfigurator.projectImplementation(project, "sample-common")
-
-    DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
+    DependencyConfigurator.projectImplementation(project, "imageloader")
+    DependencyConfigurator.projectImplementation(project, "easyadapter")
 }

@@ -44,11 +44,11 @@ open class DebugDefaultActivityLifecycleCallbacks : Application.ActivityLifecycl
         //do nothing
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle?) {
+    override fun onActivityDestroyed(activity: Activity) {
         //do nothing
     }
 
-    override fun onActivityDestroyed(activity: Activity) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         //do nothing
     }
 }

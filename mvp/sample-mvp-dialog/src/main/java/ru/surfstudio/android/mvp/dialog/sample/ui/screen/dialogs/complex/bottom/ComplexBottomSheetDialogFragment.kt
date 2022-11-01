@@ -30,8 +30,7 @@ class ComplexBottomSheetDialogFragment : CoreBottomSheetDialogFragmentView() {
         return inflater.inflate(R.layout.complex_bottom_sheet_dialog_layout, container)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, viewRecreated: Boolean) {
         increase_btn.setOnClickListener { presenter.increment() }
         decrease_btn.setOnClickListener { presenter.decrement() }
         apply_btn.setOnClickListener { presenter.applyChanges() }

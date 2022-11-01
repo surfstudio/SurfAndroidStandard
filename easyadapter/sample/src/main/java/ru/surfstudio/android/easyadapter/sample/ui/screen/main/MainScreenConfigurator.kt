@@ -10,9 +10,6 @@ import ru.surfstudio.android.easyadapter.sample.ui.base.dagger.activity.CustomAc
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
-/**
- * Конфигуратор активити главного экрана
- */
 internal class MainScreenConfigurator(intent: Intent) : CustomActivityScreenConfigurator(intent) {
     @PerScreen
     @Component(dependencies = [CustomActivityComponent::class],
