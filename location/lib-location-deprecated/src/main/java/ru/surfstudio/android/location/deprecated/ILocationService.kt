@@ -1,29 +1,8 @@
-/*
- * Copyright 2016 Valeriy Shtaits.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package ru.surfstudio.android.location.deprecated
 
-import android.content.Context
 import android.location.Location
 import androidx.annotation.RequiresPermission
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import io.reactivex.*
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.location.deprecated.domain.LocationPriority
 import ru.surfstudio.android.location.deprecated.exceptions.NoLocationPermissionException
@@ -35,16 +14,8 @@ import ru.surfstudio.android.location.deprecated.location_errors_resolver.resolu
 import ru.surfstudio.android.location.deprecated.location_errors_resolver.resolutions.impl.concrete.play_services_are_not_available.PlayServicesAreNotAvailableResolution
 import ru.surfstudio.android.location.deprecated.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception.ResolvableApiExceptionResolution
 
-/**
- * Сервис для работы с местоположением.
- */
 @Deprecated("Prefer using new implementation")
-class LocationService(
-        context: Context,
-        private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-): ILocationService {
-
-    private val locationAvailability = LocationAvailability(context)
+interface ILocationService {
 
     /**
      * Проверить возможность получения местоположения.
@@ -57,8 +28,7 @@ class LocationService(
      * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
      * [ResolvableApiException].
      */
-    override fun checkLocationAvailability(priority: LocationPriority): Completable =
-            locationAvailability.checkLocationAvailability(priority)
+    fun checkLocationAvailability(priority: LocationPriority): Completable
 
     /**
      * Решить проблемы связанные с невозможностью получения местоположения.
@@ -73,9 +43,9 @@ class LocationService(
      * передавались решения;
      * - onError() вызывается в случае, если попытка решения проблем не удалась. Приходит [ResolutionFailedException].
      */
-    override fun resolveLocationAvailability(
-            throwables: List<Throwable>,
-            vararg resolutions: LocationErrorResolution<*>
+    fun resolveLocationAvailability(
+        throwables: List<Throwable>,
+        vararg resolutions: LocationErrorResolution<*>,
     ): Single<List<Throwable>> = LocationErrorsResolver.resolve(throwables, resolutions.toList())
 
     /**
@@ -89,21 +59,9 @@ class LocationService(
      * [ResolvableApiException].
      */
     @RequiresPermission(
-            anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+        anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
     )
-    override fun observeLastKnownLocation(): Maybe<Location> =
-            Maybe.create<Location> { maybeEmitter ->
-                fusedLocationClient
-                        .lastLocation
-                        .addOnSuccessListener { location ->
-                            if (location == null) {
-                                maybeEmitter.onComplete()
-                            } else {
-                                maybeEmitter.onSuccess(location)
-                            }
-                        }
-                        .addOnFailureListener { exception -> maybeEmitter.onError(exception) }
-            }
+    fun observeLastKnownLocation(): Maybe<Location>
 
     /**
      * Подписаться на получение обновлений местоположения.
@@ -127,30 +85,11 @@ class LocationService(
      * [ResolvableApiException].
      */
     @RequiresPermission(
-            anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+        anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
     )
-    override fun observeLocationUpdates(
-            intervalMillis: Long?,
-            fastestIntervalMillis: Long?,
-            priority: LocationPriority?
-    ): Observable<Location> {
-        var locationCallback: LocationCallback? = null
-        return Observable
-                .create<Location> { observableEmitter ->
-                    val locationRequest =
-                            LocationUtil.createLocationRequest(intervalMillis, fastestIntervalMillis, priority)
-                    locationCallback = createLocationCallback(observableEmitter)
-                    fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
-                }
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .doFinally { fusedLocationClient.removeLocationUpdates(locationCallback) }
-    }
-
-    private fun createLocationCallback(observableEmitter: ObservableEmitter<Location>): LocationCallback =
-            object : LocationCallback() {
-                override fun onLocationResult(locationResult: LocationResult?) {
-                    val nonNullLastLocation = locationResult?.lastLocation ?: return
-                    observableEmitter.onNext(nonNullLastLocation)
-                }
-            }
+    fun observeLocationUpdates(
+        intervalMillis: Long?,
+        fastestIntervalMillis: Long?,
+        priority: LocationPriority?,
+    ): Observable<Location>
 }
