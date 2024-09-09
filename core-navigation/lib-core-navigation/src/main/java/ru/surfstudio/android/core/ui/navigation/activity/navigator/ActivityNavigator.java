@@ -25,8 +25,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 
-import com.agna.ferro.rx.ObservableOperatorFreeze;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,21 +40,14 @@ import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnComple
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate;
 import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeDelegate;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
-import ru.surfstudio.android.core.ui.navigation.event.result.BaseActivityResultDelegate;
-import ru.surfstudio.android.core.ui.navigation.event.result.CrossFeatureSupportOnActivityResultRoute;
-import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.ActivityRouteInterface;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.NewIntentRoute;
-import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureEvent;
-import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstallState;
-import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstallStatus;
-import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstaller;
-import ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature.DynamicCrossFeatureRoute;
-import ru.surfstudio.android.core.ui.navigation.feature.route.feature.ActivityCrossFeatureRoute;
+import ru.surfstudio.android.core.ui.navigation.event.result.BaseActivityResultDelegate;
+import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 
 /**
@@ -72,14 +63,8 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
 
     private Map<NewIntentRoute, Subject> newIntentSubjects = new HashMap<>();
     private final ActivityProvider activityProvider;
-    private final SplitFeatureInstaller splitFeatureInstaller;
     private Disposable splitFeatureInstallDisposable = Disposables.disposed();
-    private final Boolean isSplitFeatureModeOn;
     private final BehaviorSubject<Boolean> freezeSelector = BehaviorSubject.createDefault(false);
-
-    private interface OnFeatureInstallListener {
-        void doOnInstall(BehaviorSubject<SplitFeatureInstallState> startStatusSubject);
-    }
 
     /**
      * Base activity navigator constructor.
@@ -89,28 +74,8 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      */
     public ActivityNavigator(ActivityProvider activityProvider,
                              ScreenEventDelegateManager eventDelegateManager) {
-        this(activityProvider, eventDelegateManager, null, false);
-    }
-
-    /**
-     * Activity navigator with "split-features" support constructor.
-     *
-     * @param activityProvider      actual Activity provider instance
-     * @param eventDelegateManager  screen event delegate manager instance
-     * @param splitFeatureInstaller "split-feature" install manager
-     * @param isSplitFeatureModeOn  "split-feature" navigation activation flag.
-     *                              Actually, it needs to be {@code true} just for release build which
-     *                              has already been deployed to Google Play. Otherwise, cross-feature
-     *                              navigation won't work at all.
-     */
-    public ActivityNavigator(ActivityProvider activityProvider,
-                             ScreenEventDelegateManager eventDelegateManager,
-                             SplitFeatureInstaller splitFeatureInstaller,
-                             Boolean isSplitFeatureModeOn) {
         eventDelegateManager.registerDelegate(this);
         this.activityProvider = activityProvider;
-        this.splitFeatureInstaller = splitFeatureInstaller;
-        this.isSplitFeatureModeOn = isSplitFeatureModeOn;
     }
 
     protected abstract void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle bundle);
@@ -230,73 +195,6 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
         return false;
     }
 
-    /**
-     * Launch a new activity from another Feature Module.
-     * <p>
-     * Performs asynchronically due to type of the target Feature Module.
-     * This method returns stream of install state change events. You can make a subscription in
-     * your Presenter and handle errors or any other type of events during Dynamic Feature
-     * installation.
-     *
-     * @param route navigation route
-     * @return stream of install state change events
-     */
-    public Observable<SplitFeatureInstallState> start(ActivityCrossFeatureRoute route) {
-        return startCrossFeature(route, startStatusSubject -> performStart(route, startStatusSubject));
-    }
-
-    /**
-     * Launch a new Activity for result from another Feature Module.
-     * <p>
-     * Performs asynchronously due to type of the target Feature Module.
-     * This method returns stream of install state change events. You can make a subscription in
-     * your Presenter and handle errors or any other type of events during Dynamic Feature
-     * installation.
-     *
-     * @param route navigation route
-     * @return stream of install state change events
-     */
-    public Observable<SplitFeatureInstallState> startForResult(CrossFeatureSupportOnActivityResultRoute route) {
-        return startCrossFeature(route, startStatusSubject -> performStartForResult(route, startStatusSubject));
-    }
-
-    private Observable<SplitFeatureInstallState> startCrossFeature(
-            ActivityRouteInterface route,
-            OnFeatureInstallListener onFeatureInstallListener
-    ) {
-        BehaviorSubject<SplitFeatureInstallState> startStatusSubject = BehaviorSubject.create();
-        if (route instanceof DynamicCrossFeatureRoute && this.isSplitFeatureModeOn) {
-            DynamicCrossFeatureRoute dynamicCrossFeatureRoute = (DynamicCrossFeatureRoute) route;
-            splitFeatureInstallDisposable.dispose();
-            splitFeatureInstallDisposable =
-                    splitFeatureInstaller.installFeature(dynamicCrossFeatureRoute.splitNames())
-                            .lift(new ObservableOperatorFreeze<>(freezeSelector))
-                            .subscribe(splitFeatureInstallState -> {
-                                if (splitFeatureInstallState.getInstallEvent() instanceof SplitFeatureEvent.InstallationStateEvent.Installed) {
-                                    startStatusSubject.onNext(splitFeatureInstallState);
-                                    onFeatureInstallListener.doOnInstall(startStatusSubject);
-                                }
-                            });
-        } else {
-            onFeatureInstallListener.doOnInstall(startStatusSubject);
-        }
-        return startStatusSubject.hide();
-    }
-
-    private void performStart(ActivityRoute route, BehaviorSubject<SplitFeatureInstallState> startStatusSubject) {
-        boolean startupStatus = start(route);
-        emitFeatureInstallState(startStatusSubject, startupStatus);
-    }
-
-    private void performStartForResult(SupportOnActivityResultRoute route, BehaviorSubject<SplitFeatureInstallState> startStatusSubject) {
-        boolean startupStatus = startForResult(route);
-        emitFeatureInstallState(startStatusSubject, startupStatus);
-    }
-
-    private void emitFeatureInstallState(BehaviorSubject<SplitFeatureInstallState> splitFeatureInstallStateSubject, boolean startupStatus) {
-        SplitFeatureInstallStatus status = SplitFeatureInstallStatus.Companion.getByValue(startupStatus);
-        splitFeatureInstallStateSubject.onNext(new SplitFeatureInstallState(status));
-    }
 
     /**
      * Launch a new activity for result.

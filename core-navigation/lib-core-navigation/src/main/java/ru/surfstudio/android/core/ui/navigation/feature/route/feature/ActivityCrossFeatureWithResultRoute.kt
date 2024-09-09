@@ -18,7 +18,6 @@ package ru.surfstudio.android.core.ui.navigation.feature.route.feature
 import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.event.result.CrossFeatureSupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.event.result.SupportOnActivityResultRoute
-import ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature.ActivityDynamicCrossFeatureRoute
 import java.io.Serializable
 
 /**
@@ -29,7 +28,6 @@ import java.io.Serializable
  * @param T result type (should be [Serializable])
  *
  * @see [CrossFeatureRoute]
- * @see [ActivityDynamicCrossFeatureRoute]
  */
 abstract class ActivityCrossFeatureWithResultRoute<T : Serializable> :
         ActivityCrossFeatureRoute(),

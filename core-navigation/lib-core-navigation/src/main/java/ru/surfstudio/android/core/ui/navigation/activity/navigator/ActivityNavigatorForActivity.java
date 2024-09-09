@@ -22,7 +22,6 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
-import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstaller;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 
 /**
@@ -34,14 +33,7 @@ public class ActivityNavigatorForActivity extends ActivityNavigator {
 
     public ActivityNavigatorForActivity(ActivityProvider activityProvider,
                                         ScreenEventDelegateManager eventDelegateManager) {
-        this(activityProvider, eventDelegateManager, null, false);
-    }
-
-    public ActivityNavigatorForActivity(ActivityProvider activityProvider,
-                                        ScreenEventDelegateManager eventDelegateManager,
-                                        SplitFeatureInstaller splitFeatureInstaller,
-                                        Boolean isSplitFeatureModeOn) {
-        super(activityProvider, eventDelegateManager, splitFeatureInstaller, isSplitFeatureModeOn);
+        super(activityProvider, eventDelegateManager);
         this.activityProvider = activityProvider;
     }
 
