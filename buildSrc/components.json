@@ -783,10 +783,6 @@
         "artifact_name": "core-navigation",
         "third_party_dependencies": [
           {
-            "name": "com.google.android.play:core",
-            "type": "implementation"
-          },
-          {
             "name": "androidx.browser:browser",
             "type": "implementation"
           }
