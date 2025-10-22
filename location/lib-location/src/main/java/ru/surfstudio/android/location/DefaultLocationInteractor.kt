@@ -24,13 +24,13 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Интерактор, содержащий методы для наиболее частых случаев использования. Для более гибкой настройки следует
- * использовать [LocationService].
+ * использовать [ILocationService].
  */
 class DefaultLocationInteractor(
         private val permissionManager: PermissionManager,
         private val screenEventDelegateManager: ScreenEventDelegateManager,
         private val activityProvider: ActivityProvider,
-        private val locationService: LocationService
+        private val locationService: ILocationService
 ) {
 
     private var lastCurrentLocation: Location? = null
